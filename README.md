@@ -79,3 +79,13 @@ node serve.js   # http://127.0.0.1:8000 に起動 (同 wifi のスマホから�
 
 - 課題: 数値サイズ一致性 (Numeric-Size Congruity)。スマホ・タブレットでの reach-decision 版は Ouellette Zuk (2025) が確立。
 - 修論研究の Stage 1 として作成。研究全体のドキュメント・解析計画・先行研究調査は別リポ (private) で管理。
+
+## 同梱ツール
+
+### sampling-rate-test (`/sampling-rate-test/`)
+
+タッチ実効サンプリングレートの実機計測ツール。任意のドラッグ動作中の `pointermove` 実効レートと、`getCoalescedEvents` の上積み有無を端末別に確認するために作成。本パイロットアプリの設計前提 (60Hz floor) を確立するために使用済み (iPhone 17 / Pixel 8 で運動中 60Hz を確認、2026-05-29)。
+
+公開URL: <https://and-space83.github.io/drag-survey/sampling-rate-test/>
+
+drag-survey 本体の取得系 (Pointer Events / `event.timeStamp` 生記録 / coalesced 取得) はこのツールから流用している。

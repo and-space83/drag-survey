@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>タッチ実効サンプリングレート測定</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  body { display: flex; flex-direction: column; background: #111; color: #eee;
+    -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+  #surface { position: relative; flex: 1; touch-action: none; background: #1a1a1a; }
+  #trace { position: absolute; top: 0; left: 0; pointer-events: none; }
+  .choice { position: absolute; top: 24px; width: 92px; height: 72px; border: 2px solid #4a9;
+    border-radius: 12px; display: flex; align-items: center; justify-content: center;
+    font-size: 28px; font-weight: bold; color: #4a9; }
+  #choiceA { left: 24px; }
+  #choiceB { right: 24px; }
+  #start { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+    width: 120px; height: 64px; border: 2px solid #fa4; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center; font-size: 18px;
+    font-weight: bold; color: #fa4; background: rgba(255,170,68,0.10); }
+  #panel { padding: 10px 14px; background: #000; font-size: 13px; line-height: 1.55;
+    max-height: 44vh; overflow-y: auto; }
+  #panel .big { font-size: 17px; font-weight: bold; color: #6cf; margin-bottom: 4px; }
+  #panel .row { display: flex; justify-content: space-between; gap: 8px;
+    border-bottom: 1px solid #222; padding: 2px 0; }
+  #panel .row span:last-child { text-align: right; }
+  button.act { margin: 8px 4px 0 0; padding: 9px 14px; font-size: 13px; background: #2a2a2a;
+    color: #eee; border: 1px solid #444; border-radius: 6px; }
+  .hint { color: #888; font-size: 12px; margin-top: 8px; }
+  .device { font-size: 11px; color: #aaa; max-width: 60%; word-break: break-all; }
+</style>
+</head>
+<body>
+<div id="surface">
+  <canvas id="trace"></canvas>
+  <div class="choice" id="choiceA">A</div>
+  <div class="choice" id="choiceB">B</div>
+  <div id="start">START</div>
+</div>
+<div id="panel">
+  <div class="big" id="status">START 内に指を置き、離さず A か B へドラッグ</div>
+  <div class="row"><span>試行数</span><span id="nTrials">0</span></div>
+  <div class="row"><span>直近 実効レート (dispatch)</span><span id="lastDisp">–</span></div>
+  <div class="row"><span>直近 coalesced レート</span><span id="lastCoal">–</span></div>
+  <div class="row"><span>平均 実効レート (dispatch)</span><span id="avgDisp">–</span></div>
+  <div class="row"><span>直近 フレーム間隔 中央値 / p95</span><span id="lastDt">–</span></div>
+  <div class="row"><span>推定リフレッシュレート</span><span id="refresh">測定中…</span></div>
+  <div class="row"><span>端末</span><span class="device" id="device"></span></div>
+  <div>
+    <button class="act" id="dl">CSV ダウンロード</button>
+    <button class="act" id="reset">リセット</button>
+  </div>
+  <div class="hint">
+    自然なリーチ動作で START → A/B へドラッグして指を離す。各端末で 10〜20 試行。
+    「実効レート (dispatch)」が ~60Hz 以上、Android では coalesced がそれを上回れば OZ の 60Hz 再サンプリング前提が妥当。
+  </div>
+</div>
+<script>
+(function () {
+  "use strict";
+  const surface = document.getElementById("surface");
+  const startBtn = document.getElementById("start");
+  const canvas = document.getElementById("trace");
+  const ctx = canvas.getContext("2d");
+  const $ = (id) => document.getElementById(id);
+
+  let trials = [];     // {id, events:[{t,x,y,type}], dispHz, coalHz, durationMs, dtMed, dtP95}
+  let current = null;
+  let recording = false;
+
+  // ---- 端末情報 ----
+  $("device").textContent =
+    `${window.innerWidth}x${window.innerHeight} @${window.devicePixelRatio || 1}x  ` +
+    navigator.userAgent;
+
+  // ---- canvas サイズ (DPR 対応) ----
+  function sizeCanvas() {
+    const r = surface.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = Math.round(r.width * dpr);
+    canvas.height = Math.round(r.height * dpr);
+    canvas.style.width = r.width + "px";
+    canvas.style.height = r.height + "px";
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  sizeCanvas();
+  window.addEventListener("resize", sizeCanvas);
+
+  function clearCanvas() {
+    ctx.save();
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.restore();
+  }
+
+  // ---- リフレッシュレート推定 (rAF 間隔の中央値) ----
+  (function estimateRefresh() {
+    const deltas = [];
+    let last = null, count = 0;
+    function tick(ts) {
+      if (last !== null) deltas.push(ts - last);
+      last = ts; count++;
+      if (count < 100) { requestAnimationFrame(tick); }
+      else {
+        deltas.sort((a, b) => a - b);
+        const med = deltas[Math.floor(deltas.length / 2)];
+        $("refresh").textContent = `${(1000 / med).toFixed(0)}Hz (中央値 ${med.toFixed(2)}ms)`;
+      }
+    }
+    requestAnimationFrame(tick);
+  })();
+
+  function inStart(x, y) {
+    const r = startBtn.getBoundingClientRect();
+    return x >= r.left && x <= r.right && y >= r.top && y <= r.bottom;
+  }
+
+  // ---- 記録 ----
+  surface.addEventListener("pointerdown", (e) => {
+    if (!inStart(e.clientX, e.clientY)) return;
+    e.preventDefault();
+    try { surface.setPointerCapture(e.pointerId); } catch (_) {}
+    recording = true;
+    current = { id: trials.length + 1, events: [] };
+    current.events.push({ t: e.timeStamp, x: e.clientX, y: e.clientY, type: "down" });
+    clearCanvas();
+    ctx.beginPath();
+    ctx.moveTo(e.clientX, e.clientY);
+    $("status").textContent = "記録中… A/B へドラッグして離す";
+  }, { passive: false });
+
+  surface.addEventListener("pointermove", (e) => {
+    if (!recording) return;
+    e.preventDefault();
+    // coalesced (Android Chrome 等): フレーム間に統合された生サンプル
+    if (typeof e.getCoalescedEvents === "function") {
+      const coals = e.getCoalescedEvents();
+      for (const c of coals) {
+        current.events.push({ t: c.timeStamp, x: c.clientX, y: c.clientY, type: "coalesced" });
+      }
+    }
+    // dispatch されたイベント本体
+    current.events.push({ t: e.timeStamp, x: e.clientX, y: e.clientY, type: "dispatched" });
+    ctx.lineTo(e.clientX, e.clientY);
+    ctx.strokeStyle = "#6cf";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }, { passive: false });
+
+  function endTrial(e) {
+    if (!recording) return;
+    if (e) { e.preventDefault(); current.events.push({ t: e.timeStamp, x: e.clientX, y: e.clientY, type: "up" }); }
+    recording = false;
+    finalize();
+  }
+  surface.addEventListener("pointerup", endTrial, { passive: false });
+  surface.addEventListener("pointercancel", () => { if (recording) { recording = false; finalize(); } }, { passive: false });
+
+  function pct(sorted, p) {
+    if (sorted.length === 0) return NaN;
+    return sorted[Math.min(sorted.length - 1, Math.floor(sorted.length * p))];
+  }
+
+  function finalize() {
+    const disp = current.events.filter((p) => p.type === "dispatched");
+    if (disp.length < 3) {
+      $("status").textContent = "点が少なすぎ。もっと長く・速くドラッグして";
+      current = null;
+      return;
+    }
+    const durationMs = disp[disp.length - 1].t - disp[0].t;
+    const dts = [];
+    for (let i = 1; i < disp.length; i++) dts.push(disp[i].t - disp[i - 1].t);
+    dts.sort((a, b) => a - b);
+    const dtMed = pct(dts, 0.5);
+    const dtP95 = pct(dts, 0.95);
+    const dispHz = (disp.length - 1) / (durationMs / 1000);
+
+    const coal = current.events.filter((p) => p.type === "coalesced");
+    let coalHz = null;
+    if (coal.length > 1) {
+      const span = coal[coal.length - 1].t - coal[0].t;
+      if (span > 0) coalHz = (coal.length - 1) / (span / 1000);
+    }
+
+    Object.assign(current, { durationMs, dispHz, coalHz, dtMed, dtP95 });
+    trials.push(current);
+
+    $("nTrials").textContent = trials.length;
+    $("lastDisp").textContent = `${dispHz.toFixed(1)}Hz (${disp.length}点 / ${durationMs.toFixed(0)}ms)`;
+    $("lastCoal").textContent = coalHz ? `${coalHz.toFixed(1)}Hz (${coal.length}点)` : "なし (iOS 等)";
+    const avg = trials.reduce((s, t) => s + t.dispHz, 0) / trials.length;
+    $("avgDisp").textContent = `${avg.toFixed(1)}Hz`;
+    $("lastDt").textContent = `${dtMed.toFixed(1)} / ${dtP95.toFixed(1)} ms`;
+    $("status").textContent = `試行 ${trials.length} 記録完了`;
+    current = null;
+  }
+
+  // ---- CSV ダウンロード ----
+  $("dl").addEventListener("click", () => {
+    if (trials.length === 0) { alert("まだ試行がありません"); return; }
+    const meta = [
+      `# device,${navigator.userAgent.replace(/,/g, ";")}`,
+      `# screen,${window.innerWidth}x${window.innerHeight}@${window.devicePixelRatio || 1}`,
+      `# refresh,${$("refresh").textContent.replace(/,/g, ";")}`,
+      `# exported,${new Date().toISOString()}`,
+    ];
+    const summary = ["# --- per-trial summary ---",
+      "# trial,dispatch_hz,coalesced_hz,duration_ms,dt_median_ms,dt_p95_ms,n_dispatched,n_coalesced"];
+    for (const tr of trials) {
+      const nd = tr.events.filter((p) => p.type === "dispatched").length;
+      const nc = tr.events.filter((p) => p.type === "coalesced").length;
+      summary.push(`# ${tr.id},${tr.dispHz.toFixed(2)},${tr.coalHz ? tr.coalHz.toFixed(2) : ""},` +
+        `${tr.durationMs.toFixed(1)},${tr.dtMed.toFixed(2)},${tr.dtP95.toFixed(2)},${nd},${nc}`);
+    }
+    const rows = ["trial,seq,t_ms,x,y,type"];
+    for (const tr of trials) {
+      tr.events.forEach((p, i) => {
+        rows.push(`${tr.id},${i},${p.t.toFixed(3)},${p.x.toFixed(2)},${p.y.toFixed(2)},${p.type}`);
+      });
+    }
+    const csv = meta.join("\n") + "\n" + summary.join("\n") + "\n" + rows.join("\n") + "\n";
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `sampling_${Date.now()}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  });
+
+  $("reset").addEventListener("click", () => {
+    if (!confirm("全試行を消去しますか？")) return;
+    trials = []; current = null; recording = false;
+    ["nTrials"].forEach((id) => ($(id).textContent = "0"));
+    ["lastDisp", "lastCoal", "avgDisp", "lastDt"].forEach((id) => ($(id).textContent = "–"));
+    $("status").textContent = "リセット完了";
+    clearCanvas();
+  });
+})();
+</script>
+</body>
+</html>
