@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>パイロット: 数値サイズ一致性課題</title>
+<!--
+  修論パイロット A-2: アンカー課題 (数値サイズ一致性 / reach-decision ドラッグ)
+  正本仕様: research/sources/experiment-design.md §1, §3 / research/sources/pilot-plan.md §4-6
+  クロスプラットフォーム実装注意: research/sources/checklist.md A-2 実装時チェック
+
+  === データ仕様 (エクスポート JSON) ===
+  { device: {ua, screenW, screenH, dpr, refreshHz, exportedAt, participantId, config},
+    trials: [ {
+      index, phase('main'|'practice'),
+      pair[s,l], pairLabel, numDistance,
+      congruent, congruency, leftVal, rightVal, leftBig, rightBig,
+      largerSide, correctSide, choiceSide, correct,
+      stimulusOnsetT, initiationT, responseT, rt_proxy_ms, mt_proxy_ms, total_ms,
+      dispHz, nDispatched, nCoalesced, aborts,
+      ratings: {confidence:{value,rt_ms}, hesitation:{...}, difficulty:{...}}, ratingSubmitMs,
+      geom: {surface:{w,h}, start:{cx,cy}, A:{cx,cy,w,h}, B:{cx,cy,w,h}, dpr},
+      events: [ {seq, t, x, y, type('down'|'dispatched'|'coalesced'|'up')} ]  // x,y は surface 相対 CSS px
+    } ] }
+  座標は surface 相対 (URL バー伸縮非依存)。時刻 t は event.timeStamp 生記録 (60Hz 再サンプリング/dt>0 dedupe は後処理)。
+-->
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; overflow: hidden; overscroll-behavior: none;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif; }
+  body { position: fixed; inset: 0; background: #111; color: #eee;
+    -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+
+  .screen { position: absolute; inset: 0; display: none; flex-direction: column; }
+  .screen.active { display: flex; }
+
+  /* ---- 共通 (intro / done / message) ---- */
+  .pad { flex: 1; min-height: 0; padding: 24px; overflow-y: auto;
+    line-height: 1.6; touch-action: pan-y; }
+  .pad h1 { font-size: 20px; margin-bottom: 12px; color: #6cf; }
+  .pad h2 { font-size: 15px; margin: 16px 0 6px; color: #9cf; }
+  .pad p, .pad li { font-size: 14px; color: #ccc; }
+  .pad ul { margin: 6px 0 6px 20px; }
+  .pad .field { margin: 14px 0; }
+  .pad label { display: block; font-size: 13px; color: #aaa; margin-bottom: 6px; }
+  .pad input { width: 100%; max-width: 320px; padding: 12px; font-size: 16px;
+    background: #1d1d1d; color: #eee; border: 1px solid #444; border-radius: 8px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center;
+    padding: 14px 22px; font-size: 16px; font-weight: bold; border-radius: 10px;
+    border: 2px solid #4a9; color: #4a9; background: rgba(68,170,153,0.10); margin-top: 16px; }
+  .btn.primary { background: #2f7; color: #052; border-color: #2f7; }
+  .btn.ghost { border-color: #555; color: #ccc; background: #222; }
+  .btn:active { filter: brightness(1.3); }
+  .btnrow { display: flex; gap: 10px; flex-wrap: wrap; }
+
+  /* ---- 課題画面 ---- (レイアウトは片手操作に合わせ CSS 変数で調整可能) */
+  :root {
+    --choice-top: 27%;   /* 選択肢ボックスの上端位置 (小さいほど上=遠い) */
+    --choice-side: 6%;   /* 左右の端からの距離 */
+    --choice-w: 30vmin;
+    --choice-h: 24vmin;
+    --start-bottom: 12%; /* START の下端からの距離 (小さいほど下=親指の根元寄り) */
+  }
+  #task { background: #0e0e0e; touch-action: none; }
+  #topbar { position: absolute; top: 0; left: 0; right: 0; height: 5%;
+    display: flex; align-items: center; justify-content: center; gap: 14px;
+    font-size: 12px; color: #777; pointer-events: none; z-index: 3; }
+  #surface { position: absolute; inset: 0; touch-action: none; }
+  #trace { position: absolute; top: 0; left: 0; pointer-events: none; z-index: 1; }
+  .choice { position: absolute; top: var(--choice-top); width: var(--choice-w); height: var(--choice-h);
+    border: 2px solid #3a6; border-radius: 14px; display: flex;
+    align-items: center; justify-content: center; color: #cfe; z-index: 2;
+    background: rgba(40,90,70,0.12); overflow: hidden; }
+  #choiceA { left: var(--choice-side); }
+  #choiceB { right: var(--choice-side); }
+  .choice .num { line-height: 1; font-weight: 700; visibility: hidden; }
+  .choice .num.big { font-size: 22vmin; }
+  .choice .num.small { font-size: 11vmin; }
+  #start { position: absolute; bottom: var(--start-bottom); left: 50%; transform: translateX(-50%);
+    width: 34vmin; height: 16vmin; border: 2px solid #fa4; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center; font-size: 18px;
+    font-weight: bold; color: #fa4; background: rgba(255,170,68,0.10); z-index: 2; }
+  #start.armed { border-color: #2f7; color: #2f7; background: rgba(34,255,119,0.10); }
+  #taskMsg { position: absolute; bottom: calc(var(--start-bottom) + 18vmin); left: 0; right: 0;
+    text-align: center; font-size: 15px; color: #fa4; z-index: 3; pointer-events: none; }
+  .feedback { font-size: 16px; font-weight: bold; }
+  .feedback.ok { color: #2f7; } .feedback.ng { color: #f55; }
+
+  /* ---- 評定画面 (3項目を1画面に) ---- */
+  #rating { background: #141414; }
+  #rating .qwrap { flex: 1; min-height: 0; overflow-y: auto; touch-action: pan-y;
+    padding: 18px 18px 28px; display: flex; flex-direction: column; }
+  #ratingHead { text-align: center; font-size: 14px; color: #9cf; margin-bottom: 12px; }
+  .qitem { margin-bottom: 18px; }
+  .qi-text { font-size: 16px; color: #eee; margin-bottom: 8px; line-height: 1.45; }
+  .likert { display: flex; gap: 7px; justify-content: center; }
+  .likert button { flex: 1; max-width: 64px; aspect-ratio: 1; font-size: 20px; font-weight: bold;
+    border-radius: 12px; border: 2px solid #557; color: #cdf; background: #1c2030; }
+  .likert button.sel { background: #2f7; color: #052; border-color: #2f7; }
+  .anchors { display: flex; justify-content: space-between; margin-top: 6px;
+    font-size: 11px; color: #89a; }
+  .anchors span { max-width: 44%; }
+  .anchors span:last-child { text-align: right; }
+  #ratingSubmit { align-self: center; margin-top: 4px; }
+  #ratingSubmit:disabled { opacity: 0.4; border-color: #555; color: #888; background: #222; }
+
+  .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; color: #9b9; }
+</style>
+</head>
+<body>
+
+<!-- ===== INTRO ===== -->
+<section id="intro" class="screen active">
+  <div class="pad">
+    <h1>数値サイズ一致性課題 (パイロット)</h1>
+    <p>STARTボタンに指を置くと、上の2つのボックスに数字が出ます。<b>指を離さずに、数が大きい方のボックスへドラッグ</b>して、そこで指を離してください。</p>
+    <ul>
+      <li>数字の<b>見た目の大きさ</b>ではなく、<b>数の大きさ</b>で選びます。</li>
+      <li>できるだけ自然に、素早く動かしてください。</li>
+      <li>各回答のあと、3つの質問に5段階で答えます。</li>
+    </ul>
+    <div class="field">
+      <label for="pid">参加者ID (任意・例: P01)</label>
+      <input id="pid" type="text" inputmode="text" autocomplete="off" placeholder="P01">
+    </div>
+    <p class="mono" id="devline"></p>
+    <div class="btnrow">
+      <button class="btn primary" id="goPractice">練習を始める</button>
+      <button class="btn ghost" id="goMain">練習を飛ばして本番</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TASK ===== -->
+<section id="task" class="screen">
+  <div id="topbar"><span id="phaseLabel">練習</span><span id="counter">0 / 0</span></div>
+  <div id="surface">
+    <canvas id="trace"></canvas>
+    <div class="choice" id="choiceA"><span class="num" id="numA">0</span></div>
+    <div class="choice" id="choiceB"><span class="num" id="numB">0</span></div>
+    <div id="start">START</div>
+  </div>
+  <div id="taskMsg"></div>
+</section>
+
+<!-- ===== RATING (3項目1画面) ===== -->
+<section id="rating" class="screen">
+  <div class="qwrap">
+    <div id="ratingHead"></div>
+    <div id="ratingItems"></div>
+    <button class="btn primary" id="ratingSubmit" disabled>決定して次へ</button>
+  </div>
+</section>
+
+<!-- ===== BREAK ===== -->
+<section id="break" class="screen">
+  <div class="pad">
+    <h1>休憩</h1>
+    <p id="breakInfo"></p>
+    <p>準備ができたら続けてください。</p>
+    <button class="btn primary" id="breakContinue">続ける</button>
+  </div>
+</section>
+
+<!-- ===== DONE ===== -->
+<section id="done" class="screen">
+  <div class="pad">
+    <h1>完了しました</h1>
+    <p>ご協力ありがとうございました。下のボタンでデータを保存してください。</p>
+    <div class="mono" id="summary"></div>
+    <div class="btnrow">
+      <button class="btn primary" id="dlJson">データを保存 (JSON)</button>
+      <button class="btn ghost" id="dlCsv">軌道CSVを保存</button>
+    </div>
+    <div class="mono" id="uploadStatus"></div>
+  </div>
+</section>
+
+<script>
+(function () {
+  "use strict";
+
+  // ===== 設定 (パイロット中の動作確認はここを調整) =====
+  const CONFIG = {
+    repsPerCell: 7,          // 12 セル (congruency2 × pair3 × largerSide2) × 7 = 84 本番試行
+    practiceTrials: 6,       // 練習試行数 (記録するが phase:'practice'、解析からは除外)
+    breakEvery: 0,           // 本番この試行数ごとに休憩画面 (0 で無効)。84 × ~3 秒 ≈ 4 分なので既定 OFF。
+                              //   長尺の Stage 2 ブロックで再有効化を想定し実装は残してある。
+    ratings: false,          // 各試行後の 3 項目評定。アンカー課題は構成上 GT 不要 (確信度は本質的に変動しない)
+                              //   ので既定 OFF。Stage 2 (価値・選好 / 道徳ジレンマ) 実装時に true。
+                              //   詳細根拠は research/sources/decisions-log.md「アンカーで評定を取らない」
+    pairs: [[1, 2], [2, 8], [8, 9]], // [小, 大]。差: 1v2 と 8v9 は距離1 (8v9 がサイズ効果で最難), 2v8 が最易
+    minPoints: 3,            // dispatched 点数の下限。下回ったら無効試行として再呈示
+    uploadUrl: null,         // 文字列を入れると完了時に JSON を POST。null ならダウンロードのみ
+  };
+  // URL クエリで上書き可 (例: ?reps=2&practice=0&break=0&ratings=0 で評定なし短縮テスト)
+  {
+    const q = new URLSearchParams(location.search);
+    const num = (k, d) => { const v = q.get(k); const n = v == null ? NaN : parseInt(v, 10); return isNaN(n) ? d : n; };
+    CONFIG.repsPerCell = num("reps", CONFIG.repsPerCell);
+    CONFIG.practiceTrials = num("practice", CONFIG.practiceTrials);
+    CONFIG.breakEvery = num("break", CONFIG.breakEvery);
+    if (q.get("ratings") != null) CONFIG.ratings = q.get("ratings") !== "0";
+  }
+
+  // 評定 3 項目 (experiment-design.md §3-1)。参加者向けは「自信/迷い/難しさ」、変数名は英語で統一
+  const ITEMS = [
+    { key: "confidence", q: "この回答にどれくらい自信がありますか",
+      low: "1 = 全く自信がない", high: "5 = とても自信がある" },
+    { key: "hesitation", q: "この設問にどれくらい迷いを感じましたか",
+      low: "1 = 全く迷わなかった", high: "5 = とても迷った" },
+    { key: "difficulty", q: "この設問はあなたにとってどれくらい難しかったですか",
+      low: "1 = 全く難しくなかった", high: "5 = とても難しかった" },
+  ];
+
+  const $ = (id) => document.getElementById(id);
+  const screens = { intro: $("intro"), task: $("task"), rating: $("rating"), break: $("break"), done: $("done") };
+  function show(name) {
+    for (const k in screens) screens[k].classList.toggle("active", k === name);
+  }
+
+  // ===== 端末情報・リフレッシュレート推定 =====
+  const device = {
+    ua: navigator.userAgent,
+    screenW: window.innerWidth,
+    screenH: window.innerHeight,
+    dpr: window.devicePixelRatio || 1,
+    refreshHz: null,
+    participantId: "",
+    config: CONFIG,
+    exportedAt: null,
+  };
+  $("devline").textContent = `${device.screenW}×${device.screenH} @${device.dpr}x`;
+
+  (function estimateRefresh() {
+    const deltas = []; let last = null, count = 0;
+    function tick(ts) {
+      if (last !== null) deltas.push(ts - last);
+      last = ts; count++;
+      if (count < 100) requestAnimationFrame(tick);
+      else {
+        deltas.sort((a, b) => a - b);
+        device.refreshHz = +(1000 / deltas[deltas.length >> 1]).toFixed(0);
+      }
+    }
+    requestAnimationFrame(tick);
+  })();
+
+  // ===== canvas (DPR 対応) =====
+  const surface = $("surface");
+  const canvas = $("trace");
+  const ctx = canvas.getContext("2d");
+  function sizeCanvas() {
+    const r = surface.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = Math.round(r.width * dpr);
+    canvas.height = Math.round(r.height * dpr);
+    canvas.style.width = r.width + "px";
+    canvas.style.height = r.height + "px";
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  function clearCanvas() {
+    ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.restore();
+  }
+  window.addEventListener("resize", sizeCanvas);
+
+  // ===== 試行生成 =====
+  function shuffle(a) {
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+  function makeCell(pair, congruent, largerSide) {
+    const [sVal, lVal] = pair;       // 小, 大 (数値)
+    const largerBig = congruent;     // congruent → 数の大きい方を物理的に大きく描画
+    const left = largerSide === "left"
+      ? { val: lVal, big: largerBig } : { val: sVal, big: !largerBig };
+    const right = largerSide === "left"
+      ? { val: sVal, big: !largerBig } : { val: lVal, big: largerBig };
+    return {
+      pair, pairLabel: `${sVal}v${lVal}`, numDistance: lVal - sVal,
+      congruent, congruency: congruent ? "congruent" : "incongruent",
+      leftVal: left.val, rightVal: right.val, leftBig: left.big, rightBig: right.big,
+      largerSide, correctSide: largerSide,
+    };
+  }
+  function buildMainTrials() {
+    const cells = [];
+    for (const pair of CONFIG.pairs)
+      for (const cong of [true, false])
+        for (const side of ["left", "right"])
+          for (let r = 0; r < CONFIG.repsPerCell; r++)
+            cells.push(makeCell(pair, cong, side));
+    return shuffle(cells);
+  }
+  function buildPracticeTrials(n) {
+    const out = [];
+    for (let i = 0; i < n; i++) {
+      const pair = CONFIG.pairs[Math.floor(Math.random() * CONFIG.pairs.length)];
+      const cong = Math.random() < 0.5;
+      const side = Math.random() < 0.5 ? "left" : "right";
+      out.push(makeCell(pair, cong, side));
+    }
+    return out;
+  }
+
+  // ===== セッション状態 =====
+  let queue = [];        // 残り試行 (各要素は cell)
+  let phase = "practice"; // 'practice' | 'main'
+  let trialIndex = 0;     // 完了済み本番試行カウンタ
+  let totalMain = 0;
+  let totalPractice = 0;
+  let trial = null;       // 現在試行の記録オブジェクト
+  let cell = null;        // 現在の cell
+  const records = [];     // 完了試行の記録 (本番のみ最終的にエクスポート対象に含める。練習も保持)
+
+  // ドラッグ記録用
+  let recording = false;
+  let activePointerId = null;
+  let leftStart = false;  // START を出たか (initiation 検出)
+  let aborts = 0;         // 現在試行での無効リトライ回数
+
+  const startBtn = $("start");
+  const numA = $("numA"), numB = $("numB");
+  const choiceA = $("choiceA"), choiceB = $("choiceB");
+
+  function rectOf(el) { return el.getBoundingClientRect(); }
+  function inRect(r, x, y) { return x >= r.left && x <= r.right && y >= r.top && y <= r.bottom; }
+  function center(r) { return { cx: (r.left + r.right) / 2, cy: (r.top + r.bottom) / 2 }; }
+
+  // ===== 試行の呈示 =====
+  function nextTrial() {
+    if (queue.length === 0) {
+      if (phase === "practice") { endPractice(); return; }
+      finishSession(); return;
+    }
+    cell = queue.shift();
+    aborts = 0;
+    if (phase === "main" && CONFIG.breakEvery > 0 && trialIndex > 0 && trialIndex % CONFIG.breakEvery === 0) {
+      showBreak(); return;   // cell は確保済み。続けるボタンで presentStimulus
+    }
+    presentStimulus();
+  }
+  function showBreak() {
+    $("breakInfo").textContent = `${trialIndex} / ${totalMain} 試行が終わりました。`;
+    show("break");
+  }
+
+  function presentStimulus() {
+    $("taskMsg").textContent = "";
+    // 刺激は START 押下まで隠す (= stimulus onset を down に定義)
+    numA.textContent = cell.leftVal;
+    numB.textContent = cell.rightVal;
+    numA.className = "num " + (cell.leftBig ? "big" : "small");
+    numB.className = "num " + (cell.rightBig ? "big" : "small");
+    numA.style.visibility = "hidden";
+    numB.style.visibility = "hidden";
+    startBtn.classList.remove("armed");
+    startBtn.textContent = "START";
+    $("phaseLabel").textContent = phase === "practice" ? "練習" : "本番";
+    $("counter").textContent = phase === "practice"
+      ? `${totalPractice - queue.length} / ${totalPractice}`
+      : `${trialIndex + 1} / ${totalMain}`;
+    recording = false;
+    activePointerId = null;
+    leftStart = false;
+    trial = null;
+    show("task");
+    sizeCanvas();   // #task 表示後に測ってから canvas を確定 (非表示中は rect=0)
+    clearCanvas();
+  }
+
+  function revealStimulus() {
+    numA.style.visibility = "visible";
+    numB.style.visibility = "visible";
+    startBtn.classList.add("armed");
+    startBtn.textContent = "→";
+  }
+
+  // ===== Pointer Events 記録 =====
+  surface.addEventListener("pointerdown", (e) => {
+    if (recording) return;                       // 既に進行中なら無視 (マルチタッチ二本目)
+    if (!inRect(rectOf(startBtn), e.clientX, e.clientY)) {
+      $("taskMsg").textContent = "STARTから始めてください";
+      return;
+    }
+    e.preventDefault();
+    activePointerId = e.pointerId;
+    try { surface.setPointerCapture(e.pointerId); } catch (_) {}
+    recording = true;
+    leftStart = false;
+
+    const sRect = surface.getBoundingClientRect();
+    const stRect = rectOf(startBtn), aRect = rectOf(choiceA), bRect = rectOf(choiceB);
+    const sc = center(stRect), ac = center(aRect), bc = center(bRect);
+    trial = {
+      index: phase === "main" ? trialIndex + 1 : null,
+      phase,
+      pair: cell.pair, pairLabel: cell.pairLabel, numDistance: cell.numDistance,
+      congruent: cell.congruent, congruency: cell.congruency,
+      leftVal: cell.leftVal, rightVal: cell.rightVal, leftBig: cell.leftBig, rightBig: cell.rightBig,
+      largerSide: cell.largerSide, correctSide: cell.correctSide,
+      choiceSide: null, correct: null,
+      stimulusOnsetT: e.timeStamp, initiationT: null, responseT: null,
+      rt_proxy_ms: null, mt_proxy_ms: null, total_ms: null,
+      dispHz: null, nDispatched: 0, nCoalesced: 0, aborts: 0,
+      ratings: { confidence: null, hesitation: null, difficulty: null },
+      geom: {
+        surface: { w: sRect.width, h: sRect.height },
+        start: { cx: sc.cx - sRect.left, cy: sc.cy - sRect.top },
+        A: { cx: ac.cx - sRect.left, cy: ac.cy - sRect.top, w: aRect.width, h: aRect.height },
+        B: { cx: bc.cx - sRect.left, cy: bc.cy - sRect.top, w: bRect.width, h: bRect.height },
+        dpr: window.devicePixelRatio || 1,
+      },
+      _sRect: sRect, _stRect: stRect,
+      events: [],
+    };
+    pushEvent(e, "down");
+    revealStimulus();
+    clearCanvas();
+    ctx.beginPath();
+    ctx.moveTo(e.clientX - sRect.left, e.clientY - sRect.top);
+  }, { passive: false });
+
+  surface.addEventListener("pointermove", (e) => {
+    if (!recording || e.pointerId !== activePointerId) return;
+    e.preventDefault();
+    // Android Chrome 等: フレーム間に統合された生サンプル (iOS は非対応 = なし)
+    if (typeof e.getCoalescedEvents === "function") {
+      for (const c of e.getCoalescedEvents()) pushEvent(c, "coalesced");
+    }
+    pushEvent(e, "dispatched");
+    // initiation 検出 (START を出た最初の dispatched イベント) — RT proxy 用
+    if (!leftStart && !inRect(trial._stRect, e.clientX, e.clientY)) {
+      leftStart = true;
+      trial.initiationT = e.timeStamp;
+    }
+    const x = e.clientX - trial._sRect.left, y = e.clientY - trial._sRect.top;
+    ctx.lineTo(x, y);
+    ctx.strokeStyle = "#6cf"; ctx.lineWidth = 2; ctx.stroke();
+  }, { passive: false });
+
+  function pushEvent(e, type) {
+    const x = e.clientX - trial._sRect.left, y = e.clientY - trial._sRect.top;
+    trial.events.push({ seq: trial.events.length, t: e.timeStamp, x: +x.toFixed(2), y: +y.toFixed(2), type });
+  }
+
+  surface.addEventListener("pointerup", (e) => {
+    if (!recording || e.pointerId !== activePointerId) return;
+    e.preventDefault();
+    pushEvent(e, "up");
+    recording = false;
+    finalizeDrag(e);
+  }, { passive: false });
+
+  surface.addEventListener("pointercancel", (e) => {
+    if (!recording || e.pointerId !== activePointerId) return;
+    recording = false;
+    retryTrial("中断されました");
+  }, { passive: false });
+
+  function retryTrial(msg) {
+    aborts++;
+    $("taskMsg").textContent = (msg || "やり直し") + " — STARTからもう一度";
+    // 同一刺激を再呈示 (デザインのバランス維持)。少し待って再表示
+    numA.style.visibility = "hidden";
+    numB.style.visibility = "hidden";
+    startBtn.classList.remove("armed");
+    startBtn.textContent = "START";
+    recording = false; activePointerId = null; leftStart = false; trial = null;
+  }
+
+  function finalizeDrag(e) {
+    const disp = trial.events.filter((p) => p.type === "dispatched");
+    // 終点がどちらのボックスにあるか (viewport 座標で判定)
+    let choiceSide = null;
+    if (inRect(rectOf(choiceA), e.clientX, e.clientY)) choiceSide = "left";
+    else if (inRect(rectOf(choiceB), e.clientX, e.clientY)) choiceSide = "right";
+
+    if (choiceSide === null || disp.length < CONFIG.minPoints) {
+      retryTrial(choiceSide === null ? "ボックスの中で指を離してください" : "短すぎます");
+      return;
+    }
+
+    // タイミング (proxy。正式な RT/MT は peak-velocity 5% 基準で後処理)
+    const upT = trial.events[trial.events.length - 1].t;
+    trial.responseT = upT;
+    if (trial.initiationT == null) trial.initiationT = upT;
+    trial.rt_proxy_ms = +(trial.initiationT - trial.stimulusOnsetT).toFixed(2);
+    trial.mt_proxy_ms = +(upT - trial.initiationT).toFixed(2);
+    trial.total_ms = +(upT - trial.stimulusOnsetT).toFixed(2);
+
+    // 実効 dispatch レート (dt>0 ガード)
+    let span = 0, n = 0;
+    for (let i = 1; i < disp.length; i++) { const dt = disp[i].t - disp[i - 1].t; if (dt > 0) { span += dt; n++; } }
+    trial.dispHz = n > 0 ? +((n) / (span / 1000)).toFixed(1) : null;
+    trial.nDispatched = disp.length;
+    trial.nCoalesced = trial.events.filter((p) => p.type === "coalesced").length;
+    trial.aborts = aborts;
+
+    trial.choiceSide = choiceSide;
+    trial.correct = choiceSide === trial.correctSide;
+
+    if (phase === "practice") {
+      records.push(trial);
+      showPracticeFeedback();
+    } else {
+      records.push(trial);
+      if (CONFIG.ratings) {
+        beginRating();
+      } else {
+        trialIndex++;
+        nextTrial();
+      }
+    }
+  }
+
+  function showPracticeFeedback() {
+    const ok = trial.correct;
+    $("taskMsg").innerHTML = `<span class="feedback ${ok ? "ok" : "ng"}">${ok ? "正解" : "ちがいます"}</span>`;
+    numA.style.visibility = "hidden";
+    numB.style.visibility = "hidden";
+    setTimeout(() => nextTrial(), 750);
+  }
+
+  // ===== 評定 (3項目を1画面に提示) =====
+  let ratingOnset = 0;
+  function beginRating() {
+    ratingOnset = performance.now();
+    $("ratingHead").textContent = "回答について教えてください";
+    const host = $("ratingItems");
+    host.innerHTML = "";
+    for (const item of ITEMS) {
+      const wrap = document.createElement("div");
+      wrap.className = "qitem";
+      const q = document.createElement("div");
+      q.className = "qi-text"; q.textContent = item.q;
+      const lk = document.createElement("div");
+      lk.className = "likert";
+      for (let v = 1; v <= 5; v++) {
+        const b = document.createElement("button");
+        b.textContent = v;
+        b.addEventListener("click", () => selectRating(item.key, v, lk, b), { passive: true });
+        lk.appendChild(b);
+      }
+      const an = document.createElement("div");
+      an.className = "anchors";
+      const lo = document.createElement("span"); lo.textContent = item.low;
+      const hi = document.createElement("span"); hi.textContent = item.high;
+      an.append(lo, hi);
+      wrap.append(q, lk, an);
+      host.appendChild(wrap);
+    }
+    trial.ratings = { confidence: null, hesitation: null, difficulty: null };
+    $("ratingSubmit").disabled = true;
+    show("rating");
+    $("rating").querySelector(".qwrap").scrollTop = 0;
+  }
+  function selectRating(key, value, container, btn) {
+    // rt_ms = 評定画面表示〜この項目を選んだ時刻 (1画面提示なので回答順は自由)
+    trial.ratings[key] = { value, rt_ms: +(performance.now() - ratingOnset).toFixed(1) };
+    for (const b of container.children) b.classList.toggle("sel", b === btn);
+    $("ratingSubmit").disabled = ITEMS.some((it) => trial.ratings[it.key] == null);
+  }
+  function submitRating() {
+    if (ITEMS.some((it) => trial.ratings[it.key] == null)) return;
+    trial.ratingSubmitMs = +(performance.now() - ratingOnset).toFixed(1); // 3項目合計の所要時間 (負担指標)
+    if (phase === "main") trialIndex++;
+    nextTrial();
+  }
+
+  // ===== フェーズ遷移 =====
+  function startPractice() {
+    device.participantId = $("pid").value.trim();
+    phase = "practice";
+    queue = buildPracticeTrials(CONFIG.practiceTrials);
+    totalPractice = queue.length;
+    sizeCanvas();
+    if (queue.length === 0) { startMain(); return; }
+    nextTrial();
+  }
+  function endPractice() {
+    show("task");
+    $("phaseLabel").textContent = "練習終了";
+    $("counter").textContent = "";
+    numA.style.visibility = "hidden"; numB.style.visibility = "hidden";
+    startBtn.classList.remove("armed"); startBtn.textContent = "START";
+    $("taskMsg").innerHTML = '練習終了。本番を始めます…';
+    setTimeout(() => startMain(), 1000);
+  }
+  function startMain() {
+    if (!device.participantId) device.participantId = $("pid").value.trim();
+    phase = "main";
+    trialIndex = 0;
+    queue = buildMainTrials();
+    totalMain = queue.length;
+    sizeCanvas();
+    nextTrial();
+  }
+
+  function finishSession() {
+    device.exportedAt = new Date().toISOString();
+    const main = records.filter((r) => r.phase === "main");
+    const correct = main.filter((r) => r.correct).length;
+    const totalAborts = records.reduce((s, r) => s + (r.aborts || 0), 0);
+    const hzs = main.map((r) => r.dispHz).filter((h) => h != null);
+    const avgHz = hzs.length ? (hzs.reduce((a, b) => a + b, 0) / hzs.length).toFixed(1) : "–";
+    $("summary").innerHTML =
+      `参加者: ${device.participantId || "(未入力)"}<br>` +
+      `本番試行: ${main.length} / 正答: ${correct}<br>` +
+      `平均実効レート: ${avgHz} Hz / 推定リフレッシュ: ${device.refreshHz || "?"} Hz<br>` +
+      `無効リトライ計: ${totalAborts}<br>` +
+      `端末: ${device.screenW}×${device.screenH}@${device.dpr}x`;
+    show("done");
+    if (CONFIG.uploadUrl) uploadJson();
+  }
+
+  // ===== エクスポート =====
+  function buildPayload() {
+    // 内部用フィールド (_sRect 等) を除去
+    const trials = records.map((r) => {
+      const { _sRect, _stRect, ...rest } = r;
+      return rest;
+    });
+    return { device, trials };
+  }
+  function download(filename, text, mime) {
+    const blob = new Blob([text], { type: mime });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+  }
+  function stamp() {
+    const pid = (device.participantId || "anon").replace(/[^\w-]/g, "");
+    return `${pid}_${Date.now()}`;
+  }
+  $("dlJson").addEventListener("click", () => {
+    download(`pilot_${stamp()}.json`, JSON.stringify(buildPayload()), "application/json");
+  });
+  $("dlCsv").addEventListener("click", () => {
+    const rows = ["trial,phase,seq,t_ms,x,y,type,congruency,pairLabel,largerSide,correctSide,choiceSide,correct"];
+    let pc = 0;
+    for (const r of records) {
+      const idTag = r.phase === "main" ? r.index : `p${++pc}`;
+      for (const e of r.events) {
+        rows.push(`${idTag},${r.phase},${e.seq},${e.t.toFixed(3)},${e.x},${e.y},${e.type},` +
+          `${r.congruency},${r.pairLabel},${r.largerSide},${r.correctSide},${r.choiceSide},${r.correct}`);
+      }
+    }
+    download(`pilot_${stamp()}_events.csv`, rows.join("\n") + "\n", "text/csv");
+  });
+  function uploadJson() {
+    $("uploadStatus").textContent = "送信中…";
+    fetch(CONFIG.uploadUrl, {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(buildPayload()),
+    }).then((res) => {
+      $("uploadStatus").textContent = res.ok ? "送信完了" : `送信失敗 (HTTP ${res.status})。手動保存してください`;
+    }).catch(() => {
+      $("uploadStatus").textContent = "送信失敗 (ネットワーク)。手動保存してください";
+    });
+  }
+
+  // ===== 起動 =====
+  $("goPractice").addEventListener("click", startPractice, { passive: true });
+  $("goMain").addEventListener("click", () => {
+    device.participantId = $("pid").value.trim();
+    startMain();
+  }, { passive: true });
+  $("ratingSubmit").addEventListener("click", submitRating, { passive: true });
+  $("breakContinue").addEventListener("click", () => presentStimulus(), { passive: true });
+
+  // 自動検証用フック (?debug=1 のときだけ露出。本番動作には影響しない)
+  if (new URLSearchParams(location.search).get("debug") === "1") {
+    window.__pilot = {
+      buildPayload,
+      recordCount: () => records.length,
+      activeScreen: () => (document.querySelector(".screen.active") || {}).id,
+    };
+  }
+
+  // 課題面のプルリフレッシュ/スクロール抑止 (intro/done の .pad スクロールは妨げない)
+  surface.addEventListener("touchmove", (e) => { if (e.cancelable) e.preventDefault(); }, { passive: false });
+  document.addEventListener("contextmenu", (e) => e.preventDefault());
+  document.addEventListener("gesturestart", (e) => e.preventDefault());
+})();
+</script>
+</body>
+</html>
