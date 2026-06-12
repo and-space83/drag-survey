@@ -23,6 +23,11 @@
       events: [ {seq, t, x, y, type('down'|'dispatched'|'coalesced'|'up')} ]  // x,y は surface 相対 CSS px
     } ] }
   座標は surface 相対 (URL バー伸縮非依存)。時刻 t は event.timeStamp 生記録 (60Hz 再サンプリング/dt>0 dedupe は後処理)。
+
+  === データ回収 ===
+  完了時に CONFIG.uploadUrl (GAS Web アプリ) へ自動 POST。失敗時はダウンロード/Web Share にフォールバック。
+  中断対策: 本番試行完了ごとに localStorage へチェックポイント (interruptedAt 付き同形 JSON)。
+  受け口の実装とデプロイ手順は gas-collector.gs / DEPLOY.md を参照。
 -->
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -105,9 +110,29 @@
   #ratingSubmit:disabled { opacity: 0.4; border-color: #555; color: #888; background: #222; }
 
   .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; color: #9b9; }
+
+  /* ---- 横向きガード (タッチ端末のみ JS で表示制御) ---- */
+  #rotateGuard { position: fixed; inset: 0; z-index: 100; display: none;
+    flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+    background: #111; text-align: center; padding: 24px; }
+  #rotateGuard.show { display: flex; }
+  #rotateGuard .icon { font-size: 48px; }
+  #rotateGuard p { font-size: 16px; color: #eee; line-height: 1.6; }
+
+  /* ---- 中断データ復旧 (intro 内) ---- */
+  #recovery { display: none; margin: 14px 0; padding: 12px;
+    border: 1px solid #a83; border-radius: 10px; background: rgba(255,170,68,0.08); }
+  #recovery.show { display: block; }
+  #recovery p { color: #fc8; font-size: 13px; margin-bottom: 4px; }
 </style>
 </head>
 <body>
+
+<!-- ===== 横向きガード (タッチ端末で landscape のとき全画面表示) ===== -->
+<div id="rotateGuard">
+  <div class="icon">📱</div>
+  <p>この課題は<b>縦向き</b>で行います。<br>画面を縦にしてください。</p>
+</div>
 
 <!-- ===== INTRO ===== -->
 <section id="intro" class="screen active">
@@ -122,6 +147,13 @@
     <div class="field">
       <label for="pid">参加者ID (任意・例: P01)</label>
       <input id="pid" type="text" inputmode="text" autocomplete="off" placeholder="P01">
+    </div>
+    <div id="recovery">
+      <p>⚠️ 前回中断したデータが残っています。</p>
+      <div class="btnrow">
+        <button class="btn ghost" id="recoverDl">保存する (JSON)</button>
+        <button class="btn ghost" id="recoverDrop">破棄する</button>
+      </div>
     </div>
     <p class="mono" id="devline"></p>
     <div class="btnrow">
@@ -166,13 +198,14 @@
 <section id="done" class="screen">
   <div class="pad">
     <h1>完了しました</h1>
-    <p>ご協力ありがとうございました。下のボタンでデータを保存してください。</p>
+    <p id="doneMsg">ご協力ありがとうございました。</p>
     <div class="mono" id="summary"></div>
+    <div class="mono" id="uploadStatus"></div>
     <div class="btnrow">
+      <button class="btn primary" id="shareJson" style="display:none">データを送る (共有)</button>
       <button class="btn primary" id="dlJson">データを保存 (JSON)</button>
       <button class="btn ghost" id="dlCsv">軌道CSVを保存</button>
     </div>
-    <div class="mono" id="uploadStatus"></div>
   </div>
 </section>
 
@@ -191,9 +224,12 @@
                               //   詳細根拠は research/sources/decisions-log.md「アンカーで評定を取らない」
     pairs: [[1, 2], [2, 8], [8, 9]], // [小, 大]。差: 1v2 と 8v9 は距離1 (8v9 がサイズ効果で最難), 2v8 が最易
     minPoints: 3,            // dispatched 点数の下限。下回ったら無効試行として再呈示
-    uploadUrl: null,         // 文字列を入れると完了時に JSON を POST。null ならダウンロードのみ
+    uploadUrl: null,         // GAS Web アプリの URL (デプロイ手順: 同ディレクトリ DEPLOY.md)。
+                              //   完了時に text/plain で JSON を自動 POST (GAS は preflight 非対応のため
+                              //   application/json は不可)。null ならダウンロード/共有のみ。
   };
-  // URL クエリで上書き可 (例: ?reps=2&practice=0&break=0&ratings=0 で評定なし短縮テスト)
+  const BACKUP_KEY = "pilotAnchorBackup_v1"; // 中断対策の localStorage チェックポイント
+  // URL クエリで上書き可 (例: ?reps=2&practice=0&break=0&ratings=0 で評定なし短縮テスト。?rotate=0 で横向きガード無効)
   {
     const q = new URLSearchParams(location.search);
     const num = (k, d) => { const v = q.get(k); const n = v == null ? NaN : parseInt(v, 10); return isNaN(n) ? d : n; };
@@ -319,6 +355,7 @@
 
   // ドラッグ記録用
   let recording = false;
+  let uiLocked = false;   // フィードバック/遷移の待ち時間中は START 無効 (古い cell での誤記録防止)
   let activePointerId = null;
   let leftStart = false;  // START を出たか (initiation 検出)
   let aborts = 0;         // 現在試行での無効リトライ回数
@@ -365,6 +402,7 @@
       ? `${totalPractice - queue.length} / ${totalPractice}`
       : `${trialIndex + 1} / ${totalMain}`;
     recording = false;
+    uiLocked = false;
     activePointerId = null;
     leftStart = false;
     trial = null;
@@ -382,7 +420,7 @@
 
   // ===== Pointer Events 記録 =====
   surface.addEventListener("pointerdown", (e) => {
-    if (recording) return;                       // 既に進行中なら無視 (マルチタッチ二本目)
+    if (recording || uiLocked) return;           // 進行中 (マルチタッチ二本目) / 遷移待ち中は無視
     if (!inRect(rectOf(startBtn), e.clientX, e.clientY)) {
       $("taskMsg").textContent = "STARTから始めてください";
       return;
@@ -509,6 +547,7 @@
       showPracticeFeedback();
     } else {
       records.push(trial);
+      saveBackup();   // 試行完了ごとにチェックポイント (中断時の全損防止)
       if (CONFIG.ratings) {
         beginRating();
       } else {
@@ -519,6 +558,7 @@
   }
 
   function showPracticeFeedback() {
+    uiLocked = true;   // フィードバック表示中の START 再押下を無効化
     const ok = trial.correct;
     $("taskMsg").innerHTML = `<span class="feedback ${ok ? "ok" : "ng"}">${ok ? "正解" : "ちがいます"}</span>`;
     numA.style.visibility = "hidden";
@@ -568,12 +608,14 @@
   function submitRating() {
     if (ITEMS.some((it) => trial.ratings[it.key] == null)) return;
     trial.ratingSubmitMs = +(performance.now() - ratingOnset).toFixed(1); // 3項目合計の所要時間 (負担指標)
+    saveBackup();   // 評定込みで再チェックポイント (trial は records 内を直接更新済み)
     if (phase === "main") trialIndex++;
     nextTrial();
   }
 
   // ===== フェーズ遷移 =====
   function startPractice() {
+    clearBackup();  // 復旧チャンスは intro 画面まで。開始したら前回分は破棄
     device.participantId = $("pid").value.trim();
     phase = "practice";
     queue = buildPracticeTrials(CONFIG.practiceTrials);
@@ -583,6 +625,7 @@
     nextTrial();
   }
   function endPractice() {
+    uiLocked = true;   // 本番開始までの遷移中も START 無効
     show("task");
     $("phaseLabel").textContent = "練習終了";
     $("counter").textContent = "";
@@ -592,6 +635,7 @@
     setTimeout(() => startMain(), 1000);
   }
   function startMain() {
+    clearBackup();  // 本番開始前は今セッションのバックアップ未作成なので無条件で前回分を破棄してよい
     if (!device.participantId) device.participantId = $("pid").value.trim();
     phase = "main";
     trialIndex = 0;
@@ -614,6 +658,14 @@
       `平均実効レート: ${avgHz} Hz / 推定リフレッシュ: ${device.refreshHz || "?"} Hz<br>` +
       `無効リトライ計: ${totalAborts}<br>` +
       `端末: ${device.screenW}×${device.screenH}@${device.dpr}x`;
+    // 共有 (Web Share API Level 2) 対応端末なら共有ボタンを出す
+    try {
+      const probe = new File(["x"], "x.json", { type: "application/json" });
+      if (navigator.canShare && navigator.canShare({ files: [probe] }))
+        $("shareJson").style.display = "";
+    } catch (_) {}
+    if (!CONFIG.uploadUrl)
+      $("doneMsg").textContent = "ご協力ありがとうございました。下のボタンでデータを保存・共有してください。";
     show("done");
     if (CONFIG.uploadUrl) uploadJson();
   }
@@ -626,6 +678,29 @@
       return rest;
     });
     return { device, trials };
+  }
+
+  // ===== 中断対策チェックポイント (試行完了ごとに localStorage へ) =====
+  // 84 試行 ≈ 1-2MB < localStorage 上限。失敗 (私的モード等) は無視して続行。
+  function saveBackup() {
+    try {
+      const p = buildPayload();
+      p.interruptedAt = new Date().toISOString();
+      localStorage.setItem(BACKUP_KEY, JSON.stringify(p));
+    } catch (_) {}
+  }
+  function clearBackup() {
+    try { localStorage.removeItem(BACKUP_KEY); } catch (_) {}
+  }
+  function loadBackup() {
+    try {
+      const raw = localStorage.getItem(BACKUP_KEY);
+      if (!raw) return null;
+      const p = JSON.parse(raw);
+      // 本番試行が 1 つ以上あるものだけ復旧対象 (練習のみは価値なし)
+      if (!p.trials || !p.trials.some((t) => t.phase === "main")) return null;
+      return p;
+    } catch (_) { return null; }
   }
   function download(filename, text, mime) {
     const blob = new Blob([text], { type: mime });
@@ -641,7 +716,17 @@
   }
   $("dlJson").addEventListener("click", () => {
     download(`pilot_${stamp()}.json`, JSON.stringify(buildPayload()), "application/json");
+    clearBackup();  // 手元保存できたらチェックポイント不要
   });
+  // Web Share API (LINE 等へ直接共有)。対応端末でのみボタン表示
+  function sharePayload() {
+    const file = new File([JSON.stringify(buildPayload())], `pilot_${stamp()}.json`,
+      { type: "application/json" });
+    navigator.share({ files: [file], title: "パイロットデータ" })
+      .then(() => clearBackup())
+      .catch(() => {});  // キャンセルは無視 (ダウンロードへ誘導済み)
+  }
+  $("shareJson").addEventListener("click", sharePayload);
   $("dlCsv").addEventListener("click", () => {
     const rows = ["trial,phase,seq,t_ms,x,y,type,congruency,pairLabel,largerSide,correctSide,choiceSide,correct"];
     let pc = 0;
@@ -654,16 +739,56 @@
     }
     download(`pilot_${stamp()}_events.csv`, rows.join("\n") + "\n", "text/csv");
   });
-  function uploadJson() {
-    $("uploadStatus").textContent = "送信中…";
+  function uploadJson(attempt) {
+    attempt = attempt || 1;
+    $("uploadStatus").textContent = attempt > 1 ? `送信中… (再試行 ${attempt}/3)` : "送信中…";
+    // GAS Web アプリは CORS preflight (OPTIONS) に応答しないため text/plain で simple request にする
     fetch(CONFIG.uploadUrl, {
-      method: "POST", headers: { "Content-Type": "application/json" },
+      method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" },
       body: JSON.stringify(buildPayload()),
-    }).then((res) => {
-      $("uploadStatus").textContent = res.ok ? "送信完了" : `送信失敗 (HTTP ${res.status})。手動保存してください`;
-    }).catch(() => {
-      $("uploadStatus").textContent = "送信失敗 (ネットワーク)。手動保存してください";
-    });
+    }).then((res) => res.ok ? res.json() : Promise.reject(new Error("HTTP " + res.status)))
+      .then((j) => {
+        if (!j || !j.ok) throw new Error(j && j.error || "server error");
+        $("uploadStatus").textContent = "✅ 送信完了。このまま閉じて大丈夫です。";
+        $("doneMsg").textContent = "ご協力ありがとうございました。データは自動送信されました。";
+        clearBackup();
+      })
+      .catch(() => {
+        if (attempt < 3) { setTimeout(() => uploadJson(attempt + 1), 1500 * attempt); return; }
+        $("uploadStatus").textContent =
+          "⚠️ 自動送信に失敗しました。下のボタンでデータを保存し、LINE 等で送ってください。";
+      });
+  }
+
+  // ===== 横向きガード =====
+  // タッチ端末のみ (PC/headless 検証は対象外)。?rotate=0 で無効化 (デバッグ用)。
+  // 回転でレイアウト(vmin基準)と geom が変わるため、ドラッグ中なら無効試行にして再呈示。
+  const rotateGuardOn = navigator.maxTouchPoints > 0 &&
+    new URLSearchParams(location.search).get("rotate") !== "0";
+  function checkOrientation() {
+    if (!rotateGuardOn) return;
+    const landscape = window.innerWidth > window.innerHeight;
+    $("rotateGuard").classList.toggle("show", landscape);
+    if (landscape && recording) { recording = false; activePointerId = null; retryTrial("画面が回転しました"); }
+  }
+  window.addEventListener("resize", checkOrientation);
+  window.addEventListener("orientationchange", checkOrientation);
+  checkOrientation();
+
+  // ===== 中断データ復旧 (intro 表示時に前回チェックポイントがあれば提示) =====
+  {
+    const backup = loadBackup();
+    if (backup) {
+      $("recovery").classList.add("show");
+      $("recoverDl").addEventListener("click", () => {
+        const pid = ((backup.device && backup.device.participantId) || "anon").replace(/[^\w-]/g, "");
+        download(`pilot_${pid}_interrupted.json`, JSON.stringify(backup), "application/json");
+      }, { passive: true });
+      $("recoverDrop").addEventListener("click", () => {
+        clearBackup();
+        $("recovery").classList.remove("show");
+      }, { passive: true });
+    }
   }
 
   // ===== 起動 =====
@@ -681,6 +806,8 @@
       buildPayload,
       recordCount: () => records.length,
       activeScreen: () => (document.querySelector(".screen.active") || {}).id,
+      uiLocked: () => uiLocked,
+      hasBackup: () => loadBackup() != null,
     };
   }
 
