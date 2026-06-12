@@ -201,7 +201,7 @@
     <p id="doneMsg">ご協力ありがとうございました。</p>
     <div class="mono" id="summary"></div>
     <div class="mono" id="uploadStatus"></div>
-    <div class="btnrow">
+    <div class="btnrow" id="exportRow">
       <button class="btn primary" id="shareJson" style="display:none">データを送る (共有)</button>
       <button class="btn primary" id="dlJson">データを保存 (JSON)</button>
       <button class="btn ghost" id="dlCsv">軌道CSVを保存</button>
@@ -230,7 +230,9 @@
                               //   null ならダウンロード/共有のみ。
   };
   const BACKUP_KEY = "pilotAnchorBackup_v1"; // 中断対策の localStorage チェックポイント
-  // URL クエリで上書き可 (例: ?reps=2&practice=0&break=0&ratings=0 で評定なし短縮テスト。?rotate=0 で横向きガード無効)
+  // URL クエリで上書き可 (例: ?reps=2&practice=0&break=0&ratings=0 で評定なし短縮テスト。
+  //   ?rotate=0 で横向きガード無効 / ?upload=0 で自動送信無効 / ?debug=1 で検証フック+CSV+常時ボタン)
+  const debugMode = new URLSearchParams(location.search).get("debug") === "1";
   {
     const q = new URLSearchParams(location.search);
     const num = (k, d) => { const v = q.get(k); const n = v == null ? NaN : parseInt(v, 10); return isNaN(n) ? d : n; };
@@ -238,6 +240,7 @@
     CONFIG.practiceTrials = num("practice", CONFIG.practiceTrials);
     CONFIG.breakEvery = num("break", CONFIG.breakEvery);
     if (q.get("ratings") != null) CONFIG.ratings = q.get("ratings") !== "0";
+    if (q.get("upload") === "0") CONFIG.uploadUrl = null;  // 検証・デモ用 (GAS にゴミを送らない)
   }
 
   // 評定 3 項目 (experiment-design.md §3-1)。参加者向けは「自信/迷い/難しさ」、変数名は英語で統一
@@ -665,6 +668,10 @@
       if (navigator.canShare && navigator.canShare({ files: [probe] }))
         $("shareJson").style.display = "";
     } catch (_) {}
+    // 軌道CSV は JSON に含まれる軌道点列の重複展開 (デバッグ用) → debug 時のみ表示
+    if (!debugMode) $("dlCsv").style.display = "none";
+    // 自動送信を使う場合、保存/共有ボタンは送信失敗が確定したときだけ出す (参加者を迷わせない)
+    if (CONFIG.uploadUrl && !debugMode) $("exportRow").style.display = "none";
     if (!CONFIG.uploadUrl)
       $("doneMsg").textContent = "ご協力ありがとうございました。下のボタンでデータを保存・共有してください。";
     show("done");
@@ -758,6 +765,7 @@
         if (attempt < 3) { setTimeout(() => uploadJson(attempt + 1), 1500 * attempt); return; }
         $("uploadStatus").textContent =
           "⚠️ 自動送信に失敗しました。下のボタンでデータを保存し、LINE 等で送ってください。";
+        $("exportRow").style.display = "";  // 失敗確定時のみ手動フォールバックを提示
       });
   }
 
@@ -802,7 +810,7 @@
   $("breakContinue").addEventListener("click", () => presentStimulus(), { passive: true });
 
   // 自動検証用フック (?debug=1 のときだけ露出。本番動作には影響しない)
-  if (new URLSearchParams(location.search).get("debug") === "1") {
+  if (debugMode) {
     window.__pilot = {
       buildPayload,
       recordCount: () => records.length,
