@@ -17,8 +17,9 @@
 2. 任意: 参加者 ID を入力
 3. 練習 6 試行 (正誤フィードバックあり) → 本番 84 試行 (約 4 分)
 4. 各試行: 下中央の START に指を置く → 数が大きい方のボックスへ**指を離さず**ドラッグ → 離す
-5. 完了画面で「データを保存 (JSON)」をタップ → スマホに JSON ファイルが落ちる
-6. JSON を研究者に送る (LINE / メール / Drive など)
+5. 完了画面で**データは自動送信**される (「✅ 送信完了」表示)。参加者の追加操作は不要
+   - 自動送信に失敗した場合のみ「データを保存 (JSON)」「データを送る (共有)」ボタンが現れ、手動で研究者に送れる (LINE / メール / Drive)
+   - 中断後に再訪すると、前回データの保存ボタンが intro 画面に出る
 
 ## 記録されるデータ (1試行あたり)
 
@@ -30,6 +31,15 @@
 
 完全な data spec は [`index.html`](index.html) 冒頭のコメントを参照。
 
+## 用途別 URL 早見表
+
+| 用途 | URL | 備考 |
+|---|---|---|
+| **本番 (参加者に配布)** | `https://and-space83.github.io/drag-survey/pilot-anchor/` | 練習 6 + 本番 84 試行、自動送信 ON |
+| 短縮スモークテスト | `…/pilot-anchor/?reps=1&practice=0` | 12 試行のみ。**送信は ON なので Drive に届く**点に注意 |
+| デモ (Drive に送らない) | `…/pilot-anchor/?upload=0` | 自動送信を止め、保存/共有ボタンを常時表示 |
+| 開発・自動テスト | `…/pilot-anchor/?debug=1&upload=0` | `window.__pilot` 露出 + CSV ボタン表示 |
+
 ## 設定 (URL クエリで上書き可)
 
 | パラメータ | 既定 | 内容 |
@@ -38,9 +48,11 @@
 | `?practice=N` | 6 | 練習試行数 |
 | `?break=N` | 0 | N 試行ごとの休憩画面 (0 で無効) |
 | `?ratings=1` | 0 | 試行後の 3 項目評定を有効化 (Stage 2 で使用) |
-| `?debug=1` | — | `window.__pilot` を露出 (自動テスト用) |
+| `?rotate=0` | — | 横向きガードを無効化 |
+| `?upload=0` | — | 自動送信を無効化 (デモ・検証で Drive にゴミを送らない) |
+| `?debug=1` | — | `window.__pilot` 露出 + 軌道CSVボタン表示 (自動テスト用) |
 
-短縮スモークテスト例: `?reps=2&practice=0` → 24 試行で動作確認
+データ回収は完了時に GAS Web アプリへ自動 POST → Google Drive `pilot-anchor-data/` に保存。失敗時はダウンロード / Web Share にフォールバック。受け口の実装・デプロイ手順は private リポの `tools/pilot-anchor/gas-collector.gs` / `DEPLOY.md`。
 
 ## 課題仕様
 
