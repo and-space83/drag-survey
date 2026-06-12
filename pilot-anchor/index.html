@@ -224,9 +224,10 @@
                               //   詳細根拠は research/sources/decisions-log.md「アンカーで評定を取らない」
     pairs: [[1, 2], [2, 8], [8, 9]], // [小, 大]。差: 1v2 と 8v9 は距離1 (8v9 がサイズ効果で最難), 2v8 が最易
     minPoints: 3,            // dispatched 点数の下限。下回ったら無効試行として再呈示
-    uploadUrl: null,         // GAS Web アプリの URL (デプロイ手順: 同ディレクトリ DEPLOY.md)。
-                              //   完了時に text/plain で JSON を自動 POST (GAS は preflight 非対応のため
-                              //   application/json は不可)。null ならダウンロード/共有のみ。
+    uploadUrl: "https://script.google.com/macros/s/AKfycbxbnJbVZJQXkB4_Sn0amRW2kHXydOMWVzf-jT8IH2TlPafZR43rfRVrROguE0r8O1oY/exec",
+                              // GAS Web アプリ (gas-collector.gs / DEPLOY.md)。完了時に text/plain で JSON を
+                              //   自動 POST (GAS は preflight 非対応のため application/json は不可)。
+                              //   null ならダウンロード/共有のみ。
   };
   const BACKUP_KEY = "pilotAnchorBackup_v1"; // 中断対策の localStorage チェックポイント
   // URL クエリで上書き可 (例: ?reps=2&practice=0&break=0&ratings=0 で評定なし短縮テスト。?rotate=0 で横向きガード無効)
