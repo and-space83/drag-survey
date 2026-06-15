@@ -12,7 +12,7 @@
   === データ仕様 (エクスポート JSON) ===
   { device: {ua, screenW, screenH, dpr, refreshHz, exportedAt, participantId, deviceModel, config,
              age, sex, handedness,            // 事前アンケート (特性。必須。性別は na=回答しない可)
-             operatingHand, deviceHold},       // 事後アンケート (状態。課題後に回顧で取得)
+             grip},                            // 事後アンケート (持ち方+操作を1問に。課題後に回顧で取得)
     trials: [ {
       index, phase('main'|'practice'),
       pair[s,l], pairLabel, numDistance,
@@ -58,6 +58,8 @@
   .seg button { flex: 1 1 0; min-width: 72px; padding: 12px 10px; font-size: 15px;
     border-radius: 10px; border: 2px solid #557; color: #cdf; background: #1c2030; }
   .seg button.sel { background: #2f7; color: #052; border-color: #2f7; }
+  .seg.seg-v { flex-direction: column; }
+  .seg.seg-v button { flex: none; width: 100%; min-width: 0; text-align: left; padding: 14px 14px; }
   .opt-note { font-size: 12px; color: #789; margin-top: 2px; }
   .btn { display: inline-flex; align-items: center; justify-content: center;
     padding: 14px 22px; font-size: 16px; font-weight: bold; border-radius: 10px;
@@ -235,21 +237,14 @@
 <section id="postq" class="screen">
   <div class="pad">
     <h1>最後にひとつだけ</h1>
-    <p>たった今の課題を、どのように操作していましたか?</p>
+    <p>たった今の課題を、どのように持って・操作していましたか?<br>いちばん近いものを選んでください。</p>
     <div class="field">
-      <label>操作した指の手</label>
-      <div class="seg" id="opHandSeg">
-        <button type="button" data-val="right">右手</button>
-        <button type="button" data-val="left">左手</button>
-        <button type="button" data-val="both">両方</button>
-      </div>
-    </div>
-    <div class="field">
-      <label>端末の持ち方</label>
-      <div class="seg" id="holdSeg">
-        <button type="button" data-val="one_thumb">片手・親指で操作</button>
-        <button type="button" data-val="two_hands">両手・反対の指で操作</button>
-        <button type="button" data-val="on_table">机などに置いて操作</button>
+      <div class="seg seg-v" id="gripSeg">
+        <button type="button" data-val="right_thumb">右手で持ち、右手の親指で操作</button>
+        <button type="button" data-val="left_thumb">左手で持ち、左手の親指で操作</button>
+        <button type="button" data-val="both_thumbs">両手で持ち、両手の親指で操作</button>
+        <button type="button" data-val="cradle">片手で持ち、反対の手の指で操作</button>
+        <button type="button" data-val="on_table">机などに置いて、指で操作</button>
       </div>
     </div>
     <button class="btn primary" id="postSubmit" disabled>完了する</button>
@@ -345,7 +340,9 @@
     // 事前アンケート (特性=安定属性。聞いても今回の操作は変わらないので事前で可。必須)
     age: null, sex: null, handedness: null,
     // 事後アンケート (状態=今回の操作。事前に聞くと意識して自然な使い方が崩れるため課題後に回顧で取得)
-    operatingHand: null, deviceHold: null,
+    //   grip = 持ち方+操作した指を1問に統合 (right_thumb/left_thumb/both_thumbs/cradle/on_table)。
+    //   操作手の左右は解析側で grip から導出 (right_thumb→右, left_thumb→左, both_thumbs→両, cradle/on_table→不明)
+    grip: null,
     config: CONFIG,
     exportedAt: null,
   };
@@ -748,9 +745,9 @@
     nextTrial();
   }
 
-  // ===== 事後アンケート (操作手・持ち方を回顧で。両方選ぶと完了ボタン有効) =====
+  // ===== 事後アンケート (持ち方+操作を1問で回顧。選ぶと完了ボタン有効) =====
   function postReady() {
-    $("postSubmit").disabled = !(device.operatingHand && device.deviceHold);
+    $("postSubmit").disabled = !device.grip;
   }
   function showPostQuestions() {
     show("postq");
@@ -912,9 +909,8 @@
   // 事前アンケート (特性): 性別・利き手。選択で開始ボタンの有効/無効を再評価
   wireSeg("sexSeg", (v) => { device.sex = v; refreshIntro(); });
   wireSeg("handSeg", (v) => { device.handedness = v; refreshIntro(); });
-  // 事後アンケート (状態): 操作手・持ち方
-  wireSeg("opHandSeg", (v) => { device.operatingHand = v; postReady(); });
-  wireSeg("holdSeg", (v) => { device.deviceHold = v; postReady(); });
+  // 事後アンケート (状態): 持ち方+操作を1問で
+  wireSeg("gripSeg", (v) => { device.grip = v; postReady(); });
   // テキスト/数値入力でも再評価
   for (const id of ["pid", "age", "devModel"]) {
     $(id).addEventListener("input", refreshIntro, { passive: true });
@@ -926,7 +922,7 @@
   $("ratingSubmit").addEventListener("click", submitRating, { passive: true });
   $("breakContinue").addEventListener("click", () => presentStimulus(), { passive: true });
   $("postSubmit").addEventListener("click", () => {
-    if (device.operatingHand && device.deviceHold) finishSession();
+    if (device.grip) finishSession();
   }, { passive: true });
 
   // 自動検証用フック (?debug=1 のときだけ露出。本番動作には影響しない)
