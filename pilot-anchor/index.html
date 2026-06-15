@@ -152,16 +152,17 @@
       <li>数字の<b>見た目の大きさ</b>ではなく、<b>数の大きさ</b>で選びます。</li>
       <li>できるだけ自然に、素早く動かしてください。</li>
     </ul>
+    <p class="opt-note" style="margin:10px 0 2px">以下はすべて任意です (空欄でも始められます)。</p>
     <div class="field">
-      <label for="pid">ニックネームまたはID (任意)</label>
-      <input id="pid" type="text" inputmode="text" autocomplete="off" placeholder="例: たろう / P01">
+      <label for="pid">ニックネーム (ローマ字)</label>
+      <input id="pid" type="text" inputmode="latin" autocomplete="off" placeholder="例: taro / P01">
     </div>
     <div class="field">
-      <label for="age">年齢 (任意)</label>
+      <label for="age">年齢</label>
       <input id="age" type="number" inputmode="numeric" min="0" max="120" autocomplete="off" placeholder="例: 22">
     </div>
     <div class="field">
-      <label>性別 (任意)</label>
+      <label>性別</label>
       <div class="seg" id="sexSeg">
         <button type="button" data-val="male">男性</button>
         <button type="button" data-val="female">女性</button>
@@ -169,7 +170,7 @@
       </div>
     </div>
     <div class="field">
-      <label>利き手 (任意)</label>
+      <label>利き手</label>
       <div class="seg" id="handSeg">
         <button type="button" data-val="right">右</button>
         <button type="button" data-val="left">左</button>
