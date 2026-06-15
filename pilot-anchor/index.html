@@ -10,7 +10,9 @@
   クロスプラットフォーム実装注意: research/sources/checklist.md A-2 実装時チェック
 
   === データ仕様 (エクスポート JSON) ===
-  { device: {ua, screenW, screenH, dpr, refreshHz, exportedAt, participantId, config},
+  { device: {ua, screenW, screenH, dpr, refreshHz, exportedAt, participantId, config,
+             age, sex, handedness,            // 事前アンケート (特性。任意)
+             operatingHand, deviceHold},       // 事後アンケート (状態。課題後に回顧で取得)
     trials: [ {
       index, phase('main'|'practice'),
       pair[s,l], pairLabel, numDistance,
@@ -50,6 +52,13 @@
   .pad label { display: block; font-size: 13px; color: #aaa; margin-bottom: 6px; }
   .pad input { width: 100%; max-width: 320px; padding: 12px; font-size: 16px;
     background: #1d1d1d; color: #eee; border: 1px solid #444; border-radius: 8px; }
+  .pad input[type="number"] { max-width: 140px; }
+  /* セグメント選択 (性別・利き手・事後質問) */
+  .seg { display: flex; gap: 8px; flex-wrap: wrap; }
+  .seg button { flex: 1 1 0; min-width: 72px; padding: 12px 10px; font-size: 15px;
+    border-radius: 10px; border: 2px solid #557; color: #cdf; background: #1c2030; }
+  .seg button.sel { background: #2f7; color: #052; border-color: #2f7; }
+  .opt-note { font-size: 12px; color: #789; margin-top: 2px; }
   .btn { display: inline-flex; align-items: center; justify-content: center;
     padding: 14px 22px; font-size: 16px; font-weight: bold; border-radius: 10px;
     border: 2px solid #4a9; color: #4a9; background: rgba(68,170,153,0.10); margin-top: 16px; }
@@ -142,11 +151,31 @@
     <ul>
       <li>数字の<b>見た目の大きさ</b>ではなく、<b>数の大きさ</b>で選びます。</li>
       <li>できるだけ自然に、素早く動かしてください。</li>
-      <li>各回答のあと、3つの質問に5段階で答えます。</li>
     </ul>
     <div class="field">
-      <label for="pid">参加者ID (任意・例: P01)</label>
-      <input id="pid" type="text" inputmode="text" autocomplete="off" placeholder="P01">
+      <label for="pid">ニックネームまたはID (任意)</label>
+      <input id="pid" type="text" inputmode="text" autocomplete="off" placeholder="例: たろう / P01">
+    </div>
+    <div class="field">
+      <label for="age">年齢 (任意)</label>
+      <input id="age" type="number" inputmode="numeric" min="0" max="120" autocomplete="off" placeholder="例: 22">
+    </div>
+    <div class="field">
+      <label>性別 (任意)</label>
+      <div class="seg" id="sexSeg">
+        <button type="button" data-val="male">男性</button>
+        <button type="button" data-val="female">女性</button>
+        <button type="button" data-val="other">その他</button>
+      </div>
+    </div>
+    <div class="field">
+      <label>利き手 (任意)</label>
+      <div class="seg" id="handSeg">
+        <button type="button" data-val="right">右</button>
+        <button type="button" data-val="left">左</button>
+        <button type="button" data-val="both">両利き</button>
+      </div>
+      <div class="opt-note">※ 普段どちらの手を使うか。実際に操作する手は最後に伺います。</div>
     </div>
     <div id="recovery">
       <p>⚠️ 前回中断したデータが残っています。</p>
@@ -191,6 +220,31 @@
     <p id="breakInfo"></p>
     <p>準備ができたら続けてください。</p>
     <button class="btn primary" id="breakContinue">続ける</button>
+  </div>
+</section>
+
+<!-- ===== POST (事後質問: 直前の操作を回顧で。事前に聞くと操作を意識させ自然な使い方が崩れるため) ===== -->
+<section id="postq" class="screen">
+  <div class="pad">
+    <h1>最後にひとつだけ</h1>
+    <p>たった今の課題を、どのように操作していましたか?</p>
+    <div class="field">
+      <label>操作した指の手</label>
+      <div class="seg" id="opHandSeg">
+        <button type="button" data-val="right">右手</button>
+        <button type="button" data-val="left">左手</button>
+        <button type="button" data-val="both">両方</button>
+      </div>
+    </div>
+    <div class="field">
+      <label>端末の持ち方</label>
+      <div class="seg" id="holdSeg">
+        <button type="button" data-val="one_thumb">片手・親指で操作</button>
+        <button type="button" data-val="two_hands">両手・反対の指で操作</button>
+        <button type="button" data-val="on_table">机などに置いて操作</button>
+      </div>
+    </div>
+    <button class="btn primary" id="postSubmit" disabled>完了する</button>
   </div>
 </section>
 
@@ -254,9 +308,21 @@
   ];
 
   const $ = (id) => document.getElementById(id);
-  const screens = { intro: $("intro"), task: $("task"), rating: $("rating"), break: $("break"), done: $("done") };
+  const screens = { intro: $("intro"), task: $("task"), rating: $("rating"),
+    break: $("break"), postq: $("postq"), done: $("done") };
   function show(name) {
     for (const k in screens) screens[k].classList.toggle("active", k === name);
+  }
+
+  // セグメント選択 (性別・利き手・事後質問)。クリックで data-val を onPick に渡す。
+  function wireSeg(containerId, onPick) {
+    const c = $(containerId);
+    for (const b of c.querySelectorAll("button")) {
+      b.addEventListener("click", () => {
+        for (const o of c.children) o.classList.toggle("sel", o === b);
+        onPick(b.dataset.val);
+      }, { passive: true });
+    }
   }
 
   // ===== 端末情報・リフレッシュレート推定 =====
@@ -266,7 +332,11 @@
     screenH: window.innerHeight,
     dpr: window.devicePixelRatio || 1,
     refreshHz: null,
-    participantId: "",
+    participantId: "",        // ニックネーム/ID (任意)
+    // 事前アンケート (特性=安定属性。聞いても今回の操作は変わらないので事前で可)
+    age: null, sex: null, handedness: null,
+    // 事後アンケート (状態=今回の操作。事前に聞くと意識して自然な使い方が崩れるため課題後に回顧で取得)
+    operatingHand: null, deviceHold: null,
     config: CONFIG,
     exportedAt: null,
   };
@@ -376,7 +446,7 @@
   function nextTrial() {
     if (queue.length === 0) {
       if (phase === "practice") { endPractice(); return; }
-      finishSession(); return;
+      showPostQuestions(); return;   // 本番終了 → 事後アンケート → finishSession
     }
     cell = queue.shift();
     aborts = 0;
@@ -618,9 +688,16 @@
   }
 
   // ===== フェーズ遷移 =====
+  // 事前アンケート (ニックネーム・年齢) を取り込む。性別/利き手は wireSeg が随時 device に格納済み。
+  function captureIntro() {
+    device.participantId = $("pid").value.trim();
+    const ageRaw = parseInt($("age").value, 10);
+    device.age = Number.isFinite(ageRaw) ? ageRaw : null;
+  }
+
   function startPractice() {
     clearBackup();  // 復旧チャンスは intro 画面まで。開始したら前回分は破棄
-    device.participantId = $("pid").value.trim();
+    captureIntro();
     phase = "practice";
     queue = buildPracticeTrials(CONFIG.practiceTrials);
     totalPractice = queue.length;
@@ -640,13 +717,22 @@
   }
   function startMain() {
     clearBackup();  // 本番開始前は今セッションのバックアップ未作成なので無条件で前回分を破棄してよい
-    if (!device.participantId) device.participantId = $("pid").value.trim();
+    if (!device.participantId) captureIntro();
     phase = "main";
     trialIndex = 0;
     queue = buildMainTrials();
     totalMain = queue.length;
     sizeCanvas();
     nextTrial();
+  }
+
+  // ===== 事後アンケート (操作手・持ち方を回顧で。両方選ぶと完了ボタン有効) =====
+  function postReady() {
+    $("postSubmit").disabled = !(device.operatingHand && device.deviceHold);
+  }
+  function showPostQuestions() {
+    show("postq");
+    $("postq").querySelector(".pad").scrollTop = 0;
   }
 
   function finishSession() {
@@ -801,13 +887,20 @@
   }
 
   // ===== 起動 =====
+  // 事前アンケート (特性): 性別・利き手
+  wireSeg("sexSeg", (v) => { device.sex = v; });
+  wireSeg("handSeg", (v) => { device.handedness = v; });
+  // 事後アンケート (状態): 操作手・持ち方
+  wireSeg("opHandSeg", (v) => { device.operatingHand = v; postReady(); });
+  wireSeg("holdSeg", (v) => { device.deviceHold = v; postReady(); });
+
   $("goPractice").addEventListener("click", startPractice, { passive: true });
-  $("goMain").addEventListener("click", () => {
-    device.participantId = $("pid").value.trim();
-    startMain();
-  }, { passive: true });
+  $("goMain").addEventListener("click", startMain, { passive: true });
   $("ratingSubmit").addEventListener("click", submitRating, { passive: true });
   $("breakContinue").addEventListener("click", () => presentStimulus(), { passive: true });
+  $("postSubmit").addEventListener("click", () => {
+    if (device.operatingHand && device.deviceHold) finishSession();
+  }, { passive: true });
 
   // 自動検証用フック (?debug=1 のときだけ露出。本番動作には影響しない)
   if (debugMode) {
