@@ -10,7 +10,7 @@
   クロスプラットフォーム実装注意: research/sources/checklist.md A-2 実装時チェック
 
   === データ仕様 (エクスポート JSON) ===
-  { device: {ua, screenW, screenH, dpr, refreshHz, exportedAt, participantId, deviceModel, config,
+  { device: {ua, screenW, screenH, dpr, refreshHz, exportedAt, participantId, clientId, deviceModel, config,
              age, sex, handedness,            // 事前アンケート (特性。必須。性別は na=回答しない可)
              grip},                            // 事後アンケート (持ち方+操作を1問に。課題後に回顧で取得)
     trials: [ {
@@ -195,6 +195,7 @@
       </div>
     </div>
     <p class="mono" id="devline"></p>
+    <p class="opt-note">※ 重複参加の確認のため、端末にランダムな目印 (個人を特定しない記号) を保存します。</p>
     <div class="btnrow">
       <button class="btn primary" id="goPractice">練習を始める</button>
       <button class="btn ghost" id="goMain">練習を飛ばして本番</button>
@@ -287,6 +288,7 @@
                               //   null ならダウンロード/共有のみ。
   };
   const BACKUP_KEY = "pilotAnchorBackup_v1"; // 中断対策の localStorage チェックポイント
+  const CLIENT_ID_KEY = "pilotAnchorClientId_v1"; // 重複参加の事後検出用 匿名 first-party マーカー
   // URL クエリで上書き可 (例: ?reps=2&practice=0&break=0&ratings=0 で評定なし短縮テスト。
   //   ?rotate=0 で横向きガード無効 / ?upload=0 で自動送信無効 / ?debug=1 で検証フック+CSV+常時ボタン)
   const debugMode = new URLSearchParams(location.search).get("debug") === "1";
@@ -336,6 +338,7 @@
     dpr: window.devicePixelRatio || 1,
     refreshHz: null,
     participantId: "",        // ニックネーム (ローマ字、必須)
+    clientId: getOrCreateClientId(),  // 匿名 first-party マーカー (重複参加の事後検出用。消去/別ブラウザで変わる)
     deviceModel: "",          // 自己申告の機種名 (iOS は UA でモデル判別不可のため必須)
     // 事前アンケート (特性=安定属性。聞いても今回の操作は変わらないので事前で可。必須)
     age: null, sex: null, handedness: null,
@@ -347,6 +350,22 @@
     exportedAt: null,
   };
   $("devline").textContent = `${device.screenW}×${device.screenH} @${device.dpr}x`;
+
+  // 匿名 first-party マーカー: 重複参加を事後 (解析時) に検出するための消去可能な目印。
+  // localStorage に残る間は不変 → 同端末・同ブラウザの再参加は同一 ID。消去/別ブラウザ/別端末/
+  // iOS ITP で変わるため「弱い手がかり」。固有ハードウェア ID ではなく個人を特定しない。
+  function getOrCreateClientId() {
+    const gen = () => (window.crypto && crypto.randomUUID)
+      ? crypto.randomUUID()
+      : "cid-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 10);
+    try {
+      let id = localStorage.getItem(CLIENT_ID_KEY);
+      if (!id) { id = gen(); localStorage.setItem(CLIENT_ID_KEY, id); }
+      return id;
+    } catch (_) {
+      return "tmp-" + gen();  // プライベートモード等で保存不可 → セッション限りの一時 ID
+    }
+  }
 
   (function estimateRefresh() {
     const deltas = []; let last = null, count = 0;
