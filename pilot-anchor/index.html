@@ -410,7 +410,7 @@
       bank: [
         { domain: "goods", level: "clear",    a: { label: "現金1万円" },    b: { label: "10円玉1枚" },     better: "a" },
         { domain: "goods", level: "mid",      a: { label: "現金9000円" },   b: { label: "商品券10000円" }, better: null }, /* mid: トレードオフ(柔軟性↔金額)。ユーザー選定 2026-06-23 */
-        { domain: "goods", level: "conflict", a: { label: "図書カード1000円" }, b: { label: "ドリンク券3枚" }, better: null, conflictType: "approach" }, /* approach: 互いに支配しない (本のみ↔飲料のみ)。ユーザー指摘 2026-06-23 */
+        { domain: "goods", level: "conflict", a: { label: "図書カード1000円" }, b: { label: "ドリンク券1000円" }, better: null, conflictType: "approach" }, /* approach: 同額(1000円)で互いに支配しない (本のみ↔飲料のみ)。ユーザー指摘 2026-06-23 */
         { domain: "lottery", level: "clear",    a: { label: "80%で1000円", ev: 800 }, b: { label: "20%で1000円", ev: 200 }, better: "a" },
         { domain: "lottery", level: "mid",      a: { label: "70%で1000円", ev: 700 }, b: { label: "確実に500円", ev: 500 }, better: "a" }, /* mid: 要レビュー */
         { domain: "lottery", level: "conflict", a: { label: "確実に500円", ev: 500 }, b: { label: "50%で1100円", ev: 550 }, better: "b", conflictType: "approach" },
