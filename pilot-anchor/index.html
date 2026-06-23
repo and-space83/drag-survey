@@ -85,11 +85,13 @@
   /* ---- 課題画面 ---- (レイアウトは片手操作に合わせ CSS 変数で調整可能) */
   :root {
     --choice-top: 27%;   /* 選択肢ボックスの上端位置 (小さいほど上=遠い) */
-    --choice-side: 6%;   /* 左右の端からの距離 */
+    --choice-side: 5%;   /* 左右の端からの距離 */
     --choice-w: 30vmin;
     --choice-h: 24vmin;
     --start-bottom: 12%; /* START の下端からの距離 (小さいほど下=親指の根元寄り) */
   }
+  /* 文字2択 (②) はラベルが長く改行で読みにくいので、ボックスを広く取り改行を減らす (数値① は既定のまま) */
+  body.block-value { --choice-w: 40vmin; --choice-h: 26vmin; --choice-side: 4%; }
   #task { background: #0e0e0e; touch-action: none; }
   #topbar { position: absolute; top: 0; left: 0; right: 0; height: 5%;
     display: flex; align-items: center; justify-content: center; gap: 14px;
@@ -111,10 +113,10 @@
   .choice .num { line-height: 1; font-weight: 700; visibility: hidden; }
   .choice .num.big { font-size: 22vmin; }
   .choice .num.small { font-size: 11vmin; }
-  /* 文字2択の刺激ラベル: 短語句を折返し中央寄せ (reading-time 交絡回避のため語句は短く保つ) */
-  .choice .txt { line-height: 1.3; font-weight: 600; font-size: 4.6vmin; color: #dff;
-    padding: 0 8px; text-align: center; white-space: normal; word-break: break-word;
-    visibility: hidden; }
+  /* 文字2択の刺激ラベル: 短語句を中央寄せ。改行は避けたいので font を絞り、折返す場合も均等(balance)に */
+  .choice .txt { line-height: 1.25; font-weight: 600; font-size: 3.7vmin; color: #dff;
+    padding: 0 6px; text-align: center; white-space: normal; overflow-wrap: anywhere;
+    text-wrap: balance; visibility: hidden; }
   #start { position: absolute; bottom: var(--start-bottom); left: 50%; transform: translateX(-50%);
     width: 34vmin; height: 16vmin; border: 2px solid #fa4; border-radius: 14px;
     display: flex; align-items: center; justify-content: center; font-size: 18px;
@@ -382,7 +384,7 @@
     value: {
       id: "value", stimulusType: "text-choice", title: "価値・選好の2択課題",
       ratings: true, breakEvery: 0,
-      repsPerCell: 1,        // 12セル (価値差3×ドメイン4) × 左右CB2 × reps = 24 本番試行 (§6-3)
+      repsPerCell: 1,        // 12項目セット (価値差3×ドメイン4) × reps。既定1 = 本番12試行 (各項目1回・項目間で左右CB)。§6-3
       practiceTrials: 2,     // 順序非依存の練習2 (§6-2。phase:'practice'、解析除外)
       practiceFeedback: "neutral",  // 主観選択なので正誤フィードバックはしない
       introHtml:
@@ -445,11 +447,19 @@
         };
       },
       buildMain() {
+        // 左右CB は「各項目1回・項目間で均等」(= set-level CB)。同一設問を2回出さない (2026-06-23 ユーザー要望)。
+        //   価値水準ごとに a 側を 2 左/2 右に振り分け、side×水準を均衡 (G2 の水準対比に side が交絡しないように)。
+        //   反復は「12項目セットを repsPerCell 回」。既定 reps=1 → 本番 12 試行。本実験で reps を増やせば
+        //   各項目が複数回・両側に出て within-item CB も回復する。
         const cells = [];
-        for (const item of this.bank)
-          for (const aSide of ["left", "right"])   // 左右CB: 規範優位側を左右均等に (§6-3)
-            for (let r = 0; r < CONFIG.repsPerCell; r++)
-              cells.push(this.makeCell(item, aSide));
+        for (let r = 0; r < CONFIG.repsPerCell; r++) {
+          const byLevel = {};
+          for (const item of this.bank) (byLevel[item.level] = byLevel[item.level] || []).push(item);
+          for (const level of Object.keys(byLevel)) {
+            const items = shuffle(byLevel[level].slice());   // 水準内をシャッフルしてから 2 左/2 右
+            items.forEach((item, i) => cells.push(this.makeCell(item, i % 2 === 0 ? "left" : "right")));
+          }
+        }
         return shuffle(cells);
       },
       buildPractice(n) {
@@ -1095,7 +1105,8 @@
   }
 
   // ===== 起動 =====
-  // ブロック別の説明文・タイトルを差し込む (intro 画面と <title>)
+  // ブロック別の説明文・タイトル・body クラス (ブロック別レイアウト変数の切替に使う)
+  document.body.classList.add("block-" + CONFIG.block);
   $("introInstructions").innerHTML = BLOCK.introHtml;
   document.title = "パイロット: " + BLOCK.title;
 
