@@ -440,12 +440,12 @@
         { domain: "goods", level: "conflict", a: { label: "図書カード1000円" }, b: { label: "ドリンク券1000円" }, better: null, conflictType: "approach" }, /* approach: 同額(1000円)で互いに支配しない (本のみ↔飲料のみ)。ユーザー指摘 2026-06-23 */
         { domain: "goods", level: "conflict", id: "goods-conflict-2", a: { label: "映画チケット1枚" }, b: { label: "好きな漫画1冊" }, better: null, conflictType: "approach" }, /* approach: 娯楽同士・非金額・非支配。要確認 2026-07-07 */
         { domain: "lottery", level: "clear",    a: { label: "80%で1000円", ev: 800 }, b: { label: "20%で1000円", ev: 200 }, better: "a" },
-        { domain: "lottery", level: "clear", id: "lottery-clear-2", a: { label: "90%で好きなお菓子" }, b: { label: "10%で好きなお菓子" }, better: "a" }, /* 賞品くじ (同一賞品で確率支配=ev不要)。ユーザー方針「金額だけでなくもの」2026-07-07。要確認 */
+        { domain: "lottery", level: "clear", id: "lottery-clear-2", a: { label: "90%でアイス" }, b: { label: "10%でガム" }, better: "a" }, /* 賞品くじ (確率も賞品も a が優位=二重支配、ev不要)。同一賞品×確率違いは不自然とのレビューで差し替え 2026-07-07 R2。要確認 */
         { domain: "lottery", level: "mid",      a: { label: "70%で1000円", ev: 700 }, b: { label: "確実に500円", ev: 500 }, better: "a" }, /* mid: 要レビュー */
         { domain: "lottery", level: "mid", id: "lottery-mid-2", a: { label: "80%で1500円", ev: 1200 }, b: { label: "確実に1000円", ev: 1000 }, better: "a" }, /* mid: EV差200で第1項目と揃える (金額くじを4項目残し §6-4 のEV規範を維持)。要レビュー 2026-07-07 */
         { domain: "lottery", level: "conflict", a: { label: "確実に500円", ev: 500 }, b: { label: "50%で1100円", ev: 550 }, better: "b", conflictType: "approach" },
         { domain: "lottery", level: "conflict", id: "lottery-conflict-2", a: { label: "確実にコーヒー1杯" }, b: { label: "50%でケーキセット" }, better: null, conflictType: "approach" }, /* 賞品くじ (価値が通約不能=真の拮抗、規範なし)。要確認 2026-07-07 */
-        { domain: "food", level: "clear",    a: { label: "出来たての好物" }, b: { label: "傷んだ好物" }, better: "a" }, /* 同一物の鮮度対比。ユーザー案は「冷めた好物」だが food-mid の選択肢と衝突するため「傷んだ」に強化 (出来たて>冷めた>傷んだ の勾配)。要確認 2026-07-07 */
+        { domain: "food", level: "clear",    a: { label: "出来たての好物" }, b: { label: "冷めた好物" }, better: "a" }, /* 同一物の鮮度対比。food-mid にも「冷めた好物」が出るが「選択肢が同じでも問題は別」としてユーザー確定 2026-07-07 R2 */
         { domain: "food", level: "clear", id: "food-clear-2", a: { label: "焼きたてのパン" }, b: { label: "伸びきった麺" }, better: "a" }, /* ユーザー選定 2026-07-07 (旧: 伸びきったラーメン) */
         { domain: "food", level: "mid",      a: { label: "出来たてのおにぎり" }, b: { label: "冷めた好物" },  better: null }, /* mid: トレードオフ(鮮度↔好み)。ユーザー選定 2026-06-23 */
         { domain: "food", level: "mid", id: "food-mid-2", a: { label: "好物を一口だけ" }, b: { label: "普通の味で大盛り" }, better: null }, /* mid: トレードオフ(好み↔量)。要レビュー 2026-07-07 */
