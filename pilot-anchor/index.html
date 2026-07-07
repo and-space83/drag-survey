@@ -442,7 +442,7 @@
         { domain: "lottery", level: "clear",    a: { label: "80%で1000円", ev: 800 }, b: { label: "20%で1000円", ev: 200 }, better: "a" },
         { domain: "lottery", level: "clear", id: "lottery-clear-2", a: { label: "90%でアイス" }, b: { label: "10%でガム" }, better: "a" }, /* 賞品くじ (確率も賞品も a が優位=二重支配、ev不要)。同一賞品×確率違いは不自然とのレビューで差し替え 2026-07-07 R2。要確認 */
         { domain: "lottery", level: "mid",      a: { label: "70%で1000円", ev: 700 }, b: { label: "確実に500円", ev: 500 }, better: "a" }, /* mid: 要レビュー */
-        { domain: "lottery", level: "mid", id: "lottery-mid-2", a: { label: "80%で1500円", ev: 1200 }, b: { label: "確実に1000円", ev: 1000 }, better: "a" }, /* mid: EV差200で第1項目と揃える (金額くじを4項目残し §6-4 のEV規範を維持)。要レビュー 2026-07-07 */
+        { domain: "lottery", level: "mid", id: "lottery-mid-2", a: { label: "70%でジュース2本" }, b: { label: "確実にジュース1本" }, better: null }, /* 賞品くじ (量×リスクのトレードオフ)。旧「80%で1500円/確実に1000円」は EV差200 が mid-1 と重複+金額ばかりで味気ないとのレビューで転換 2026-07-07 R3。金額くじは3項目 (EV差600/200/50) で §6-4 EV規範を維持 */
         { domain: "lottery", level: "conflict", a: { label: "確実に500円", ev: 500 }, b: { label: "50%で1100円", ev: 550 }, better: "b", conflictType: "approach" },
         { domain: "lottery", level: "conflict", id: "lottery-conflict-2", a: { label: "確実にコーヒー1杯" }, b: { label: "50%でケーキセット" }, better: null, conflictType: "approach" }, /* 賞品くじ (価値が通約不能=真の拮抗、規範なし)。要確認 2026-07-07 */
         { domain: "food", level: "clear",    a: { label: "出来たての好物" }, b: { label: "冷めた好物" }, better: "a" }, /* 同一物の鮮度対比。food-mid にも「冷めた好物」が出るが「選択肢が同じでも問題は別」としてユーザー確定 2026-07-07 R2 */
@@ -450,9 +450,9 @@
         { domain: "food", level: "mid",      a: { label: "出来たてのおにぎり" }, b: { label: "冷めた好物" },  better: null }, /* mid: トレードオフ(鮮度↔好み)。ユーザー選定 2026-06-23 */
         { domain: "food", level: "mid", id: "food-mid-2", a: { label: "好物を一口だけ" }, b: { label: "普通の味で大盛り" }, better: null }, /* mid: トレードオフ(好み↔量)。要レビュー 2026-07-07 */
         { domain: "food", level: "conflict", a: { label: "ぬるい麦茶" },     b: { label: "味の薄いせんべい" }, better: null, conflictType: "avoidance" },
-        { domain: "food", level: "conflict", id: "food-conflict-2", a: { label: "冷めたフライドポテト" }, b: { label: "ぬるいコーラ" }, better: null, conflictType: "avoidance" }, /* avoidance。ユーザー選定 2026-07-07 (旧: しなびたサラダ) */
-        { domain: "values", level: "clear",    a: { label: "家族と過ごす時間" }, b: { label: "広告動画を見る時間" }, better: "a" }, /* 同属性 (時間の使い方) で対比。ユーザー方針「同属性で比べる」2026-07-07 (旧: 家族の健康/未読の広告メール)。要確認 */
-        { domain: "values", level: "clear", id: "values-clear-2", a: { label: "親友との信頼" }, b: { label: "知らない人からのいいね" }, better: "a" }, /* 同カテゴリ (無形の対人価値) で対比。ユーザー方針 2026-07-07 (旧: 道端の小石)。要確認 */
+        { domain: "food", level: "conflict", id: "food-conflict-2", a: { label: "冷めたポテト" }, b: { label: "ぬるいコーラ" }, better: null, conflictType: "avoidance" }, /* avoidance。ユーザー選定 2026-07-07 (ラベル短縮方針で フライドポテト→ポテト、R3) */
+        { domain: "values", level: "clear",    a: { label: "家族との時間" }, b: { label: "広告を見る時間" }, better: "a" }, /* 同属性 (時間の使い方) で対比。ラベル短縮 2026-07-07 R3 (ボックス幅制約) */
+        { domain: "values", level: "clear", id: "values-clear-2", a: { label: "親友との信頼" }, b: { label: "他人からのいいね" }, better: "a" }, /* 同カテゴリ (無形の対人価値) で対比。ラベル短縮 2026-07-07 R3 */
         { domain: "values", level: "mid",      a: { label: "趣味の時間" }, b: { label: "昼寝の時間" },     better: null }, /* mid: トレードオフ(両方魅力)。ユーザー選定 2026-06-23 */
         { domain: "values", level: "mid", id: "values-mid-2", a: { label: "旅行の楽しみ" }, b: { label: "貯金の安心" }, better: null }, /* mid: トレードオフ(体験↔安定・両方魅力)。要レビュー 2026-07-07 */
         { domain: "values", level: "conflict", a: { label: "満員電車での通勤" }, b: { label: "毎日の残業" }, better: null, conflictType: "avoidance", stem: "どちらかを選ぶなら、まだマシな方はどちらですか？" }, /* avoidance (両方避けたい)。ユーザー選定 2026-06-23 */
