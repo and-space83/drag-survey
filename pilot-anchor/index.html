@@ -18,7 +18,9 @@
   { device: {ua, screenW, screenH, dpr, refreshHz, exportedAt, participantId, clientId, deviceModel,
              block('anchor'|'value'), config,
              age, sex, handedness,            // 事前アンケート (特性。必須。性別は na=回答しない可)
-             grip},                            // 事後アンケート (持ち方+操作を1問に。課題後に回顧で取得)
+             grip,                             // 事後アンケート (持ち方+操作を1問に。課題後に回顧で取得)
+             practiceSummary:                  // 練習の行動ゲート達成記録 (理解確認の証跡 + 品質共変量)
+               {gateStreak, gateCorrect, trials, aborts, skipped}},
     trials: [ {
       index, phase('main'|'practice'), stimulusType('numeric-size'|'text-choice'),
       // --- ① anchor (numeric-size) のメタ ---
@@ -122,10 +124,20 @@
     display: flex; align-items: center; justify-content: center; font-size: 18px;
     font-weight: bold; color: #fa4; background: rgba(255,170,68,0.10); z-index: 2; }
   #start.armed { border-color: #2f7; color: #2f7; background: rgba(34,255,119,0.10); }
-  #taskMsg { position: absolute; bottom: calc(var(--start-bottom) + 18vmin); left: 0; right: 0;
-    text-align: center; font-size: 15px; color: #fa4; z-index: 3; pointer-events: none; }
+  #taskMsg { position: absolute; bottom: calc(var(--start-bottom) + 18vmin); left: 12px; right: 12px;
+    text-align: center; font-size: 15px; color: #fa4; z-index: 3; pointer-events: none; line-height: 1.5; }
   .feedback { font-size: 16px; font-weight: bold; }
   .feedback.ok { color: #2f7; } .feedback.ng { color: #f55; }
+  .coach { font-size: 13px; color: #9cf; font-weight: normal; }
+  /* チュートリアル強調 (練習中のみ)。geometry を変えないよう box-shadow のみで脈動させる
+     (transform/scale は getBoundingClientRect ベースの当たり判定・geom 記録に影響するため使わない) */
+  @keyframes coachPulse {
+    0%   { box-shadow: 0 0 0 0 var(--pulse, rgba(255,170,68,0.55)); }
+    70%  { box-shadow: 0 0 0 10px transparent; }
+    100% { box-shadow: 0 0 0 0 transparent; }
+  }
+  .coach-pulse { animation: coachPulse 1.3s ease-out infinite; }
+  .choice.coach-pulse { --pulse: rgba(46,255,119,0.5); }
 
   /* ---- 評定画面 (3項目を1画面に) ---- */
   #rating { background: #141414; }
@@ -217,8 +229,8 @@
     <p class="mono" id="devline"></p>
     <p class="opt-note">※ 重複参加の確認のため、端末にランダムな目印 (個人を特定しない記号) を保存します。</p>
     <div class="btnrow">
+      <!-- 練習は必須 (スキップ不可)。開発用の抜け道は ?practice=0 クエリのみ (2026-07-07 決定) -->
       <button class="btn primary" id="goPractice">練習を始める</button>
-      <button class="btn ghost" id="goMain">練習を飛ばして本番</button>
     </div>
   </div>
 </section>
@@ -308,6 +320,8 @@
   const CLIENT_ID_KEY = "pilotAnchorClientId_v1"; // 重複参加の事後検出用 匿名 first-party マーカー
   // URL クエリで上書き可 (例: ?block=value で価値・選好ブロック / ?reps=2&practice=0&break=0&ratings=0 で短縮テスト。
   //   ?rotate=0 で横向きガード無効 / ?upload=0 で自動送信無効 / ?debug=1 で検証フック+CSV+常時ボタン)
+  // 練習は必須 (2026-07-07: UI からのスキップ導線は廃止。チュートリアル+行動ゲート付き)。
+  //   ?practice=0 は練習ごとスキップする開発用の抜け道 — 配布 URL には絶対に付けない。
   const debugMode = new URLSearchParams(location.search).get("debug") === "1";
 
   // ===== ブロック定義 =====
@@ -321,14 +335,18 @@
       ratings: false,        // GT 不要設計のため評定なし (decisions-log「アンカーで評定を取らない」)
       breakEvery: 0,         // 84×~3秒≈4分で休憩不要 (長尺ブロック用に実装は残す)
       repsPerCell: 7,        // 12セル (congruency2×pair3×largerSide2) ×7 = 84 本番試行
-      practiceTrials: 6,     // 練習 (正誤フィードバックあり、phase:'practice'、解析除外)
+      practiceTrials: 6,     // 練習バッチ数 (正誤フィードバックあり、phase:'practice'、解析除外。ゲート未達なら追加補充)
       practiceFeedback: "correct",
+      gateStreak: 3,         // 行動ゲート: 有効ドラッグ+正解を3連続で本番解錠 (2026-07-07。無効/不正解でリセット)
+      gateCorrect: true,     // ゲート成功条件に正誤を含める (客観正解がある課題)
+      coachDrag: "指を離さずに動かして、数が大きい方のボックスの中で離します",
       pairs: [[1, 2], [2, 8], [8, 9]], // [小,大]。距離: 1v2/8v9 が距離1 (8v9 が最難), 2v8 が最易
       introHtml:
         '<h1>数値サイズ一致性課題 (パイロット)</h1>' +
         '<p>STARTボタンに指を置くと、上の2つのボックスに数字が出ます。<b>指を離さずに、数が大きい方のボックスへドラッグ</b>して、そこで指を離してください。</p>' +
         '<ul><li>数字の<b>見た目の大きさ</b>ではなく、<b>数の大きさ</b>で選びます。</li>' +
-        '<li>できるだけ自然に、素早く動かしてください。</li></ul>',
+        '<li>できるだけ自然に、素早く動かしてください。</li>' +
+        '<li>操作のやり方は、最初の<b>練習</b>で画面の案内にそって覚えられます。</li></ul>',
       csvHead: "congruency,pairLabel,largerSide,correctSide",
       csvRow: (r) => `${r.congruency},${r.pairLabel},${r.largerSide},${r.correctSide}`,
       makeCell(pair, congruent, largerSide) {
@@ -384,15 +402,19 @@
     value: {
       id: "value", stimulusType: "text-choice", title: "価値・選好の2択課題",
       ratings: true, breakEvery: 0,
-      repsPerCell: 1,        // 12項目セット (価値差3×ドメイン4) × reps。既定1 = 本番12試行 (各項目1回・項目間で左右CB)。§6-3
-      practiceTrials: 2,     // 順序非依存の練習2 (§6-2。phase:'practice'、解析除外)
+      repsPerCell: 1,        // 24項目セット (価値差3×ドメイン4×各2) × reps。既定1 = 本番24試行 (各項目1回・項目間で左右CB)。§6-3
+      practiceTrials: 2,     // 練習バッチ数 (§6-2。phase:'practice'、解析除外。ゲート未達なら追加補充)
       practiceFeedback: "neutral",  // 主観選択なので正誤フィードバックはしない
+      gateStreak: 2,         // 行動ゲート: 有効ドラッグ2連続で本番解錠 (2026-07-07。主観課題なので正誤は問わない)
+      gateCorrect: false,
+      coachDrag: "指を離さずに動かして、あなたが選ぶ方のボックスの中で離します",
       introHtml:
         '<h1>価値・選好の2択課題 (パイロット)</h1>' +
         '<p>STARTボタンに指を置くと、上に2つの選択肢が出ます。<b>指を離さずに、あなたが選ぶ方のボックスへドラッグ</b>して、そこで指を離してください。</p>' +
         '<ul><li><b>正解・不正解はありません。</b>あなたの素直な選び方で構いません。</li>' +
         '<li>選んだあとに、その回答についての「自信・迷い・難しさ」を5段階でうかがいます。</li>' +
-        '<li>できるだけ自然に操作してください。</li></ul>',
+        '<li>できるだけ自然に操作してください。</li>' +
+        '<li>操作のやり方は、最初の<b>練習</b>で画面の案内にそって覚えられます。</li></ul>',
       csvHead: "domain,valueLevel,conflictType,betterSide,evDiff",
       csvRow: (r) => `${r.domain},${r.valueLevel},${r.conflictType},${r.betterSide},${r.evDiff}`,
       // 設問ステム (ドメイン別)
@@ -402,24 +424,39 @@
         food: "どちらかを食べるなら、どちらにしますか？",
         values: "どちらをより大切にしたいですか？",
       },
-      // 項目バンク (§6-3 スターター)。各 = 1セル。level: clear(大)/mid(中)/conflict(小)。
-      //   clear・conflict は §6-3 表から転記。mid は §6-3 が「価値差3段階」と定義しつつ表に未記載のため
-      //   本実装で補完 (/* mid: 要レビュー */)。バンクは「パイロットで調整」前提 (§6-3)。
-      //   better: 規範的に優位な肢 ("a"|"b"|null)。conflict は基本 null (くじは EV 高い側を記録)。
-      //   くじのみ ev (期待値・円)。evDiff を §6-4 manipulation check の客観規範に使う。
+      // 項目バンク (§6-3)。各 = 1セル。level: clear(大)/mid(中)/conflict(小)。
+      //   セルあたり 2 項目 = 24 項目 (2026-07-07 増強)。第2項目 (id 付き) はユーザーレビュー第1ラウンド
+      //   反映済 (2026-07-07)。選定原則: 同属性・同カテゴリで対比 (困惑回避) / 消費財・くじの金額偏重を
+      //   避ける (非金額項目を導入)。バンクは「パイロットで調整」前提 (§6-3)。
+      //   better: 規範的に優位な肢 ("a"|"b"|null)。conflict は基本 null (金額くじは EV 高い側を記録)。
+      //   ev (期待値・円) は金額くじのみ。賞品くじ (お菓子等) は ev なし = §6-4 の EV manipulation check
+      //   対象外 (同一賞品の確率支配 (clear) は better で表現)。
+      //   id: itemId の明示指定 (省略時 domain-level = 既存12項目の過去データ互換)。
       bank: [
-        { domain: "goods", level: "clear",    a: { label: "現金1万円" },    b: { label: "10円玉1枚" },     better: "a" },
+        { domain: "goods", level: "clear",    a: { label: "1万円札1枚" },    b: { label: "10円玉1枚" },     better: "a" }, /* 札1枚vs玉1枚の対比。ユーザー選定 2026-07-07 (旧: 現金1万円) */
+        { domain: "goods", level: "clear", id: "goods-clear-2", a: { label: "新品のイヤホン" }, b: { label: "中古のイヤホン" }, better: "a" }, /* 同一物の状態対比 (価格非提示なので新品が支配)。ユーザー選定 2026-07-07 */
         { domain: "goods", level: "mid",      a: { label: "現金9000円" },   b: { label: "商品券10000円" }, better: null }, /* mid: トレードオフ(柔軟性↔金額)。ユーザー選定 2026-06-23 */
+        { domain: "goods", level: "mid", id: "goods-mid-2", a: { label: "デザイン重視の靴" }, b: { label: "履き心地重視の靴" }, better: null }, /* mid: トレードオフ(見た目↔実用)。非金額 (金額偏重の回避、ユーザー方針 2026-07-07)。要確認 */
         { domain: "goods", level: "conflict", a: { label: "図書カード1000円" }, b: { label: "ドリンク券1000円" }, better: null, conflictType: "approach" }, /* approach: 同額(1000円)で互いに支配しない (本のみ↔飲料のみ)。ユーザー指摘 2026-06-23 */
+        { domain: "goods", level: "conflict", id: "goods-conflict-2", a: { label: "映画チケット1枚" }, b: { label: "好きな漫画1冊" }, better: null, conflictType: "approach" }, /* approach: 娯楽同士・非金額・非支配。要確認 2026-07-07 */
         { domain: "lottery", level: "clear",    a: { label: "80%で1000円", ev: 800 }, b: { label: "20%で1000円", ev: 200 }, better: "a" },
+        { domain: "lottery", level: "clear", id: "lottery-clear-2", a: { label: "90%で好きなお菓子" }, b: { label: "10%で好きなお菓子" }, better: "a" }, /* 賞品くじ (同一賞品で確率支配=ev不要)。ユーザー方針「金額だけでなくもの」2026-07-07。要確認 */
         { domain: "lottery", level: "mid",      a: { label: "70%で1000円", ev: 700 }, b: { label: "確実に500円", ev: 500 }, better: "a" }, /* mid: 要レビュー */
+        { domain: "lottery", level: "mid", id: "lottery-mid-2", a: { label: "80%で1500円", ev: 1200 }, b: { label: "確実に1000円", ev: 1000 }, better: "a" }, /* mid: EV差200で第1項目と揃える (金額くじを4項目残し §6-4 のEV規範を維持)。要レビュー 2026-07-07 */
         { domain: "lottery", level: "conflict", a: { label: "確実に500円", ev: 500 }, b: { label: "50%で1100円", ev: 550 }, better: "b", conflictType: "approach" },
-        { domain: "food", level: "clear",    a: { label: "出来たての好物" }, b: { label: "期限切れの食パン" }, better: "a" },
+        { domain: "lottery", level: "conflict", id: "lottery-conflict-2", a: { label: "確実にコーヒー1杯" }, b: { label: "50%でケーキセット" }, better: null, conflictType: "approach" }, /* 賞品くじ (価値が通約不能=真の拮抗、規範なし)。要確認 2026-07-07 */
+        { domain: "food", level: "clear",    a: { label: "出来たての好物" }, b: { label: "傷んだ好物" }, better: "a" }, /* 同一物の鮮度対比。ユーザー案は「冷めた好物」だが food-mid の選択肢と衝突するため「傷んだ」に強化 (出来たて>冷めた>傷んだ の勾配)。要確認 2026-07-07 */
+        { domain: "food", level: "clear", id: "food-clear-2", a: { label: "焼きたてのパン" }, b: { label: "伸びきった麺" }, better: "a" }, /* ユーザー選定 2026-07-07 (旧: 伸びきったラーメン) */
         { domain: "food", level: "mid",      a: { label: "出来たてのおにぎり" }, b: { label: "冷めた好物" },  better: null }, /* mid: トレードオフ(鮮度↔好み)。ユーザー選定 2026-06-23 */
+        { domain: "food", level: "mid", id: "food-mid-2", a: { label: "好物を一口だけ" }, b: { label: "普通の味で大盛り" }, better: null }, /* mid: トレードオフ(好み↔量)。要レビュー 2026-07-07 */
         { domain: "food", level: "conflict", a: { label: "ぬるい麦茶" },     b: { label: "味の薄いせんべい" }, better: null, conflictType: "avoidance" },
-        { domain: "values", level: "clear",    a: { label: "家族の健康" }, b: { label: "未読の広告メール" }, better: "a" },
+        { domain: "food", level: "conflict", id: "food-conflict-2", a: { label: "冷めたフライドポテト" }, b: { label: "ぬるいコーラ" }, better: null, conflictType: "avoidance" }, /* avoidance。ユーザー選定 2026-07-07 (旧: しなびたサラダ) */
+        { domain: "values", level: "clear",    a: { label: "家族と過ごす時間" }, b: { label: "広告動画を見る時間" }, better: "a" }, /* 同属性 (時間の使い方) で対比。ユーザー方針「同属性で比べる」2026-07-07 (旧: 家族の健康/未読の広告メール)。要確認 */
+        { domain: "values", level: "clear", id: "values-clear-2", a: { label: "親友との信頼" }, b: { label: "知らない人からのいいね" }, better: "a" }, /* 同カテゴリ (無形の対人価値) で対比。ユーザー方針 2026-07-07 (旧: 道端の小石)。要確認 */
         { domain: "values", level: "mid",      a: { label: "趣味の時間" }, b: { label: "昼寝の時間" },     better: null }, /* mid: トレードオフ(両方魅力)。ユーザー選定 2026-06-23 */
+        { domain: "values", level: "mid", id: "values-mid-2", a: { label: "旅行の楽しみ" }, b: { label: "貯金の安心" }, better: null }, /* mid: トレードオフ(体験↔安定・両方魅力)。要レビュー 2026-07-07 */
         { domain: "values", level: "conflict", a: { label: "満員電車での通勤" }, b: { label: "毎日の残業" }, better: null, conflictType: "avoidance", stem: "どちらかを選ぶなら、まだマシな方はどちらですか？" }, /* avoidance (両方避けたい)。ユーザー選定 2026-06-23 */
+        { domain: "values", level: "conflict", id: "values-conflict-2", a: { label: "真夏の停電" }, b: { label: "真冬の停電" }, better: null, conflictType: "avoidance", stem: "どちらかを選ぶなら、まだマシな方はどちらですか？" }, /* avoidance: 季節のみ変えた対称ペア。ユーザー選定 2026-07-07 (旧: 真冬の断水) */
       ],
       practiceBank: [
         { domain: "practice", a: { label: "100円もらう" }, b: { label: "1円もらう" }, better: "a", stem: "どちらが欲しいですか？" },
@@ -439,7 +476,7 @@
         return {
           domain: item.domain, valueLevel: item.level || null,
           conflictType: item.conflictType || null,
-          itemId: item.level ? `${item.domain}-${item.level}` : item.domain,
+          itemId: item.id || (item.level ? `${item.domain}-${item.level}` : item.domain),
           stem: item.stem || this.stems[item.domain] || "どちらを選びますか？",
           leftLabel: left.label, rightLabel: right.label,
           leftItemId: leftIsA ? "a" : "b", rightItemId: leftIsA ? "b" : "a",
@@ -448,8 +485,8 @@
       },
       buildMain() {
         // 左右CB は「各項目1回・項目間で均等」(= set-level CB)。同一設問を2回出さない (2026-06-23 ユーザー要望)。
-        //   価値水準ごとに a 側を 2 左/2 右に振り分け、side×水準を均衡 (G2 の水準対比に side が交絡しないように)。
-        //   反復は「12項目セットを repsPerCell 回」。既定 reps=1 → 本番 12 試行。本実験で reps を増やせば
+        //   価値水準ごとに a 側を半々 (24項目では各水準 4 左/4 右) に振り分け、side×水準を均衡 (G2 の水準対比に side が交絡しないように)。
+        //   反復は「24項目セットを repsPerCell 回」。既定 reps=1 → 本番 24 試行。本実験で reps を増やせば
         //   各項目が複数回・両側に出て within-item CB も回復する。
         const cells = [];
         for (let r = 0; r < CONFIG.repsPerCell; r++) {
@@ -556,6 +593,7 @@
     grip: null,
     block: CONFIG.block,      // 実行ブロック ("anchor" | "value")。解析側の振り分けに使う
     config: CONFIG,
+    practiceSummary: null,    // 行動ゲートの達成記録 (startMain で設定。§6-2)
     exportedAt: null,
   };
   $("devline").textContent = `${device.screenW}×${device.screenH} @${device.dpr}x`;
@@ -623,7 +661,7 @@
   let phase = "practice"; // 'practice' | 'main'
   let trialIndex = 0;     // 完了済み本番試行カウンタ
   let totalMain = 0;
-  let totalPractice = 0;
+  let streak = 0;         // 練習の連続成功数 (行動ゲート §6-2。無効試行/不正解でリセット)
   let trial = null;       // 現在試行の記録オブジェクト
   let cell = null;        // 現在の cell
   const records = [];     // 完了試行の記録 (本番のみ最終的にエクスポート対象に含める。練習も保持)
@@ -644,11 +682,26 @@
   function inRect(r, x, y) { return x >= r.left && x <= r.right && y >= r.top && y <= r.bottom; }
   function center(r) { return { cx: (r.left + r.right) / 2, cy: (r.top + r.bottom) / 2 }; }
 
+  // ===== チュートリアル (練習中のみ) =====
+  // URL 配布 = 無監督実施のため、ルールは冒頭テキストではなく練習中の段階的コーチングで教える (2026-07-07)。
+  // 注意: 経路の形 (「まっすぐ」等) は絶対に示唆しない — 曲率が従属変数のため、教えるのは
+  //   「押さえたまま → 運ぶ → ボックスの中で離す」という操作の仕組みだけ (experiment-design §6-2)。
+  function setCoach(stage) {   // 'start': START を強調 / 'drag': 選択肢を強調 / null: 解除
+    startBtn.classList.toggle("coach-pulse", stage === "start");
+    choiceA.classList.toggle("coach-pulse", stage === "drag");
+    choiceB.classList.toggle("coach-pulse", stage === "drag");
+  }
+  function coachMsg(html) { $("taskMsg").innerHTML = '<span class="coach">' + html + "</span>"; }
+
   // ===== 試行の呈示 =====
   function nextTrial() {
     if (queue.length === 0) {
-      if (phase === "practice") { endPractice(); return; }
-      showPostQuestions(); return;   // 本番終了 → 事後アンケート → finishSession
+      if (phase === "practice") {
+        // 練習終了はゲート達成 (showPracticeFeedback) が決める。キューが尽きたら補充してループ
+        queue = BLOCK.buildPractice(Math.max(CONFIG.practiceTrials, BLOCK.gateStreak));
+      } else {
+        showPostQuestions(); return;   // 本番終了 → 事後アンケート → finishSession
+      }
     }
     cell = queue.shift();
     aborts = 0;
@@ -663,7 +716,14 @@
   }
 
   function presentStimulus() {
-    $("taskMsg").textContent = "";
+    // 練習中はコーチング表示 (ステップ1: START を押さえたまま)。本番は一切出さない
+    if (phase === "practice") {
+      coachMsg("STARTを指で<b>押さえたまま</b>にします");
+      setCoach("start");
+    } else {
+      $("taskMsg").textContent = "";
+      setCoach(null);
+    }
     // 刺激内容はブロック別に描画。START 押下まで隠す (= stimulus onset を down に定義)
     BLOCK.renderStimulus(cell);
     numA.style.visibility = "hidden";
@@ -673,7 +733,7 @@
     startBtn.textContent = "START";
     $("phaseLabel").textContent = phase === "practice" ? "練習" : "本番";
     $("counter").textContent = phase === "practice"
-      ? `${totalPractice - queue.length} / ${totalPractice}`
+      ? `連続成功 ${streak} / ${BLOCK.gateStreak}`
       : `${trialIndex + 1} / ${totalMain}`;
     recording = false;
     uiLocked = false;
@@ -697,7 +757,9 @@
   surface.addEventListener("pointerdown", (e) => {
     if (recording || uiLocked) return;           // 進行中 (マルチタッチ二本目) / 遷移待ち中は無視
     if (!inRect(rectOf(startBtn), e.clientX, e.clientY)) {
-      $("taskMsg").textContent = "STARTから始めてください";
+      // 練習中は原因別コーチング (ボックス直タップ等のありがちな誤操作)。本番は従来の短い注意のみ
+      if (phase === "practice") coachMsg("まずSTARTを指で押さえます。<br>ボックスはタップではなく、指をつけたまま動かして選びます");
+      else $("taskMsg").textContent = "STARTから始めてください";
       return;
     }
     e.preventDefault();
@@ -730,6 +792,8 @@
     };
     pushEvent(e, "down");
     revealStimulus();
+    // 練習中はステップ2: 離さず運んでボックス内で離す (文言はブロック別。経路の形は指示しない)
+    if (phase === "practice") { coachMsg(BLOCK.coachDrag); setCoach("drag"); }
     clearCanvas();
     ctx.beginPath();
     ctx.moveTo(e.clientX - sRect.left, e.clientY - sRect.top);
@@ -772,9 +836,17 @@
     retryTrial("中断されました");
   }, { passive: false });
 
-  function retryTrial(msg) {
+  function retryTrial(msg, coachHtml) {
     aborts++;
-    $("taskMsg").textContent = (msg || "やり直し") + " — STARTからもう一度";
+    if (phase === "practice") {
+      // 練習中: 無効試行は連続成功をリセットし、原因別のコーチングを出して同一刺激からやり直し
+      streak = 0;
+      $("counter").textContent = `連続成功 ${streak} / ${BLOCK.gateStreak}`;
+      coachMsg((coachHtml || msg || "やり直し") + "<br>STARTからもう一度");
+      setCoach("start");
+    } else {
+      $("taskMsg").textContent = (msg || "やり直し") + " — STARTからもう一度";
+    }
     // 同一刺激を再呈示 (デザインのバランス維持)。少し待って再表示
     numA.style.visibility = "hidden";
     numB.style.visibility = "hidden";
@@ -791,7 +863,13 @@
     else if (inRect(rectOf(choiceB), e.clientX, e.clientY)) choiceSide = "right";
 
     if (choiceSide === null || disp.length < CONFIG.minPoints) {
-      retryTrial(choiceSide === null ? "ボックスの中で指を離してください" : "短すぎます");
+      // 練習中は失敗原因を切り分けてコーチング (START から動かず離した=タップ / 途中で離した / 速すぎ)
+      const coach = !leftStart
+        ? "タップではなくドラッグです。<br>STARTを<b>押さえたまま</b>、ボックスまで動かします"
+        : (choiceSide === null
+          ? "指が途中で離れました。<br><b>ボックスの中まで</b>指をつけたまま動かしてから離します"
+          : "指を離すのが早すぎました。<br>指をつけたままボックスまで動かします");
+      retryTrial(choiceSide === null ? "ボックスの中で指を離してください" : "短すぎます", coach);
       return;
     }
 
@@ -831,17 +909,30 @@
 
   function showPracticeFeedback() {
     uiLocked = true;   // フィードバック表示中の START 再押下を無効化
+    setCoach(null);
+    // 行動ゲート更新: 有効ドラッグ (+客観課題は正解) で連続成功+1、不正解でリセット (無効試行は retryTrial 側)
+    const pass = BLOCK.gateCorrect ? trial.correct === true : true;
+    streak = pass ? streak + 1 : 0;
+    let head;
     if (BLOCK.practiceFeedback === "correct") {
-      const ok = trial.correct;   // 客観正誤がある課題 (アンカー) のみ正誤を出す
-      $("taskMsg").innerHTML = `<span class="feedback ${ok ? "ok" : "ng"}">${ok ? "正解" : "ちがいます"}</span>`;
+      head = trial.correct
+        ? '<span class="feedback ok">正解</span>'
+        : '<span class="feedback ng">ちがいます — 数の大きい方のボックスへ</span>';
     } else {
       // 主観選択 (価値・選好) は正誤がないので中立フィードバックのみ
-      $("taskMsg").innerHTML = `<span class="feedback ok">記録しました</span>`;
+      head = '<span class="feedback ok">記録しました</span>';
     }
+    const remain = BLOCK.gateStreak - streak;
+    $("taskMsg").innerHTML = remain > 0
+      ? head + `<br><span class="coach">あと${remain}回つづけて成功すると本番です</span>`
+      : head;
+    $("counter").textContent = `連続成功 ${Math.min(streak, BLOCK.gateStreak)} / ${BLOCK.gateStreak}`;
     numA.style.visibility = "hidden";
     numB.style.visibility = "hidden";
     stemEl.style.visibility = "hidden";
-    setTimeout(() => nextTrial(), 750);
+    // ゲート達成で練習終了 (残りキューは破棄)。未達なら次の練習試行へ (キューは nextTrial が補充)。
+    // 不正解時はコーチングを読む時間を長めに取る
+    setTimeout(() => { streak >= BLOCK.gateStreak ? endPractice() : nextTrial(); }, pass ? 1100 : 1800);
   }
 
   // ===== 評定 (3項目を1画面に提示) =====
@@ -907,35 +998,42 @@
       device.sex != null && device.handedness != null;
   }
   function refreshIntro() {
-    const ok = introReady();
-    $("goPractice").disabled = !ok;
-    $("goMain").disabled = !ok;
+    $("goPractice").disabled = !introReady();
   }
 
   function startPractice() {
     clearBackup();  // 復旧チャンスは intro 画面まで。開始したら前回分は破棄
     captureIntro();
     phase = "practice";
+    streak = 0;
     queue = BLOCK.buildPractice(CONFIG.practiceTrials);
-    totalPractice = queue.length;
     sizeCanvas();
-    if (queue.length === 0) { startMain(); return; }
+    if (queue.length === 0) { startMain(); return; }  // ?practice=0 (開発用) のみ練習スキップ
     nextTrial();
   }
   function endPractice() {
     uiLocked = true;   // 本番開始までの遷移中も START 無効
+    setCoach(null);
     show("task");
-    $("phaseLabel").textContent = "練習終了";
+    $("phaseLabel").textContent = "練習クリア";
     $("counter").textContent = "";
     numA.style.visibility = "hidden"; numB.style.visibility = "hidden";
     stemEl.style.visibility = "hidden";
     startBtn.classList.remove("armed"); startBtn.textContent = "START";
-    $("taskMsg").innerHTML = '練習終了。本番を始めます…';
-    setTimeout(() => startMain(), 1000);
+    $("taskMsg").innerHTML = '<span class="feedback ok">練習クリア！</span><br><span class="coach">ここからが本番です。やり方は同じです</span>';
+    setTimeout(() => startMain(), 1600);
   }
   function startMain() {
     clearBackup();  // 本番開始前は今セッションのバックアップ未作成なので無条件で前回分を破棄してよい
     if (!device.participantId) captureIntro();
+    // 練習サマリ (行動ゲートの達成記録。理解確認の証跡 + データ品質共変量。§6-2)
+    const prac = records.filter((r) => r.phase === "practice");
+    device.practiceSummary = {
+      gateStreak: BLOCK.gateStreak, gateCorrect: BLOCK.gateCorrect,
+      trials: prac.length,
+      aborts: prac.reduce((s, r) => s + (r.aborts || 0), 0), // 各完了試行の trial.aborts に集約済み
+      skipped: prac.length === 0,   // ?practice=0 (開発用) でのみ true
+    };
     phase = "main";
     trialIndex = 0;
     queue = BLOCK.buildMain();
@@ -1122,7 +1220,6 @@
   refreshIntro();   // 初期は未記入なので開始ボタンを無効化
 
   $("goPractice").addEventListener("click", startPractice, { passive: true });
-  $("goMain").addEventListener("click", startMain, { passive: true });
   $("ratingSubmit").addEventListener("click", submitRating, { passive: true });
   $("breakContinue").addEventListener("click", () => presentStimulus(), { passive: true });
   $("postSubmit").addEventListener("click", () => {
@@ -1139,6 +1236,10 @@
       hasBackup: () => loadBackup() != null,
       block: () => CONFIG.block,
       ratingsOn: () => CONFIG.ratings,
+      // 行動ゲートの検証用 (validate.js が練習で正解側を狙う/ゲート状態を確認するのに使う)
+      phase: () => phase,
+      streak: () => streak,
+      correctSide: () => (cell && (cell.correctSide || cell.betterSide)) || null,
     };
   }
 
