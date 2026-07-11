@@ -19,6 +19,8 @@
              block('anchor'|'value'), config,
              age, sex, handedness,            // 事前アンケート (特性。必須。性別は na=回答しない可)
              grip,                             // 事後アンケート (持ち方+操作を1問に。課題後に回顧で取得)
+             survey:                           // 事後アンケート UI/負担 (②③=評定ブロックのみ。anchor は null)
+               {problems:[slug…], ease('easy'|'ok'|'hard'), free},  // free=その他選択時のみ表示・必須の自由記述
              practiceSummary:                  // 練習の行動ゲート達成記録 (理解確認の証跡 + 品質共変量)
                {gateStreak, gateCorrect, trials, aborts, skipped}},
     trials: [ {
@@ -30,8 +32,14 @@
       domain('goods'|'lottery'|'food'|'values'), valueLevel('clear'|'mid'|'conflict'),
       conflictType('approach'|'avoidance'|null), itemId, leftLabel, rightLabel,
       leftItemId, rightItemId, betterSide, evLeft, evRight, evDiff, stem,
+      // --- ③ moral (text-choice) のメタ (experiment-design §6-5) ---
+      moralType('sacrifice'|'honesty'|'loyalty'|'care'), conflictLevel('clear'|'mid'|'conflict'),
+      itemId, leftLabel, rightLabel, leftItemId, rightItemId, betterSide, stem,  // better は明確のみ・中/拮抗 null
+      // --- ⑤ 注意チェック (isCheck 付き。experiment-design §6-5。主解析からは除外) ---
+      isCheck('dqs'|'infreq'|'imc'), checkAnswerSide('left'|'right'), leftLabel, rightLabel, stem,
+      post_check(true=弱DQS直後の本試行。警戒モード汚染を感度分析で除外可能に),
       // --- 共通 ---
-      choiceSide, correct,   // correct: anchor=正誤 / value=規範(高価値/高EV)整合。拮抗で規範なしは null
+      choiceSide, correct,   // correct: anchor=正誤 / value=規範(高価値/高EV)整合 / moral=規範(明確のみ)。規範なしは null
       stimulusOnsetT, initiationT, responseT, rt_proxy_ms, mt_proxy_ms, total_ms,
       dispHz, nDispatched, nCoalesced, aborts,
       ratings: {confidence:{value,rt_ms}, hesitation:{...}, difficulty:{...}}, ratingSubmitMs,
@@ -75,6 +83,14 @@
   .seg.seg-v { flex-direction: column; }
   .seg.seg-v button { flex: none; width: 100%; min-width: 0; text-align: left; padding: 14px 14px; }
   .opt-note { font-size: 12px; color: #789; margin-top: 2px; }
+  /* 事後アンケートの複数選択チェック (②③ = 評定ブロックのみ表示。seg は単一選択なので別クラス) */
+  .checks { display: flex; flex-direction: column; gap: 8px; }
+  .checks .chk { position: relative; width: 100%; text-align: left; padding: 13px 12px 13px 40px;
+    font-size: 14px; border-radius: 10px; border: 2px solid #557; color: #cdf; background: #1c2030; }
+  .checks .chk::before { content: ""; position: absolute; left: 12px; top: 50%; margin-top: -9px;
+    width: 18px; height: 18px; border: 2px solid #789; border-radius: 4px; box-sizing: border-box; }
+  .checks .chk.sel { border-color: #2f7; color: #cfe; background: rgba(34,255,119,0.10); }
+  .checks .chk.sel::before { background: #2f7; border-color: #2f7; }
   .btn { display: inline-flex; align-items: center; justify-content: center;
     padding: 14px 22px; font-size: 16px; font-weight: bold; border-radius: 10px;
     border: 2px solid #4a9; color: #4a9; background: rgba(68,170,153,0.10); margin-top: 16px; }
@@ -93,7 +109,11 @@
     --start-bottom: 12%; /* START の下端からの距離 (小さいほど下=親指の根元寄り) */
   }
   /* 文字2択 (②) はラベルが長く改行で読みにくいので、ボックスを広く取り改行を減らす (数値① は既定のまま) */
-  body.block-value { --choice-w: 40vmin; --choice-h: 26vmin; --choice-side: 4%; }
+  body.block-value, body.block-moral, body.block-attn { --choice-w: 40vmin; --choice-h: 26vmin; --choice-side: 4%; }
+  /* 道徳ジレンマ/注意チェックは文が長いが、高齢者手前の参加者も読むので読みやすさ優先で大きめに保つ。
+     ステム帯 6–25% (19%) に 60–65字が 3–4 行で収まる想定 (実機確認は §6-5 宿題)。
+     --choice-top/--start-bottom は value と同一＝軌道幾何を揃える (§6-2)。 */
+  body.block-moral #stem, body.block-attn #stem { font-size: 4vmin; line-height: 1.3; }
   #task { background: #0e0e0e; touch-action: none; }
   #topbar { position: absolute; top: 0; left: 0; right: 0; height: 5%;
     display: flex; align-items: center; justify-content: center; gap: 14px;
@@ -294,6 +314,14 @@
   </div>
 </section>
 
+<!-- ===== BLOCK INTRO (②③統合セッションのブロック間遷移: 次パートの説明 → 続けるで練習へ) ===== -->
+<section id="blockintro" class="screen">
+  <div class="pad">
+    <div id="blockintroBody"></div>
+    <button class="btn primary" id="blockintroGo">続ける</button>
+  </div>
+</section>
+
 <!-- ===== POST (事後質問: 直前の操作を回顧で。事前に聞くと操作を意識させ自然な使い方が崩れるため) ===== -->
 <section id="postq" class="screen">
   <div class="pad">
@@ -308,6 +336,37 @@
         <button type="button" data-val="on_table">机などに置いて、指で操作</button>
       </div>
     </div>
+
+    <!-- 事後アンケート (UI/負担。②③=評定ブロックのみ表示。G4 負担の主観版裏付け + 改善材料。pilot2-design-notes) -->
+    <div id="surveyBlock" style="display:none">
+      <h2>使いにくかった点・改善してほしい点</h2>
+      <p class="opt-note">当てはまるものをすべてお選びください（複数選択可）。無ければ「特に困らなかった」を選んでください。</p>
+      <div class="checks" id="surveyProblems">
+        <button type="button" class="chk" data-val="rating_burden">評定の回答が多くて負担だった</button>
+        <button type="button" class="chk" data-val="trial_fatigue">試行数が多くて疲れた・長く感じた</button>
+        <button type="button" class="chk" data-val="drag_hard">ドラッグして選ぶ操作がやりにくかった</button>
+        <button type="button" class="chk" data-val="ui_hard">文字・ボタン・画面が見づらい／押しにくかった</button>
+        <button type="button" class="chk" data-val="tutorial_unclear">チュートリアル・練習の説明がわかりにくかった</button>
+        <button type="button" class="chk" data-val="stem_unclear">設問文がわかりにくかった</button>
+        <button type="button" class="chk" data-val="choice_hard">2択のどちらも選びにくいことがあった</button>
+        <button type="button" class="chk" data-val="device_slow">スマホの動作が重い・反応しなかった</button>
+        <button type="button" class="chk" data-val="none">特に困らなかった</button>
+        <button type="button" class="chk" data-val="other">その他</button>
+      </div>
+      <div class="field" id="surveyFreeField" style="display:none">
+        <label for="surveyFree">「その他」の内容（必須）</label>
+        <input type="text" id="surveyFree" maxlength="300" placeholder="具体的にお書きください">
+      </div>
+      <h2>ドラッグで選ぶ操作はしやすかったですか</h2>
+      <div class="field">
+        <div class="seg" id="surveyEaseSeg">
+          <button type="button" data-val="easy">しやすい</button>
+          <button type="button" data-val="ok">普通</button>
+          <button type="button" data-val="hard">しにくい</button>
+        </div>
+      </div>
+    </div>
+
     <button class="btn primary" id="postSubmit" disabled>完了する</button>
   </div>
 </section>
@@ -317,6 +376,7 @@
   <div class="pad">
     <h1>完了しました</h1>
     <p id="doneMsg">ご協力ありがとうございました。</p>
+    <div id="debrief" style="display:none"></div>
     <div class="mono" id="summary"></div>
     <div class="mono" id="uploadStatus"></div>
     <div class="btnrow" id="exportRow">
@@ -350,6 +410,38 @@
   // 練習は必須 (2026-07-07: UI からのスキップ導線は廃止。チュートリアル+行動ゲート付き)。
   //   ?practice=0 は練習ごとスキップする開発用の抜け道 — 配布 URL には絶対に付けない。
   const debugMode = new URLSearchParams(location.search).get("debug") === "1";
+
+  // ===== 注意チェック (⑤ careless ラベル。experiment-design §6-5。combo 既定ON、?attn=0/1 で切替) =====
+  // 弱DQS: ②③の 1/3・2/3 に埋め込む instructed-choice (指示側CB・中立ラベル・埋め込み先ブロックの評定を継承)。
+  //   DQS 直後の本試行は post_check フラグ (警戒モードの汚染を感度分析で除外可能に。§6-2)。
+  // 末尾ミニブロック (attn): infrequency + 強IMC (欺瞞・評定OFF・末尾隔離)。強IMC は done でデブリーフィング。
+  // careless ラベル = 各 check の失敗数 (二値化は analysis-plan で事前固定)。isCheck 試行は主解析から除外。
+  const ATTN = {
+    infreq: { stem: "私はこれまで一度もスマートフォンを使ったことがない", yes: "はい", no: "いいえ" }, // スマホ回答中=「いいえ」が一意
+    imc: { stem: "（よく読んでお答えください）ここまで読んだ方は、質問の内容にかかわらず「いいえ」を選んでください。あなたは今、集中して回答していますか？", yes: "はい", no: "いいえ" }, // 注意して読めば「いいえ」
+  };
+  // 弱DQS (instructed choice): 指示された「側」へドラッグできたか。中立ラベル、答えは位置(指示側)。
+  function makeDqsCell(instructedSide) {
+    return {
+      isCheck: "dqs",
+      stem: `確認のため、ここでは【${instructedSide === "left" ? "左" : "右"}】の選択肢を選んでください`,
+      leftLabel: "りんご", rightLabel: "みかん", checkAnswerSide: instructedSide,
+    };
+  }
+  // infrequency / 強IMC: 注意して読めば「いいえ」。はい/いいえの左右はCB。
+  function makeCheckCell(type) {
+    const c = ATTN[type];
+    const noLeft = Math.random() < 0.5;
+    return {
+      isCheck: type, stem: c.stem,
+      leftLabel: noLeft ? c.no : c.yes, rightLabel: noLeft ? c.yes : c.no,
+      checkAnswerSide: noLeft ? "left" : "right",   // 正答(=注意して読んだ側) = 「いいえ」の側
+    };
+  }
+  function checkMeta(cell) {
+    return { isCheck: cell.isCheck, checkAnswerSide: cell.checkAnswerSide,
+      leftLabel: cell.leftLabel, rightLabel: cell.rightLabel, stem: cell.stem };
+  }
 
   // ===== ブロック定義 =====
   // 共通エンジン (Pointer Events 記録・回収・評定UI・復旧) はブロック非依存。ここがブロックごとの差分:
@@ -463,25 +555,25 @@
         { domain: "goods", level: "clear",    a: { label: "1万円札1枚" },    b: { label: "10円玉1枚" },     better: "a" }, /* 札1枚vs玉1枚の対比。ユーザー選定 2026-07-07 (旧: 現金1万円) */
         { domain: "goods", level: "clear", id: "goods-clear-2", a: { label: "新品のイヤホン" }, b: { label: "中古のイヤホン" }, better: "a" }, /* 同一物の状態対比 (価格非提示なので新品が支配)。ユーザー選定 2026-07-07 */
         { domain: "goods", level: "mid",      a: { label: "現金9000円" },   b: { label: "商品券10000円" }, better: null }, /* mid: トレードオフ(柔軟性↔金額)。ユーザー選定 2026-06-23 */
-        { domain: "goods", level: "mid", id: "goods-mid-2", a: { label: "デザイン重視の靴" }, b: { label: "履き心地重視の靴" }, better: null }, /* mid: トレードオフ(見た目↔実用)。非金額 (金額偏重の回避、ユーザー方針 2026-07-07)。要確認 */
+        { domain: "goods", level: "mid", id: "goods-mid-2", a: { label: "デザイン重視の靴" }, b: { label: "履き心地重視の靴" }, better: null }, /* mid: トレードオフ(見た目↔実用)。非金額 (金額偏重の回避、ユーザー方針 2026-07-07)。承認済 2026-07-07 R2 */
         { domain: "goods", level: "conflict", a: { label: "図書カード1000円" }, b: { label: "ドリンク券1000円" }, better: null, conflictType: "approach" }, /* approach: 同額(1000円)で互いに支配しない (本のみ↔飲料のみ)。ユーザー指摘 2026-06-23 */
-        { domain: "goods", level: "conflict", id: "goods-conflict-2", a: { label: "映画チケット1枚" }, b: { label: "好きな漫画1冊" }, better: null, conflictType: "approach" }, /* approach: 娯楽同士・非金額・非支配。要確認 2026-07-07 */
+        { domain: "goods", level: "conflict", id: "goods-conflict-2", a: { label: "映画チケット1枚" }, b: { label: "好きな漫画1冊" }, better: null, conflictType: "approach" }, /* approach: 娯楽同士・非金額・非支配。承認済 2026-07-07 R2 */
         { domain: "lottery", level: "clear",    a: { label: "80%で1000円", ev: 800 }, b: { label: "20%で1000円", ev: 200 }, better: "a" },
-        { domain: "lottery", level: "clear", id: "lottery-clear-2", a: { label: "90%でアイス" }, b: { label: "10%でガム" }, better: "a" }, /* 賞品くじ (確率も賞品も a が優位=二重支配、ev不要)。同一賞品×確率違いは不自然とのレビューで差し替え 2026-07-07 R2。要確認 */
-        { domain: "lottery", level: "mid",      a: { label: "70%で1000円", ev: 700 }, b: { label: "確実に500円", ev: 500 }, better: "a" }, /* mid: 要レビュー */
+        { domain: "lottery", level: "clear", id: "lottery-clear-2", a: { label: "90%でアイス" }, b: { label: "10%でガム" }, better: "a" }, /* 賞品くじ (確率も賞品も a が優位=二重支配、ev不要)。同一賞品×確率違いは不自然とのレビューで差し替え 2026-07-07 R2。承認済 (R3 で24項目完全確定) */
+        { domain: "lottery", level: "mid",      a: { label: "70%で1000円", ev: 700 }, b: { label: "確実に500円", ev: 500 }, better: "a" }, /* mid: EVトレードオフ(700↔500)。ユーザー選定 2026-06-23 */
         { domain: "lottery", level: "mid", id: "lottery-mid-2", a: { label: "70%でジュース2本" }, b: { label: "確実にジュース1本" }, better: null }, /* 賞品くじ (量×リスクのトレードオフ)。旧「80%で1500円/確実に1000円」は EV差200 が mid-1 と重複+金額ばかりで味気ないとのレビューで転換 2026-07-07 R3。金額くじは3項目 (EV差600/200/50) で §6-4 EV規範を維持 */
         { domain: "lottery", level: "conflict", a: { label: "確実に500円", ev: 500 }, b: { label: "50%で1100円", ev: 550 }, better: "b", conflictType: "approach" },
-        { domain: "lottery", level: "conflict", id: "lottery-conflict-2", a: { label: "確実にコーヒー1杯" }, b: { label: "50%でケーキセット" }, better: null, conflictType: "approach" }, /* 賞品くじ (価値が通約不能=真の拮抗、規範なし)。要確認 2026-07-07 */
+        { domain: "lottery", level: "conflict", id: "lottery-conflict-2", a: { label: "確実にコーヒー1杯" }, b: { label: "50%でケーキセット" }, better: null, conflictType: "approach" }, /* 賞品くじ (価値が通約不能=真の拮抗、規範なし)。承認済 2026-07-07 R2 */
         { domain: "food", level: "clear",    a: { label: "出来たての好物" }, b: { label: "冷めた好物" }, better: "a" }, /* 同一物の鮮度対比。food-mid にも「冷めた好物」が出るが「選択肢が同じでも問題は別」としてユーザー確定 2026-07-07 R2 */
         { domain: "food", level: "clear", id: "food-clear-2", a: { label: "焼きたてのパン" }, b: { label: "伸びきった麺" }, better: "a" }, /* ユーザー選定 2026-07-07 (旧: 伸びきったラーメン) */
         { domain: "food", level: "mid",      a: { label: "出来たてのおにぎり" }, b: { label: "冷めた好物" },  better: null }, /* mid: トレードオフ(鮮度↔好み)。ユーザー選定 2026-06-23 */
-        { domain: "food", level: "mid", id: "food-mid-2", a: { label: "好物を一口だけ" }, b: { label: "普通の味で大盛り" }, better: null }, /* mid: トレードオフ(好み↔量)。要レビュー 2026-07-07 */
+        { domain: "food", level: "mid", id: "food-mid-2", a: { label: "好物を一口だけ" }, b: { label: "普通の味で大盛り" }, better: null }, /* mid: トレードオフ(好み↔量)。承認済 2026-07-07 (R3 で24項目完全確定) */
         { domain: "food", level: "conflict", a: { label: "ぬるい麦茶" },     b: { label: "味の薄いせんべい" }, better: null, conflictType: "avoidance" },
         { domain: "food", level: "conflict", id: "food-conflict-2", a: { label: "冷めたポテト" }, b: { label: "ぬるいコーラ" }, better: null, conflictType: "avoidance" }, /* avoidance。ユーザー選定 2026-07-07 (ラベル短縮方針で フライドポテト→ポテト、R3) */
         { domain: "values", level: "clear",    a: { label: "家族との時間" }, b: { label: "広告を見る時間" }, better: "a" }, /* 同属性 (時間の使い方) で対比。ラベル短縮 2026-07-07 R3 (ボックス幅制約) */
         { domain: "values", level: "clear", id: "values-clear-2", a: { label: "親友との信頼" }, b: { label: "他人からのいいね" }, better: "a" }, /* 同カテゴリ (無形の対人価値) で対比。ラベル短縮 2026-07-07 R3 */
         { domain: "values", level: "mid",      a: { label: "趣味の時間" }, b: { label: "昼寝の時間" },     better: null }, /* mid: トレードオフ(両方魅力)。ユーザー選定 2026-06-23 */
-        { domain: "values", level: "mid", id: "values-mid-2", a: { label: "旅行の楽しみ" }, b: { label: "貯金の安心" }, better: null }, /* mid: トレードオフ(体験↔安定・両方魅力)。要レビュー 2026-07-07 */
+        { domain: "values", level: "mid", id: "values-mid-2", a: { label: "旅行の楽しみ" }, b: { label: "貯金の安心" }, better: null }, /* mid: トレードオフ(体験↔安定・両方魅力)。承認済 2026-07-07 (R3 で24項目完全確定) */
         { domain: "values", level: "conflict", a: { label: "満員電車での通勤" }, b: { label: "毎日の残業" }, better: null, conflictType: "avoidance", stem: "どちらかを選ぶなら、まだマシな方はどちらですか？" }, /* avoidance (両方避けたい)。ユーザー選定 2026-06-23 */
         { domain: "values", level: "conflict", id: "values-conflict-2", a: { label: "真夏の停電" }, b: { label: "真冬の停電" }, better: null, conflictType: "avoidance", stem: "どちらかを選ぶなら、まだマシな方はどちらですか？" }, /* avoidance: 季節のみ変えた対称ペア。ユーザー選定 2026-07-07 (旧: 真冬の断水) */
       ],
@@ -559,22 +651,168 @@
         return `評定完了: ${rated} / ${main.length}`;
       },
     },
+
+    // ③ 道徳ジレンマ: 文字2択 (Stage 2。評定ON。experiment-design §6-5。②と同型・text-choice エンジン流用)
+    moral: {
+      id: "moral", stimulusType: "text-choice", title: "道徳的な判断の2択課題",
+      ratings: true, breakEvery: 0,
+      repsPerCell: 1,        // 12項目 (4類型×3葛藤水準) × reps。既定1 = 本番12試行 (各項目1回・項目間で左右CB)。§6-5
+      practiceTrials: 2,
+      practiceFeedback: "neutral",  // 主観判断なので正誤フィードバックはしない
+      gateStreak: 2,         // 行動ゲート: 有効ドラッグ2連続で本番解錠 (主観課題なので正誤は問わない)
+      gateCorrect: false,
+      coachDrag: 'そのまま<b>指を離さずに</b>、光っている<br>2つのうち<b>あなたが選ぶ方</b>まで運び、<br>ボックスの<b>中で指を離します</b>',
+      introHtml:
+        '<h1>道徳的な判断の2択課題 (パイロット)</h1>' +
+        '<p>STARTボタンに指を置くと、上に短い場面と2つの選択肢が出ます。<b>指を離さずに、あなたが選ぶ方のボックスへドラッグ</b>して、そこで指を離してください。</p>' +
+        '<ul><li><b>正解・不正解はありません。</b>あなたの素直な判断で構いません。</li>' +
+        '<li>気持ちが揺れる場面が含まれます。答えたくないと感じたら、いつでも中断してかまいません。</li>' +
+        '<li>選んだあとに、その回答についての「自信・迷い・難しさ」を5段階でうかがいます。</li>' +
+        '<li>操作のやり方は、最初の<b>練習</b>で画面の案内にそって覚えられます。</li></ul>',
+      csvHead: "moralType,conflictLevel,betterSide",
+      csvRow: (r) => `${r.moralType},${r.conflictLevel},${r.betterSide}`,
+      defaultStem: "あなたならどうしますか？",
+      // 項目バンク (§6-5・SSOT はそちら)。各 = 1セル。mtype: 4類型 / level: clear(明確・葛藤小)/mid(中)/conflict(拮抗・葛藤大)。
+      //   stem = 場面文 (40–70字)。better: 規範優位肢 ("a"|null)。明確のみ better 定義、中/拮抗は null (葛藤で規範一意でない)。
+      //   拮抗は R1/R2 でユーザー指示により重く改訂 (2026-07-08)。人的犠牲のトロッコ類似は Greene の personal/impersonal 統制で意図的。
+      bank: [
+        { mtype: "sacrifice", level: "clear",    stem: "暴走電車が5人に向かう。レバーを引けば電車は別の線路にそれ、そちらに人はいない。", a: { label: "レバーを引く" }, b: { label: "何もしない" }, better: "a" },
+        { mtype: "sacrifice", level: "mid",      stem: "暴走電車が5人に向かう。レバーを引けば別の線路にそれるが、そこにいる作業員1人が犠牲になる。", a: { label: "レバーを引く" }, b: { label: "何もしない" }, better: null },
+        { mtype: "sacrifice", level: "conflict", stem: "暴走電車が5人の子どもに向かう。歩道橋で隣にいる大柄な人をあなたの手で突き落とせば、電車は止まり子どもたちは助かる。", a: { label: "突き落とす" }, b: { label: "何もしない" }, better: null },
+        { mtype: "honesty",   level: "clear",    stem: "レジで店員が誤ってお釣りを1万円多く渡した。あなたは気づいている。", a: { label: "店員に伝える" }, b: { label: "黙って受け取る" }, better: "a" },
+        { mtype: "honesty",   level: "mid",      stem: "友人が作ってくれた手料理が正直おいしくない。「どうだった?」と感想を聞かれた。", a: { label: "正直に言う" }, b: { label: "おいしいと言う" }, better: null },
+        { mtype: "honesty",   level: "conflict", stem: "親友の結婚式当日、新郎に隠された不倫の証拠を偶然見つけた。式はもう始まろうとしている。", a: { label: "式の前に伝える" }, b: { label: "黙っておく" }, better: null },
+        { mtype: "loyalty",   level: "clear",    stem: "資格試験の会場で、隣の見知らぬ受験生がカンニングしているのに気づいた。", a: { label: "試験官に伝える" }, b: { label: "見て見ぬふり" }, better: "a" },
+        { mtype: "loyalty",   level: "mid",      stem: "親しい同僚が、在宅勤務中ほとんど働かず遊んでいるのに、忙しいふりをしてあなたと同じ給料・評価を得ている。", a: { label: "上司に伝える" }, b: { label: "黙っている" }, better: null },
+        { mtype: "loyalty",   level: "conflict", stem: "実の兄が会社ぐるみの不正に関わっていると知った。通報すれば多くの被害者は救われるが、兄は逮捕され兄の家族は生活を失う。", a: { label: "通報する" }, b: { label: "黙っている" }, better: null },
+        { mtype: "care",      level: "clear",    stem: "優先席に座るあなたの前に、立つのがつらそうな高齢者が来た。席は空いていない。", a: { label: "席を譲る" }, b: { label: "座り続ける" }, better: "a" },
+        { mtype: "care",      level: "mid",      stem: "人気店の長い行列で、後ろの人が「子どもが高熱で急いでいる」と順番を譲ってほしいと頼んできた。", a: { label: "順番を譲る" }, b: { label: "断る" }, better: null },
+        { mtype: "care",      level: "conflict", stem: "余命わずかの親友が入院先で「最後にこれが食べたい」と、医師に固く止められた食べ物を頼んできた。食べれば容体が急変する恐れもある。", a: { label: "持っていく" }, b: { label: "断る" }, better: null },
+      ],
+      practiceBank: [
+        // 1問目=明確 (操作の習得)、2問目=軽いトレードオフ (評定リハーサルで尺度の両側を1回ずつ)。本番12項目とは非重複・重い内容は避ける
+        { mtype: "practice", stem: "道で他人の財布を拾った。中には現金が入っている。", a: { label: "交番に届ける" }, b: { label: "そのままにする" }, better: "a" },
+        { mtype: "practice", stem: "休日の予定を決める。どちらの過ごし方にするか。", a: { label: "家でゆっくり" }, b: { label: "外に出かける" }, better: null },
+      ],
+      makeCell(item, aSide) {
+        const leftIsA = aSide === "left";
+        const left = leftIsA ? item.a : item.b;
+        const right = leftIsA ? item.b : item.a;
+        let betterSide = null;
+        if (item.better === "a") betterSide = leftIsA ? "left" : "right";
+        else if (item.better === "b") betterSide = leftIsA ? "right" : "left";
+        return {
+          moralType: item.mtype, conflictLevel: item.level || null,
+          itemId: item.id || (item.level ? `${item.mtype}-${item.level}` : item.mtype),
+          stem: item.stem || this.defaultStem,
+          leftLabel: left.label, rightLabel: right.label,
+          leftItemId: leftIsA ? "a" : "b", rightItemId: leftIsA ? "b" : "a",
+          betterSide,
+        };
+      },
+      buildMain() {
+        // 左右CB: 各項目1回・水準内で a 側を半々 (各水準4項目=2左/2右、side×水準を均衡)。§6-5・②と同型
+        const cells = [];
+        for (let r = 0; r < CONFIG.repsPerCell; r++) {
+          const byLevel = {};
+          for (const item of this.bank) (byLevel[item.level] = byLevel[item.level] || []).push(item);
+          for (const level of Object.keys(byLevel)) {
+            const items = shuffle(byLevel[level].slice());
+            items.forEach((item, i) => cells.push(this.makeCell(item, i % 2 === 0 ? "left" : "right")));
+          }
+        }
+        return shuffle(cells);
+      },
+      buildPractice(n) {
+        const out = [];
+        for (let i = 0; i < n; i++) {
+          const item = this.practiceBank[i % this.practiceBank.length];
+          out.push(this.makeCell(item, Math.random() < 0.5 ? "left" : "right"));
+        }
+        return out;
+      },
+      renderStimulus(cell) {
+        numA.textContent = cell.leftLabel; numB.textContent = cell.rightLabel;
+        numA.className = "txt"; numB.className = "txt";
+        stemEl.textContent = cell.stem || "";
+      },
+      trialMeta(cell) {
+        return {
+          moralType: cell.moralType, conflictLevel: cell.conflictLevel,
+          itemId: cell.itemId, leftLabel: cell.leftLabel, rightLabel: cell.rightLabel,
+          leftItemId: cell.leftItemId, rightItemId: cell.rightItemId,
+          betterSide: cell.betterSide, stem: cell.stem,
+        };
+      },
+      // 規範整合 (明確のみ規範優位側を選んだか)。中/拮抗は規範なし (betterSide=null) → null
+      decideOutcome(cell, choiceSide) {
+        return cell.betterSide == null ? null : (choiceSide === cell.betterSide);
+      },
+      summaryExtra(main) {
+        const rated = main.filter((r) => r.ratings && r.ratings.confidence != null).length;
+        return `評定完了: ${rated} / ${main.length}`;
+      },
+    },
+
+    // ⑤ 末尾の注意チェック: infrequency + 強IMC (欺瞞)。評定OFF・練習なし・末尾隔離 (§6-5)。cell は isCheck 付き=エンジンが汎用描画/判定
+    attn: {
+      id: "attn", stimulusType: "text-choice", title: "確認の質問",
+      ratings: false, breakEvery: 0, repsPerCell: 1, practiceTrials: 0,
+      gateStreak: 0, gateCorrect: false, coachDrag: "",
+      introHtml:
+        '<h1>最後に確認です</h1>' +
+        '<p>最後に、短い質問にいくつかお答えください。これまでと同じく、STARTから選ぶ方のボックスへドラッグしてお答えください。</p>',
+      csvHead: "isCheck,checkAnswerSide",
+      csvRow: (r) => `${r.isCheck},${r.checkAnswerSide}`,
+      buildMain() { return shuffle([makeCheckCell("infreq"), makeCheckCell("imc")]); },
+      buildPractice() { return []; },   // 練習なし (startPractice が空キューで startMain へ)
+      renderStimulus(cell) {            // 実際は isCheck 分岐 (renderCheck) が使われるが安全側で用意
+        numA.textContent = cell.leftLabel; numB.textContent = cell.rightLabel;
+        numA.className = "txt"; numB.className = "txt"; stemEl.textContent = cell.stem || "";
+      },
+      trialMeta(cell) { return checkMeta(cell); },
+      decideOutcome(cell, choiceSide) { return choiceSide === cell.checkAnswerSide; },
+      summaryExtra() { return "確認の質問"; },
+    },
   };
 
-  // BLOCK の確定 (?block=) とブロック固有既定値の流し込み + クエリ上書き。
-  const BLOCK = (function selectBlock() {
+  // ===== ブロック列 (単体 or ②③統合) の確定 =====
+  // ?block=combo で②③を1セッション統合 (ブロック順は ?order=vm|mv、既定はランダム=被験者間CB。§6-2 (A)ブロック設計)。
+  // 単体 (?block=value 等) は従来どおり1ブロック。統合では loadBlock でブロックを切り替える。
+  const SEQ = (function buildSeq() {
     const q = new URLSearchParams(location.search);
     const want = q.get("block");
-    const b = (want && BLOCKS[want]) ? BLOCKS[want] : BLOCKS.anchor;
-    CONFIG.block = b.id;
-    const num = (k, d) => { const v = q.get(k); const n = v == null ? NaN : parseInt(v, 10); return isNaN(n) ? d : n; };
-    CONFIG.repsPerCell = num("reps", b.repsPerCell);
-    CONFIG.practiceTrials = num("practice", b.practiceTrials);
-    CONFIG.breakEvery = num("break", b.breakEvery);
-    CONFIG.ratings = q.get("ratings") != null ? q.get("ratings") !== "0" : b.ratings;
-    if (q.get("upload") === "0") CONFIG.uploadUrl = null;  // 検証・デモ用 (GAS にゴミを送らない)
-    return b;
+    if (want === "combo") {
+      const order = q.get("order");
+      const mv = order === "mv" ? true : order === "vm" ? false : (Math.random() < 0.5);
+      return mv ? ["moral", "value"] : ["value", "moral"];   // ②③ の提示順 (被験者間CB)
+    }
+    return [(want && BLOCKS[want]) ? want : "anchor"];
   })();
+  // ⑤注意チェック: combo 既定ON。末尾に attn ブロック (infrequency+強IMC) を足す (弱DQS は startMain で②③に埋め込む)。
+  const ATTN_ON = (function () {
+    const q = new URLSearchParams(location.search);
+    return q.get("attn") != null ? q.get("attn") !== "0" : SEQ.length > 1;
+  })();
+  if (ATTN_ON && SEQ[SEQ.length - 1] !== "attn") SEQ.push("attn");
+  const REAL_BLOCKS = SEQ.filter((b) => b !== "attn");   // device.block/combo 判定は attn を除いた実ブロックで
+  const HAS_RATING_BLOCK = REAL_BLOCKS.some((id) => BLOCKS[id] && BLOCKS[id].ratings);  // 事後アンケートは「評定ブロックを含むセッション」で出す (最後が attn でも出す)
+  let seqIndex = 0;
+  let BLOCK;   // 現在のブロック (統合では切替で再代入)
+  function loadBlock(id) {
+    BLOCK = BLOCKS[id];
+    CONFIG.block = id;
+    const q = new URLSearchParams(location.search);
+    const num = (k, d) => { const v = q.get(k); const n = v == null ? NaN : parseInt(v, 10); return isNaN(n) ? d : n; };
+    CONFIG.repsPerCell = num("reps", BLOCK.repsPerCell);
+    CONFIG.practiceTrials = num("practice", BLOCK.practiceTrials);
+    CONFIG.breakEvery = num("break", BLOCK.breakEvery);
+    CONFIG.ratings = q.get("ratings") != null ? q.get("ratings") !== "0" : BLOCK.ratings;
+    document.body.classList.remove("block-anchor", "block-value", "block-moral");
+    document.body.classList.add("block-" + id);
+  }
+  if (new URLSearchParams(location.search).get("upload") === "0") CONFIG.uploadUrl = null;  // 検証・デモ用 (GAS にゴミを送らない)
+  loadBlock(SEQ[0]);
 
   // 評定 3 項目 (experiment-design.md §3-1)。参加者向けは「自信/迷い/難しさ」、変数名は英語で統一
   const ITEMS = [
@@ -588,7 +826,7 @@
 
   const $ = (id) => document.getElementById(id);
   const screens = { intro: $("intro"), task: $("task"), rating: $("rating"),
-    break: $("break"), postq: $("postq"), done: $("done") };
+    break: $("break"), blockintro: $("blockintro"), postq: $("postq"), done: $("done") };
   function show(name) {
     for (const k in screens) screens[k].classList.toggle("active", k === name);
   }
@@ -600,6 +838,23 @@
       b.addEventListener("click", () => {
         for (const o of c.children) o.classList.toggle("sel", o === b);
         onPick(b.dataset.val);
+      }, { passive: true });
+    }
+  }
+  // 複数選択チェック (事後アンケート 設問1)。中立(特に困らなかった)と問題は排他、選択集合を onChange に渡す。
+  function wireChecks(containerId, onChange) {
+    const c = $(containerId);
+    for (const b of c.querySelectorAll("button")) {
+      b.addEventListener("click", () => {
+        if (b.dataset.val === "none") {          // 中立: 単独選択 (選ぶと他を全解除)
+          const willSel = !b.classList.contains("sel");
+          for (const o of c.children) o.classList.toggle("sel", o === b && willSel);
+        } else {                                  // 問題: トグル + 中立を外す
+          b.classList.toggle("sel");
+          const nb = c.querySelector('button[data-val="none"]');
+          if (nb) nb.classList.remove("sel");
+        }
+        onChange([...c.querySelectorAll("button.sel")].map((o) => o.dataset.val));
       }, { passive: true });
     }
   }
@@ -620,9 +875,14 @@
     //   grip = 持ち方+操作した指を1問に統合 (right_thumb/left_thumb/both_thumbs/cradle/on_table)。
     //   操作手の左右は解析側で grip から導出 (right_thumb→右, left_thumb→左, both_thumbs→両, cradle/on_table→不明)
     grip: null,
-    block: CONFIG.block,      // 実行ブロック ("anchor" | "value")。解析側の振り分けに使う
+    // 事後アンケート UI/負担 (②③=評定ブロックのみ)。使いにくかった点[複数選択]/操作しやすさ/自由記述(その他選択時のみ表示・必須)。
+    //   時間ゲートを廃し離脱率で判定する G4 の「負担の主観版」裏付け + UI/チュートリアル改善材料 (pilot2-design-notes)。
+    survey: null,
+    block: REAL_BLOCKS.length > 1 ? "combo" : REAL_BLOCKS[0],  // "anchor"|"value"|"moral"|"combo"(②③統合)。attn 除く実ブロックで判定。統合では per-trial の block で振り分け
+    seq: SEQ.slice(),         // ブロック提示順 (被験者間CB の割付記録。単体は1要素)
     config: CONFIG,
-    practiceSummary: null,    // 行動ゲートの達成記録 (startMain で設定。§6-2)
+    practiceSummary: null,    // 行動ゲートの達成記録 (startMain で設定。§6-2。統合では最後のブロック分=単体互換)
+    practiceSummaryByBlock: {}, // ブロック別の達成記録 (統合セッション用)
     exportedAt: null,
   };
   $("devline").textContent = `${device.screenW}×${device.screenH} @${device.dpr}x`;
@@ -734,6 +994,22 @@
   }
   function coachHide() { coachEl.className = ""; coachEl.innerHTML = ""; }
 
+  // ===== 注意チェック (⑤) の汎用描画 + 弱DQS の埋め込み =====
+  function renderCheck(cell) {   // isCheck 付き cell (弱DQS/infreq/IMC) を text-choice として描画
+    numA.textContent = cell.leftLabel; numB.textContent = cell.rightLabel;
+    numA.className = "txt"; numB.className = "txt"; stemEl.textContent = cell.stem || "";
+  }
+  function insertDqs(q) {   // ②③本番キューの 1/3・2/3 に弱DQSを挿入 (指示側CB)。DQS直後を post_check に
+    const n = q.length;
+    if (n < 3) return q;
+    const cs = Math.random() < 0.5 ? [makeDqsCell("left"), makeDqsCell("right")]
+                                   : [makeDqsCell("right"), makeDqsCell("left")];
+    q.splice(Math.floor(2 * n / 3), 0, cs[1]);   // 後ろから挿入してインデックスずれ回避
+    q.splice(Math.floor(n / 3), 0, cs[0]);
+    for (let i = 1; i < q.length; i++) if (q[i - 1].isCheck === "dqs") q[i].postCheck = true;
+    return q;
+  }
+
   // ===== 試行の呈示 =====
   function nextTrial() {
     if (queue.length === 0) {
@@ -741,7 +1017,7 @@
         // 練習終了はゲート達成 (showPracticeFeedback) が決める。キューが尽きたら補充してループ
         queue = BLOCK.buildPractice(Math.max(CONFIG.practiceTrials, BLOCK.gateStreak));
       } else {
-        showPostQuestions(); return;   // 本番終了 → 事後アンケート → finishSession
+        advanceBlockOrFinish(); return;   // 本番終了 → 次ブロック (統合) or 事後アンケート
       }
     }
     cell = queue.shift();
@@ -756,6 +1032,23 @@
     show("break");
   }
 
+  // ===== ブロック遷移 (②③統合セッション。§6-2 (A)ブロック設計) =====
+  function advanceBlockOrFinish() {
+    if (seqIndex < SEQ.length - 1) {
+      seqIndex++;
+      loadBlock(SEQ[seqIndex]);   // 次ブロックへ切替 (body クラス・CONFIG.ratings/reps を差し替え)
+      showBlockIntro();           // 次パートの説明 → 続けるボタンで startPractice
+    } else {
+      showPostQuestions();        // 全ブロック終了 → 事後アンケートは1回だけ
+    }
+  }
+  function showBlockIntro() {
+    $("blockintroBody").innerHTML =
+      `<p class="opt-note">パート ${seqIndex + 1} / ${SEQ.length}</p>` + BLOCK.introHtml;
+    show("blockintro");
+    $("blockintro").querySelector(".pad").scrollTop = 0;
+  }
+
   function presentStimulus() {
     // 練習中はコーチング表示 (ステップ1: ボックスを隠し、上部の大きな説明で START へ誘導)。
     // 本番は一切出さない
@@ -767,8 +1060,8 @@
       coachHide();
       setCoach(null);
     }
-    // 刺激内容はブロック別に描画。START 押下まで隠す (= stimulus onset を down に定義)
-    BLOCK.renderStimulus(cell);
+    // 刺激内容はブロック別に描画 (注意チェックは汎用描画)。START 押下まで隠す (= stimulus onset を down に定義)
+    if (cell.isCheck) renderCheck(cell); else BLOCK.renderStimulus(cell);
     numA.style.visibility = "hidden";
     numB.style.visibility = "hidden";
     stemEl.style.visibility = "hidden";
@@ -816,8 +1109,9 @@
     const sc = center(stRect), ac = center(aRect), bc = center(bRect);
     trial = {
       index: phase === "main" ? trialIndex + 1 : null,
-      phase, stimulusType: BLOCK.stimulusType,
-      ...BLOCK.trialMeta(cell),         // ブロック別の試行メタ (anchor: 数値/congruency / value: ドメイン/価値差/EV)
+      phase, block: CONFIG.block, stimulusType: BLOCK.stimulusType,   // block: 統合セッションで value/moral を分離するため per-trial に記録
+      ...(cell.isCheck ? checkMeta(cell) : BLOCK.trialMeta(cell)),  // 通常=ブロック別メタ / 注意チェック=isCheck メタ
+      post_check: cell.postCheck === true,   // 弱DQS直後の本試行 (警戒モード汚染を感度分析で除外可能に。§6-2)
       choiceSide: null, correct: null,
       stimulusOnsetT: e.timeStamp, initiationT: null, responseT: null,
       rt_proxy_ms: null, mt_proxy_ms: null, total_ms: null,
@@ -937,7 +1231,8 @@
     trial.aborts = aborts;
 
     trial.choiceSide = choiceSide;
-    trial.correct = BLOCK.decideOutcome(cell, choiceSide);  // anchor: 正誤 / value: 規範整合 (拮抗は null)
+    trial.correct = cell.isCheck ? (choiceSide === cell.checkAnswerSide)  // 注意チェック: 指示どおり選べたか (=注意して回答)
+                                 : BLOCK.decideOutcome(cell, choiceSide); // anchor: 正誤 / value/moral: 規範整合 (拮抗は null)
 
     if (phase === "practice") {
       records.push(trial);
@@ -1068,7 +1363,7 @@
   }
 
   function startPractice() {
-    clearBackup();  // 復旧チャンスは intro 画面まで。開始したら前回分は破棄
+    if (seqIndex === 0) clearBackup();  // 復旧チャンスは intro 画面まで (統合の2ブロック目では前ブロック分を消さない)
     captureIntro();
     phase = "practice";
     streak = 0;
@@ -1094,32 +1389,64 @@
     clearBackup();  // 本番開始前は今セッションのバックアップ未作成なので無条件で前回分を破棄してよい
     if (!device.participantId) captureIntro();
     // 練習サマリ (行動ゲートの達成記録。理解確認の証跡 + データ品質共変量。§6-2)
-    const prac = records.filter((r) => r.phase === "practice");
-    device.practiceSummary = {
+    const prac = records.filter((r) => r.phase === "practice" && r.block === CONFIG.block);  // 統合では現ブロック分のみ
+    const summary = {
       gateStreak: BLOCK.gateStreak, gateCorrect: BLOCK.gateCorrect,
       trials: prac.length,
       aborts: prac.reduce((s, r) => s + (r.aborts || 0), 0), // 各完了試行の trial.aborts に集約済み
       skipped: prac.length === 0,   // ?practice=0 (開発用) でのみ true
     };
+    device.practiceSummary = summary;                    // 単体互換 (統合では最後のブロック分)
+    device.practiceSummaryByBlock[CONFIG.block] = summary;
     phase = "main";
     trialIndex = 0;
     queue = BLOCK.buildMain();
+    if (ATTN_ON && BLOCK.ratings && BLOCK.id !== "attn") queue = insertDqs(queue);  // ②③に弱DQSを1/3・2/3で埋め込む (§6-5)
     totalMain = queue.length;
     sizeCanvas();
     nextTrial();
   }
 
-  // ===== 事後アンケート (持ち方+操作を1問で回顧。選ぶと完了ボタン有効) =====
+  // ===== 事後アンケート (持ち方 grip は両ブロック / 使いにくさ survey は②③=評定ブロックのみ) =====
+  const survey = { problems: [], ease: null, free: "" };  // free=「その他」選択時のみ表示・必須の自由記述
+  function showSurveyFree(show) {   // 「その他」にチェック時だけ、その下に必須の自由記述欄を出す
+    $("surveyFreeField").style.display = show ? "" : "none";
+    if (!show) { survey.free = ""; $("surveyFree").value = ""; }
+  }
+  function surveyReset() {
+    survey.problems = []; survey.ease = null; survey.free = "";
+    $("surveyFree").value = "";
+    showSurveyFree(false);
+    for (const b of $("surveyProblems").children) b.classList.remove("sel");
+    for (const b of $("surveyEaseSeg").children) b.classList.remove("sel");
+  }
   function postReady() {
-    $("postSubmit").disabled = !device.grip;
+    let ok = !!device.grip;
+    if (HAS_RATING_BLOCK) {   // 評定ブロックを含むセッションは事後アンケートも必須 (「特に困らなかった」中立を用意済み)
+      const hasProblem = survey.problems.length > 0;
+      const otherOk = !survey.problems.includes("other") || survey.free.trim().length > 0;  // その他は自由記述で具体化
+      ok = ok && hasProblem && otherOk && !!survey.ease;
+    }
+    $("postSubmit").disabled = !ok;
   }
   function showPostQuestions() {
+    const hasSurvey = HAS_RATING_BLOCK;
+    $("surveyBlock").style.display = hasSurvey ? "" : "none";
+    if (hasSurvey) surveyReset();
     show("postq");
+    postReady();
     $("postq").querySelector(".pad").scrollTop = 0;
   }
 
   function finishSession() {
     device.exportedAt = new Date().toISOString();
+    if (ATTN_ON) {   // 強IMC (欺瞞) のデブリーフィング (§6-5・IRB 申請に記載)
+      $("debrief").innerHTML =
+        '<p style="color:#9cf;font-size:13px;border:1px solid #467;border-radius:8px;padding:10px;margin:10px 0;">' +
+        '【種明かし】本調査には、回答に集中していただけているかを確認する質問（「左を選んでください」等の指示や、一見答えにくい質問）が含まれていました。' +
+        'これは回答の質を確かめる一般的な方法で、あなた個人を評価するものではありません。ご協力ありがとうございました。</p>';
+      $("debrief").style.display = "";
+    }
     const main = records.filter((r) => r.phase === "main");
     const totalAborts = records.reduce((s, r) => s + (r.aborts || 0), 0);
     const hzs = main.map((r) => r.dispHz).filter((h) => h != null);
@@ -1270,16 +1597,24 @@
   }
 
   // ===== 起動 =====
-  // ブロック別の説明文・タイトル・body クラス (ブロック別レイアウト変数の切替に使う)
-  document.body.classList.add("block-" + CONFIG.block);
-  $("introInstructions").innerHTML = BLOCK.introHtml;
-  document.title = "パイロット: " + BLOCK.title;
+  // body クラスは loadBlock で設定済み。intro には最初のブロックの説明を出す (統合は「パート1/N」を予告)
+  $("introInstructions").innerHTML =
+    (SEQ.length > 1 ? `<p class="opt-note">この調査はいくつかのパートに分かれています（パート 1 / ${SEQ.length}）。</p>` : "") + BLOCK.introHtml;
+  document.title = "パイロット: " + (SEQ.length > 1 ? "価値・選好 と 道徳判断" : BLOCK.title);
 
   // 事前アンケート (特性): 性別・利き手。選択で開始ボタンの有効/無効を再評価
   wireSeg("sexSeg", (v) => { device.sex = v; refreshIntro(); });
   wireSeg("handSeg", (v) => { device.handedness = v; refreshIntro(); });
   // 事後アンケート (状態): 持ち方+操作を1問で
   wireSeg("gripSeg", (v) => { device.grip = v; postReady(); });
+  // 事後アンケート (UI/負担。②③=評定ブロックのみ): 使いにくさ複数選択 / その他自由記述 / 操作しやすさ / 自由記述
+  wireChecks("surveyProblems", (vals) => {
+    survey.problems = vals;
+    showSurveyFree(vals.includes("other"));   // その他にチェック時だけ下に必須の自由記述欄を表示
+    postReady();
+  });
+  wireSeg("surveyEaseSeg", (v) => { survey.ease = v; postReady(); });
+  $("surveyFree").addEventListener("input", () => { survey.free = $("surveyFree").value; postReady(); }, { passive: true });
   // テキスト/数値入力でも再評価
   for (const id of ["pid", "age", "devModel"]) {
     $(id).addEventListener("input", refreshIntro, { passive: true });
@@ -1289,8 +1624,13 @@
   $("goPractice").addEventListener("click", startPractice, { passive: true });
   $("ratingSubmit").addEventListener("click", submitRating, { passive: true });
   $("breakContinue").addEventListener("click", () => presentStimulus(), { passive: true });
+  $("blockintroGo").addEventListener("click", startPractice, { passive: true });  // 統合セッションの次パート開始
   $("postSubmit").addEventListener("click", () => {
-    if (device.grip) finishSession();
+    if ($("postSubmit").disabled) return;   // 未完了 (grip / 事後アンケート必須) なら無視
+    if (HAS_RATING_BLOCK) {
+      device.survey = { problems: survey.problems.slice(), ease: survey.ease, free: survey.free.trim() };
+    }
+    finishSession();
   }, { passive: true });
 
   // 自動検証用フック (?debug=1 のときだけ露出。本番動作には影響しない)

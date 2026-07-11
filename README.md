@@ -8,10 +8,10 @@
 
 | 名前 | 用途 | URL |
 |---|---|---|
-| [pilot-anchor/](pilot-anchor/) | **Stage 1**: 装置妥当性確認パイロット (数値サイズ一致性課題、約 4 分)。詳細は [pilot-anchor/README.md](pilot-anchor/README.md) | <https://and-space83.github.io/drag-survey/pilot-anchor/> |
+| [pilot-anchor/](pilot-anchor/) | **Stage 1 + Stage 2**: ブロック駆動の reach-decision 課題 (①アンカー / ②価値・選好 / ③道徳ジレンマ / ②③統合+注意チェック。`?block=` で切替)。詳細は [pilot-anchor/README.md](pilot-anchor/README.md) | <https://and-space83.github.io/drag-survey/pilot-anchor/> |
 | [sampling-rate-test/](sampling-rate-test/) | タッチ実効サンプリングレート計測ツール (取得系 60Hz floor の設計根拠を実機検証するため使用 = 2026-05-29 完了) | <https://and-space83.github.io/drag-survey/sampling-rate-test/> |
 
-Stage 2 (価値・選好 / 道徳ジレンマブロック) は追加予定。同じ階層に新ディレクトリとして配置する。
+Stage 2 (②価値・選好 / ③道徳ジレンマ / ②③統合セッション) は pilot-anchor の**ブロック駆動** (`?block=value|moral|combo`) として実装済み (新ディレクトリは作らない方針に変更)。
 
 ## 構成
 
