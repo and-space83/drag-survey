@@ -59,6 +59,10 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif; }
   body { position: fixed; inset: 0; background: #111; color: #eee;
     -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+  /* iOS のダブルタップ拡大対策 (連打で拡大→復帰不能の実機報告 2026-07-11)。
+     manipulation = パン/ピンチのみ許可でダブルタップ拡大を無効化 (click 応答は保つ)。
+     タスク画面 (#task) は touch-action:none + touchend 抑止 (JS 側) で全面的に無効。 */
+  button, input, .btn { touch-action: manipulation; }
 
   .screen { position: absolute; inset: 0; display: none; flex-direction: column; }
   .screen.active { display: flex; }
@@ -125,7 +129,10 @@
   #stem { position: absolute; top: 6%; left: 5%; right: 5%; height: 19%;
     display: flex; align-items: center; justify-content: center; text-align: center;
     font-size: 4.4vmin; line-height: 1.35; font-weight: 600; color: #cfe;
-    z-index: 3; pointer-events: none; visibility: hidden; }
+    z-index: 3; pointer-events: none; visibility: hidden;
+    /* 改行は stem 中の "|" ヒント (表示時 ZWSP 変換) の位置だけに制限し、文節の途中で折れるのを防ぐ。
+       keep-all=CJK の任意折返しを禁止 / anywhere=ヒント無し長文が溢れる場合の保険 / balance=行長の均等化 */
+    word-break: keep-all; overflow-wrap: anywhere; text-wrap: balance; }
   .choice { position: absolute; top: var(--choice-top); width: var(--choice-w); height: var(--choice-h);
     border: 2px solid #3a6; border-radius: 14px; display: flex;
     align-items: center; justify-content: center; color: #cfe; z-index: 2;
@@ -411,20 +418,26 @@
   //   ?practice=0 は練習ごとスキップする開発用の抜け道 — 配布 URL には絶対に付けない。
   const debugMode = new URLSearchParams(location.search).get("debug") === "1";
 
+  // 場面文の改行制御: stem 文字列中の "|" は「ここで改行してよい」、"~" は「ここで改行しない」(閉じ括弧の
+  // 後ろ等に標準で残る改行機会を潰す) の著者ヒント。表示時に ZWSP / WORD JOINER へ変換し
+  // (CSS #stem の word-break:keep-all とセットで | の位置だけで折り返す)、記録 (trialMeta) からは除去する。
+  const stemDisplay = (s) => (s || "").replace(/\|/g, "\u200b").replace(/~/g, "\u2060");
+  const stemRecord = (s) => (s || "").replace(/[|~]/g, "");
+
   // ===== 注意チェック (⑤ careless ラベル。experiment-design §6-5。combo 既定ON、?attn=0/1 で切替) =====
   // 弱DQS: ②③の 1/3・2/3 に埋め込む instructed-choice (指示側CB・中立ラベル・埋め込み先ブロックの評定を継承)。
   //   DQS 直後の本試行は post_check フラグ (警戒モードの汚染を感度分析で除外可能に。§6-2)。
   // 末尾ミニブロック (attn): infrequency + 強IMC (欺瞞・評定OFF・末尾隔離)。強IMC は done でデブリーフィング。
   // careless ラベル = 各 check の失敗数 (二値化は analysis-plan で事前固定)。isCheck 試行は主解析から除外。
   const ATTN = {
-    infreq: { stem: "私はこれまで一度もスマートフォンを使ったことがない", yes: "はい", no: "いいえ" }, // スマホ回答中=「いいえ」が一意
-    imc: { stem: "（よく読んでお答えください）ここまで読んだ方は、質問の内容にかかわらず「いいえ」を選んでください。あなたは今、集中して回答していますか？", yes: "はい", no: "いいえ" }, // 注意して読めば「いいえ」
+    infreq: { stem: "私はこれまで一度も|スマートフォンを|使ったことがない", yes: "はい", no: "いいえ" }, // スマホ回答中=「いいえ」が一意
+    imc: { stem: "（よく読んでお答えください）|ここまで読んだ方は、|質問の内容にかかわらず|「いいえ」を選んでください。|あなたは今、|集中して回答していますか？", yes: "はい", no: "いいえ" }, // 注意して読めば「いいえ」
   };
   // 弱DQS (instructed choice): 指示された「側」へドラッグできたか。中立ラベル、答えは位置(指示側)。
   function makeDqsCell(instructedSide) {
     return {
       isCheck: "dqs",
-      stem: `確認のため、ここでは【${instructedSide === "left" ? "左" : "右"}】の選択肢を選んでください`,
+      stem: `確認のため、|ここでは|【${instructedSide === "left" ? "左" : "右"}】~の選択肢を|選んでください`,
       leftLabel: "りんご", rightLabel: "みかん", checkAnswerSide: instructedSide,
     };
   }
@@ -440,7 +453,7 @@
   }
   function checkMeta(cell) {
     return { isCheck: cell.isCheck, checkAnswerSide: cell.checkAnswerSide,
-      leftLabel: cell.leftLabel, rightLabel: cell.rightLabel, stem: cell.stem };
+      leftLabel: cell.leftLabel, rightLabel: cell.rightLabel, stem: stemRecord(cell.stem) };
   }
 
   // ===== ブロック定義 =====
@@ -574,8 +587,8 @@
         { domain: "values", level: "clear", id: "values-clear-2", a: { label: "親友との信頼" }, b: { label: "他人からのいいね" }, better: "a" }, /* 同カテゴリ (無形の対人価値) で対比。ラベル短縮 2026-07-07 R3 */
         { domain: "values", level: "mid",      a: { label: "趣味の時間" }, b: { label: "昼寝の時間" },     better: null }, /* mid: トレードオフ(両方魅力)。ユーザー選定 2026-06-23 */
         { domain: "values", level: "mid", id: "values-mid-2", a: { label: "旅行の楽しみ" }, b: { label: "貯金の安心" }, better: null }, /* mid: トレードオフ(体験↔安定・両方魅力)。承認済 2026-07-07 (R3 で24項目完全確定) */
-        { domain: "values", level: "conflict", a: { label: "満員電車での通勤" }, b: { label: "毎日の残業" }, better: null, conflictType: "avoidance", stem: "どちらかを選ぶなら、まだマシな方はどちらですか？" }, /* avoidance (両方避けたい)。ユーザー選定 2026-06-23 */
-        { domain: "values", level: "conflict", id: "values-conflict-2", a: { label: "真夏の停電" }, b: { label: "真冬の停電" }, better: null, conflictType: "avoidance", stem: "どちらかを選ぶなら、まだマシな方はどちらですか？" }, /* avoidance: 季節のみ変えた対称ペア。ユーザー選定 2026-07-07 (旧: 真冬の断水) */
+        { domain: "values", level: "conflict", a: { label: "満員電車での通勤" }, b: { label: "毎日の残業" }, better: null, conflictType: "avoidance", stem: "どちらかを選ぶなら、|まだマシな方は|どちらですか？" }, /* avoidance (両方避けたい)。ユーザー選定 2026-06-23 */
+        { domain: "values", level: "conflict", id: "values-conflict-2", a: { label: "真夏の停電" }, b: { label: "真冬の停電" }, better: null, conflictType: "avoidance", stem: "どちらかを選ぶなら、|まだマシな方は|どちらですか？" }, /* avoidance: 季節のみ変えた対称ペア。ユーザー選定 2026-07-07 (旧: 真冬の断水) */
       ],
       practiceBank: [
         // 1問目=支配優位 (操作の習得)、2問目=トレードオフ (評定リハーサルで尺度の迷い側も1回使う。
@@ -631,7 +644,7 @@
       renderStimulus(cell) {
         numA.textContent = cell.leftLabel; numB.textContent = cell.rightLabel;
         numA.className = "txt"; numB.className = "txt";
-        stemEl.textContent = cell.stem || "";
+        stemEl.textContent = stemDisplay(cell.stem);
       },
       trialMeta(cell) {
         return {
@@ -639,7 +652,7 @@
           itemId: cell.itemId, leftLabel: cell.leftLabel, rightLabel: cell.rightLabel,
           leftItemId: cell.leftItemId, rightItemId: cell.rightItemId,
           betterSide: cell.betterSide, evLeft: cell.evLeft, evRight: cell.evRight, evDiff: cell.evDiff,
-          stem: cell.stem,
+          stem: stemRecord(cell.stem),
         };
       },
       // 規範整合 (高価値/高EV 側を選んだか)。拮抗で規範なし (betterSide=null) は null
@@ -673,26 +686,27 @@
       csvRow: (r) => `${r.moralType},${r.conflictLevel},${r.betterSide}`,
       defaultStem: "あなたならどうしますか？",
       // 項目バンク (§6-5・SSOT はそちら)。各 = 1セル。mtype: 4類型 / level: clear(明確・葛藤小)/mid(中)/conflict(拮抗・葛藤大)。
-      //   stem = 場面文 (40–70字)。better: 規範優位肢 ("a"|null)。明確のみ better 定義、中/拮抗は null (葛藤で規範一意でない)。
+      //   stem = 場面文 (40–70字。"|" は改行位置ヒント: 表示時のみ ZWSP 化・記録からは除去 = stemDisplay/stemRecord)。
+      //   better: 規範優位肢 ("a"|null)。明確のみ better 定義、中/拮抗は null (葛藤で規範一意でない)。
       //   拮抗は R1/R2 でユーザー指示により重く改訂 (2026-07-08)。人的犠牲のトロッコ類似は Greene の personal/impersonal 統制で意図的。
       bank: [
-        { mtype: "sacrifice", level: "clear",    stem: "暴走電車が5人に向かう。レバーを引けば電車は別の線路にそれ、そちらに人はいない。", a: { label: "レバーを引く" }, b: { label: "何もしない" }, better: "a" },
-        { mtype: "sacrifice", level: "mid",      stem: "暴走電車が5人に向かう。レバーを引けば別の線路にそれるが、そこにいる作業員1人が犠牲になる。", a: { label: "レバーを引く" }, b: { label: "何もしない" }, better: null },
-        { mtype: "sacrifice", level: "conflict", stem: "暴走電車が5人の子どもに向かう。歩道橋で隣にいる大柄な人をあなたの手で突き落とせば、電車は止まり子どもたちは助かる。", a: { label: "突き落とす" }, b: { label: "何もしない" }, better: null },
-        { mtype: "honesty",   level: "clear",    stem: "レジで店員が誤ってお釣りを1万円多く渡した。あなたは気づいている。", a: { label: "店員に伝える" }, b: { label: "黙って受け取る" }, better: "a" },
-        { mtype: "honesty",   level: "mid",      stem: "友人が作ってくれた手料理が正直おいしくない。「どうだった?」と感想を聞かれた。", a: { label: "正直に言う" }, b: { label: "おいしいと言う" }, better: null },
-        { mtype: "honesty",   level: "conflict", stem: "親友の結婚式当日、新郎に隠された不倫の証拠を偶然見つけた。式はもう始まろうとしている。", a: { label: "式の前に伝える" }, b: { label: "黙っておく" }, better: null },
-        { mtype: "loyalty",   level: "clear",    stem: "資格試験の会場で、隣の見知らぬ受験生がカンニングしているのに気づいた。", a: { label: "試験官に伝える" }, b: { label: "見て見ぬふり" }, better: "a" },
-        { mtype: "loyalty",   level: "mid",      stem: "親しい同僚が、在宅勤務中ほとんど働かず遊んでいるのに、忙しいふりをしてあなたと同じ給料・評価を得ている。", a: { label: "上司に伝える" }, b: { label: "黙っている" }, better: null },
-        { mtype: "loyalty",   level: "conflict", stem: "実の兄が会社ぐるみの不正に関わっていると知った。通報すれば多くの被害者は救われるが、兄は逮捕され兄の家族は生活を失う。", a: { label: "通報する" }, b: { label: "黙っている" }, better: null },
-        { mtype: "care",      level: "clear",    stem: "優先席に座るあなたの前に、立つのがつらそうな高齢者が来た。席は空いていない。", a: { label: "席を譲る" }, b: { label: "座り続ける" }, better: "a" },
-        { mtype: "care",      level: "mid",      stem: "人気店の長い行列で、後ろの人が「子どもが高熱で急いでいる」と順番を譲ってほしいと頼んできた。", a: { label: "順番を譲る" }, b: { label: "断る" }, better: null },
-        { mtype: "care",      level: "conflict", stem: "余命わずかの親友が入院先で「最後にこれが食べたい」と、医師に固く止められた食べ物を頼んできた。食べれば容体が急変する恐れもある。", a: { label: "持っていく" }, b: { label: "断る" }, better: null },
+        { mtype: "sacrifice", level: "clear",    stem: "暴走電車が|5人に向かう。|レバーを引けば|電車は|別の線路にそれ、|そちらに人はいない。", a: { label: "レバーを引く" }, b: { label: "何もしない" }, better: "a" },
+        { mtype: "sacrifice", level: "mid",      stem: "暴走電車が|5人に向かう。|レバーを引けば|別の線路にそれるが、|そこにいる|作業員1人が|犠牲になる。", a: { label: "レバーを引く" }, b: { label: "何もしない" }, better: null },
+        { mtype: "sacrifice", level: "conflict", stem: "暴走電車が|5人の子どもに向かう。|歩道橋で|隣にいる|大柄な人を|あなたの手で|突き落とせば、|電車は止まり|子どもたちは助かる。", a: { label: "突き落とす" }, b: { label: "何もしない" }, better: null },
+        { mtype: "honesty",   level: "clear",    stem: "レジで店員が誤って|お釣りを|1万円多く渡した。|あなたは気づいている。", a: { label: "店員に伝える" }, b: { label: "黙って受け取る" }, better: "a" },
+        { mtype: "honesty",   level: "mid",      stem: "友人が作ってくれた|手料理が|正直おいしくない。|「どうだった?」と|感想を聞かれた。", a: { label: "正直に言う" }, b: { label: "おいしいと言う" }, better: null },
+        { mtype: "honesty",   level: "conflict", stem: "親友の結婚式当日、|新郎に隠された|不倫の証拠を|偶然見つけた。|式はもう|始まろうとしている。", a: { label: "式の前に伝える" }, b: { label: "黙っておく" }, better: null },
+        { mtype: "loyalty",   level: "clear",    stem: "資格試験の会場で、|隣の見知らぬ受験生が|カンニングしているのに|気づいた。", a: { label: "試験官に伝える" }, b: { label: "見て見ぬふり" }, better: "a" },
+        { mtype: "loyalty",   level: "mid",      stem: "親しい同僚が、|在宅勤務中|ほとんど働かず|遊んでいるのに、|忙しいふりをして|あなたと同じ|給料・評価を得ている。", a: { label: "上司に伝える" }, b: { label: "黙っている" }, better: null },
+        { mtype: "loyalty",   level: "conflict", stem: "実の兄が|会社ぐるみの不正に|関わっていると知った。|通報すれば|多くの被害者は|救われるが、|兄は逮捕され|兄の家族は|生活を失う。", a: { label: "通報する" }, b: { label: "黙っている" }, better: null },
+        { mtype: "care",      level: "clear",    stem: "優先席に座る|あなたの前に、|立つのがつらそうな|高齢者が来た。|席は空いていない。", a: { label: "席を譲る" }, b: { label: "座り続ける" }, better: "a" },
+        { mtype: "care",      level: "mid",      stem: "人気店の長い行列で、|後ろの人が|「子どもが高熱で|急いでいる」と|順番を譲ってほしいと|頼んできた。", a: { label: "順番を譲る" }, b: { label: "断る" }, better: null },
+        { mtype: "care",      level: "conflict", stem: "余命わずかの親友が|入院先で|「最後にこれが食べたい」と、|医師に固く止められた|食べ物を頼んできた。|食べれば|容体が急変する|恐れもある。", a: { label: "持っていく" }, b: { label: "断る" }, better: null },
       ],
       practiceBank: [
         // 1問目=明確 (操作の習得)、2問目=軽いトレードオフ (評定リハーサルで尺度の両側を1回ずつ)。本番12項目とは非重複・重い内容は避ける
-        { mtype: "practice", stem: "道で他人の財布を拾った。中には現金が入っている。", a: { label: "交番に届ける" }, b: { label: "そのままにする" }, better: "a" },
-        { mtype: "practice", stem: "休日の予定を決める。どちらの過ごし方にするか。", a: { label: "家でゆっくり" }, b: { label: "外に出かける" }, better: null },
+        { mtype: "practice", stem: "道で他人の財布を拾った。|中には現金が入っている。", a: { label: "交番に届ける" }, b: { label: "そのままにする" }, better: "a" },
+        { mtype: "practice", stem: "休日の予定を決める。|どちらの過ごし方にするか。", a: { label: "家でゆっくり" }, b: { label: "外に出かける" }, better: null },
       ],
       makeCell(item, aSide) {
         const leftIsA = aSide === "left";
@@ -734,14 +748,14 @@
       renderStimulus(cell) {
         numA.textContent = cell.leftLabel; numB.textContent = cell.rightLabel;
         numA.className = "txt"; numB.className = "txt";
-        stemEl.textContent = cell.stem || "";
+        stemEl.textContent = stemDisplay(cell.stem);
       },
       trialMeta(cell) {
         return {
           moralType: cell.moralType, conflictLevel: cell.conflictLevel,
           itemId: cell.itemId, leftLabel: cell.leftLabel, rightLabel: cell.rightLabel,
           leftItemId: cell.leftItemId, rightItemId: cell.rightItemId,
-          betterSide: cell.betterSide, stem: cell.stem,
+          betterSide: cell.betterSide, stem: stemRecord(cell.stem),
         };
       },
       // 規範整合 (明確のみ規範優位側を選んだか)。中/拮抗は規範なし (betterSide=null) → null
@@ -768,7 +782,7 @@
       buildPractice() { return []; },   // 練習なし (startPractice が空キューで startMain へ)
       renderStimulus(cell) {            // 実際は isCheck 分岐 (renderCheck) が使われるが安全側で用意
         numA.textContent = cell.leftLabel; numB.textContent = cell.rightLabel;
-        numA.className = "txt"; numB.className = "txt"; stemEl.textContent = cell.stem || "";
+        numA.className = "txt"; numB.className = "txt"; stemEl.textContent = stemDisplay(cell.stem);
       },
       trialMeta(cell) { return checkMeta(cell); },
       decideOutcome(cell, choiceSide) { return choiceSide === cell.checkAnswerSide; },
@@ -997,7 +1011,7 @@
   // ===== 注意チェック (⑤) の汎用描画 + 弱DQS の埋め込み =====
   function renderCheck(cell) {   // isCheck 付き cell (弱DQS/infreq/IMC) を text-choice として描画
     numA.textContent = cell.leftLabel; numB.textContent = cell.rightLabel;
-    numA.className = "txt"; numB.className = "txt"; stemEl.textContent = cell.stem || "";
+    numA.className = "txt"; numB.className = "txt"; stemEl.textContent = stemDisplay(cell.stem);
   }
   function insertDqs(q) {   // ②③本番キューの 1/3・2/3 に弱DQSを挿入 (指示側CB)。DQS直後を post_check に
     const n = q.length;
@@ -1655,6 +1669,11 @@
   surface.addEventListener("touchmove", (e) => { if (e.cancelable) e.preventDefault(); }, { passive: false });
   document.addEventListener("contextmenu", (e) => e.preventDefault());
   document.addEventListener("gesturestart", (e) => e.preventDefault());
+  // iOS のダブルタップ拡大対策: START 連打で拡大→復帰不能の実機報告 (2026-07-11)。
+  // タスク画面は Pointer Events のみで click 合成に依存しないため、touchend の既定動作
+  // (ダブルタップ拡大 + click 合成) を丸ごと抑止できる。他画面のボタンは CSS touch-action:manipulation 側で対処。
+  document.getElementById("task").addEventListener("touchend",
+    (e) => { if (e.cancelable) e.preventDefault(); }, { passive: false });
 })();
 </script>
 </body>
