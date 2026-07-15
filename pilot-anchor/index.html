@@ -42,7 +42,7 @@
       choiceSide, correct,   // correct: anchor=正誤 / value=規範(高価値/高EV)整合 / moral=規範(明確のみ)。規範なしは null
       stimulusOnsetT, initiationT, responseT, rt_proxy_ms, mt_proxy_ms, total_ms,
       dispHz, nDispatched, nCoalesced, aborts,
-      ratings: {confidence:{value,rt_ms}, hesitation:{...}, difficulty:{...}}, ratingSubmitMs,
+      ratings: {confidence:{value,rt_ms}, hesitation:{...}} (2026-07-15 2項目化。第二パイロット以前のデータは difficulty あり), ratingSubmitMs,
       geom: {surface:{w,h}, start:{cx,cy}, A:{cx,cy,w,h}, B:{cx,cy,w,h}, dpr},
       events: [ {seq, t, x, y, type('down'|'dispatched'|'coalesced'|'up')} ]  // x,y は surface 相対 CSS px
     } ] }
@@ -162,17 +162,17 @@
      pointer-events:none で操作を妨げない。強調は geometry を変えない box-shadow/色のみ
      (transform/scale は getBoundingClientRect ベースの当たり判定・geom 記録に影響するため使わない) */
   #coach { position: absolute; left: 12px; right: 12px; z-index: 4; pointer-events: none;
-    display: none; text-align: center; font-size: 4.8vmin; line-height: 1.55; font-weight: 700;
+    display: none; text-align: center; font-size: 5.2vmin; line-height: 1.6; font-weight: 700;
     color: #fff; background: rgba(16,22,26,0.88); border: 1px solid #467; border-radius: 14px;
     padding: 14px 10px; opacity: 1; transition: opacity 0.35s; }
   #coach.pos-top { display: block; top: 9%; }
   /* pos-mid はボックス直下に追従配置 (top:45% 固定だと SE 実機/in-app の実効 viewport でボックスと重なる) */
-  #coach.pos-mid { display: block; top: calc(var(--choice-top) + var(--choice-h) + 12px); font-size: 4.3vmin; }
+  #coach.pos-mid { display: block; top: calc(var(--choice-top) + var(--choice-h) + 12px); font-size: 4.8vmin; }
   /* ドラッグ開始 (initiation) でフェードアウト: 教示は START 押下中に読み、動き出したら経路帯を空ける
      (パネルが軌跡描画を覆う・「読みながら減速する」癖の形成を避ける。レビューWF指摘 2026-07-07) */
   #coach.dim { opacity: 0; }
   #coach b { color: #fc6; }
-  #coach .sub { display: block; font-size: 3.5vmin; color: #9cf; font-weight: 600; margin-top: 8px; }
+  #coach .sub { display: block; font-size: 4.1vmin; color: #9cf; font-weight: 600; margin-top: 8px; }
   #coach .feedback { font-size: 5.6vmin; }
   @keyframes coachPulse {
     0%   { box-shadow: 0 0 0 0 rgba(255,170,68,0.55); }
@@ -190,7 +190,7 @@
   .choice.coach-glow { animation: coachGlow 1.1s ease-in-out infinite; }
   /* 評定リハーサル (練習中の評定画面ヘッダを目立たせる)。SE の実効 viewport (~548px) で
      送信ボタンが fold 下に落ちないよう 2 行以内に収まるサイズに抑える */
-  #ratingHead.practice { font-size: 14px; color: #fc6; font-weight: 700; line-height: 1.5; }
+  #ratingHead.practice { font-size: 15px; color: #fc6; font-weight: 700; line-height: 1.6; }
 
   /* ---- 評定画面 (3項目を1画面に) ---- */
   #rating { background: #141414; }
@@ -204,9 +204,11 @@
     border-radius: 12px; border: 2px solid #557; color: #cdf; background: #1c2030; }
   .likert button.sel { background: #2f7; color: #052; border-color: #2f7; }
   .anchors { display: flex; justify-content: space-between; margin-top: 6px;
-    font-size: 11px; color: #89a; }
+    font-size: 13.5px; color: #c7d3dc; }  /* 2026-07-15 高齢者配慮: 端点の意味が読める大きさ・明度に */
   .anchors span { max-width: 44%; }
   .anchors span:last-child { text-align: right; }
+  .qitem.dim { opacity: 0.3; pointer-events: none; }        /* 評定チュートリアル: 非対象項目を薄く */
+  .qitem.tfocus .qi-text { color: #fc6; font-weight: 700; } /* 評定チュートリアル: 対象項目を強調 */
   #ratingSubmit { align-self: center; margin-top: 4px; }
   #ratingSubmit:disabled { opacity: 0.4; border-color: #555; color: #888; background: #222; }
 
@@ -478,6 +480,7 @@
         '<p>STARTボタンに指を置くと、上の2つのボックスに数字が出ます。<b>指を離さずに、数が大きい方のボックスへドラッグ</b>して、そこで指を離してください。</p>' +
         '<ul><li>数字の<b>見た目の大きさ</b>ではなく、<b>数の大きさ</b>で選びます。</li>' +
         '<li>できるだけ自然に、素早く動かしてください。</li>' +
+        '<li>急ぐ必要はありません。自分のペースで進められます。</li>' +
         '<li>操作のやり方は、最初の<b>練習</b>で画面の案内にそって覚えられます。</li></ul>',
       csvHead: "congruency,pairLabel,largerSide,correctSide",
       csvRow: (r) => `${r.congruency},${r.pairLabel},${r.largerSide},${r.correctSide}`,
@@ -544,9 +547,13 @@
         '<h1>価値・選好の2択課題 (パイロット)</h1>' +
         '<p>STARTボタンに指を置くと、上に2つの選択肢が出ます。<b>指を離さずに、あなたが選ぶ方のボックスへドラッグ</b>して、そこで指を離してください。</p>' +
         '<ul><li><b>正解・不正解はありません。</b>あなたの素直な選び方で構いません。</li>' +
-        '<li>選んだあとに、その回答についての「自信・迷い・難しさ」を5段階でうかがいます。</li>' +
+        '<li>選んだあとに、「自信」と「迷い」の2つを5段階でふりかえります。答え方は練習で説明します。</li>' +
         '<li>できるだけ自然に操作してください。</li>' +
+        '<li>急ぐ必要はありません。自分のペースで進められます。</li>' +
         '<li>操作のやり方は、最初の<b>練習</b>で画面の案内にそって覚えられます。</li></ul>',
+      transitionHtml:
+        '<h1>パートが変わります</h1>' +
+        '<p>ここからは<b>別のタイプの質問</b>になります。操作と、答えたあとの「ふりかえり」はこれまでと同じです。</p>',
       csvHead: "domain,valueLevel,conflictType,betterSide,evDiff",
       csvRow: (r) => `${r.domain},${r.valueLevel},${r.conflictType},${r.betterSide},${r.evDiff}`,
       // 設問ステム (ドメイン別)
@@ -669,7 +676,7 @@
     moral: {
       id: "moral", stimulusType: "text-choice", title: "道徳的な判断の2択課題",
       ratings: true, breakEvery: 0,
-      repsPerCell: 1,        // 12項目 (4類型×3葛藤水準) × reps。既定1 = 本番12試行 (各項目1回・項目間で左右CB)。§6-5
+      repsPerCell: 1,        // 24項目 (4類型×3葛藤水準×セル2項目、2026-07-15 増強) × reps。既定1 = 本番24試行 (各項目1回・項目間で左右CB)。§6-5
       practiceTrials: 2,
       practiceFeedback: "neutral",  // 主観判断なので正誤フィードバックはしない
       gateStreak: 2,         // 行動ゲート: 有効ドラッグ2連続で本番解錠 (主観課題なので正誤は問わない)
@@ -680,8 +687,13 @@
         '<p>STARTボタンに指を置くと、上に短い場面と2つの選択肢が出ます。<b>指を離さずに、あなたが選ぶ方のボックスへドラッグ</b>して、そこで指を離してください。</p>' +
         '<ul><li><b>正解・不正解はありません。</b>あなたの素直な判断で構いません。</li>' +
         '<li>気持ちが揺れる場面が含まれます。答えたくないと感じたら、いつでも中断してかまいません。</li>' +
-        '<li>選んだあとに、その回答についての「自信・迷い・難しさ」を5段階でうかがいます。</li>' +
+        '<li>選んだあとに、「自信」と「迷い」の2つを5段階でふりかえります。答え方は練習で説明します。</li>' +
+        '<li>急ぐ必要はありません。自分のペースで進められます。</li>' +
         '<li>操作のやり方は、最初の<b>練習</b>で画面の案内にそって覚えられます。</li></ul>',
+      transitionHtml:
+        '<h1>パートが変わります</h1>' +
+        '<p>ここからは<b>別のタイプの質問</b>になります。操作と、答えたあとの「ふりかえり」はこれまでと同じです。</p>' +
+        '<ul><li>気持ちが揺れる場面が含まれます。答えたくないと感じたら、いつでも中断してかまいません。</li></ul>',
       csvHead: "moralType,conflictLevel,betterSide",
       csvRow: (r) => `${r.moralType},${r.conflictLevel},${r.betterSide}`,
       defaultStem: "あなたならどうしますか？",
@@ -689,19 +701,32 @@
       //   stem = 場面文 (40–70字。"|" は改行位置ヒント: 表示時のみ ZWSP 化・記録からは除去 = stemDisplay/stemRecord)。
       //   better: 規範優位肢 ("a"|null)。明確のみ better 定義、中/拮抗は null (葛藤で規範一意でない)。
       //   拮抗は R1/R2 でユーザー指示により重く改訂 (2026-07-08)。人的犠牲のトロッコ類似は Greene の personal/impersonal 統制で意図的。
+      //   2026-07-15 R3: セルあたり 1→2 項目に増強 (12→24、第三パイロット)。増強分は明示 id (`-2` 接尾)・既存 itemId 据え置き=過去データ互換。
       bank: [
         { mtype: "sacrifice", level: "clear",    stem: "暴走電車が|5人に向かう。|レバーを引けば|電車は|別の線路にそれ、|そちらに人はいない。", a: { label: "レバーを引く" }, b: { label: "何もしない" }, better: "a" },
         { mtype: "sacrifice", level: "mid",      stem: "暴走電車が|5人に向かう。|レバーを引けば|別の線路にそれるが、|そこにいる|作業員1人が|犠牲になる。", a: { label: "レバーを引く" }, b: { label: "何もしない" }, better: null },
         { mtype: "sacrifice", level: "conflict", stem: "暴走電車が|5人の子どもに向かう。|歩道橋で|隣にいる|大柄な人を|あなたの手で|突き落とせば、|電車は止まり|子どもたちは助かる。", a: { label: "突き落とす" }, b: { label: "何もしない" }, better: null },
+        { id: "sacrifice-clear-2",    mtype: "sacrifice", level: "clear",    stem: "工事現場で|クレーンの荷物が|作業員3人の|頭上に落ちそうだ。|警報ボタンを押せば|全員が退避でき、|誰もケガをしない。", a: { label: "ボタンを押す" }, b: { label: "何もしない" }, better: "a" },
+        { id: "sacrifice-mid-2",      mtype: "sacrifice", level: "mid",      stem: "病院で有毒ガスが|発生し、|5人の患者の部屋へ|流れている。|換気を切り替えれば|別室の患者1人に|ガスが向かう。", a: { label: "切り替える" }, b: { label: "何もしない" }, better: null },
+        { id: "sacrifice-conflict-2", mtype: "sacrifice", level: "conflict", stem: "紛争地で兵士から|隠れている。|あなたの赤ん坊が|泣き出した。|口を塞げば|全員が助かるが、|赤ん坊は窒息してしまう。|塞がなければ|全員が見つかる。", a: { label: "口を塞ぐ" }, b: { label: "何もしない" }, better: null },
         { mtype: "honesty",   level: "clear",    stem: "レジで店員が誤って|お釣りを|1万円多く渡した。|あなたは気づいている。", a: { label: "店員に伝える" }, b: { label: "黙って受け取る" }, better: "a" },
         { mtype: "honesty",   level: "mid",      stem: "友人が作ってくれた|手料理が|正直おいしくない。|「どうだった?」と|感想を聞かれた。", a: { label: "正直に言う" }, b: { label: "おいしいと言う" }, better: null },
         { mtype: "honesty",   level: "conflict", stem: "親友の結婚式当日、|新郎に隠された|不倫の証拠を|偶然見つけた。|式はもう|始まろうとしている。", a: { label: "式の前に伝える" }, b: { label: "黙っておく" }, better: null },
+        { id: "honesty-clear-2",    mtype: "honesty", level: "clear",    stem: "セルフジャッジの|テニスの試合で、|相手の打球が|ラインに入ったのが|見えたのは|自分だけだった。", a: { label: "インと伝える" }, b: { label: "アウトと言う" }, better: "a" },
+        { id: "honesty-mid-2",      mtype: "honesty", level: "mid",      stem: "友人が大きく|イメチェンした髪型を|「似合う?」と聞いてきた。|正直、|前の方が良かったと|思っている。", a: { label: "正直に言う" }, b: { label: "似合うと言う" }, better: null },
+        { id: "honesty-conflict-2", mtype: "honesty", level: "conflict", stem: "余命を知らされていない|父が「大丈夫だよな」と|あなたに聞いてきた。|本人に伝えるかどうかは、|医師から家族に|任されている。", a: { label: "本当のことを言う" }, b: { label: "大丈夫と言う" }, better: null },
         { mtype: "loyalty",   level: "clear",    stem: "資格試験の会場で、|隣の見知らぬ受験生が|カンニングしているのに|気づいた。", a: { label: "試験官に伝える" }, b: { label: "見て見ぬふり" }, better: "a" },
         { mtype: "loyalty",   level: "mid",      stem: "親しい同僚が、|在宅勤務中|ほとんど働かず|遊んでいるのに、|忙しいふりをして|あなたと同じ|給料・評価を得ている。", a: { label: "上司に伝える" }, b: { label: "黙っている" }, better: null },
         { mtype: "loyalty",   level: "conflict", stem: "実の兄が|会社ぐるみの不正に|関わっていると知った。|通報すれば|多くの被害者は|救われるが、|兄は逮捕され|兄の家族は|生活を失う。", a: { label: "通報する" }, b: { label: "黙っている" }, better: null },
+        { id: "loyalty-clear-2",    mtype: "loyalty", level: "clear",    stem: "コンビニで、|見知らぬ客が|商品をバッグに入れて|そのまま店を|出ようとしているのに|気づいた。", a: { label: "店員に伝える" }, b: { label: "見て見ぬふり" }, better: "a" },
+        { id: "loyalty-mid-2",      mtype: "loyalty", level: "mid",      stem: "仲の良い部員が|練習をさぼっていたのに、|あなたの代わりに|大会メンバーに|選ばれようとしている。|監督は気づいていない。", a: { label: "監督に伝える" }, b: { label: "黙っている" }, better: null },
+        { id: "loyalty-conflict-2", mtype: "loyalty", level: "conflict", stem: "親友と言える同期が、|あなたと仲の良い後輩に|嫌がらせを|繰り返していると知った。|人事に伝えれば|同期は処分され、|黙っていれば|後輩が苦しみ続ける。", a: { label: "人事に伝える" }, b: { label: "黙っている" }, better: null },
         { mtype: "care",      level: "clear",    stem: "優先席に座る|あなたの前に、|立つのがつらそうな|高齢者が来た。|席は空いていない。", a: { label: "席を譲る" }, b: { label: "座り続ける" }, better: "a" },
         { mtype: "care",      level: "mid",      stem: "人気店の長い行列で、|後ろの人が|「子どもが高熱で|急いでいる」と|順番を譲ってほしいと|頼んできた。", a: { label: "順番を譲る" }, b: { label: "断る" }, better: null },
         { mtype: "care",      level: "conflict", stem: "余命わずかの親友が|入院先で|「最後にこれが食べたい」と、|医師に固く止められた|食べ物を頼んできた。|食べれば|容体が急変する|恐れもある。", a: { label: "持っていく" }, b: { label: "断る" }, better: null },
+        { id: "care-clear-2",    mtype: "care", level: "clear",    stem: "雨の中、|目の前で高齢者が|転んで|立ち上がれずにいる。|あなたは|特に急いでいない。", a: { label: "助ける" }, b: { label: "通り過ぎる" }, better: "a" },
+        { id: "care-mid-2",      mtype: "care", level: "mid",      stem: "認知症が進む母は、|もうあなたのことも|思い出せない。|それでも|「家に帰りたい」と繰り返す。|連れて帰れば、|介護の負担は大きく増える。", a: { label: "連れて帰る" }, b: { label: "施設に残す" }, better: null },
+        { id: "care-conflict-2", mtype: "care", level: "conflict", stem: "人通りのない道で|人が倒れている。|あなたは第一志望の|最終面接に向かっていて、|立ち止まれば|間に合わない。", a: { label: "助ける" }, b: { label: "面接へ急ぐ" }, better: null },
       ],
       practiceBank: [
         // 1問目=明確 (操作の習得)、2問目=軽いトレードオフ (評定リハーサルで尺度の両側を1回ずつ)。本番12項目とは非重複・重い内容は避ける
@@ -725,7 +750,7 @@
         };
       },
       buildMain() {
-        // 左右CB: 各項目1回・水準内で a 側を半々 (各水準4項目=2左/2右、side×水準を均衡)。§6-5・②と同型
+        // 左右CB: 各項目1回・水準内で a 側を半々 (各水準8項目=4左/4右、side×水準を均衡)。§6-5・②と同型
         const cells = [];
         for (let r = 0; r < CONFIG.repsPerCell; r++) {
           const byLevel = {};
@@ -810,8 +835,10 @@
   })();
   if (ATTN_ON && SEQ[SEQ.length - 1] !== "attn") SEQ.push("attn");
   const REAL_BLOCKS = SEQ.filter((b) => b !== "attn");   // device.block/combo 判定は attn を除いた実ブロックで
+  const UNIFIED = REAL_BLOCKS.length > 1;   // 統合セッション: 練習を冒頭に統合しブロック別練習は廃止 (2026-07-15、§6-2)
   const HAS_RATING_BLOCK = REAL_BLOCKS.some((id) => BLOCKS[id] && BLOCKS[id].ratings);  // 事後アンケートは「評定ブロックを含むセッション」で出す (最後が attn でも出す)
   let seqIndex = 0;
+  let pendingMainStart = false;   // 練習クリア画面 (blockintro 流用) から「続ける」で本番へ (2026-07-15 自己ペース化)
   let BLOCK;   // 現在のブロック (統合では切替で再代入)
   function loadBlock(id) {
     BLOCK = BLOCKS[id];
@@ -828,15 +855,20 @@
   if (new URLSearchParams(location.search).get("upload") === "0") CONFIG.uploadUrl = null;  // 検証・デモ用 (GAS にゴミを送らない)
   loadBlock(SEQ[0]);
 
-  // 評定 3 項目 (experiment-design.md §3-1)。参加者向けは「自信/迷い/難しさ」、変数名は英語で統一
+  // 評定 2 項目 (experiment-design.md §3-1。2026-07-15 改訂: 難しさ削除・迷い主軸・文言プロセス係留)。
+  // 表示順は自信→迷い (チュートリアルの教授順と一致)。変数名は英語で統一
   const ITEMS = [
-    { key: "confidence", q: "この回答にどれくらい自信がありますか",
-      low: "1 = 全く自信がない", high: "5 = とても自信がある" },
-    { key: "hesitation", q: "この設問にどれくらい迷いを感じましたか",
-      low: "1 = 全く迷わなかった", high: "5 = とても迷った" },
-    { key: "difficulty", q: "この設問はあなたにとってどれくらい難しかったですか",
-      low: "1 = 全く難しくなかった", high: "5 = とても難しかった" },
+    { key: "confidence", q: "いま選んだ答えに、どれくらい自信がありますか",
+      low: "1 = まったく自信がない", high: "5 = とても自信がある" },
+    { key: "hesitation", q: "答えを決めるまでに、どれくらい迷いましたか",
+      low: "1 = まったく迷わなかった", high: "5 = とても迷った" },
   ];
+  // 評定チュートリアル (2026-07-15、練習1問目の評定画面で Step1→3。§6-2)
+  const TUT_TEXT = {
+    1: 'ここでは、答えたあとの「ふりかえり」を練習します。ふりかえりは、設問に答えるたびに毎回お願いします。<br>「自信」は、<b>いま選んだ答えへの気持ちの強さ</b>です。正解・不正解はありません。「自分はこちらだ」と思える強さを 1〜5 で選んでください。',
+    2: '評定は<b>あとから変更できます</b>。別の番号を押すと、そちらに変わります。ためしに、いまと<b>違う番号</b>を押してみてください。',
+    3: '変更できました。元に戻しても大丈夫です。<br>つぎは「迷い」です。「迷い」は、<b>答えを決めるまで</b>のことです。途中でどれくらい迷ったかを 1〜5 で選んでください。<br>迷いの強さは人や場面によってさまざまです。<b>迷うのはごく普通のこと</b>なので、感じたままを選んでください。決まったら下の「決定して次へ」を押します。',
+  };
 
   const $ = (id) => document.getElementById(id);
   const screens = { intro: $("intro"), task: $("task"), rating: $("rating"),
@@ -1030,6 +1062,7 @@
       if (phase === "practice") {
         // 練習終了はゲート達成 (showPracticeFeedback) が決める。キューが尽きたら補充してループ
         queue = BLOCK.buildPractice(Math.max(CONFIG.practiceTrials, BLOCK.gateStreak));
+        if (UNIFIED) for (const c of queue) c._pblock = CONFIG.block;   // 補充は現在タイプで継続
       } else {
         advanceBlockOrFinish(); return;   // 本番終了 → 次ブロック (統合) or 事後アンケート
       }
@@ -1058,7 +1091,8 @@
   }
   function showBlockIntro() {
     $("blockintroBody").innerHTML =
-      `<p class="opt-note">パート ${seqIndex + 1} / ${SEQ.length}</p>` + BLOCK.introHtml;
+      `<p class="opt-note">パート ${seqIndex + 1} / ${SEQ.length}</p>` +
+      ((UNIFIED && BLOCK.transitionHtml) ? BLOCK.transitionHtml : BLOCK.introHtml);
     show("blockintro");
     $("blockintro").querySelector(".pad").scrollTop = 0;
   }
@@ -1067,6 +1101,7 @@
     // 練習中はコーチング表示 (ステップ1: ボックスを隠し、上部の大きな説明で START へ誘導)。
     // 本番は一切出さない
     $("taskMsg").textContent = "";
+    if (phase === "practice" && cell._pblock && cell._pblock !== CONFIG.block) loadBlock(cell._pblock);  // 統合練習: セルのタイプへ切替
     if (phase === "practice") {
       coachMsg('まずは下の <b>START</b> を<br>指で<b>押さえたまま</b>にします', "top");
       setCoach("start");
@@ -1108,7 +1143,7 @@
     if (recording || uiLocked) return;           // 進行中 (マルチタッチ二本目) / 遷移待ち中は無視
     if (!inRect(rectOf(startBtn), e.clientX, e.clientY)) {
       // 練習中は原因別コーチング (ボックス直タップ等のありがちな誤操作)。本番は従来の短い注意のみ
-      if (phase === "practice") coachMsg('まずは下の <b>START</b> を<br>指で押さえます<span class="sub">タップではなく、押さえたまま動かして選ぶ課題です</span>', "top");
+      if (phase === "practice") coachMsg('まずは下の <b>START</b> を<br>指で押さえます<span class="sub">指をつけたまま動かして選ぶ課題です</span>', "top");
       else $("taskMsg").textContent = "STARTから始めてください";
       return;
     }
@@ -1130,7 +1165,7 @@
       stimulusOnsetT: e.timeStamp, initiationT: null, responseT: null,
       rt_proxy_ms: null, mt_proxy_ms: null, total_ms: null,
       dispHz: null, nDispatched: 0, nCoalesced: 0, aborts: 0,
-      ratings: { confidence: null, hesitation: null, difficulty: null },
+      ratings: { confidence: null, hesitation: null },
       geom: {
         surface: { w: sRect.width, h: sRect.height },
         start: { cx: sc.cx - sRect.left, cy: sc.cy - sRect.top },
@@ -1220,7 +1255,7 @@
     if (choiceSide === null || disp.length < CONFIG.minPoints) {
       // 練習中は失敗原因を切り分けてコーチング (START から動かず離した=タップ / 途中で離した / 速すぎ)
       const coach = !leftStart
-        ? 'タップではなく<b>ドラッグ</b>です<span class="sub">STARTを押さえたまま、ボックスまで動かします</span>'
+        ? '押すだけでは<b>選べません</b><span class="sub">STARTに指をつけたまま、回答（選択肢）まですべらせて動かします</span>'
         : (choiceSide === null
           ? '指が<b>途中で離れました</b><span class="sub">ボックスの中まで指をつけたまま動かし、中で離します</span>'
           : '指を離すのが<b>早すぎました</b><span class="sub">ボックスの中まで運んでから離します</span>');
@@ -1272,11 +1307,11 @@
     let head;
     if (BLOCK.practiceFeedback === "correct") {
       head = trial.correct
-        ? '<span class="feedback ok">正解！</span>'
-        : '<span class="feedback ng">ちがいます</span><span class="sub"><b>数の大きい方</b>のボックスを選びます</span>';
+        ? '<span class="feedback ok">○ 正解！</span>'
+        : '<span class="feedback ng">× ちがいます</span><span class="sub"><b>数の大きい方</b>のボックスを選びます</span>';
     } else {
       // 主観選択 (価値・選好) は正誤がないので中立フィードバックのみ
-      head = '<span class="feedback ok">記録しました</span>';
+      head = '<span class="feedback ok">○ 記録しました</span>';
     }
     $("counter").textContent = `連続成功 ${Math.min(streak, BLOCK.gateStreak)} / ${BLOCK.gateStreak}`;
     numA.style.visibility = "hidden";
@@ -1292,19 +1327,23 @@
     const remain = BLOCK.gateStreak - streak;
     const next = remain > 0 ? `<span class="sub">あと${remain}回つづけて成功すると本番です</span>` : "";
     coachMsg(head + next, "mid");
-    setTimeout(() => { streak >= BLOCK.gateStreak ? endPractice() : nextTrial(); }, pass ? 1100 : 1800);
+    setTimeout(() => { (streak >= BLOCK.gateStreak && !(UNIFIED && queue.length > 0)) ? endPractice() : nextTrial(); }, pass ? 1100 : 1800);
   }
 
-  // ===== 評定 (3項目を1画面に提示) =====
+  // ===== 評定 (2項目を1画面に提示。2026-07-15 2項目化+チュートリアル) =====
   let ratingOnset = 0;
   function beginRating() {
     ratingOnset = performance.now();
     // 練習中は評定リハーサル (2026-07-07 v2): 本番と同じ画面を使い、位置づけだけヘッダで明示。
     // ヘッダは2行以内に抑える (SE の実効 viewport で送信ボタンが fold 下に落ちないため)
-    if (phase === "practice") {
+    if (phase === "practice" && !ratingTutorialDone) {
+      // 評定チュートリアル Step1 (2026-07-15): 自信を強調・迷いを薄く。文言は TUT_TEXT
+      tutStep = 1;
+      $("ratingHead").className = "practice";
+    } else if (phase === "practice") {
       $("ratingHead").className = "practice";
       const remain = BLOCK.gateStreak - streak;
-      $("ratingHead").textContent = "【練習】選んだ直後に毎回この3問に直感で答えます"
+      $("ratingHead").textContent = "【練習】選んだ直後に毎回この2問に直感で答えます"
         + (remain > 0 ? `（あと${remain}回成功で本番）` : "（送信すると練習クリア）");
     } else {
       $("ratingHead").className = "";
@@ -1315,6 +1354,7 @@
     for (const item of ITEMS) {
       const wrap = document.createElement("div");
       wrap.className = "qitem";
+      wrap.id = "qitem-" + item.key;
       const q = document.createElement("div");
       q.className = "qi-text"; q.textContent = item.q;
       const lk = document.createElement("div");
@@ -1333,27 +1373,51 @@
       wrap.append(q, lk, an);
       host.appendChild(wrap);
     }
-    trial.ratings = { confidence: null, hesitation: null, difficulty: null };
+    trial.ratings = { confidence: null, hesitation: null };
     $("ratingSubmit").disabled = true;
+    if (tutStep) tutApply();
     show("rating");
     $("rating").querySelector(".qwrap").scrollTop = 0;
   }
+  // 評定チュートリアルの状態 (練習1問目のみ。§6-2 2026-07-15)
+  let ratingTutorialDone = false, tutStep = 0, tutFirstConf = null;
+  function tutApply() {
+    const qc = $("qitem-confidence"), qh = $("qitem-hesitation");
+    if (!qc || !qh) return;
+    qc.classList.toggle("dim", tutStep === 3);
+    qc.classList.toggle("tfocus", tutStep === 1 || tutStep === 2);
+    qh.classList.toggle("dim", tutStep === 1 || tutStep === 2);
+    qh.classList.toggle("tfocus", tutStep === 3);
+    $("ratingHead").innerHTML = TUT_TEXT[tutStep] || "";
+  }
   function selectRating(key, value, container, btn) {
+    if (tutStep && tutStep < 3 && key === "hesitation") return;  // チュートリアル: 迷いは Step3 から
     // rt_ms = 評定画面表示〜この項目を選んだ時刻 (1画面提示なので回答順は自由)
     trial.ratings[key] = { value, rt_ms: +(performance.now() - ratingOnset).toFixed(1) };
     for (const b of container.children) b.classList.toggle("sel", b === btn);
     $("ratingSubmit").disabled = ITEMS.some((it) => trial.ratings[it.key] == null);
+    if (tutStep === 1 && key === "confidence") {
+      tutFirstConf = value; tutStep = 2; tutApply();          // Step2: 変更練習へ
+    } else if (tutStep === 2 && key === "confidence" && value !== tutFirstConf) {
+      device.ratingTutorial = { changed: true };              // 変更を行動で確認
+      tutStep = 3; tutApply();                                // Step3: 自信を薄く・迷いを強調
+    }
   }
   function submitRating() {
     if (ITEMS.some((it) => trial.ratings[it.key] == null)) return;
-    trial.ratingSubmitMs = +(performance.now() - ratingOnset).toFixed(1); // 3項目合計の所要時間 (負担指標)
+    trial.ratingSubmitMs = +(performance.now() - ratingOnset).toFixed(1); // 2項目合計の所要時間 (負担指標)
+    if (tutStep) {   // チュートリアル完遂 (練習1問目)
+      tutStep = 0; ratingTutorialDone = true;
+      device.ratingTutorial = Object.assign({ changed: false }, device.ratingTutorial, { completed: true });
+    }
     saveBackup();   // 評定込みで再チェックポイント (trial は records 内を直接更新済み)
     if (phase === "main") {
       trialIndex++;
       nextTrial();
     } else {
-      // 練習 (評定リハーサル後): 行動ゲート判定 (streak は showPracticeFeedback で更新済み)
-      streak >= BLOCK.gateStreak ? endPractice() : nextTrial();
+      // 練習 (評定リハーサル後): 行動ゲート判定 (streak は showPracticeFeedback で更新済み)。
+      // 統合練習 (UNIFIED) はゲート達成後も両タイプを完走してから本番へ (2026-07-15)
+      (streak >= BLOCK.gateStreak && !(UNIFIED && queue.length > 0)) ? endPractice() : nextTrial();
     }
   }
 
@@ -1381,25 +1445,37 @@
     captureIntro();
     phase = "practice";
     streak = 0;
-    queue = BLOCK.buildPractice(CONFIG.practiceTrials);
+    if (UNIFIED && seqIndex === 0) {
+      // 統合練習 (2026-07-15、§6-2): 本番ブロック順に各ブロック2問 (計4)。1問目の評定でチュートリアル。
+      // ブロック別練習は廃止 (操作・評定画面が全ブロック同一のため。切替効果はブロック順CB+解析で統制)
+      queue = [];
+      for (const id of REAL_BLOCKS) {
+        const b = BLOCKS[id];
+        for (const c of b.buildPractice(b.practiceTrials)) { c._pblock = id; queue.push(c); }
+      }
+    } else {
+      queue = BLOCK.buildPractice(CONFIG.practiceTrials);
+    }
     sizeCanvas();
     if (queue.length === 0) { startMain(); return; }  // ?practice=0 (開発用) のみ練習スキップ
     nextTrial();
   }
   function endPractice() {
-    uiLocked = true;   // 本番開始までの遷移中も START 無効
+    // 自己ペース遷移 (2026-07-15 高齢者配慮): 自動タイマー (旧1.8秒) でなく「続ける」ボタンで本番へ。
+    // blockintro 画面を流用し、pendingMainStart で blockintroGo の遷移先を本番に切り替える
+    uiLocked = true;
     setCoach(null);
-    show("task");
-    $("phaseLabel").textContent = "練習クリア";
-    $("counter").textContent = "";
-    numA.style.visibility = "hidden"; numB.style.visibility = "hidden";
-    stemEl.style.visibility = "hidden";
-    startBtn.classList.remove("armed"); startBtn.textContent = "START";
-    $("taskMsg").textContent = "";
-    coachMsg('<span class="feedback ok">練習クリア！</span><span class="sub">ここからが本番です。やり方は練習と同じです</span>', "mid");
-    setTimeout(() => startMain(), 1800);
+    coachHide();
+    pendingMainStart = true;
+    $("blockintroBody").innerHTML =
+      '<h1>練習完了です！</h1>' +
+      '<p>ここからが<b>本番</b>です。やり方は練習と同じです。</p>' +
+      '<p>準備ができたら「続ける」を押してください。</p>';
+    show("blockintro");
+    $("blockintro").querySelector(".pad").scrollTop = 0;
   }
   function startMain() {
+    if (CONFIG.block !== SEQ[seqIndex]) loadBlock(SEQ[seqIndex]);  // 統合練習の最後が別タイプだった場合に現ブロックへ復帰
     clearBackup();  // 本番開始前は今セッションのバックアップ未作成なので無条件で前回分を破棄してよい
     if (!device.participantId) captureIntro();
     // 練習サマリ (行動ゲートの達成記録。理解確認の証跡 + データ品質共変量。§6-2)
@@ -1638,7 +1714,10 @@
   $("goPractice").addEventListener("click", startPractice, { passive: true });
   $("ratingSubmit").addEventListener("click", submitRating, { passive: true });
   $("breakContinue").addEventListener("click", () => presentStimulus(), { passive: true });
-  $("blockintroGo").addEventListener("click", startPractice, { passive: true });  // 統合セッションの次パート開始
+  $("blockintroGo").addEventListener("click", () => {
+    if (pendingMainStart) { pendingMainStart = false; startMain(); return; }  // 練習クリア→本番 (自己ペース)
+    UNIFIED ? startMain() : startPractice();   // 統合: 練習は冒頭に統合済み→次パートは本番へ直行 (2026-07-15)
+  }, { passive: true });
   $("postSubmit").addEventListener("click", () => {
     if ($("postSubmit").disabled) return;   // 未完了 (grip / 事後アンケート必須) なら無視
     if (HAS_RATING_BLOCK) {
