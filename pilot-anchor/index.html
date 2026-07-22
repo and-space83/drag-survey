@@ -108,6 +108,10 @@
   .btn { display: inline-flex; align-items: center; justify-content: center;
     padding: 14px 22px; font-size: 16px; font-weight: bold; border-radius: 10px;
     border: 2px solid #4a9; color: #4a9; background: rgba(68,170,153,0.10); margin-top: 16px; }
+  /* 進行ボタン (次の段階へ進む系: 練習開始/計測/読了/続ける/完了 等) は中央寄せ+大型化
+     (2026-07-22 実機フィードバック: 位置とサイズで「押せば進む」を分かりやすく) */
+  .btn.advance { display: flex; align-items: center; justify-content: center;
+    margin: 22px auto 0; min-width: 72%; max-width: 420px; padding: 16px 24px; font-size: 18px; }
   .btn.primary { background: #2f7; color: #052; border-color: #2f7; }
   .btn.ghost { border-color: #555; color: #ccc; background: #222; }
   .btn:active { filter: brightness(1.3); }
@@ -229,8 +233,10 @@
   #tutBox .tut-step { font-size: 12px; color: #fc6; font-weight: 700; letter-spacing: 1px; margin-bottom: 6px; }
   #tutBox .tut-text { font-size: 15px; line-height: 1.75; color: #dde; }
   #tutBox .tut-text b { color: #fc6; font-size: 16.5px; }
-  #tutBox .tut-next { margin-top: 10px; padding: 10px 20px; font-size: 15px; }
-  #ratingSubmit { align-self: center; margin-top: 4px; margin-bottom: auto; }
+  /* 確定ボタンと (チュートリアル中の) 次へボタンは同じ位置・同じ大きさ (2026-07-22 実機フィードバック:
+     「次へ」を説明ボックス内でなく確定ボタンの位置に置き、進む操作の場所を1箇所に固定する) */
+  #ratingSubmit, #tutNext { align-self: center; margin-top: 4px; margin-bottom: auto;
+    min-width: 72%; max-width: 420px; padding: 16px 24px; font-size: 18px; }
   #ratingSubmit:disabled { opacity: 0.4; border-color: #555; color: #888; background: #222; }
 
   /* ---- 文節ブロック改行 (2026-07-22): "|" 区切りの文節を inline-block 化し、
@@ -331,7 +337,7 @@
     <p class="opt-note" id="micNote">※ 静かな環境での実施を確認するため、課題中はマイクで<b>周囲の音量レベルのみ</b>を測定します。会話などの音声の内容は記録・送信されません。マイクの利用を許可いただけない場合は参加できません。</p>
     <div class="btnrow">
       <!-- 練習は必須 (スキップ不可)。開発用の抜け道は ?practice=0 クエリのみ (2026-07-07 決定) -->
-      <button class="btn primary" id="goPractice">練習を始める</button>
+      <button class="btn primary advance" id="goPractice">練習を始める</button>
     </div>
   </div>
 </section>
@@ -355,6 +361,9 @@
   <div class="qwrap">
     <div id="ratingHead"></div>
     <div id="ratingItems"></div>
+    <!-- チュートリアルの「次へ」は説明ボックス内でなく確定ボタンと同じ位置に出す (2026-07-22 実機FB)。
+         説明ページ中は ratingSubmit を隠して tutNext を表示、実操作ページでは逆 (tutRender が切替) -->
+    <button type="button" class="btn primary" id="tutNext" style="display:none">次へ</button>
     <button class="btn primary" id="ratingSubmit" disabled>決定して次へ</button>
   </div>
 </section>
@@ -365,7 +374,7 @@
     <h1>休憩</h1>
     <p id="breakInfo"></p>
     <p>準備ができたら続けてください。</p>
-    <button class="btn primary" id="breakContinue">続ける</button>
+    <button class="btn primary advance" id="breakContinue">続ける</button>
   </div>
 </section>
 
@@ -377,8 +386,8 @@
     <div class="micmeter" id="micgateMeter"><i></i></div>
     <p class="micstatus" id="micgateStatus"></p>
     <div class="btnrow">
-      <button class="btn primary" id="micgateStart">マイクを許可して計測する</button>
-      <button class="btn primary" id="micgateGo" style="display:none">練習にすすむ</button>
+      <button class="btn primary advance" id="micgateStart">マイクを許可して計測する</button>
+      <button class="btn primary advance" id="micgateGo" style="display:none">練習にすすむ</button>
     </div>
   </div>
 </section>
@@ -392,7 +401,7 @@
     <div class="micmeter" id="noisegateMeter"><i></i></div>
     <p class="micstatus" id="noisegateStatus"></p>
     <p class="opt-note" id="noisegateHint" style="display:none">静かな場所への移動がむずかしい場合は、いったん画面を閉じて、静かな環境になってからあらためてご参加ください。</p>
-    <button class="btn primary" id="noisegateGo" style="display:none">次へすすむ</button>
+    <button class="btn primary advance" id="noisegateGo" style="display:none">次へすすむ</button>
   </div>
 </section>
 
@@ -403,7 +412,7 @@
     <p id="readIntro">はじめに、文章を読む速さを確認します（全3問）。<br>表示された文章を<b>ふだんどおりの速さ</b>で読み、読み終えたら<b>すぐ</b>下のボタンを押してください。<br>内容についての質問はありません。覚える必要もありません。</p>
     <p class="opt-note" id="readCounter"></p>
     <div class="rtext" id="readText" style="display:none"></div>
-    <button class="btn primary" id="readDone">はじめる</button>
+    <button class="btn primary advance" id="readDone">はじめる</button>
   </div>
 </section>
 
@@ -411,7 +420,7 @@
 <section id="blockintro" class="screen">
   <div class="pad">
     <div id="blockintroBody"></div>
-    <button class="btn primary" id="blockintroGo">続ける</button>
+    <button class="btn primary advance" id="blockintroGo">続ける</button>
   </div>
 </section>
 
@@ -460,7 +469,7 @@
       </div>
     </div>
 
-    <button class="btn primary" id="postSubmit" disabled>完了する</button>
+    <button class="btn primary advance" id="postSubmit" disabled>完了する</button>
   </div>
 </section>
 
@@ -959,12 +968,17 @@
     { key: "hesitation", q: "答えを決めるまでに、どれくらい迷いましたか",
       low: "1 = まったく迷わなかった", high: "5 = とても迷った" },
   ];
-  // 評定チュートリアル v2 (2026-07-22 改訂、練習1問目の評定画面。§6-2)。
-  // 旧 Step1-3 (ヘッダに長文一括) を6ページに分割: 「次へ」ボタン/実操作で1ページずつ進み、
-  // 説明は枠付きボックス (tutBox) +ステップ表示「説明 n/6」で対象評定の直上に置く。
+  // 評定チュートリアル v2 (2026-07-22 改訂+同日実機FB反映、練習1問目の評定画面。§6-2)。
+  // 旧 Step1-3 (ヘッダに長文一括) をページ分割: 「次へ」ボタン/実操作で1ページずつ進み、
+  // 説明は枠付きボックス (tutBox) +ステップ表示「説明 n/N」で常に評定の上の同じ位置に置く。
   // ページ2 = 5段階の中立な使い方説明 (具体例は回答分布を誘導するため出さない。2026-07-22 ユーザー決定)。
-  // ページ5 (迷い) は自信の評定を覆い隠し、説明が迷いの直上に来る (ユーザー指定 2026-07-22)。
-  // act: next=「次へ」で進む / conf=自信を選ぶ / change=自信を別の値へ変更 / hes=迷いを選ぶ / submit=決定ボタンで完遂
+  // 実機FB (2026-07-22) の反映:
+  //   - 「次へ」はボックス内でなく確定ボタンと同じ位置 (進む操作の場所を1箇所に固定)
+  //   - 迷いページは当初の「自信を覆い隠す」方式をやめ全ページ同一レイアウト (自信は減光・迷いを強調) =
+  //     迷いの評定位置がページでずれない
+  //   - 旧「変更練習」ページ (自信を別の値へ変更させる) は削除し、最終ページで「決定して次へを押すまで
+  //     何度でも変更できる」を明示的に説明する方式へ (変更の実施有無は tutChanged で観察記録)
+  // act: next=「次へ」で進む / conf=自信を選ぶ / hes=迷いを選ぶ / submit=決定ボタンで完遂
   const TUT_PAGES = [
     { act: "next",   focus: null,
       text: 'ここからは、|答えたあとの|<b>ふりかえり</b>の練習です。|設問に答えるたびに毎回、|下の<b>2つの質問</b>に|答えます。' },
@@ -972,12 +986,10 @@
       text: 'どちらの質問も|<b>1〜5</b> から選びます。|<b>どちら寄りか</b>を|選ぶだけで、|<b>正解はありません</b>。|1と5の意味は|いつも数字の下に|書いてあります。' },
     { act: "conf",   focus: "confidence",
       text: '1つ目は<b>自信</b>です。|<b>いま選んだ答え</b>への|気持ちの強さを表します。|「自分はこちらだ」と|思える強さを、|ためしに1つ|押してみてください。' },
-    { act: "change", focus: "confidence",
-      text: '評定は<b>あとから変更できます</b>。|別の番号を押すと|そちらに変わります。|ためしに、いまと|<b>違う番号</b>を|押してみてください。' },
-    { act: "hes",    focus: "hesitation", cover: true,
-      text: '2つ目は<b>迷い</b>です。|<b>答えを決めるまで</b>に|どれくらい迷ったかを|表します。|<b>迷うのはごく普通のこと</b>です。|感じたままを、|ためしに1つ|押してみてください。' },
+    { act: "hes",    focus: "hesitation",
+      text: '2つ目は、下の<b>迷い</b>です。|<b>答えを決めるまで</b>に|どれくらい迷ったかを|表します。|<b>迷うのはごく普通のこと</b>です。|感じたままを、|ためしに1つ|押してみてください。' },
     { act: "submit", focus: null,
-      text: 'これで2つとも|答えられました。|まだ変更もできます。|よければ下の|<b>「決定して次へ」</b>を|押して確定します。' },
+      text: 'これで2つとも|答えられました。|評定は、下の|<b>「決定して次へ」</b>を押すまで|<b>何度でも変更できます</b>|（別の番号を押すと|そちらに変わります）。|見直して、よければ|<b>「決定して次へ」</b>で|確定してください。' },
   ];
 
   const $ = (id) => document.getElementById(id);
@@ -1757,18 +1769,20 @@
     show("rating");
     $("rating").querySelector(".qwrap").scrollTop = 0;
   }
-  // 評定チュートリアル v2 の状態 (練習1問目のみ。§6-2 2026-07-22)
-  let ratingTutorialDone = false, tutIdx = -1, tutFirstConf = null, tutRenderedAt = 0;
+  // 評定チュートリアル v2 の状態 (練習1問目のみ。§6-2 2026-07-22)。
+  // tutChanged = チュートリアル中に評定を変更したか (旧・変更練習の行動ゲートに代わる観察記録)
+  let ratingTutorialDone = false, tutIdx = -1, tutChanged = false, tutRenderedAt = 0;
   const tutActive = () => tutIdx >= 0;
   function tutRender() {
     const qc = $("qitem-confidence"), qh = $("qitem-hesitation");
     if (!qc || !qh) return;
     let box = $("tutBox");
-    if (!tutActive()) {   // 完遂/解除: ボックスを外し自信の評定を復帰
+    if (!tutActive()) {   // 完遂/解除: ボックスを外し通常の評定画面へ復帰
       if (box) box.remove();
-      qc.style.display = "";
       qc.classList.remove("dim", "tfocus");
       qh.classList.remove("dim", "tfocus");
+      $("tutNext").style.display = "none";
+      $("ratingSubmit").style.display = "";
       return;
     }
     const p = TUT_PAGES[tutIdx];
@@ -1776,22 +1790,15 @@
       box = document.createElement("div");
       box.id = "tutBox";
       box.innerHTML = '<div class="tut-step" id="tutStepLabel"></div>' +
-        '<div class="tut-text" id="tutText"></div>' +
-        '<button type="button" class="btn primary tut-next" id="tutNext">次へ</button>';
-      box.querySelector("#tutNext").addEventListener("click", () => {
-        // 連打デバウンス (レビューWF 2026-07-22): ダブルタップの2発目が P1→P3 と飛び、P2 (5段階の
-        // 使い方説明) を読まずに恒久スキップするのを防ぐ。表示後 300ms 未満のタップは無視
-        if (performance.now() - tutRenderedAt < 300) return;
-        if (tutActive() && TUT_PAGES[tutIdx].act === "next") tutAdvance();
-      }, { passive: true });
+        '<div class="tut-text" id="tutText"></div>';
     }
-    // 配置: 迷いページ (cover) は自信の評定を覆い隠してその位置=迷いの直上に説明を置く。それ以外は評定の上
-    qc.style.display = p.cover ? "none" : "";
-    if (p.cover) qh.parentNode.insertBefore(box, qh);
-    else qc.parentNode.insertBefore(box, qc);
+    // 配置は全ページ共通 = 常に評定2項目の上 (2026-07-22 実機FB: ページによる位置ずれを排除)
+    qc.parentNode.insertBefore(box, qc);
     box.querySelector("#tutStepLabel").textContent = `説明 ${tutIdx + 1} / ${TUT_PAGES.length}`;
     box.querySelector("#tutText").innerHTML = nb(p.text);
-    box.querySelector("#tutNext").style.display = p.act === "next" ? "" : "none";
+    // 「次へ」は確定ボタンの位置に出す (説明ページのみ。実操作ページは確定ボタン=無効 を表示)
+    $("tutNext").style.display = p.act === "next" ? "" : "none";
+    $("ratingSubmit").style.display = p.act === "next" ? "none" : "";
     // 対象評定を強調・それ以外は減光 (説明ページ中は両方減光=操作不可)
     qc.classList.toggle("tfocus", p.focus === "confidence");
     qh.classList.toggle("tfocus", p.focus === "hesitation");
@@ -1807,8 +1814,10 @@
     if (tutActive()) {   // チュートリアル: 現ページの対象以外は受け付けない (説明ページは操作不可)
       const act = TUT_PAGES[tutIdx].act;
       if (act === "next") return;
-      if ((act === "conf" || act === "change") && key !== "confidence") return;
+      if (act === "conf" && key !== "confidence") return;
       if (act === "hes" && key !== "hesitation") return;
+      // 変更の観察記録 (最終ページの「押すまで変更できます」説明を実際に試したか等)
+      if (trial.ratings[key] && trial.ratings[key].value !== value) tutChanged = true;
     }
     // rt_ms = 評定画面表示〜この項目を選んだ時刻 (1画面提示なので回答順は自由)
     trial.ratings[key] = { value, rt_ms: +(performance.now() - ratingOnset).toFixed(1) };
@@ -1817,14 +1826,8 @@
       (tutActive() && TUT_PAGES[tutIdx].act !== "submit");
     if (tutActive()) {
       const act = TUT_PAGES[tutIdx].act;
-      if (act === "conf" && key === "confidence") {
-        tutFirstConf = value; tutAdvance();                   // → 変更練習ページへ
-      } else if (act === "change" && key === "confidence" && value !== tutFirstConf) {
-        device.ratingTutorial = { changed: true };            // 変更を行動で確認
-        tutAdvance();                                         // → 迷いページ (自信を覆う) へ
-      } else if (act === "hes" && key === "hesitation") {
-        tutAdvance();                                         // → 確定ページへ
-      }
+      if (act === "conf" && key === "confidence") tutAdvance();       // → 迷いページへ
+      else if (act === "hes" && key === "hesitation") tutAdvance();   // → 確定ページへ
     }
   }
   function submitRating() {
@@ -1834,8 +1837,7 @@
     stampMonitors(trial);   // 評定時間も含めた試行窓で環境音要約を上書き (§6-6 項10: 評定中も計測)
     if (tutActive()) {   // チュートリアル完遂 (練習1問目)
       tutIdx = -1; ratingTutorialDone = true; tutRender();
-      device.ratingTutorial = Object.assign({ changed: false }, device.ratingTutorial,
-        { completed: true, pages: TUT_PAGES.length });
+      device.ratingTutorial = { changed: tutChanged, completed: true, pages: TUT_PAGES.length };
     }
     saveBackup();   // 評定込みで再チェックポイント (trial は records 内を直接更新済み)
     if (phase === "main") {
@@ -2181,6 +2183,12 @@
   }, { passive: true });
   if (MIC.mode === "off") $("micNote").style.display = "none";   // 開発時はマイク同意文言も出さない
   $("ratingSubmit").addEventListener("click", submitRating, { passive: true });
+  // チュートリアルの「次へ」(確定ボタン位置の静的要素)。連打デバウンス: ダブルタップの2発目が
+  // P2 (5段階の使い方説明) を読まずに飛ばすのを防ぐ (レビューWF 2026-07-22)。表示後 300ms 未満は無視
+  $("tutNext").addEventListener("click", () => {
+    if (performance.now() - tutRenderedAt < 300) return;
+    if (tutActive() && TUT_PAGES[tutIdx].act === "next") tutAdvance();
+  }, { passive: true });
   $("breakContinue").addEventListener("click", () => presentStimulus(), { passive: true });
   $("blockintroGo").addEventListener("click", () => {
     if (pendingMainStart) { pendingMainStart = false; startMain(); return; }  // 練習クリア→本番 (自己ペース)
