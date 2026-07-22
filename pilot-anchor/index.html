@@ -80,10 +80,14 @@
   /* ---- 共通 (intro / done / message) ---- */
   .pad { flex: 1; min-height: 0; padding: 24px; overflow-y: auto;
     line-height: 1.6; touch-action: pan-y; display: flex; flex-direction: column; }
-  /* 画面遷移系 (micgate/reading/break/blockintro 等) の説明+ボタンを縦方向も中央へ
-     (2026-07-22 実機FB: 上に寄りすぎ)。上下スペーサが余白を均等に吸収し、内容が溢れる画面
-     (intro/postq/done の長文) ではスペーサが 0 になり従来の上寄せスクロールに自動フォールバック */
-  .pad::before, .pad::after { content: ""; flex: 1 0 0; }
+  /* 画面遷移系 (micgate/reading/break/blockintro 等) の縦配置 (2026-07-22 実機FB 2回の調整):
+     説明は「上端と中央の中間」(余白の1/4 の位置)、進むボタンは中央付近のまま。
+     余白は 上1 : 説明-ボタン間1 (.vgap) : 下2 の比で吸収 → 説明のみ上へ寄り、ボタン位置は
+     完全中央寄せ時と同一になる。内容が溢れる画面 (intro/postq/done の長文) では全スペーサが
+     0 になり従来の上寄せスクロールに自動フォールバック */
+  .pad::before { content: ""; flex: 1 0 0; }
+  .pad::after { content: ""; flex: 2 0 0; }
+  .pad .vgap { flex: 1 0 0; }
   .pad h1 { font-size: 20px; margin-bottom: 12px; color: #6cf; }
   .pad h2 { font-size: 15px; margin: 16px 0 6px; color: #9cf; }
   .pad p, .pad li { font-size: 14px; color: #ccc; }
@@ -379,6 +383,7 @@
     <h1>休憩</h1>
     <p id="breakInfo"></p>
     <p>準備ができたら続けてください。</p>
+    <div class="vgap"></div>
     <button class="btn primary advance" id="breakContinue">続ける</button>
   </div>
 </section>
@@ -390,6 +395,7 @@
     <div id="micgateBody"></div>
     <div class="micmeter" id="micgateMeter"><i></i></div>
     <p class="micstatus" id="micgateStatus"></p>
+    <div class="vgap"></div>
     <div class="btnrow">
       <button class="btn primary advance" id="micgateStart">マイクを許可して計測する</button>
       <button class="btn primary advance" id="micgateGo" style="display:none">練習にすすむ</button>
@@ -406,6 +412,7 @@
     <div class="micmeter" id="noisegateMeter"><i></i></div>
     <p class="micstatus" id="noisegateStatus"></p>
     <p class="opt-note" id="noisegateHint" style="display:none">静かな場所への移動がむずかしい場合は、いったん画面を閉じて、静かな環境になってからあらためてご参加ください。</p>
+    <div class="vgap"></div>
     <button class="btn primary advance" id="noisegateGo" style="display:none">次へすすむ</button>
   </div>
 </section>
@@ -417,6 +424,7 @@
     <p id="readIntro">はじめに、文章を読む速さを確認します（全3問）。<br>表示された文章を<b>ふだんどおりの速さ</b>で読み、読み終えたら<b>すぐ</b>下のボタンを押してください。<br>内容についての質問はありません。覚える必要もありません。</p>
     <p class="opt-note" id="readCounter"></p>
     <div class="rtext" id="readText" style="display:none"></div>
+    <div class="vgap"></div>
     <button class="btn primary advance" id="readDone">はじめる</button>
   </div>
 </section>
@@ -425,6 +433,7 @@
 <section id="blockintro" class="screen">
   <div class="pad">
     <div id="blockintroBody"></div>
+    <div class="vgap"></div>
     <button class="btn primary advance" id="blockintroGo">続ける</button>
   </div>
 </section>
