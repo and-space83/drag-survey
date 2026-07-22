@@ -22,7 +22,14 @@
              survey:                           // 事後アンケート UI/負担 (②③=評定ブロックのみ。anchor は null)
                {problems:[slug…], ease('easy'|'ok'|'hard'), free},  // free=その他選択時のみ表示・必須の自由記述
              practiceSummary:                  // 練習の行動ゲート達成記録 (理解確認の証跡 + 品質共変量)
-               {gateStreak, gateCorrect, trials, aborts, skipped}},
+               {gateStreak, gateCorrect, trials, aborts, skipped},
+             mic:                              // 環境音モニタ (2026-07-21 §6-6 項10。マイク必須・音量レベルのみ・生音声は取得しない)
+               {mode('real'|'mock'|'off'), threshold(dBFS), checkMs, quietMs, gateMinOverMs,
+                ambientDb, ambientRetries, drops},   // 事前チェックの実測/再計測回数・課題中の切断回数
+             wakeLock,                         // Screen Wake Lock の取得可否 (§6-6 項11。消灯→マイク切断の予防)
+             completionCode,                   // 実施確認用の完了コード (§6-6 項12。1人1コード・募集サイト納品欄と機械照合)
+             readingBaseline:                  // 読速ベースライン (2026-07-22 §6-6 項13。moral 含むセッションで実施・?read=0/1)
+               {trials:[{chars,ms}], charsPerSec}},   // 中立短文3本の「読み終えたらタップ」計測 → 場面文RTの読解時間分離の材料
     trials: [ {
       index, phase('main'|'practice'), stimulusType('numeric-size'|'text-choice'),
       // --- ① anchor (numeric-size) のメタ ---
@@ -43,6 +50,9 @@
       stimulusOnsetT, initiationT, responseT, rt_proxy_ms, mt_proxy_ms, total_ms,
       dispHz, nDispatched, nCoalesced, aborts,
       ratings: {confidence:{value,rt_ms}, hesitation:{...}} (2026-07-15 2項目化。第二パイロット以前のデータは difficulty あり), ratingSubmitMs,
+      noise: {n, meanDb, maxDb, overMs},   // 試行窓 (呈示〜評定送信) の環境音要約 (mic=off は null。品質共変量)
+      noisePause: {durationMs, retries},   // 評定送信後ノイズゲートの滞在記録 (閾値超過試行のみ。§6-6 項10)
+      vis: {count, totalMs},               // 試行窓の画面離脱 (アプリ切替・通知・ロック) の回数と合計時間 (§6-6 項11)
       geom: {surface:{w,h}, start:{cx,cy}, A:{cx,cy,w,h}, B:{cx,cy,w,h}, dpr},
       events: [ {seq, t, x, y, type('down'|'dispatched'|'coalesced'|'up')} ]  // x,y は surface 相対 CSS px
     } ] }
@@ -192,11 +202,13 @@
      送信ボタンが fold 下に落ちないよう 2 行以内に収まるサイズに抑える */
   #ratingHead.practice { font-size: 15px; color: #fc6; font-weight: 700; line-height: 1.6; }
 
-  /* ---- 評定画面 (3項目を1画面に) ---- */
+  /* ---- 評定画面 (2項目を1画面に) ---- */
   #rating { background: #141414; }
   #rating .qwrap { flex: 1; min-height: 0; overflow-y: auto; touch-action: pan-y;
     padding: 18px 18px 28px; display: flex; flex-direction: column; }
-  #ratingHead { text-align: center; font-size: 14px; color: #9cf; margin-bottom: 12px; }
+  /* 2項目化 (2026-07-15) で内容が減ったぶん評定ブロックを縦中央へ (2026-07-22)。
+     auto マージンは内容が qwrap から溢れると 0 になる = SE 小画面・チュートリアル中は従来どおり上寄せスクロール */
+  #ratingHead { text-align: center; font-size: 14px; color: #9cf; margin-bottom: 12px; margin-top: auto; }
   .qitem { margin-bottom: 18px; }
   .qi-text { font-size: 16px; color: #eee; margin-bottom: 8px; line-height: 1.45; }
   .likert { display: flex; gap: 7px; justify-content: center; }
@@ -209,8 +221,25 @@
   .anchors span:last-child { text-align: right; }
   .qitem.dim { opacity: 0.3; pointer-events: none; }        /* 評定チュートリアル: 非対象項目を薄く */
   .qitem.tfocus .qi-text { color: #fc6; font-weight: 700; } /* 評定チュートリアル: 対象項目を強調 */
-  #ratingSubmit { align-self: center; margin-top: 4px; }
+  /* ---- 評定チュートリアル v2 (2026-07-22): 枠付き説明ボックス+ステップ表示 (説明 n/6)。
+     強調 (b) は色+ややサイズ大で一色べた書きを避ける。ボックスは対象評定の直上に挿入され、
+     迷いページでは自信の評定を覆い隠してその位置に出る (=迷いの直上) ---- */
+  #tutBox { border: 2px solid #fc6; border-radius: 12px; background: rgba(255,204,102,0.08);
+    padding: 12px 14px; margin-bottom: 18px; }
+  #tutBox .tut-step { font-size: 12px; color: #fc6; font-weight: 700; letter-spacing: 1px; margin-bottom: 6px; }
+  #tutBox .tut-text { font-size: 15px; line-height: 1.75; color: #dde; }
+  #tutBox .tut-text b { color: #fc6; font-size: 16.5px; }
+  #tutBox .tut-next { margin-top: 10px; padding: 10px 20px; font-size: 15px; }
+  #ratingSubmit { align-self: center; margin-top: 4px; margin-bottom: auto; }
   #ratingSubmit:disabled { opacity: 0.4; border-color: #555; color: #888; background: #222; }
+
+  /* ---- 文節ブロック改行 (2026-07-22): "|" 区切りの文節を inline-block 化し、
+     ブロックの途中では折り返さない (変な位置の改行 = 読みづらさ対策)。
+     max-width は「1ブロックが行幅より長い」場合にブロック内折返しを許す保険 */
+  .nb { display: inline-block; max-width: 100%; }
+  /* #stem は flex コンテナのため .nb を直接入れると各文節が flex item 化して縦割りカラムに崩れる
+     (レビューWF 2026-07-22 が headless 実測で検出)。block ラッパを1枚挟み、その中で通常の折返しにする */
+  .nbwrap { max-width: 100%; text-align: center; }
 
   .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; color: #9b9; }
 
@@ -227,6 +256,21 @@
     border: 1px solid #a83; border-radius: 10px; background: rgba(255,170,68,0.08); }
   #recovery.show { display: block; }
   #recovery p { color: #fc8; font-size: 13px; margin-bottom: 4px; }
+
+  /* ---- 環境音モニタ (micgate=事前チェック/再取得・noisegate=試行間アラート。2026-07-21 §6-6 項10) ---- */
+  .micmeter { height: 14px; max-width: 320px; border: 1px solid #467; border-radius: 7px;
+    margin: 14px 0 6px; overflow: hidden; background: #1a2026; }
+  .micmeter i { display: block; height: 100%; width: 0%; background: #2f7; transition: width 0.12s linear; }
+  .micmeter.loud i { background: #f55; }
+  .micstatus { font-size: 14px; color: #9cf; min-height: 1.6em; }
+  /* ---- 読速ベースライン (2026-07-22 §6-6 項13) ---- */
+  #reading .rtext { font-size: 18px; line-height: 1.9; color: #eee; margin: 16px 0 4px; }
+
+  /* 完了コード (done 画面。募集サイト納品欄との照合用 §6-6 項12) */
+  .ccode { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 30px; font-weight: 800; letter-spacing: 4px; color: #2f7; margin: 4px 0; }
+  #ccodeBox { margin: 14px 0; padding: 12px; border: 1px solid #2a5;
+    border-radius: 10px; background: rgba(34,255,119,0.06); }
 </style>
 </head>
 <body>
@@ -283,6 +327,8 @@
     </div>
     <p class="mono" id="devline"></p>
     <p class="opt-note">※ 重複参加の確認のため、端末にランダムな目印 (個人を特定しない記号) を保存します。</p>
+    <!-- 環境音モニタの同意文言 (§6-6 項10。レベルのみ・内容非記録。?mic=0 のとき JS で非表示) -->
+    <p class="opt-note" id="micNote">※ 静かな環境での実施を確認するため、課題中はマイクで<b>周囲の音量レベルのみ</b>を測定します。会話などの音声の内容は記録・送信されません。マイクの利用を許可いただけない場合は参加できません。</p>
     <div class="btnrow">
       <!-- 練習は必須 (スキップ不可)。開発用の抜け道は ?practice=0 クエリのみ (2026-07-07 決定) -->
       <button class="btn primary" id="goPractice">練習を始める</button>
@@ -320,6 +366,44 @@
     <p id="breakInfo"></p>
     <p>準備ができたら続けてください。</p>
     <button class="btn primary" id="breakContinue">続ける</button>
+  </div>
+</section>
+
+<!-- ===== MIC GATE (環境音チェック=開始前の進行ブロック / 切断後の再取得。マイク必須 §6-6 項10) ===== -->
+<section id="micgate" class="screen">
+  <div class="pad">
+    <h1 id="micgateTitle">実施環境の確認</h1>
+    <div id="micgateBody"></div>
+    <div class="micmeter" id="micgateMeter"><i></i></div>
+    <p class="micstatus" id="micgateStatus"></p>
+    <div class="btnrow">
+      <button class="btn primary" id="micgateStart">マイクを許可して計測する</button>
+      <button class="btn primary" id="micgateGo" style="display:none">練習にすすむ</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== NOISE GATE (試行間の騒音アラート。評定「送信後」のみに提示 = 迷い評定を汚染しない位置。§6-6 項10) ===== -->
+<section id="noisegate" class="screen">
+  <div class="pad">
+    <h1>周囲の音が大きくなっています</h1>
+    <p>この調査は<b>静かな環境</b>での実施をお願いしています。<b>テレビ・音楽・会話のない場所</b>で続けてください。</p>
+    <p>周囲が静かになると、下に「次へすすむ」ボタンが出ます。</p>
+    <div class="micmeter" id="noisegateMeter"><i></i></div>
+    <p class="micstatus" id="noisegateStatus"></p>
+    <p class="opt-note" id="noisegateHint" style="display:none">静かな場所への移動がむずかしい場合は、いったん画面を閉じて、静かな環境になってからあらためてご参加ください。</p>
+    <button class="btn primary" id="noisegateGo" style="display:none">次へすすむ</button>
+  </div>
+</section>
+
+<!-- ===== READING (読速ベースライン: 中立短文3本を「読み終えたらタップ」で計測。moral 含むセッションで実施 §6-6 項13) ===== -->
+<section id="reading" class="screen">
+  <div class="pad">
+    <h1>文章を読む速さの確認</h1>
+    <p id="readIntro">はじめに、文章を読む速さを確認します（全3問）。<br>表示された文章を<b>ふだんどおりの速さ</b>で読み、読み終えたら<b>すぐ</b>下のボタンを押してください。<br>内容についての質問はありません。覚える必要もありません。</p>
+    <p class="opt-note" id="readCounter"></p>
+    <div class="rtext" id="readText" style="display:none"></div>
+    <button class="btn primary" id="readDone">はじめる</button>
   </div>
 </section>
 
@@ -385,6 +469,12 @@
   <div class="pad">
     <h1>完了しました</h1>
     <p id="doneMsg">ご協力ありがとうございました。</p>
+    <!-- 完了コード (§6-6 項12): 1人1コードをデータにも記録し「申請コード↔実データ」を機械照合。?ccode=0 で非表示 -->
+    <div id="ccodeBox" style="display:none">
+      <p>あなたの<b>完了コード</b>:</p>
+      <div class="ccode" id="ccode"></div>
+      <p class="opt-note">募集サイトの回答欄 (作業完了の報告欄) にこのコードを入力してください。</p>
+    </div>
     <div id="debrief" style="display:none"></div>
     <div class="mono" id="summary"></div>
     <div class="mono" id="uploadStatus"></div>
@@ -416,14 +506,20 @@
   const CLIENT_ID_KEY = "pilotAnchorClientId_v1"; // 重複参加の事後検出用 匿名 first-party マーカー
   // URL クエリで上書き可 (例: ?block=value で価値・選好ブロック / ?reps=2&practice=0&break=0&ratings=0 で短縮テスト。
   //   ?rotate=0 で横向きガード無効 / ?upload=0 で自動送信無効 / ?debug=1 で検証フック+CSV+常時ボタン)
+  // 環境音モニタ (§6-6 項10): ?mic=0 で無効 (開発・headless)・?mic=mock は検証用。?micth=/-micchk=/micquiet=/micover=
+  //   は閾値・計測時間・持続静音時間・ゲート発火下限の上書き (実機較正用) — 配布 URL には付けない (既定値=事前固定値)。
   // 練習は必須 (2026-07-07: UI からのスキップ導線は廃止。チュートリアル+行動ゲート付き)。
   //   ?practice=0 は練習ごとスキップする開発用の抜け道 — 配布 URL には絶対に付けない。
   const debugMode = new URLSearchParams(location.search).get("debug") === "1";
 
-  // 場面文の改行制御: stem 文字列中の "|" は「ここで改行してよい」、"~" は「ここで改行しない」(閉じ括弧の
-  // 後ろ等に標準で残る改行機会を潰す) の著者ヒント。表示時に ZWSP / WORD JOINER へ変換し
-  // (CSS #stem の word-break:keep-all とセットで | の位置だけで折り返す)、記録 (trialMeta) からは除去する。
-  const stemDisplay = (s) => (s || "").replace(/\|/g, "\u200b").replace(/~/g, "\u2060");
+  // 場面文・説明文の改行制御 (2026-07-22 ブロック方式へ改訂): 文字列中の "|" は文節の区切り。
+  // 表示時は文節ごとに inline-block (.nb) へ包み、ブロックの途中では折り返さない (改行はブロック単位)。
+  // 旧 ZWSP 方式 (keep-all + U+200B) は英数字・記号まわりで変な位置の改行が残ったため置換 (実機報告 2026-07-22)。
+  // 記録 (trialMeta) は stemRecord で "|"・旧ヒント "~" を除去 = 過去データと同形・不変。
+  const escapeHtml = (s) => (s || "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const nb = (s) => (s || "").split("|").map((seg) => `<span class="nb">${seg}</span>`).join("");   // \u8457\u8005HTML\u7528 (<b> \u7b49\u3092\u542b\u3080\u8aac\u660e\u6587)
+  const nbText = (s) => (s || "").split("|").map((seg) => `<span class="nb">${escapeHtml(seg.replace(/~/g, ""))}</span>`).join("");   // \u30d7\u30ec\u30fc\u30f3\u6587\u7528
+  const stemHtml = (s) => `<div class="nbwrap">${nbText(s)}</div>`;   // #stem (flex) \u7528: block \u30e9\u30c3\u30d1\u3067 flex item \u5316\u3092\u9632\u3050
   const stemRecord = (s) => (s || "").replace(/[|~]/g, "");
 
   // ===== 注意チェック (⑤ careless ラベル。experiment-design §6-5。combo 既定ON、?attn=0/1 で切替) =====
@@ -473,7 +569,7 @@
       practiceFeedback: "correct",
       gateStreak: 3,         // 行動ゲート: 有効ドラッグ+正解を3連続で本番解錠 (2026-07-07。無効/不正解でリセット)
       gateCorrect: true,     // ゲート成功条件に正誤を含める (客観正解がある課題)
-      coachDrag: 'そのまま<b>指を離さずに</b>、光っている<br><b>数が大きい方</b>のボックスまで運び、<br>ボックスの<b>中で指を離します</b>',
+      coachDrag: 'そのまま|<b>指を離さずに</b>、|光っている|<b>数が大きい方</b>の|ボックスまで運び、|ボックスの<b>中で</b>|<b>指を離します</b>',
       pairs: [[1, 2], [2, 8], [8, 9]], // [小,大]。距離: 1v2/8v9 が距離1 (8v9 が最難), 2v8 が最易
       introHtml:
         '<h1>数値サイズ一致性課題 (パイロット)</h1>' +
@@ -542,7 +638,7 @@
       practiceFeedback: "neutral",  // 主観選択なので正誤フィードバックはしない
       gateStreak: 2,         // 行動ゲート: 有効ドラッグ2連続で本番解錠 (2026-07-07。主観課題なので正誤は問わない)
       gateCorrect: false,
-      coachDrag: 'そのまま<b>指を離さずに</b>、光っている<br>2つのうち<b>あなたが選ぶ方</b>まで運び、<br>ボックスの<b>中で指を離します</b>',
+      coachDrag: 'そのまま|<b>指を離さずに</b>、|光っている2つのうち|<b>あなたが選ぶ方</b>まで運び、|ボックスの<b>中で</b>|<b>指を離します</b>',
       introHtml:
         '<h1>価値・選好の2択課題 (パイロット)</h1>' +
         '<p>STARTボタンに指を置くと、上に2つの選択肢が出ます。<b>指を離さずに、あなたが選ぶ方のボックスへドラッグ</b>して、そこで指を離してください。</p>' +
@@ -651,7 +747,7 @@
       renderStimulus(cell) {
         numA.textContent = cell.leftLabel; numB.textContent = cell.rightLabel;
         numA.className = "txt"; numB.className = "txt";
-        stemEl.textContent = stemDisplay(cell.stem);
+        stemEl.innerHTML = stemHtml(cell.stem);   // 文節ブロック改行 (2026-07-22)
       },
       trialMeta(cell) {
         return {
@@ -681,7 +777,7 @@
       practiceFeedback: "neutral",  // 主観判断なので正誤フィードバックはしない
       gateStreak: 2,         // 行動ゲート: 有効ドラッグ2連続で本番解錠 (主観課題なので正誤は問わない)
       gateCorrect: false,
-      coachDrag: 'そのまま<b>指を離さずに</b>、光っている<br>2つのうち<b>あなたが選ぶ方</b>まで運び、<br>ボックスの<b>中で指を離します</b>',
+      coachDrag: 'そのまま|<b>指を離さずに</b>、|光っている2つのうち|<b>あなたが選ぶ方</b>まで運び、|ボックスの<b>中で</b>|<b>指を離します</b>',
       introHtml:
         '<h1>道徳的な判断の2択課題 (パイロット)</h1>' +
         '<p>STARTボタンに指を置くと、上に短い場面と2つの選択肢が出ます。<b>指を離さずに、あなたが選ぶ方のボックスへドラッグ</b>して、そこで指を離してください。</p>' +
@@ -698,7 +794,7 @@
       csvRow: (r) => `${r.moralType},${r.conflictLevel},${r.betterSide}`,
       defaultStem: "あなたならどうしますか？",
       // 項目バンク (§6-5・SSOT はそちら)。各 = 1セル。mtype: 4類型 / level: clear(明確・葛藤小)/mid(中)/conflict(拮抗・葛藤大)。
-      //   stem = 場面文 (40–70字。"|" は改行位置ヒント: 表示時のみ ZWSP 化・記録からは除去 = stemDisplay/stemRecord)。
+      //   stem = 場面文 (40–70字。"|" は文節区切り: 表示時に .nb ブロック化・記録からは除去 = nbText/stemRecord)。
       //   better: 規範優位肢 ("a"|null)。明確のみ better 定義、中/拮抗は null (葛藤で規範一意でない)。
       //   拮抗は R1/R2 でユーザー指示により重く改訂 (2026-07-08)。人的犠牲のトロッコ類似は Greene の personal/impersonal 統制で意図的。
       //   2026-07-15 R3: セルあたり 1→2 項目に増強 (12→24、第三パイロット)。増強分は明示 id (`-2` 接尾)・既存 itemId 据え置き=過去データ互換。
@@ -773,7 +869,7 @@
       renderStimulus(cell) {
         numA.textContent = cell.leftLabel; numB.textContent = cell.rightLabel;
         numA.className = "txt"; numB.className = "txt";
-        stemEl.textContent = stemDisplay(cell.stem);
+        stemEl.innerHTML = stemHtml(cell.stem);   // 文節ブロック改行 (2026-07-22)
       },
       trialMeta(cell) {
         return {
@@ -807,7 +903,7 @@
       buildPractice() { return []; },   // 練習なし (startPractice が空キューで startMain へ)
       renderStimulus(cell) {            // 実際は isCheck 分岐 (renderCheck) が使われるが安全側で用意
         numA.textContent = cell.leftLabel; numB.textContent = cell.rightLabel;
-        numA.className = "txt"; numB.className = "txt"; stemEl.textContent = stemDisplay(cell.stem);
+        numA.className = "txt"; numB.className = "txt"; stemEl.innerHTML = stemHtml(cell.stem);   // 文節ブロック改行 (2026-07-22)
       },
       trialMeta(cell) { return checkMeta(cell); },
       decideOutcome(cell, choiceSide) { return choiceSide === cell.checkAnswerSide; },
@@ -863,16 +959,31 @@
     { key: "hesitation", q: "答えを決めるまでに、どれくらい迷いましたか",
       low: "1 = まったく迷わなかった", high: "5 = とても迷った" },
   ];
-  // 評定チュートリアル (2026-07-15、練習1問目の評定画面で Step1→3。§6-2)
-  const TUT_TEXT = {
-    1: 'ここでは、答えたあとの「ふりかえり」を練習します。ふりかえりは、設問に答えるたびに毎回お願いします。<br>「自信」は、<b>いま選んだ答えへの気持ちの強さ</b>です。正解・不正解はありません。「自分はこちらだ」と思える強さを 1〜5 で選んでください。',
-    2: '評定は<b>あとから変更できます</b>。別の番号を押すと、そちらに変わります。ためしに、いまと<b>違う番号</b>を押してみてください。',
-    3: '変更できました。元に戻しても大丈夫です。<br>つぎは「迷い」です。「迷い」は、<b>答えを決めるまで</b>のことです。途中でどれくらい迷ったかを 1〜5 で選んでください。<br>迷いの強さは人や場面によってさまざまです。<b>迷うのはごく普通のこと</b>なので、感じたままを選んでください。決まったら下の「決定して次へ」を押します。',
-  };
+  // 評定チュートリアル v2 (2026-07-22 改訂、練習1問目の評定画面。§6-2)。
+  // 旧 Step1-3 (ヘッダに長文一括) を6ページに分割: 「次へ」ボタン/実操作で1ページずつ進み、
+  // 説明は枠付きボックス (tutBox) +ステップ表示「説明 n/6」で対象評定の直上に置く。
+  // ページ2 = 5段階の中立な使い方説明 (具体例は回答分布を誘導するため出さない。2026-07-22 ユーザー決定)。
+  // ページ5 (迷い) は自信の評定を覆い隠し、説明が迷いの直上に来る (ユーザー指定 2026-07-22)。
+  // act: next=「次へ」で進む / conf=自信を選ぶ / change=自信を別の値へ変更 / hes=迷いを選ぶ / submit=決定ボタンで完遂
+  const TUT_PAGES = [
+    { act: "next",   focus: null,
+      text: 'ここからは、|答えたあとの|<b>ふりかえり</b>の練習です。|設問に答えるたびに毎回、|下の<b>2つの質問</b>に|答えます。' },
+    { act: "next",   focus: null,
+      text: 'どちらの質問も|<b>1〜5</b> から選びます。|<b>どちら寄りか</b>を|選ぶだけで、|<b>正解はありません</b>。|1と5の意味は|いつも数字の下に|書いてあります。' },
+    { act: "conf",   focus: "confidence",
+      text: '1つ目は<b>自信</b>です。|<b>いま選んだ答え</b>への|気持ちの強さを表します。|「自分はこちらだ」と|思える強さを、|ためしに1つ|押してみてください。' },
+    { act: "change", focus: "confidence",
+      text: '評定は<b>あとから変更できます</b>。|別の番号を押すと|そちらに変わります。|ためしに、いまと|<b>違う番号</b>を|押してみてください。' },
+    { act: "hes",    focus: "hesitation", cover: true,
+      text: '2つ目は<b>迷い</b>です。|<b>答えを決めるまで</b>に|どれくらい迷ったかを|表します。|<b>迷うのはごく普通のこと</b>です。|感じたままを、|ためしに1つ|押してみてください。' },
+    { act: "submit", focus: null,
+      text: 'これで2つとも|答えられました。|まだ変更もできます。|よければ下の|<b>「決定して次へ」</b>を|押して確定します。' },
+  ];
 
   const $ = (id) => document.getElementById(id);
   const screens = { intro: $("intro"), task: $("task"), rating: $("rating"),
-    break: $("break"), blockintro: $("blockintro"), postq: $("postq"), done: $("done") };
+    break: $("break"), blockintro: $("blockintro"), postq: $("postq"), done: $("done"),
+    micgate: $("micgate"), noisegate: $("noisegate"), reading: $("reading") };
   function show(name) {
     for (const k in screens) screens[k].classList.toggle("active", k === name);
   }
@@ -924,6 +1035,10 @@
     // 事後アンケート UI/負担 (②③=評定ブロックのみ)。使いにくかった点[複数選択]/操作しやすさ/自由記述(その他選択時のみ表示・必須)。
     //   時間ゲートを廃し離脱率で判定する G4 の「負担の主観版」裏付け + UI/チュートリアル改善材料 (pilot2-design-notes)。
     survey: null,
+    mic: null,   // 環境音モニタの実測記録 {mode, threshold, …, ambientDb, ambientRetries, drops} (finishSession で確定。§6-6 項10)
+    wakeLock: null,        // Screen Wake Lock の取得可否 (§6-6 項11。iOS 16.4+ / 非対応端末は false)
+    completionCode: null,  // 実施確認用の完了コード (§6-6 項12。finishSession で発行しデータにも記録)
+    readingBaseline: null, // 読速ベースライン {trials:[{chars,ms}], charsPerSec} (§6-6 項13。moral 含むセッションのみ)
     block: REAL_BLOCKS.length > 1 ? "combo" : REAL_BLOCKS[0],  // "anchor"|"value"|"moral"|"combo"(②③統合)。attn 除く実ブロックで判定。統合では per-trial の block で振り分け
     seq: SEQ.slice(),         // ブロック提示順 (被験者間CB の割付記録。単体は1要素)
     config: CONFIG,
@@ -962,6 +1077,266 @@
     }
     requestAnimationFrame(tick);
   })();
+
+  // ===== 環境音モニタリング (2026-07-21、experiment-design §6-6 項10 / decisions-log) =====
+  // マイクは必須 (許可拒否・切断中は先へ進めない = 有償募集の実施条件)。取得は音量レベル (RMS dBFS) のみで、
+  // 音声波形はその場で捨てる — 保存も送信もしない (同意文言・倫理申請の「内容非記録」と対応)。
+  // ?mic=0 で無効 (開発・headless 検証)、?mic=mock は検証用 (getUserMedia せず __pilot.setMicLevel で駆動)。
+  // ⚠️ threshold は iPhone 実機較正で確定するまで暫定値 = 較正・decisions-log 追記前の配布は不可 (pilot-plan §8)。
+  const MIC = (function () {
+    const q = new URLSearchParams(location.search);
+    const p = (k, d) => { const v = q.get(k); const n = v == null ? NaN : parseFloat(v); return isNaN(n) ? d : n; };
+    const m = q.get("mic");
+    return {
+      mode: m === "0" ? "off" : m === "mock" ? "mock" : "real",
+      threshold: p("micth", -35),    // dBFS 閾値 (超過=騒音)。?micth= は実機較正用の上書き
+      checkMs: p("micchk", 5000),    // 事前チェックの計測時間
+      quietMs: p("micquiet", 2000),  // ノイズゲート解除に要する連続静音時間 (瞬間値でなく持続判定)
+      gateMinOverMs: p("micover", 500), // 試行内の累積超過がこれ未満 (咳など瞬間音) はゲートを出さない (記録は残る)
+      tickMs: 125,                   // レベル計測周期 ~8Hz (60Hz 軌道記録に負荷をかけない)
+      stream: null, ctx: null, analyser: null, buf: null, fbuf: null,
+      acquired: false, lost: false, drops: 0, mockDb: -60,
+      ambientDb: null, ambientRetries: 0,
+    };
+  })();
+  let noiseAcc = null, visAcc = null;   // 試行窓 (呈示〜評定送信) のアキュムレータ。presentStimulus でリセット
+  function resetMonitors() {
+    noiseAcc = { n: 0, sum: 0, max: -Infinity, overMs: 0 };
+    visAcc = { count: 0, totalMs: 0 };
+  }
+  resetMonitors();
+  function stampMonitors(t) {   // 試行レコードに環境音・画面離脱の要約を刻む (評定ONの試行は submitRating で評定込み窓に上書き)
+    t.noise = MIC.mode === "off" ? null : {
+      n: noiseAcc.n,
+      meanDb: noiseAcc.n ? +(noiseAcc.sum / noiseAcc.n).toFixed(1) : null,
+      maxDb: noiseAcc.n ? +noiseAcc.max.toFixed(1) : null,
+      overMs: noiseAcc.overMs,
+    };
+    t.vis = { count: visAcc.count, totalMs: +visAcc.totalMs.toFixed(0) };
+  }
+
+  // ---- 集中監視: 画面離脱 (visibilitychange) の試行ごと記録 (§6-6 項11。許可不要) ----
+  // アプリ切替・通知タップ・画面ロックによる離脱を検出。「ながら実施」の可視化 + 環境音 (音)・
+  // devicemotion (揺れ) と合わせた実施環境の三方向の裏取り。復帰時は AudioContext / Wake Lock も回復する
+  let hiddenAt = null;
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) { hiddenAt = performance.now(); return; }
+    if (hiddenAt != null) { visAcc.count++; visAcc.totalMs += performance.now() - hiddenAt; hiddenAt = null; }
+    if (MIC.ctx && MIC.ctx.state === "suspended") MIC.ctx.resume();   // iOS は非表示で AudioContext が止まる
+    requestWakeLock();   // Wake Lock は非表示で自動解放されるため再取得
+  });
+
+  // ---- Screen Wake Lock: 課題中の自動消灯を抑止 (§6-6 項11。評定で手が止まる→ロック→マイク切断、の予防) ----
+  function requestWakeLock() {
+    if (!navigator.wakeLock || !navigator.wakeLock.request) { device.wakeLock = false; return; }
+    navigator.wakeLock.request("screen")
+      .then(() => { device.wakeLock = true; })
+      .catch(() => { if (device.wakeLock !== true) device.wakeLock = false; });
+  }
+  function currentDb() {   // 現在の音量レベル (dBFS)。未取得/切断中は null
+    if (MIC.mode === "mock") return MIC.acquired ? MIC.mockDb : null;
+    if (!MIC.acquired || !MIC.analyser) return null;
+    let rms = 0;
+    if (MIC.fbuf) {
+      MIC.analyser.getFloatTimeDomainData(MIC.fbuf);
+      for (let i = 0; i < MIC.fbuf.length; i++) rms += MIC.fbuf[i] * MIC.fbuf[i];
+      rms = Math.sqrt(rms / MIC.fbuf.length);
+    } else {   // 旧 Safari fallback (byte 0–255 → -1..1)
+      MIC.analyser.getByteTimeDomainData(MIC.buf);
+      for (let i = 0; i < MIC.buf.length; i++) { const v = (MIC.buf[i] - 128) / 128; rms += v * v; }
+      rms = Math.sqrt(rms / MIC.buf.length);
+    }
+    return rms > 0 ? Math.max(-100, +(20 * Math.log10(rms)).toFixed(1)) : -100;
+  }
+  function acquireMic() {
+    if (MIC.mode === "mock") { MIC.acquired = true; MIC.lost = false; return Promise.resolve(); }
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia)
+      return Promise.reject(new Error("unsupported"));
+    // AGC/ノイズ抑制/エコキャンをオフ = 環境音レベルを歪めない (iOS は部分対応・ベストエフォート)
+    return navigator.mediaDevices.getUserMedia({
+      audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false }, video: false,
+    }).then((stream) => {
+      MIC.stream = stream;
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!MIC.ctx) MIC.ctx = new AC();
+      if (MIC.ctx.state === "suspended") MIC.ctx.resume();
+      MIC.analyser = MIC.ctx.createAnalyser();
+      MIC.analyser.fftSize = 2048;
+      MIC.ctx.createMediaStreamSource(stream).connect(MIC.analyser);   // 解析のみ・出力へ未接続 (音は鳴らない)
+      MIC.fbuf = typeof MIC.analyser.getFloatTimeDomainData === "function" ? new Float32Array(2048) : null;
+      MIC.buf = MIC.fbuf ? null : new Uint8Array(2048);
+      MIC.acquired = true; MIC.lost = false;
+      const track = stream.getAudioTracks()[0];   // 切断 (着信・画面ロック・許可剥奪) の検知
+      if (track) track.addEventListener("ended", micLost);
+    });
+  }
+  function micLost() {   // 切断: ドラッグ中なら無効試行に。以降は次の試行境界 (micCheckpoint) で再取得を要求
+    if (!MIC.acquired) return;
+    MIC.acquired = false; MIC.lost = true; MIC.drops++;
+    if (recording) { recording = false; activePointerId = null; retryTrial("マイクが切断されました"); }
+  }
+
+  // ---- micgate 画面 (precheck=開始前の環境音チェック / reacquire=切断後の再取得) ----
+  let micGateMode = null, micGateNext = null, ambientRun = null;
+  function showMicGate(mode, next) {
+    micGateMode = mode; micGateNext = next || null; ambientRun = null;
+    $("micgateTitle").textContent = mode === "precheck" ? "実施環境の確認" : "マイクが切断されました";
+    $("micgateBody").innerHTML = mode === "precheck"
+      ? '<p>この調査は、<b>静かな環境で集中して</b>行っていただく必要があります。</p>' +
+        '<p>開始前に、マイクで<b>周囲の音の大きさ</b>を確認します。下のボタンを押して、マイクの利用を<b>許可</b>してください。</p>' +
+        '<p class="opt-note">マイクで測定するのは<b>音量レベルのみ</b>です。会話などの音声の内容は記録・送信されません。マイクを許可いただけない場合、この調査には参加できません。</p>'
+      : '<p>マイクの接続が切れました (着信・画面ロックなどで起こることがあります)。</p>' +
+        '<p>続けるには、下のボタンからマイクをもう一度許可してください。</p>';
+    $("micgateStatus").textContent = "";
+    $("micgateStart").textContent = mode === "precheck" ? "マイクを許可して計測する" : "マイクを再取得する";
+    $("micgateStart").style.display = "";
+    $("micgateGo").style.display = "none";
+    show("micgate");
+    $("micgate").querySelector(".pad").scrollTop = 0;
+  }
+  function micGateStart() {
+    $("micgateStatus").textContent = "マイクを準備しています…";
+    acquireMic().then(() => {
+      if (micGateMode === "reacquire") {   // 再取得: 中断点へ復帰 (micCheckpoint を再評価)
+        const f = micGateNext; micGateMode = null; micGateNext = null;
+        if (f) f();
+        return;
+      }
+      ambientRun = { until: performance.now() + MIC.checkMs, sum: 0, n: 0 };   // 事前チェック計測開始
+      $("micgateStart").style.display = "none";
+    }).catch(() => {
+      $("micgateStatus").innerHTML =
+        "⚠️ マイクを利用できませんでした。参加にはマイクの許可が必要です。<br>" +
+        "ブラウザや端末の設定でこのサイトのマイクを許可してから、もう一度お試しください。";
+    });
+  }
+  function ambientDone(meanDb) {
+    MIC.ambientDb = +meanDb.toFixed(1);
+    if (meanDb <= MIC.threshold) {
+      $("micgateStatus").textContent = "✅ 静かな環境です。このまま始められます。";
+      $("micgateGo").style.display = "";
+    } else {   // 騒音: 進行ブロック + 再計測ループ
+      MIC.ambientRetries++;
+      $("micgateStatus").innerHTML =
+        "⚠️ 周囲の音が大きいようです。<br><b>テレビ・音楽・会話のない静かな場所</b>に移動して、もう一度計測してください。";
+      $("micgateStart").textContent = "もう一度計測する";
+      $("micgateStart").style.display = "";
+    }
+  }
+
+  // ---- noisegate 画面 (試行間の騒音アラート。評定「送信後」限定 = 迷い評定 (主予測ターゲット) を汚染しない) ----
+  let noiseGate = null;   // {enteredAt, quietSince, retries, trialRec, next}
+  function micCheckpoint(next) {   // 本番の試行境界で呼ぶ: 切断→再取得 / 直前試行が騒音→ゲート / 通常→次へ
+    if (MIC.mode === "off") { next(); return; }
+    if (MIC.lost) { showMicGate("reacquire", () => micCheckpoint(next)); return; }
+    const last = records[records.length - 1];
+    if (last && last.noise && last.noise.overMs >= MIC.gateMinOverMs) { showNoiseGate(last, next); return; }
+    next();
+  }
+  function showNoiseGate(trialRec, next) {
+    noiseGate = { enteredAt: performance.now(), quietSince: null, retries: 0, trialRec, next };
+    $("noisegateGo").style.display = "none";
+    $("noisegateStatus").textContent = "";
+    $("noisegateHint").style.display = "none";
+    show("noisegate");
+    $("noisegate").querySelector(".pad").scrollTop = 0;
+  }
+
+  // ---- レベル計測ティック (~8Hz): 試行窓の集計 + micgate/noisegate の UI 状態機械 ----
+  function updateMeters(db) {
+    for (const id of ["micgateMeter", "noisegateMeter"]) {
+      const el = $(id);
+      if (!el || !el.offsetParent) continue;   // 非表示画面はスキップ
+      el.firstElementChild.style.width = Math.max(0, Math.min(100, (db + 60) / 60 * 100)) + "%";
+      el.classList.toggle("loud", db > MIC.threshold);
+    }
+  }
+  setInterval(() => {
+    const db = currentDb();
+    if (db == null) return;
+    noiseAcc.n++; noiseAcc.sum += db;
+    if (db > noiseAcc.max) noiseAcc.max = db;
+    if (db > MIC.threshold) noiseAcc.overMs += MIC.tickMs;
+    updateMeters(db);
+    if (ambientRun) {   // 事前チェックの計測中
+      ambientRun.n++; ambientRun.sum += db;
+      const remain = ambientRun.until - performance.now();
+      $("micgateStatus").textContent = `周囲の音を計測しています… ${Math.max(1, Math.ceil(remain / 1000))}`;
+      if (remain <= 0) { const mean = ambientRun.sum / Math.max(1, ambientRun.n); ambientRun = null; ambientDone(mean); }
+    }
+    if (noiseGate && screens.noisegate.classList.contains("active")) {   // ゲート解除は持続静音 (quietMs 連続) で判定
+      const now = performance.now();
+      if (db > MIC.threshold) {
+        if (noiseGate.quietSince != null) noiseGate.retries++;   // 静音からの再騒音 = リトライとして記録
+        noiseGate.quietSince = null;
+        $("noisegateStatus").textContent = "…まだ周囲の音が大きいようです";
+        $("noisegateGo").style.display = "none";
+      } else if (noiseGate.quietSince == null) {
+        noiseGate.quietSince = now;
+        $("noisegateStatus").textContent = "静かなことを確認しています…";
+      } else if (now - noiseGate.quietSince >= MIC.quietMs) {
+        $("noisegateStatus").textContent = "✅ 静かになりました";
+        $("noisegateGo").style.display = "";
+      }
+      if (now - noiseGate.enteredAt > 60000) $("noisegateHint").style.display = "";   // 長期化時の逃げ道案内
+    }
+  }, MIC.tickMs);
+
+  // ===== 読速ベースライン (2026-07-22 決定、experiment-design §6-6 項13 / decisions-log) =====
+  // 道徳ジレンマの場面文は 40–70 字で試行により長さが違い、RT proxy に読解時間が混入する。
+  // 中立短文3本 (約30/45/60字 = 場面文の字数域をカバー) を「読み終えたらタップ」で計測して
+  // 参加者ごとの読速 (字/秒) を実測し、解析での読解時間の分離 (実測値 or RT〜文字数回帰の較正) に使う。
+  // moral を含むセッションで既定ON (?read=0 で無効・?read=1 で強制ON)。位置 = micgate 通過後・練習の前。
+  const READ_SENTENCES = [
+    '駅前の書店は、|平日は夜9時まで、|週末は夜8時まで|開いている。',
+    '公園の桜は|先週から咲き始め、|今週末には|満開になる見込みで、|多くの人が|花見に訪れるという。',
+    '市の図書館は|来月から改修工事のため|休館になり、|貸し出し中の本の返却は|駅前の分館で|受け付けると、|利用者に案内が届いた。',
+  ];
+  const READING_ON = (function () {
+    const v = new URLSearchParams(location.search).get("read");
+    if (v != null) return v !== "0";
+    return REAL_BLOCKS.includes("moral");
+  })();
+  let readIdx = -1, readShownAt = 0;
+  function showReading() {
+    readIdx = -1;
+    device.readingBaseline = { trials: [], charsPerSec: null };
+    $("readCounter").textContent = "";
+    $("readText").style.display = "none";
+    $("readIntro").style.display = "";
+    $("readDone").textContent = "はじめる";
+    show("reading");
+    $("reading").querySelector(".pad").scrollTop = 0;
+  }
+  function readAdvance() {
+    // 連打ガード (レビューWF 2026-07-22): iOS はダブルタップが2連 click で届き、readDone は3文の間
+    // 同一位置に出続けるため、2発目が次の文を ms≈100 で記録して charsPerSec を汚染する。表示後 400ms 未満は無視
+    // (400ms は最短文30字の現実的な読了時間 ~1.5s より十分短く、正当なタップを弾かない)
+    if (readIdx >= 0 && performance.now() - readShownAt < 400) return;
+    if (readIdx >= 0) {   // 直前の文の計測を記録 (表示〜タップ)
+      const chars = READ_SENTENCES[readIdx].replace(/\|/g, "").length;
+      device.readingBaseline.trials.push({ chars, ms: +(performance.now() - readShownAt).toFixed(0) });
+    }
+    readIdx++;
+    if (readIdx >= READ_SENTENCES.length) {   // 完了: 読速を集計して練習へ
+      const t = device.readingBaseline.trials;
+      const totalChars = t.reduce((s, r) => s + r.chars, 0);
+      const totalMs = t.reduce((s, r) => s + r.ms, 0);
+      device.readingBaseline.charsPerSec = totalMs > 0 ? +(totalChars / (totalMs / 1000)).toFixed(2) : null;
+      startPractice();
+      return;
+    }
+    $("readIntro").style.display = "none";   // 教示の読み時間を1問目に混ぜない (はじめるボタンで区切る)
+    $("readCounter").textContent = `${readIdx + 1} / ${READ_SENTENCES.length}`;
+    $("readText").innerHTML = nbText(READ_SENTENCES[readIdx]);
+    $("readText").style.display = "";
+    $("readDone").textContent = "読み終えた";
+    readShownAt = performance.now();
+  }
+  function enterSession() {   // intro/micgate 通過後の入口: 読速ベースライン → 練習 (§6-6 項13)
+    if (READING_ON && !(device.readingBaseline && device.readingBaseline.charsPerSec != null)) { showReading(); return; }
+    startPractice();
+  }
 
   // ===== canvas (DPR 対応) =====
   const surface = $("surface");
@@ -1043,7 +1418,7 @@
   // ===== 注意チェック (⑤) の汎用描画 + 弱DQS の埋め込み =====
   function renderCheck(cell) {   // isCheck 付き cell (弱DQS/infreq/IMC) を text-choice として描画
     numA.textContent = cell.leftLabel; numB.textContent = cell.rightLabel;
-    numA.className = "txt"; numB.className = "txt"; stemEl.textContent = stemDisplay(cell.stem);
+    numA.className = "txt"; numB.className = "txt"; stemEl.innerHTML = stemHtml(cell.stem);   // 文節ブロック改行 (2026-07-22)
   }
   function insertDqs(q) {   // ②③本番キューの 1/3・2/3 に弱DQSを挿入 (指示側CB)。DQS直後を post_check に
     const n = q.length;
@@ -1101,9 +1476,10 @@
     // 練習中はコーチング表示 (ステップ1: ボックスを隠し、上部の大きな説明で START へ誘導)。
     // 本番は一切出さない
     $("taskMsg").textContent = "";
+    resetMonitors();   // 環境音の試行窓を開始 (呈示〜評定送信。無効リトライ中は継続 = 同一試行の環境として合算)
     if (phase === "practice" && cell._pblock && cell._pblock !== CONFIG.block) loadBlock(cell._pblock);  // 統合練習: セルのタイプへ切替
     if (phase === "practice") {
-      coachMsg('まずは下の <b>START</b> を<br>指で<b>押さえたまま</b>にします', "top");
+      coachMsg(nb('まずは下の <b>START</b> を|指で<b>押さえたまま</b>にします'), "top");
       setCoach("start");
     } else {
       coachHide();
@@ -1143,7 +1519,7 @@
     if (recording || uiLocked) return;           // 進行中 (マルチタッチ二本目) / 遷移待ち中は無視
     if (!inRect(rectOf(startBtn), e.clientX, e.clientY)) {
       // 練習中は原因別コーチング (ボックス直タップ等のありがちな誤操作)。本番は従来の短い注意のみ
-      if (phase === "practice") coachMsg('まずは下の <b>START</b> を<br>指で押さえます<span class="sub">指をつけたまま動かして選ぶ課題です</span>', "top");
+      if (phase === "practice") coachMsg(nb('まずは下の <b>START</b> を|指で押さえます') + '<span class="sub">' + nb('指をつけたまま動かして|選ぶ課題です') + '</span>', "top");
       else $("taskMsg").textContent = "STARTから始めてください";
       return;
     }
@@ -1179,7 +1555,7 @@
     pushEvent(e, "down");
     revealStimulus();
     // 練習中はステップ2: ボックスを出現+発光させ「離さず運んで中で離す」(文言はブロック別。経路の形は指示しない)
-    if (phase === "practice") { coachMsg(BLOCK.coachDrag, "mid"); setCoach("drag"); }
+    if (phase === "practice") { coachMsg(nb(BLOCK.coachDrag), "mid"); setCoach("drag"); }
     clearCanvas();
     ctx.beginPath();
     ctx.moveTo(e.clientX - sRect.left, e.clientY - sRect.top);
@@ -1255,10 +1631,10 @@
     if (choiceSide === null || disp.length < CONFIG.minPoints) {
       // 練習中は失敗原因を切り分けてコーチング (START から動かず離した=タップ / 途中で離した / 速すぎ)
       const coach = !leftStart
-        ? '押すだけでは<b>選べません</b><span class="sub">STARTに指をつけたまま、回答（選択肢）まですべらせて動かします</span>'
+        ? nb('押すだけでは|<b>選べません</b>') + '<span class="sub">' + nb('STARTに指をつけたまま、|回答（選択肢）まで|すべらせて動かします') + '</span>'
         : (choiceSide === null
-          ? '指が<b>途中で離れました</b><span class="sub">ボックスの中まで指をつけたまま動かし、中で離します</span>'
-          : '指を離すのが<b>早すぎました</b><span class="sub">ボックスの中まで運んでから離します</span>');
+          ? nb('指が<b>途中で離れました</b>') + '<span class="sub">' + nb('ボックスの中まで|指をつけたまま動かし、|中で離します') + '</span>'
+          : nb('指を離すのが|<b>早すぎました</b>') + '<span class="sub">' + nb('ボックスの中まで|運んでから離します') + '</span>');
       retryTrial(choiceSide === null ? "ボックスの中で指を離してください" : "短すぎます", coach);
       return;
     }
@@ -1283,6 +1659,7 @@
     trial.correct = cell.isCheck ? (choiceSide === cell.checkAnswerSide)  // 注意チェック: 指示どおり選べたか (=注意して回答)
                                  : BLOCK.decideOutcome(cell, choiceSide); // anchor: 正誤 / value/moral: 規範整合 (拮抗は null)
 
+    stampMonitors(trial);   // 環境音要約 (評定ONの試行は submitRating で評定込み窓に上書き)
     if (phase === "practice") {
       records.push(trial);
       showPracticeFeedback();
@@ -1293,7 +1670,7 @@
         beginRating();
       } else {
         trialIndex++;
-        nextTrial();
+        micCheckpoint(nextTrial);   // 評定OFFブロックの試行境界 (切断→再取得 / 騒音→ゲート。§6-6 項10)
       }
     }
   }
@@ -1308,7 +1685,7 @@
     if (BLOCK.practiceFeedback === "correct") {
       head = trial.correct
         ? '<span class="feedback ok">○ 正解！</span>'
-        : '<span class="feedback ng">× ちがいます</span><span class="sub"><b>数の大きい方</b>のボックスを選びます</span>';
+        : '<span class="feedback ng">× ちがいます</span><span class="sub">' + nb('<b>数の大きい方</b>の|ボックスを選びます') + '</span>';
     } else {
       // 主観選択 (価値・選好) は正誤がないので中立フィードバックのみ
       head = '<span class="feedback ok">○ 記録しました</span>';
@@ -1337,9 +1714,10 @@
     // 練習中は評定リハーサル (2026-07-07 v2): 本番と同じ画面を使い、位置づけだけヘッダで明示。
     // ヘッダは2行以内に抑える (SE の実効 viewport で送信ボタンが fold 下に落ちないため)
     if (phase === "practice" && !ratingTutorialDone) {
-      // 評定チュートリアル Step1 (2026-07-15): 自信を強調・迷いを薄く。文言は TUT_TEXT
-      tutStep = 1;
+      // 評定チュートリアル v2 (2026-07-22): 説明はヘッダでなく tutBox (対象評定の直上) に出す
+      tutIdx = 0;
       $("ratingHead").className = "practice";
+      $("ratingHead").textContent = "";
     } else if (phase === "practice") {
       $("ratingHead").className = "practice";
       const remain = BLOCK.gateStreak - streak;
@@ -1375,45 +1753,94 @@
     }
     trial.ratings = { confidence: null, hesitation: null };
     $("ratingSubmit").disabled = true;
-    if (tutStep) tutApply();
+    if (tutActive()) tutRender();
     show("rating");
     $("rating").querySelector(".qwrap").scrollTop = 0;
   }
-  // 評定チュートリアルの状態 (練習1問目のみ。§6-2 2026-07-15)
-  let ratingTutorialDone = false, tutStep = 0, tutFirstConf = null;
-  function tutApply() {
+  // 評定チュートリアル v2 の状態 (練習1問目のみ。§6-2 2026-07-22)
+  let ratingTutorialDone = false, tutIdx = -1, tutFirstConf = null, tutRenderedAt = 0;
+  const tutActive = () => tutIdx >= 0;
+  function tutRender() {
     const qc = $("qitem-confidence"), qh = $("qitem-hesitation");
     if (!qc || !qh) return;
-    qc.classList.toggle("dim", tutStep === 3);
-    qc.classList.toggle("tfocus", tutStep === 1 || tutStep === 2);
-    qh.classList.toggle("dim", tutStep === 1 || tutStep === 2);
-    qh.classList.toggle("tfocus", tutStep === 3);
-    $("ratingHead").innerHTML = TUT_TEXT[tutStep] || "";
+    let box = $("tutBox");
+    if (!tutActive()) {   // 完遂/解除: ボックスを外し自信の評定を復帰
+      if (box) box.remove();
+      qc.style.display = "";
+      qc.classList.remove("dim", "tfocus");
+      qh.classList.remove("dim", "tfocus");
+      return;
+    }
+    const p = TUT_PAGES[tutIdx];
+    if (!box) {
+      box = document.createElement("div");
+      box.id = "tutBox";
+      box.innerHTML = '<div class="tut-step" id="tutStepLabel"></div>' +
+        '<div class="tut-text" id="tutText"></div>' +
+        '<button type="button" class="btn primary tut-next" id="tutNext">次へ</button>';
+      box.querySelector("#tutNext").addEventListener("click", () => {
+        // 連打デバウンス (レビューWF 2026-07-22): ダブルタップの2発目が P1→P3 と飛び、P2 (5段階の
+        // 使い方説明) を読まずに恒久スキップするのを防ぐ。表示後 300ms 未満のタップは無視
+        if (performance.now() - tutRenderedAt < 300) return;
+        if (tutActive() && TUT_PAGES[tutIdx].act === "next") tutAdvance();
+      }, { passive: true });
+    }
+    // 配置: 迷いページ (cover) は自信の評定を覆い隠してその位置=迷いの直上に説明を置く。それ以外は評定の上
+    qc.style.display = p.cover ? "none" : "";
+    if (p.cover) qh.parentNode.insertBefore(box, qh);
+    else qc.parentNode.insertBefore(box, qc);
+    box.querySelector("#tutStepLabel").textContent = `説明 ${tutIdx + 1} / ${TUT_PAGES.length}`;
+    box.querySelector("#tutText").innerHTML = nb(p.text);
+    box.querySelector("#tutNext").style.display = p.act === "next" ? "" : "none";
+    // 対象評定を強調・それ以外は減光 (説明ページ中は両方減光=操作不可)
+    qc.classList.toggle("tfocus", p.focus === "confidence");
+    qh.classList.toggle("tfocus", p.focus === "hesitation");
+    qc.classList.toggle("dim", p.act === "next" || (p.focus != null && p.focus !== "confidence"));
+    qh.classList.toggle("dim", p.act === "next" || (p.focus != null && p.focus !== "hesitation"));
+    // 確定はチュートリアル最終ページでのみ可 (2項目そろっていても途中では押させない)
+    $("ratingSubmit").disabled = ITEMS.some((it) => trial.ratings[it.key] == null) || p.act !== "submit";
+    $("rating").querySelector(".qwrap").scrollTop = 0;
+    tutRenderedAt = performance.now();   // 連打デバウンスの基準時刻
   }
+  function tutAdvance() { tutIdx++; tutRender(); }
   function selectRating(key, value, container, btn) {
-    if (tutStep && tutStep < 3 && key === "hesitation") return;  // チュートリアル: 迷いは Step3 から
+    if (tutActive()) {   // チュートリアル: 現ページの対象以外は受け付けない (説明ページは操作不可)
+      const act = TUT_PAGES[tutIdx].act;
+      if (act === "next") return;
+      if ((act === "conf" || act === "change") && key !== "confidence") return;
+      if (act === "hes" && key !== "hesitation") return;
+    }
     // rt_ms = 評定画面表示〜この項目を選んだ時刻 (1画面提示なので回答順は自由)
     trial.ratings[key] = { value, rt_ms: +(performance.now() - ratingOnset).toFixed(1) };
     for (const b of container.children) b.classList.toggle("sel", b === btn);
-    $("ratingSubmit").disabled = ITEMS.some((it) => trial.ratings[it.key] == null);
-    if (tutStep === 1 && key === "confidence") {
-      tutFirstConf = value; tutStep = 2; tutApply();          // Step2: 変更練習へ
-    } else if (tutStep === 2 && key === "confidence" && value !== tutFirstConf) {
-      device.ratingTutorial = { changed: true };              // 変更を行動で確認
-      tutStep = 3; tutApply();                                // Step3: 自信を薄く・迷いを強調
+    $("ratingSubmit").disabled = ITEMS.some((it) => trial.ratings[it.key] == null) ||
+      (tutActive() && TUT_PAGES[tutIdx].act !== "submit");
+    if (tutActive()) {
+      const act = TUT_PAGES[tutIdx].act;
+      if (act === "conf" && key === "confidence") {
+        tutFirstConf = value; tutAdvance();                   // → 変更練習ページへ
+      } else if (act === "change" && key === "confidence" && value !== tutFirstConf) {
+        device.ratingTutorial = { changed: true };            // 変更を行動で確認
+        tutAdvance();                                         // → 迷いページ (自信を覆う) へ
+      } else if (act === "hes" && key === "hesitation") {
+        tutAdvance();                                         // → 確定ページへ
+      }
     }
   }
   function submitRating() {
     if (ITEMS.some((it) => trial.ratings[it.key] == null)) return;
+    if (tutActive() && TUT_PAGES[tutIdx].act !== "submit") return;   // チュートリアル途中の確定は不可 (保険)
     trial.ratingSubmitMs = +(performance.now() - ratingOnset).toFixed(1); // 2項目合計の所要時間 (負担指標)
-    if (tutStep) {   // チュートリアル完遂 (練習1問目)
-      tutStep = 0; ratingTutorialDone = true;
-      device.ratingTutorial = Object.assign({ changed: false }, device.ratingTutorial, { completed: true });
+    stampMonitors(trial);   // 評定時間も含めた試行窓で環境音要約を上書き (§6-6 項10: 評定中も計測)
+    if (tutActive()) {   // チュートリアル完遂 (練習1問目)
+      tutIdx = -1; ratingTutorialDone = true; tutRender();
+      device.ratingTutorial = Object.assign({ changed: false }, device.ratingTutorial,
+        { completed: true, pages: TUT_PAGES.length });
     }
     saveBackup();   // 評定込みで再チェックポイント (trial は records 内を直接更新済み)
     if (phase === "main") {
       trialIndex++;
-      nextTrial();
+      micCheckpoint(nextTrial);   // 騒音アラートは評定「送信後」のみ (迷い評定を汚染しない位置。§6-6 項10)
     } else {
       // 練習 (評定リハーサル後): 行動ゲート判定 (streak は showPracticeFeedback で更新済み)。
       // 統合練習 (UNIFIED) はゲート達成後も両タイプを完走してから本番へ (2026-07-15)
@@ -1442,6 +1869,7 @@
 
   function startPractice() {
     if (seqIndex === 0) clearBackup();  // 復旧チャンスは intro 画面まで (統合の2ブロック目では前ブロック分を消さない)
+    requestWakeLock();   // ユーザー操作起点で取得 (§6-6 項11)
     captureIntro();
     phase = "practice";
     streak = 0;
@@ -1530,6 +1958,18 @@
 
   function finishSession() {
     device.exportedAt = new Date().toISOString();
+    device.mic = {   // 環境音モニタの実測記録 (§6-6 項10。閾値等の設定値も provenance として残す)
+      mode: MIC.mode, threshold: MIC.threshold, checkMs: MIC.checkMs, quietMs: MIC.quietMs,
+      gateMinOverMs: MIC.gateMinOverMs, ambientDb: MIC.ambientDb,
+      ambientRetries: MIC.ambientRetries, drops: MIC.drops,
+    };
+    // 完了コード (§6-6 項12): 1人1コードを発行しデータにも記録 → 募集サイトの申請コードと機械照合。
+    // 全員共通コードの横流し (未実施申請) に耐性。紛らわしい文字 (0/O/1/I/L) は除外
+    device.completionCode = makeCompletionCode();
+    if (new URLSearchParams(location.search).get("ccode") !== "0") {
+      $("ccode").textContent = device.completionCode;
+      $("ccodeBox").style.display = "";
+    }
     if (ATTN_ON) {   // 強IMC (欺瞞) のデブリーフィング (§6-5・IRB 申請に記載)
       $("debrief").innerHTML =
         '<p style="color:#9cf;font-size:13px;border:1px solid #467;border-radius:8px;padding:10px;margin:10px 0;">' +
@@ -1561,6 +2001,16 @@
       $("doneMsg").textContent = "ご協力ありがとうございました。下のボタンでデータを保存・共有してください。";
     show("done");
     if (CONFIG.uploadUrl) uploadJson();
+  }
+
+  function makeCompletionCode() {
+    const chars = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+    const rnd = new Uint8Array(8);
+    if (window.crypto && crypto.getRandomValues) crypto.getRandomValues(rnd);
+    else for (let i = 0; i < 8; i++) rnd[i] = Math.floor(Math.random() * 256);
+    let out = "";
+    for (let i = 0; i < 8; i++) out += chars[rnd[i] % chars.length];
+    return out.slice(0, 4) + "-" + out.slice(4);
   }
 
   // ===== エクスポート =====
@@ -1711,7 +2161,25 @@
   }
   refreshIntro();   // 初期は未記入なので開始ボタンを無効化
 
-  $("goPractice").addEventListener("click", startPractice, { passive: true });
+  // 開始前に環境音チェックを挟む (マイク必須。?mic=0 のみ素通し。§6-6 項10)。通過後は enterSession
+  // (読速ベースライン → 練習。§6-6 項13) へ
+  $("goPractice").addEventListener("click", () => {
+    if (MIC.mode !== "off" && !MIC.acquired) { showMicGate("precheck"); return; }
+    enterSession();
+  }, { passive: true });
+  $("micgateStart").addEventListener("click", micGateStart, { passive: true });
+  $("micgateGo").addEventListener("click", () => { micGateMode = null; enterSession(); }, { passive: true });
+  $("readDone").addEventListener("click", readAdvance, { passive: true });
+  $("noisegateGo").addEventListener("click", () => {
+    if (!noiseGate) return;
+    noiseGate.trialRec.noisePause = {   // ゲート滞在の記録 (試行間間隔が可変になる分の証跡)
+      durationMs: +(performance.now() - noiseGate.enteredAt).toFixed(0),
+      retries: noiseGate.retries,
+    };
+    saveBackup();
+    const f = noiseGate.next; noiseGate = null; f();
+  }, { passive: true });
+  if (MIC.mode === "off") $("micNote").style.display = "none";   // 開発時はマイク同意文言も出さない
   $("ratingSubmit").addEventListener("click", submitRating, { passive: true });
   $("breakContinue").addEventListener("click", () => presentStimulus(), { passive: true });
   $("blockintroGo").addEventListener("click", () => {
@@ -1741,6 +2209,11 @@
       streak: () => streak,
       correctSide: () => (cell && (cell.correctSide || cell.betterSide)) || null,
       coachVisible: () => coachEl.className !== "",   // チュートリアルパネルの表示状態 (本番=false を検証)
+      // 環境音モニタの検証用 (?mic=mock と併用。§6-6 項10)
+      micMode: () => MIC.mode,
+      setMicLevel: (db) => { MIC.mockDb = db; },
+      dropMic: () => micLost(),
+      micState: () => ({ acquired: MIC.acquired, lost: MIC.lost, drops: MIC.drops, ambientDb: MIC.ambientDb }),
     };
   }
 
