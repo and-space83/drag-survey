@@ -140,6 +140,7 @@
   #topbar { position: absolute; top: 0; left: 0; right: 0; height: 5%;
     display: flex; align-items: center; justify-content: center; gap: 14px;
     font-size: 12px; color: #777; pointer-events: none; z-index: 3; }
+  #calDb { color: #fc6; font-weight: 700; }   /* 較正モード (?miccal=1) の現在レベル表示 */
   #surface { position: absolute; inset: 0; touch-action: none; }
   #trace { position: absolute; top: 0; left: 0; pointer-events: none; z-index: 1; }
   /* 設問ステム (文字2択ブロックで上部中央に固定。数値ブロックでは空=非表示)。
@@ -348,7 +349,7 @@
 
 <!-- ===== TASK ===== -->
 <section id="task" class="screen">
-  <div id="topbar"><span id="phaseLabel">練習</span><span id="counter">0 / 0</span></div>
+  <div id="topbar"><span id="phaseLabel">練習</span><span id="counter">0 / 0</span><span id="calDb" style="display:none"></span></div>
   <div id="surface">
     <canvas id="trace"></canvas>
     <div id="stem"></div>
@@ -521,6 +522,7 @@
   //   ?rotate=0 で横向きガード無効 / ?upload=0 で自動送信無効 / ?debug=1 で検証フック+CSV+常時ボタン)
   // 環境音モニタ (§6-6 項10): ?mic=0 で無効 (開発・headless)・?mic=mock は検証用。?micth=/-micchk=/micquiet=/micover=
   //   は閾値・計測時間・持続静音時間・ゲート発火下限の上書き (実機較正用) — 配布 URL には付けない (既定値=事前固定値)。
+  //   ?miccal=1 = 較正モード (開発専用): 現在の dBFS を micgate と課題中 topbar に数値表示 (閾値決定の実測用)。
   // 練習は必須 (2026-07-07: UI からのスキップ導線は廃止。チュートリアル+行動ゲート付き)。
   //   ?practice=0 は練習ごとスキップする開発用の抜け道 — 配布 URL には絶対に付けない。
   const debugMode = new URLSearchParams(location.search).get("debug") === "1";
@@ -1105,7 +1107,8 @@
     const m = q.get("mic");
     return {
       mode: m === "0" ? "off" : m === "mock" ? "mock" : "real",
-      threshold: p("micth", -35),    // dBFS 閾値 (超過=騒音)。?micth= は実機較正用の上書き
+      cal: q.get("miccal") === "1",  // 較正モード (開発専用): 現在レベルを数値表示して閾値決定の実測に使う
+      threshold: p("micth", -35),    // dBFS 閾値 (超過=騒音)。⚠️ 暫定 — 2026-07-22 実機で「電車内が静か判定」= 緩すぎ疑い。?micth=/?miccal= で較正中
       checkMs: p("micchk", 5000),    // 事前チェックの計測時間
       quietMs: p("micquiet", 2000),  // ノイズゲート解除に要する連続静音時間 (瞬間値でなく持続判定)
       gateMinOverMs: p("micover", 500), // 試行内の累積超過がこれ未満 (咳など瞬間音) はゲートを出さない (記録は残る)
@@ -1237,6 +1240,7 @@
         "⚠️ 周囲の音が大きいようです。<br><b>テレビ・音楽・会話のない静かな場所</b>に移動して、もう一度計測してください。";
       $("micgateStart").textContent = "もう一度計測する";
       $("micgateStart").style.display = "";
+      if (MIC.cal) $("micgateGo").style.display = "";   // 較正モード (?miccal=1) は判定に関係なく先へ進めて課題中も計測できる
     }
   }
 
@@ -1267,6 +1271,7 @@
       el.classList.toggle("loud", db > MIC.threshold);
     }
   }
+  const calStats = { n: 0, sum: 0, max: -Infinity, min: Infinity };   // 較正モードの累積統計
   setInterval(() => {
     const db = currentDb();
     if (db == null) return;
@@ -1274,6 +1279,18 @@
     if (db > noiseAcc.max) noiseAcc.max = db;
     if (db > MIC.threshold) noiseAcc.overMs += MIC.tickMs;
     updateMeters(db);
+    if (MIC.cal) {   // 較正モード (?miccal=1): 現在レベルを数値表示 (課題中は topbar・micgate では status 行)
+      calStats.n++; calStats.sum += db;
+      if (db > calStats.max) calStats.max = db;
+      if (db < calStats.min) calStats.min = db;
+      const el = $("calDb");
+      el.style.display = "";
+      el.textContent = `${db.toFixed(1)} dB`;
+      if (screens.micgate.classList.contains("active") && !ambientRun)
+        $("micgateStatus").textContent =
+          `現在 ${db.toFixed(1)} dB / 平均 ${(calStats.sum / calStats.n).toFixed(1)} / ` +
+          `最小 ${calStats.min.toFixed(1)} / 最大 ${calStats.max.toFixed(1)} / 閾値 ${MIC.threshold}`;
+    }
     if (ambientRun) {   // 事前チェックの計測中
       ambientRun.n++; ambientRun.sum += db;
       const remain = ambientRun.until - performance.now();
