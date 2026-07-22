@@ -79,7 +79,11 @@
 
   /* ---- 共通 (intro / done / message) ---- */
   .pad { flex: 1; min-height: 0; padding: 24px; overflow-y: auto;
-    line-height: 1.6; touch-action: pan-y; }
+    line-height: 1.6; touch-action: pan-y; display: flex; flex-direction: column; }
+  /* 画面遷移系 (micgate/reading/break/blockintro 等) の説明+ボタンを縦方向も中央へ
+     (2026-07-22 実機FB: 上に寄りすぎ)。上下スペーサが余白を均等に吸収し、内容が溢れる画面
+     (intro/postq/done の長文) ではスペーサが 0 になり従来の上寄せスクロールに自動フォールバック */
+  .pad::before, .pad::after { content: ""; flex: 1 0 0; }
   .pad h1 { font-size: 20px; margin-bottom: 12px; color: #6cf; }
   .pad h2 { font-size: 15px; margin: 16px 0 6px; color: #9cf; }
   .pad p, .pad li { font-size: 14px; color: #ccc; }
