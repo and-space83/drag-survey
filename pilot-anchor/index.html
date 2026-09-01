@@ -297,27 +297,28 @@
   @keyframes tutRcv { 0%,100% { box-shadow: 0 0 0 0 rgba(46,255,119,0); }
     50% { box-shadow: 0 0 0 6px rgba(46,255,119,.5), 0 0 22px 4px rgba(46,255,119,.35); } }
   .choice.tut-rcv { animation: tutRcv .6s ease-out; border-color: #2f7; }
-  #tutSpot { position: fixed; z-index: 40; pointer-events: none; border-radius: 16px;
+  /* スポットライト+吹き出しは class ベース = ドラッグ導入(#tutSpot/#tutPop)と評定(#ratSpot/#ratPop)で共用 */
+  .tut-spot { position: fixed; z-index: 40; pointer-events: none; border-radius: 16px;
     box-shadow: 0 0 0 100vmax rgba(4,6,9,0.8); outline: 2px solid rgba(255,204,102,.9); outline-offset: 0;
     opacity: 0; transition: opacity .25s; }
-  #tutSpot.on { opacity: 1; transition: top .34s cubic-bezier(.4,0,.2,1), left .34s cubic-bezier(.4,0,.2,1),
+  .tut-spot.on { opacity: 1; transition: top .34s cubic-bezier(.4,0,.2,1), left .34s cubic-bezier(.4,0,.2,1),
     width .34s cubic-bezier(.4,0,.2,1), height .34s cubic-bezier(.4,0,.2,1), opacity .2s; }
-  #tutSpot.hidden, #tutPop.hidden, #tutPop .f.hidden { display: none; }
-  #tutPop { position: fixed; z-index: 41; width: min(310px, 84vw); background: #10151c; border: 1px solid #3a3323;
+  .tut-spot.hidden, .tut-pop.hidden, .tut-pop .f.hidden { display: none; }
+  .tut-pop { position: fixed; z-index: 41; width: min(310px, 84vw); background: #10151c; border: 1px solid #3a3323;
     border-radius: 14px; box-shadow: 0 14px 40px -12px #000; padding: 15px 16px 14px; opacity: 0; transform: translateY(4px);
     transition: opacity .22s, transform .22s, top .3s cubic-bezier(.4,0,.2,1), left .3s cubic-bezier(.4,0,.2,1); }
-  #tutPop.on { opacity: 1; transform: translateY(0); }
-  #tutPop .s { font-size: 11.5px; color: #fc6; font-weight: 700; letter-spacing: 1.5px; margin-bottom: 7px; }
-  #tutPop .t { font-size: 14.5px; line-height: 1.7; color: #e6eaef; }
-  #tutPop .t b { color: #fc6; font-weight: 700; }
-  #tutPop .f { font-size: 12.5px; color: #7fd0a4; margin-top: 9px; font-weight: 600; }
-  #tutPop .r { display: flex; align-items: center; gap: 8px; margin-top: 13px; }
-  #tutPop .dots { display: flex; gap: 5px; margin-right: auto; }
-  #tutPop .dots i { width: 6px; height: 6px; border-radius: 50%; background: #3a444d; }
-  #tutPop .dots i.a { background: #fc6; }
-  #tutPop .nx { border: 0; font: inherit; font-size: 13px; font-weight: 700; border-radius: 8px;
+  .tut-pop.on { opacity: 1; transform: translateY(0); }
+  .tut-pop .s { font-size: 11.5px; color: #fc6; font-weight: 700; letter-spacing: 1.5px; margin-bottom: 7px; }
+  .tut-pop .t { font-size: 14.5px; line-height: 1.7; color: #e6eaef; }
+  .tut-pop .t b { color: #fc6; font-weight: 700; }
+  .tut-pop .f { font-size: 12.5px; color: #7fd0a4; margin-top: 9px; font-weight: 600; }
+  .tut-pop .r { display: flex; align-items: center; gap: 8px; margin-top: 13px; }
+  .tut-pop .dots { display: flex; gap: 5px; margin-right: auto; }
+  .tut-pop .dots i { width: 6px; height: 6px; border-radius: 50%; background: #3a444d; }
+  .tut-pop .dots i.a { background: #fc6; }
+  .tut-pop .nx { border: 0; font: inherit; font-size: 13px; font-weight: 700; border-radius: 8px;
     padding: 8px 16px; cursor: pointer; background: #fc6; color: #241a00; }
-  @media (prefers-reduced-motion: reduce) { #tutSpot, #tutSpot.on, #tutPop { transition: opacity .01s !important; } }
+  @media (prefers-reduced-motion: reduce) { .tut-spot, .tut-spot.on, .tut-pop { transition: opacity .01s !important; } }
 </style>
 </head>
 <body>
@@ -1873,40 +1874,64 @@
   // tutChanged = チュートリアル中に評定を変更したか (旧・変更練習の行動ゲートに代わる観察記録)
   let ratingTutorialDone = false, tutIdx = -1, tutChanged = false, tutRenderedAt = 0;
   const tutActive = () => tutIdx >= 0;
+  // 評定チュートリアル v3 (2026-09-02): tutBox 挿入方式 → スポットライト方式。実要素(評定行/確定ボタン)を
+  // ハイライトし、説明は吹き出し(#ratPop)に。fixed オーバーレイで評定行は不動 (位置ずれなし)。gating
+  // (selectRating/submitRating/device.ratingTutorial) は不変。ドラッグ導入と CSS 共用 (.tut-spot/.tut-pop)。§6-6 項14
+  let ratSpot = null, ratPop = null;
+  function ratUnionRect(els) {
+    const rs = els.map((e) => e.getBoundingClientRect());
+    const left = Math.min(...rs.map((r) => r.left)), top = Math.min(...rs.map((r) => r.top));
+    const right = Math.max(...rs.map((r) => r.right)), bottom = Math.max(...rs.map((r) => r.bottom));
+    return { left, top, right, bottom, width: right - left, height: bottom - top };
+  }
+  function ensureRatSpot() {
+    if (ratSpot) return;
+    ratSpot = document.createElement("div"); ratSpot.id = "ratSpot"; ratSpot.className = "tut-spot hidden";
+    document.body.appendChild(ratSpot);
+    ratPop = document.createElement("div"); ratPop.id = "ratPop"; ratPop.className = "tut-pop hidden";
+    ratPop.innerHTML = '<div class="s" id="tutStepLabel"></div><div class="t" id="ratTutText"></div>';
+    document.body.appendChild(ratPop);
+  }
+  function ratRect(p) {   // ページ別スポットライト対象
+    if (p.act === "conf") return $("qitem-confidence").getBoundingClientRect();
+    if (p.act === "hes") return $("qitem-hesitation").getBoundingClientRect();
+    if (p.act === "submit") return ratUnionRect([$("ratingItems"), $("ratingSubmit")]);
+    return ratUnionRect([$("ratingItems"), $("tutNext")]);   // 説明('next')ページ: 評定+次へを明るく
+  }
   function tutRender() {
     const qc = $("qitem-confidence"), qh = $("qitem-hesitation");
     if (!qc || !qh) return;
-    let box = $("tutBox");
-    if (!tutActive()) {   // 完遂/解除: ボックスを外し通常の評定画面へ復帰
-      if (box) box.remove();
-      qc.classList.remove("dim", "tfocus");
-      qh.classList.remove("dim", "tfocus");
-      $("tutNext").style.display = "none";
-      $("ratingSubmit").style.display = "";
+    ensureRatSpot();
+    const oldBox = $("tutBox"); if (oldBox) oldBox.remove();
+    qc.classList.remove("dim", "tfocus"); qh.classList.remove("dim", "tfocus");   // 焦点はスポットライトが担う (行は不動)
+    if (!tutActive()) {   // 完遂/解除: オーバーレイを外し通常の評定画面へ復帰
+      ratSpot.classList.remove("on"); ratPop.classList.remove("on");
+      ratSpot.classList.add("hidden"); ratPop.classList.add("hidden");
+      $("tutNext").style.display = "none"; $("ratingSubmit").style.display = "";
       return;
     }
     const p = TUT_PAGES[tutIdx];
-    if (!box) {
-      box = document.createElement("div");
-      box.id = "tutBox";
-      box.innerHTML = '<div class="tut-step" id="tutStepLabel"></div>' +
-        '<div class="tut-text" id="tutText"></div>';
-    }
-    // 配置は全ページ共通 = 常に評定2項目の上 (2026-07-22 実機FB: ページによる位置ずれを排除)
-    qc.parentNode.insertBefore(box, qc);
-    box.querySelector("#tutStepLabel").textContent = `説明 ${tutIdx + 1} / ${TUT_PAGES.length}`;
-    box.querySelector("#tutText").innerHTML = nb(p.text);
-    // 「次へ」は確定ボタンの位置に出す (説明ページのみ。実操作ページは確定ボタン=無効 を表示)
+    $("tutStepLabel").textContent = `説明 ${tutIdx + 1} / ${TUT_PAGES.length}`;
+    $("ratTutText").innerHTML = nb(p.text);
+    // 「次へ」は確定ボタンの位置 (説明ページのみ)。確定はチュートリアル最終ページでのみ可
     $("tutNext").style.display = p.act === "next" ? "" : "none";
     $("ratingSubmit").style.display = p.act === "next" ? "none" : "";
-    // 対象評定を強調・それ以外は減光 (説明ページ中は両方減光=操作不可)
-    qc.classList.toggle("tfocus", p.focus === "confidence");
-    qh.classList.toggle("tfocus", p.focus === "hesitation");
-    qc.classList.toggle("dim", p.act === "next" || (p.focus != null && p.focus !== "confidence"));
-    qh.classList.toggle("dim", p.act === "next" || (p.focus != null && p.focus !== "hesitation"));
-    // 確定はチュートリアル最終ページでのみ可 (2項目そろっていても途中では押させない)
     $("ratingSubmit").disabled = ITEMS.some((it) => trial.ratings[it.key] == null) || p.act !== "submit";
     $("rating").querySelector(".qwrap").scrollTop = 0;
+    // スポットライト+吹き出しの配置 (吹き出しは評定画面の上端にピン留め=評定行を塞がない)。
+    // geometry は rAF 内で読む: beginRating は tutRender→show("rating") の順で呼ぶため、
+    // 同期読みだと #rating 非 active で rect=0 になる。rAF なら show 後で正しい。
+    ratSpot.classList.remove("hidden"); ratPop.classList.remove("hidden");
+    const PAD = 10;
+    requestAnimationFrame(() => {
+      const r = ratRect(p);
+      ratSpot.style.top = (r.top - PAD) + "px"; ratSpot.style.left = (r.left - PAD) + "px";
+      ratSpot.style.width = (r.width + PAD * 2) + "px"; ratSpot.style.height = (r.height + PAD * 2) + "px";
+      ratSpot.classList.add("on"); ratPop.classList.add("on");
+      const sr = $("rating").getBoundingClientRect(), pw = ratPop.offsetWidth, vw = innerWidth;
+      ratPop.style.top = Math.max(8, sr.top + 8) + "px";
+      ratPop.style.left = Math.max(12, Math.min(sr.left + (sr.width - pw) / 2, vw - pw - 12)) + "px";
+    });
     tutRenderedAt = performance.now();   // 連打デバウンスの基準時刻
   }
   function tutAdvance() { tutIdx++; tutRender(); }
@@ -1991,8 +2016,8 @@
       if (built) return;
       demo = document.createElement("canvas"); demo.id = "tutDemo"; surface.appendChild(demo); g = demo.getContext("2d");
       cap = document.createElement("div"); cap.id = "tutCap"; surface.appendChild(cap);
-      spot = document.createElement("div"); spot.id = "tutSpot"; spot.className = "hidden"; document.body.appendChild(spot);
-      pop = document.createElement("div"); pop.id = "tutPop"; pop.className = "hidden";
+      spot = document.createElement("div"); spot.id = "tutSpot"; spot.className = "tut-spot hidden"; document.body.appendChild(spot);
+      pop = document.createElement("div"); pop.id = "tutPop"; pop.className = "tut-pop hidden";
       pop.innerHTML = '<div class="s" id="tutPopStep"></div><div class="t" id="tutPopTxt"></div>' +
         '<div class="f hidden" id="tutPopFree">運び方（道すじ）は自由です</div>' +
         '<div class="r"><div class="dots" id="tutPopDots"></div><button class="nx" id="tutPopNext">次へ</button></div>';
