@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>環境音レベル較正 (dBFS 測定)</title>
+<!--
+  環境音レベル (RMS dBFS) の実機較正ツール。pilot-anchor の環境音モニタ (§6-6 項10) の
+  ノイズゲート閾値を iPhone 実機で確定するために使う (pilot-plan §8 / decisions-log 追記予定)。
+
+  ⚠️ 測定経路は pilot-anchor/index.html の MIC 実装と**同一に保つこと** (揃っていないと較正値が本番に移せない):
+    - getUserMedia: echoCancellation/noiseSuppression/autoGainControl すべて false
+    - AnalyserNode.fftSize = 2048 / getFloatTimeDomainData (旧 Safari は getByteTimeDomainData)
+    - level = 20*log10(RMS), 床 -100 dBFS / tick 125ms (~8Hz)
+  本番と違い、生音声は保存も送信もしない (数値の dBFS のみ・端末内)。会話内容は復元不能。
+
+  ?miccal=1 との違い: あちらはページ読込からの累積表示 (環境をまたぐと汚染・リロード必須)。
+  こちらは「ラベル付きの独立サンプル」を並べて記録するので、ラベルを変えて測り続けられる。
+-->
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  body { min-height: 100%; background: #111; color: #eee; padding: 14px 14px 40px;
+    -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+  h1 { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: #6cf; }
+  .card { background: #1a1a1a; border: 1px solid #333; border-radius: 10px; padding: 12px; margin-bottom: 12px; }
+  #now { font-size: 44px; font-weight: 800; text-align: center; color: #6cf; letter-spacing: 1px; }
+  #now.rec { color: #fa4; }
+  #nowUnit { font-size: 16px; color: #888; font-weight: 400; }
+  #meterWrap { height: 14px; background: #000; border-radius: 7px; overflow: hidden; margin: 10px 0 4px; border: 1px solid #333; }
+  #meter { height: 100%; width: 0%; background: #4a9; transition: width .1s linear; }
+  #meter.loud { background: #e66; }
+  .scale { display: flex; justify-content: space-between; font-size: 10px; color: #666; }
+  .stat { display: flex; justify-content: space-between; font-size: 13px; line-height: 1.7; border-bottom: 1px solid #222; }
+  .stat span:last-child { font-variant-numeric: tabular-nums; color: #ccc; }
+  label.fld { display: block; font-size: 12px; color: #aaa; margin: 8px 0 4px; }
+  input[type=text], input[type=number] { width: 100%; padding: 9px; font-size: 15px; background: #000; color: #eee;
+    border: 1px solid #444; border-radius: 6px; }
+  input[type=number] { width: 90px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0; }
+  .chip { padding: 7px 12px; font-size: 13px; background: #222; color: #ddd; border: 1px solid #444; border-radius: 16px; }
+  .chip.on { background: #6cf; color: #012; border-color: #6cf; font-weight: 700; }
+  .btnrow { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  button { padding: 12px 16px; font-size: 15px; font-weight: 700; border-radius: 8px; border: 1px solid #444;
+    background: #2a2a2a; color: #eee; flex: 1; min-width: 120px; }
+  button.primary { background: #4a9; color: #012; border-color: #4a9; }
+  button.rec { background: #fa4; color: #210; border-color: #fa4; }
+  button.small { flex: 0 0 auto; min-width: 0; padding: 9px 14px; font-size: 13px; font-weight: 400; }
+  #status { font-size: 13px; color: #fc6; min-height: 18px; margin-top: 8px; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; font-variant-numeric: tabular-nums; }
+  th, td { padding: 5px 4px; border-bottom: 1px solid #262626; text-align: right; }
+  th:first-child, td:first-child { text-align: left; }
+  th { color: #888; font-weight: 400; font-size: 11px; }
+  tr.pass td.judge { color: #4a9; }
+  tr.block td.judge { color: #e66; font-weight: 700; }
+  #csv { width: 100%; height: 90px; font-size: 11px; font-family: ui-monospace, monospace; background: #000; color: #9c9;
+    border: 1px solid #333; border-radius: 6px; padding: 6px; margin-top: 8px; }
+  .hint { font-size: 12px; color: #888; line-height: 1.6; }
+  .warn { color: #fc6; }
+  .settings { font-size: 12px; color: #ccc; line-height: 1.7; }
+  .settings b { color: #eee; }
+  .ok { color: #4a9; } .ng { color: #e66; } .na { color: #888; }
+</style>
+</head>
+<body>
+<h1>環境音レベル較正 (dBFS 測定)</h1>
+
+<div class="card" id="startCard">
+  <p class="hint">
+    ノイズゲート閾値を実機で決めるためのツールです。マイクで<b>音量レベル (dBFS) だけ</b>を測ります
+    (会話などの内容は記録・送信しません・端末の外に出ません)。<br>
+    静室 / 電車 / TV・会話のそばなど、いろいろな場所で <b>ラベルを付けて</b>測り、最後に「結果をコピー」で全部まとめて渡してください。
+  </p>
+  <div class="btnrow"><button class="primary" id="enable">マイクを許可して開始</button></div>
+  <div id="status"></div>
+</div>
+
+<div class="card" id="main" style="display:none">
+  <div id="now">–<span id="nowUnit"> dBFS</span></div>
+  <div id="meterWrap"><div id="meter"></div></div>
+  <div class="scale"><span>-60 (静)</span><span id="thMark">閾値 -35</span><span>0 (最大)</span></div>
+
+  <div class="settings" id="applied"></div>
+</div>
+
+<div class="card" id="ctl" style="display:none">
+  <label class="fld">この場所のラベル (候補ボタン or 自由入力)</label>
+  <div class="chips" id="chips"></div>
+  <input type="text" id="label" placeholder="例: 電車内 / 図書館 / 自室 …好きに書けます">
+  <label class="fld">メモ (場所の詳細・状況。任意)</label>
+  <input type="text" id="note" placeholder="例: 山手線 混雑・窓側 / エアコン運転中 / 換気扇 弱">
+
+  <div class="btnrow">
+    <button class="primary" id="take5">▶ 5秒計測して記録</button>
+    <button id="toggleLong">▶ 長め計測 開始</button>
+  </div>
+  <div id="status2" style="font-size:13px;color:#fc6;min-height:18px;margin-top:8px"></div>
+
+  <div class="stat"><span>現在 記録中サンプル n</span><span id="curN">0</span></div>
+  <div class="stat"><span>平均 / 中央値</span><span id="curMean">–</span></div>
+  <div class="stat"><span>p90 / p95</span><span id="curP">–</span></div>
+  <div class="stat"><span>最小 / 最大</span><span id="curRange">–</span></div>
+</div>
+
+<div class="card" id="listCard" style="display:none">
+  <label class="fld">閾値プレビュー (この値以下=静か=通過)</label>
+  <input type="number" id="th" value="-35" step="1">
+  <span class="hint"> ← 変えると下の表の 判定 が塗り替わる (緑=通過 / 赤=ブロック)</span>
+
+  <table id="tbl">
+    <thead><tr><th>場所</th><th>平均</th><th>中央</th><th>p90</th><th>最小〜最大</th><th>n/秒</th><th>判定</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+
+  <div class="btnrow">
+    <button class="small" id="copy">結果をコピー</button>
+    <button class="small" id="dl">CSV ダウンロード</button>
+    <button class="small" id="reset">全消去</button>
+  </div>
+  <textarea id="csv" readonly></textarea>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  const $ = (id) => document.getElementById(id);
+  const TICK_MS = 125, FFT = 2048, DBFLOOR = -100, CHECK_MS = 5000;
+
+  let ctx = null, analyser = null, fbuf = null, bbuf = null, acquired = false;
+  let track = null;
+  let samples = [];        // {label, whenISO, durationS, n, mean, median, p90, p95, min, max}
+  let cur = null;          // 記録中: {label, buf:[db,...], startMs, mode:'5s'|'long', endMs?}
+
+  // ---- 場所ラベルのワンタップ候補 ----
+  const PRESETS = ["静室", "電車", "バス", "カフェ", "TV・会話のそば", "換気扇の近く", "屋外"];
+  let chosen = "";
+  const chipsEl = $("chips");
+  PRESETS.forEach((name) => {
+    const b = document.createElement("span");
+    b.className = "chip"; b.textContent = name;
+    b.addEventListener("click", () => {
+      chosen = name; $("label").value = name;
+      [...chipsEl.children].forEach((c) => c.classList.toggle("on", c === b));
+    });
+    chipsEl.appendChild(b);
+  });
+  $("label").addEventListener("input", () => {
+    [...chipsEl.children].forEach((c) => c.classList.remove("on"));
+  });
+
+  // ---- dBFS 測定 (pilot-anchor と同一経路) ----
+  function currentDb() {
+    if (!acquired || !analyser) return null;
+    let rms = 0;
+    if (fbuf) {
+      analyser.getFloatTimeDomainData(fbuf);
+      for (let i = 0; i < fbuf.length; i++) rms += fbuf[i] * fbuf[i];
+      rms = Math.sqrt(rms / fbuf.length);
+    } else {
+      analyser.getByteTimeDomainData(bbuf);
+      for (let i = 0; i < bbuf.length; i++) { const v = (bbuf[i] - 128) / 128; rms += v * v; }
+      rms = Math.sqrt(rms / bbuf.length);
+    }
+    return rms > 0 ? Math.max(DBFLOOR, +(20 * Math.log10(rms)).toFixed(1)) : DBFLOOR;
+  }
+
+  function enable() {
+    $("status").textContent = "マイクを準備しています…";
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      $("status").innerHTML = "⚠️ この端末/ブラウザはマイク取得に非対応です。"; return;
+    }
+    navigator.mediaDevices.getUserMedia({
+      audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false }, video: false,
+    }).then((stream) => {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      ctx = new AC(); if (ctx.state === "suspended") ctx.resume();
+      analyser = ctx.createAnalyser(); analyser.fftSize = FFT;
+      ctx.createMediaStreamSource(stream).connect(analyser);   // 解析のみ・出力へ未接続 (音は鳴らない)
+      fbuf = (typeof analyser.getFloatTimeDomainData === "function") ? new Float32Array(FFT) : null;
+      bbuf = fbuf ? null : new Uint8Array(FFT);
+      track = stream.getAudioTracks()[0];
+      acquired = true;
+      $("startCard").style.display = "none";
+      $("main").style.display = ""; $("ctl").style.display = ""; $("listCard").style.display = "";
+      showApplied();
+      renderRows(); buildCsv();
+    }).catch(() => {
+      $("status").innerHTML =
+        "⚠️ マイクを利用できませんでした。ブラウザ/端末の設定でこのサイトのマイクを許可してください。" +
+        "<br>(iOS は HTTPS でのみ許可されます)";
+    });
+  }
+  $("enable").addEventListener("click", enable);
+
+  // ---- 適用された制約の実値表示 (iOS が AGC-off 要求を守っているかの直接確認) ----
+  function showApplied() {
+    let s = {};
+    try { s = track && track.getSettings ? track.getSettings() : {}; } catch (_) {}
+    const flag = (v) => v === false ? '<span class="ok">false ✓</span>'
+      : v === true ? '<span class="ng">true ⚠(効いている)</span>'
+      : '<span class="na">n/a</span>';
+    $("applied").innerHTML =
+      "<b>要求:</b> AGC/NS/EC = すべて false<br>" +
+      "<b>実際:</b> autoGainControl=" + flag(s.autoGainControl) +
+      " / noiseSuppression=" + flag(s.noiseSuppression) +
+      " / echoCancellation=" + flag(s.echoCancellation) +
+      '<br><span class="hint">※ ここが true や n/a のまま「電車も静室も同じ dBFS」なら AGC 圧縮が原因 (閾値では判別不能)。</span>';
+  }
+
+  // ---- 計測ティック ----
+  function pct(sorted, p) {
+    if (!sorted.length) return NaN;
+    return sorted[Math.min(sorted.length - 1, Math.floor(sorted.length * p))];
+  }
+  function statsOf(buf) {
+    const n = buf.length;
+    const mean = buf.reduce((a, b) => a + b, 0) / n;
+    const s = [...buf].sort((a, b) => a - b);
+    return { n, mean: +mean.toFixed(1), median: +pct(s, 0.5).toFixed(1),
+      p90: +pct(s, 0.9).toFixed(1), p95: +pct(s, 0.95).toFixed(1),
+      min: +s[0].toFixed(1), max: +s[n - 1].toFixed(1) };
+  }
+
+  setInterval(() => {
+    if (!acquired) return;
+    const db = currentDb();
+    if (db == null) return;
+    // ライブ表示
+    const nowEl = $("now"); nowEl.firstChild.nodeValue = db.toFixed(1) + " ";
+    const th = parseFloat($("th").value);
+    const w = Math.max(0, Math.min(100, (db + 60) / 60 * 100));
+    const m = $("meter"); m.style.width = w + "%"; m.classList.toggle("loud", db > th);
+    nowEl.classList.toggle("rec", !!cur);
+    // 記録中
+    if (cur) {
+      cur.buf.push(db);
+      const st = statsOf(cur.buf);
+      $("curN").textContent = st.n;
+      $("curMean").textContent = st.mean + " / " + st.median;
+      $("curP").textContent = st.p90 + " / " + st.p95;
+      $("curRange").textContent = st.min + " 〜 " + st.max;
+      if (cur.mode === "5s") {
+        const remain = cur.endMs - performance.now();
+        $("status2").textContent = "計測中… " + Math.max(0, Math.ceil(remain / 1000)) + " 秒";
+        if (remain <= 0) finishSample();
+      }
+    }
+  }, TICK_MS);
+
+  function labelNow() { return ($("label").value || chosen || "無名").trim(); }
+  function noteNow() { return ($("note").value || "").trim(); }
+
+  function startSample(mode) {
+    if (cur) return;
+    cur = { label: labelNow(), note: noteNow(), buf: [], startMs: performance.now(), mode };
+    if (mode === "5s") cur.endMs = cur.startMs + CHECK_MS;
+    $("take5").disabled = mode === "long";
+    $("toggleLong").textContent = mode === "long" ? "■ 長め計測 停止" : "▶ 長め計測 開始";
+    $("toggleLong").classList.toggle("rec", mode === "long");
+  }
+  function finishSample() {
+    if (!cur) return;
+    const st = statsOf(cur.buf);
+    if (st.n < 3) { $("status2").textContent = "短すぎました。もう一度。"; cur = null; return; }
+    samples.push(Object.assign({ label: cur.label, note: cur.note || "", whenISO: new Date().toISOString(),
+      durationS: +((performance.now() - cur.startMs) / 1000).toFixed(1) }, st));
+    cur = null;
+    $("take5").disabled = false;
+    $("toggleLong").textContent = "▶ 長め計測 開始"; $("toggleLong").classList.remove("rec");
+    $("status2").textContent = "✅ 「" + samples[samples.length - 1].label + "」を記録 (計 " + samples.length + " 件)";
+    ["curN"].forEach((id) => $(id).textContent = "0");
+    ["curMean", "curP", "curRange"].forEach((id) => $(id).textContent = "–");
+    renderRows(); buildCsv();
+  }
+  $("take5").addEventListener("click", () => { if (!cur) startSample("5s"); });
+  $("toggleLong").addEventListener("click", () => { if (cur && cur.mode === "long") finishSample(); else if (!cur) startSample("long"); });
+
+  // ---- 一覧 + 閾値プレビュー ----
+  function renderRows() {
+    const th = parseFloat($("th").value);
+    $("thMark").textContent = "閾値 " + th;
+    const tb = $("rows"); tb.innerHTML = "";
+    samples.forEach((s) => {
+      const pass = s.mean <= th;   // ゲートは 5秒平均 ≤ 閾値 で通過
+      const tr = document.createElement("tr");
+      tr.className = pass ? "pass" : "block";
+      const lab = esc(s.label) + (s.note ? " <span style='color:#888;font-size:11px'>(" + esc(s.note) + ")</span>" : "");
+      tr.innerHTML = "<td>" + lab + "</td><td>" + s.mean + "</td><td>" + s.median +
+        "</td><td>" + s.p90 + "</td><td>" + s.min + "〜" + s.max +
+        "</td><td>" + s.n + "/" + s.durationS + "</td><td class='judge'>" + (pass ? "通過" : "ブロック") + "</td>";
+      tb.appendChild(tr);
+    });
+  }
+  function esc(s) { return String(s).replace(/[<>&]/g, (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" }[c])); }
+  $("th").addEventListener("input", () => { renderRows(); buildCsv(); });
+
+  // ---- エクスポート ----
+  function buildCsv() {
+    let s = {};
+    try { s = track && track.getSettings ? track.getSettings() : {}; } catch (_) {}
+    const meta = [
+      "# mic-cal export",
+      "# device," + navigator.userAgent.replace(/,/g, ";"),
+      "# applied_autoGainControl," + s.autoGainControl,
+      "# applied_noiseSuppression," + s.noiseSuppression,
+      "# applied_echoCancellation," + s.echoCancellation,
+      "# sampleRate," + (s.sampleRate || (ctx && ctx.sampleRate) || ""),
+      "# tick_ms," + TICK_MS + ",fft," + FFT,
+      "# threshold_preview," + $("th").value,
+      "# exported," + new Date().toISOString(),
+    ];
+    const head = "label,note,mean_dbfs,median_dbfs,p90_dbfs,p95_dbfs,min_dbfs,max_dbfs,n,duration_s,when";
+    const rows = samples.map((s) =>
+      [s.label.replace(/,/g, ";"), (s.note || "").replace(/,/g, ";"), s.mean, s.median, s.p90, s.p95, s.min, s.max, s.n, s.durationS, s.whenISO].join(","));
+    $("csv").value = meta.join("\n") + "\n" + head + "\n" + rows.join("\n") + "\n";
+    return $("csv").value;
+  }
+  $("copy").addEventListener("click", () => {
+    const txt = buildCsv();
+    const done = () => { $("status2").textContent = "📋 コピーしました。チャットに貼り付けてください。"; };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(done).catch(() => { $("csv").select(); document.execCommand("copy"); done(); });
+    } else { $("csv").select(); document.execCommand("copy"); done(); }
+  });
+  $("dl").addEventListener("click", () => {
+    const blob = new Blob([buildCsv()], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a"); a.href = url; a.download = "mic_cal_" + Date.now() + ".csv";
+    document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+  });
+  $("reset").addEventListener("click", () => {
+    if (!confirm("記録を全部消しますか？")) return;
+    samples = []; renderRows(); buildCsv(); $("status2").textContent = "消去しました。";
+  });
+})();
+</script>
+</body>
+</html>
