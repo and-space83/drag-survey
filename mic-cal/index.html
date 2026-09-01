@@ -426,16 +426,21 @@
 
   // ---- 手動 保存/共有 (音声 + 数値サイドカー) ----
   function ext() { return /mp4|aac/.test(recMime) ? "m4a" : "webm"; }
-  function fname(s, i) { return "miccal_" + String(i + 1).padStart(2, "0") + "_" + s.label.replace(/[^\w一-龠ぁ-んァ-ヶ]+/g, "_") + "." + ext(); }
+  function safeName(v) { return String(v == null ? "" : v).replace(/[\/\\:*?"<>|\x00-\x1f]/g, "_").replace(/\s+/g, " ").trim().slice(0, 40); }
+  function fname(s) {   // 測定者_場所ラベル_メモ_日時 (日本語可・空項目は省略)
+    const stamp = String(s.whenISO || "").replace(/[^\d]/g, "").slice(0, 14);
+    const parts = [measurerNow(), s.label, s.note].map(safeName).filter(Boolean);
+    return parts.join("_") + "_" + stamp + "." + ext();
+  }
   function shareSample(i) {
     const s = samples[i]; if (!s.blob) return;
-    const file = new File([s.blob], fname(s, i), { type: s.blob.type });
+    const file = new File([s.blob], fname(s), { type: s.blob.type });
     const text = [s.label, s.note, "floor(p10)=" + s.floor, "median=" + s.median, "mean=" + s.mean,
       "min=" + s.min, "max=" + s.max, "n=" + s.n, "dur=" + s.durationS + "s", "hpf=" + s.hpf].filter(Boolean).join(" / ");
     if (navigator.canShare && navigator.canShare({ files: [file] })) {
       navigator.share({ files: [file], title: s.label, text }).catch(() => {});
     } else {
-      const a = document.createElement("a"); a.href = s.url; a.download = fname(s, i);
+      const a = document.createElement("a"); a.href = s.url; a.download = fname(s);
       document.body.appendChild(a); a.click(); a.remove();
       $("status2").textContent = "⬇️ ダウンロードしました (共有 API 非対応のため)";
     }
