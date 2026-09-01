@@ -176,7 +176,7 @@
 
   // 自動送信先 (GAS Web アプリ)。デプロイ後にここへ exec URL を貼ると全員分が Drive に集まる。
   // 空なら自動送信オフ (保存/共有のみ)。?upload=<url> で一時上書き可 (テスト用)。
-  const BAKED_UPLOAD_URL = "";
+  const BAKED_UPLOAD_URL = "https://script.google.com/macros/s/AKfycbz5nQ5w2e8JtYTwzXoMY91UQA_7osrsIOygT6dZblcWca9IpjcoFulKJORRj4flTqf7LA/exec";
   const q = new URLSearchParams(location.search);
   const UPLOAD_URL = (q.get("upload") || BAKED_UPLOAD_URL || "").trim();
 
