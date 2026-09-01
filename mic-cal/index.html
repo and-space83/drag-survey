@@ -266,15 +266,16 @@
   // 本体マイクで測れ、再生はスピーカーから鳴る。
   function buildGraph(s) {
     stream = s; track = s.getAudioTracks()[0];
-    if (!audioCtx) { const AC = window.AudioContext || window.webkitAudioContext; audioCtx = new AC(); }
+    // 計測ごとに AudioContext を作り直す (アイドルで close するため)。close しないと iOS が録音モードを
+    // 引きずり、再生が受話口 (電話音声のような音) になり・初回再生が無音になる。
+    const AC = window.AudioContext || window.webkitAudioContext;
+    audioCtx = new AC();
     if (audioCtx.state === "suspended") audioCtx.resume();
     source = audioCtx.createMediaStreamSource(s);
-    if (!hpfNode) { hpfNode = audioCtx.createBiquadFilter(); hpfNode.type = "highpass"; hpfNode.frequency.value = HPF_HZ; hpfNode.Q.value = 0.707; }
-    if (!analyser) {
-      analyser = audioCtx.createAnalyser(); analyser.fftSize = FFT;   // 解析のみ・出力へ未接続 (音は鳴らない)
-      fbuf = (typeof analyser.getFloatTimeDomainData === "function") ? new Float32Array(FFT) : null;
-      bbuf = fbuf ? null : new Uint8Array(FFT);
-    }
+    hpfNode = audioCtx.createBiquadFilter(); hpfNode.type = "highpass"; hpfNode.frequency.value = HPF_HZ; hpfNode.Q.value = 0.707;
+    analyser = audioCtx.createAnalyser(); analyser.fftSize = FFT;   // 解析のみ・出力へ未接続 (音は鳴らない)
+    fbuf = (typeof analyser.getFloatTimeDomainData === "function") ? new Float32Array(FFT) : null;
+    bbuf = fbuf ? null : new Uint8Array(FFT);
     rewire(); acquired = true;
   }
   function acquireStream() {
@@ -285,9 +286,12 @@
   function releaseStream() {
     acquired = false;
     try { if (source) source.disconnect(); } catch (_) {}
-    source = null;
+    try { if (hpfNode) hpfNode.disconnect(); } catch (_) {}
+    try { if (analyser) analyser.disconnect(); } catch (_) {}
+    source = null; hpfNode = null; analyser = null; fbuf = null; bbuf = null;
     if (stream) stream.getTracks().forEach((t) => { try { t.stop(); } catch (_) {} });
     stream = null;
+    if (audioCtx) { try { audioCtx.close(); } catch (_) {} audioCtx = null; }   // 音声セッション完全解放 → 再生を本体スピーカーへ戻す
     const nowEl = $("now"); if (nowEl && nowEl.firstChild) nowEl.firstChild.nodeValue = "– ";
     $("meter").style.width = "0%";
   }
