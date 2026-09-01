@@ -246,24 +246,13 @@
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
       $("status").innerHTML = "⚠️ この端末/ブラウザはマイク取得に非対応です。"; return;
     }
-    navigator.mediaDevices.getUserMedia({
-      audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false }, video: false,
-    }).then((s) => {
-      stream = s; track = s.getAudioTracks()[0];
-      const AC = window.AudioContext || window.webkitAudioContext;
-      audioCtx = new AC(); if (audioCtx.state === "suspended") audioCtx.resume();
-      source = audioCtx.createMediaStreamSource(s);
-      hpfNode = audioCtx.createBiquadFilter(); hpfNode.type = "highpass";
-      hpfNode.frequency.value = HPF_HZ; hpfNode.Q.value = 0.707;
-      analyser = audioCtx.createAnalyser(); analyser.fftSize = FFT;   // 解析のみ・出力へ未接続 (音は鳴らない)
-      fbuf = (typeof analyser.getFloatTimeDomainData === "function") ? new Float32Array(FFT) : null;
-      bbuf = fbuf ? null : new Uint8Array(FFT);
-      rewire();
-      recMime = pickMime();
-      acquired = true;
+    recMime = pickMime();
+    acquireStream().then(() => {
       $("startCard").style.display = "none";
       $("main").style.display = ""; $("ctl").style.display = ""; $("listCard").style.display = "";
-      showApplied(); render(); buildCsv();
+      render(); buildCsv();
+      releaseStream();   // アイドル中はマイク解放 (常時ONだと iOS が再生音を本体スピーカーへ出さない)
+      $("status2").textContent = "準備OK。ラベルを付けて「計測」を押してください (計測中だけマイクが入ります)。";
     }).catch(() => {
       $("status").innerHTML =
         "⚠️ マイクを利用できませんでした。ブラウザ/端末の設定でこのサイトのマイクを許可してください。<br>(iOS は HTTPS でのみ許可されます)";
@@ -271,17 +260,52 @@
   }
   $("enable").addEventListener("click", enable);
 
+  // ---- マイクの取得/解放: 計測中だけ開き、終わったら解放する ----
+  // getUserMedia を開きっぱなしにすると iOS が「録音モード」になり、(1) 再生音が本体スピーカーから出ず
+  // 受話口/極小音量になる、(2) イヤホン装着時は入力がイヤホンのマイクに切り替わる。計測ごとに取得→解放すれば
+  // 本体マイクで測れ、再生はスピーカーから鳴る。
+  function buildGraph(s) {
+    stream = s; track = s.getAudioTracks()[0];
+    if (!audioCtx) { const AC = window.AudioContext || window.webkitAudioContext; audioCtx = new AC(); }
+    if (audioCtx.state === "suspended") audioCtx.resume();
+    source = audioCtx.createMediaStreamSource(s);
+    if (!hpfNode) { hpfNode = audioCtx.createBiquadFilter(); hpfNode.type = "highpass"; hpfNode.frequency.value = HPF_HZ; hpfNode.Q.value = 0.707; }
+    if (!analyser) {
+      analyser = audioCtx.createAnalyser(); analyser.fftSize = FFT;   // 解析のみ・出力へ未接続 (音は鳴らない)
+      fbuf = (typeof analyser.getFloatTimeDomainData === "function") ? new Float32Array(FFT) : null;
+      bbuf = fbuf ? null : new Uint8Array(FFT);
+    }
+    rewire(); acquired = true;
+  }
+  function acquireStream() {
+    return navigator.mediaDevices.getUserMedia({
+      audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false }, video: false,
+    }).then((s) => { buildGraph(s); showApplied(); });
+  }
+  function releaseStream() {
+    acquired = false;
+    try { if (source) source.disconnect(); } catch (_) {}
+    source = null;
+    if (stream) stream.getTracks().forEach((t) => { try { t.stop(); } catch (_) {} });
+    stream = null;
+    const nowEl = $("now"); if (nowEl && nowEl.firstChild) nowEl.firstChild.nodeValue = "– ";
+    $("meter").style.width = "0%";
+  }
+
   function showApplied() {
     let g = {};
     try { g = track && track.getSettings ? track.getSettings() : {}; } catch (_) {}
     const flag = (v) => v === false ? '<span class="ok">false ✓</span>'
       : v === true ? '<span class="ng">true ⚠(効いている)</span>' : '<span class="na">n/a</span>';
+    const dev = (track && track.label) ? track.label : "不明";
+    const ext = /airpod|headset|headphone|bluetooth|earbud|イヤ|ヘッド/i.test(dev);
     $("applied").innerHTML =
-      "<b>マイク処理 (要求 false):</b> AGC=" + flag(g.autoGainControl) +
+      "<b>入力デバイス:</b> " + esc(dev) + (ext ? ' <span class="ng">⚠ イヤホン/外部マイクの可能性 — 外して本体マイクで</span>' : "") +
+      "<br><b>マイク処理 (要求 false):</b> AGC=" + flag(g.autoGainControl) +
       " / NS=" + flag(g.noiseSuppression) + " / EC=" + flag(g.echoCancellation) +
       "<br><b>録音形式:</b> " + (recMime || '<span class="ng">MediaRecorder 非対応 (数値のみ)</span>') +
       "<br><b>自動送信:</b> " + (UPLOAD_URL ? '<span class="ok">ON</span>' : '<span class="na">未設定</span>') +
-      '<br><span class="hint">※ AGC が true や n/a のまま「電車も静室も同じ dBFS」なら AGC 圧縮が原因。</span>';
+      '<br><span class="hint">※ イヤホンを外して本体マイクで測ること (本番は本体マイク)。AGC が true/n/a で環境差が出ないなら AGC 圧縮が原因。</span>';
   }
 
   // ---- 統計 ----
@@ -322,20 +346,24 @@
 
   function startSample() {
     if (cur) return;
-    const chunks = [];   // recorder のハンドラはこの配列を閉じ込める (cur は停止前に null になるため参照しない)
-    cur = { label: labelNow(), note: noteNow(), startMs: performance.now(),
-      mode: String(durS), buf: [], chunks: chunks, hpf: $("hpf").checked };
-    if (durS !== 0) cur.endMs = cur.startMs + durS * 1000;
-    if (recMime) {
-      try {
-        recorder = new MediaRecorder(stream, { mimeType: recMime });
-        recorder.ondataavailable = (e) => { if (e.data && e.data.size) chunks.push(e.data); };
-        recorder.start();
-      } catch (_) { recorder = null; }
-    }
-    $("go").textContent = durS === 0 ? "■ 停止して記録" : "計測中…";
-    $("go").classList.toggle("rec", durS === 0);
-    [...$("durSeg").children].forEach((x) => x.disabled = true);
+    $("go").disabled = true; $("status2").textContent = "マイク準備中…";
+    acquireStream().then(() => {
+      $("go").disabled = false; $("status2").textContent = "";
+      const chunks = [];   // recorder のハンドラはこの配列を閉じ込める (cur は停止前に null になるため参照しない)
+      cur = { label: labelNow(), note: noteNow(), startMs: performance.now(),
+        mode: String(durS), buf: [], chunks: chunks, hpf: $("hpf").checked };
+      if (durS !== 0) cur.endMs = cur.startMs + durS * 1000;
+      if (recMime) {
+        try {
+          recorder = new MediaRecorder(stream, { mimeType: recMime });
+          recorder.ondataavailable = (e) => { if (e.data && e.data.size) chunks.push(e.data); };
+          recorder.start();
+        } catch (_) { recorder = null; }
+      }
+      $("go").textContent = durS === 0 ? "■ 停止して記録" : "計測中…";
+      $("go").classList.toggle("rec", durS === 0);
+      [...$("durSeg").children].forEach((x) => x.disabled = true);
+    }).catch(() => { $("go").disabled = false; $("status2").textContent = "⚠️ マイクを取得できませんでした。もう一度お試しください。"; });
   }
 
   function finishSample() {
@@ -358,6 +386,7 @@
       samples.push(base);
       $("status2").textContent = "✅ 「" + base.label + "」を記録 → 再生で確認し、送信 or 破棄";
       render(); buildCsv();
+      releaseStream();   // マイクを解放 → 再生が本体スピーカーから鳴る (iOS 録音モード解除)
     };
     if (rec) { rec.onstop = () => commit(new Blob(chunks, { type: recMime })); try { rec.stop(); } catch (_) { commit(null); } }
     else commit(null);
