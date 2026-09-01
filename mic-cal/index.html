@@ -84,7 +84,7 @@
 <h1>環境音レベル較正 (dBFS 測定)・v3</h1>
 
 <div class="privacy">
-  🔒 このツールは較正のため<b>音声も録音</b>します(研究者用の測定器)。自動送信が設定されている場合、計測ごとに<b>音声+数値が研究者の Google Drive に保存</b>されます。
+  🔒 このツールは較正のため<b>音声も録音</b>します(研究者用の測定器)。録音は端末内に保持され、<b>あなたが再生して確認し「送信」を押したサンプルだけ</b>が研究者の Google Drive に保存されます(自動送信はしません)。
   他の方に測ってもらうときは「<b>約20秒の環境音を録音します。会話などの内容は分析しません</b>」と伝えてください。
   <b>本番の調査アプリは音量レベルのみで、音声は一切録音・送信しません(別物です)。</b>
 </div>
@@ -92,7 +92,7 @@
 <div class="card" id="startCard">
   <p class="hint">
     静室 / 電車 / TV・会話のそば など、いろいろな場所で <b>ラベルを付けて</b>測ります。
-    測るごとに音声+数値が自動で保存されます(未設定なら「保存/共有」で手動)。
+    測ったら<b>音声を再生して確認</b>し、風/声で汚れていなければ「送信」を押して保存してください(汚れていたら「破棄」)。
   </p>
   <label class="fld">測定者名 (だれが測ったか。任意)</label>
   <input type="text" id="measurer" placeholder="例: hiroto / 友人A">
@@ -124,11 +124,6 @@
     <button data-s="5">5秒</button>
     <button data-s="0">手動 (開始/停止)</button>
   </div>
-
-  <label class="toggle" style="margin-top:10px">
-    <input type="checkbox" id="autosend" checked>
-    <span id="autosendLbl">計測ごとに自動送信 (音声+数値)</span>
-  </label>
 
   <div class="btnrow">
     <button class="primary" id="go">▶ 20秒 計測して記録</button>
@@ -268,7 +263,6 @@
       acquired = true;
       $("startCard").style.display = "none";
       $("main").style.display = ""; $("ctl").style.display = ""; $("listCard").style.display = "";
-      if (!UPLOAD_URL) { $("autosend").checked = false; $("autosend").disabled = true; $("autosendLbl").innerHTML = "自動送信は未設定 (GAS URL 未登録) → 保存/共有で手動"; }
       showApplied(); render(); buildCsv();
     }).catch(() => {
       $("status").innerHTML =
@@ -358,14 +352,11 @@
     const base = Object.assign({ label: cur.label, note: cur.note, hpf: cur.hpf, whenISO: new Date().toISOString(),
       durationS: +((performance.now() - cur.startMs) / 1000).toFixed(1), up: "local" }, st);
     const chunks = cur.chunks, rec = recorder;
-    const autoSend = $("autosend").checked && !!UPLOAD_URL;
     const commit = (blob) => {
       if (blob && blob.size) { base.blob = blob; base.url = URL.createObjectURL(blob); }
-      if (autoSend) base.up = "pending";
       samples.push(base);
-      $("status2").textContent = "✅ 「" + base.label + "」を記録 (計 " + samples.length + " 件)";
+      $("status2").textContent = "✅ 「" + base.label + "」を記録 → 再生で確認し、送信 or 破棄";
       render(); buildCsv();
-      if (autoSend) upload(base);
     };
     if (rec) { rec.onstop = () => commit(new Blob(chunks, { type: recMime })); try { rec.stop(); } catch (_) { commit(null); } }
     else commit(null);
@@ -395,7 +386,7 @@
   // ---- 一覧 (カード) + 判定プレビュー ----
   function judgeVal(s) { return s[$("judgeStat").value]; }
   const UPTXT = { ok: '<span class="up ok">✅ 送信済</span>', pending: '<span class="up pending">⏳ 送信中…</span>',
-    fail: '<span class="up fail">⚠️ 送信失敗</span>', local: '<span class="up local">端末のみ</span>' };
+    fail: '<span class="up fail">⚠️ 送信失敗</span>', local: '<span class="up local">未送信</span>' };
   function render() {
     const th = parseFloat($("th").value), stat = $("judgeStat").value;
     $("thMark").textContent = "閾値 " + th;
@@ -411,16 +402,17 @@
       html += '<div class="nums"><b>floor(p10) ' + s.floor + '</b> / 中央 ' + s.median + ' / 平均 ' + s.mean +
         ' / p90 ' + s.p90 + ' / 最小' + s.min + '〜最大' + s.max + ' / ' + s.n + '点 ' + s.durationS + '秒' +
         ' <span class="hint">(判定=' + stat + ' ' + judgeVal(s) + ')</span></div>';
-      if (s.url) html += '<audio controls preload="none" src="' + s.url + '"></audio>';
+      if (s.url) html += '<div class="note">録音(再生して確認):</div><audio controls preload="none" src="' + s.url + '"></audio>';
+      const canSend = UPLOAD_URL && (s.up === "local" || s.up === "fail");
       html += '<div class="acts">' + (UPTXT[s.up] || "") +
-        (s.up === "fail" ? '<button class="small" data-resend="' + i + '">再送</button>' : "") +
-        (s.blob ? '<button class="small" data-share="' + i + '">💾 保存/共有</button>' : "") +
+        (canSend ? '<button class="small" data-send="' + i + '">📤 ' + (s.up === "fail" ? "再送" : "送信") + '</button>' : "") +
+        (s.blob ? '<button class="small" data-share="' + i + '">💾 保存</button>' : "") +
         '<button class="small" data-del="' + i + '">🗑 破棄</button></div>';
       d.innerHTML = html;
       box.appendChild(d);
     });
     box.querySelectorAll("[data-share]").forEach((b) => b.addEventListener("click", () => shareSample(+b.dataset.share)));
-    box.querySelectorAll("[data-resend]").forEach((b) => b.addEventListener("click", () => upload(samples[+b.dataset.resend])));
+    box.querySelectorAll("[data-send]").forEach((b) => b.addEventListener("click", () => upload(samples[+b.dataset.send])));
     box.querySelectorAll("[data-del]").forEach((b) => b.addEventListener("click", () => {
       const i = +b.dataset.del;
       if (!confirm("このサンプルを破棄しますか？(送信済みでも Drive 側は残ります)")) return;
