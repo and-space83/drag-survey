@@ -322,13 +322,14 @@
 
   function startSample() {
     if (cur) return;
+    const chunks = [];   // recorder のハンドラはこの配列を閉じ込める (cur は停止前に null になるため参照しない)
     cur = { label: labelNow(), note: noteNow(), startMs: performance.now(),
-      mode: String(durS), buf: [], chunks: [], hpf: $("hpf").checked };
+      mode: String(durS), buf: [], chunks: chunks, hpf: $("hpf").checked };
     if (durS !== 0) cur.endMs = cur.startMs + durS * 1000;
     if (recMime) {
       try {
         recorder = new MediaRecorder(stream, { mimeType: recMime });
-        recorder.ondataavailable = (e) => { if (e.data && e.data.size) cur.chunks.push(e.data); };
+        recorder.ondataavailable = (e) => { if (e.data && e.data.size) chunks.push(e.data); };
         recorder.start();
       } catch (_) { recorder = null; }
     }
@@ -402,7 +403,8 @@
       html += '<div class="nums"><b>floor(p10) ' + s.floor + '</b> / 中央 ' + s.median + ' / 平均 ' + s.mean +
         ' / p90 ' + s.p90 + ' / 最小' + s.min + '〜最大' + s.max + ' / ' + s.n + '点 ' + s.durationS + '秒' +
         ' <span class="hint">(判定=' + stat + ' ' + judgeVal(s) + ')</span></div>';
-      if (s.url) html += '<div class="note">録音(再生して確認):</div><audio controls preload="none" src="' + s.url + '"></audio>';
+      if (s.url) html += '<div class="note">録音(再生して確認):</div><audio controls preload="metadata" src="' + s.url + '"></audio>';
+      else html += '<div class="note">⚠️ 録音データなし (この端末は録音に非対応の可能性。上の「録音形式」を確認)</div>';
       const canSend = UPLOAD_URL && (s.up === "local" || s.up === "fail");
       html += '<div class="acts">' + (UPTXT[s.up] || "") +
         (canSend ? '<button class="small" data-send="' + i + '">📤 ' + (s.up === "fail" ? "再送" : "送信") + '</button>' : "") +
