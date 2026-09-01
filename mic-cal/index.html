@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>環境音レベル較正 (dBFS 測定)</title>
 <!--
-  環境音レベル (RMS dBFS) の実機較正ツール (v2)。pilot-anchor の環境音モニタ (§6-6 項10) の
+  環境音レベル (RMS dBFS) の実機較正ツール (v3)。pilot-anchor の環境音モニタ (§6-6 項10) の
   ノイズゲート閾値・判定統計を iPhone 実機で確定するための「測定器」(pilot-plan §8 / decisions-log 追記予定)。
 
   ⚠️ dBFS 測定経路は pilot-anchor/index.html の MIC 実装と揃えること (揃わないと較正値が本番に移せない):
@@ -16,7 +16,8 @@
 
   ★このツールだけは較正監査のため「音声も録音」する (研究者本人の測定器)。
     本番アプリは倫理申請どおり音量レベルのみ・音声は非記録/非送信。両者を混同しないこと。
-  録音した音声は端末内に保持し、ユーザーが「保存/共有」を押したサンプルのみ書き出す (自動送信しない)。
+  v3: 自動送信。UPLOAD_URL (GAS Web アプリ) を設定すると、計測ごとに音声+数値を Drive へ自動保存する
+      (mic-cal-collector.gs 参照)。他の人にも URL を渡して測ってもらえる。未設定なら保存/共有のみ。
 -->
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -68,7 +69,9 @@
   .sample .nums b { color: #6cf; }
   .sample .badge { font-size: 10px; color: #9ab; border: 1px solid #345; border-radius: 4px; padding: 1px 5px; }
   .sample audio { width: 100%; height: 34px; margin: 4px 0; }
-  .sample .acts { display: flex; gap: 8px; }
+  .sample .acts { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .up { font-size: 12px; }
+  .up.ok { color: #4a9; } .up.pending { color: #fc6; } .up.fail { color: #e66; } .up.local { color: #888; }
   #csv { width: 100%; height: 80px; font-size: 11px; font-family: ui-monospace, monospace; background: #000; color: #9c9;
     border: 1px solid #333; border-radius: 6px; padding: 6px; margin-top: 8px; }
   .hint { font-size: 12px; color: #888; line-height: 1.6; }
@@ -78,18 +81,21 @@
 </style>
 </head>
 <body>
-<h1>環境音レベル較正 (dBFS 測定)・v2</h1>
+<h1>環境音レベル較正 (dBFS 測定)・v3</h1>
 
 <div class="privacy">
-  🔒 このツールは較正のため<b>音声も録音</b>します(研究者本人の測定器)。録音は端末内に保持され、あなたが「保存/共有」を押したサンプルだけ書き出します(自動送信なし)。
-  <b>本番の調査アプリは音量レベルのみで、音声は一切録音・送信しません。</b>
+  🔒 このツールは較正のため<b>音声も録音</b>します(研究者用の測定器)。自動送信が設定されている場合、計測ごとに<b>音声+数値が研究者の Google Drive に保存</b>されます。
+  他の方に測ってもらうときは「<b>約20秒の環境音を録音します。会話などの内容は分析しません</b>」と伝えてください。
+  <b>本番の調査アプリは音量レベルのみで、音声は一切録音・送信しません(別物です)。</b>
 </div>
 
 <div class="card" id="startCard">
   <p class="hint">
     静室 / 電車 / TV・会話のそば など、いろいろな場所で <b>ラベルを付けて</b>測ります。
-    測り終えたら音声を<b>再生して確認</b>し、風や声で汚れていないサンプルだけ「保存/共有」で書き出してください。
+    測るごとに音声+数値が自動で保存されます(未設定なら「保存/共有」で手動)。
   </p>
+  <label class="fld">測定者名 (だれが測ったか。任意)</label>
+  <input type="text" id="measurer" placeholder="例: hiroto / 友人A">
   <div class="btnrow"><button class="primary" id="enable">マイクを許可して開始</button></div>
   <div id="status"></div>
 </div>
@@ -119,8 +125,13 @@
     <button data-s="0">手動 (開始/停止)</button>
   </div>
 
+  <label class="toggle" style="margin-top:10px">
+    <input type="checkbox" id="autosend" checked>
+    <span id="autosendLbl">計測ごとに自動送信 (音声+数値)</span>
+  </label>
+
   <div class="btnrow">
-    <button class="primary" id="go">▶ 計測して記録</button>
+    <button class="primary" id="go">▶ 20秒 計測して記録</button>
   </div>
   <div id="status2"></div>
 
@@ -163,12 +174,23 @@
   const $ = (id) => document.getElementById(id);
   const TICK_MS = 125, FFT = 2048, DBFLOOR = -100, HPF_HZ = 150;
 
+  // 自動送信先 (GAS Web アプリ)。デプロイ後にここへ exec URL を貼ると全員分が Drive に集まる。
+  // 空なら自動送信オフ (保存/共有のみ)。?upload=<url> で一時上書き可 (テスト用)。
+  const BAKED_UPLOAD_URL = "";
+  const q = new URLSearchParams(location.search);
+  const UPLOAD_URL = (q.get("upload") || BAKED_UPLOAD_URL || "").trim();
+
   let audioCtx = null, source = null, hpfNode = null, analyser = null, fbuf = null, bbuf = null;
   let stream = null, track = null, acquired = false;
   let recorder = null, recMime = "";
-  let samples = [];   // {label,note,whenISO,durationS,hpf,n,mean,median,floor,p90,p95,min,max, blob?, url?}
-  let cur = null;     // 記録中: {label,note,startMs,mode('20'|'5'|'0'),endMs?,buf:[],chunks:[]}
+  let samples = [];   // {label,note,whenISO,durationS,hpf,n,mean,median,floor,p90,p95,min,max, blob?, url?, up}
+  let cur = null;
   let durS = 20;
+
+  // ---- 測定者名 (localStorage 永続) ----
+  try { $("measurer").value = localStorage.getItem("miccal_measurer") || ""; } catch (_) {}
+  $("measurer").addEventListener("input", () => { try { localStorage.setItem("miccal_measurer", $("measurer").value); } catch (_) {} });
+  function measurerNow() { return ($("measurer").value || "anon").trim(); }
 
   // ---- ラベル候補 ----
   const PRESETS = ["静室", "電車", "バス", "カフェ", "TV・会話のそば", "換気扇の近く", "屋外"];
@@ -246,6 +268,7 @@
       acquired = true;
       $("startCard").style.display = "none";
       $("main").style.display = ""; $("ctl").style.display = ""; $("listCard").style.display = "";
+      if (!UPLOAD_URL) { $("autosend").checked = false; $("autosend").disabled = true; $("autosendLbl").innerHTML = "自動送信は未設定 (GAS URL 未登録) → 保存/共有で手動"; }
       showApplied(); render(); buildCsv();
     }).catch(() => {
       $("status").innerHTML =
@@ -262,7 +285,8 @@
     $("applied").innerHTML =
       "<b>マイク処理 (要求 false):</b> AGC=" + flag(g.autoGainControl) +
       " / NS=" + flag(g.noiseSuppression) + " / EC=" + flag(g.echoCancellation) +
-      "<br><b>録音形式:</b> " + (recMime || '<span class="ng">MediaRecorder 非対応 (数値のみ記録)</span>') +
+      "<br><b>録音形式:</b> " + (recMime || '<span class="ng">MediaRecorder 非対応 (数値のみ)</span>') +
+      "<br><b>自動送信:</b> " + (UPLOAD_URL ? '<span class="ok">ON</span>' : '<span class="na">未設定</span>') +
       '<br><span class="hint">※ AGC が true や n/a のまま「電車も静室も同じ dBFS」なら AGC 圧縮が原因。</span>';
   }
 
@@ -332,13 +356,16 @@
     };
     if (st.n < 3) { $("status2").textContent = "短すぎました。もう一度。"; if (recorder) try { recorder.stop(); } catch (_) {} resetUi(); return; }
     const base = Object.assign({ label: cur.label, note: cur.note, hpf: cur.hpf, whenISO: new Date().toISOString(),
-      durationS: +((performance.now() - cur.startMs) / 1000).toFixed(1) }, st);
+      durationS: +((performance.now() - cur.startMs) / 1000).toFixed(1), up: "local" }, st);
     const chunks = cur.chunks, rec = recorder;
+    const autoSend = $("autosend").checked && !!UPLOAD_URL;
     const commit = (blob) => {
       if (blob && blob.size) { base.blob = blob; base.url = URL.createObjectURL(blob); }
+      if (autoSend) base.up = "pending";
       samples.push(base);
       $("status2").textContent = "✅ 「" + base.label + "」を記録 (計 " + samples.length + " 件)";
       render(); buildCsv();
+      if (autoSend) upload(base);
     };
     if (rec) { rec.onstop = () => commit(new Blob(chunks, { type: recMime })); try { rec.stop(); } catch (_) { commit(null); } }
     else commit(null);
@@ -346,8 +373,29 @@
   }
   $("go").addEventListener("click", () => { if (cur) { if (cur.mode === "0") finishSample(); } else startSample(); });
 
+  // ---- 自動送信 (音声 base64 + 数値を GAS へ POST) ----
+  function upload(s) {
+    if (!UPLOAD_URL) { s.up = "local"; render(); return; }
+    s.up = "pending"; render();
+    const send = (b64) => {
+      const payload = {
+        kind: "mic-cal", measurer: measurerNow(), device: navigator.userAgent,
+        sample: { label: s.label, note: s.note, hpf: s.hpf, floor: s.floor, median: s.median, mean: s.mean,
+          p90: s.p90, p95: s.p95, min: s.min, max: s.max, n: s.n, durationS: s.durationS, when: s.whenISO },
+        audioB64: b64 || "", audioMime: s.blob ? s.blob.type : "", audioExt: ext(),
+      };
+      fetch(UPLOAD_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) })
+        .then((r) => r.json()).then((j) => { s.up = (j && j.ok) ? "ok" : "fail"; render(); })
+        .catch(() => { s.up = "fail"; render(); });
+    };
+    if (s.blob) { const fr = new FileReader(); fr.onloadend = () => send(String(fr.result).split(",")[1]); fr.readAsDataURL(s.blob); }
+    else send("");
+  }
+
   // ---- 一覧 (カード) + 判定プレビュー ----
-  function judgeVal(s) { const k = $("judgeStat").value; return s[k]; }
+  function judgeVal(s) { return s[$("judgeStat").value]; }
+  const UPTXT = { ok: '<span class="up ok">✅ 送信済</span>', pending: '<span class="up pending">⏳ 送信中…</span>',
+    fail: '<span class="up fail">⚠️ 送信失敗</span>', local: '<span class="up local">端末のみ</span>' };
   function render() {
     const th = parseFloat($("th").value), stat = $("judgeStat").value;
     $("thMark").textContent = "閾値 " + th;
@@ -364,16 +412,18 @@
         ' / p90 ' + s.p90 + ' / 最小' + s.min + '〜最大' + s.max + ' / ' + s.n + '点 ' + s.durationS + '秒' +
         ' <span class="hint">(判定=' + stat + ' ' + judgeVal(s) + ')</span></div>';
       if (s.url) html += '<audio controls preload="none" src="' + s.url + '"></audio>';
-      html += '<div class="acts">' +
-        (s.blob ? '<button class="small" data-share="' + i + '">💾 保存/共有</button>' : '<span class="hint">音声なし</span>') +
+      html += '<div class="acts">' + (UPTXT[s.up] || "") +
+        (s.up === "fail" ? '<button class="small" data-resend="' + i + '">再送</button>' : "") +
+        (s.blob ? '<button class="small" data-share="' + i + '">💾 保存/共有</button>' : "") +
         '<button class="small" data-del="' + i + '">🗑 破棄</button></div>';
       d.innerHTML = html;
       box.appendChild(d);
     });
     box.querySelectorAll("[data-share]").forEach((b) => b.addEventListener("click", () => shareSample(+b.dataset.share)));
+    box.querySelectorAll("[data-resend]").forEach((b) => b.addEventListener("click", () => upload(samples[+b.dataset.resend])));
     box.querySelectorAll("[data-del]").forEach((b) => b.addEventListener("click", () => {
       const i = +b.dataset.del;
-      if (!confirm("このサンプルを破棄しますか？")) return;
+      if (!confirm("このサンプルを破棄しますか？(送信済みでも Drive 側は残ります)")) return;
       if (samples[i].url) URL.revokeObjectURL(samples[i].url);
       samples.splice(i, 1); render(); buildCsv();
     }));
@@ -382,7 +432,7 @@
   $("th").addEventListener("input", () => { render(); buildCsv(); });
   $("judgeStat").addEventListener("change", () => { render(); buildCsv(); });
 
-  // ---- 保存/共有 (音声 + 数値サイドカー) ----
+  // ---- 手動 保存/共有 (音声 + 数値サイドカー) ----
   function ext() { return /mp4|aac/.test(recMime) ? "m4a" : "webm"; }
   function fname(s, i) { return "miccal_" + String(i + 1).padStart(2, "0") + "_" + s.label.replace(/[^\w一-龠ぁ-んァ-ヶ]+/g, "_") + "." + ext(); }
   function shareSample(i) {
@@ -399,12 +449,13 @@
     }
   }
 
-  // ---- 数値エクスポート ----
+  // ---- 数値エクスポート (手動コピー用。自動送信とは独立) ----
   function buildCsv() {
     let g = {};
     try { g = track && track.getSettings ? track.getSettings() : {}; } catch (_) {}
     const meta = [
-      "# mic-cal v2 export",
+      "# mic-cal v3 export",
+      "# measurer," + measurerNow(),
       "# device," + navigator.userAgent.replace(/,/g, ";"),
       "# applied_autoGainControl," + g.autoGainControl,
       "# applied_noiseSuppression," + g.noiseSuppression,
@@ -422,7 +473,7 @@
   }
   $("copy").addEventListener("click", () => {
     const txt = buildCsv();
-    const done = () => { $("status2").textContent = "📋 数値をコピーしました。チャットに貼り付けてください。"; };
+    const done = () => { $("status2").textContent = "📋 数値をコピーしました。"; };
     if (navigator.clipboard && navigator.clipboard.writeText)
       navigator.clipboard.writeText(txt).then(done).catch(() => { $("csv").select(); document.execCommand("copy"); done(); });
     else { $("csv").select(); document.execCommand("copy"); done(); }
@@ -434,7 +485,7 @@
     document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(a.href);
   });
   $("reset").addEventListener("click", () => {
-    if (!confirm("記録を全部消しますか？")) return;
+    if (!confirm("端末側の記録を全部消しますか？(送信済みの Drive データは残ります)")) return;
     samples.forEach((s) => { if (s.url) URL.revokeObjectURL(s.url); });
     samples = []; render(); buildCsv(); $("status2").textContent = "消去しました。";
   });
