@@ -286,6 +286,38 @@
     font-size: 30px; font-weight: 800; letter-spacing: 4px; color: #2f7; margin: 4px 0; }
   #ccodeBox { margin: 14px 0; padding: 12px; border: 1px solid #2a5;
     border-radius: 10px; background: rgba(34,255,119,0.06); }
+
+  /* ---- ドラッグ導入チュートリアル (スポットライト方式・§6-6 項14 / decisions-log 2026-09-02) ----
+     実演レイヤーは pointer-events:none の装飾。実要素(start/choiceA/choiceB)の geom・当たり判定に不干渉。
+     強調は box-shadow/opacity のみ (transform を使わない = 既存 coachGlow の規律と同型) */
+  #tutDemo { position: absolute; inset: 0; z-index: 5; pointer-events: none; }
+  #tutCap { position: absolute; top: 19%; left: 8%; right: 8%; text-align: center; font-size: 13px;
+    font-weight: 700; color: #fc6; z-index: 6; pointer-events: none; opacity: 0; transition: opacity .2s; line-height: 1.4; }
+  .choice.tut-sbxhide { opacity: 0; }   /* 別ステージ実演中は実選択肢を退場 (opacity のみ=geom 不変) */
+  @keyframes tutRcv { 0%,100% { box-shadow: 0 0 0 0 rgba(46,255,119,0); }
+    50% { box-shadow: 0 0 0 6px rgba(46,255,119,.5), 0 0 22px 4px rgba(46,255,119,.35); } }
+  .choice.tut-rcv { animation: tutRcv .6s ease-out; border-color: #2f7; }
+  #tutSpot { position: fixed; z-index: 40; pointer-events: none; border-radius: 16px;
+    box-shadow: 0 0 0 100vmax rgba(4,6,9,0.8); outline: 2px solid rgba(255,204,102,.9); outline-offset: 0;
+    opacity: 0; transition: opacity .25s; }
+  #tutSpot.on { opacity: 1; transition: top .34s cubic-bezier(.4,0,.2,1), left .34s cubic-bezier(.4,0,.2,1),
+    width .34s cubic-bezier(.4,0,.2,1), height .34s cubic-bezier(.4,0,.2,1), opacity .2s; }
+  #tutSpot.hidden, #tutPop.hidden, #tutPop .f.hidden { display: none; }
+  #tutPop { position: fixed; z-index: 41; width: min(310px, 84vw); background: #10151c; border: 1px solid #3a3323;
+    border-radius: 14px; box-shadow: 0 14px 40px -12px #000; padding: 15px 16px 14px; opacity: 0; transform: translateY(4px);
+    transition: opacity .22s, transform .22s, top .3s cubic-bezier(.4,0,.2,1), left .3s cubic-bezier(.4,0,.2,1); }
+  #tutPop.on { opacity: 1; transform: translateY(0); }
+  #tutPop .s { font-size: 11.5px; color: #fc6; font-weight: 700; letter-spacing: 1.5px; margin-bottom: 7px; }
+  #tutPop .t { font-size: 14.5px; line-height: 1.7; color: #e6eaef; }
+  #tutPop .t b { color: #fc6; font-weight: 700; }
+  #tutPop .f { font-size: 12.5px; color: #7fd0a4; margin-top: 9px; font-weight: 600; }
+  #tutPop .r { display: flex; align-items: center; gap: 8px; margin-top: 13px; }
+  #tutPop .dots { display: flex; gap: 5px; margin-right: auto; }
+  #tutPop .dots i { width: 6px; height: 6px; border-radius: 50%; background: #3a444d; }
+  #tutPop .dots i.a { background: #fc6; }
+  #tutPop .nx { border: 0; font: inherit; font-size: 13px; font-weight: 700; border-radius: 8px;
+    padding: 8px 16px; cursor: pointer; background: #fc6; color: #241a00; }
+  @media (prefers-reduced-motion: reduce) { #tutSpot, #tutSpot.on, #tutPop { transition: opacity .01s !important; } }
 </style>
 </head>
 <body>
@@ -535,6 +567,8 @@
   // 練習は必須 (2026-07-07: UI からのスキップ導線は廃止。チュートリアル+行動ゲート付き)。
   //   ?practice=0 は練習ごとスキップする開発用の抜け道 — 配布 URL には絶対に付けない。
   const debugMode = new URLSearchParams(location.search).get("debug") === "1";
+  // ドラッグ導入チュートリアル (§6-6 項14)。既定ON・?tut=0 で無効 (headless/validate・開発用)
+  const DRAG_TUT_ON = new URLSearchParams(location.search).get("tut") !== "0";
 
   // 場面文・説明文の改行制御 (2026-07-22 ブロック方式へ改訂): 文字列中の "|" は文節の区切り。
   // 表示時は文節ごとに inline-block (.nb) へ包み、ブロックの途中では折り返さない (改行はブロック単位)。
@@ -795,8 +829,8 @@
     // ③ 道徳ジレンマ: 文字2択 (Stage 2。評定ON。experiment-design §6-5。②と同型・text-choice エンジン流用)
     moral: {
       id: "moral", stimulusType: "text-choice", title: "道徳的な判断の2択課題",
-      ratings: true, breakEvery: 0,
-      repsPerCell: 1,        // 24項目 (4類型×3葛藤水準×セル2項目、2026-07-15 増強) × reps。既定1 = 本番24試行 (各項目1回・項目間で左右CB)。§6-5
+      ratings: true, breakEvery: 16,   // 49問の負担対策: 16問ごとに休憩 (2026-08-23 確定・滞在時間を device.breaks に記録)。§6-5
+      repsPerCell: 1,        // 49項目 (7類型×[明確1・中間2・拮抗4]) × reps。既定1 = 本番49試行 (各項目1回・水準内で左右CB)。§6-5 確定表
       practiceTrials: 2,
       practiceFeedback: "neutral",  // 主観判断なので正誤フィードバックはしない
       gateStreak: 2,         // 行動ゲート: 有効ドラッグ2連続で本番解錠 (主観課題なので正誤は問わない)
@@ -814,39 +848,66 @@
         '<h1>パートが変わります</h1>' +
         '<p>ここからは<b>別のタイプの質問</b>になります。操作と、答えたあとの「ふりかえり」はこれまでと同じです。</p>' +
         '<ul><li>気持ちが揺れる場面が含まれます。答えたくないと感じたら、いつでも中断してかまいません。</li></ul>',
-      csvHead: "moralType,conflictLevel,betterSide",
-      csvRow: (r) => `${r.moralType},${r.conflictLevel},${r.betterSide}`,
+      csvHead: "moralType,conflictLevel,betterSide,tagWeight,tagEscape,tagSplit",
+      csvRow: (r) => `${r.moralType},${r.conflictLevel},${r.betterSide},${(r.tags&&r.tags.weight)||""},${(r.tags&&r.tags.escape)||""},${(r.tags&&r.tags.split)||""}`,
       defaultStem: "あなたならどうしますか？",
-      // 項目バンク (§6-5・SSOT はそちら)。各 = 1セル。mtype: 4類型 / level: clear(明確・葛藤小)/mid(中)/conflict(拮抗・葛藤大)。
+      // 項目バンク (§6-5「③49問バンク確定表」が SSOT)。各 = 1セル。7類型×(明確1・中間2・拮抗4)=49問。
+      //   mtype: 7類型 (sacrifice/honesty/loyalty/care/promise/autonomy/privacy)。level: clear(明確)/mid(中間)/conflict(拮抗)。
       //   stem = 場面文 (40–70字。"|" は文節区切り: 表示時に .nb ブロック化・記録からは除去 = nbText/stemRecord)。
-      //   better: 規範優位肢 ("a"|null)。明確のみ better 定義、中/拮抗は null (葛藤で規範一意でない)。
-      //   拮抗は R1/R2 でユーザー指示により重く改訂 (2026-07-08)。人的犠牲のトロッコ類似は Greene の personal/impersonal 統制で意図的。
-      //   2026-07-15 R3: セルあたり 1→2 項目に増強 (12→24、第三パイロット)。増強分は明示 id (`-2` 接尾)・既存 itemId 据え置き=過去データ互換。
+      //   better: 規範優位肢 ("a"|null)。明確のみ better 定義、中/拮抗は null。
+      //   tags = 構造メタ (weight 軽/重, escape 封鎖/あり:*, split 偏る/割れる/100%)。水準操作の層別・探索分析用 (decisions-log 2026-08-18)。
+      //   itemId は id 省略時 `${mtype}-${level}` を生成。第二パイロット継続20項目は itemId 不変 (過去データ互換)、新規29は id 明示。
+      //   2026-08-22 R4–R5 レビューで49問確定 (定義v2・②廃止に伴う③only 拡張)。旧24項目版は git 履歴。
       bank: [
-        { mtype: "sacrifice", level: "clear",    stem: "暴走電車が|5人に向かう。|レバーを引けば|電車は|別の線路にそれ、|そちらに人はいない。", a: { label: "レバーを引く" }, b: { label: "何もしない" }, better: "a" },
-        { mtype: "sacrifice", level: "mid",      stem: "暴走電車が|5人に向かう。|レバーを引けば|別の線路にそれるが、|そこにいる|作業員1人が|犠牲になる。", a: { label: "レバーを引く" }, b: { label: "何もしない" }, better: null },
-        { mtype: "sacrifice", level: "conflict", stem: "暴走電車が|5人の子どもに向かう。|歩道橋で|隣にいる|大柄な人を|あなたの手で|突き落とせば、|電車は止まり|子どもたちは助かる。", a: { label: "突き落とす" }, b: { label: "何もしない" }, better: null },
-        { id: "sacrifice-clear-2",    mtype: "sacrifice", level: "clear",    stem: "工事現場で|クレーンの荷物が|作業員3人の|頭上に落ちそうだ。|警報ボタンを押せば|全員が退避でき、|誰もケガをしない。", a: { label: "ボタンを押す" }, b: { label: "何もしない" }, better: "a" },
-        { id: "sacrifice-mid-2",      mtype: "sacrifice", level: "mid",      stem: "病院で有毒ガスが|発生し、|5人の患者の部屋へ|流れている。|換気を切り替えれば|別室の患者1人に|ガスが向かう。", a: { label: "切り替える" }, b: { label: "何もしない" }, better: null },
-        { id: "sacrifice-conflict-2", mtype: "sacrifice", level: "conflict", stem: "紛争地で兵士から|隠れている。|あなたの赤ん坊が|泣き出した。|口を塞げば|全員が助かるが、|赤ん坊は窒息してしまう。|塞がなければ|全員が見つかる。", a: { label: "口を塞ぐ" }, b: { label: "何もしない" }, better: null },
-        { mtype: "honesty",   level: "clear",    stem: "レジで店員が誤って|お釣りを|1万円多く渡した。|あなたは気づいている。", a: { label: "店員に伝える" }, b: { label: "黙って受け取る" }, better: "a" },
-        { mtype: "honesty",   level: "mid",      stem: "友人が作ってくれた|手料理が|正直おいしくない。|「どうだった?」と|感想を聞かれた。", a: { label: "正直に言う" }, b: { label: "おいしいと言う" }, better: null },
-        { mtype: "honesty",   level: "conflict", stem: "親友の結婚式当日、|新郎に隠された|不倫の証拠を|偶然見つけた。|式はもう|始まろうとしている。", a: { label: "式の前に伝える" }, b: { label: "黙っておく" }, better: null },
-        { id: "honesty-clear-2",    mtype: "honesty", level: "clear",    stem: "セルフジャッジの|テニスの試合で、|相手の打球が|ラインに入ったのが|見えたのは|自分だけだった。", a: { label: "インと伝える" }, b: { label: "アウトと言う" }, better: "a" },
-        { id: "honesty-mid-2",      mtype: "honesty", level: "mid",      stem: "友人が大きく|イメチェンした髪型を|「似合う?」と聞いてきた。|正直、|前の方が良かったと|思っている。", a: { label: "正直に言う" }, b: { label: "似合うと言う" }, better: null },
-        { id: "honesty-conflict-2", mtype: "honesty", level: "conflict", stem: "余命を知らされていない|父が「大丈夫だよな」と|あなたに聞いてきた。|本人に伝えるかどうかは、|医師から家族に|任されている。", a: { label: "本当のことを言う" }, b: { label: "大丈夫と言う" }, better: null },
-        { mtype: "loyalty",   level: "clear",    stem: "資格試験の会場で、|隣の見知らぬ受験生が|カンニングしているのに|気づいた。", a: { label: "試験官に伝える" }, b: { label: "見て見ぬふり" }, better: "a" },
-        { mtype: "loyalty",   level: "mid",      stem: "親しい同僚が、|在宅勤務中|ほとんど働かず|遊んでいるのに、|忙しいふりをして|あなたと同じ|給料・評価を得ている。", a: { label: "上司に伝える" }, b: { label: "黙っている" }, better: null },
-        { mtype: "loyalty",   level: "conflict", stem: "実の兄が|会社ぐるみの不正に|関わっていると知った。|通報すれば|多くの被害者は|救われるが、|兄は逮捕され|兄の家族は|生活を失う。", a: { label: "通報する" }, b: { label: "黙っている" }, better: null },
-        { id: "loyalty-clear-2",    mtype: "loyalty", level: "clear",    stem: "コンビニで、|見知らぬ客が|商品をバッグに入れて|そのまま店を|出ようとしているのに|気づいた。", a: { label: "店員に伝える" }, b: { label: "見て見ぬふり" }, better: "a" },
-        { id: "loyalty-mid-2",      mtype: "loyalty", level: "mid",      stem: "仲の良い部員が|練習をさぼっていたのに、|あなたの代わりに|大会メンバーに|選ばれようとしている。|監督は気づいていない。", a: { label: "監督に伝える" }, b: { label: "黙っている" }, better: null },
-        { id: "loyalty-conflict-2", mtype: "loyalty", level: "conflict", stem: "親友と言える同期が、|あなたと仲の良い後輩に|嫌がらせを|繰り返していると知った。|人事に伝えれば|同期は処分され、|黙っていれば|後輩が苦しみ続ける。", a: { label: "人事に伝える" }, b: { label: "黙っている" }, better: null },
-        { mtype: "care",      level: "clear",    stem: "優先席に座る|あなたの前に、|立つのがつらそうな|高齢者が来た。|席は空いていない。", a: { label: "席を譲る" }, b: { label: "座り続ける" }, better: "a" },
-        { mtype: "care",      level: "mid",      stem: "人気店の長い行列で、|後ろの人が|「子どもが高熱で|急いでいる」と|順番を譲ってほしいと|頼んできた。", a: { label: "順番を譲る" }, b: { label: "断る" }, better: null },
-        { mtype: "care",      level: "conflict", stem: "余命わずかの親友が|入院先で|「最後にこれが食べたい」と、|医師に固く止められた|食べ物を頼んできた。|食べれば|容体が急変する|恐れもある。", a: { label: "持っていく" }, b: { label: "断る" }, better: null },
-        { id: "care-clear-2",    mtype: "care", level: "clear",    stem: "雨の中、|目の前で高齢者が|転んで|立ち上がれずにいる。|あなたは|特に急いでいない。", a: { label: "助ける" }, b: { label: "通り過ぎる" }, better: "a" },
-        { id: "care-mid-2",      mtype: "care", level: "mid",      stem: "認知症が進む母は、|もうあなたのことも|思い出せない。|それでも|「家に帰りたい」と繰り返す。|連れて帰れば、|介護の負担は大きく増える。", a: { label: "連れて帰る" }, b: { label: "施設に残す" }, better: null },
-        { id: "care-conflict-2", mtype: "care", level: "conflict", stem: "人通りのない道で|人が倒れている。|あなたは第一志望の|最終面接に向かっていて、|立ち止まれば|間に合わない。", a: { label: "助ける" }, b: { label: "面接へ急ぐ" }, better: null },
+        { mtype: "sacrifice", level: "clear", stem: "暴走電車が|5人に向かう。|レバーを引けば|電車は|別の線路にそれ、|そちらに人はいない。", a: { label: "レバーを引く" }, b: { label: "何もしない" }, better: "a", tags: { weight: "-", escape: "-", split: "100%" } },
+        { mtype: "sacrifice", level: "mid", stem: "暴走電車が|5人に向かう。|レバーを引けば|別の線路にそれるが、|そこにいる|作業員1人が|犠牲になる。", a: { label: "レバーを引く" }, b: { label: "何もしない" }, better: null, tags: { weight: "重", escape: "封鎖", split: "偏る" } },
+        { id: "sacrifice-mid-2", mtype: "sacrifice", level: "mid", stem: "病院で有毒ガスが|発生し、|5人の患者の部屋へ|流れている。|換気を切り替えれば|別室の患者1人に|ガスが向かう。", a: { label: "切り替える" }, b: { label: "何もしない" }, better: null, tags: { weight: "重", escape: "封鎖", split: "偏る" } },
+        { mtype: "sacrifice", level: "conflict", stem: "暴走電車が|5人の子どもに向かう。|歩道橋で|隣にいる|大柄な人を|あなたの手で|突き落とせば、|電車は止まり|子どもたちは助かる。", a: { label: "突き落とす" }, b: { label: "何もしない" }, better: null, tags: { weight: "重", escape: "封鎖", split: "偏る" } },
+        { id: "sacrifice-conflict-2", mtype: "sacrifice", level: "conflict", stem: "紛争地で兵士から|隠れている。|あなたの赤ん坊が|泣き出した。|口を塞げば|全員が助かるが、|赤ん坊は窒息してしまう。|塞がなければ|全員が見つかる。", a: { label: "口を塞ぐ" }, b: { label: "何もしない" }, better: null, tags: { weight: "重", escape: "封鎖", split: "偏る" } },
+        { id: "sacrifice-conflict-3", mtype: "sacrifice", level: "conflict", stem: "船が沈み、|あなたは満員の|救命ボートにいる。|ふちにしがみつく|1人の手を|引きはがせば|その人は波にのまれ、|はがさなければ|ボートごと全員が沈む。", a: { label: "手を引きはがす" }, b: { label: "何もしない" }, better: null, tags: { weight: "重", escape: "封鎖", split: "偏る" } },
+        { id: "sacrifice-conflict-4", mtype: "sacrifice", level: "conflict", stem: "崖で滑落した仲間が|あなたの片手に|ぶら下がる。|上の2人とあなたの|命綱を留める杭が|抜けかけている。|離さなければ全員が、|離せば仲間だけが落ちる。", a: { label: "手を離す" }, b: { label: "掴み続ける" }, better: null, tags: { weight: "重", escape: "封鎖", split: "偏る" } },
+        { mtype: "honesty", level: "clear", stem: "レジで店員が誤って|お釣りを|1万円多く渡した。|あなたは気づいている。", a: { label: "店員に伝える" }, b: { label: "黙って受け取る" }, better: "a", tags: { weight: "-", escape: "-", split: "100%" } },
+        { mtype: "honesty", level: "mid", stem: "友人が作ってくれた|手料理が|正直おいしくない。|「どうだった?」と|感想を聞かれた。", a: { label: "正直に言う" }, b: { label: "おいしいと言う" }, better: null, tags: { weight: "軽", escape: "あり:工夫", split: "割れる" } },
+        { id: "honesty-mid-2", mtype: "honesty", level: "mid", stem: "友人が大きく|イメチェンした髪型を|「似合う?」と聞いてきた。|正直、|前の方が良かったと|思っている。", a: { label: "正直に言う" }, b: { label: "似合うと言う" }, better: null, tags: { weight: "軽", escape: "あり:工夫", split: "割れる" } },
+        { mtype: "honesty", level: "conflict", stem: "親友の結婚式当日、|新郎に隠された|不倫の証拠を|偶然見つけた。|式はもう|始まろうとしている。", a: { label: "式の前に伝える" }, b: { label: "黙っておく" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
+        { id: "honesty-conflict-2", mtype: "honesty", level: "conflict", stem: "余命を知らされていない|父が「大丈夫だよな」と|あなたに聞いてきた。|本人に伝えるかどうかは、|医師から家族に|任されている。", a: { label: "本当のことを言う" }, b: { label: "大丈夫と言う" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
+        { id: "honesty-conflict-3", mtype: "honesty", level: "conflict", stem: "あなたの脇見で|事故が起き、|助手席の|幼なじみに|重い後遺症が|残った。|事故の記憶がない|本人は|不運だったと信じ、|あなたを|支えにしている。", a: { label: "過失を打ち明ける" }, b: { label: "黙っておく" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
+        { id: "honesty-conflict-4", mtype: "honesty", level: "conflict", stem: "目の悪い祖母に、|絶縁した叔父から|手紙が届いた。|祖母を責める|言葉ばかりだが、|隠し事の嫌いな|本人は|「全部そのまま|読んでおくれ」と|言う。", a: { label: "そのまま読む" }, b: { label: "変えて読む" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
+        { mtype: "loyalty", level: "clear", stem: "資格試験の会場で、|隣の見知らぬ受験生が|カンニングしているのに|気づいた。", a: { label: "試験官に伝える" }, b: { label: "見て見ぬふり" }, better: "a", tags: { weight: "-", escape: "-", split: "100%" } },
+        { mtype: "loyalty", level: "mid", stem: "親しい同僚が、|在宅勤務中|ほとんど働かず|遊んでいるのに、|忙しいふりをして|あなたと同じ|給料・評価を得ている。", a: { label: "上司に伝える" }, b: { label: "黙っている" }, better: null, tags: { weight: "軽", escape: "あり:工夫", split: "割れる" } },
+        { id: "loyalty-mid-2", mtype: "loyalty", level: "mid", stem: "仲の良い部員が|練習をさぼっていたのに、|あなたの代わりに|大会メンバーに|選ばれようとしている。|監督は気づいていない。", a: { label: "監督に伝える" }, b: { label: "黙っている" }, better: null, tags: { weight: "軽", escape: "あり:工夫", split: "割れる" } },
+        { mtype: "loyalty", level: "conflict", stem: "実の兄が|会社ぐるみの不正に|関わっていると知った。|通報すれば|多くの被害者は|救われるが、|兄は逮捕され|兄の家族は|生活を失う。", a: { label: "通報する" }, b: { label: "黙っている" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
+        { id: "loyalty-conflict-2", mtype: "loyalty", level: "conflict", stem: "親友と言える同期が、|あなたと仲の良い後輩に|嫌がらせを|繰り返していると知った。|人事に伝えれば|同期は処分され、|黙っていれば|後輩が苦しみ続ける。", a: { label: "人事に伝える" }, b: { label: "黙っている" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
+        { id: "loyalty-conflict-3", mtype: "loyalty", level: "conflict", stem: "あなたは体を壊し、|工房を譲ると決めた。|継げるのは1人。|10年支え続けた|弟子は腕も立つ。|そこへ息子が|家族を連れ|「継ぎたい」と|帰ってきた。", a: { label: "息子に継がせる" }, b: { label: "弟子に継がせる" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
+        { id: "loyalty-conflict-4", mtype: "loyalty", level: "conflict", stem: "娘の結婚式の朝、|人生を導いてくれた恩師が|危篤だと連絡が来た。|今向かえば|最期に間に合うが、|式には戻れない。", a: { label: "恩師へ行く" }, b: { label: "式に残る" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
+        { mtype: "care", level: "clear", stem: "優先席に座る|あなたの前に、|立つのがつらそうな|高齢者が来た。|席は空いていない。", a: { label: "席を譲る" }, b: { label: "座り続ける" }, better: "a", tags: { weight: "-", escape: "-", split: "100%" } },
+        { mtype: "care", level: "mid", stem: "人気店の長い行列で、|後ろの人が|「子どもが高熱で|急いでいる」と|順番を譲ってほしいと|頼んできた。", a: { label: "順番を譲る" }, b: { label: "断る" }, better: null, tags: { weight: "軽", escape: "あり:自己犠牲", split: "割れる" } },
+        { id: "care-mid-2", mtype: "care", level: "mid", stem: "認知症が進む母は、|もうあなたのことも|思い出せない。|それでも|「家に帰りたい」と繰り返す。|連れて帰れば、|介護の負担は大きく増える。", a: { label: "連れて帰る" }, b: { label: "施設に残す" }, better: null, tags: { weight: "重", escape: "あり:自己犠牲", split: "割れる" } },
+        { mtype: "care", level: "conflict", stem: "余命わずかの親友が|入院先で|「最後にこれが食べたい」と、|医師に固く止められた|食べ物を頼んできた。|食べれば|容体が急変する|恐れもある。", a: { label: "持っていく" }, b: { label: "断る" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
+        { id: "care-conflict-2", mtype: "care", level: "conflict", stem: "人通りのない道で|人が倒れている。|あなたは第一志望の|最終面接に向かっていて、|立ち止まれば|間に合わない。", a: { label: "助ける" }, b: { label: "面接へ急ぐ" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
+        { id: "care-conflict-3", mtype: "care", level: "conflict", stem: "長年連れ添った|老犬が|末期のがんで|苦しんでいる。|痛みを取る|手立てはないと|獣医は言う。|楽にする処置を選べば、|今日が最期の日になる。", a: { label: "処置を頼む" }, b: { label: "そのまま看取る" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
+        { id: "care-conflict-4", mtype: "care", level: "conflict", stem: "わが子の心臓を|治せるのは|手術だけだ。|成功すれば|健康になるが、|失敗すれば|もう目を覚まさない。|手術しなければ|数年はもつ。|成功は五分五分だ。", a: { label: "手術を受けさせる" }, b: { label: "手術を見送る" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
+        { id: "promise-clear", mtype: "promise", level: "clear", stem: "友人の引っ越しを|手伝うと約束した日の朝、|眠くて面倒になってきた。|休んでも自分は困らないし、|連絡するのも億劫だ。", a: { label: "約束通り行く" }, b: { label: "連絡せず休む" }, better: "a", tags: { weight: "-", escape: "-", split: "100%" } },
+        { id: "promise-mid", mtype: "promise", level: "mid", stem: "あなたは職務上、|親しい同僚の|解雇が決まったと知った。|同僚は来週、|マンション購入の|契約をする。|口外が発覚すれば|処分は免れない。", a: { label: "同僚に伝える" }, b: { label: "黙っている" }, better: null, tags: { weight: "重", escape: "あり:リスク賭け", split: "割れる" } },
+        { id: "promise-mid-2", mtype: "promise", level: "mid", stem: "子どもと動物園に行くと|約束した日曜、|朝から本降りの雨になった。|子どもは|楽しみにしていて、|行く気でいる。", a: { label: "雨でも行く" }, b: { label: "延期する" }, better: null, tags: { weight: "軽", escape: "あり:工夫", split: "割れる" } },
+        { id: "promise-conflict", mtype: "promise", level: "conflict", stem: "親の介護で|地元を離れられない|婚約者に|「ここに残る」と|約束していた。|しばらくたって|会社から|本社への転勤を命じられ、|断れば居場所はない。", a: { label: "転勤を断る" }, b: { label: "転勤を受ける" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
+        { id: "promise-conflict-2", mtype: "promise", level: "conflict", stem: "「弟が養子だと明かさない」と|亡き母と約束した。|弟は子の難病の手がかりに|家系の病歴を調べ始めた。|血のつながらない弟が|調べても意味はない。", a: { label: "養子だと明かす" }, b: { label: "黙り続ける" }, better: null, tags: { weight: "重", escape: "封鎖", split: "偏る" } },
+        { id: "promise-conflict-3", mtype: "promise", level: "conflict", stem: "「離婚だけはしない」と|泣く子どもに約束した。|夫婦の関係は|もう戻らないところまで冷え、|相手は限界だと|離婚を求めている。", a: { label: "離婚に応じる" }, b: { label: "離婚を断る" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
+        { id: "promise-conflict-4", mtype: "promise", level: "conflict", stem: "亡くなった親友から|「死んだら中は見ずに処分して」と|箱を託されていた。|遺された母親が|「形見に何か残したい」と|泣いてすがってくる。", a: { label: "箱を渡す" }, b: { label: "見ずに処分する" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
+        { id: "autonomy-clear", mtype: "autonomy", level: "clear", stem: "高齢の父が|電話で言われるまま|ATMで|多額の現金を|振り込もうとしている。|明らかに詐欺の手口だ。", a: { label: "止める" }, b: { label: "任せる" }, better: "a", tags: { weight: "-", escape: "-", split: "100%" } },
+        { id: "autonomy-mid", mtype: "autonomy", level: "mid", stem: "祖父が事故を起こし、|家族は免許の返納を|迫っている。|車がなければ|暮らせない山里で、|祖父は|「味方はお前だけだ」と|あなたに頼ってきた。", a: { label: "祖父に味方する" }, b: { label: "家族に味方する" }, better: null, tags: { weight: "重", escape: "あり:自己犠牲", split: "割れる" } },
+        { id: "autonomy-mid-2", mtype: "autonomy", level: "mid", stem: "畑で熱中症で倒れて|救急車で運ばれた祖母が、|退院した翌日も|畑に出ようとする。|畑が生きがいだが、|あなたが言えば|祖母は畑をやめる。", a: { label: "やめさせる" }, b: { label: "好きにさせる" }, better: null, tags: { weight: "重", escape: "あり:工夫", split: "割れる" } },
+        { id: "autonomy-conflict", mtype: "autonomy", level: "conflict", stem: "引退試合のリングで、|網膜を手術した後輩が|目に強打を受けた。|次に打たれれば失明する。|セコンドのあなたが|タオルを投げれば|試合は終わる。", a: { label: "タオルを投げる" }, b: { label: "最後まで戦わせる" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
+        { id: "autonomy-conflict-2", mtype: "autonomy", level: "conflict", stem: "初めての大役を任された部下が|不眠と激やせで限界だ。|山場はあとひと月、|人手の補充は利かない。|本人は続けたいと譲らず、|外す権限はあなたにある。", a: { label: "担当を外す" }, b: { label: "続けさせる" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
+        { id: "autonomy-conflict-3", mtype: "autonomy", level: "conflict", stem: "「延命治療はいらない」と|言っていた母が倒れ、|意識が戻る可能性は|極めて低いと告げられた。|延命装置をつけるか、|判断はあなたに委ねられた。", a: { label: "延命を断る" }, b: { label: "延命を頼む" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
+        { id: "autonomy-conflict-4", mtype: "autonomy", level: "conflict", stem: "隣家が燃えている。|元消防士の弟が|「中に人がいる」と|飛び込もうとする。|消防の到着まで|あと数分。|力ずくでなら|止められる。", a: { label: "力ずくで止める" }, b: { label: "行かせる" }, better: null, tags: { weight: "重", escape: "封鎖", split: "偏る" } },
+        { id: "privacy-clear", mtype: "privacy", level: "clear", stem: "人事部から誤って、|同僚たちの|健康診断の結果が|あなたに送られてきた。|見ても誰にも|分からない。", a: { label: "見ずに知らせる" }, b: { label: "見てから知らせる" }, better: "a", tags: { weight: "-", escape: "-", split: "100%" } },
+        { id: "privacy-mid", mtype: "privacy", level: "mid", stem: "家族共用のパソコンに|「友達がいない つらい」と|検索した跡が残っていた。|誰のものかは、|履歴の続きを見れば分かる。", a: { label: "続きを見る" }, b: { label: "見ずに閉じる" }, better: null, tags: { weight: "軽", escape: "あり:工夫", split: "割れる" } },
+        { id: "privacy-mid-2", mtype: "privacy", level: "mid", stem: "会社の採用の|最終判断を|あなたが任された。|候補者の名前を検索すると、|仕事と関わりのない|私的なSNSが出てきた。", a: { label: "読んで決める" }, b: { label: "読まずに決める" }, better: null, tags: { weight: "軽", escape: "あり:工夫", split: "割れる" } },
+        { id: "privacy-conflict", mtype: "privacy", level: "conflict", stem: "不登校の娘が|「消えたい」とつぶやいた。|理由は誰にも話さない。|日記の鍵を壊して読めば|事情が分かるが、|娘は二度と|心を開かないだろう。", a: { label: "鍵を壊して読む" }, b: { label: "読まずに待つ" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
+        { id: "privacy-conflict-2", mtype: "privacy", level: "conflict", stem: "預け先がなく、|明日はアプリで頼んだ|シッターに|一歳のわが子を預ける。|撮影は規約違反と|断られたが、|黙ってカメラを置けば|様子を全て見られる。", a: { label: "カメラを置く" }, b: { label: "置かずに預ける" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
+        { id: "privacy-conflict-3", mtype: "privacy", level: "conflict", stem: "隣の家から毎晩、|幼い子の泣き声と|怒鳴り声が聞こえる。|警察も児童相談所も|「証拠がなく動けない」と言う。|今、カーテンの隙間から|虐待が見えている。", a: { label: "撮影する" }, b: { label: "撮影しない" }, better: null, tags: { weight: "重", escape: "封鎖", split: "偏る" } },
+        { id: "privacy-conflict-4", mtype: "privacy", level: "conflict", stem: "同居する大学生の弟が|夜中に出歩き、|部屋に鍵をかけ始めた。|警察から弟に連絡も来た。|尋ねても答えない。|扉を壊して入れば|事情が分かるかもしれない。", a: { label: "扉を壊して入る" }, b: { label: "入らずにおく" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
       ],
       practiceBank: [
         // 1問目=明確 (操作の習得)、2問目=軽いトレードオフ (評定リハーサルで尺度の両側を1回ずつ)。本番12項目とは非重複・重い内容は避ける
@@ -866,7 +927,7 @@
           stem: item.stem || this.defaultStem,
           leftLabel: left.label, rightLabel: right.label,
           leftItemId: leftIsA ? "a" : "b", rightItemId: leftIsA ? "b" : "a",
-          betterSide,
+          betterSide, tags: item.tags || null,
         };
       },
       buildMain() {
@@ -900,7 +961,7 @@
           moralType: cell.moralType, conflictLevel: cell.conflictLevel,
           itemId: cell.itemId, leftLabel: cell.leftLabel, rightLabel: cell.rightLabel,
           leftItemId: cell.leftItemId, rightItemId: cell.rightItemId,
-          betterSide: cell.betterSide, stem: stemRecord(cell.stem),
+          betterSide: cell.betterSide, tags: cell.tags, stem: stemRecord(cell.stem),
         };
       },
       // 規範整合 (明確のみ規範優位側を選んだか)。中/拮抗は規範なし (betterSide=null) → null
@@ -948,10 +1009,12 @@
     }
     return [(want && BLOCKS[want]) ? want : "anchor"];
   })();
-  // ⑤注意チェック: combo 既定ON。末尾に attn ブロック (infrequency+強IMC) を足す (弱DQS は startMain で②③に埋め込む)。
+  // ⑤注意チェック: 評定ブロックを含むセッションで既定ON (combo=②③統合 / moral 単体=③only 本番構成、2026-08-23)。
+  //   末尾に attn ブロック (infrequency+強IMC) を足し、弱DQS は startMain で評定ブロックに埋め込む。?attn=0 で明示OFF。
   const ATTN_ON = (function () {
     const q = new URLSearchParams(location.search);
-    return q.get("attn") != null ? q.get("attn") !== "0" : SEQ.length > 1;
+    if (q.get("attn") != null) return q.get("attn") !== "0";
+    return SEQ.some((id) => BLOCKS[id] && BLOCKS[id].ratings);   // 評定を取るブロック (value/moral) を含めば ON
   })();
   if (ATTN_ON && SEQ[SEQ.length - 1] !== "attn") SEQ.push("attn");
   const REAL_BLOCKS = SEQ.filter((b) => b !== "attn");   // device.block/combo 判定は attn を除いた実ブロックで
@@ -1071,6 +1134,7 @@
     config: CONFIG,
     practiceSummary: null,    // 行動ゲートの達成記録 (startMain で設定。§6-2。統合では最後のブロック分=単体互換)
     practiceSummaryByBlock: {}, // ブロック別の達成記録 (統合セッション用)
+    breaks: [],               // 休憩の滞在時間ログ {block, atTrial, dwellMs} (breakEvery>0 のブロック。負担の行動指標。2026-08-23)
     exportedAt: null,
   };
   $("devline").textContent = `${device.screenW}×${device.screenH} @${device.dpr}x`;
@@ -1413,6 +1477,7 @@
   let phase = "practice"; // 'practice' | 'main'
   let trialIndex = 0;     // 完了済み本番試行カウンタ
   let totalMain = 0;
+  let breakShownAt = null, breakAtTrial = 0;  // 休憩画面の表示時刻・地点 (滞在時間記録用。2026-08-23)
   let streak = 0;         // 練習の連続成功数 (行動ゲート §6-2。無効試行/不正解でリセット)
   let trial = null;       // 現在試行の記録オブジェクト
   let cell = null;        // 現在の cell
@@ -1486,13 +1551,18 @@
     }
     cell = queue.shift();
     aborts = 0;
-    if (phase === "main" && CONFIG.breakEvery > 0 && trialIndex > 0 && trialIndex % CONFIG.breakEvery === 0) {
+    // 休憩: breakEvery の倍数地点。ただし休憩後に始まるセグメント (この cell + 残り = queue.length+1) が
+    //   breakEvery 未満なら省く = 末尾に細切れの塊 (1問だけ等) を作らない (2026-08-23、DQS 混在込みで判定)。
+    if (phase === "main" && CONFIG.breakEvery > 0 && trialIndex > 0 &&
+        trialIndex % CONFIG.breakEvery === 0 && (queue.length + 1) >= CONFIG.breakEvery) {
       showBreak(); return;   // cell は確保済み。続けるボタンで presentStimulus
     }
     presentStimulus();
   }
   function showBreak() {
-    $("breakInfo").textContent = `${trialIndex} / ${totalMain} 試行が終わりました。`;
+    $("breakInfo").textContent = `${trialIndex} / ${totalMain} 問が終わりました。`;
+    breakShownAt = performance.now();
+    breakAtTrial = trialIndex;
     show("break");
   }
 
@@ -1899,7 +1969,145 @@
     $("goPractice").disabled = !introReady();
   }
 
+  // ===== ドラッグ導入チュートリアル (スポットライト方式。§6-6 項14・decisions-log 2026-09-02) =====
+  // 参加者が最初に出会う導入 (練習の前・初回のみ)。①START押下 → ②別ステージ概念デモ「運び方は自由」
+  // (中央1箱・端点/膨らみ/位置を毎回大きく変える変化大) → ③本番の実2箱に経路ゼロ(ディゾルブ)を交互提示。
+  // ④=既存の練習トライアルへ引き渡す。反アンカー: 実ステージに経路の形を出さない・直線を実演しない・
+  // 端点顕著/中間減光・両 destination 均等。実演は pointer-events:none の装飾で実要素の geom に不干渉。
+  const dragTutState = { done: false };
+  const DragTut = (() => {
+    let spot, pop, cap, demo, g, built = false, tok = 0, idx = -1, onDone = null, resizeBound = null;
+    const reduce = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+    const easeIO = (t) => t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    const rnd = (a, b) => a + Math.random() * (b - a);
+    const PAD = 10;
+    const STEPS = [
+      { focus: "start", act: "next", txt: "まず、下の <b>START</b> を指で押さえます。<b>指はつけたまま</b>にしてください。" },
+      { focus: "sandbox", act: "concept", free: true, txt: "指を離さずに運びます。<b>運び方（道すじ）は自由</b>です。いろいろな運び方があります。" },
+      { focus: "action", act: "real", txt: "本番はこの<b>2つの箱</b>のどちらか。<b>押さえたまま運んで、箱の中で指を離します</b>。（両方を順に示します）" },
+    ];
+    function build() {
+      if (built) return;
+      demo = document.createElement("canvas"); demo.id = "tutDemo"; surface.appendChild(demo); g = demo.getContext("2d");
+      cap = document.createElement("div"); cap.id = "tutCap"; surface.appendChild(cap);
+      spot = document.createElement("div"); spot.id = "tutSpot"; spot.className = "hidden"; document.body.appendChild(spot);
+      pop = document.createElement("div"); pop.id = "tutPop"; pop.className = "hidden";
+      pop.innerHTML = '<div class="s" id="tutPopStep"></div><div class="t" id="tutPopTxt"></div>' +
+        '<div class="f hidden" id="tutPopFree">運び方（道すじ）は自由です</div>' +
+        '<div class="r"><div class="dots" id="tutPopDots"></div><button class="nx" id="tutPopNext">次へ</button></div>';
+      document.body.appendChild(pop);
+      $("tutPopNext").addEventListener("click", advance, { passive: true });
+      built = true;
+    }
+    function lc(el) { const s = surface.getBoundingClientRect(), r = el.getBoundingClientRect(); return { x: r.left + r.width / 2 - s.left, y: r.top + r.height / 2 - s.top }; }
+    function sbxT() { const w = surface.clientWidth, h = surface.clientHeight; return { x: w * .5, y: h * .34, bw: w * .36, bh: h * .12 }; }
+    function ctx() { demo.width = surface.clientWidth; demo.height = surface.clientHeight; return g; }
+    function clr() { g.clearRect(0, 0, demo.width, demo.height); }
+    function finger(x, y, a) {
+      g.save(); g.globalAlpha = a;
+      const grd = g.createRadialGradient(x - 4, y - 5, 2, x, y, 17);
+      grd.addColorStop(0, "rgba(255,255,255,.95)"); grd.addColorStop(.42, "rgba(255,204,102,.75)");
+      grd.addColorStop(.72, "rgba(255,204,102,.18)"); grd.addColorStop(1, "rgba(255,204,102,0)");
+      g.fillStyle = grd; g.beginPath(); g.arc(x, y, 17, 0, 7); g.fill(); g.restore();
+    }
+    function ring(x, y, r, a, col) { g.save(); g.globalAlpha = a; g.strokeStyle = col || "rgba(255,204,102,.9)"; g.lineWidth = 3; g.beginPath(); g.arc(x, y, r, 0, 7); g.stroke(); g.restore(); }
+    function roundRect(x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
+    function drawSbx(T) { g.save(); g.strokeStyle = "rgba(120,220,170,.85)"; g.lineWidth = 2; roundRect(T.x - T.bw / 2, T.y - T.bh / 2, T.bw, T.bh, 12); g.stroke(); g.fillStyle = "rgba(159,201,182,.9)"; g.font = "600 15px sans-serif"; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText("れい", T.x, T.y); g.restore(); }
+    function setCap(t) { if (!t) { cap.style.opacity = 0; return; } cap.textContent = t; cap.style.opacity = 1; }
+    function tween(ms, my, fn) { return new Promise((res) => { const t0 = performance.now(); (function loop(now) { if (my !== tok) return res(); const t = Math.min(1, (now - t0) / ms); fn(t); if (t < 1) requestAnimationFrame(loop); else res(); })(t0); }); }
+    async function playSandbox(my) {   // ② 別ステージ・変化大
+      ctx();
+      if (reduce()) { const T = sbxT(), s = lc(startBtn); drawSbx(T); finger(s.x, s.y, 1); ring(s.x, s.y, 20, .9); finger(T.x, T.y, .9); ring(T.x, T.y, 22, .8, "rgba(46,255,119,.9)"); setCap("別ステージの例 — ずっと触れたまま運びます"); return; }
+      const s = lc(startBtn), T = sbxT();
+      setCap("別ステージの例 — 運び方はいろいろ。道すじは自由です");
+      while (my === tok) { await sbxCarry(my, s, T); await sleep(280); }
+    }
+    function sbxCarry(my, s0, T) {
+      const sx = s0.x + (Math.random() - .5) * 30, sy = s0.y + (Math.random() - .5) * 10;
+      const ex = T.x + (Math.random() - .5) * T.bw * .6, ey = T.y + (Math.random() - .5) * T.bh * .5;
+      const dx = ex - sx, dy = ey - sy, L = Math.hypot(dx, dy) || 1, nx = -dy / L, ny = dx / L;
+      const f1 = rnd(.12, .45), f2 = rnd(.55, .9);
+      const o1 = (Math.random() < .5 ? -1 : 1) * rnd(.02, .34) * L, o2 = (Math.random() < .5 ? -1 : 1) * rnd(.02, .34) * L;
+      const P1x = sx + dx * f1 + nx * o1, P1y = sy + dy * f1 + ny * o1, P2x = sx + dx * f2 + nx * o2, P2y = sy + dy * f2 + ny * o2;
+      const cub = (a, b, c, d, t) => { const u = 1 - t; return u * u * u * a + 3 * u * u * t * b + 3 * u * t * t * c + t * t * t * d; };
+      return (async () => {
+        await tween(300, my, (t) => { clr(); drawSbx(T); finger(sx, sy, 1); ring(sx, sy, 18 + t * 6, .9); });
+        await tween(1000, my, (t) => { clr(); drawSbx(T); const e = easeIO(t); const px = cub(sx, P1x, P2x, ex, e), py = cub(sy, P1y, P2y, ey, e); const a = 1 - .5 * Math.sin(Math.PI * t); finger(px, py, a); ring(px, py, 20, a * .9); });
+        if (my !== tok) return;
+        await tween(420, my, (t) => { clr(); drawSbx(T); finger(ex, ey, 1 - t * .3); ring(ex, ey, 20 + t * 40, 1 - t, "rgba(46,255,119,.9)"); });
+      })();
+    }
+    async function playReal(my) {   // ③ 実2箱に経路ゼロ (ディゾルブ・交互)
+      ctx(); setCap("本番の2つの箱 — どちらかの中で離します");
+      let side = "B";
+      while (my === tok) {
+        const s = lc(startBtn), box = side === "B" ? choiceB : choiceA, c = lc(box);
+        await tween(520, my, (t) => { clr(); finger(s.x, s.y, 1); ring(s.x, s.y, 20 + Math.sin(t * 10) * 3, .9); });
+        await tween(240, my, (t) => { clr(); finger(s.x, s.y, 1 - t); });
+        if (my !== tok) return;
+        box.classList.add("tut-rcv"); setTimeout(() => box.classList.remove("tut-rcv"), 600);
+        await tween(520, my, (t) => { clr(); finger(c.x, c.y, Math.min(1, t * 2)); ring(c.x, c.y, 20 + t * 26, (1 - t) * .8, "rgba(46,255,119,.9)"); });
+        await sleep(360);
+        side = side === "B" ? "A" : "B";
+      }
+    }
+    function unionRect(els) { const rs = els.map((e) => e.getBoundingClientRect()); const left = Math.min(...rs.map((r) => r.left)), top = Math.min(...rs.map((r) => r.top)), right = Math.max(...rs.map((r) => r.right)), bottom = Math.max(...rs.map((r) => r.bottom)); return { left, top, right, bottom, width: right - left, height: bottom - top }; }
+    function targetRect(focus) {
+      if (focus === "start") return startBtn.getBoundingClientRect();
+      if (focus === "sandbox") { const sr = surface.getBoundingClientRect(), T = sbxT(), st = startBtn.getBoundingClientRect(); const left = sr.left + sr.width * .08, right = sr.left + sr.width * .92, top = sr.top + (T.y - T.bh / 2) - 8, bottom = st.bottom + 8; return { left, top, right, bottom, width: right - left, height: bottom - top }; }
+      return unionRect([startBtn, choiceA, choiceB]);
+    }
+    function place(focus) {   // 吹き出しは端末最上部にピン留め = START↔箱の経路帯を塞がない
+      const r = targetRect(focus);
+      spot.style.top = (r.top - PAD) + "px"; spot.style.left = (r.left - PAD) + "px"; spot.style.width = (r.width + PAD * 2) + "px"; spot.style.height = (r.height + PAD * 2) + "px";
+      const pw = pop.offsetWidth, vw = innerWidth, tr = $("task").getBoundingClientRect();
+      pop.style.top = Math.max(8, tr.top + 8) + "px";
+      pop.style.left = Math.max(12, Math.min(tr.left + (tr.width - pw) / 2, vw - pw - 12)) + "px";
+    }
+    function render() {
+      const step = STEPS[idx];
+      $("tutPopStep").textContent = "説明 " + (idx + 1) + " / " + STEPS.length;
+      $("tutPopTxt").innerHTML = step.txt;
+      $("tutPopFree").classList.toggle("hidden", !step.free);
+      $("tutPopNext").textContent = idx === STEPS.length - 1 ? "完了" : "次へ";
+      const dots = $("tutPopDots"); dots.innerHTML = "";
+      for (let i = 0; i < STEPS.length; i++) { const d = document.createElement("i"); if (i === idx) d.className = "a"; dots.appendChild(d); }
+      spot.classList.remove("hidden"); pop.classList.remove("hidden");
+      requestAnimationFrame(() => { spot.classList.add("on"); pop.classList.add("on"); place(step.focus); });
+      tok++; const my = tok; ctx(); setCap("");
+      document.querySelectorAll(".choice").forEach((e) => e.classList.remove("tut-sbxhide"));
+      if (step.focus === "sandbox") document.querySelectorAll(".choice").forEach((e) => e.classList.add("tut-sbxhide"));
+      if (step.act === "concept") setTimeout(() => { if (my === tok) playSandbox(my); }, 350);
+      else if (step.act === "real") setTimeout(() => { if (my === tok) playReal(my); }, 300);
+    }
+    function advance() { if (idx < STEPS.length - 1) { idx++; render(); } else finish(); }
+    function finish() {
+      tok++; idx = -1;
+      spot.classList.remove("on"); pop.classList.remove("on"); spot.classList.add("hidden"); pop.classList.add("hidden");
+      ctx(); setCap(""); demo.style.display = "none";
+      document.querySelectorAll(".choice").forEach((e) => e.classList.remove("tut-sbxhide", "tut-rcv"));
+      if (resizeBound) { removeEventListener("resize", resizeBound); resizeBound = null; }
+      dragTutState.done = true;
+      const cb = onDone; onDone = null; if (cb) cb();
+    }
+    function run(cb) {
+      build(); onDone = cb; demo.style.display = "";
+      if (typeof coachHide === "function") coachHide();
+      if (typeof setCoach === "function") setCoach(null);
+      numA.style.visibility = "hidden"; numB.style.visibility = "hidden"; stemEl.style.visibility = "hidden";
+      startBtn.classList.remove("armed"); startBtn.textContent = "START";
+      show("task"); if (typeof sizeCanvas === "function") sizeCanvas();
+      resizeBound = () => { if (idx >= 0) place(STEPS[idx].focus); };
+      addEventListener("resize", resizeBound, { passive: true });
+      idx = 0; render();
+    }
+    return { run };
+  })();
+
   function startPractice() {
+    // ドラッグ導入チュートリアル (初回・第1ブロックのみ・?tut=0 で無効)。完了後に startPractice を再入
+    if (seqIndex === 0 && DRAG_TUT_ON && !dragTutState.done) { DragTut.run(startPractice); return; }
     if (seqIndex === 0) clearBackup();  // 復旧チャンスは intro 画面まで (統合の2ブロック目では前ブロック分を消さない)
     requestWakeLock();   // ユーザー操作起点で取得 (§6-6 項11)
     captureIntro();
@@ -2219,7 +2427,14 @@
     if (performance.now() - tutRenderedAt < 300) return;
     if (tutActive() && TUT_PAGES[tutIdx].act === "next") tutAdvance();
   }, { passive: true });
-  $("breakContinue").addEventListener("click", () => presentStimulus(), { passive: true });
+  $("breakContinue").addEventListener("click", () => {
+    if (breakShownAt != null) {
+      device.breaks.push({ block: CONFIG.block, atTrial: breakAtTrial,
+        dwellMs: +(performance.now() - breakShownAt).toFixed(0) });
+      breakShownAt = null;
+    }
+    presentStimulus();
+  }, { passive: true });
   $("blockintroGo").addEventListener("click", () => {
     if (pendingMainStart) { pendingMainStart = false; startMain(); return; }  // 練習クリア→本番 (自己ペース)
     UNIFIED ? startMain() : startPractice();   // 統合: 練習は冒頭に統合済み→次パートは本番へ直行 (2026-07-15)
