@@ -2020,9 +2020,12 @@
     const rnd = (a, b) => a + Math.random() * (b - a);
     const PAD = 10;
     const STEPS = [
-      { focus: "start", act: "next", txt: "まず、下の <b>START</b> を指で押さえます。<b>指はつけたまま</b>にしてください。" },
-      { focus: "sandbox", act: "concept", free: true, txt: "指を離さずに運びます。<b>運び方（道すじ）は自由</b>です。いろいろな運び方があります。" },
-      { focus: "action", act: "real", txt: "本番はこの<b>2つの箱</b>のどちらか。<b>押さえたまま運んで、箱の中で指を離します</b>。（両方を順に示します）" },
+      { focus: "intro",    act: "next", sample: true, txt: "これから、いくつかの<b>場面</b>を読んで、<b>2つの選択肢</b>から、あなたの考えに近いほうを選んでいきます。（下は説明用の例です）" },
+      { focus: "stem",     act: "next", sample: true, txt: "画面の<b>上</b>に、<b>場面（問題文）</b>が表示されます。まず、これを読みます。" },
+      { focus: "choices2", act: "next", sample: true, txt: "その<b>下の2つ</b>が選択肢です。場面を読んだうえで、<b>選ぶほう</b>を決めます。" },
+      { focus: "start",    act: "next", txt: "では、選び方の操作です。まず下の <b>START</b> を指で押さえます。<b>指はつけたまま</b>にしてください。" },
+      { focus: "sandbox",  act: "concept", free: true, txt: "指を離さずに運びます。<b>運び方（道すじ）は自由</b>です。いろいろな運び方があります。" },
+      { focus: "action",   act: "real", txt: "本番はこの<b>2つの箱</b>のどちらか。<b>押さえたまま運んで、箱の中で指を離します</b>。（両方を順に示します）" },
     ];
     function build() {
       if (built) return;
@@ -2050,7 +2053,21 @@
     }
     function ring(x, y, r, a, col) { g.save(); g.globalAlpha = a; g.strokeStyle = col || "rgba(255,204,102,.9)"; g.lineWidth = 3; g.beginPath(); g.arc(x, y, r, 0, 7); g.stroke(); g.restore(); }
     function roundRect(x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
-    function drawSbx(T) { g.save(); g.strokeStyle = "rgba(120,220,170,.85)"; g.lineWidth = 2; roundRect(T.x - T.bw / 2, T.y - T.bh / 2, T.bw, T.bh, 12); g.stroke(); g.fillStyle = "rgba(159,201,182,.9)"; g.font = "600 15px sans-serif"; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText("れい", T.x, T.y); g.restore(); }
+    function drawSbx(T) { g.save(); g.strokeStyle = "rgba(120,220,170,.85)"; g.lineWidth = 2; roundRect(T.x - T.bw / 2, T.y - T.bh / 2, T.bw, T.bh, 12); g.stroke(); g.restore(); }
+    // 課題導入(サンプル場面+選択肢)の一時表示。実要素 (#stem/#numA/#numB) に中立な例を入れ、intro 後に消す
+    function setSample() {
+      stemEl.textContent = "（例）休日は、どちらで過ごしたいですか？";
+      stemEl.style.visibility = "visible";
+      numA.textContent = "海でのんびり"; numB.textContent = "山でハイキング";
+      numA.className = "txt"; numB.className = "txt";
+      numA.style.visibility = "visible"; numB.style.visibility = "visible";
+    }
+    function clearSample() {
+      stemEl.textContent = ""; stemEl.style.visibility = "hidden";
+      numA.textContent = ""; numB.textContent = "";
+      numA.className = "num"; numB.className = "num";
+      numA.style.visibility = "hidden"; numB.style.visibility = "hidden";
+    }
     function setCap(t) { if (!t) { cap.style.opacity = 0; return; } cap.textContent = t; cap.style.opacity = 1; }
     function tween(ms, my, fn) { return new Promise((res) => { const t0 = performance.now(); (function loop(now) { if (my !== tok) return res(); const t = Math.min(1, (now - t0) / ms); fn(t); if (t < 1) requestAnimationFrame(loop); else res(); })(t0); }); }
     async function playSandbox(my) {   // ② 別ステージ・変化大
@@ -2092,14 +2109,19 @@
     function unionRect(els) { const rs = els.map((e) => e.getBoundingClientRect()); const left = Math.min(...rs.map((r) => r.left)), top = Math.min(...rs.map((r) => r.top)), right = Math.max(...rs.map((r) => r.right)), bottom = Math.max(...rs.map((r) => r.bottom)); return { left, top, right, bottom, width: right - left, height: bottom - top }; }
     function targetRect(focus) {
       if (focus === "start") return startBtn.getBoundingClientRect();
+      if (focus === "stem") return stemEl.getBoundingClientRect();          // 課題導入: 問題文の位置
+      if (focus === "choices2") return unionRect([choiceA, choiceB]);       // 課題導入: 選択肢2つ
+      if (focus === "intro") return unionRect([stemEl, choiceA, choiceB]);  // 課題導入: 場面+選択肢の全体
       if (focus === "sandbox") { const sr = surface.getBoundingClientRect(), T = sbxT(), st = startBtn.getBoundingClientRect(); const left = sr.left + sr.width * .08, right = sr.left + sr.width * .92, top = sr.top + (T.y - T.bh / 2) - 8, bottom = st.bottom + 8; return { left, top, right, bottom, width: right - left, height: bottom - top }; }
       return unionRect([startBtn, choiceA, choiceB]);
     }
-    function place(focus) {   // 吹き出しは端末最上部にピン留め = START↔箱の経路帯を塞がない
-      const r = targetRect(focus);
+    function place(step) {
+      const r = targetRect(step.focus);
       spot.style.top = (r.top - PAD) + "px"; spot.style.left = (r.left - PAD) + "px"; spot.style.width = (r.width + PAD * 2) + "px"; spot.style.height = (r.height + PAD * 2) + "px";
       const pw = pop.offsetWidth, vw = innerWidth, tr = $("task").getBoundingClientRect();
-      pop.style.top = Math.max(8, tr.top + 8) + "px";
+      // 課題導入(上部に場面/選択肢)は吹き出しを下寄せ=説明対象を塞がない / ドラッグ操作は上寄せ=経路帯を空ける
+      const topY = step.sample ? (tr.top + tr.height * 0.56) : (tr.top + 8);
+      pop.style.top = Math.max(8, topY) + "px";
       pop.style.left = Math.max(12, Math.min(tr.left + (tr.width - pw) / 2, vw - pw - 12)) + "px";
     }
     function render() {
@@ -2111,8 +2133,9 @@
       const dots = $("tutPopDots"); dots.innerHTML = "";
       for (let i = 0; i < STEPS.length; i++) { const d = document.createElement("i"); if (i === idx) d.className = "a"; dots.appendChild(d); }
       spot.classList.remove("hidden"); pop.classList.remove("hidden");
-      requestAnimationFrame(() => { spot.classList.add("on"); pop.classList.add("on"); place(step.focus); });
+      requestAnimationFrame(() => { spot.classList.add("on"); pop.classList.add("on"); place(step); });
       tok++; const my = tok; ctx(); setCap("");
+      step.sample ? setSample() : clearSample();
       document.querySelectorAll(".choice").forEach((e) => e.classList.remove("tut-sbxhide"));
       if (step.focus === "sandbox") document.querySelectorAll(".choice").forEach((e) => e.classList.add("tut-sbxhide"));
       if (step.act === "concept") setTimeout(() => { if (my === tok) playSandbox(my); }, 350);
@@ -2122,7 +2145,7 @@
     function finish() {
       tok++; idx = -1;
       spot.classList.remove("on"); pop.classList.remove("on"); spot.classList.add("hidden"); pop.classList.add("hidden");
-      ctx(); setCap(""); demo.style.display = "none";
+      ctx(); setCap(""); demo.style.display = "none"; clearSample();
       document.querySelectorAll(".choice").forEach((e) => e.classList.remove("tut-sbxhide", "tut-rcv"));
       if (resizeBound) { removeEventListener("resize", resizeBound); resizeBound = null; }
       dragTutState.done = true;
@@ -2135,7 +2158,7 @@
       numA.style.visibility = "hidden"; numB.style.visibility = "hidden"; stemEl.style.visibility = "hidden";
       startBtn.classList.remove("armed"); startBtn.textContent = "START";
       show("task"); if (typeof sizeCanvas === "function") sizeCanvas();
-      resizeBound = () => { if (idx >= 0) place(STEPS[idx].focus); };
+      resizeBound = () => { if (idx >= 0) place(STEPS[idx]); };
       addEventListener("resize", resizeBound, { passive: true });
       idx = 0; render();
     }
