@@ -304,6 +304,11 @@
   .tut-spot.on { opacity: 1; transition: top .34s cubic-bezier(.4,0,.2,1), left .34s cubic-bezier(.4,0,.2,1),
     width .34s cubic-bezier(.4,0,.2,1), height .34s cubic-bezier(.4,0,.2,1), opacity .2s; }
   .tut-spot.hidden, .tut-pop.hidden, .tut-pop .f.hidden { display: none; }
+  /* 対象エリアの枠線を強調 (操作させるステップ・説明ステップ。実演ステップは付けない) */
+  @keyframes tutSpotPulse { 0%,100% { outline-color: #ffd479; } 50% { outline-color: #fff2ce; } }
+  .tut-spot.strong { outline: 3px solid #ffd479; animation: tutSpotPulse 1.4s ease-in-out infinite;
+    box-shadow: 0 0 0 100vmax rgba(4,6,9,0.82), inset 0 0 0 2px rgba(255,212,121,.85), inset 0 0 20px rgba(255,212,121,.4); }
+  @media (prefers-reduced-motion: reduce) { .tut-spot.strong { animation: none; } }
   .tut-pop { position: fixed; z-index: 41; width: min(310px, 84vw); background: #10151c; border: 1px solid #3a3323;
     border-radius: 14px; box-shadow: 0 14px 40px -12px #000; padding: 15px 16px 14px; opacity: 0; transform: translateY(4px);
     transition: opacity .22s, transform .22s, top .3s cubic-bezier(.4,0,.2,1), left .3s cubic-bezier(.4,0,.2,1); }
@@ -1919,7 +1924,11 @@
     const rep = document.createElement("button"); rep.id = "ratReplay"; rep.className = "rat-replay hidden";
     rep.textContent = "↻ もう一度はじめから見る";                                  // BOX内でなく確定ボタンの上に控えめに
     const sub = $("ratingSubmit"); sub.parentNode.insertBefore(rep, sub);
-    rep.addEventListener("click", () => { tutIdx = 0; tutRender(); }, { passive: true });   // 分からなかった人向け
+    rep.addEventListener("click", () => {   // 分からなかった人向け=最初から。評定は選んでいない状態に戻す
+      trial.ratings = { confidence: null, hesitation: null };
+      for (const it of ITEMS) { const lk = $("qitem-" + it.key); const c = lk && lk.querySelector(".likert"); if (c) for (const b of c.children) b.classList.remove("sel"); }
+      tutIdx = 0; tutRender();
+    }, { passive: true });
   }
   function ratRect(p) {   // ページ別スポットライト対象
     if (p.act === "conf") return $("qitem-confidence").getBoundingClientRect();
@@ -1935,7 +1944,7 @@
     qc.classList.remove("dim", "tfocus"); qh.classList.remove("dim", "tfocus");   // 焦点はスポットライトが担う (行は不動)
     const lkC = qc.querySelector(".likert"), lkH = qh.querySelector(".likert");
     if (!tutActive()) {   // 完遂/解除: オーバーレイを外し通常の評定画面へ復帰
-      ratSpot.classList.remove("on"); ratPop.classList.remove("on");
+      ratSpot.classList.remove("on", "strong"); ratPop.classList.remove("on");
       ratSpot.classList.add("hidden"); ratPop.classList.add("hidden");
       if (lkC) lkC.classList.remove("tut-cue"); if (lkH) lkH.classList.remove("tut-cue");
       $("ratReplay").classList.add("hidden");
@@ -1964,12 +1973,10 @@
       const r = ratRect(p);
       ratSpot.style.top = (r.top - PAD) + "px"; ratSpot.style.left = (r.left - PAD) + "px";
       ratSpot.style.width = (r.width + PAD * 2) + "px"; ratSpot.style.height = (r.height + PAD * 2) + "px";
-      ratSpot.classList.add("on"); ratPop.classList.add("on");
-      // 吹き出しは評定行の「すぐ上」に = どの行の話か瞬時にわかる (行は塞がない)
-      const ir = $("ratingItems").getBoundingClientRect(), ph = ratPop.offsetHeight, pw = ratPop.offsetWidth, vw = innerWidth, vh = innerHeight;
-      let ptop = ir.top - PAD - 10 - ph;
-      if (ptop < 8) ptop = Math.min(ir.bottom + PAD + 10, vh - ph - 8);
-      ratPop.style.top = Math.max(8, ptop) + "px";
+      ratSpot.classList.add("on", "strong"); ratPop.classList.add("on");   // 枠線強調
+      // 吹き出しは評定行の「上」に固定 = 下部の 次へ/確定/もう一度 に被らない (1/5・5/5対策)。行も塞がない
+      const ir = $("ratingItems").getBoundingClientRect(), ph = ratPop.offsetHeight, pw = ratPop.offsetWidth, vw = innerWidth;
+      ratPop.style.top = Math.max(8, ir.top - PAD - 10 - ph) + "px";
       ratPop.style.left = Math.max(12, Math.min(ir.left + ir.width / 2 - pw / 2, vw - pw - 12)) + "px";
     });
     tutRenderedAt = performance.now();   // 連打デバウンスの基準時刻
@@ -2051,9 +2058,9 @@
       { focus: "intro",    act: "next", sample: true, op: "読んだら「次へ」", txt: "これから、いくつかの<b>問題文（場面文）</b>を読んで、<b>2つの選択肢</b>から、あなたの考えに近いほうを選んでいきます。（表示されているのは説明用の例です）" },
       { focus: "stem",     act: "next", sample: true, op: "読んだら「次へ」", txt: "画面の<b>上</b>に、<b>問題文（場面文）</b>が表示されます。まず、これを読みます。" },
       { focus: "choices2", act: "next", sample: true, op: "読んだら「次へ」", txt: "その<b>下の2つ</b>が選択肢です。問題文を読んだうえで、<b>選ぶほう</b>を決めます。" },
-      { focus: "start",    act: "next", op: "STARTを指で押さえ、そのまま離さない", txt: "では、選び方の操作です。下の <b>START</b> を指で押さえます。" },
-      { focus: "sandbox",  act: "concept", op: "指を離さず、箱まで運ぶ（道すじは自由）", txt: "指を離さずに運びます。<b>道すじは自由</b>です。まっすぐでも、回り道でもかまいません。" },
-      { focus: "action",   act: "real", op: "箱の中で指を離す", txt: "本番はこの<b>2つの箱</b>のどちらか。押さえたまま運んで確定します。" },
+      { focus: "start",    act: "next", op: "読んだら「次へ」", txt: "では、選び方の操作です。下の <b>START</b> を指で押さえ、<b>そのまま指を離さずに</b>運びます。" },
+      { focus: "sandbox",  act: "concept", op: "見て、分かったら「次へ」", txt: "指を離さずに運びます。<b>道すじは自由</b>です。まっすぐでも、回り道でもかまいません。" },
+      { focus: "action",   act: "real", op: "見て、分かったら「完了」", txt: "本番はこの<b>2つの箱</b>のどちらか。押さえたまま運んで、箱の中で指を離します。" },
     ];
     function build() {
       if (built) return;
@@ -2148,28 +2155,27 @@
       return unionRect([startBtn, choiceA, choiceB]);
     }
     function place(step) {
+      const GAP = 14;   // 説明BOX下端 ↔ ボタン列上端 の固定ギャップ
       const r = targetRect(step.focus);
       spot.style.top = (r.top - PAD) + "px"; spot.style.left = (r.left - PAD) + "px";
       spot.style.width = (r.width + PAD * 2) + "px"; spot.style.height = (r.height + PAD * 2) + "px";
-      const ph = pop.offsetHeight, pw = pop.offsetWidth, vw = innerWidth, vh = innerHeight, tr = $("task").getBoundingClientRect();
-      // 吹き出しは対象の近くに。実演ステップは実演を隠さないよう最上部 / 課題導入(上部にサンプル)は中央下 / START説明は STARTの近く
+      const vw = innerWidth, vh = innerHeight, tr = $("task").getBoundingClientRect(), sr = startBtn.getBoundingClientRect();
+      // 進行ボタン列 (通常サイズ=評定チュートリアルと同様)。課題導入は STARTの位置に重ね、それ以外は最下部
+      btnRow.style.height = "auto"; btnRow.style.bottom = "auto";
+      btnRow.style.left = (tr.left + tr.width * 0.14) + "px"; btnRow.style.width = (tr.width * 0.72) + "px";
+      const bh = btnRow.offsetHeight || 52;
+      const btnTop = step.sample ? (sr.top + sr.height / 2 - bh / 2) : (vh - bh - Math.max(10, vh * 0.025));
+      btnRow.style.top = btnTop + "px";
+      // 吹き出し: 実演ステップは最上部ピン(実演を隠さない) / 課題導入はボタン列の上 / START説明は対象(START)の上
+      const ph = pop.offsetHeight, pw = pop.offsetWidth;
       const demoStep = step.act === "concept" || step.act === "real";
       let ptop;
       if (demoStep) ptop = tr.top + 8;
-      else if (step.sample) ptop = tr.top + tr.height * 0.55;
-      else { const below = (vh - r.bottom) > ph + 22; ptop = below ? r.bottom + PAD + 10 : r.top - PAD - 10 - ph; }
+      else if (step.sample) ptop = btnTop - GAP - ph;        // ボタン列(START上に重ねる)の上端から GAP
+      else ptop = (r.top - PAD) - GAP - ph;                  // 対象(START)の上端から GAP = STARTに被らない
       ptop = Math.max(8, Math.min(ptop, vh - ph - 8));
       pop.style.top = ptop + "px";
       pop.style.left = Math.max(12, Math.min(r.left + r.width / 2 - pw / 2, vw - pw - 12)) + "px";
-      // 進行ボタン列: START に関係ない説明(=課題導入)は STARTの上にかぶせる / それ以外は最下部
-      const sr = startBtn.getBoundingClientRect();
-      if (step.sample) {
-        btnRow.style.left = sr.left + "px"; btnRow.style.top = sr.top + "px";
-        btnRow.style.width = sr.width + "px"; btnRow.style.height = sr.height + "px"; btnRow.style.bottom = "auto";
-      } else {
-        btnRow.style.left = (tr.left + tr.width * 0.14) + "px"; btnRow.style.width = (tr.width * 0.72) + "px";
-        btnRow.style.top = "auto"; btnRow.style.bottom = "2.5%"; btnRow.style.height = "auto";
-      }
     }
     function render() {
       const step = STEPS[idx];
@@ -2180,7 +2186,7 @@
       const last = idx === STEPS.length - 1;
       $("tutPopNext").textContent = last ? "完了" : "次へ"; btnRow.classList.remove("hidden");
       $("tutReplay").classList.toggle("hidden", !last);                   // 「もう一度」は最後のページのみ
-      startBtn.classList.toggle("coach-pulse", step.focus === "start");   // START を他と同じ発光で強調
+      spot.classList.toggle("strong", step.act !== "concept" && step.act !== "real");   // 枠線強調 (実演ステップ以外)
       const dots = $("tutPopDots"); dots.innerHTML = "";
       for (let i = 0; i < STEPS.length; i++) { const d = document.createElement("i"); if (i === idx) d.className = "a"; dots.appendChild(d); }
       spot.classList.remove("hidden"); pop.classList.remove("hidden");
@@ -2196,7 +2202,7 @@
     function finish() {
       tok++; idx = -1;
       spot.classList.remove("on"); pop.classList.remove("on"); spot.classList.add("hidden"); pop.classList.add("hidden");
-      btnRow.classList.add("hidden"); startBtn.classList.remove("coach-pulse");
+      btnRow.classList.add("hidden"); spot.classList.remove("strong"); startBtn.classList.remove("coach-pulse");
       ctx(); setCap(""); demo.style.display = "none"; clearSample();
       document.querySelectorAll(".choice").forEach((e) => e.classList.remove("tut-sbxhide", "tut-rcv"));
       if (resizeBound) { removeEventListener("resize", resizeBound); resizeBound = null; }
