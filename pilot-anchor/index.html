@@ -347,6 +347,10 @@
     border: 1px solid #3a4650; color: #9fb0bd; font: inherit; font-size: 12.5px; font-weight: 600;
     padding: 9px 14px; border-radius: 8px; cursor: pointer; }
   .rat-replay.hidden { display: none; }
+  /* 段階開示で要素が現れる時のフェード (opacity のみ=当たり判定/geom に無影響) */
+  @keyframes tutFadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .tut-fadein { animation: tutFadeIn .45s ease; }
+  @media (prefers-reduced-motion: reduce) { .tut-fadein { animation: none; } }
 </style>
 </head>
 <body>
@@ -2055,10 +2059,10 @@
     const rnd = (a, b) => a + Math.random() * (b - a);
     const PAD = 10;
     const STEPS = [
-      { focus: "intro",    act: "next", sample: true, op: "読んだら「次へ」", txt: "これから、いくつかの<b>問題文（場面文）</b>を読んで、<b>2つの選択肢</b>から、あなたの考えに近いほうを選んでいきます。（表示されているのは説明用の例です）" },
-      { focus: "stem",     act: "next", sample: true, op: "読んだら「次へ」", txt: "画面の<b>上</b>に、<b>問題文（場面文）</b>が表示されます。まず、これを読みます。" },
-      { focus: "choices2", act: "next", sample: true, op: "読んだら「次へ」", txt: "その<b>下の2つ</b>が選択肢です。問題文を読んだうえで、<b>選ぶほう</b>を決めます。" },
-      { focus: "start",    act: "next", op: "読んだら「次へ」", txt: "では、選び方の操作です。下の <b>START</b> を指で押さえ、<b>そのまま指を離さずに</b>運びます。" },
+      { focus: "orient",   act: "next", sample: true, reveal: 0, op: "読んだら「次へ」", txt: "これから、いくつかの<b>問題文</b>を読んで、<b>2つの選択肢</b>から、あなたの考えに近いほうを選びます。<br>枠の説明を読み、下の<b>緑の案内</b>で進みます。<b>光って囲まれた所</b>が、いま説明している場所です。" },
+      { focus: "stem",     act: "next", sample: true, reveal: 1, op: "読んだら「次へ」", txt: "まず、画面の<b>上</b>に出る<b>問題文（場面文）</b>を読みます。（下は説明用の例です）" },
+      { focus: "choices2", act: "next", sample: true, reveal: 2, op: "読んだら「次へ」", txt: "その<b>下の2つ</b>が選択肢です。問題文を読んで、<b>選ぶほう</b>を決めます。" },
+      { focus: "start",    act: "next", reveal: 2, op: "読んだら「次へ」", txt: "では操作です。下の <b>START</b> を指で押さえ、<b>そのまま指を離さずに</b>運びます。" },
       { focus: "sandbox",  act: "concept", op: "見て、分かったら「次へ」", txt: "指を離さずに運びます。<b>道すじは自由</b>です。まっすぐでも、回り道でもかまいません。" },
       { focus: "action",   act: "real", op: "見て、分かったら「完了」", txt: "本番はこの<b>2つの箱</b>のどちらか。押さえたまま運んで、箱の中で指を離します。" },
     ];
@@ -2094,19 +2098,17 @@
     function roundRect(x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
     function drawSbx(T) { g.save(); g.strokeStyle = "rgba(120,220,170,.85)"; g.lineWidth = 2; roundRect(T.x - T.bw / 2, T.y - T.bh / 2, T.bw, T.bh, 12); g.stroke(); g.restore(); }
     // 課題導入(サンプル場面+選択肢)の一時表示。実要素 (#stem/#numA/#numB) に中立な例を入れ、intro 後に消す
-    function setSample() {
-      stemEl.textContent = "（例）休日は、どちらで過ごしたいですか？";
-      stemEl.style.visibility = "visible";
-      numA.textContent = "海でのんびり"; numB.textContent = "山でハイキング";
-      numA.className = "txt"; numB.className = "txt";
-      numA.style.visibility = "visible"; numB.style.visibility = "visible";
+    // 段階開示: level 0=何も出さない / 1=問題文 / 2=問題文+選択肢 (上から下へ一つずつ現す)
+    function showSample(level) {
+      const s1 = level >= 1, s2 = level >= 2;
+      stemEl.textContent = s1 ? "（例）休日は、どちらで過ごしたいですか？" : "";
+      stemEl.style.visibility = s1 ? "visible" : "hidden";
+      numA.textContent = s2 ? "海でのんびり" : ""; numB.textContent = s2 ? "山でハイキング" : "";
+      numA.className = s2 ? "txt" : "num"; numB.className = s2 ? "txt" : "num";
+      numA.style.visibility = s2 ? "visible" : "hidden"; numB.style.visibility = s2 ? "visible" : "hidden";
     }
-    function clearSample() {
-      stemEl.textContent = ""; stemEl.style.visibility = "hidden";
-      numA.textContent = ""; numB.textContent = "";
-      numA.className = "num"; numB.className = "num";
-      numA.style.visibility = "hidden"; numB.style.visibility = "hidden";
-    }
+    function clearSample() { showSample(0); }
+    function fadeIn(el) { el.classList.remove("tut-fadein"); void el.offsetWidth; el.classList.add("tut-fadein"); }   // 現れる時のフェード (opacity のみ=geom不変)
     function setCap(t) { if (!t) { cap.style.opacity = 0; return; } cap.textContent = t; cap.style.opacity = 1; }
     function tween(ms, my, fn) { return new Promise((res) => { const t0 = performance.now(); (function loop(now) { if (my !== tok) return res(); const t = Math.min(1, (now - t0) / ms); fn(t); if (t < 1) requestAnimationFrame(loop); else res(); })(t0); }); }
     async function playSandbox(my) {   // ② 別ステージ・変化大
@@ -2155,27 +2157,31 @@
       return unionRect([startBtn, choiceA, choiceB]);
     }
     function place(step) {
-      const GAP = 14;   // 説明BOX下端 ↔ ボタン列上端 の固定ギャップ
-      const r = targetRect(step.focus);
-      spot.style.top = (r.top - PAD) + "px"; spot.style.left = (r.left - PAD) + "px";
-      spot.style.width = (r.width + PAD * 2) + "px"; spot.style.height = (r.height + PAD * 2) + "px";
-      const vw = innerWidth, vh = innerHeight, tr = $("task").getBoundingClientRect(), sr = startBtn.getBoundingClientRect();
-      // 進行ボタン列 (通常サイズ=評定チュートリアルと同様)。課題導入は STARTの位置に重ね、それ以外は最下部
+      const GAP = 14, vw = innerWidth, vh = innerHeight, tr = $("task").getBoundingClientRect(), sr = startBtn.getBoundingClientRect();
+      const demoStep = step.act === "concept" || step.act === "real";
+      if (step.focus !== "orient") {   // スポットライト (orient は非表示)
+        const r = targetRect(step.focus);
+        spot.style.top = (r.top - PAD) + "px"; spot.style.left = (r.left - PAD) + "px";
+        spot.style.width = (r.width + PAD * 2) + "px"; spot.style.height = (r.height + PAD * 2) + "px";
+      }
+      // 進行ボタン列 (通常サイズ)。課題導入(sample)は STARTに重ね、それ以外は最下部
       btnRow.style.height = "auto"; btnRow.style.bottom = "auto";
       btnRow.style.left = (tr.left + tr.width * 0.14) + "px"; btnRow.style.width = (tr.width * 0.72) + "px";
       const bh = btnRow.offsetHeight || 52;
       const btnTop = step.sample ? (sr.top + sr.height / 2 - bh / 2) : (vh - bh - Math.max(10, vh * 0.025));
       btnRow.style.top = btnTop + "px";
-      // 吹き出し: 実演ステップは最上部ピン(実演を隠さない) / 課題導入はボタン列の上 / START説明は対象(START)の上
+      // 説明BOX: orient=上部中央 / 問題文・選択肢=対象の直下 / START=対象の直上 / 実演=最上部ピン (上から下)
       const ph = pop.offsetHeight, pw = pop.offsetWidth;
-      const demoStep = step.act === "concept" || step.act === "real";
-      let ptop;
-      if (demoStep) ptop = tr.top + 8;
-      else if (step.sample) ptop = btnTop - GAP - ph;        // ボタン列(START上に重ねる)の上端から GAP
-      else ptop = (r.top - PAD) - GAP - ph;                  // 対象(START)の上端から GAP = STARTに被らない
-      ptop = Math.max(8, Math.min(ptop, vh - ph - 8));
+      let ptop, pcx = tr.left + tr.width / 2;
+      if (step.focus === "orient") ptop = tr.top + tr.height * 0.12;
+      else if (demoStep) ptop = tr.top + 8;
+      else {
+        const r = targetRect(step.focus); pcx = r.left + r.width / 2;
+        ptop = step.focus === "start" ? (r.top - PAD - GAP - ph) : (r.bottom + PAD + GAP);
+      }
+      ptop = Math.max(8, Math.min(ptop, btnTop - GAP - ph, vh - ph - 8));   // ボタン列に被らせない
       pop.style.top = ptop + "px";
-      pop.style.left = Math.max(12, Math.min(r.left + r.width / 2 - pw / 2, vw - pw - 12)) + "px";
+      pop.style.left = Math.max(12, Math.min(pcx - pw / 2, vw - pw - 12)) + "px";
     }
     function render() {
       const step = STEPS[idx];
@@ -2186,15 +2192,19 @@
       const last = idx === STEPS.length - 1;
       $("tutPopNext").textContent = last ? "完了" : "次へ"; btnRow.classList.remove("hidden");
       $("tutReplay").classList.toggle("hidden", !last);                   // 「もう一度」は最後のページのみ
-      spot.classList.toggle("strong", step.act !== "concept" && step.act !== "real");   // 枠線強調 (実演ステップ以外)
+      const noSpot = step.focus === "orient", demoStep = step.act === "concept" || step.act === "real";
+      spot.classList.toggle("strong", !noSpot && !demoStep);             // 枠線強調 (説明のみ画面と実演ステップは除く)
       const dots = $("tutPopDots"); dots.innerHTML = "";
       for (let i = 0; i < STEPS.length; i++) { const d = document.createElement("i"); if (i === idx) d.className = "a"; dots.appendChild(d); }
-      spot.classList.remove("hidden"); pop.classList.remove("hidden");
-      requestAnimationFrame(() => { spot.classList.add("on"); pop.classList.add("on"); place(step); });
+      pop.classList.remove("hidden");
+      if (noSpot) { spot.classList.remove("on"); spot.classList.add("hidden"); } else spot.classList.remove("hidden");
+      requestAnimationFrame(() => { if (!noSpot) spot.classList.add("on"); pop.classList.add("on"); place(step); });
       tok++; const my = tok; ctx(); setCap("");
-      step.sample ? setSample() : clearSample();
-      document.querySelectorAll(".choice").forEach((e) => e.classList.remove("tut-sbxhide"));
-      if (step.focus === "sandbox") document.querySelectorAll(".choice").forEach((e) => e.classList.add("tut-sbxhide"));
+      showSample(step.reveal || 0);                                      // 上から順に開示 (問題文→選択肢)
+      if (step.focus === "stem") fadeIn(stemEl);
+      else if (step.focus === "choices2") { fadeIn(choiceA); fadeIn(choiceB); }
+      const hideChoices = step.focus === "orient" || step.focus === "stem" || step.focus === "sandbox";
+      document.querySelectorAll(".choice").forEach((e) => e.classList.toggle("tut-sbxhide", hideChoices));
       if (step.act === "concept") setTimeout(() => { if (my === tok) playSandbox(my); }, 350);
       else if (step.act === "real") setTimeout(() => { if (my === tok) playReal(my); }, 300);
     }
