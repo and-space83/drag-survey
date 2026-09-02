@@ -326,6 +326,16 @@
   }
   .likert.tut-cue button { animation: tutCueGlow 1.25s ease-in-out infinite; }
   @media (prefers-reduced-motion: reduce) { .likert.tut-cue button { animation: none; border-color: #fc6; } }
+  /* ドラッグ導入の「次へ/完了」は画面下部に大きく (スマホで押しやすく=評定チュートリアルと同様) */
+  .tut-nextbig { position: fixed; z-index: 42; left: 50%; transform: translateX(-50%); bottom: 2.5%;
+    min-width: 72%; max-width: 420px; padding: 15px 24px; font-size: 18px; font-weight: bold; border: 0;
+    border-radius: 12px; background: #fc6; color: #241a00; cursor: pointer; box-shadow: 0 6px 20px -6px #000; }
+  .tut-nextbig.hidden { display: none; }
+  /* 「もう一度はじめから見る」(分からなかった人向け・最後のページのみ) */
+  .tut-pop .tut-replay { display: block; margin-top: 11px; width: 100%; background: transparent;
+    border: 1px solid #3a4650; color: #9fb0bd; font: inherit; font-size: 12.5px; font-weight: 600;
+    padding: 9px; border-radius: 8px; cursor: pointer; }
+  .tut-pop .tut-replay.hidden { display: none; }
 </style>
 </head>
 <body>
@@ -1896,8 +1906,10 @@
     ratSpot = document.createElement("div"); ratSpot.id = "ratSpot"; ratSpot.className = "tut-spot hidden";
     document.body.appendChild(ratSpot);
     ratPop = document.createElement("div"); ratPop.id = "ratPop"; ratPop.className = "tut-pop hidden";
-    ratPop.innerHTML = '<div class="s" id="tutStepLabel"></div><div class="t" id="ratTutText"></div>';
+    ratPop.innerHTML = '<div class="s" id="tutStepLabel"></div><div class="t" id="ratTutText"></div>' +
+      '<button class="tut-replay hidden" id="ratReplay">↻ もう一度はじめから見る</button>';
     document.body.appendChild(ratPop);
+    $("ratReplay").addEventListener("click", () => { tutIdx = 0; tutRender(); }, { passive: true });   // 分からなかった人向け
   }
   function ratRect(p) {   // ページ別スポットライト対象
     if (p.act === "conf") return $("qitem-confidence").getBoundingClientRect();
@@ -1922,6 +1934,7 @@
     const p = TUT_PAGES[tutIdx];
     $("tutStepLabel").textContent = `説明 ${tutIdx + 1} / ${TUT_PAGES.length}`;
     $("ratTutText").innerHTML = nb(p.text);
+    $("ratReplay").classList.toggle("hidden", p.act !== "submit");   // 「もう一度見る」は最終ページのみ
     // 「次へ」は確定ボタンの位置 (説明ページのみ)。確定はチュートリアル最終ページでのみ可
     $("tutNext").style.display = p.act === "next" ? "" : "none";
     $("ratingSubmit").style.display = p.act === "next" ? "none" : "";
@@ -2013,19 +2026,19 @@
   // 端点顕著/中間減光・両 destination 均等。実演は pointer-events:none の装飾で実要素の geom に不干渉。
   const dragTutState = { done: false };
   const DragTut = (() => {
-    let spot, pop, cap, demo, g, built = false, tok = 0, idx = -1, onDone = null, resizeBound = null;
+    let spot, pop, cap, demo, g, nextBtn, built = false, tok = 0, idx = -1, onDone = null, resizeBound = null;
     const reduce = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
     const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     const easeIO = (t) => t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
     const rnd = (a, b) => a + Math.random() * (b - a);
     const PAD = 10;
     const STEPS = [
-      { focus: "intro",    act: "next", sample: true, txt: "これから、いくつかの<b>場面</b>を読んで、<b>2つの選択肢</b>から、あなたの考えに近いほうを選んでいきます。（下は説明用の例です）" },
-      { focus: "stem",     act: "next", sample: true, txt: "画面の<b>上</b>に、<b>場面（問題文）</b>が表示されます。まず、これを読みます。" },
-      { focus: "choices2", act: "next", sample: true, txt: "その<b>下の2つ</b>が選択肢です。場面を読んだうえで、<b>選ぶほう</b>を決めます。" },
-      { focus: "start",    act: "next", txt: "では、選び方の操作です。まず下の <b>START</b> を指で押さえます。<b>指はつけたまま</b>にしてください。" },
-      { focus: "sandbox",  act: "concept", free: true, txt: "指を離さずに運びます。<b>運び方（道すじ）は自由</b>です。いろいろな運び方があります。" },
-      { focus: "action",   act: "real", txt: "本番はこの<b>2つの箱</b>のどちらか。<b>押さえたまま運んで、箱の中で指を離します</b>。（両方を順に示します）" },
+      { focus: "intro",    act: "next", sample: true, txt: "これから、いくつかの<b>問題文（場面文）</b>を読んで、<b>2つの選択肢</b>から、あなたの考えに近いほうを選んでいきます。（表示されているのは説明用の例です）" },
+      { focus: "stem",     act: "next", sample: true, txt: "画面の<b>上</b>に、<b>問題文（場面文）</b>が表示されます。まず、これを読みます。" },
+      { focus: "choices2", act: "next", sample: true, txt: "その<b>下の2つ</b>が選択肢です。問題文を読んだうえで、<b>選ぶほう</b>を決めます。" },
+      { focus: "start",    act: "next", txt: "では、選び方の操作です。まず下の <b>START</b> を指で押さえ、<b>そのまま指を離さないでください</b>。" },
+      { focus: "sandbox",  act: "concept", free: true, txt: "指を離さずに運びます。<b>選び方（道すじ）は自由</b>です。まっすぐでも、回り道でもかまいません。" },
+      { focus: "action",   act: "real", txt: "本番はこの<b>2つの箱</b>のどちらか。<b>押さえたまま運んで、箱の中で指を離します</b>。" },
     ];
     function build() {
       if (built) return;
@@ -2034,10 +2047,14 @@
       spot = document.createElement("div"); spot.id = "tutSpot"; spot.className = "tut-spot hidden"; document.body.appendChild(spot);
       pop = document.createElement("div"); pop.id = "tutPop"; pop.className = "tut-pop hidden";
       pop.innerHTML = '<div class="s" id="tutPopStep"></div><div class="t" id="tutPopTxt"></div>' +
-        '<div class="f hidden" id="tutPopFree">運び方（道すじ）は自由です</div>' +
-        '<div class="r"><div class="dots" id="tutPopDots"></div><button class="nx" id="tutPopNext">次へ</button></div>';
+        '<div class="f hidden" id="tutPopFree">選び方（道すじ）は自由です</div>' +
+        '<div class="dots" id="tutPopDots"></div>' +
+        '<button class="tut-replay hidden" id="tutReplay">↻ もう一度はじめから見る</button>';
       document.body.appendChild(pop);
-      $("tutPopNext").addEventListener("click", advance, { passive: true });
+      nextBtn = document.createElement("button"); nextBtn.id = "tutPopNext"; nextBtn.className = "tut-nextbig hidden";
+      nextBtn.textContent = "次へ"; document.body.appendChild(nextBtn);
+      nextBtn.addEventListener("click", advance, { passive: true });
+      $("tutReplay").addEventListener("click", () => { idx = 0; render(); }, { passive: true });   // 分からなかった人向け=最初から
       built = true;
     }
     function lc(el) { const s = surface.getBoundingClientRect(), r = el.getBoundingClientRect(); return { x: r.left + r.width / 2 - s.left, y: r.top + r.height / 2 - s.top }; }
@@ -2129,7 +2146,10 @@
       $("tutPopStep").textContent = "説明 " + (idx + 1) + " / " + STEPS.length;
       $("tutPopTxt").innerHTML = step.txt;
       $("tutPopFree").classList.toggle("hidden", !step.free);
-      $("tutPopNext").textContent = idx === STEPS.length - 1 ? "完了" : "次へ";
+      const last = idx === STEPS.length - 1;
+      nextBtn.textContent = last ? "完了" : "次へ"; nextBtn.classList.remove("hidden");
+      $("tutReplay").classList.toggle("hidden", !last);                   // 「もう一度見る」は最後のページのみ
+      startBtn.classList.toggle("coach-pulse", step.focus === "start");   // START を他と同じ発光で強調
       const dots = $("tutPopDots"); dots.innerHTML = "";
       for (let i = 0; i < STEPS.length; i++) { const d = document.createElement("i"); if (i === idx) d.className = "a"; dots.appendChild(d); }
       spot.classList.remove("hidden"); pop.classList.remove("hidden");
@@ -2145,6 +2165,7 @@
     function finish() {
       tok++; idx = -1;
       spot.classList.remove("on"); pop.classList.remove("on"); spot.classList.add("hidden"); pop.classList.add("hidden");
+      nextBtn.classList.add("hidden"); startBtn.classList.remove("coach-pulse");
       ctx(); setCap(""); demo.style.display = "none"; clearSample();
       document.querySelectorAll(".choice").forEach((e) => e.classList.remove("tut-sbxhide", "tut-rcv"));
       if (resizeBound) { removeEventListener("resize", resizeBound); resizeBound = null; }
