@@ -319,6 +319,13 @@
   .tut-pop .nx { border: 0; font: inherit; font-size: 13px; font-weight: 700; border-radius: 8px;
     padding: 8px 16px; cursor: pointer; background: #fc6; color: #241a00; }
   @media (prefers-reduced-motion: reduce) { .tut-spot, .tut-spot.on, .tut-pop { transition: opacity .01s !important; } }
+  /* 評定チュートリアル: 押す対象の likert 行を琥珀で鼓動 (どこを押すか。走査は不採用・グローのみ=前回決定) */
+  @keyframes tutCueGlow {
+    0%,100% { box-shadow: 0 0 0 0 rgba(255,204,102,0); border-color: #fc6; }
+    50% { box-shadow: 0 0 0 4px rgba(255,204,102,.42), 0 0 16px 2px rgba(255,204,102,.32); border-color: #ffe0a0; }
+  }
+  .likert.tut-cue button { animation: tutCueGlow 1.25s ease-in-out infinite; }
+  @media (prefers-reduced-motion: reduce) { .likert.tut-cue button { animation: none; border-color: #fc6; } }
 </style>
 </head>
 <body>
@@ -1904,9 +1911,11 @@
     ensureRatSpot();
     const oldBox = $("tutBox"); if (oldBox) oldBox.remove();
     qc.classList.remove("dim", "tfocus"); qh.classList.remove("dim", "tfocus");   // 焦点はスポットライトが担う (行は不動)
+    const lkC = qc.querySelector(".likert"), lkH = qh.querySelector(".likert");
     if (!tutActive()) {   // 完遂/解除: オーバーレイを外し通常の評定画面へ復帰
       ratSpot.classList.remove("on"); ratPop.classList.remove("on");
       ratSpot.classList.add("hidden"); ratPop.classList.add("hidden");
+      if (lkC) lkC.classList.remove("tut-cue"); if (lkH) lkH.classList.remove("tut-cue");
       $("tutNext").style.display = "none"; $("ratingSubmit").style.display = "";
       return;
     }
@@ -1917,6 +1926,9 @@
     $("tutNext").style.display = p.act === "next" ? "" : "none";
     $("ratingSubmit").style.display = p.act === "next" ? "none" : "";
     $("ratingSubmit").disabled = ITEMS.some((it) => trial.ratings[it.key] == null) || p.act !== "submit";
+    // 押す対象の評定行を鼓動 (自信ページ=自信行 / 迷いページ=迷い行。前回決定: 走査なし・グローのみ)
+    if (lkC) lkC.classList.toggle("tut-cue", p.act === "conf");
+    if (lkH) lkH.classList.toggle("tut-cue", p.act === "hes");
     $("rating").querySelector(".qwrap").scrollTop = 0;
     // スポットライト+吹き出しの配置 (吹き出しは評定画面の上端にピン留め=評定行を塞がない)。
     // geometry は rAF 内で読む: beginRating は tutRender→show("rating") の順で呼ぶため、
