@@ -2281,7 +2281,7 @@
       ctx();
       if (reduce()) { const T = sbxT(), s = lc(startBtn); drawSbx(T); finger(s.x, s.y, 1); ring(s.x, s.y, 20, .9); finger(T.x, T.y, .9); ring(T.x, T.y, 22, .8, "rgba(46,255,119,.9)"); setCap("別ステージの例 — ずっと触れたまま運びます"); return; }
       const s = lc(startBtn), T = sbxT();
-      setCap("別ステージの例 — 見ながら、自分でも運んでみましょう");
+      setCap("別ステージの例");
       startHands("sandbox");                  // 実演と並行して操作を受け付ける (2026-09-04)
       // 成功するまで実演を繰り返す。参加者が触っている間は実演を止め、離したら再開する
       while (my === tok && !handsDone) {
@@ -2309,7 +2309,7 @@
       })();
     }
     async function playReal(my) {   // ③ 実2箱に経路ゼロ (ディゾルブ・交互)
-      ctx(); setCap("本番の2つの箱 — 自分でも運んでみましょう");
+      ctx(); setCap("本番の2つの箱");
       startHands("real");                     // 実演と並行して操作を受け付ける (2026-09-04)
       let side = "B";
       while (my === tok && !handsDone) {       // 成功するまで左右交互に実演を繰り返す (両destination均等)
