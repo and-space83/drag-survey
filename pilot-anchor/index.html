@@ -302,6 +302,8 @@
   #tutCap { position: absolute; top: 19%; left: 8%; right: 8%; text-align: center; font-size: 13px;
     font-weight: 700; color: #fc6; z-index: 6; pointer-events: none; opacity: 0; transition: opacity .2s; line-height: 1.4; }
   .choice.tut-sbxhide { opacity: 0; }   /* 別ステージ実演中は実選択肢を退場 (opacity のみ=geom 不変) */
+  /* ハンズオン成功後: 消さずに暗くする (終わったことは伝えつつ場所は見えたままにする) */
+  .choice.tut-dim, #start.tut-dim { opacity: .18; transition: opacity .35s; }
   @keyframes tutRcv { 0%,100% { box-shadow: 0 0 0 0 rgba(46,255,119,0); }
     50% { box-shadow: 0 0 0 6px rgba(46,255,119,.5), 0 0 22px 4px rgba(46,255,119,.35); } }
   .choice.tut-rcv { animation: tutRcv .6s ease-out; border-color: #2f7; }
@@ -350,10 +352,14 @@
   .tut-btnrow .nx { flex: 1; background: #2f7; color: #052; font-size: 18px; padding: 14px 18px; box-shadow: 0 6px 20px -6px #000; }
   .tut-btnrow .rp { flex: 0 0 40%; background: transparent; border: 1px solid #3a4650; color: #9fb0bd; font-size: 12.5px; font-weight: 600; padding: 11px 8px; }
   .tut-btnrow .rp.hidden { display: none; }
-  /* 評定チュートリアルの「もう一度」(控えめ・確定ボタンの上・最終ページのみ) */
-  .rat-replay { align-self: center; margin-top: 4px; margin-bottom: 2px; min-width: 40%; background: transparent;
+  /* 評定のボタン行: [↻ もう一度 (控えめ)] [次へ/確定 (緑)] を横並び (ドラッグ導入と同じ形) */
+  .rat-btnrow { display: flex; align-items: stretch; gap: 8px; align-self: center;
+    width: 100%; max-width: 420px; margin-top: 4px; margin-bottom: auto; }
+  .rat-btnrow > * { margin-top: 0 !important; margin-bottom: 0 !important; }
+  .rat-btnrow #tutNext, .rat-btnrow #ratingSubmit { flex: 1; min-width: 0 !important; }
+  .rat-replay { flex: 0 0 40%; background: transparent;
     border: 1px solid #3a4650; color: #9fb0bd; font: inherit; font-size: 12.5px; font-weight: 600;
-    padding: 9px 14px; border-radius: 8px; cursor: pointer; }
+    padding: 9px 8px; border-radius: 8px; cursor: pointer; }
   .rat-replay.hidden { display: none; }
   /* 評定チュートリアル中: 次へ/確定/もう一度 をスクリム(暗幕)より手前に出す (暗くて見えない対策)。
      position:relative + z-index のみ = レイアウト不変 (評定行の位置には影響しない) */
@@ -2084,9 +2090,12 @@
     ratPop.innerHTML = '<div class="s" id="tutStepLabel"></div><div class="t" id="ratTutText"></div>' +
       '<div class="g hidden" id="ratPopOp"></div>';
     document.body.appendChild(ratPop);
+    // ボタン行: [↻ もう一度 (控えめ)] [次へ/確定 (緑)] を横並びに (ドラッグ導入と同じ形。2026-09-05)
     const rep = document.createElement("button"); rep.id = "ratReplay"; rep.className = "rat-replay hidden";
-    rep.textContent = "↻ もう一度はじめから見る";                                  // BOX内でなく確定ボタンの上に控えめに
-    const sub = $("ratingSubmit"); sub.parentNode.insertBefore(rep, sub);
+    rep.textContent = "↻ もう一度";
+    const sub = $("ratingSubmit"), nxt = $("tutNext");
+    const row = document.createElement("div"); row.id = "ratBtnRow"; row.className = "rat-btnrow";
+    sub.parentNode.insertBefore(row, nxt); row.append(rep, nxt, sub);
     rep.addEventListener("click", () => {   // 分からなかった人向け=最初から。評定は選んでいない状態に戻す
       trial.ratings = { confidence: null, hesitation: null };
       for (const it of ITEMS) { const lk = $("qitem-" + it.key); const c = lk && lk.querySelector(".likert"); if (c) for (const b of c.children) b.classList.remove("sel"); }
@@ -2096,7 +2105,11 @@
   function ratRect(p) {   // ページ別スポットライト対象 (次へ/確定ボタンは囲いに含めない)
     if (p.act === "conf") return $("qitem-confidence").getBoundingClientRect();
     if (p.act === "hes") return $("qitem-hesitation").getBoundingClientRect();
-    return $("ratingItems").getBoundingClientRect();   // 説明/確定ページ: 評定項目のみを囲う
+    // 説明/確定ページ: 評定2項目だけを囲う。#ratingItems の rect は下余白でボタンに達するので、
+    // 実際に見えている最後の項目 (迷い行) の下端で切る (ボタンに被らない)
+    const r = $("ratingItems").getBoundingClientRect(), last = $("qitem-hesitation").getBoundingClientRect();
+    const bottom = Math.min(r.bottom, last.bottom);
+    return { left: r.left, top: r.top, right: r.right, bottom, width: r.width, height: bottom - r.top };
   }
   function tutRender() {
     const qc = $("qitem-confidence"), qh = $("qitem-hesitation");
@@ -2114,6 +2127,7 @@
       $("tutNext").classList.remove("cue"); $("ratingSubmit").classList.remove("cue");
       if (ratCueTimer) { clearTimeout(ratCueTimer); ratCueTimer = null; }
       $("tutNext").style.display = "none"; $("ratingSubmit").style.display = "";
+      $("ratingSubmit").textContent = "決定して次へ";   // 本番の表記に戻す
       return;
     }
     const p = TUT_PAGES[tutIdx];
@@ -2131,6 +2145,7 @@
     $("tutNext").style.display = p.act === "next" ? "" : "none";
     $("ratingSubmit").style.display = p.act === "next" ? "none" : "";
     $("ratingSubmit").disabled = ITEMS.some((it) => trial.ratings[it.key] == null) || p.act !== "submit";
+    $("ratingSubmit").textContent = "次へ";   // チュートリアル中は「次へ」だけ (本番は「決定して次へ」)
     // 押す対象の評定行を鼓動 (自信ページ=自信行 / 迷いページ=迷い行。前回決定: 走査なし・グローのみ)
     if (lkC) lkC.classList.toggle("tut-cue", p.act === "conf");
     if (lkH) lkH.classList.toggle("tut-cue", p.act === "hes");
@@ -2298,7 +2313,8 @@
         clr(); drawSbx(T);                    // 箱は残す (運ぶ先が見えていること)
         await sleep(500);
       }
-      if (my === tok) { clr(); setCap(""); startBtn.style.visibility = "hidden"; }   // 成功後は実演も箱もSTARTも消す
+      // 成功後: 消さずに暗くする (箱の場所は見えたまま・もう操作しないことは伝わる)
+      if (my === tok) { clr(); g.save(); g.globalAlpha = .18; drawSbx(T); g.restore(); setCap(""); startBtn.classList.add("tut-dim"); }
     }
     function sbxCarry(my, s0, T) {
       const sx = s0.x + (Math.random() - .5) * 30, sy = s0.y + (Math.random() - .5) * 10;
@@ -2330,10 +2346,10 @@
         await sleep(500);
         side = side === "B" ? "A" : "B";
       }
-      if (my === tok) {   // 成功後は実演も箱も消し、説明と「完了」だけにする
+      if (my === tok) {   // 成功後: 消さずに暗くする (場所は見えたまま・もう操作しないことは伝わる)
         clr(); setCap("");
-        document.querySelectorAll(".choice").forEach((e) => e.classList.add("tut-sbxhide"));
-        startBtn.style.visibility = "hidden";
+        document.querySelectorAll(".choice").forEach((e) => e.classList.add("tut-dim"));
+        startBtn.classList.add("tut-dim");
       }
     }
     function unionRect(els) { const rs = els.map((e) => e.getBoundingClientRect()); const left = Math.min(...rs.map((r) => r.left)), top = Math.min(...rs.map((r) => r.top)), right = Math.max(...rs.map((r) => r.right)), bottom = Math.max(...rs.map((r) => r.bottom)); return { left, top, right, bottom, width: right - left, height: bottom - top }; }
@@ -2420,7 +2436,8 @@
       else if (step.focus === "choices2") { fadeIn(choiceA); fadeIn(choiceB); }
       else if (step.focus === "start") fadeIn(startBtn);
       const hideChoices = step.focus === "orient" || step.focus === "stem" || step.focus === "sandbox";
-      document.querySelectorAll(".choice").forEach((e) => e.classList.toggle("tut-sbxhide", hideChoices));
+      document.querySelectorAll(".choice").forEach((e) => { e.classList.toggle("tut-sbxhide", hideChoices); e.classList.remove("tut-dim"); });
+      startBtn.classList.remove("tut-dim");
       // START も段階開示: 問題文/選択肢を説明している間は隠す (1/6で見える問題の解消)。start ステップで現す
       startBtn.style.visibility = (step.focus === "orient" || step.focus === "stem" || step.focus === "choices2") ? "hidden" : "visible";
       if (step.act === "concept") setTimeout(() => { if (my === tok) playSandbox(my); }, 350);
@@ -2497,7 +2514,8 @@
       if (cueTimer) { clearTimeout(cueTimer); cueTimer = null; }
       handsMode = null; handsDone = false; hTracking = false; setHint(""); inkClear(); $("tutPopNext").classList.remove("cue");
       ctx(); setCap(""); demo.style.display = "none"; clearSample();
-      document.querySelectorAll(".choice").forEach((e) => e.classList.remove("tut-sbxhide", "tut-rcv"));
+      document.querySelectorAll(".choice").forEach((e) => e.classList.remove("tut-sbxhide", "tut-rcv", "tut-dim"));
+      startBtn.classList.remove("tut-dim");
       if (resizeBound) { removeEventListener("resize", resizeBound); resizeBound = null; }
       dragTutState.done = true; dragTutState.active = false;
       const cb = onDone; onDone = null; if (cb) cb();
