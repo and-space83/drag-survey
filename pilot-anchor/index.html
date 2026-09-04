@@ -788,7 +788,7 @@
       id: "value", stimulusType: "text-choice", title: "価値・選好の2択課題",
       ratings: true, breakEvery: 0,
       repsPerCell: 1,        // 24項目セット (価値差3×ドメイン4×各2) × reps。既定1 = 本番24試行 (各項目1回・項目間で左右CB)。§6-3
-      practiceTrials: 2,     // 練習バッチ数 (§6-2。phase:'practice'、解析除外。ゲート未達なら追加補充)
+      practiceTrials: 5,     // 練習5問 (2026-09-04: チュートリアル後に説明なしで自由に試す。§6-2)
       practiceFeedback: "neutral",  // 主観選択なので正誤フィードバックはしない
       gateStreak: 2,         // 行動ゲート: 有効ドラッグ2連続で本番解錠 (2026-07-07。主観課題なので正誤は問わない)
       gateCorrect: false,
@@ -1781,9 +1781,7 @@
     $("phaseLabel").textContent = phase === "practice" ? "練習" : "本番";
     // 練習中のみ「↻ 説明」= 分からなくなったらチュートリアルを見直せる (本番では出さない)
     $("tutAgain").classList.toggle("hidden", !(phase === "practice" && dragTutState.done && DRAG_TUT_ON));
-    $("counter").textContent = phase === "practice"
-      ? `連続成功 ${streak} / ${BLOCK.gateStreak}`
-      : `${trialIndex + 1} / ${totalMain}`;
+    $("counter").textContent = phase === "practice" ? practiceCounter() : `${trialIndex + 1} / ${totalMain}`;
     recording = false;
     uiLocked = false;
     activePointerId = null;
@@ -1895,7 +1893,7 @@
       // 練習中: 無効試行は連続成功をリセットし、原因別のコーチングを出して同一刺激からやり直し
       // (ステップ1 状態に戻す = ボックスを隠して START へ再誘導)
       streak = 0;
-      $("counter").textContent = `連続成功 ${streak} / ${BLOCK.gateStreak}`;
+      $("counter").textContent = practiceCounter();
       // 誤操作のリカバリは説明なし方針でも残す (詰まりの解消)。チュートリアル後は短い注意のみ
       coachMsg(dragTutState.done ? nb((msg || "やり直し") + '<span class="sub">STARTからもう一度</span>')
                                  : (coachHtml || ((msg || "やり直し") + '<span class="sub">STARTからもう一度</span>')), "top");
@@ -1966,6 +1964,14 @@
     }
   }
 
+  // 練習の終了条件 (2026-09-05): 練習キューを使い切り (= practiceTrials 問を完了) かつ行動ゲート達成。
+  // ゲート未達なら nextTrial がキューを補充するので「5問やって、操作も理解できたら本番」になる
+  function practiceDone() { return queue.length === 0 && streak >= BLOCK.gateStreak; }
+  // 練習カウンタ表示: 「練習 n / 5」(この試行を含む残数から算出。ゲート未達で補充されたら総数も増える)
+  function practiceCounter() {
+    const total = Math.max(CONFIG.practiceTrials, queue.length + 1);
+    return `練習 ${total - queue.length} / ${total}`;
+  }
   function showPracticeFeedback() {
     uiLocked = true;   // フィードバック表示中の START 再押下を無効化
     setCoach(null);
@@ -1981,7 +1987,7 @@
       // 主観選択 (価値・選好) は正誤がないので中立フィードバックのみ
       head = '<span class="feedback ok">○ 記録しました</span>';
     }
-    $("counter").textContent = `連続成功 ${Math.min(streak, BLOCK.gateStreak)} / ${BLOCK.gateStreak}`;
+    $("counter").textContent = practiceCounter();
     numA.style.visibility = "hidden";
     numB.style.visibility = "hidden";
     stemEl.style.visibility = "hidden";
@@ -1990,12 +1996,12 @@
     // (練習だけ 1100ms の間を置くと本番第1試行で学習が崩れる。レビューWF指摘 2026-07-07)。
     // ゲート判定は評定送信後 (submitRating 側)。
     if (CONFIG.ratings) { coachHide(); beginRating(); return; }
-    // 評定OFF: フィードバックを提示してからゲート判定 (ゲート達成で練習終了=残りキューは破棄、
-    // 未達なら次の練習試行へ=キューは nextTrial が補充)。不正解時はコーチングを読む時間を長めに取る
-    const remain = BLOCK.gateStreak - streak;
-    const next = remain > 0 ? `<span class="sub">あと${remain}回つづけて成功すると本番です</span>` : "";
+    // 評定OFF: フィードバックを提示してから判定 (練習キュー完走+ゲート達成で本番へ。
+    // 未達ならキューは nextTrial が補充)。不正解時はコーチングを読む時間を長めに取る
+    const left = queue.length;
+    const next = left > 0 ? `<span class="sub">練習はあと${left}問です</span>` : "";
     coachMsg(head + next, "mid");
-    setTimeout(() => { (streak >= BLOCK.gateStreak && !(UNIFIED && queue.length > 0)) ? endPractice() : nextTrial(); }, pass ? 1100 : 1800);
+    setTimeout(() => { practiceDone() ? endPractice() : nextTrial(); }, pass ? 1100 : 1800);
   }
 
   // ===== 評定 (2項目を1画面に提示。2026-07-15 2項目化+チュートリアル) =====
@@ -2011,9 +2017,9 @@
       $("ratingHead").textContent = "";
     } else if (phase === "practice") {
       $("ratingHead").className = "practice";
-      const remain = BLOCK.gateStreak - streak;
+      const left = queue.length;
       $("ratingHead").textContent = "【練習】選んだ直後に毎回この2問に直感で答えます"
-        + (remain > 0 ? `（あと${remain}回成功で本番）` : "（送信すると練習クリア）");
+        + (left > 0 ? `（練習はあと${left}問）` : "（送信すると練習おわり）");
     } else {
       $("ratingHead").className = "";
       $("ratingHead").textContent = "回答について教えてください";
@@ -2182,8 +2188,9 @@
       micCheckpoint(nextTrial);   // 騒音アラートは評定「送信後」のみ (迷い評定を汚染しない位置。§6-6 項10)
     } else {
       // 練習 (評定リハーサル後): 行動ゲート判定 (streak は showPracticeFeedback で更新済み)。
-      // 統合練習 (UNIFIED) はゲート達成後も両タイプを完走してから本番へ (2026-07-15)
-      (streak >= BLOCK.gateStreak && !(UNIFIED && queue.length > 0)) ? endPractice() : nextTrial();
+      // 2026-09-05: チュートリアル後は練習キュー (practiceTrials 問) を必ず完走してから本番へ。
+      // ゲート未達なら nextTrial が補充するので、実質「5問やって、かつ操作を理解できたら本番」になる
+      practiceDone() ? endPractice() : nextTrial();
     }
   }
 
@@ -2518,13 +2525,16 @@
     phase = "practice";
     streak = 0;
     if (UNIFIED && seqIndex === 0) {
-      // 統合練習 (2026-07-15、§6-2): 本番ブロック順に各ブロック2問 (計4)。1問目の評定でチュートリアル。
-      // ブロック別練習は廃止 (操作・評定画面が全ブロック同一のため。切替効果はブロック順CB+解析で統制)
+      // 統合練習 (2026-07-15、§6-2): 本番ブロック順に各ブロックから出して**合計 practiceTrials 問** (2026-09-05:
+      // 各ブロック n 問=合計 2n だと多すぎるため合計で数える)。ブロック別練習は廃止 (操作・評定画面が
+      // 全ブロック同一のため。切替効果はブロック順CB+解析で統制)
       queue = [];
+      const total = CONFIG.practiceTrials, per = Math.ceil(total / REAL_BLOCKS.length);
       for (const id of REAL_BLOCKS) {
         const b = BLOCKS[id];
-        for (const c of b.buildPractice(b.practiceTrials)) { c._pblock = id; queue.push(c); }
+        for (const c of b.buildPractice(per)) { c._pblock = id; queue.push(c); }
       }
+      queue = queue.slice(0, total);   // 合計を practiceTrials に揃える
     } else {
       queue = BLOCK.buildPractice(CONFIG.practiceTrials);
     }
