@@ -64,10 +64,25 @@
   受け口の実装とデプロイ手順は gas-collector.gs / DEPLOY.md を参照。
 -->
 <style>
+  /* ---- 配色 (2026-09-05: ダーク→ライトへ変更。幅広い年代・明るい場所での可読性、
+     調査アプリとしての信頼感を優先。軌跡記録の精度には無関係) ---- */
+  :root {
+    --bg: #fbfbfc;          /* 画面の地 */
+    --panel: #ffffff;       /* カード・入力の地 */
+    --ink: #1a1d21;         /* 本文 */
+    --ink-2: #4a5058;       /* 補助テキスト */
+    --ink-3: #6b7480;       /* 注記 */
+    --line: #ccd2da;        /* 枠線 */
+    --accent: #1668c4;      /* 見出し・リンク的な青 */
+    --go: #12855a;          /* 進む・選択 (緑) */
+    --go-ink: #ffffff;
+    --warn: #b8531a;        /* 注意 */
+    --task-bg: #f4f6f9;     /* 課題画面の地 */
+  }
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
   html, body { height: 100%; overflow: hidden; overscroll-behavior: none;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif; }
-  body { position: fixed; inset: 0; background: #111; color: #eee;
+  body { position: fixed; inset: 0; background: var(--bg); color: var(--ink);
     -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
   /* iOS のダブルタップ拡大対策 (連打で拡大→復帰不能の実機報告 2026-07-11)。
      manipulation = パン/ピンチのみ許可でダブルタップ拡大を無効化 (click 応答は保つ)。
@@ -88,41 +103,45 @@
   .pad::before { content: ""; flex: 1 0 0; }
   .pad::after { content: ""; flex: 2 0 0; }
   .pad .vgap { flex: 1 0 0; }
-  .pad h1 { font-size: 20px; margin-bottom: 12px; color: #6cf; }
-  .pad h2 { font-size: 15px; margin: 16px 0 6px; color: #9cf; }
-  .pad p, .pad li { font-size: 14px; color: #ccc; }
+  .pad h1 { font-size: 21px; margin-bottom: 12px; color: var(--accent); }
+  .pad h2 { font-size: 16px; margin: 16px 0 6px; color: var(--accent); }
+  .pad p, .pad li { font-size: 15px; color: var(--ink); }
   .pad ul { margin: 6px 0 6px 20px; }
   .pad .field { margin: 14px 0; }
-  .pad label { display: block; font-size: 13px; color: #aaa; margin-bottom: 6px; }
+  .pad label { display: block; font-size: 14px; color: var(--ink-2); margin-bottom: 6px; font-weight: 600; }
   .pad input { width: 100%; max-width: 320px; padding: 12px; font-size: 16px;
-    background: #1d1d1d; color: #eee; border: 1px solid #444; border-radius: 8px; }
+    background: var(--panel); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; }
   .pad input[type="number"] { max-width: 140px; }
   /* セグメント選択 (性別・利き手・事後質問) */
   .seg { display: flex; gap: 8px; flex-wrap: wrap; }
   .seg button { flex: 1 1 0; min-width: 72px; padding: 12px 10px; font-size: 15px;
-    border-radius: 10px; border: 2px solid #557; color: #cdf; background: #1c2030; }
-  .seg button.sel { background: #2f7; color: #052; border-color: #2f7; }
+    border-radius: 10px; border: 2px solid var(--line); color: var(--ink); background: var(--panel); }
+  .seg button.sel { background: var(--go); color: var(--go-ink); border-color: var(--go); }
   .seg.seg-v { flex-direction: column; }
   .seg.seg-v button { flex: none; width: 100%; min-width: 0; text-align: left; padding: 14px 14px; }
-  .opt-note { font-size: 12px; color: #789; margin-top: 2px; }
+  .opt-note { font-size: 13px; color: var(--ink-3); margin-top: 2px; }
   /* 事後アンケートの複数選択チェック (②③ = 評定ブロックのみ表示。seg は単一選択なので別クラス) */
   .checks { display: flex; flex-direction: column; gap: 8px; }
   .checks .chk { position: relative; width: 100%; text-align: left; padding: 13px 12px 13px 40px;
-    font-size: 14px; border-radius: 10px; border: 2px solid #557; color: #cdf; background: #1c2030; }
+    font-size: 15px; border-radius: 10px; border: 2px solid var(--line); color: var(--ink); background: var(--panel); }
   .checks .chk::before { content: ""; position: absolute; left: 12px; top: 50%; margin-top: -9px;
-    width: 18px; height: 18px; border: 2px solid #789; border-radius: 4px; box-sizing: border-box; }
-  .checks .chk.sel { border-color: #2f7; color: #cfe; background: rgba(34,255,119,0.10); }
-  .checks .chk.sel::before { background: #2f7; border-color: #2f7; }
+    width: 18px; height: 18px; border: 2px solid var(--ink-3); border-radius: 4px; box-sizing: border-box; }
+  .checks .chk.sel { border-color: var(--go); color: var(--ink); background: rgba(18,133,90,0.10); }
+  .checks .chk.sel::before { background: var(--go); border-color: var(--go); }
   .btn { display: inline-flex; align-items: center; justify-content: center;
     padding: 14px 22px; font-size: 16px; font-weight: bold; border-radius: 10px;
-    border: 2px solid #4a9; color: #4a9; background: rgba(68,170,153,0.10); margin-top: 16px; }
+    border: 2px solid var(--accent); color: var(--accent); background: var(--panel); margin-top: 16px; }
   /* 進行ボタン (次の段階へ進む系: 練習開始/計測/読了/続ける/完了 等) は中央寄せ+大型化
      (2026-07-22 実機フィードバック: 位置とサイズで「押せば進む」を分かりやすく) */
   .btn.advance { display: flex; align-items: center; justify-content: center;
     margin: 22px auto 0; min-width: 72%; max-width: 420px; padding: 16px 24px; font-size: 18px; }
-  .btn.primary { background: #2f7; color: #052; border-color: #2f7; }
-  .btn.ghost { border-color: #555; color: #ccc; background: #222; }
-  .btn:active { filter: brightness(1.3); }
+  .btn.primary { background: var(--go); color: var(--go-ink); border-color: var(--go); }
+  /* 読み終わる頃に進むボタンを強調 (ウェルカム・遷移画面。チュートリアルと同じ合図) */
+  @keyframes btnCue { 0%,100% { box-shadow: 0 0 0 0 rgba(18,133,90,0); } 50% { box-shadow: 0 0 0 6px rgba(18,133,90,.32); } }
+  .btn.cue { animation: btnCue 1.2s ease-in-out infinite; }
+  @media (prefers-reduced-motion: reduce) { .btn.cue { animation: none; } }
+  .btn.ghost { border-color: var(--line); color: var(--ink-2); background: var(--panel); }
+  .btn:active { filter: brightness(0.92); }
   .btn:disabled { opacity: 0.4; }
   .btnrow { display: flex; gap: 10px; flex-wrap: wrap; }
 
@@ -140,44 +159,44 @@
      ステム帯 6–25% (19%) に 60–65字が 3–4 行で収まる想定 (実機確認は §6-5 宿題)。
      --choice-top/--start-bottom は value と同一＝軌道幾何を揃える (§6-2)。 */
   body.block-moral #stem, body.block-attn #stem { font-size: 4vmin; line-height: 1.3; }
-  #task { background: #0e0e0e; touch-action: none; }
+  #task { background: var(--task-bg); touch-action: none; }
   #topbar { position: absolute; top: 0; left: 0; right: 0; height: 5%;
     display: flex; align-items: center; justify-content: center; gap: 14px;
-    font-size: 12px; color: #777; pointer-events: none; z-index: 3; }
-  #calDb { color: #fc6; font-weight: 700; }   /* 較正モード (?miccal=1) の現在レベル表示 */
+    font-size: 12px; color: var(--ink-3); pointer-events: none; z-index: 3; }
+  #calDb { color: var(--warn); font-weight: 700; }   /* 較正モード (?miccal=1) の現在レベル表示 */
   #surface { position: absolute; inset: 0; touch-action: none; }
   #trace { position: absolute; top: 0; left: 0; pointer-events: none; z-index: 1; }
   /* 設問ステム (文字2択ブロックで上部中央に固定。数値ブロックでは空=非表示)。
      topbar(5%) と選択肢(--choice-top=27%) の間に収める。 */
   #stem { position: absolute; top: 6%; left: 5%; right: 5%; height: 19%;
     display: flex; align-items: center; justify-content: center; text-align: center;
-    font-size: 4.4vmin; line-height: 1.35; font-weight: 600; color: #cfe;
+    font-size: 4.4vmin; line-height: 1.35; font-weight: 600; color: var(--ink);
     z-index: 3; pointer-events: none; visibility: hidden;
     /* 改行は stem 中の "|" ヒント (表示時 ZWSP 変換) の位置だけに制限し、文節の途中で折れるのを防ぐ。
        keep-all=CJK の任意折返しを禁止 / anywhere=ヒント無し長文が溢れる場合の保険 / balance=行長の均等化 */
     word-break: keep-all; overflow-wrap: anywhere; text-wrap: balance; }
   .choice { position: absolute; top: var(--choice-top); width: var(--choice-w); height: var(--choice-h);
-    border: 2px solid #3a6; border-radius: 14px; display: flex;
-    align-items: center; justify-content: center; color: #cfe; z-index: 2;
-    background: rgba(40,90,70,0.12); overflow: hidden; }
+    border: 2px solid var(--go); border-radius: 14px; display: flex;
+    align-items: center; justify-content: center; color: var(--ink); z-index: 2;
+    background: rgba(18,133,90,0.07); overflow: hidden; }
   #choiceA { left: var(--choice-side); }
   #choiceB { right: var(--choice-side); }
   .choice .num { line-height: 1; font-weight: 700; visibility: hidden; }
   .choice .num.big { font-size: 22vmin; }
   .choice .num.small { font-size: 11vmin; }
   /* 文字2択の刺激ラベル: 短語句を中央寄せ。改行は避けたいので font を絞り、折返す場合も均等(balance)に */
-  .choice .txt { line-height: 1.25; font-weight: 600; font-size: 3.7vmin; color: #dff;
+  .choice .txt { line-height: 1.25; font-weight: 600; font-size: 3.7vmin; color: var(--ink);
     padding: 0 6px; text-align: center; white-space: normal; overflow-wrap: anywhere;
     text-wrap: balance; visibility: hidden; }
   #start { position: absolute; bottom: var(--start-bottom); left: 50%; transform: translateX(-50%);
-    width: 34vmin; height: 16vmin; border: 2px solid #fa4; border-radius: 14px;
+    width: 34vmin; height: 16vmin; border: 2px solid var(--warn); border-radius: 14px;
     display: flex; align-items: center; justify-content: center; font-size: 18px;
-    font-weight: bold; color: #fa4; background: rgba(255,170,68,0.10); z-index: 2; }
-  #start.armed { border-color: #2f7; color: #2f7; background: rgba(34,255,119,0.10); }
+    font-weight: bold; color: var(--warn); background: rgba(184,83,26,0.07); z-index: 2; }
+  #start.armed { border-color: var(--go); color: var(--go); background: rgba(18,133,90,0.10); }
   #taskMsg { position: absolute; bottom: calc(var(--start-bottom) + 18vmin); left: 12px; right: 12px;
-    text-align: center; font-size: 15px; color: #fa4; z-index: 3; pointer-events: none; line-height: 1.5; }
+    text-align: center; font-size: 15px; color: var(--warn); z-index: 3; pointer-events: none; line-height: 1.5; }
   .feedback { font-size: 16px; font-weight: bold; }
-  .feedback.ok { color: #2f7; } .feedback.ng { color: #f55; }
+  .feedback.ok { color: var(--go); } .feedback.ng { color: #c0392b; }
   /* ---- チュートリアル・コーチパネル (練習中のみ) ----
      指・手で隠れない位置に大きく出す 2 段階提示 (2026-07-07 v2、実機フィードバック反映):
        ステップ1 (START 押下前) = ボックスを隠して上部に大きな説明 (pos-top)
@@ -186,7 +205,7 @@
      (transform/scale は getBoundingClientRect ベースの当たり判定・geom 記録に影響するため使わない) */
   #coach { position: absolute; left: 12px; right: 12px; z-index: 4; pointer-events: none;
     display: none; text-align: center; font-size: 5.2vmin; line-height: 1.6; font-weight: 700;
-    color: #fff; background: rgba(16,22,26,0.88); border: 1px solid #467; border-radius: 14px;
+    color: var(--ink); background: rgba(255,255,255,0.95); border: 1px solid var(--line); border-radius: 14px;
     padding: 14px 10px; opacity: 1; transition: opacity 0.35s; }
   #coach.pos-top { display: block; top: 9%; }
   /* pos-mid はボックス直下に追従配置 (top:45% 固定だと SE 実機/in-app の実効 viewport でボックスと重なる) */
@@ -194,8 +213,8 @@
   /* ドラッグ開始 (initiation) でフェードアウト: 教示は START 押下中に読み、動き出したら経路帯を空ける
      (パネルが軌跡描画を覆う・「読みながら減速する」癖の形成を避ける。レビューWF指摘 2026-07-07) */
   #coach.dim { opacity: 0; }
-  #coach b { color: #fc6; }
-  #coach .sub { display: block; font-size: 4.1vmin; color: #9cf; font-weight: 600; margin-top: 8px; }
+  #coach b { color: var(--warn); }
+  #coach .sub { display: block; font-size: 4.1vmin; color: var(--ink-2); font-weight: 600; margin-top: 8px; }
   #coach .feedback { font-size: 5.6vmin; }
   @keyframes coachPulse {
     0%   { box-shadow: 0 0 0 0 rgba(255,170,68,0.55); }
@@ -213,27 +232,27 @@
   .choice.coach-glow { animation: coachGlow 1.1s ease-in-out infinite; }
   /* 評定リハーサル (練習中の評定画面ヘッダを目立たせる)。SE の実効 viewport (~548px) で
      送信ボタンが fold 下に落ちないよう 2 行以内に収まるサイズに抑える */
-  #ratingHead.practice { font-size: 15px; color: #fc6; font-weight: 700; line-height: 1.6; }
+  #ratingHead.practice { font-size: 15px; color: var(--warn); font-weight: 700; line-height: 1.6; }
 
   /* ---- 評定画面 (2項目を1画面に) ---- */
-  #rating { background: #141414; }
+  #rating { background: var(--bg); }
   #rating .qwrap { flex: 1; min-height: 0; overflow-y: auto; touch-action: pan-y;
     padding: 18px 18px 28px; display: flex; flex-direction: column; }
   /* 2項目化 (2026-07-15) で内容が減ったぶん評定ブロックを縦中央へ (2026-07-22)。
      auto マージンは内容が qwrap から溢れると 0 になる = SE 小画面・チュートリアル中は従来どおり上寄せスクロール */
-  #ratingHead { text-align: center; font-size: 14px; color: #9cf; margin-bottom: 12px; margin-top: auto; }
+  #ratingHead { text-align: center; font-size: 15px; color: var(--ink-2); margin-bottom: 12px; margin-top: auto; }
   .qitem { margin-bottom: 18px; }
-  .qi-text { font-size: 16px; color: #eee; margin-bottom: 8px; line-height: 1.45; }
+  .qi-text { font-size: 17px; color: var(--ink); margin-bottom: 8px; line-height: 1.45; }
   .likert { display: flex; gap: 7px; justify-content: center; }
   .likert button { flex: 1; max-width: 64px; aspect-ratio: 1; font-size: 20px; font-weight: bold;
-    border-radius: 12px; border: 2px solid #557; color: #cdf; background: #1c2030; }
-  .likert button.sel { background: #2f7; color: #052; border-color: #2f7; }
+    border-radius: 12px; border: 2px solid var(--line); color: var(--ink); background: var(--panel); }
+  .likert button.sel { background: var(--go); color: var(--go-ink); border-color: var(--go); }
   .anchors { display: flex; justify-content: space-between; margin-top: 6px;
-    font-size: 13.5px; color: #c7d3dc; }  /* 2026-07-15 高齢者配慮: 端点の意味が読める大きさ・明度に */
+    font-size: 14px; color: var(--ink-2); }  /* 2026-07-15 高齢者配慮: 端点の意味が読める大きさ・明度に */
   .anchors span { max-width: 44%; }
   .anchors span:last-child { text-align: right; }
   .qitem.dim { opacity: 0.3; pointer-events: none; }        /* 評定チュートリアル: 非対象項目を薄く */
-  .qitem.tfocus .qi-text { color: #fc6; font-weight: 700; } /* 評定チュートリアル: 対象項目を強調 */
+  .qitem.tfocus .qi-text { color: var(--warn); font-weight: 700; } /* 評定チュートリアル: 対象項目を強調 */
   /* ---- 評定チュートリアル v2 (2026-07-22): 枠付き説明ボックス+ステップ表示 (説明 n/6)。
      強調 (b) は色+ややサイズ大で一色べた書きを避ける。ボックスは対象評定の直上に挿入され、
      迷いページでは自信の評定を覆い隠してその位置に出る (=迷いの直上) ---- */
@@ -246,7 +265,7 @@
      「次へ」を説明ボックス内でなく確定ボタンの位置に置き、進む操作の場所を1箇所に固定する) */
   #ratingSubmit, #tutNext { align-self: center; margin-top: 4px; margin-bottom: auto;
     min-width: 72%; max-width: 420px; padding: 16px 24px; font-size: 18px; }
-  #ratingSubmit:disabled { opacity: 0.4; border-color: #555; color: #888; background: #222; }
+  #ratingSubmit:disabled { opacity: 0.45; border-color: var(--line); color: var(--ink-3); background: var(--panel); }
 
   /* ---- 文節ブロック改行 (2026-07-22): "|" 区切りの文節を inline-block 化し、
      ブロックの途中では折り返さない (変な位置の改行 = 読みづらさ対策)。
@@ -256,23 +275,23 @@
      (レビューWF 2026-07-22 が headless 実測で検出)。block ラッパを1枚挟み、その中で通常の折返しにする */
   .nbwrap { max-width: 100%; text-align: center; }
 
-  .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; color: #9b9; }
+  .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; color: var(--ink-3); }
 
   /* ---- 中断ボタン (対面セッション ?stop=1。§6-6 項15) ----
      いつでも終了できることを画面上に常駐させる。誤タップは確認画面 (stopconfirm) で戻れる。
      クラウド配布 URL では JS が .on を付けないので存在しない (display:none のまま)。 */
   #stopBtn { position: fixed; top: 5px; right: 8px; z-index: 40; display: none;
-    padding: 7px 13px; font-size: 13px; color: #b9c0c8; background: rgba(0,0,0,.6);
+    padding: 7px 13px; font-size: 13px; color: var(--ink-2); background: rgba(255,255,255,.92);
     border: 1px solid #5a6470; border-radius: 9px; touch-action: manipulation; }
   #stopBtn.on { display: block; }
 
   /* ---- 横向きガード (タッチ端末のみ JS で表示制御) ---- */
   #rotateGuard { position: fixed; inset: 0; z-index: 100; display: none;
     flex-direction: column; align-items: center; justify-content: center; gap: 12px;
-    background: #111; text-align: center; padding: 24px; }
+    background: var(--bg); text-align: center; padding: 24px; }
   #rotateGuard.show { display: flex; }
   #rotateGuard .icon { font-size: 48px; }
-  #rotateGuard p { font-size: 16px; color: #eee; line-height: 1.6; }
+  #rotateGuard p { font-size: 16px; color: var(--ink); line-height: 1.6; }
 
   /* ---- 中断データ復旧 (intro 内) ---- */
   #recovery { display: none; margin: 14px 0; padding: 12px;
@@ -281,72 +300,72 @@
   #recovery p { color: #fc8; font-size: 13px; margin-bottom: 4px; }
 
   /* ---- 環境音モニタ (micgate=事前チェック/再取得・noisegate=試行間アラート。2026-07-21 §6-6 項10) ---- */
-  .micmeter { height: 14px; max-width: 320px; border: 1px solid #467; border-radius: 7px;
-    margin: 14px 0 6px; overflow: hidden; background: #1a2026; }
-  .micmeter i { display: block; height: 100%; width: 0%; background: #2f7; transition: width 0.12s linear; }
-  .micmeter.loud i { background: #f55; }
+  .micmeter { height: 14px; max-width: 320px; border: 1px solid var(--line); border-radius: 7px;
+    margin: 14px 0 6px; overflow: hidden; background: #eceff3; }
+  .micmeter i { display: block; height: 100%; width: 0%; background: var(--go); transition: width 0.12s linear; }
+  .micmeter.loud i { background: #c0392b; }
   .micstatus { font-size: 14px; color: #9cf; min-height: 1.6em; }
   /* ---- 読速ベースライン (2026-07-22 §6-6 項13) ---- */
-  #reading .rtext { font-size: 18px; line-height: 1.9; color: #eee; margin: 16px 0 4px; }
+  #reading .rtext { font-size: 19px; line-height: 1.9; color: var(--ink); margin: 16px 0 4px; }
 
   /* 完了コード (done 画面。募集サイト納品欄との照合用 §6-6 項12) */
   .ccode { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size: 30px; font-weight: 800; letter-spacing: 4px; color: #2f7; margin: 4px 0; }
-  #ccodeBox { margin: 14px 0; padding: 12px; border: 1px solid #2a5;
-    border-radius: 10px; background: rgba(34,255,119,0.06); }
+    font-size: 30px; font-weight: 800; letter-spacing: 4px; color: var(--go); margin: 4px 0; }
+  #ccodeBox { margin: 14px 0; padding: 12px; border: 1px solid var(--go);
+    border-radius: 10px; background: rgba(18,133,90,0.07); }
 
   /* ---- ドラッグ導入チュートリアル (スポットライト方式・§6-6 項14 / decisions-log 2026-09-02) ----
      実演レイヤーは pointer-events:none の装飾。実要素(start/choiceA/choiceB)の geom・当たり判定に不干渉。
      強調は box-shadow/opacity のみ (transform を使わない = 既存 coachGlow の規律と同型) */
   #tutDemo { position: absolute; inset: 0; z-index: 5; pointer-events: none; }
-  #tutCap { position: absolute; top: 19%; left: 8%; right: 8%; text-align: center; font-size: 13px;
-    font-weight: 700; color: #fc6; z-index: 6; pointer-events: none; opacity: 0; transition: opacity .2s; line-height: 1.4; }
+  #tutCap { position: absolute; top: 19%; left: 8%; right: 8%; text-align: center; font-size: 13.5px;
+    font-weight: 700; color: var(--warn); z-index: 6; pointer-events: none; opacity: 0; transition: opacity .2s; line-height: 1.4; }
   .choice.tut-sbxhide { opacity: 0; }   /* 別ステージ実演中は実選択肢を退場 (opacity のみ=geom 不変) */
   /* ハンズオン成功後: 消さずに暗くする (終わったことは伝えつつ場所は見えたままにする) */
   .choice.tut-dim, #start.tut-dim { opacity: .18; transition: opacity .35s; }
-  @keyframes tutRcv { 0%,100% { box-shadow: 0 0 0 0 rgba(46,255,119,0); }
-    50% { box-shadow: 0 0 0 6px rgba(46,255,119,.5), 0 0 22px 4px rgba(46,255,119,.35); } }
-  .choice.tut-rcv { animation: tutRcv .6s ease-out; border-color: #2f7; }
+  @keyframes tutRcv { 0%,100% { box-shadow: 0 0 0 0 rgba(18,133,90,0); }
+    50% { box-shadow: 0 0 0 6px rgba(18,133,90,.35); } }
+  .choice.tut-rcv { animation: tutRcv .6s ease-out; border-color: var(--go); }
   /* スポットライト+吹き出しは class ベース = ドラッグ導入(#tutSpot/#tutPop)と評定(#ratSpot/#ratPop)で共用 */
   /* 対象エリアの黄色い枠線 (2026-09-05: 暗幕による「光らせる強調」は廃止し、枠線だけで場所を示す) */
   .tut-spot { position: fixed; z-index: 40; pointer-events: none; border-radius: 16px;
-    outline: 2px solid rgba(255,204,102,.9); outline-offset: 0;
+    outline: 3px solid rgba(184,83,26,.85); outline-offset: 0;
     opacity: 0; transition: opacity .25s; }
   .tut-spot.on { opacity: 1; transition: top .34s cubic-bezier(.4,0,.2,1), left .34s cubic-bezier(.4,0,.2,1),
     width .34s cubic-bezier(.4,0,.2,1), height .34s cubic-bezier(.4,0,.2,1), opacity .2s; }
   .tut-spot.hidden, .tut-pop.hidden, .tut-pop .f.hidden { display: none; }
-  .tut-pop { position: fixed; z-index: 41; width: min(310px, 84vw); background: #10151c; border: 1px solid #3a3323;
-    border-radius: 14px; box-shadow: 0 14px 40px -12px #000; padding: 15px 16px 14px; opacity: 0; transform: translateY(4px);
+  .tut-pop { position: fixed; z-index: 41; width: min(310px, 84vw); background: var(--panel); border: 2px solid var(--warn);
+    border-radius: 14px; box-shadow: 0 10px 28px -12px rgba(20,26,34,.35); padding: 15px 16px 14px; opacity: 0; transform: translateY(4px);
     transition: opacity .22s, transform .22s, top .55s cubic-bezier(.4,0,.2,1), left .3s cubic-bezier(.4,0,.2,1); }
   .tut-pop.on { opacity: 1; transform: translateY(0); }
-  .tut-pop .s { font-size: 11.5px; color: #fc6; font-weight: 700; letter-spacing: 1.5px; margin-bottom: 7px; }
-  .tut-pop .t { font-size: 14.5px; line-height: 1.7; color: #e6eaef; }
-  .tut-pop .t b { color: #fc6; font-weight: 700; }
+  .tut-pop .s { font-size: 12px; color: var(--warn); font-weight: 700; letter-spacing: 1.5px; margin-bottom: 7px; }
+  .tut-pop .t { font-size: 15.5px; line-height: 1.75; color: var(--ink); }
+  .tut-pop .t b { color: var(--warn); font-weight: 700; }
   .tut-pop .f { font-size: 12.5px; color: #7fd0a4; margin-top: 9px; font-weight: 600; }
   .tut-pop .r { display: flex; align-items: center; gap: 8px; margin-top: 13px; }
   .tut-pop .dots { display: flex; gap: 5px; margin-right: auto; }
-  .tut-pop .dots i { width: 6px; height: 6px; border-radius: 50%; background: #3a444d; }
-  .tut-pop .dots i.a { background: #fc6; }
+  .tut-pop .dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--line); }
+  .tut-pop .dots i.a { background: var(--warn); }
   .tut-pop .nx { border: 0; font: inherit; font-size: 13px; font-weight: 700; border-radius: 8px;
-    padding: 8px 16px; cursor: pointer; background: #fc6; color: #241a00; }
+    padding: 8px 16px; cursor: pointer; background: var(--go); color: var(--go-ink); }
   @media (prefers-reduced-motion: reduce) { .tut-spot, .tut-spot.on, .tut-pop { transition: opacity .01s !important; } }
   /* 評定チュートリアル: 押す対象の likert 行を琥珀で鼓動 (どこを押すか。走査は不採用・グローのみ=前回決定) */
   @keyframes tutCueGlow {
-    0%,100% { box-shadow: 0 0 0 0 rgba(255,204,102,0); border-color: #fc6; }
-    50% { box-shadow: 0 0 0 4px rgba(255,204,102,.42), 0 0 16px 2px rgba(255,204,102,.32); border-color: #ffe0a0; }
+    0%,100% { box-shadow: 0 0 0 0 rgba(184,83,26,0); border-color: var(--warn); }
+    50% { box-shadow: 0 0 0 4px rgba(184,83,26,.28); border-color: var(--warn); }
   }
   .likert.tut-cue button { animation: tutCueGlow 1.25s ease-in-out infinite; }
-  @media (prefers-reduced-motion: reduce) { .likert.tut-cue button { animation: none; border-color: #fc6; } }
+  @media (prefers-reduced-motion: reduce) { .likert.tut-cue button { animation: none; border-color: var(--warn); } }
   /* 吹き出し: 説明(白/黄)=.t、操作方法(緑)=.g。要素の近くに置きどこの話か瞬時にわかるように */
-  .tut-pop .g { font-size: 13px; color: #2f7; margin-top: 8px; font-weight: 700; }
+  .tut-pop .g { font-size: 13.5px; color: var(--go); margin-top: 8px; font-weight: 700; }
   .tut-pop .g.hidden { display: none; }
   /* 下部の進行ボタン列 (評定チュートリアルと同様に大きく緑で)。最終ページは [もう一度(控えめ)|完了(緑)] に分割 */
   .tut-btnrow { position: fixed; z-index: 42; display: flex; gap: 8px; }
   .tut-btnrow.hidden { display: none; }
   .tut-btnrow button { display: flex; align-items: center; justify-content: center; border: 0;
     border-radius: 12px; font: inherit; font-weight: bold; cursor: pointer; }
-  .tut-btnrow .nx { flex: 1; background: #2f7; color: #052; font-size: 18px; padding: 14px 18px; box-shadow: 0 6px 20px -6px #000; }
-  .tut-btnrow .rp { flex: 0 0 40%; background: transparent; border: 1px solid #3a4650; color: #9fb0bd; font-size: 12.5px; font-weight: 600; padding: 11px 8px; }
+  .tut-btnrow .nx { flex: 1; background: var(--go); color: var(--go-ink); font-size: 18px; padding: 14px 18px; box-shadow: 0 6px 16px -8px rgba(20,26,34,.35); }
+  .tut-btnrow .rp { flex: 0 0 40%; background: var(--panel); border: 1px solid var(--line); color: var(--ink-2); font-size: 12.5px; font-weight: 600; padding: 11px 8px; }
   .tut-btnrow .rp.hidden { display: none; }
   /* 評定のボタン行: [↻ もう一度 (控えめ)] [次へ/確定 (緑)] を横並び (ドラッグ導入と同じ形) */
   .rat-btnrow { display: flex; align-items: stretch; gap: 8px; align-self: center;
@@ -354,7 +373,7 @@
   .rat-btnrow > * { margin-top: 0 !important; margin-bottom: 0 !important; }
   .rat-btnrow #tutNext, .rat-btnrow #ratingSubmit { flex: 1; min-width: 0 !important; }
   .rat-replay { flex: 0 0 40%; background: transparent;
-    border: 1px solid #3a4650; color: #9fb0bd; font: inherit; font-size: 12.5px; font-weight: 600;
+    border: 1px solid var(--line); color: var(--ink-2); font: inherit; font-size: 12.5px; font-weight: 600;
     padding: 9px 8px; border-radius: 8px; cursor: pointer; }
   .rat-replay.hidden { display: none; }
   /* 評定チュートリアル中: 次へ/確定/もう一度 をスクリム(暗幕)より手前に出す (暗くて見えない対策)。
@@ -362,8 +381,8 @@
   #rating.tut-front #tutNext, #rating.tut-front #ratingSubmit, #rating.tut-front #ratReplay {
     position: relative; z-index: 41; }
   /* 評定チュートリアルの「次へ/確定」も、読み終わる頃に強調する (ドラッグ側と同じ合図) */
-  @keyframes ratBtnCue { 0%,100% { box-shadow: 0 0 0 0 rgba(46,255,119,0); }
-    50% { box-shadow: 0 0 0 6px rgba(46,255,119,.45); } }
+  @keyframes ratBtnCue { 0%,100% { box-shadow: 0 0 0 0 rgba(18,133,90,0); }
+    50% { box-shadow: 0 0 0 6px rgba(18,133,90,.35); } }
   #rating.tut-front #tutNext.cue, #rating.tut-front #ratingSubmit.cue { animation: ratBtnCue 1.2s ease-in-out infinite; }
   @media (prefers-reduced-motion: reduce) { #rating.tut-front #tutNext.cue, #rating.tut-front #ratingSubmit.cue { animation: none; } }
   /* 段階開示で要素が現れる時のフェード (opacity のみ=当たり判定/geom に無影響) */
@@ -371,21 +390,21 @@
   .tut-fadein { animation: tutFadeIn .45s ease; }
   @media (prefers-reduced-motion: reduce) { .tut-fadein { animation: none; } }
   /* 「次へ」の登場強調 (数秒後に押せるようになった合図。box-shadow のみ=geom 不変) */
-  @keyframes tutBtnCue { 0%,100% { box-shadow: 0 6px 20px -6px #000, 0 0 0 0 rgba(46,255,119,0); }
-    50% { box-shadow: 0 6px 20px -6px #000, 0 0 0 6px rgba(46,255,119,.45); } }
+  @keyframes tutBtnCue { 0%,100% { box-shadow: 0 6px 16px -8px rgba(20,26,34,.35), 0 0 0 0 rgba(18,133,90,0); }
+    50% { box-shadow: 0 6px 16px -8px rgba(20,26,34,.35), 0 0 0 6px rgba(18,133,90,.35); } }
   .tut-btnrow .nx.cue { animation: tutBtnCue 1.2s ease-in-out infinite; }
   @media (prefers-reduced-motion: reduce) { .tut-btnrow .nx.cue { animation: none; } }
   .tut-btnrow.pending .nx { opacity: .35; pointer-events: none; }   /* 実演/操作の完了待ち */
   /* ハンズオン中の合図 (チュートリアル内で実際に運ばせる) */
   #tutHint { position: fixed; z-index: 43; left: 50%; transform: translateX(-50%);
-    text-align: center; font-size: 15px; font-weight: 700; color: #2f7; pointer-events: none;
-    background: rgba(10,20,15,.86); border: 1px solid #2a5; border-radius: 10px; padding: 9px 16px; }
+    text-align: center; font-size: 15px; font-weight: 700; color: var(--go); pointer-events: none;
+    background: rgba(255,255,255,.95); border: 1px solid var(--go); border-radius: 10px; padding: 9px 16px; }
   #tutHint.hidden { display: none; }
-  #tutHint.ng { color: #fa4; border-color: #a72; background: rgba(30,20,10,.9); }
+  #tutHint.ng { color: var(--warn); border-color: var(--warn); background: rgba(255,255,255,.95); }
   /* ハンズオン中の自分の軌跡 (実演レイヤーの上・pointer-events:none。本番 #trace とは別レイヤー) */
   #tutInk { position: absolute; inset: 0; z-index: 6; pointer-events: none; }
   /* 練習中の「↻ 説明」(分からなくなったらチュートリアルへ戻る。topbar は pointer-events:none なので自前で有効化) */
-  #tutAgain { pointer-events: auto; background: transparent; border: 1px solid #3a4650; color: #9fb0bd;
+  #tutAgain { pointer-events: auto; background: var(--panel); border: 1px solid var(--line); color: var(--ink-2);
     font: inherit; font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 999px; cursor: pointer; }
   #tutAgain.hidden { display: none; }
 </style>
@@ -413,7 +432,17 @@
 </section>
 
 <!-- ===== INTRO ===== -->
-<section id="intro" class="screen active">
+<!-- ===== WELCOME (入力の前に説明を分割提示。2026-09-05: 小さい注記の羅列は読まれないため) ===== -->
+<section id="welcome" class="screen active">
+  <div class="pad">
+    <p class="opt-note" id="wcStep"></p>
+    <div id="wcBody"></div>
+    <div class="vgap"></div>
+    <button class="btn primary advance" id="wcNext">次へ</button>
+  </div>
+</section>
+
+<section id="intro" class="screen">
   <div class="pad">
     <!-- ブロック別の説明 (数値サイズ一致性 / 価値・選好)。起動時に BLOCK.introHtml で差し込む -->
     <div id="introInstructions"></div>
@@ -457,9 +486,9 @@
       </div>
     </div>
     <p class="mono" id="devline"></p>
-    <p class="opt-note">※ 重複参加の確認のため、端末にランダムな目印 (個人を特定しない記号) を保存します。</p>
-    <!-- 環境音モニタの同意文言 (§6-6 項10。レベルのみ・内容非記録。?mic=0 のとき JS で非表示) -->
-    <p class="opt-note" id="micNote">※ 静かな環境での実施を確認するため、課題中はマイクで<b>周囲の音量レベルのみ</b>を測定します。会話などの音声の内容は記録・送信されません。マイクの利用を許可いただけない場合は参加できません。</p>
+    <!-- 重複参加の目印・マイクの同意文言は welcome 画面 (入力前) に移動 (2026-09-05)。
+         id は既存コード (micNote の表示制御) との互換のため空要素で残す -->
+    <p class="opt-note" id="micNote" style="display:none"></p>
     <div class="btnrow">
       <!-- 練習は必須 (スキップ不可)。開発用の抜け道は ?practice=0 クエリのみ (2026-07-07 決定) -->
       <button class="btn primary advance" id="goPractice">練習を始める</button>
@@ -1170,7 +1199,7 @@
   ];
 
   const $ = (id) => document.getElementById(id);
-  const screens = { intro: $("intro"), task: $("task"), rating: $("rating"),
+  const screens = { welcome: $("welcome"), intro: $("intro"), task: $("task"), rating: $("rating"),
     break: $("break"), blockintro: $("blockintro"), postq: $("postq"), done: $("done"),
     micgate: $("micgate"), noisegate: $("noisegate"), reading: $("reading"),
     stopconfirm: $("stopconfirm") };
@@ -1867,7 +1896,7 @@
     }
     const x = e.clientX - trial._sRect.left, y = e.clientY - trial._sRect.top;
     ctx.lineTo(x, y);
-    ctx.strokeStyle = "#6cf"; ctx.lineWidth = 2; ctx.stroke();
+    ctx.strokeStyle = "#1668c4"; ctx.lineWidth = 2.5; ctx.stroke();   // ライト背景で見える濃い青
   }, { passive: false });
 
   function pushEvent(e, type) {
@@ -2275,13 +2304,13 @@
     function finger(x, y, a) {
       g.save(); g.globalAlpha = a;
       const grd = g.createRadialGradient(x - 4, y - 5, 2, x, y, 17);
-      grd.addColorStop(0, "rgba(255,255,255,.95)"); grd.addColorStop(.42, "rgba(255,204,102,.75)");
-      grd.addColorStop(.72, "rgba(255,204,102,.18)"); grd.addColorStop(1, "rgba(255,204,102,0)");
+      grd.addColorStop(0, "rgba(255,255,255,.95)"); grd.addColorStop(.42, "rgba(184,83,26,.85)");
+      grd.addColorStop(.72, "rgba(184,83,26,.30)"); grd.addColorStop(1, "rgba(184,83,26,0)");
       g.fillStyle = grd; g.beginPath(); g.arc(x, y, 17, 0, 7); g.fill(); g.restore();
     }
-    function ring(x, y, r, a, col) { g.save(); g.globalAlpha = a; g.strokeStyle = col || "rgba(255,204,102,.9)"; g.lineWidth = 3; g.beginPath(); g.arc(x, y, r, 0, 7); g.stroke(); g.restore(); }
+    function ring(x, y, r, a, col) { g.save(); g.globalAlpha = a; g.strokeStyle = col || "rgba(184,83,26,.9)"; g.lineWidth = 3; g.beginPath(); g.arc(x, y, r, 0, 7); g.stroke(); g.restore(); }
     function roundRect(x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
-    function drawSbx(T) { g.save(); g.strokeStyle = "rgba(120,220,170,.85)"; g.lineWidth = 2; roundRect(T.x - T.bw / 2, T.y - T.bh / 2, T.bw, T.bh, 12); g.stroke(); g.restore(); }
+    function drawSbx(T) { g.save(); g.strokeStyle = "rgba(18,133,90,.85)"; g.lineWidth = 2; roundRect(T.x - T.bw / 2, T.y - T.bh / 2, T.bw, T.bh, 12); g.stroke(); g.restore(); }
     // 課題導入(サンプル場面+選択肢)の一時表示。実要素 (#stem/#numA/#numB) に中立な例を入れ、intro 後に消す
     // 段階開示: level 0=何も出さない / 1=問題文 / 2=問題文+選択肢 (上から下へ一つずつ現す)
     function showSample(level) {
@@ -2298,7 +2327,7 @@
     function tween(ms, my, fn) { return new Promise((res) => { const t0 = performance.now(); (function loop(now) { if (my !== tok) return res(); const t = Math.min(1, (now - t0) / ms); fn(t); if (t < 1) requestAnimationFrame(loop); else res(); })(t0); }); }
     async function playSandbox(my) {   // ② 別ステージ・変化大
       ctx();
-      if (reduce()) { const T = sbxT(), s = lc(startBtn); drawSbx(T); finger(s.x, s.y, 1); ring(s.x, s.y, 20, .9); finger(T.x, T.y, .9); ring(T.x, T.y, 22, .8, "rgba(46,255,119,.9)"); setCap("別ステージの例 — ずっと触れたまま運びます"); return; }
+      if (reduce()) { const T = sbxT(), s = lc(startBtn); drawSbx(T); finger(s.x, s.y, 1); ring(s.x, s.y, 20, .9); finger(T.x, T.y, .9); ring(T.x, T.y, 22, .8, "rgba(18,133,90,.9)"); setCap("別ステージの例 — ずっと触れたまま運びます"); return; }
       const s = lc(startBtn), T = sbxT();
       setCap("別ステージの例");
       startHands("sandbox");                  // 実演と並行して操作を受け付ける (2026-09-04)
@@ -2325,7 +2354,7 @@
         await tween(300, my, (t) => { clr(); drawSbx(T); finger(sx, sy, 1); ring(sx, sy, 18 + t * 6, .9); });
         await tween(1000, my, (t) => { clr(); drawSbx(T); const e = easeIO(t); const px = cub(sx, P1x, P2x, ex, e), py = cub(sy, P1y, P2y, ey, e); const a = 1 - .5 * Math.sin(Math.PI * t); finger(px, py, a); ring(px, py, 20, a * .9); });
         if (my !== tok) return;
-        await tween(420, my, (t) => { clr(); drawSbx(T); finger(ex, ey, 1 - t * .3); ring(ex, ey, 20 + t * 40, 1 - t, "rgba(46,255,119,.9)"); });
+        await tween(420, my, (t) => { clr(); drawSbx(T); finger(ex, ey, 1 - t * .3); ring(ex, ey, 20 + t * 40, 1 - t, "rgba(18,133,90,.9)"); });
       })();
     }
     async function playReal(my) {   // ③ 実2箱に経路ゼロ (ディゾルブ・交互)
@@ -2339,7 +2368,7 @@
         await tween(240, my, (t) => { clr(); finger(s.x, s.y, 1 - t); });
         if (my !== tok) return;
         box.classList.add("tut-rcv"); setTimeout(() => box.classList.remove("tut-rcv"), 600);
-        await tween(520, my, (t) => { clr(); finger(c.x, c.y, Math.min(1, t * 2)); ring(c.x, c.y, 20 + t * 26, (1 - t) * .8, "rgba(46,255,119,.9)"); });
+        await tween(520, my, (t) => { clr(); finger(c.x, c.y, Math.min(1, t * 2)); ring(c.x, c.y, 20 + t * 26, (1 - t) * .8, "rgba(18,133,90,.9)"); });
         await sleep(500);
         side = side === "B" ? "A" : "B";
       }
@@ -2474,7 +2503,7 @@
     function inkStart(x, y) { const r = surface.getBoundingClientRect(); inkClear(); ig.beginPath(); ig.moveTo(x - r.left, y - r.top); }
     function inkTo(x, y) {
       const r = surface.getBoundingClientRect();
-      ig.lineTo(x - r.left, y - r.top); ig.strokeStyle = "#6cf"; ig.lineWidth = 2.5; ig.lineCap = "round"; ig.stroke();
+      ig.lineTo(x - r.left, y - r.top); ig.strokeStyle = "#1668c4"; ig.lineWidth = 2.5; ig.lineCap = "round"; ig.stroke();
     }
     let hTracking = false, hPid = null;
     function hInRect(el, x, y) { const r = el.getBoundingClientRect(); return x >= r.left && x <= r.right && y >= r.top && y <= r.bottom; }
@@ -2817,6 +2846,44 @@
       }, { passive: true });
     }
   }
+
+  // ===== ウェルカム (入力の前に説明を1枚ずつ。2026-09-05) =====
+  // 小さい注記を intro に並べても読まれないため、参加を決める材料 (内容・所要時間・環境と記録) を
+  // 入力より前に置き、「次へ」で1枚ずつ読ませる。読み終わる頃にボタンを強調 (readCueDelay)
+  const WELCOME = [
+    { h: "ご参加ありがとうございます",
+      b: '<p>この調査では、短い場面を読んで、<b>2つの選択肢から あなたの考えに近いほう</b>を選んでいきます。</p>' +
+         '<ul><li><b>正解・不正解はありません。</b>あなたの素直な判断で構いません。</li>' +
+         '<li>選んだあとに「自信」と「迷い」を5段階でふりかえります。</li></ul>' },
+    { h: "所要時間と進め方",
+      b: '<p>全体で <b>15〜25分</b>ほどです。</p>' +
+         '<ul><li>はじめに<b>操作の説明</b>と<b>練習</b>があります。分からなければ何度でも見直せます。</li>' +
+         '<li>急ぐ必要はありません。<b>自分のペース</b>で進めてください。</li>' +
+         '<li>途中に休憩をはさみます。<b>最後まで通して</b>行ってください。</li></ul>' },
+    { h: "実施する環境について", mic: true,
+      b: '<p><b>静かな場所</b>で、落ち着いて取り組める時に始めてください。</p>' +
+         '<ul><li>スマートフォンを<b>手で持って</b>操作します（机に置いたままにしないでください）。</li>' +
+         '<li>通知や他のアプリで中断しないよう、画面をこのままにしてください。</li></ul>' },
+  ];
+  let wcIdx = 0, wcCueTimer = null;
+  function wcRender() {
+    const p = WELCOME[wcIdx];
+    $("wcStep").textContent = `${wcIdx + 1} / ${WELCOME.length}`;
+    $("wcBody").innerHTML = `<h1>${p.h}</h1>` + p.b +
+      (p.mic && MIC.mode !== "off" ? '<p class="opt-note" style="margin-top:12px">※ 静かな環境での実施を確認するため、課題中はマイクで<b>周囲の音量レベルのみ</b>を測定します。会話などの内容は記録・送信されません。許可いただけない場合は参加できません。</p>' : "") +
+      (wcIdx === WELCOME.length - 1 ? '<p class="opt-note" style="margin-top:10px">※ 重複参加の確認のため、端末にランダムな目印（個人を特定しない記号）を保存します。</p>' : "");
+    $("wcNext").textContent = wcIdx === WELCOME.length - 1 ? "はじめる" : "次へ";
+    $("wcNext").classList.remove("cue");
+    if (wcCueTimer) clearTimeout(wcCueTimer);
+    const page = wcIdx;
+    wcCueTimer = setTimeout(() => { if (wcIdx === page) $("wcNext").classList.add("cue"); }, readCueDelay(p.b));
+    $("welcome").querySelector(".pad").scrollTop = 0;
+  }
+  $("wcNext").addEventListener("click", () => {
+    if (wcIdx < WELCOME.length - 1) { wcIdx++; wcRender(); return; }
+    show("intro"); $("intro").querySelector(".pad").scrollTop = 0;
+  }, { passive: true });
+  wcRender();
 
   // ===== 起動 =====
   // body クラスは loadBlock で設定済み。intro には最初のブロックの説明を出す (統合は「パート1/N」を予告)
