@@ -2153,13 +2153,13 @@
     // スポットライト+吹き出しの配置 (吹き出しは評定画面の上端にピン留め=評定行を塞がない)。
     // geometry は rAF 内で読む: beginRating は tutRender→show("rating") の順で呼ぶため、
     // 同期読みだと #rating 非 active で rect=0 になる。rAF なら show 後で正しい。
-    ratSpot.classList.remove("hidden"); ratPop.classList.remove("hidden");
+    // 2026-09-05: 囲い(暗幕+スポットライト)は全廃 (「押せる場所」に見えて誤誘導になるため)。
+    // どの行の話かは 説明BOXの位置 + 対象行の鼓動 (.tut-cue) で示す
+    ratSpot.classList.remove("on", "strong"); ratSpot.classList.add("hidden");
+    ratPop.classList.remove("hidden");
     const PAD = 10;
     requestAnimationFrame(() => {
-      const r = ratRect(p);
-      ratSpot.style.top = (r.top - PAD) + "px"; ratSpot.style.left = (r.left - PAD) + "px";
-      ratSpot.style.width = (r.width + PAD * 2) + "px"; ratSpot.style.height = (r.height + PAD * 2) + "px";
-      ratSpot.classList.add("on", "strong"); ratPop.classList.add("on");   // 枠線強調
+      ratPop.classList.add("on");
       // 吹き出しは評定行の「上」に固定 = 下部の 次へ/確定/もう一度 に被らない (1/5・5/5対策)。行も塞がない
       const ir = $("ratingItems").getBoundingClientRect(), ph = ratPop.offsetHeight, pw = ratPop.offsetWidth, vw = innerWidth;
       ratPop.style.top = Math.max(8, ir.top - PAD - 10 - ph) + "px";
@@ -2313,8 +2313,8 @@
         clr(); drawSbx(T);                    // 箱は残す (運ぶ先が見えていること)
         await sleep(500);
       }
-      // 成功後: 消さずに暗くする (箱の場所は見えたまま・もう操作しないことは伝わる)
-      if (my === tok) { clr(); g.save(); g.globalAlpha = .18; drawSbx(T); g.restore(); setCap(""); startBtn.classList.add("tut-dim"); }
+      // 成功後: 実演も例の箱の線も消し、STARTは暗く = 「あとは次へ進むだけ」を明確にする
+      if (my === tok) { clr(); setCap(""); startBtn.classList.add("tut-dim"); }
     }
     function sbxCarry(my, s0, T) {
       const sx = s0.x + (Math.random() - .5) * 30, sy = s0.y + (Math.random() - .5) * 10;
@@ -2346,7 +2346,7 @@
         await sleep(500);
         side = side === "B" ? "A" : "B";
       }
-      if (my === tok) {   // 成功後: 消さずに暗くする (場所は見えたまま・もう操作しないことは伝わる)
+      if (my === tok) {   // 成功後: 実演を消し、箱と START を暗くする =「あとは次へ進むだけ」
         clr(); setCap("");
         document.querySelectorAll(".choice").forEach((e) => e.classList.add("tut-dim"));
         startBtn.classList.add("tut-dim");
@@ -2417,8 +2417,10 @@
       const dots = $("tutPopDots"); dots.innerHTML = "";
       for (let i = 0; i < STEPS.length; i++) { const d = document.createElement("i"); if (i === idx) d.className = "a"; dots.appendChild(d); }
       pop.classList.remove("hidden");
-      if (noSpot) { spot.classList.remove("on"); spot.classList.add("hidden"); } else spot.classList.remove("hidden");
-      requestAnimationFrame(() => { if (!noSpot) spot.classList.add("on"); pop.classList.add("on"); place(step); });
+      // 2026-09-05: 囲い(暗幕+スポットライト)は全廃。「押せる場所」に見えて誤誘導になるため、
+      // 説明BOXの位置と要素の段階開示だけで「今どこの話か」を示す
+      spot.classList.remove("on", "strong"); spot.classList.add("hidden");
+      requestAnimationFrame(() => { pop.classList.add("on"); place(step); });
       tok++; const my = tok; ctx(); setCap(""); inkClear();
       // revealDelay: 最初は説明だけを対象の位置に置いて読ませ、n ミリ秒後に BOX が下へ動いて対象が現れる
       const delayed = !!step.revealDelay;
@@ -2428,8 +2430,7 @@
           if (idx < 0 || STEPS[idx] !== step) return;
           revealedNow = true;
           showSample(step.reveal || 0); fadeIn(stemEl);                  // 対象が現れる
-          spot.classList.remove("hidden");
-          requestAnimationFrame(() => { spot.classList.add("on", "strong"); place(step); });   // 囲い+BOXが下へスライド
+          requestAnimationFrame(() => place(step));                      // BOX が下へスライド (囲いは出さない)
         }, step.revealDelay);
       }
       else if (step.focus === "stem") fadeIn(stemEl);
