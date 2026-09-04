@@ -308,17 +308,13 @@
     50% { box-shadow: 0 0 0 6px rgba(46,255,119,.5), 0 0 22px 4px rgba(46,255,119,.35); } }
   .choice.tut-rcv { animation: tutRcv .6s ease-out; border-color: #2f7; }
   /* スポットライト+吹き出しは class ベース = ドラッグ導入(#tutSpot/#tutPop)と評定(#ratSpot/#ratPop)で共用 */
+  /* 対象エリアの黄色い枠線 (2026-09-05: 暗幕による「光らせる強調」は廃止し、枠線だけで場所を示す) */
   .tut-spot { position: fixed; z-index: 40; pointer-events: none; border-radius: 16px;
-    box-shadow: 0 0 0 100vmax rgba(4,6,9,0.8); outline: 2px solid rgba(255,204,102,.9); outline-offset: 0;
+    outline: 2px solid rgba(255,204,102,.9); outline-offset: 0;
     opacity: 0; transition: opacity .25s; }
   .tut-spot.on { opacity: 1; transition: top .34s cubic-bezier(.4,0,.2,1), left .34s cubic-bezier(.4,0,.2,1),
     width .34s cubic-bezier(.4,0,.2,1), height .34s cubic-bezier(.4,0,.2,1), opacity .2s; }
   .tut-spot.hidden, .tut-pop.hidden, .tut-pop .f.hidden { display: none; }
-  /* 対象エリアの枠線を強調 (操作させるステップ・説明ステップ。実演ステップは付けない) */
-  @keyframes tutSpotPulse { 0%,100% { outline-color: #ffd479; } 50% { outline-color: #fff2ce; } }
-  .tut-spot.strong { outline: 3px solid #ffd479; animation: tutSpotPulse 1.4s ease-in-out infinite;
-    box-shadow: 0 0 0 100vmax rgba(4,6,9,0.82), inset 0 0 0 2px rgba(255,212,121,.85), inset 0 0 20px rgba(255,212,121,.4); }
-  @media (prefers-reduced-motion: reduce) { .tut-spot.strong { animation: none; } }
   .tut-pop { position: fixed; z-index: 41; width: min(310px, 84vw); background: #10151c; border: 1px solid #3a3323;
     border-radius: 14px; box-shadow: 0 14px 40px -12px #000; padding: 15px 16px 14px; opacity: 0; transform: translateY(4px);
     transition: opacity .22s, transform .22s, top .55s cubic-bezier(.4,0,.2,1), left .3s cubic-bezier(.4,0,.2,1); }
@@ -2153,13 +2149,14 @@
     // スポットライト+吹き出しの配置 (吹き出しは評定画面の上端にピン留め=評定行を塞がない)。
     // geometry は rAF 内で読む: beginRating は tutRender→show("rating") の順で呼ぶため、
     // 同期読みだと #rating 非 active で rect=0 になる。rAF なら show 後で正しい。
-    // 2026-09-05: 囲い(暗幕+スポットライト)は全廃 (「押せる場所」に見えて誤誘導になるため)。
-    // どの行の話かは 説明BOXの位置 + 対象行の鼓動 (.tut-cue) で示す
-    ratSpot.classList.remove("on", "strong"); ratSpot.classList.add("hidden");
-    ratPop.classList.remove("hidden");
+    // 黄色い枠線で対象の場所を示す (2026-09-05: 暗幕での強調は廃止・枠線のみ)
+    ratSpot.classList.remove("strong"); ratSpot.classList.remove("hidden"); ratPop.classList.remove("hidden");
     const PAD = 10;
     requestAnimationFrame(() => {
-      ratPop.classList.add("on");
+      const r = ratRect(p);
+      ratSpot.style.top = (r.top - PAD) + "px"; ratSpot.style.left = (r.left - PAD) + "px";
+      ratSpot.style.width = (r.width + PAD * 2) + "px"; ratSpot.style.height = (r.height + PAD * 2) + "px";
+      ratSpot.classList.add("on"); ratPop.classList.add("on");
       // 吹き出しは評定行の「上」に固定 = 下部の 次へ/確定/もう一度 に被らない (1/5・5/5対策)。行も塞がない
       const ir = $("ratingItems").getBoundingClientRect(), ph = ratPop.offsetHeight, pw = ratPop.offsetWidth, vw = innerWidth;
       ratPop.style.top = Math.max(8, ir.top - PAD - 10 - ph) + "px";
@@ -2313,8 +2310,8 @@
         clr(); drawSbx(T);                    // 箱は残す (運ぶ先が見えていること)
         await sleep(500);
       }
-      // 成功後: 実演も例の箱の線も消し、STARTは暗く = 「あとは次へ進むだけ」を明確にする
-      if (my === tok) { clr(); setCap(""); startBtn.classList.add("tut-dim"); }
+      // 成功後: 実演(指)は消し、例の箱は暗く残す。START も暗転 (枠線は endHands が消す)
+      if (my === tok) { clr(); g.save(); g.globalAlpha = .18; drawSbx(T); g.restore(); setCap(""); startBtn.classList.add("tut-dim"); }
     }
     function sbxCarry(my, s0, T) {
       const sx = s0.x + (Math.random() - .5) * 30, sy = s0.y + (Math.random() - .5) * 10;
@@ -2411,16 +2408,15 @@
         const d = readCueDelay(step.txt) + (step.revealDelay || 0);
         cueTimer = setTimeout(() => { if (idx >= 0 && STEPS[idx] === step) $("tutPopNext").classList.add("cue"); }, d);
       }
-      // 遅延開示の待機中は囲いを出さない (対象がまだ無いため)。現れた時点で reveal() が付ける
+      // 枠線を出さないのは「対象がまだ無い」ページだけ (説明のみの1枚目・遅延開示の待機中)
       const noSpot = step.focus === "orient" || (step.revealDelay && !revealedNow), demoStep = step.act === "concept" || step.act === "real";
-      spot.classList.toggle("strong", !noSpot && !demoStep);             // 枠線強調 (説明のみ画面と実演ステップは除く)
       const dots = $("tutPopDots"); dots.innerHTML = "";
       for (let i = 0; i < STEPS.length; i++) { const d = document.createElement("i"); if (i === idx) d.className = "a"; dots.appendChild(d); }
       pop.classList.remove("hidden");
-      // 2026-09-05: 囲い(暗幕+スポットライト)は全廃。「押せる場所」に見えて誤誘導になるため、
-      // 説明BOXの位置と要素の段階開示だけで「今どこの話か」を示す
-      spot.classList.remove("on", "strong"); spot.classList.add("hidden");
-      requestAnimationFrame(() => { pop.classList.add("on"); place(step); });
+      // 黄色い枠線は全ページで表示 (暗幕での強調のみ廃止)。ただし要素がまだ無いページ (orient・
+      // 遅延開示の待機中) と、操作を終えたあと (handsDone) は出さない
+      if (noSpot) { spot.classList.remove("on"); spot.classList.add("hidden"); } else spot.classList.remove("hidden");
+      requestAnimationFrame(() => { if (!noSpot) spot.classList.add("on"); pop.classList.add("on"); place(step); });
       tok++; const my = tok; ctx(); setCap(""); inkClear();
       // revealDelay: 最初は説明だけを対象の位置に置いて読ませ、n ミリ秒後に BOX が下へ動いて対象が現れる
       const delayed = !!step.revealDelay;
@@ -2430,7 +2426,8 @@
           if (idx < 0 || STEPS[idx] !== step) return;
           revealedNow = true;
           showSample(step.reveal || 0); fadeIn(stemEl);                  // 対象が現れる
-          requestAnimationFrame(() => place(step));                      // BOX が下へスライド (囲いは出さない)
+          spot.classList.remove("hidden");
+          requestAnimationFrame(() => { spot.classList.add("on"); place(step); });   // 枠線+BOXが下へスライド
         }, step.revealDelay);
       }
       else if (step.focus === "stem") fadeIn(stemEl);
@@ -2464,6 +2461,7 @@
     function endHands(ok) {
       if (!ok) return;
       handsDone = true;
+      spot.classList.remove("on"); spot.classList.add("hidden");   // 操作が済んだら枠線も消す (暗転と足並みを揃える)
       btnRow.classList.remove("pending"); $("tutPopNext").classList.add("cue");
       setHint("この操作のくり返しです");   // 成功時 (緑)。位置は START↔箱の中間
       setTimeout(() => { if (handsDone) setHint(""); }, 2600);
