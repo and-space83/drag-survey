@@ -258,6 +258,14 @@
 
   .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; color: #9b9; }
 
+  /* ---- 中断ボタン (対面セッション ?stop=1。§6-6 項15) ----
+     いつでも終了できることを画面上に常駐させる。誤タップは確認画面 (stopconfirm) で戻れる。
+     クラウド配布 URL では JS が .on を付けないので存在しない (display:none のまま)。 */
+  #stopBtn { position: fixed; top: 5px; right: 8px; z-index: 40; display: none;
+    padding: 7px 13px; font-size: 13px; color: #b9c0c8; background: rgba(0,0,0,.6);
+    border: 1px solid #5a6470; border-radius: 9px; touch-action: manipulation; }
+  #stopBtn.on { display: block; }
+
   /* ---- 横向きガード (タッチ端末のみ JS で表示制御) ---- */
   #rotateGuard { position: fixed; inset: 0; z-index: 100; display: none;
     flex-direction: column; align-items: center; justify-content: center; gap: 12px;
@@ -360,6 +368,20 @@
   <div class="icon">📱</div>
   <p>この課題は<b>縦向き</b>で行います。<br>画面を縦にしてください。</p>
 </div>
+
+<!-- ===== 中断ボタン + 確認画面 (対面セッション ?stop=1。§6-6 項15) =====
+     どの画面からでも終了でき、そこまでのデータは通常の完了と同じ経路で自動送信される (partial フラグ付き)。 -->
+<button id="stopBtn" type="button">終了</button>
+<section id="stopconfirm" class="screen">
+  <div class="pad">
+    <h1>ここで終了しますか？</h1>
+    <p>ここまでのご回答は<b>保存されます</b>。途中でやめても問題ありません。</p>
+    <div class="vgap"></div>
+    <button class="btn primary advance" id="stopBack">課題に戻る</button>
+    <div class="vgap"></div>
+    <button class="btn ghost advance" id="stopGo">ここで終了する</button>
+  </div>
+</section>
 
 <!-- ===== INTRO ===== -->
 <section id="intro" class="screen active">
@@ -602,6 +624,19 @@
   const debugMode = new URLSearchParams(location.search).get("debug") === "1";
   // ドラッグ導入チュートリアル (§6-6 項14)。既定ON・?tut=0 で無効 (headless/validate・開発用)
   const DRAG_TUT_ON = new URLSearchParams(location.search).get("tut") !== "0";
+
+  // ===== 対面セッション用オプション (2026-09-04。高齢者への対面実施 = 1人8分・途中終了が前提。§6-6 項15) =====
+  // 既定はすべて OFF = クラウドソーシング配布 URL の挙動は不変 (中断ボタンなし・時間上限なし・マイクの
+  // 進行ブロックあり・完全ランダム順)。対面用 URL でだけクエリを足して有効化する。
+  const QS = new URLSearchParams(location.search);
+  const STOP_ON = QS.get("stop") === "1";        // 中断ボタン: いつでも終了 → そこまでのデータを送信
+  const MAX_MIN = (function () { const v = parseFloat(QS.get("maxmin")); return isFinite(v) && v > 0 ? v : null; })();
+                                                 // 本番の時間上限 (分)。超えたら次の試行境界で自動終了 (試行の途中では切らない)
+  const MICGATE_ON = QS.get("micgate") !== "0";  // 0 = 環境音は計測・記録するが進行は止めない (対面は会場を変えられないため)
+  const STRAT_ON = QS.get("strat") === "1";      // 葛藤水準を均等に散らす出題順 (途中で切れても水準構成が偏らない)
+  const RTUT_ON = QS.get("rtut") !== "0";        // 評定チュートリアル (5ページ)。対面で口頭説明するなら 0
+  const COHORT = (QS.get("cohort") || "").slice(0, 40);   // 標本タグ (例 elderly-inperson)。解析で母集団をプールしない目印
+  const STOPPABLE = { task: 1, rating: 1, break: 1, blockintro: 1, reading: 1 };   // 中断ボタンを出す画面
 
   // 場面文・説明文の改行制御 (2026-07-22 ブロック方式へ改訂): 文字列中の "|" は文節の区切り。
   // 表示時は文節ごとに inline-block (.nb) へ包み、ブロックの途中では折り返さない (改行はブロック単位)。
@@ -974,7 +1009,8 @@
             items.forEach((item, i) => cells.push(this.makeCell(item, i % 2 === 0 ? "left" : "right")));
           }
         }
-        return shuffle(cells);
+        // ?strat=1 (対面・時間上限つき) は水準を均等に散らす。既定は従来どおり完全ランダム
+        return STRAT_ON ? spreadShuffle(cells, (c) => c.conflictLevel) : shuffle(cells);
       },
       buildPractice(n) {
         const out = [];
@@ -1106,9 +1142,11 @@
   const $ = (id) => document.getElementById(id);
   const screens = { intro: $("intro"), task: $("task"), rating: $("rating"),
     break: $("break"), blockintro: $("blockintro"), postq: $("postq"), done: $("done"),
-    micgate: $("micgate"), noisegate: $("noisegate"), reading: $("reading") };
+    micgate: $("micgate"), noisegate: $("noisegate"), reading: $("reading"),
+    stopconfirm: $("stopconfirm") };
   function show(name) {
     for (const k in screens) screens[k].classList.toggle("active", k === name);
+    if (STOP_ON) $("stopBtn").classList.toggle("on", !!STOPPABLE[name]);   // 中断ボタンは課題系の画面だけに出す
   }
 
   // セグメント選択 (性別・利き手・事後質問)。クリックで data-val を onPick に渡す。
@@ -1168,6 +1206,15 @@
     practiceSummary: null,    // 行動ゲートの達成記録 (startMain で設定。§6-2。統合では最後のブロック分=単体互換)
     practiceSummaryByBlock: {}, // ブロック別の達成記録 (統合セッション用)
     breaks: [],               // 休憩の滞在時間ログ {block, atTrial, dwellMs} (breakEvery>0 のブロック。負担の行動指標。2026-08-23)
+    // 対面セッション (§6-6 項15)。クラウド配布では cohort=null・partial=false・endedBy="complete" になる
+    cohort: COHORT || null,   // 標本タグ (elderly-inperson 等)。異なる母集団を解析でプールしないための目印
+    partial: false,           // 本番を最後まで通していない (中断ボタン / 時間上限で終了) か
+    endedBy: null,            // "complete" | "operator" (中断ボタン) | "timebox" (時間上限)
+    endedPhase: null,         // 終了時のフェーズ ("practice" | "main")
+    mainCompleted: null,      // 実際に完了した本番試行数 (統合は全ブロック合計)
+    mainPlanned: null,        // 計画していた本番試行数 (終了時点のブロック)
+    mainMs: null,             // 本番開始〜終了の実時間 (ms)
+    stopPauses: [],           // 中断確認画面に入って戻った記録 {screen, durationMs} (該当試行の時間指標の汚染検出用)
     exportedAt: null,
   };
   $("devline").textContent = `${device.screenW}×${device.screenH} @${device.dpr}x`;
@@ -1179,6 +1226,9 @@
     const gen = () => (window.crypto && crypto.randomUUID)
       ? crypto.randomUUID()
       : "cid-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 10);
+    // 対面で1台を複数の参加者が使う運用 (URL で pid を渡す) では端末マーカーを共有しない。
+    // clientId は「同一人物の重複参加」の事後検出用なので、共用端末では別人が同一人物に見えてしまう
+    if (QS.get("pid")) return gen();
     try {
       let id = localStorage.getItem(CLIENT_ID_KEY);
       if (!id) { id = gen(); localStorage.setItem(CLIENT_ID_KEY, id); }
@@ -1306,12 +1356,16 @@
   function showMicGate(mode, next) {
     micGateMode = mode; micGateNext = next || null; ambientRun = null;
     $("micgateTitle").textContent = mode === "precheck" ? "実施環境の確認" : "マイクが切断されました";
-    $("micgateBody").innerHTML = mode === "precheck"
+    $("micgateBody").innerHTML = mode !== "precheck"
+      ? '<p>マイクの接続が切れました (着信・画面ロックなどで起こることがあります)。</p>' +
+        '<p>続けるには、下のボタンからマイクをもう一度許可してください。</p>'
+      : MICGATE_ON
       ? '<p>この調査は、<b>静かな環境で集中して</b>行っていただく必要があります。</p>' +
         '<p>開始前に、マイクで<b>周囲の音の大きさ</b>を確認します。下のボタンを押して、マイクの利用を<b>許可</b>してください。</p>' +
         '<p class="opt-note">マイクで測定するのは<b>音量レベルのみ</b>です。会話などの音声の内容は記録・送信されません。マイクを許可いただけない場合、この調査には参加できません。</p>'
-      : '<p>マイクの接続が切れました (着信・画面ロックなどで起こることがあります)。</p>' +
-        '<p>続けるには、下のボタンからマイクをもう一度許可してください。</p>';
+      // 対面 (?micgate=0): 会場は参加者が変えられないので「静かな場所へ移動」を求めない。計測・記録はする
+      : '<p>はじめに、マイクで<b>周囲の音の大きさ</b>を確認します。下のボタンを押して、マイクの利用を<b>許可</b>してください。</p>' +
+        '<p class="opt-note">測定するのは<b>音量レベルのみ</b>です。会話などの音声の内容は記録・送信されません。音の大きさで先に進めなくなることはありません。</p>';
     $("micgateStatus").textContent = "";
     $("micgateStart").textContent = mode === "precheck" ? "マイクを許可して計測する" : "マイクを再取得する";
     $("micgateStart").style.display = "";
@@ -1337,6 +1391,11 @@
   }
   function ambientDone(meanDb) {
     MIC.ambientDb = +meanDb.toFixed(1);
+    if (!MICGATE_ON) {   // 対面: 判定で止めず、実験者が会場のレベルを控えられるよう実測値を出す
+      $("micgateStatus").textContent = `✅ 計測しました (${MIC.ambientDb} dB)。このまま始められます。`;
+      $("micgateGo").style.display = "";
+      return;
+    }
     if (meanDb <= MIC.threshold) {
       $("micgateStatus").textContent = "✅ 静かな環境です。このまま始められます。";
       $("micgateGo").style.display = "";
@@ -1354,6 +1413,7 @@
   let noiseGate = null;   // {enteredAt, quietSince, retries, trialRec, next}
   function micCheckpoint(next) {   // 本番の試行境界で呼ぶ: 切断→再取得 / 直前試行が騒音→ゲート / 通常→次へ
     if (MIC.mode === "off") { next(); return; }
+    if (!MICGATE_ON) { next(); return; }   // 対面 (?micgate=0): 計測・記録は続けるが進行は止めない (切断も再取得を求めない)
     if (MIC.lost) { showMicGate("reacquire", () => micCheckpoint(next)); return; }
     const last = records[records.length - 1];
     if (last && last.noise && last.noise.overMs >= MIC.gateMinOverMs) { showNoiseGate(last, next); return; }
@@ -1504,6 +1564,21 @@
     }
     return a;
   }
+  // 層別に均等に散らす出題順 (?strat=1。§6-6 項15)。完全ランダムだと途中終了時に水準構成が偏る
+  // (例: 49問中12問で打ち切ると拮抗ばかり/明確ゼロになりうる)。各層を等間隔に置き、層内はシャッフル+
+  // 微小ジッタで並べる = どこで切っても層比 (③なら明確1:中間2:拮抗4) が近似的に保たれる
+  function spreadShuffle(cells, keyOf) {
+    const byKey = {};
+    for (const c of cells) { const k = keyOf(c); (byKey[k] = byKey[k] || []).push(c); }
+    const out = [];
+    for (const k of Object.keys(byKey)) {
+      const arr = shuffle(byKey[k].slice());
+      const step = 1 / arr.length;
+      arr.forEach((c, i) => out.push({ c, pos: (i + 0.5) * step + (Math.random() - 0.5) * step * 0.5 }));
+    }
+    out.sort((a, b) => a.pos - b.pos);
+    return out.map((x) => x.c);
+  }
 
   // ===== セッション状態 =====
   let queue = [];        // 残り試行 (各要素は cell)
@@ -1511,6 +1586,7 @@
   let trialIndex = 0;     // 完了済み本番試行カウンタ
   let totalMain = 0;
   let breakShownAt = null, breakAtTrial = 0;  // 休憩画面の表示時刻・地点 (滞在時間記録用。2026-08-23)
+  let mainStartedAt = null;   // 本番開始時刻 (?maxmin の時間上限判定・device.mainMs 用。2026-09-04)
   let streak = 0;         // 練習の連続成功数 (行動ゲート §6-2。無効試行/不正解でリセット)
   let trial = null;       // 現在試行の記録オブジェクト
   let cell = null;        // 現在の cell
@@ -1582,6 +1658,9 @@
         advanceBlockOrFinish(); return;   // 本番終了 → 次ブロック (統合) or 事後アンケート
       }
     }
+    // 時間上限 (?maxmin。対面 8 分枠)。試行の途中では切らず、次の試行に入る手前で終了する
+    if (phase === "main" && MAX_MIN != null && mainStartedAt != null &&
+        performance.now() - mainStartedAt >= MAX_MIN * 60000) { endEarly("timebox"); return; }
     cell = queue.shift();
     aborts = 0;
     // 休憩: breakEvery の倍数地点。ただし休憩後に始まるセグメント (この cell + 残り = queue.length+1) が
@@ -1597,6 +1676,37 @@
     breakShownAt = performance.now();
     breakAtTrial = trialIndex;
     show("break");
+  }
+
+  // ===== 途中終了 (対面セッション。?stop=1 / ?maxmin=N。§6-6 項15) =====
+  // 中断ボタン → 確認 → 事後アンケート → 通常の完了・送信経路 (finishSession)。
+  // 「保存はされるが送られない」状態を作らないことが要点 = 対面では毎回ここを通る前提の設計。
+  let stopReturn = null;   // {screen, at} 確認画面に入る前の画面と時刻
+  function showStopConfirm() {
+    if (!STOP_ON || recording || stopReturn) return;   // ドラッグ中は無視 (多点タッチでの誤爆防止)
+    const cur = (document.querySelector(".screen.active") || {}).id;
+    if (!STOPPABLE[cur]) return;
+    stopReturn = { screen: cur, at: performance.now() };
+    show("stopconfirm");
+  }
+  function cancelStop() {   // 誤タップからの復帰
+    if (!stopReturn) return;
+    const r = stopReturn; stopReturn = null;
+    const pause = { screen: r.screen, durationMs: +(performance.now() - r.at).toFixed(0) };
+    device.stopPauses.push(pause);
+    if (r.screen === "task") { presentStimulus(); return; }   // 同じ試行を出し直す (RT に確認画面の滞在を混ぜない)
+    if (r.screen === "rating" && trial) trial.stopPause = pause;   // 評定時間は汚染するので該当試行に印を残す
+    show(r.screen);
+  }
+  function endEarly(reason) {   // reason: "operator" (中断ボタン) | "timebox" (時間上限)
+    stopReturn = null;
+    recording = false; activePointerId = null; uiLocked = true;
+    setCoach(null); coachHide();
+    device.partial = true;
+    device.endedBy = reason;
+    device.endedPhase = phase;
+    saveBackup();
+    showPostQuestions();
   }
 
   // ===== ブロック遷移 (②③統合セッション。§6-2 (A)ブロック設計) =====
@@ -1859,7 +1969,7 @@
     ratingOnset = performance.now();
     // 練習中は評定リハーサル (2026-07-07 v2): 本番と同じ画面を使い、位置づけだけヘッダで明示。
     // ヘッダは2行以内に抑える (SE の実効 viewport で送信ボタンが fold 下に落ちないため)
-    if (phase === "practice" && !ratingTutorialDone) {
+    if (phase === "practice" && RTUT_ON && !ratingTutorialDone) {
       // 評定チュートリアル v2 (2026-07-22): 説明はヘッダでなく tutBox (対象評定の直上) に出す
       tutIdx = 0;
       $("ratingHead").className = "practice";
@@ -1934,11 +2044,10 @@
       tutIdx = 0; tutRender();
     }, { passive: true });
   }
-  function ratRect(p) {   // ページ別スポットライト対象
+  function ratRect(p) {   // ページ別スポットライト対象 (次へ/確定ボタンは囲いに含めない)
     if (p.act === "conf") return $("qitem-confidence").getBoundingClientRect();
     if (p.act === "hes") return $("qitem-hesitation").getBoundingClientRect();
-    if (p.act === "submit") return ratUnionRect([$("ratingItems"), $("ratingSubmit")]);
-    return ratUnionRect([$("ratingItems"), $("tutNext")]);   // 説明('next')ページ: 評定+次へを明るく
+    return $("ratingItems").getBoundingClientRect();   // 説明/確定ページ: 評定項目のみを囲う
   }
   function tutRender() {
     const qc = $("qitem-confidence"), qh = $("qitem-hesitation");
@@ -2174,7 +2283,7 @@
       const ph = pop.offsetHeight, pw = pop.offsetWidth;
       let ptop, pcx = tr.left + tr.width / 2;
       if (step.focus === "orient") ptop = tr.top + tr.height * 0.12;
-      else if (demoStep) ptop = tr.top + 8;
+      else if (demoStep || step.focus === "choices2") ptop = tr.top + 8;   // 選択肢の説明は上に固定 (3/6)
       else {
         const r = targetRect(step.focus); pcx = r.left + r.width / 2;
         ptop = step.focus === "start" ? (r.top - PAD - GAP - ph) : (r.bottom + PAD + GAP);
@@ -2200,11 +2309,14 @@
       if (noSpot) { spot.classList.remove("on"); spot.classList.add("hidden"); } else spot.classList.remove("hidden");
       requestAnimationFrame(() => { if (!noSpot) spot.classList.add("on"); pop.classList.add("on"); place(step); });
       tok++; const my = tok; ctx(); setCap("");
-      showSample(step.reveal || 0);                                      // 上から順に開示 (問題文→選択肢)
+      showSample(step.reveal || 0);                                      // 上から順に開示 (問題文→選択肢→START)
       if (step.focus === "stem") fadeIn(stemEl);
       else if (step.focus === "choices2") { fadeIn(choiceA); fadeIn(choiceB); }
+      else if (step.focus === "start") fadeIn(startBtn);
       const hideChoices = step.focus === "orient" || step.focus === "stem" || step.focus === "sandbox";
       document.querySelectorAll(".choice").forEach((e) => e.classList.toggle("tut-sbxhide", hideChoices));
+      // START も段階開示: 問題文/選択肢を説明している間は隠す (1/6で見える問題の解消)。start ステップで現す
+      startBtn.style.visibility = (step.focus === "orient" || step.focus === "stem" || step.focus === "choices2") ? "hidden" : "visible";
       if (step.act === "concept") setTimeout(() => { if (my === tok) playSandbox(my); }, 350);
       else if (step.act === "real") setTimeout(() => { if (my === tok) playReal(my); }, 300);
     }
@@ -2212,7 +2324,7 @@
     function finish() {
       tok++; idx = -1;
       spot.classList.remove("on"); pop.classList.remove("on"); spot.classList.add("hidden"); pop.classList.add("hidden");
-      btnRow.classList.add("hidden"); spot.classList.remove("strong"); startBtn.classList.remove("coach-pulse");
+      btnRow.classList.add("hidden"); spot.classList.remove("strong"); startBtn.classList.remove("coach-pulse"); startBtn.style.visibility = "";
       ctx(); setCap(""); demo.style.display = "none"; clearSample();
       document.querySelectorAll(".choice").forEach((e) => e.classList.remove("tut-sbxhide", "tut-rcv"));
       if (resizeBound) { removeEventListener("resize", resizeBound); resizeBound = null; }
@@ -2286,6 +2398,7 @@
     device.practiceSummaryByBlock[CONFIG.block] = summary;
     phase = "main";
     trialIndex = 0;
+    if (mainStartedAt == null) mainStartedAt = performance.now();   // 統合では最初のブロック開始を起点にする
     queue = BLOCK.buildMain();
     if (ATTN_ON && BLOCK.ratings && BLOCK.id !== "attn") queue = insertDqs(queue);  // ②③に弱DQSを1/3・2/3で埋め込む (§6-5)
     totalMain = queue.length;
@@ -2308,6 +2421,9 @@
   }
   function postReady() {
     let ok = !!device.grip;
+    // 途中終了 (中断ボタン/時間上限) は事後アンケートを必須にしない: 中断の自由を妨げないため。
+    // 答えてもらえた分は device.survey にそのまま入る (未回答は空 = 欠測として扱う)
+    if (device.partial) { $("postSubmit").disabled = false; return; }
     if (HAS_RATING_BLOCK) {   // 評定ブロックを含むセッションは事後アンケートも必須 (「特に困らなかった」中立を用意済み)
       const hasProblem = survey.problems.length > 0;
       const otherOk = !survey.problems.includes("other") || survey.free.trim().length > 0;  // その他は自由記述で具体化
@@ -2326,6 +2442,11 @@
 
   function finishSession() {
     device.exportedAt = new Date().toISOString();
+    // セッションの終わり方 (§6-6 項15)。完走なら partial=false・endedBy="complete"
+    device.endedBy = device.endedBy || "complete";
+    device.mainCompleted = records.filter((r) => r.phase === "main").length;
+    device.mainPlanned = totalMain;
+    device.mainMs = mainStartedAt != null ? +(performance.now() - mainStartedAt).toFixed(0) : null;
     device.mic = {   // 環境音モニタの実測記録 (§6-6 項10。閾値等の設定値も provenance として残す)
       mode: MIC.mode, threshold: MIC.threshold, checkMs: MIC.checkMs, quietMs: MIC.quietMs,
       gateMinOverMs: MIC.gateMinOverMs, ambientDb: MIC.ambientDb,
@@ -2367,6 +2488,8 @@
     if (CONFIG.uploadUrl && !debugMode) $("exportRow").style.display = "none";
     if (!CONFIG.uploadUrl)
       $("doneMsg").textContent = "ご協力ありがとうございました。下のボタンでデータを保存・共有してください。";
+    else if (device.partial)
+      $("doneMsg").textContent = "ここまでのご回答をお送りします。ご協力ありがとうございました。";
     show("done");
     if (CONFIG.uploadUrl) uploadJson();
   }
@@ -2527,6 +2650,35 @@
   for (const id of ["pid", "age", "devModel"]) {
     $(id).addEventListener("input", refreshIntro, { passive: true });
   }
+  // 事前アンケートのプリセット (対面: 実験者が URL に載せる。?intro=0 で「埋まった欄だけ」隠す = 高齢者に
+  // ローマ字入力をさせない。埋め忘れた欄は残るので、取り違えたまま進むことはない。§6-6 項15)
+  (function presetIntro() {
+    const filled = {};
+    const setInput = (id, v) => { if (v) { $(id).value = v; filled[id] = true; } };
+    setInput("pid", QS.get("pid"));
+    setInput("age", QS.get("age"));
+    setInput("devModel", QS.get("model"));
+    const pickSeg = (segId, v) => {
+      if (!v) return;
+      const b = $(segId).querySelector('button[data-val="' + v + '"]');
+      if (b) { b.click(); filled[segId] = true; }   // wireSeg 経由 = device への反映と選択表示を兼ねる
+    };
+    pickSeg("sexSeg", QS.get("sex"));
+    pickSeg("handSeg", QS.get("hand"));
+    if (QS.get("intro") === "0")
+      for (const id of Object.keys(filled)) {
+        const f = $(id).closest(".field");
+        if (f) f.style.display = "none";
+      }
+  })();
+
+  // 中断ボタン (対面 ?stop=1)。誤タップは確認画面から戻れる
+  if (STOP_ON) {
+    $("stopBtn").addEventListener("click", showStopConfirm, { passive: true });
+    $("stopBack").addEventListener("click", cancelStop, { passive: true });
+    $("stopGo").addEventListener("click", () => endEarly("operator"), { passive: true });
+  }
+
   refreshIntro();   // 初期は未記入なので開始ボタンを無効化
 
   // 開始前に環境音チェックを挟む (マイク必須。?mic=0 のみ素通し。§6-6 項10)。通過後は enterSession
@@ -2595,6 +2747,9 @@
       setMicLevel: (db) => { MIC.mockDb = db; },
       dropMic: () => micLost(),
       micState: () => ({ acquired: MIC.acquired, lost: MIC.lost, drops: MIC.drops, ambientDb: MIC.ambientDb }),
+      // 対面セッションの検証用 (§6-6 項15)
+      stopVisible: () => $("stopBtn").classList.contains("on"),
+      trialIndex: () => trialIndex,
     };
   }
 
