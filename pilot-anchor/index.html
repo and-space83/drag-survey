@@ -2061,8 +2061,8 @@
   function readCueDelay(text) {
     const chars = String(text || "").replace(/<[^>]*>/g, "").replace(/\|/g, "").length;
     const base = (device.readingBaseline && device.readingBaseline.charsPerSec) || null;
-    const cps = base ? Math.max(4, base * 0.6) : 8;
-    return Math.max(1800, Math.min(6000, Math.round((chars / cps) * 1000) + 600));
+    const cps = base ? Math.max(3, base * 0.45) : 5;   // 遅い読み手基準 (2026-09-04: 光るのが早すぎたので緩めた)
+    return Math.max(3500, Math.min(11000, Math.round((chars / cps) * 1000) + 1200));
   }
   function ratUnionRect(els) {
     const rs = els.map((e) => e.getBoundingClientRect());
@@ -2291,7 +2291,7 @@
         clr(); drawSbx(T);                    // 箱は残す (運ぶ先が見えていること)
         await sleep(500);
       }
-      if (my === tok) { clr(); drawSbx(T); }
+      if (my === tok) { clr(); setCap(""); startBtn.style.visibility = "hidden"; }   // 成功後は実演も箱もSTARTも消す
     }
     function sbxCarry(my, s0, T) {
       const sx = s0.x + (Math.random() - .5) * 30, sy = s0.y + (Math.random() - .5) * 10;
@@ -2323,7 +2323,11 @@
         await sleep(500);
         side = side === "B" ? "A" : "B";
       }
-      if (my === tok) clr();
+      if (my === tok) {   // 成功後は実演も箱も消し、説明と「完了」だけにする
+        clr(); setCap("");
+        document.querySelectorAll(".choice").forEach((e) => e.classList.add("tut-sbxhide"));
+        startBtn.style.visibility = "hidden";
+      }
     }
     function unionRect(els) { const rs = els.map((e) => e.getBoundingClientRect()); const left = Math.min(...rs.map((r) => r.left)), top = Math.min(...rs.map((r) => r.top)), right = Math.max(...rs.map((r) => r.right)), bottom = Math.max(...rs.map((r) => r.bottom)); return { left, top, right, bottom, width: right - left, height: bottom - top }; }
     function targetRect(focus) {
@@ -2416,25 +2420,30 @@
       else if (step.act === "real") setTimeout(() => { if (my === tok) playReal(my); }, 300);
     }
     // ---- ハンズオン (チュートリアル内で実際に運んでもらう。記録はしない=練習/本番の trial とは無関係) ----
+    // ヒントは START と箱の中間 (経路帯の中央) に固定表示 = START に被らない・視線移動が最小
     function setHint(text, ng) {
       if (!text) { hint.classList.add("hidden"); return; }
       hint.textContent = text; hint.classList.toggle("ng", !!ng); hint.classList.remove("hidden");
-      const tr = $("task").getBoundingClientRect(), br = btnRow.getBoundingClientRect();
+      const tr = $("task").getBoundingClientRect(), sr = startBtn.getBoundingClientRect();
+      const boxBottom = handsMode === "sandbox"
+        ? (surface.getBoundingClientRect().top + sbxT().y + sbxT().bh / 2)
+        : Math.max(choiceA.getBoundingClientRect().bottom, choiceB.getBoundingClientRect().bottom);
       hint.style.left = (tr.left + tr.width / 2) + "px";
-      hint.style.top = Math.max(8, br.top - hint.offsetHeight - 12) + "px";
+      hint.style.top = Math.max(8, (boxBottom + sr.top) / 2 - hint.offsetHeight / 2) + "px";
     }
     function startHands(mode) {   // mode: 'sandbox' (中央の例の箱) | 'real' (本番の2箱)。実演と並行して受け付ける
       handsMode = mode; handsDone = false;
       btnRow.classList.add("pending"); $("tutPopNext").classList.remove("cue");
-      setHint(mode === "sandbox" ? "見ながら、自分でも運んでみましょう" : "自分でも運んでみましょう");
+      setHint("");   // 開始時の案内は出さない (説明BOXの緑文字で足りる)
     }
     function endHands(ok) {
       if (!ok) return;
-      handsDone = true; handsMode = null;
+      handsDone = true;
       btnRow.classList.remove("pending"); $("tutPopNext").classList.add("cue");
-      setHint("運べました！ この操作のくり返しです");
-      setTimeout(() => { if (handsDone) setHint(""); }, 2200);
+      setHint("この操作のくり返しです");   // 成功時 (緑)。位置は START↔箱の中間
+      setTimeout(() => { if (handsDone) setHint(""); }, 2600);
       setTimeout(() => inkClear(), 900);   // 自分の軌跡は残さない (次の人の手本にしない)
+      handsMode = null;
     }
     // 自分の軌跡 (触れている実感のために描く。装飾レイヤー=記録には一切入らない)
     function inkSize() { ink.width = surface.clientWidth; ink.height = surface.clientHeight; }
@@ -2456,7 +2465,7 @@
       if (!hInRect(startBtn, e.clientX, e.clientY)) { setHint("まず START を指で押さえます", true); return; }
       hTracking = true; hPid = e.pointerId; startBtn.classList.add("armed");
       inkSize(); inkStart(e.clientX, e.clientY);   // 軌跡を描き始める (触れている実感)
-      setHint("そのまま指を離さずに運びます");
+      setHint("");   // 運んでいる最中は案内を出さない (軌跡と実演に集中してもらう)
     }, { passive: true });
     surface.addEventListener("pointermove", (e) => {
       if (!hTracking || e.pointerId !== hPid) return;
