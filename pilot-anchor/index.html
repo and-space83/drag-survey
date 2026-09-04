@@ -359,6 +359,22 @@
   @keyframes tutFadeIn { from { opacity: 0; } to { opacity: 1; } }
   .tut-fadein { animation: tutFadeIn .45s ease; }
   @media (prefers-reduced-motion: reduce) { .tut-fadein { animation: none; } }
+  /* 「次へ」の登場強調 (数秒後に押せるようになった合図。box-shadow のみ=geom 不変) */
+  @keyframes tutBtnCue { 0%,100% { box-shadow: 0 6px 20px -6px #000, 0 0 0 0 rgba(46,255,119,0); }
+    50% { box-shadow: 0 6px 20px -6px #000, 0 0 0 6px rgba(46,255,119,.45); } }
+  .tut-btnrow .nx.cue { animation: tutBtnCue 1.2s ease-in-out infinite; }
+  @media (prefers-reduced-motion: reduce) { .tut-btnrow .nx.cue { animation: none; } }
+  .tut-btnrow.pending .nx { opacity: .35; pointer-events: none; }   /* 実演/操作の完了待ち */
+  /* ハンズオン中の合図 (チュートリアル内で実際に運ばせる) */
+  #tutHint { position: fixed; z-index: 43; left: 50%; transform: translateX(-50%);
+    text-align: center; font-size: 15px; font-weight: 700; color: #2f7; pointer-events: none;
+    background: rgba(10,20,15,.86); border: 1px solid #2a5; border-radius: 10px; padding: 9px 16px; }
+  #tutHint.hidden { display: none; }
+  #tutHint.ng { color: #fa4; border-color: #a72; background: rgba(30,20,10,.9); }
+  /* 練習中の「↻ 説明」(分からなくなったらチュートリアルへ戻る。topbar は pointer-events:none なので自前で有効化) */
+  #tutAgain { pointer-events: auto; background: transparent; border: 1px solid #3a4650; color: #9fb0bd;
+    font: inherit; font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 999px; cursor: pointer; }
+  #tutAgain.hidden { display: none; }
 </style>
 </head>
 <body>
@@ -440,7 +456,8 @@
 
 <!-- ===== TASK ===== -->
 <section id="task" class="screen">
-  <div id="topbar"><span id="phaseLabel">練習</span><span id="counter">0 / 0</span><span id="calDb" style="display:none"></span></div>
+  <div id="topbar"><span id="phaseLabel">練習</span><span id="counter">0 / 0</span><span id="calDb" style="display:none"></span>
+    <button type="button" id="tutAgain" class="hidden">↻ 説明</button></div>
   <div id="surface">
     <canvas id="trace"></canvas>
     <div id="stem"></div>
@@ -899,7 +916,7 @@
       id: "moral", stimulusType: "text-choice", title: "道徳的な判断の2択課題",
       ratings: true, breakEvery: 16,   // 49問の負担対策: 16問ごとに休憩 (2026-08-23 確定・滞在時間を device.breaks に記録)。§6-5
       repsPerCell: 1,        // 49項目 (7類型×[明確1・中間2・拮抗4]) × reps。既定1 = 本番49試行 (各項目1回・水準内で左右CB)。§6-5 確定表
-      practiceTrials: 2,
+      practiceTrials: 5,     // 練習5問 (2026-09-04: チュートリアル後に説明なしで自由に試す。§6-2)
       practiceFeedback: "neutral",  // 主観判断なので正誤フィードバックはしない
       gateStreak: 2,         // 行動ゲート: 有効ドラッグ2連続で本番解錠 (主観課題なので正誤は問わない)
       gateCorrect: false,
@@ -1733,9 +1750,12 @@
     $("taskMsg").textContent = "";
     resetMonitors();   // 環境音の試行窓を開始 (呈示〜評定送信。無効リトライ中は継続 = 同一試行の環境として合算)
     if (phase === "practice" && cell._pblock && cell._pblock !== CONFIG.block) loadBlock(cell._pblock);  // 統合練習: セルのタイプへ切替
-    if (phase === "practice") {
+    // 練習中の説明: ドラッグ導入チュートリアルを終えていれば出さない (2026-09-04 練習は説明なしで自由に。§6-2)
+    if (phase === "practice" && !dragTutState.done) {
       coachMsg(nb('まずは下の <b>START</b> を|指で<b>押さえたまま</b>にします'), "top");
       setCoach("start");
+    } else if (phase === "practice") {
+      coachHide(); setCoach(null);
     } else {
       coachHide();
       setCoach(null);
@@ -1748,6 +1768,8 @@
     startBtn.classList.remove("armed");
     startBtn.textContent = "START";
     $("phaseLabel").textContent = phase === "practice" ? "練習" : "本番";
+    // 練習中のみ「↻ 説明」= 分からなくなったらチュートリアルを見直せる (本番では出さない)
+    $("tutAgain").classList.toggle("hidden", !(phase === "practice" && dragTutState.done && DRAG_TUT_ON));
     $("counter").textContent = phase === "practice"
       ? `連続成功 ${streak} / ${BLOCK.gateStreak}`
       : `${trialIndex + 1} / ${totalMain}`;
@@ -1811,7 +1833,7 @@
     pushEvent(e, "down");
     revealStimulus();
     // 練習中はステップ2: ボックスを出現+発光させ「離さず運んで中で離す」(文言はブロック別。経路の形は指示しない)
-    if (phase === "practice") { coachMsg(nb(BLOCK.coachDrag), "mid"); setCoach("drag"); }
+    if (phase === "practice" && !dragTutState.done) { coachMsg(nb(BLOCK.coachDrag), "mid"); setCoach("drag"); }
     clearCanvas();
     ctx.beginPath();
     ctx.moveTo(e.clientX - sRect.left, e.clientY - sRect.top);
@@ -1863,7 +1885,9 @@
       // (ステップ1 状態に戻す = ボックスを隠して START へ再誘導)
       streak = 0;
       $("counter").textContent = `連続成功 ${streak} / ${BLOCK.gateStreak}`;
-      coachMsg(coachHtml || ((msg || "やり直し") + '<span class="sub">STARTからもう一度</span>'), "top");
+      // 誤操作のリカバリは説明なし方針でも残す (詰まりの解消)。チュートリアル後は短い注意のみ
+      coachMsg(dragTutState.done ? nb((msg || "やり直し") + '<span class="sub">STARTからもう一度</span>')
+                                 : (coachHtml || ((msg || "やり直し") + '<span class="sub">STARTからもう一度</span>')), "top");
       setCoach("start");
       stemEl.style.visibility = "hidden";  // ステップ1状態に戻す (ボックスと同様にステムも隠す。練習のみ)
     } else {
@@ -2161,7 +2185,8 @@
   // 端点顕著/中間減光・両 destination 均等。実演は pointer-events:none の装飾で実要素の geom に不干渉。
   const dragTutState = { done: false, active: false };
   const DragTut = (() => {
-    let spot, pop, cap, demo, g, btnRow, built = false, tok = 0, idx = -1, onDone = null, resizeBound = null;
+    let spot, pop, cap, demo, g, btnRow, hint, built = false, tok = 0, idx = -1, onDone = null, resizeBound = null;
+    let handsMode = null, handsDone = false, cueTimer = null;   // ハンズオン (自分で運ぶ) の状態
     const reduce = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
     const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     const easeIO = (t) => t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
@@ -2169,11 +2194,13 @@
     const PAD = 10;
     const STEPS = [
       { focus: "orient",   act: "next", sample: true, reveal: 0, op: "読んだら「次へ」", txt: "これから、いくつかの<b>問題文</b>を読んで、<b>2つの選択肢</b>から、あなたの考えに近いほうを選びます。<br>枠の説明を読み、下の<b>緑の案内</b>で進みます。<b>光って囲まれた所</b>が、いま説明している場所です。" },
-      { focus: "stem",     act: "next", sample: true, reveal: 1, op: "読んだら「次へ」", txt: "まず、画面の<b>上</b>に出る<b>問題文（場面文）</b>を読みます。（下は説明用の例です）" },
+      // 2/6: まず問題文の場所に枠を置いて読ませ、「次へ」を数秒後に強調 (枠→対象が現れる=上から下)
+      { focus: "stem",     act: "next", sample: true, reveal: 1, cueDelay: 1800, op: "読んだら「次へ」", txt: "まず、画面の<b>上</b>に出る<b>問題文（場面文）</b>を読みます。（下は説明用の例です）" },
       { focus: "choices2", act: "next", sample: true, reveal: 2, op: "読んだら「次へ」", txt: "その<b>下の2つ</b>が選択肢です。問題文を読んで、<b>選ぶほう</b>を決めます。" },
       { focus: "start",    act: "next", reveal: 2, op: "読んだら「次へ」", txt: "では操作です。下の <b>START</b> を指で押さえ、<b>そのまま指を離さずに</b>運びます。" },
-      { focus: "sandbox",  act: "concept", op: "見て、分かったら「次へ」", txt: "指を離さずに運びます。<b>道すじは自由</b>です。まっすぐでも、回り道でもかまいません。" },
-      { focus: "action",   act: "real", op: "見て、分かったら「完了」", txt: "本番はこの<b>2つの箱</b>のどちらか。押さえたまま運んで、箱の中で指を離します。" },
+      // 5/6・6/6 はハンズオン: 実演を見せたあと自分で運んでもらい、成功したら進めるようにする
+      { focus: "sandbox",  act: "concept", hands: "sandbox", op: "実演のあと、自分で運んでみましょう", txt: "指を離さずに運びます。<b>道すじは自由</b>です。まっすぐでも、回り道でもかまいません。" },
+      { focus: "action",   act: "real", hands: "real", op: "実演のあと、自分で運んでみましょう", txt: "本番はこの<b>2つの箱</b>のどちらか。押さえたまま運んで、箱の中で指を離します。" },
     ];
     function build() {
       if (built) return;
@@ -2188,6 +2215,7 @@
       btnRow = document.createElement("div"); btnRow.id = "tutBtnRow"; btnRow.className = "tut-btnrow hidden";
       btnRow.innerHTML = '<button class="rp hidden" id="tutReplay">↻ もう一度</button><button class="nx" id="tutPopNext">次へ</button>';
       document.body.appendChild(btnRow);
+      hint = document.createElement("div"); hint.id = "tutHint"; hint.className = "hidden"; document.body.appendChild(hint);
       $("tutPopNext").addEventListener("click", advance, { passive: true });
       $("tutReplay").addEventListener("click", () => { idx = 0; render(); }, { passive: true });   // 分からなかった人向け=最初から
       built = true;
@@ -2225,7 +2253,11 @@
       if (reduce()) { const T = sbxT(), s = lc(startBtn); drawSbx(T); finger(s.x, s.y, 1); ring(s.x, s.y, 20, .9); finger(T.x, T.y, .9); ring(T.x, T.y, 22, .8, "rgba(46,255,119,.9)"); setCap("別ステージの例 — ずっと触れたまま運びます"); return; }
       const s = lc(startBtn), T = sbxT();
       setCap("別ステージの例 — 運び方はいろいろ。道すじは自由です");
-      while (my === tok) { await sbxCarry(my, s, T); await sleep(280); }
+      for (let i = 0; i < 3 && my === tok; i++) { await sbxCarry(my, s, T); await sleep(280); }
+      if (my !== tok) return;
+      clr(); drawSbx(T);                      // 実演終了: 箱だけ残し、自分で運んでもらう
+      setCap("では、自分で運んでみましょう（道すじは自由）");
+      startHands("sandbox");
     }
     function sbxCarry(my, s0, T) {
       const sx = s0.x + (Math.random() - .5) * 30, sy = s0.y + (Math.random() - .5) * 10;
@@ -2245,7 +2277,7 @@
     async function playReal(my) {   // ③ 実2箱に経路ゼロ (ディゾルブ・交互)
       ctx(); setCap("本番の2つの箱 — どちらかの中で離します");
       let side = "B";
-      while (my === tok) {
+      for (let i = 0; i < 2 && my === tok; i++) {   // 左右1回ずつ実演 (両destination均等)
         const s = lc(startBtn), box = side === "B" ? choiceB : choiceA, c = lc(box);
         await tween(520, my, (t) => { clr(); finger(s.x, s.y, 1); ring(s.x, s.y, 20 + Math.sin(t * 10) * 3, .9); });
         await tween(240, my, (t) => { clr(); finger(s.x, s.y, 1 - t); });
@@ -2255,6 +2287,10 @@
         await sleep(360);
         side = side === "B" ? "A" : "B";
       }
+      if (my !== tok) return;
+      clr();                                  // 実演終了: 自分で運んでもらう
+      setCap("では、自分で運んでみましょう");
+      startHands("real");
     }
     function unionRect(els) { const rs = els.map((e) => e.getBoundingClientRect()); const left = Math.min(...rs.map((r) => r.left)), top = Math.min(...rs.map((r) => r.top)), right = Math.max(...rs.map((r) => r.right)), bottom = Math.max(...rs.map((r) => r.bottom)); return { left, top, right, bottom, width: right - left, height: bottom - top }; }
     function targetRect(focus) {
@@ -2301,6 +2337,12 @@
       const last = idx === STEPS.length - 1;
       $("tutPopNext").textContent = last ? "完了" : "次へ"; btnRow.classList.remove("hidden");
       $("tutReplay").classList.toggle("hidden", !last);                   // 「もう一度」は最後のページのみ
+      // 進行ボタンの状態リセット (ハンズオン中は解錠待ち / cueDelay 後に強調)
+      if (cueTimer) { clearTimeout(cueTimer); cueTimer = null; }
+      handsMode = null; handsDone = false; hTracking = false; setHint("");
+      btnRow.classList.toggle("pending", !!step.hands);
+      $("tutPopNext").classList.remove("cue");
+      if (step.cueDelay) cueTimer = setTimeout(() => { if (idx >= 0 && STEPS[idx] === step) $("tutPopNext").classList.add("cue"); }, step.cueDelay);
       const noSpot = step.focus === "orient", demoStep = step.act === "concept" || step.act === "real";
       spot.classList.toggle("strong", !noSpot && !demoStep);             // 枠線強調 (説明のみ画面と実演ステップは除く)
       const dots = $("tutPopDots"); dots.innerHTML = "";
@@ -2320,11 +2362,58 @@
       if (step.act === "concept") setTimeout(() => { if (my === tok) playSandbox(my); }, 350);
       else if (step.act === "real") setTimeout(() => { if (my === tok) playReal(my); }, 300);
     }
+    // ---- ハンズオン (チュートリアル内で実際に運んでもらう。記録はしない=練習/本番の trial とは無関係) ----
+    function setHint(text, ng) {
+      if (!text) { hint.classList.add("hidden"); return; }
+      hint.textContent = text; hint.classList.toggle("ng", !!ng); hint.classList.remove("hidden");
+      const tr = $("task").getBoundingClientRect(), br = btnRow.getBoundingClientRect();
+      hint.style.left = (tr.left + tr.width / 2) + "px";
+      hint.style.top = Math.max(8, br.top - hint.offsetHeight - 12) + "px";
+    }
+    function startHands(mode) {   // mode: 'sandbox' (中央の例の箱) | 'real' (本番の2箱)
+      handsMode = mode; handsDone = false;
+      btnRow.classList.add("pending"); $("tutPopNext").classList.remove("cue");
+      setHint(mode === "sandbox" ? "START を押さえたまま、上の箱まで運んでみましょう"
+                                 : "START を押さえたまま、どちらかの箱まで運んでみましょう");
+    }
+    function endHands(ok) {
+      if (!ok) return;
+      handsDone = true; handsMode = null;
+      btnRow.classList.remove("pending"); $("tutPopNext").classList.add("cue");
+      setHint("運べました！ この操作のくり返しです");
+      setTimeout(() => { if (handsDone) setHint(""); }, 2200);
+    }
+    let hTracking = false, hPid = null;
+    function hInRect(el, x, y) { const r = el.getBoundingClientRect(); return x >= r.left && x <= r.right && y >= r.top && y <= r.bottom; }
+    function hInSbxBox(x, y) {   // 別ステージの箱 (canvas 上の描画なので座標で判定)
+      const sr = surface.getBoundingClientRect(), T = sbxT();
+      const lx = x - sr.left, ly = y - sr.top;
+      return Math.abs(lx - T.x) <= T.bw / 2 && Math.abs(ly - T.y) <= T.bh / 2;
+    }
+    surface.addEventListener("pointerdown", (e) => {
+      if (!handsMode || handsDone) return;
+      if (!hInRect(startBtn, e.clientX, e.clientY)) { setHint("まず START を指で押さえます", true); return; }
+      hTracking = true; hPid = e.pointerId; startBtn.classList.add("armed");
+      setHint("そのまま指を離さずに運びます");
+    }, { passive: true });
+    surface.addEventListener("pointerup", (e) => {
+      if (!hTracking || e.pointerId !== hPid) return;
+      hTracking = false; hPid = null; startBtn.classList.remove("armed");
+      const ok = handsMode === "sandbox" ? hInSbxBox(e.clientX, e.clientY)
+                                         : (hInRect(choiceA, e.clientX, e.clientY) || hInRect(choiceB, e.clientX, e.clientY));
+      if (ok) endHands(true);
+      else setHint("箱の中で指を離します。もう一度どうぞ", true);
+    }, { passive: true });
+    surface.addEventListener("pointercancel", () => { if (hTracking) { hTracking = false; hPid = null; startBtn.classList.remove("armed"); } }, { passive: true });
+
     function advance() { if (idx < STEPS.length - 1) { idx++; render(); } else finish(); }
     function finish() {
       tok++; idx = -1;
       spot.classList.remove("on"); pop.classList.remove("on"); spot.classList.add("hidden"); pop.classList.add("hidden");
-      btnRow.classList.add("hidden"); spot.classList.remove("strong"); startBtn.classList.remove("coach-pulse"); startBtn.style.visibility = "";
+      btnRow.classList.add("hidden", "pending"); btnRow.classList.remove("pending");
+      spot.classList.remove("strong"); startBtn.classList.remove("coach-pulse", "armed"); startBtn.style.visibility = "";
+      if (cueTimer) { clearTimeout(cueTimer); cueTimer = null; }
+      handsMode = null; handsDone = false; hTracking = false; setHint(""); $("tutPopNext").classList.remove("cue");
       ctx(); setCap(""); demo.style.display = "none"; clearSample();
       document.querySelectorAll(".choice").forEach((e) => e.classList.remove("tut-sbxhide", "tut-rcv"));
       if (resizeBound) { removeEventListener("resize", resizeBound); resizeBound = null; }
@@ -2700,6 +2789,12 @@
     const f = noiseGate.next; noiseGate = null; f();
   }, { passive: true });
   if (MIC.mode === "off") $("micNote").style.display = "none";   // 開発時はマイク同意文言も出さない
+  // 練習中に説明を見直す (ドラッグ導入チュートリアルを再生。終わると練習の同じ試行へ戻る)
+  $("tutAgain").addEventListener("click", () => {
+    if (recording || uiLocked || dragTutState.active) return;
+    $("tutAgain").classList.add("hidden");
+    DragTut.run(() => { presentStimulus(); });   // 見直し後は同じ試行を出し直す (RT に説明時間を混ぜない)
+  }, { passive: true });
   $("ratingSubmit").addEventListener("click", submitRating, { passive: true });
   // チュートリアルの「次へ」(確定ボタン位置の静的要素)。連打デバウンス: ダブルタップの2発目が
   // P2 (5段階の使い方説明) を読まずに飛ばすのを防ぐ (レビューWF 2026-07-22)。表示後 300ms 未満は無視
