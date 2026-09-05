@@ -12,7 +12,13 @@
   クロスプラットフォーム実装注意: research/sources/checklist.md A-2 実装時チェック
   共通の取得系 (Pointer Events 記録・GAS 回収・中断復旧・横向きガード・アンケート・dedup) は
   両ブロックで共有。ブロック固有 (刺激描画・設問ステム・試行メタ・評定ON/OFF・試行生成) は
-  下記 BLOCKS レジストリに分離 (BLOCKS.anchor / BLOCKS.value)。
+  下記 BLOCKS レジストリに分離 (BLOCKS.anchor / BLOCKS.value / BLOCKS.moral / BLOCKS.attn)。
+
+  === ファイル構成 (2026-09-06 分離。配布 = この3ファイルをそろえて drag-survey/pilot-anchor/ へ) ===
+    index.html  … マークアップ + エンジン (設定/クエリ・BLOCKS・課題・評定・チュートリアル・環境音・回収・再開)
+    app.css     … スタイル (旧 <style> をそのまま分離)
+    bank.js     … 刺激バンク (②value / ③moral の bank・practiceBank・読速ベースライン3文)。window.PILOT_BANK
+    開発・運用: validate.js (headless 自動検証) / serve.js (LAN 配信) / gas-collector.gs (受け口) / DEPLOY.md (手順)
 
   === データ仕様 (エクスポート JSON) ===
   { device: {ua, screenW, screenH, dpr, refreshHz, exportedAt, participantId, clientId, deviceModel,
@@ -25,11 +31,13 @@
                {gateStreak, gateCorrect, trials, aborts, skipped},
              mic:                              // 環境音モニタ (2026-07-21 §6-6 項10。マイク必須・音量レベルのみ・生音声は取得しない)
                {mode('real'|'mock'|'off'), threshold(dBFS), checkMs, quietMs, gateMinOverMs,
-                ambientDb, ambientRetries, drops},   // 事前チェックの実測/再計測回数・課題中の切断回数
+                ambientDb, ambientRetries, drops,    // 事前チェックの実測/再計測回数・課題中の切断回数
+                muteCount, mutedMs},                 // トラックのミュート回数/合計ms (iOS はバックグラウンド・着信で音声が止まる。無音として集計しない)
              wakeLock,                         // Screen Wake Lock の取得可否 (§6-6 項11。消灯→マイク切断の予防)
              completionCode,                   // 実施確認用の完了コード (§6-6 項12。1人1コード・募集サイト納品欄と機械照合)
              readingBaseline:                  // 読速ベースライン (2026-07-22 §6-6 項13。moral 含むセッションで実施・?read=0/1)
-               {trials:[{chars,ms}], charsPerSec}},   // 中立短文3本の「読み終えたらタップ」計測 → 場面文RTの読解時間分離の材料
+               {trials:[{chars,ms}], charsPerSec},    // 中立短文3本の「読み終えたらタップ」計測 → 場面文RTの読解時間分離の材料
+             resumes: [{at, afterTrial, gapMs}]},  // 中断→再開の記録 (2026-09-06 §6-6 項17。再読込/タブ破棄の後に同じ URL で続きから再開。空=再開なし)
     trials: [ {
       index, phase('main'|'practice'), stimulusType('numeric-size'|'text-choice'),
       // --- ① anchor (numeric-size) のメタ ---
@@ -45,12 +53,13 @@
       // --- ⑤ 注意チェック (isCheck 付き。experiment-design §6-5。主解析からは除外) ---
       isCheck('dqs'|'infreq'|'imc'), checkAnswerSide('left'|'right'), leftLabel, rightLabel, stem,
       post_check(true=弱DQS直後の本試行。警戒モード汚染を感度分析で除外可能に),
+      post_resume(true=中断→再開の直後の本試行。§6-6 項17。間隔が空いた分を感度分析で除外可能に),
       // --- 共通 ---
       choiceSide, correct,   // correct: anchor=正誤 / value=規範(高価値/高EV)整合 / moral=規範(明確のみ)。規範なしは null
       stimulusOnsetT, initiationT, responseT, rt_proxy_ms, mt_proxy_ms, total_ms,
       dispHz, nDispatched, nCoalesced, aborts,
       ratings: {confidence:{value,rt_ms}, hesitation:{...}} (2026-07-15 2項目化。第二パイロット以前のデータは difficulty あり), ratingSubmitMs,
-      noise: {n, meanDb, maxDb, overMs},   // 試行窓 (呈示〜評定送信) の環境音要約 (mic=off は null。品質共変量)
+      noise: {n, meanDb, maxDb, overMs, mutedMs},   // 試行窓 (呈示〜評定送信) の環境音要約 (mic=off は null。品質共変量。mutedMs=計測できなかった時間)
       noisePause: {durationMs, retries},   // 評定送信後ノイズゲートの滞在記録 (閾値超過試行のみ。§6-6 項10)
       vis: {count, totalMs},               // 試行窓の画面離脱 (アプリ切替・通知・ロック) の回数と合計時間 (§6-6 項11)
       geom: {surface:{w,h}, start:{cx,cy}, A:{cx,cy,w,h}, B:{cx,cy,w,h}, dpr},
@@ -60,395 +69,12 @@
 
   === データ回収 ===
   完了時に CONFIG.uploadUrl (GAS Web アプリ) へ自動 POST。失敗時はダウンロード/Web Share にフォールバック。
-  中断対策: 本番試行完了ごとに localStorage へチェックポイント (interruptedAt 付き同形 JSON)。
+  中断対策: 本番試行完了ごとに localStorage へチェックポイント (interruptedAt 付き同形 JSON + resume 進行状態)。同じ URL を
+  3時間以内に開き直すと「続きから再開」を提示 (§6-6 項17。完走してから送信 = 途中データは自動送信しない [説明資料の記載]。
+  対面 kiosk のみ、前の人の途中データを partial として未送信キューへ退避して次の人は最初から)。
   受け口の実装とデプロイ手順は gas-collector.gs / DEPLOY.md を参照。
 -->
-<style>
-  /* ---- 配色 (2026-09-05: ダーク→ライトへ変更。幅広い年代・明るい場所での可読性、
-     調査アプリとしての信頼感を優先。軌跡記録の精度には無関係) ---- */
-  :root {
-    --bg: #fbfbfc;          /* 画面の地 */
-    --panel: #ffffff;       /* カード・入力の地 */
-    --ink: #1a1d21;         /* 本文 */
-    --ink-2: #4a5058;       /* 補助テキスト */
-    --ink-3: #6b7480;       /* 注記 */
-    --line: #ccd2da;        /* 枠線 */
-    --accent: #1668c4;      /* 見出し・リンク的な青 */
-    --go: #12855a;          /* 進む・選択 (緑) */
-    --go-ink: #ffffff;
-    --warn: #b8531a;        /* 注意 (枠線・見出し) */
-    --err: #b3382f;         /* やり直し・誘導の文字 (枠線のオレンジと区別する、目に優しい赤) */
-    --task-bg: #f4f6f9;     /* 課題画面の地 */
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  html, body { height: 100%; overflow: hidden; overscroll-behavior: none;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif; }
-  body { position: fixed; inset: 0; background: var(--bg); color: var(--ink);
-    -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
-  /* iOS のダブルタップ拡大対策 (連打で拡大→復帰不能の実機報告 2026-07-11)。
-     manipulation = パン/ピンチのみ許可でダブルタップ拡大を無効化 (click 応答は保つ)。
-     タスク画面 (#task) は touch-action:none + touchend 抑止 (JS 側) で全面的に無効。 */
-  button, input, .btn { touch-action: manipulation; }
-
-  .screen { position: absolute; inset: 0; display: none; flex-direction: column; }
-  .screen.active { display: flex; }
-
-  /* ---- 共通 (intro / done / message) ---- */
-  .pad { flex: 1; min-height: 0; padding: 24px; overflow-y: auto;
-    line-height: 1.6; touch-action: pan-y; display: flex; flex-direction: column; }
-  /* 画面遷移系 (micgate/reading/break/blockintro 等) の縦配置 (2026-07-22 実機FB 2回の調整):
-     説明は「上端と中央の中間」(余白の1/4 の位置)、進むボタンは中央付近のまま。
-     余白は 上1 : 説明-ボタン間1 (.vgap) : 下2 の比で吸収 → 説明のみ上へ寄り、ボタン位置は
-     完全中央寄せ時と同一になる。内容が溢れる画面 (intro/postq/done の長文) では全スペーサが
-     0 になり従来の上寄せスクロールに自動フォールバック */
-  .pad::before { content: ""; flex: 1 0 0; }
-  .pad::after { content: ""; flex: 2 0 0; }
-  .pad .vgap { flex: 1 0 0; }
-  .pad h1 { font-size: 21px; margin-bottom: 12px; color: var(--accent); }
-  .pad h2 { font-size: 16px; margin: 16px 0 6px; color: var(--accent); }
-  .pad p, .pad li { font-size: 15px; color: var(--ink); }
-  .pad ul { margin: 6px 0 6px 20px; }
-  .pad .field { margin: 14px 0; }
-  /* 入力画面 (intro) は1画面に収める = スクロールさせない (2026-09-05)。説明は welcome/チュートリアルへ移した */
-  #intro .pad { padding: 14px 18px; justify-content: flex-start; }
-  #intro .pad::before, #intro .pad::after { content: none; }
-  #intro h1 { font-size: 19px; }
-  #intro .field { margin: 7px 0; }
-  #introMissing:empty { display: none; }   /* 未入力の案内は出るときだけ高さを取る */
-  #introMissing { color: var(--err); font-weight: 700; }   /* 「未入力: …」の行を赤に (ラベルの色は変えない) */
-  #intro label { margin-bottom: 3px; font-size: 13.5px; }
-  #intro .pad input { padding: 9px 12px; }
-  #intro .seg { gap: 6px; }
-  #intro .seg button { padding: 9px 6px; font-size: 14px; min-width: 60px; }
-  #intro .btn.advance { margin-top: 12px; padding: 14px 24px; }
-  #intro .mono { display: none; }   /* 端末情報のデバッグ行は participant には不要 */
-  .pad label { display: block; font-size: 14px; color: var(--ink-2); margin-bottom: 6px; font-weight: 600; }
-  .pad input { width: 100%; max-width: 320px; padding: 12px; font-size: 16px;
-    background: var(--panel); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; }
-  .pad input[type="number"] { max-width: 140px; }
-  /* セグメント選択 (性別・利き手・事後質問) */
-  .seg { display: flex; gap: 8px; flex-wrap: wrap; }
-  .seg button { flex: 1 1 0; min-width: 72px; padding: 12px 10px; font-size: 15px;
-    border-radius: 10px; border: 2px solid var(--line); color: var(--ink); background: var(--panel); }
-  .seg button.sel { background: var(--go); color: var(--go-ink); border-color: var(--go); }
-  .seg.seg-v { flex-direction: column; }
-  .seg.seg-v button { flex: none; width: 100%; min-width: 0; text-align: left; padding: 14px 14px; }
-  .opt-note { font-size: 13px; color: var(--ink-3); margin-top: 2px; }
-  /* 事後アンケートの複数選択チェック (②③ = 評定ブロックのみ表示。seg は単一選択なので別クラス) */
-  .checks { display: flex; flex-direction: column; gap: 8px; }
-  .checks .chk { position: relative; width: 100%; text-align: left; padding: 13px 12px 13px 40px;
-    font-size: 15px; border-radius: 10px; border: 2px solid var(--line); color: var(--ink); background: var(--panel); }
-  .checks .chk::before { content: ""; position: absolute; left: 12px; top: 50%; margin-top: -9px;
-    width: 18px; height: 18px; border: 2px solid var(--ink-3); border-radius: 4px; box-sizing: border-box; }
-  .checks .chk.sel { border-color: var(--go); color: var(--ink); background: rgba(18,133,90,0.10); }
-  .checks .chk.sel::before { background: var(--go); border-color: var(--go); }
-  .btn { display: inline-flex; align-items: center; justify-content: center;
-    padding: 14px 22px; font-size: 16px; font-weight: bold; border-radius: 10px;
-    border: 2px solid var(--accent); color: var(--accent); background: var(--panel); margin-top: 16px; }
-  /* 進行ボタン (次の段階へ進む系: 練習開始/計測/読了/続ける/完了 等) は中央寄せ+大型化
-     (2026-07-22 実機フィードバック: 位置とサイズで「押せば進む」を分かりやすく) */
-  .btn.advance { display: flex; align-items: center; justify-content: center;
-    margin: 22px auto 0; min-width: 72%; max-width: 420px; padding: 16px 24px; font-size: 18px; }
-  .btn.primary { background: var(--go); color: var(--go-ink); border-color: var(--go); }
-  /* 読み終わる頃に進むボタンを強調 (ウェルカム・遷移画面。チュートリアルと同じ合図) */
-  @keyframes btnCue { 0%,100% { box-shadow: 0 0 0 0 rgba(18,133,90,0); } 50% { box-shadow: 0 0 0 6px rgba(18,133,90,.32); } }
-  .btn.cue { animation: btnCue 1.2s ease-in-out infinite; }
-  @media (prefers-reduced-motion: reduce) { .btn.cue { animation: none; } }
-  .btn.ghost { border-color: var(--line); color: var(--ink-2); background: var(--panel); }
-  .btn:active { filter: brightness(0.92); }
-  .btn:disabled { opacity: 0.4; }
-  .btnrow { display: flex; gap: 10px; flex-wrap: wrap; }
-
-  /* ---- 課題画面 ---- (レイアウトは片手操作に合わせ CSS 変数で調整可能) */
-  :root {
-    --choice-top: 27%;   /* 選択肢ボックスの上端位置 (小さいほど上=遠い) */
-    --choice-side: 5%;   /* 左右の端からの距離 */
-    --choice-w: 30vmin;
-    --choice-h: 24vmin;
-    --start-bottom: 12%; /* START の下端からの距離 (小さいほど下=親指の根元寄り) */
-  }
-  /* 文字2択 (②) はラベルが長く改行で読みにくいので、ボックスを広く取り改行を減らす (数値① は既定のまま) */
-  body.block-value, body.block-moral, body.block-attn { --choice-w: 40vmin; --choice-h: 26vmin; --choice-side: 4%; }
-  /* 道徳ジレンマ/注意チェックは文が長いが、高齢者手前の参加者も読むので読みやすさ優先で大きめに保つ。
-     ステム帯 6–25% (19%) に 60–65字が 3–4 行で収まる想定 (実機確認は §6-5 宿題)。
-     --choice-top/--start-bottom は value と同一＝軌道幾何を揃える (§6-2)。 */
-  body.block-moral #stem, body.block-attn #stem { font-size: 4vmin; line-height: 1.3; }
-  #task { background: var(--task-bg); touch-action: none; }
-  #topbar { position: absolute; top: 0; left: 0; right: 0; height: 5%;
-    display: flex; align-items: center; justify-content: center; gap: 14px;
-    font-size: 12px; color: var(--ink-3); pointer-events: none; z-index: 3; }
-  #calDb { color: var(--warn); font-weight: 700; }   /* 較正モード (?miccal=1) の現在レベル表示 */
-  #surface { position: absolute; inset: 0; touch-action: none; }
-  #trace { position: absolute; top: 0; left: 0; pointer-events: none; z-index: 1; }
-  /* 設問ステム (文字2択ブロックで上部中央に固定。数値ブロックでは空=非表示)。
-     topbar(5%) と選択肢(--choice-top=27%) の間に収める。 */
-  #stem { position: absolute; top: 6%; left: 5%; right: 5%; height: 19%;
-    display: flex; align-items: center; justify-content: center; text-align: center;
-    font-size: 4.4vmin; line-height: 1.35; font-weight: 600; color: var(--ink);
-    z-index: 3; pointer-events: none; visibility: hidden;
-    /* 改行は stem 中の "|" ヒント (表示時 ZWSP 変換) の位置だけに制限し、文節の途中で折れるのを防ぐ。
-       keep-all=CJK の任意折返しを禁止 / anywhere=ヒント無し長文が溢れる場合の保険 / balance=行長の均等化 */
-    word-break: keep-all; overflow-wrap: anywhere; text-wrap: balance; }
-  .choice { position: absolute; top: var(--choice-top); width: var(--choice-w); height: var(--choice-h);
-    border: 2px solid var(--go); border-radius: 14px; display: flex;
-    align-items: center; justify-content: center; color: var(--ink); z-index: 2;
-    background: rgba(18,133,90,0.07); overflow: hidden; }
-  #choiceA { left: var(--choice-side); }
-  #choiceB { right: var(--choice-side); }
-  .choice .num { line-height: 1; font-weight: 700; visibility: hidden; }
-  .choice .num.big { font-size: 22vmin; }
-  .choice .num.small { font-size: 11vmin; }
-  /* 文字2択の刺激ラベル: 短語句を中央寄せ。改行は避けたいので font を絞り、折返す場合も均等(balance)に */
-  .choice .txt { line-height: 1.25; font-weight: 600; font-size: 3.7vmin; color: var(--ink);
-    padding: 0 6px; text-align: center; white-space: normal; overflow-wrap: anywhere;
-    text-wrap: balance; visibility: hidden; }
-  #start { position: absolute; bottom: var(--start-bottom); left: 50%; transform: translateX(-50%);
-    width: 34vmin; height: 16vmin; border: 2px solid var(--warn); border-radius: 14px;
-    display: flex; align-items: center; justify-content: center; font-size: 18px;
-    font-weight: bold; color: var(--warn); background: rgba(184,83,26,0.07); z-index: 2; }
-  #start.armed { border-color: var(--go); color: var(--go); background: rgba(18,133,90,0.10); }
-  #taskMsg { position: absolute; bottom: calc(var(--start-bottom) + 18vmin); left: 12px; right: 12px;
-    text-align: center; font-size: 15px; color: var(--warn); z-index: 3; pointer-events: none; line-height: 1.5; }
-  .feedback { font-size: 16px; font-weight: bold; }
-  .feedback.ok { color: var(--go); } .feedback.ng { color: #c0392b; }
-  /* ---- チュートリアル・コーチパネル (練習中のみ) ----
-     指・手で隠れない位置に大きく出す 2 段階提示 (2026-07-07 v2、実機フィードバック反映):
-       ステップ1 (START 押下前) = ボックスを隠して上部に大きな説明 (pos-top)
-       ステップ2 (押下〜ドラッグ中) = ボックスを発光強調し、ボックス下の中間帯に説明 (pos-mid)
-     pointer-events:none で操作を妨げない。強調は geometry を変えない box-shadow/色のみ
-     (transform/scale は getBoundingClientRect ベースの当たり判定・geom 記録に影響するため使わない) */
-  #coach { position: absolute; left: 12px; right: 12px; z-index: 4; pointer-events: none;
-    display: none; text-align: center; font-size: 5.2vmin; line-height: 1.6; font-weight: 700;
-    color: var(--ink); background: rgba(255,255,255,0.95); border: 1px solid var(--line); border-radius: 14px;
-    padding: 14px 10px; opacity: 1; transition: opacity 0.35s; }
-  #coach.pos-top { display: block; top: 9%; }
-  /* pos-mid はボックス直下に追従配置 (top:45% 固定だと SE 実機/in-app の実効 viewport でボックスと重なる) */
-  #coach.pos-mid { display: block; top: calc(var(--choice-top) + var(--choice-h) + 12px); font-size: 4.8vmin; }
-  #coach.pos-gap { display: block; font-size: 4.6vmin; }   /* top は coachMsg が計算 (選択肢と START の中間) */
-  /* ドラッグ開始 (initiation) でフェードアウト: 教示は START 押下中に読み、動き出したら経路帯を空ける
-     (パネルが軌跡描画を覆う・「読みながら減速する」癖の形成を避ける。レビューWF指摘 2026-07-07) */
-  #coach.dim { opacity: 0; }
-  #coach b { color: var(--warn); }
-  #coach .sub { display: block; font-size: 4.1vmin; color: var(--ink-2); font-weight: 600; margin-top: 8px; }
-  #coach .feedback { font-size: 5.6vmin; }
-  @keyframes coachPulse {
-    0%   { box-shadow: 0 0 0 0 rgba(255,170,68,0.55); }
-    70%  { box-shadow: 0 0 0 10px transparent; }
-    100% { box-shadow: 0 0 0 0 transparent; }
-  }
-  .coach-pulse { animation: coachPulse 1.3s ease-out infinite; }
-  /* ステップ2 のボックス強調: 発光 + 枠色の明滅 (「ここまで運ぶ」誘導) */
-  @keyframes coachGlow {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(46,255,119,0.65), 0 0 18px 2px rgba(46,255,119,0.35);
-               border-color: #2f7; background: rgba(40,110,80,0.25); }
-    50%      { box-shadow: 0 0 0 12px transparent, 0 0 30px 8px rgba(46,255,119,0.12);
-               border-color: #8fd; background: rgba(40,90,70,0.12); }
-  }
-  .choice.coach-glow { animation: coachGlow 1.1s ease-in-out infinite; }
-  /* 評定リハーサル (練習中の評定画面ヘッダを目立たせる)。SE の実効 viewport (~548px) で
-     送信ボタンが fold 下に落ちないよう 2 行以内に収まるサイズに抑える */
-  #ratingHead.practice { font-size: 15px; color: var(--warn); font-weight: 700; line-height: 1.6; }
-
-  /* ---- 評定画面 (2項目を1画面に) ---- */
-  #rating { background: var(--bg); }
-  #rating .qwrap { flex: 1; min-height: 0; overflow-y: auto; touch-action: pan-y;
-    padding: 18px 18px 28px; display: flex; flex-direction: column; }
-  /* 2項目化 (2026-07-15) で内容が減ったぶん評定ブロックを縦中央へ (2026-07-22)。
-     auto マージンは内容が qwrap から溢れると 0 になる = SE 小画面・チュートリアル中は従来どおり上寄せスクロール */
-  #ratingHead { text-align: center; font-size: 15px; color: var(--ink-2); margin-bottom: 12px; margin-top: auto; }
-  .qitem { margin-bottom: 18px; }
-  .qi-text { font-size: 17px; color: var(--ink); margin-bottom: 8px; line-height: 1.45; }
-  .likert { display: flex; gap: 7px; justify-content: center; }
-  .likert button { flex: 1; max-width: 64px; aspect-ratio: 1; font-size: 20px; font-weight: bold;
-    border-radius: 12px; border: 2px solid var(--line); color: var(--ink); background: var(--panel); }
-  .likert button.sel { background: var(--go); color: var(--go-ink); border-color: var(--go); }
-  .anchors { display: flex; justify-content: space-between; margin-top: 6px;
-    font-size: 14px; color: var(--ink-2); }  /* 2026-07-15 高齢者配慮: 端点の意味が読める大きさ・明度に */
-  .anchors span { max-width: 44%; }
-  .anchors span:last-child { text-align: right; }
-  .qitem.dim { opacity: 0.3; pointer-events: none; }        /* 評定チュートリアル: 非対象項目を薄く */
-  /* 評定チュートリアル: まだ押す段階でない行は薄く (タップは受けて「次へ」へ誘導する = 無反応にしない) */
-  .qitem.tut-off { opacity: .42; transition: opacity .3s; }
-  .rat-nudge { position: fixed; z-index: 43; left: 50%; transform: translateX(-50%); max-width: 96vw; white-space: nowrap;
-    font-size: 14.5px; font-weight: 700; color: var(--err); background: transparent;
-    padding: 6px 10px; pointer-events: none; text-align: center; }
-  .rat-nudge.hidden { display: none; }
-  .phase-banner { position: fixed; z-index: 30; left: 50%; top: 40%; transform: translate(-50%, -50%); pointer-events: none; white-space: nowrap;
-    font-size: 17px; font-weight: 700; color: var(--go); background: rgba(255,255,255,.96); border: 2px solid var(--go);
-    border-radius: 12px; padding: 12px 20px; }
-  .phase-banner.hidden { display: none; }
-  @keyframes btnNudge { 0%,100% { transform: translateX(0); } 20% { transform: translateX(-6px); } 40% { transform: translateX(6px); }
-    60% { transform: translateX(-4px); } 80% { transform: translateX(4px); } }
-  .btn.nudge { animation: btnNudge .5s ease-in-out; }
-  /* 説明BOXの高さぶん評定行を下げる (全ページ同じ量 = 行の位置は動かない。BOXが自信行に被る対策) */
-  #rating.tut-front .qwrap { padding-top: var(--ratReserve, 0px); }
-  .qitem.tfocus .qi-text { color: var(--warn); font-weight: 700; } /* 評定チュートリアル: 対象項目を強調 */
-  /* ---- 評定チュートリアル v2 (2026-07-22): 枠付き説明ボックス+ステップ表示 (説明 n/6)。
-     強調 (b) は色+ややサイズ大で一色べた書きを避ける。ボックスは対象評定の直上に挿入され、
-     迷いページでは自信の評定を覆い隠してその位置に出る (=迷いの直上) ---- */
-  #tutBox { border: 2px solid #fc6; border-radius: 12px; background: rgba(255,204,102,0.08);
-    padding: 12px 14px; margin-bottom: 18px; }
-  #tutBox .tut-step { font-size: 12px; color: #fc6; font-weight: 700; letter-spacing: 1px; margin-bottom: 6px; }
-  #tutBox .tut-text { font-size: 15px; line-height: 1.75; color: #dde; }
-  #tutBox .tut-text b { color: #fc6; font-size: 16.5px; }
-  /* 確定ボタンと (チュートリアル中の) 次へボタンは同じ位置・同じ大きさ (2026-07-22 実機フィードバック:
-     「次へ」を説明ボックス内でなく確定ボタンの位置に置き、進む操作の場所を1箇所に固定する) */
-  #ratingSubmit, #tutNext { align-self: center; margin-top: 4px; margin-bottom: auto;
-    min-width: 72%; max-width: 420px; padding: 16px 24px; font-size: 18px; }
-  #ratingSubmit:disabled { opacity: 0.45; border-color: var(--line); color: var(--ink-3); background: var(--panel); }
-
-  /* ---- 文節ブロック改行 (2026-07-22): "|" 区切りの文節を inline-block 化し、
-     ブロックの途中では折り返さない (変な位置の改行 = 読みづらさ対策)。
-     max-width は「1ブロックが行幅より長い」場合にブロック内折返しを許す保険 */
-  .nb { display: inline-block; max-width: 100%; }
-  /* #stem は flex コンテナのため .nb を直接入れると各文節が flex item 化して縦割りカラムに崩れる
-     (レビューWF 2026-07-22 が headless 実測で検出)。block ラッパを1枚挟み、その中で通常の折返しにする */
-  .nbwrap { max-width: 100%; text-align: center; }
-
-  .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; color: var(--ink-3); }
-
-  /* ---- 未送信データのバー (2026-09-05) ---- */
-  #outboxBar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 45; display: none;
-    align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap;
-    padding: 8px 12px; font-size: 13px; background: var(--warnbg, rgba(255,196,0,.14));
-    border-top: 1px solid var(--warn, #d99); color: var(--fg, #333); }
-  #outboxBar.on { display: flex; }
-  #outboxBar button { padding: 6px 12px; font-size: 13px; border: 1px solid var(--go, #4a8);
-    border-radius: 8px; background: transparent; color: inherit; touch-action: manipulation; }
-  #outboxStatus { opacity: .8; }
-  #hud { color: var(--go, #4a8); font-variant-numeric: tabular-nums; }
-
-  /* ---- 中断ボタン (対面セッション ?stop=1。§6-6 項15) ----
-     いつでも終了できることを画面上に常駐させる。誤タップは確認画面 (stopconfirm) で戻れる。
-     クラウド配布 URL では JS が .on を付けないので存在しない (display:none のまま)。 */
-  #stopBtn { position: fixed; top: 5px; right: 8px; z-index: 40; display: none;
-    padding: 7px 13px; font-size: 13px; color: var(--ink-2); background: rgba(255,255,255,.92);
-    border: 1px solid #5a6470; border-radius: 9px; touch-action: manipulation; }
-  #stopBtn.on { display: block; }
-
-  /* ---- 横向きガード (タッチ端末のみ JS で表示制御) ---- */
-  #rotateGuard { position: fixed; inset: 0; z-index: 100; display: none;
-    flex-direction: column; align-items: center; justify-content: center; gap: 12px;
-    background: var(--bg); text-align: center; padding: 24px; }
-  #rotateGuard.show { display: flex; }
-  #rotateGuard .icon { font-size: 48px; }
-  #rotateGuard p { font-size: 16px; color: var(--ink); line-height: 1.6; }
-
-  /* ---- 中断データ復旧 (intro 内) ---- */
-  #recovery { display: none; margin: 14px 0; padding: 12px;
-    border: 1px solid #a83; border-radius: 10px; background: rgba(255,170,68,0.08); }
-  #recovery.show { display: block; }
-  #recovery p { color: #fc8; font-size: 13px; margin-bottom: 4px; }
-
-  /* ---- 環境音モニタ (micgate=事前チェック/再取得・noisegate=試行間アラート。2026-07-21 §6-6 項10) ---- */
-  .micmeter { height: 14px; max-width: 320px; border: 1px solid var(--line); border-radius: 7px;
-    margin: 14px 0 6px; overflow: hidden; background: #eceff3; }
-  .micmeter i { display: block; height: 100%; width: 0%; background: var(--go); transition: width 0.12s linear; }
-  .micmeter.loud i { background: #c0392b; }
-  .micstatus { font-size: 14px; color: #9cf; min-height: 1.6em; }
-  /* ---- 読速ベースライン (2026-07-22 §6-6 項13) ---- */
-  #reading .rtext { font-size: 19px; line-height: 1.9; color: var(--ink); margin: 16px 0 4px; }
-
-  /* 完了コード (done 画面。募集サイト納品欄との照合用 §6-6 項12) */
-  .ccode { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size: 30px; font-weight: 800; letter-spacing: 4px; color: var(--go); margin: 4px 0; }
-  #ccodeBox { margin: 14px 0; padding: 12px; border: 1px solid var(--go);
-    border-radius: 10px; background: rgba(18,133,90,0.07); }
-
-  /* ---- ドラッグ導入チュートリアル (スポットライト方式・§6-6 項14 / decisions-log 2026-09-02) ----
-     実演レイヤーは pointer-events:none の装飾。実要素(start/choiceA/choiceB)の geom・当たり判定に不干渉。
-     強調は box-shadow/opacity のみ (transform を使わない = 既存 coachGlow の規律と同型) */
-  #tutDemo { position: absolute; inset: 0; z-index: 5; pointer-events: none; }
-  #tutCap { position: absolute; top: 19%; left: 8%; right: 8%; text-align: center; font-size: 13.5px;
-    font-weight: 700; color: var(--warn); z-index: 6; pointer-events: none; opacity: 0; transition: opacity .2s; line-height: 1.4; }
-  .choice.tut-sbxhide { opacity: 0; }   /* 別ステージ実演中は実選択肢を退場 (opacity のみ=geom 不変) */
-  /* ハンズオン成功後: 消さずに暗くする (終わったことは伝えつつ場所は見えたままにする) */
-  .choice.tut-dim, #start.tut-dim { opacity: .18; transition: opacity .35s; }
-  @keyframes tutRcv { 0%,100% { box-shadow: 0 0 0 0 rgba(18,133,90,0); }
-    50% { box-shadow: 0 0 0 6px rgba(18,133,90,.35); } }
-  .choice.tut-rcv { animation: tutRcv .6s ease-out; border-color: var(--go); }
-  /* スポットライト+吹き出しは class ベース = ドラッグ導入(#tutSpot/#tutPop)と評定(#ratSpot/#ratPop)で共用 */
-  /* 対象エリアの黄色い枠線 (2026-09-05: 暗幕による「光らせる強調」は廃止し、枠線だけで場所を示す) */
-  .tut-spot { position: fixed; z-index: 40; pointer-events: none; border-radius: 16px;
-    outline: 3px solid rgba(184,83,26,.85); outline-offset: 0;
-    opacity: 0; transition: opacity .25s; }
-  .tut-spot.on { opacity: 1; transition: top .34s cubic-bezier(.4,0,.2,1), left .34s cubic-bezier(.4,0,.2,1),
-    width .34s cubic-bezier(.4,0,.2,1), height .34s cubic-bezier(.4,0,.2,1), opacity .2s; }
-  .tut-spot.hidden, .tut-pop.hidden, .tut-pop .f.hidden { display: none; }
-  .tut-pop { position: fixed; z-index: 41; width: min(310px, 84vw); background: var(--panel); border: 2px solid var(--warn);
-    border-radius: 14px; box-shadow: 0 10px 28px -12px rgba(20,26,34,.35); padding: 15px 16px 14px; opacity: 0; transform: translateY(4px);
-    transition: opacity .22s, transform .22s, top .55s cubic-bezier(.4,0,.2,1), left .3s cubic-bezier(.4,0,.2,1); }
-  .tut-pop.on { opacity: 1; transform: translateY(0); }
-  .tut-pop .s { font-size: 12px; color: var(--warn); font-weight: 700; letter-spacing: 1.5px; margin-bottom: 7px; }
-  .tut-pop .t { font-size: 15.5px; line-height: 1.75; color: var(--ink); }
-  .tut-pop .t b { color: var(--warn); font-weight: 700; }
-  .tut-pop .f { font-size: 12.5px; color: #7fd0a4; margin-top: 9px; font-weight: 600; }
-  .tut-pop .r { display: flex; align-items: center; gap: 8px; margin-top: 13px; }
-  .tut-pop .dots { display: flex; gap: 5px; margin-right: auto; }
-  .tut-pop .dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--line); }
-  .tut-pop .dots i.a { background: var(--warn); }
-  .tut-pop .nx { border: 0; font: inherit; font-size: 13px; font-weight: 700; border-radius: 8px;
-    padding: 8px 16px; cursor: pointer; background: var(--go); color: var(--go-ink); }
-  @media (prefers-reduced-motion: reduce) { .tut-spot, .tut-spot.on, .tut-pop { transition: opacity .01s !important; } }
-  /* 評定チュートリアル: 押す対象の likert 行を琥珀で鼓動 (どこを押すか。走査は不採用・グローのみ=前回決定) */
-  @keyframes tutCueGlow {
-    0%,100% { box-shadow: 0 0 0 0 rgba(184,83,26,0); border-color: var(--warn); }
-    50% { box-shadow: 0 0 0 4px rgba(184,83,26,.28); border-color: var(--warn); }
-  }
-  .likert.tut-cue button { animation: tutCueGlow 1.25s ease-in-out infinite; }
-  @media (prefers-reduced-motion: reduce) { .likert.tut-cue button { animation: none; border-color: var(--warn); } }
-  /* 吹き出し: 説明(白/黄)=.t、操作方法(緑)=.g。要素の近くに置きどこの話か瞬時にわかるように */
-  .tut-pop .g { font-size: 13.5px; color: var(--go); margin-top: 8px; font-weight: 700; }
-  .tut-pop .g.hidden { display: none; }
-  /* 下部の進行ボタン列 (評定チュートリアルと同様に大きく緑で)。最終ページは [もう一度(控えめ)|完了(緑)] に分割 */
-  .tut-btnrow { position: fixed; z-index: 42; display: flex; gap: 8px; }
-  .tut-btnrow.hidden { display: none; }
-  .tut-btnrow button { display: flex; align-items: center; justify-content: center; border: 0;
-    border-radius: 12px; font: inherit; font-weight: bold; cursor: pointer; }
-  .tut-btnrow .nx { flex: 1; background: var(--go); color: var(--go-ink); font-size: 18px; padding: 14px 18px; box-shadow: 0 6px 16px -8px rgba(20,26,34,.35); }
-  .tut-btnrow .rp { flex: 0 0 40%; background: var(--panel); border: 1px solid var(--line); color: var(--ink-2); font-size: 12.5px; font-weight: 600; padding: 11px 8px; }
-  .tut-btnrow .rp.hidden { display: none; }
-  /* 評定のボタン行: [↻ もう一度 (控えめ)] [次へ/確定 (緑)] を横並び (ドラッグ導入と同じ形) */
-  .rat-btnrow { display: flex; align-items: stretch; gap: 8px; align-self: center;
-    width: 100%; max-width: 420px; margin-top: 4px; margin-bottom: auto; }
-  .rat-btnrow > * { margin-top: 0 !important; margin-bottom: 0 !important; }
-  .rat-btnrow #tutNext, .rat-btnrow #ratingSubmit { flex: 1; min-width: 0 !important; }
-  .rat-replay { flex: 0 0 40%; background: transparent;
-    border: 1px solid var(--line); color: var(--ink-2); font: inherit; font-size: 12.5px; font-weight: 600;
-    padding: 9px 8px; border-radius: 8px; cursor: pointer; }
-  .rat-replay.hidden { display: none; }
-  /* 評定チュートリアル中: 次へ/確定/もう一度 をスクリム(暗幕)より手前に出す (暗くて見えない対策)。
-     position:relative + z-index のみ = レイアウト不変 (評定行の位置には影響しない) */
-  #rating.tut-front #tutNext, #rating.tut-front #ratingSubmit, #rating.tut-front #ratReplay {
-    position: relative; z-index: 41; }
-  /* 評定チュートリアルの「次へ/確定」も、読み終わる頃に強調する (ドラッグ側と同じ合図) */
-  @keyframes ratBtnCue { 0%,100% { box-shadow: 0 0 0 0 rgba(18,133,90,0); }
-    50% { box-shadow: 0 0 0 6px rgba(18,133,90,.35); } }
-  #rating.tut-front #tutNext.cue, #rating.tut-front #ratingSubmit.cue { animation: ratBtnCue 1.2s ease-in-out infinite; }
-  @media (prefers-reduced-motion: reduce) { #rating.tut-front #tutNext.cue, #rating.tut-front #ratingSubmit.cue { animation: none; } }
-  /* 段階開示で要素が現れる時のフェード (opacity のみ=当たり判定/geom に無影響) */
-  @keyframes tutFadeIn { from { opacity: 0; } to { opacity: 1; } }
-  .tut-fadein { animation: tutFadeIn .45s ease; }
-  @media (prefers-reduced-motion: reduce) { .tut-fadein { animation: none; } }
-  /* 「次へ」の登場強調 (数秒後に押せるようになった合図。box-shadow のみ=geom 不変) */
-  @keyframes tutBtnCue { 0%,100% { box-shadow: 0 6px 16px -8px rgba(20,26,34,.35), 0 0 0 0 rgba(18,133,90,0); }
-    50% { box-shadow: 0 6px 16px -8px rgba(20,26,34,.35), 0 0 0 6px rgba(18,133,90,.35); } }
-  .tut-btnrow .nx.cue { animation: tutBtnCue 1.2s ease-in-out infinite; }
-  @media (prefers-reduced-motion: reduce) { .tut-btnrow .nx.cue { animation: none; } }
-  .tut-btnrow.pending .nx { opacity: .35; pointer-events: none; }   /* 実演/操作の完了待ち */
-  /* ハンズオン中の合図 (チュートリアル内で実際に運ばせる) */
-  #tutHint { position: fixed; z-index: 43; left: 50%; transform: translateX(-50%); white-space: nowrap;
-    text-align: center; font-size: 15px; font-weight: 700; color: var(--go); pointer-events: none;
-    background: rgba(255,255,255,.95); border: 1px solid var(--go); border-radius: 10px; padding: 9px 16px; }
-  #tutHint.hidden { display: none; }
-  #tutHint.ng { color: var(--err); border: none; background: transparent; }   /* やり直し系は箱なし・赤 (評定の誘導と同じ言語) */
-  /* ハンズオン中の自分の軌跡 (実演レイヤーの上・pointer-events:none。本番 #trace とは別レイヤー) */
-  #tutInk { position: absolute; inset: 0; z-index: 6; pointer-events: none; }
-  /* 練習中の「↻ 説明」(分からなくなったらチュートリアルへ戻る。topbar は pointer-events:none なので自前で有効化) */
-  #tutAgain { pointer-events: auto; background: var(--panel); border: 1px solid var(--line); color: var(--ink-2);
-    font: inherit; font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 999px; cursor: pointer; }
-  #tutAgain.hidden { display: none; }
-</style>
+<link rel="stylesheet" href="app.css">
 </head>
 <body>
 
@@ -477,6 +103,22 @@
     <button class="btn primary advance" id="stopBack">課題に戻る</button>
     <div class="vgap"></div>
     <button class="btn ghost advance" id="stopGo">ここで終了する</button>
+  </div>
+</section>
+
+<!-- ===== RESUME (中断からの再開。2026-09-06 §6-6 項17) =====
+     同じ URL を 3 時間以内に開き直し、本番の途中データが残っていれば「続きから」か「最初から」を選ぶ。
+     続き = マイクの再取得 (環境音チェック) → 次の試行。データは従来どおり完走時にまとめて送信 (途中データは送らない)。 -->
+<section id="resume" class="screen">
+  <div class="pad">
+    <h1>前回の続きから再開できます</h1>
+    <p id="resumeInfo"></p>
+    <p>「続きから再開する」を押すと、マイクの確認のあと、<b>次の問題から</b>続きます。</p>
+    <p class="opt-note">「最初からやり直す」を選ぶと、前回のご回答は端末から削除されます。</p>
+    <div class="vgap"></div>
+    <button class="btn primary advance" id="resumeGo">続きから再開する</button>
+    <div class="vgap"></div>
+    <button class="btn ghost advance" id="resumeRestart">最初からやり直す</button>
   </div>
 </section>
 
@@ -717,6 +359,7 @@
   </div>
 </section>
 
+<script src="bank.js"></script>
 <script>
 (function () {
   "use strict";
@@ -735,6 +378,7 @@
   };
   const BACKUP_KEY = "pilotAnchorBackup_v1"; // 中断対策の localStorage チェックポイント
   const CLIENT_ID_KEY = "pilotAnchorClientId_v1"; // 重複参加の事後検出用 匿名 first-party マーカー
+  const RESUME_WINDOW_MS = 3 * 60 * 60 * 1000;    // 中断から 3 時間以内なら「続きから再開」を提示 (超過は最初から。§6-6 項17)
   // URL クエリで上書き可 (例: ?block=value で価値・選好ブロック / ?reps=2&practice=0&break=0&ratings=0 で短縮テスト。
   //   ?rotate=0 で横向きガード無効 / ?upload=0 で自動送信無効 / ?debug=1 で検証フック+CSV+常時ボタン)
   // 環境音モニタ (§6-6 項10): ?mic=0 で無効 (開発・headless)・?mic=mock は検証用。?micth=/-micchk=/micquiet=/micover=
@@ -923,46 +567,9 @@
         food: "どちらかを食べるなら、どちらにしますか？",
         values: "どちらをより大切にしたいですか？",
       },
-      // 項目バンク (§6-3)。各 = 1セル。level: clear(大)/mid(中)/conflict(小)。
-      //   セルあたり 2 項目 = 24 項目 (2026-07-07 増強)。第2項目 (id 付き) はユーザーレビュー第1ラウンド
-      //   反映済 (2026-07-07)。選定原則: 同属性・同カテゴリで対比 (困惑回避) / 消費財・くじの金額偏重を
-      //   避ける (非金額項目を導入)。バンクは「パイロットで調整」前提 (§6-3)。
-      //   better: 規範的に優位な肢 ("a"|"b"|null)。conflict は基本 null (金額くじは EV 高い側を記録)。
-      //   ev (期待値・円) は金額くじのみ。賞品くじ (お菓子等) は ev なし = §6-4 の EV manipulation check
-      //   対象外 (同一賞品の確率支配 (clear) は better で表現)。
-      //   id: itemId の明示指定 (省略時 domain-level = 既存12項目の過去データ互換)。
-      bank: [
-        { domain: "goods", level: "clear",    a: { label: "1万円札1枚" },    b: { label: "10円玉1枚" },     better: "a" }, /* 札1枚vs玉1枚の対比。ユーザー選定 2026-07-07 (旧: 現金1万円) */
-        { domain: "goods", level: "clear", id: "goods-clear-2", a: { label: "新品のイヤホン" }, b: { label: "中古のイヤホン" }, better: "a" }, /* 同一物の状態対比 (価格非提示なので新品が支配)。ユーザー選定 2026-07-07 */
-        { domain: "goods", level: "mid",      a: { label: "現金9000円" },   b: { label: "商品券10000円" }, better: null }, /* mid: トレードオフ(柔軟性↔金額)。ユーザー選定 2026-06-23 */
-        { domain: "goods", level: "mid", id: "goods-mid-2", a: { label: "デザイン重視の靴" }, b: { label: "履き心地重視の靴" }, better: null }, /* mid: トレードオフ(見た目↔実用)。非金額 (金額偏重の回避、ユーザー方針 2026-07-07)。承認済 2026-07-07 R2 */
-        { domain: "goods", level: "conflict", a: { label: "図書カード1000円" }, b: { label: "ドリンク券1000円" }, better: null, conflictType: "approach" }, /* approach: 同額(1000円)で互いに支配しない (本のみ↔飲料のみ)。ユーザー指摘 2026-06-23 */
-        { domain: "goods", level: "conflict", id: "goods-conflict-2", a: { label: "映画チケット1枚" }, b: { label: "好きな漫画1冊" }, better: null, conflictType: "approach" }, /* approach: 娯楽同士・非金額・非支配。承認済 2026-07-07 R2 */
-        { domain: "lottery", level: "clear",    a: { label: "80%で1000円", ev: 800 }, b: { label: "20%で1000円", ev: 200 }, better: "a" },
-        { domain: "lottery", level: "clear", id: "lottery-clear-2", a: { label: "90%でアイス" }, b: { label: "10%でガム" }, better: "a" }, /* 賞品くじ (確率も賞品も a が優位=二重支配、ev不要)。同一賞品×確率違いは不自然とのレビューで差し替え 2026-07-07 R2。承認済 (R3 で24項目完全確定) */
-        { domain: "lottery", level: "mid",      a: { label: "70%で1000円", ev: 700 }, b: { label: "確実に500円", ev: 500 }, better: "a" }, /* mid: EVトレードオフ(700↔500)。ユーザー選定 2026-06-23 */
-        { domain: "lottery", level: "mid", id: "lottery-mid-2", a: { label: "70%でジュース2本" }, b: { label: "確実にジュース1本" }, better: null }, /* 賞品くじ (量×リスクのトレードオフ)。旧「80%で1500円/確実に1000円」は EV差200 が mid-1 と重複+金額ばかりで味気ないとのレビューで転換 2026-07-07 R3。金額くじは3項目 (EV差600/200/50) で §6-4 EV規範を維持 */
-        { domain: "lottery", level: "conflict", a: { label: "確実に500円", ev: 500 }, b: { label: "50%で1100円", ev: 550 }, better: "b", conflictType: "approach" },
-        { domain: "lottery", level: "conflict", id: "lottery-conflict-2", a: { label: "確実にコーヒー1杯" }, b: { label: "50%でケーキセット" }, better: null, conflictType: "approach" }, /* 賞品くじ (価値が通約不能=真の拮抗、規範なし)。承認済 2026-07-07 R2 */
-        { domain: "food", level: "clear",    a: { label: "出来たての好物" }, b: { label: "冷めた好物" }, better: "a" }, /* 同一物の鮮度対比。food-mid にも「冷めた好物」が出るが「選択肢が同じでも問題は別」としてユーザー確定 2026-07-07 R2 */
-        { domain: "food", level: "clear", id: "food-clear-2", a: { label: "焼きたてのパン" }, b: { label: "伸びきった麺" }, better: "a" }, /* ユーザー選定 2026-07-07 (旧: 伸びきったラーメン) */
-        { domain: "food", level: "mid",      a: { label: "出来たてのおにぎり" }, b: { label: "冷めた好物" },  better: null }, /* mid: トレードオフ(鮮度↔好み)。ユーザー選定 2026-06-23 */
-        { domain: "food", level: "mid", id: "food-mid-2", a: { label: "好物を一口だけ" }, b: { label: "普通の味で大盛り" }, better: null }, /* mid: トレードオフ(好み↔量)。承認済 2026-07-07 (R3 で24項目完全確定) */
-        { domain: "food", level: "conflict", a: { label: "ぬるい麦茶" },     b: { label: "味の薄いせんべい" }, better: null, conflictType: "avoidance" },
-        { domain: "food", level: "conflict", id: "food-conflict-2", a: { label: "冷めたポテト" }, b: { label: "ぬるいコーラ" }, better: null, conflictType: "avoidance" }, /* avoidance。ユーザー選定 2026-07-07 (ラベル短縮方針で フライドポテト→ポテト、R3) */
-        { domain: "values", level: "clear",    a: { label: "家族との時間" }, b: { label: "広告を見る時間" }, better: "a" }, /* 同属性 (時間の使い方) で対比。ラベル短縮 2026-07-07 R3 (ボックス幅制約) */
-        { domain: "values", level: "clear", id: "values-clear-2", a: { label: "親友との信頼" }, b: { label: "他人からのいいね" }, better: "a" }, /* 同カテゴリ (無形の対人価値) で対比。ラベル短縮 2026-07-07 R3 */
-        { domain: "values", level: "mid",      a: { label: "趣味の時間" }, b: { label: "昼寝の時間" },     better: null }, /* mid: トレードオフ(両方魅力)。ユーザー選定 2026-06-23 */
-        { domain: "values", level: "mid", id: "values-mid-2", a: { label: "旅行の楽しみ" }, b: { label: "貯金の安心" }, better: null }, /* mid: トレードオフ(体験↔安定・両方魅力)。承認済 2026-07-07 (R3 で24項目完全確定) */
-        { domain: "values", level: "conflict", a: { label: "満員電車での通勤" }, b: { label: "毎日の残業" }, better: null, conflictType: "avoidance", stem: "どちらかを選ぶなら、|まだマシな方は|どちらですか？" }, /* avoidance (両方避けたい)。ユーザー選定 2026-06-23 */
-        { domain: "values", level: "conflict", id: "values-conflict-2", a: { label: "真夏の停電" }, b: { label: "真冬の停電" }, better: null, conflictType: "avoidance", stem: "どちらかを選ぶなら、|まだマシな方は|どちらですか？" }, /* avoidance: 季節のみ変えた対称ペア。ユーザー選定 2026-07-07 (旧: 真冬の断水) */
-      ],
-      practiceBank: [
-        // 1問目=支配優位 (操作の習得)、2問目=トレードオフ (評定リハーサルで尺度の迷い側も1回使う。
-        //   易2問だと自信5/迷い1に初期アンカーが偏るというレビューWF指摘 2026-07-07。本バンク24項目とは非重複)
-        { domain: "practice", a: { label: "100円もらう" }, b: { label: "1円もらう" }, better: "a", stem: "どちらが欲しいですか？" },
-        { domain: "practice", a: { label: "パンの朝食" },   b: { label: "ごはんの朝食" }, better: null, stem: "どちらを選びますか？" },
-      ],
+      // 項目バンク (bank.js に分離 2026-09-06。設計正本は §6-3 表)。各 = 1セル。id 省略時の itemId は makeCell が生成
+      bank: PILOT_BANK.value.bank,
+      practiceBank: PILOT_BANK.value.practiceBank,   // 練習2問 (bank.js)
       makeCell(item, aSide) {
         // aSide: item.a を左右どちらに置くか (= 規範優位側の左右CB)
         const leftIsA = aSide === "left";
@@ -1057,73 +664,9 @@
       csvHead: "moralType,conflictLevel,betterSide,tagWeight,tagEscape,tagSplit",
       csvRow: (r) => `${r.moralType},${r.conflictLevel},${r.betterSide},${(r.tags&&r.tags.weight)||""},${(r.tags&&r.tags.escape)||""},${(r.tags&&r.tags.split)||""}`,
       defaultStem: "あなたならどうしますか？",
-      // 項目バンク (§6-5「③49問バンク確定表」が SSOT)。各 = 1セル。7類型×(明確1・中間2・拮抗4)=49問。
-      //   mtype: 7類型 (sacrifice/honesty/loyalty/care/promise/autonomy/privacy)。level: clear(明確)/mid(中間)/conflict(拮抗)。
-      //   stem = 場面文 (40–70字。"|" は文節区切り: 表示時に .nb ブロック化・記録からは除去 = nbText/stemRecord)。
-      //   better: 規範優位肢 ("a"|null)。明確のみ better 定義、中/拮抗は null。
-      //   tags = 構造メタ (weight 軽/重, escape 封鎖/あり:*, split 偏る/割れる/100%)。水準操作の層別・探索分析用 (decisions-log 2026-08-18)。
-      //   itemId は id 省略時 `${mtype}-${level}` を生成。第二パイロット継続20項目は itemId 不変 (過去データ互換)、新規29は id 明示。
-      //   2026-08-22 R4–R5 レビューで49問確定 (定義v2・②廃止に伴う③only 拡張)。旧24項目版は git 履歴。
-      bank: [
-        { mtype: "sacrifice", level: "clear", stem: "暴走電車が|5人に向かう。|レバーを引けば|電車は|別の線路にそれ、|そちらに人はいない。", a: { label: "レバーを引く" }, b: { label: "何もしない" }, better: "a", tags: { weight: "-", escape: "-", split: "100%" } },
-        { mtype: "sacrifice", level: "mid", stem: "暴走電車が|5人に向かう。|レバーを引けば|別の線路にそれるが、|そこにいる|作業員1人が|犠牲になる。", a: { label: "レバーを引く" }, b: { label: "何もしない" }, better: null, tags: { weight: "重", escape: "封鎖", split: "偏る" } },
-        { id: "sacrifice-mid-2", mtype: "sacrifice", level: "mid", stem: "病院で有毒ガスが|発生し、|5人の患者の部屋へ|流れている。|換気を切り替えれば|別室の患者1人に|ガスが向かう。", a: { label: "切り替える" }, b: { label: "何もしない" }, better: null, tags: { weight: "重", escape: "封鎖", split: "偏る" } },
-        { mtype: "sacrifice", level: "conflict", stem: "暴走電車が|5人の子どもに向かう。|歩道橋で|隣にいる|大柄な人を|あなたの手で|突き落とせば、|電車は止まり|子どもたちは助かる。", a: { label: "突き落とす" }, b: { label: "何もしない" }, better: null, tags: { weight: "重", escape: "封鎖", split: "偏る" } },
-        { id: "sacrifice-conflict-2", mtype: "sacrifice", level: "conflict", stem: "紛争地で兵士から|隠れている。|あなたの赤ん坊が|泣き出した。|口を塞げば|全員が助かるが、|赤ん坊は窒息してしまう。|塞がなければ|全員が見つかる。", a: { label: "口を塞ぐ" }, b: { label: "何もしない" }, better: null, tags: { weight: "重", escape: "封鎖", split: "偏る" } },
-        { id: "sacrifice-conflict-3", mtype: "sacrifice", level: "conflict", stem: "船が沈み、|あなたは満員の|救命ボートにいる。|ふちにしがみつく|1人の手を|引きはがせば|その人は波にのまれ、|はがさなければ|ボートごと全員が沈む。", a: { label: "手を引きはがす" }, b: { label: "何もしない" }, better: null, tags: { weight: "重", escape: "封鎖", split: "偏る" } },
-        { id: "sacrifice-conflict-4", mtype: "sacrifice", level: "conflict", stem: "崖で滑落した仲間が|あなたの片手に|ぶら下がる。|上の2人とあなたの|命綱を留める杭が|抜けかけている。|離さなければ全員が、|離せば仲間だけが落ちる。", a: { label: "手を離す" }, b: { label: "掴み続ける" }, better: null, tags: { weight: "重", escape: "封鎖", split: "偏る" } },
-        { mtype: "honesty", level: "clear", stem: "レジで店員が誤って|お釣りを|1万円多く渡した。|あなたは気づいている。", a: { label: "店員に伝える" }, b: { label: "黙って受け取る" }, better: "a", tags: { weight: "-", escape: "-", split: "100%" } },
-        { mtype: "honesty", level: "mid", stem: "友人が作ってくれた|手料理が|正直おいしくない。|「どうだった?」と|感想を聞かれた。", a: { label: "正直に言う" }, b: { label: "おいしいと言う" }, better: null, tags: { weight: "軽", escape: "あり:工夫", split: "割れる" } },
-        { id: "honesty-mid-2", mtype: "honesty", level: "mid", stem: "友人が大きく|イメチェンした髪型を|「似合う?」と聞いてきた。|正直、|前の方が良かったと|思っている。", a: { label: "正直に言う" }, b: { label: "似合うと言う" }, better: null, tags: { weight: "軽", escape: "あり:工夫", split: "割れる" } },
-        { mtype: "honesty", level: "conflict", stem: "親友の結婚式当日、|新郎に隠された|不倫の証拠を|偶然見つけた。|式はもう|始まろうとしている。", a: { label: "式の前に伝える" }, b: { label: "黙っておく" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
-        { id: "honesty-conflict-2", mtype: "honesty", level: "conflict", stem: "余命を知らされていない|父が「大丈夫だよな」と|あなたに聞いてきた。|本人に伝えるかどうかは、|医師から家族に|任されている。", a: { label: "本当のことを言う" }, b: { label: "大丈夫と言う" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
-        { id: "honesty-conflict-3", mtype: "honesty", level: "conflict", stem: "あなたの脇見で|事故が起き、|助手席の|幼なじみに|重い後遺症が|残った。|事故の記憶がない|本人は|不運だったと信じ、|あなたを|支えにしている。", a: { label: "過失を打ち明ける" }, b: { label: "黙っておく" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
-        { id: "honesty-conflict-4", mtype: "honesty", level: "conflict", stem: "目の悪い祖母に、|絶縁した叔父から|手紙が届いた。|祖母を責める|言葉ばかりだが、|隠し事の嫌いな|本人は|「全部そのまま|読んでおくれ」と|言う。", a: { label: "そのまま読む" }, b: { label: "変えて読む" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
-        { mtype: "loyalty", level: "clear", stem: "資格試験の会場で、|隣の見知らぬ受験生が|カンニングしているのに|気づいた。", a: { label: "試験官に伝える" }, b: { label: "見て見ぬふり" }, better: "a", tags: { weight: "-", escape: "-", split: "100%" } },
-        { mtype: "loyalty", level: "mid", stem: "親しい同僚が、|在宅勤務中|ほとんど働かず|遊んでいるのに、|忙しいふりをして|あなたと同じ|給料・評価を得ている。", a: { label: "上司に伝える" }, b: { label: "黙っている" }, better: null, tags: { weight: "軽", escape: "あり:工夫", split: "割れる" } },
-        { id: "loyalty-mid-2", mtype: "loyalty", level: "mid", stem: "仲の良い部員が|練習をさぼっていたのに、|あなたの代わりに|大会メンバーに|選ばれようとしている。|監督は気づいていない。", a: { label: "監督に伝える" }, b: { label: "黙っている" }, better: null, tags: { weight: "軽", escape: "あり:工夫", split: "割れる" } },
-        { mtype: "loyalty", level: "conflict", stem: "実の兄が|会社ぐるみの不正に|関わっていると知った。|通報すれば|多くの被害者は|救われるが、|兄は逮捕され|兄の家族は|生活を失う。", a: { label: "通報する" }, b: { label: "黙っている" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
-        { id: "loyalty-conflict-2", mtype: "loyalty", level: "conflict", stem: "親友と言える同期が、|あなたと仲の良い後輩に|嫌がらせを|繰り返していると知った。|人事に伝えれば|同期は処分され、|黙っていれば|後輩が苦しみ続ける。", a: { label: "人事に伝える" }, b: { label: "黙っている" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
-        { id: "loyalty-conflict-3", mtype: "loyalty", level: "conflict", stem: "あなたは体を壊し、|工房を譲ると決めた。|継げるのは1人。|10年支え続けた|弟子は腕も立つ。|そこへ息子が|家族を連れ|「継ぎたい」と|帰ってきた。", a: { label: "息子に継がせる" }, b: { label: "弟子に継がせる" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
-        { id: "loyalty-conflict-4", mtype: "loyalty", level: "conflict", stem: "娘の結婚式の朝、|人生を導いてくれた恩師が|危篤だと連絡が来た。|今向かえば|最期に間に合うが、|式には戻れない。", a: { label: "恩師へ行く" }, b: { label: "式に残る" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
-        { mtype: "care", level: "clear", stem: "優先席に座る|あなたの前に、|立つのがつらそうな|高齢者が来た。|席は空いていない。", a: { label: "席を譲る" }, b: { label: "座り続ける" }, better: "a", tags: { weight: "-", escape: "-", split: "100%" } },
-        { mtype: "care", level: "mid", stem: "人気店の長い行列で、|後ろの人が|「子どもが高熱で|急いでいる」と|順番を譲ってほしいと|頼んできた。", a: { label: "順番を譲る" }, b: { label: "断る" }, better: null, tags: { weight: "軽", escape: "あり:自己犠牲", split: "割れる" } },
-        { id: "care-mid-2", mtype: "care", level: "mid", stem: "認知症が進む母は、|もうあなたのことも|思い出せない。|それでも|「家に帰りたい」と繰り返す。|連れて帰れば、|介護の負担は大きく増える。", a: { label: "連れて帰る" }, b: { label: "施設に残す" }, better: null, tags: { weight: "重", escape: "あり:自己犠牲", split: "割れる" } },
-        { mtype: "care", level: "conflict", stem: "余命わずかの親友が|入院先で|「最後にこれが食べたい」と、|医師に固く止められた|食べ物を頼んできた。|食べれば|容体が急変する|恐れもある。", a: { label: "持っていく" }, b: { label: "断る" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
-        { id: "care-conflict-2", mtype: "care", level: "conflict", stem: "人通りのない道で|人が倒れている。|あなたは第一志望の|最終面接に向かっていて、|立ち止まれば|間に合わない。", a: { label: "助ける" }, b: { label: "面接へ急ぐ" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
-        { id: "care-conflict-3", mtype: "care", level: "conflict", stem: "長年連れ添った|老犬が|末期のがんで|苦しんでいる。|痛みを取る|手立てはないと|獣医は言う。|楽にする処置を選べば、|今日が最期の日になる。", a: { label: "処置を頼む" }, b: { label: "そのまま看取る" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
-        { id: "care-conflict-4", mtype: "care", level: "conflict", stem: "わが子の心臓を|治せるのは|手術だけだ。|成功すれば|健康になるが、|失敗すれば|もう目を覚まさない。|手術しなければ|数年はもつ。|成功は五分五分だ。", a: { label: "手術を受けさせる" }, b: { label: "手術を見送る" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
-        { id: "promise-clear", mtype: "promise", level: "clear", stem: "友人の引っ越しを|手伝うと約束した日の朝、|眠くて面倒になってきた。|休んでも自分は困らないし、|連絡するのも億劫だ。", a: { label: "約束通り行く" }, b: { label: "連絡せず休む" }, better: "a", tags: { weight: "-", escape: "-", split: "100%" } },
-        { id: "promise-mid", mtype: "promise", level: "mid", stem: "あなたは職務上、|親しい同僚の|解雇が決まったと知った。|同僚は来週、|マンション購入の|契約をする。|口外が発覚すれば|処分は免れない。", a: { label: "同僚に伝える" }, b: { label: "黙っている" }, better: null, tags: { weight: "重", escape: "あり:リスク賭け", split: "割れる" } },
-        { id: "promise-mid-2", mtype: "promise", level: "mid", stem: "子どもと動物園に行くと|約束した日曜、|朝から本降りの雨になった。|子どもは|楽しみにしていて、|行く気でいる。", a: { label: "雨でも行く" }, b: { label: "延期する" }, better: null, tags: { weight: "軽", escape: "あり:工夫", split: "割れる" } },
-        { id: "promise-conflict", mtype: "promise", level: "conflict", stem: "親の介護で|地元を離れられない|婚約者に|「ここに残る」と|約束していた。|しばらくたって|会社から|本社への転勤を命じられ、|断れば居場所はない。", a: { label: "転勤を断る" }, b: { label: "転勤を受ける" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
-        { id: "promise-conflict-2", mtype: "promise", level: "conflict", stem: "「弟が養子だと明かさない」と|亡き母と約束した。|弟は子の難病の手がかりに|家系の病歴を調べ始めた。|血のつながらない弟が|調べても意味はない。", a: { label: "養子だと明かす" }, b: { label: "黙り続ける" }, better: null, tags: { weight: "重", escape: "封鎖", split: "偏る" } },
-        { id: "promise-conflict-3", mtype: "promise", level: "conflict", stem: "「離婚だけはしない」と|泣く子どもに約束した。|夫婦の関係は|もう戻らないところまで冷え、|相手は限界だと|離婚を求めている。", a: { label: "離婚に応じる" }, b: { label: "離婚を断る" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
-        { id: "promise-conflict-4", mtype: "promise", level: "conflict", stem: "亡くなった親友から|「死んだら中は見ずに処分して」と|箱を託されていた。|遺された母親が|「形見に何か残したい」と|泣いてすがってくる。", a: { label: "箱を渡す" }, b: { label: "見ずに処分する" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
-        { id: "autonomy-clear", mtype: "autonomy", level: "clear", stem: "高齢の父が|電話で言われるまま|ATMで|多額の現金を|振り込もうとしている。|明らかに詐欺の手口だ。", a: { label: "止める" }, b: { label: "任せる" }, better: "a", tags: { weight: "-", escape: "-", split: "100%" } },
-        { id: "autonomy-mid", mtype: "autonomy", level: "mid", stem: "祖父が事故を起こし、|家族は免許の返納を|迫っている。|車がなければ|暮らせない山里で、|祖父は|「味方はお前だけだ」と|あなたに頼ってきた。", a: { label: "祖父に味方する" }, b: { label: "家族に味方する" }, better: null, tags: { weight: "重", escape: "あり:自己犠牲", split: "割れる" } },
-        { id: "autonomy-mid-2", mtype: "autonomy", level: "mid", stem: "畑で熱中症で倒れて|救急車で運ばれた祖母が、|退院した翌日も|畑に出ようとする。|畑が生きがいだが、|あなたが言えば|祖母は畑をやめる。", a: { label: "やめさせる" }, b: { label: "好きにさせる" }, better: null, tags: { weight: "重", escape: "あり:工夫", split: "割れる" } },
-        { id: "autonomy-conflict", mtype: "autonomy", level: "conflict", stem: "引退試合のリングで、|網膜を手術した後輩が|目に強打を受けた。|次に打たれれば失明する。|セコンドのあなたが|タオルを投げれば|試合は終わる。", a: { label: "タオルを投げる" }, b: { label: "最後まで戦わせる" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
-        { id: "autonomy-conflict-2", mtype: "autonomy", level: "conflict", stem: "初めての大役を任された部下が|不眠と激やせで限界だ。|山場はあとひと月、|人手の補充は利かない。|本人は続けたいと譲らず、|外す権限はあなたにある。", a: { label: "担当を外す" }, b: { label: "続けさせる" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
-        { id: "autonomy-conflict-3", mtype: "autonomy", level: "conflict", stem: "「延命治療はいらない」と|言っていた母が倒れ、|意識が戻る可能性は|極めて低いと告げられた。|延命装置をつけるか、|判断はあなたに委ねられた。", a: { label: "延命を断る" }, b: { label: "延命を頼む" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
-        { id: "autonomy-conflict-4", mtype: "autonomy", level: "conflict", stem: "隣家が燃えている。|元消防士の弟が|「中に人がいる」と|飛び込もうとする。|消防の到着まで|あと数分。|力ずくでなら|止められる。", a: { label: "力ずくで止める" }, b: { label: "行かせる" }, better: null, tags: { weight: "重", escape: "封鎖", split: "偏る" } },
-        { id: "privacy-clear", mtype: "privacy", level: "clear", stem: "人事部から誤って、|同僚たちの|健康診断の結果が|あなたに送られてきた。|見ても誰にも|分からない。", a: { label: "見ずに知らせる" }, b: { label: "見てから知らせる" }, better: "a", tags: { weight: "-", escape: "-", split: "100%" } },
-        { id: "privacy-mid", mtype: "privacy", level: "mid", stem: "家族共用のパソコンに|「友達がいない つらい」と|検索した跡が残っていた。|誰のものかは、|履歴の続きを見れば分かる。", a: { label: "続きを見る" }, b: { label: "見ずに閉じる" }, better: null, tags: { weight: "軽", escape: "あり:工夫", split: "割れる" } },
-        { id: "privacy-mid-2", mtype: "privacy", level: "mid", stem: "会社の採用の|最終判断を|あなたが任された。|候補者の名前を検索すると、|仕事と関わりのない|私的なSNSが出てきた。", a: { label: "読んで決める" }, b: { label: "読まずに決める" }, better: null, tags: { weight: "軽", escape: "あり:工夫", split: "割れる" } },
-        { id: "privacy-conflict", mtype: "privacy", level: "conflict", stem: "不登校の娘が|「消えたい」とつぶやいた。|理由は誰にも話さない。|日記の鍵を壊して読めば|事情が分かるが、|娘は二度と|心を開かないだろう。", a: { label: "鍵を壊して読む" }, b: { label: "読まずに待つ" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
-        { id: "privacy-conflict-2", mtype: "privacy", level: "conflict", stem: "預け先がなく、|明日はアプリで頼んだ|シッターに|一歳のわが子を預ける。|撮影は規約違反と|断られたが、|黙ってカメラを置けば|様子を全て見られる。", a: { label: "カメラを置く" }, b: { label: "置かずに預ける" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
-        { id: "privacy-conflict-3", mtype: "privacy", level: "conflict", stem: "隣の家から毎晩、|幼い子の泣き声と|怒鳴り声が聞こえる。|警察も児童相談所も|「証拠がなく動けない」と言う。|今、カーテンの隙間から|虐待が見えている。", a: { label: "撮影する" }, b: { label: "撮影しない" }, better: null, tags: { weight: "重", escape: "封鎖", split: "偏る" } },
-        { id: "privacy-conflict-4", mtype: "privacy", level: "conflict", stem: "同居する大学生の弟が|夜中に出歩き、|部屋に鍵をかけ始めた。|警察から弟に連絡も来た。|尋ねても答えない。|扉を壊して入れば|事情が分かるかもしれない。", a: { label: "扉を壊して入る" }, b: { label: "入らずにおく" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
-      ],
-      practiceBank: [
-        // 練習5問ぶんを別々の項目で (2026-09-06: 2問の使い回しをやめる)。価値・選好 (旧②) バンクの中立な項目から採用 =
-        // 道徳的な重さがなく本番49問と非重複。1問目=明確 (操作の習得)、以降=トレードオフ (評定リハーサルで尺度の両側を使う)
-        { mtype: "practice", id: "practice-1", stem: "どちらが欲しいですか？", a: { label: "1万円札1枚" }, b: { label: "10円玉1枚" }, better: "a" },
-        { mtype: "practice", id: "practice-2", stem: "どちらを選びますか？", a: { label: "デザイン重視の靴" }, b: { label: "履き心地重視の靴" }, better: null },
-        { mtype: "practice", id: "practice-3", stem: "どちらが欲しいですか？", a: { label: "図書カード1000円" }, b: { label: "ドリンク券1000円" }, better: null },
-        { mtype: "practice", id: "practice-4", stem: "どちらのくじを選びますか？", a: { label: "確実にコーヒー1杯" }, b: { label: "50%でケーキセット" }, better: null },
-        { mtype: "practice", id: "practice-5", stem: "どちらを選びますか？", a: { label: "映画チケット1枚" }, b: { label: "好きな漫画1冊" }, better: null },
-      ],
+      // 項目バンク (bank.js に分離 2026-09-06。設計正本は §6-5「③49問バンク確定表」)。各 = 1セル。id 省略時の itemId は makeCell が生成
+      bank: PILOT_BANK.moral.bank,
+      practiceBank: PILOT_BANK.moral.practiceBank,   // 練習5問 (bank.js)
       makeCell(item, aSide) {
         const leftIsA = aSide === "left";
         const left = leftIsA ? item.a : item.b;
@@ -1291,7 +834,7 @@
   const screens = { welcome: $("welcome"), intro: $("intro"), task: $("task"), rating: $("rating"),
     break: $("break"), blockintro: $("blockintro"), postq: $("postq"), done: $("done"),
     micgate: $("micgate"), noisegate: $("noisegate"), reading: $("reading"),
-    stopconfirm: $("stopconfirm") };
+    stopconfirm: $("stopconfirm"), resume: $("resume") };
   function show(name) {
     for (const k in screens) screens[k].classList.toggle("active", k === name);
     if (STOP_ON) $("stopBtn").classList.toggle("on", !!STOPPABLE[name]);   // 中断ボタンは課題系の画面だけに出す
@@ -1366,6 +909,7 @@
     mainPlanned: null,        // 計画していた本番試行数 (終了時点のブロック)
     mainMs: null,             // 本番開始〜終了の実時間 (ms)
     stopPauses: [],           // 中断確認画面に入って戻った記録 {screen, durationMs} (該当試行の時間指標の汚染検出用)
+    resumes: [],              // 中断→再開の記録 {at, afterTrial, gapMs} (§6-6 項17。再読込/タブ破棄の後に同じ URL で続きから再開)
     exportedAt: null,
   };
   $("devline").textContent = `${device.screenW}×${device.screenH} @${device.dpr}x`;
@@ -1432,12 +976,13 @@
       tickMs: 125,                   // レベル計測周期 ~8Hz (60Hz 軌道記録に負荷をかけない)
       stream: null, ctx: null, analyser: null, buf: null, fbuf: null,
       acquired: false, lost: false, drops: 0, mockDb: -60,
+      muted: false, mutedAt: 0, muteCount: 0, mutedMs: 0,   // トラックのミュート (iOS はバックグラウンド/着信で ended でなく mute になる)
       ambientDb: null, ambientRetries: 0,
     };
   })();
   let noiseAcc = null, visAcc = null;   // 試行窓 (呈示〜評定送信) のアキュムレータ。presentStimulus でリセット
   function resetMonitors() {
-    noiseAcc = { n: 0, sum: 0, max: -Infinity, overMs: 0 };
+    noiseAcc = { n: 0, sum: 0, max: -Infinity, overMs: 0, mutedMs: 0 };
     visAcc = { count: 0, totalMs: 0 };
   }
   resetMonitors();
@@ -1447,6 +992,7 @@
       meanDb: noiseAcc.n ? +(noiseAcc.sum / noiseAcc.n).toFixed(1) : null,
       maxDb: noiseAcc.n ? +noiseAcc.max.toFixed(1) : null,
       overMs: noiseAcc.overMs,
+      mutedMs: Math.round(noiseAcc.mutedMs || 0),   // 計測できなかった時間 (ミュート中はサンプルを取らない)
     };
     t.vis = { count: visAcc.count, totalMs: +visAcc.totalMs.toFixed(0) };
   }
@@ -1469,7 +1015,8 @@
       .then(() => { device.wakeLock = true; })
       .catch(() => { if (device.wakeLock !== true) device.wakeLock = false; });
   }
-  function currentDb() {   // 現在の音量レベル (dBFS)。未取得/切断中は null
+  function currentDb() {   // 現在の音量レベル (dBFS)。未取得/切断中/ミュート中は null
+    if (MIC.muted) return null;   // ミュート中 (iOS のバックグラウンド等) は無音として集計しない
     if (MIC.mode === "mock") return MIC.acquired ? MIC.mockDb : null;
     if (!MIC.acquired || !MIC.analyser) return null;
     let rms = 0;
@@ -1485,7 +1032,7 @@
     return rms > 0 ? Math.max(-100, +(20 * Math.log10(rms)).toFixed(1)) : -100;
   }
   function acquireMic() {
-    if (MIC.mode === "mock") { MIC.acquired = true; MIC.lost = false; return Promise.resolve(); }
+    if (MIC.mode === "mock") { MIC.acquired = true; MIC.lost = false; MIC.muted = false; return Promise.resolve(); }
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia)
       return Promise.reject(new Error("unsupported"));
     // AGC/ノイズ抑制/エコキャンをオフ = 環境音レベルを歪めない (iOS は部分対応・ベストエフォート)
@@ -1501,9 +1048,16 @@
       MIC.ctx.createMediaStreamSource(stream).connect(MIC.analyser);   // 解析のみ・出力へ未接続 (音は鳴らない)
       MIC.fbuf = typeof MIC.analyser.getFloatTimeDomainData === "function" ? new Float32Array(2048) : null;
       MIC.buf = MIC.fbuf ? null : new Uint8Array(2048);
-      MIC.acquired = true; MIC.lost = false;
+      MIC.acquired = true; MIC.lost = false; MIC.muted = false;
       const track = stream.getAudioTracks()[0];   // 切断 (着信・画面ロック・許可剥奪) の検知
       if (track) track.addEventListener("ended", micLost);
+      if (track) {   // ミュート (iOS はバックグラウンド/着信でトラックを止める。ended ではない): 無音として集計せず記録し、試行境界で再取得判定に使う
+        track.addEventListener("mute", () => { if (!MIC.muted) { MIC.muted = true; MIC.mutedAt = performance.now(); MIC.muteCount++; } });
+        track.addEventListener("unmute", () => {
+          if (MIC.muted) { const d = performance.now() - MIC.mutedAt; MIC.mutedMs += d; if (noiseAcc) noiseAcc.mutedMs += d; }
+          MIC.muted = false;
+        });
+      }
     });
   }
   function micLost() {   // 切断: ドラッグ中なら無効試行に。以降は次の試行境界 (micCheckpoint) で再取得を要求
@@ -1529,6 +1083,7 @@
         '<p class="opt-note">測定するのは<b>音量レベルのみ</b>です。会話などの音声の内容は記録・送信されません。音の大きさで先に進めなくなることはありません。</p>';
     $("micgateStatus").textContent = "";
     $("micgateStart").textContent = mode === "precheck" ? "マイクを許可して計測する" : "マイクを再取得する";
+    $("micgateGo").textContent = (mode === "precheck" && next) ? "続きにすすむ" : "練習にすすむ";   // 再開 (§6-6 項17) は練習でなく本番の続きへ
     $("micgateStart").style.display = "";
     $("micgateGo").style.display = "none";
     show("micgate");
@@ -1576,6 +1131,9 @@
     if (MIC.mode === "off") { next(); return; }
     if (!MICGATE_ON) { next(); return; }   // 対面 (?micgate=0): 計測・記録は続けるが進行は止めない (切断も再取得を求めない)
     if (MIC.lost) { showMicGate("reacquire", () => micCheckpoint(next)); return; }
+    if (MIC.muted && performance.now() - MIC.mutedAt > 1500) {   // 1.5 秒を超えるミュート (別アプリがマイクを保持等) は切断と同じ扱い。復帰直後の一瞬は通す
+      MIC.lost = true; showMicGate("reacquire", () => micCheckpoint(next)); return;
+    }
     const last = records[records.length - 1];
     if (last && last.noise && last.noise.overMs >= MIC.gateMinOverMs) { showNoiseGate(last, next); return; }
     next();
@@ -1647,11 +1205,7 @@
   // 中立短文3本 (約30/45/60字 = 場面文の字数域をカバー) を「読み終えたらタップ」で計測して
   // 参加者ごとの読速 (字/秒) を実測し、解析での読解時間の分離 (実測値 or RT〜文字数回帰の較正) に使う。
   // moral を含むセッションで既定ON (?read=0 で無効・?read=1 で強制ON)。位置 = micgate 通過後・練習の前。
-  const READ_SENTENCES = [
-    '駅前の書店は、|平日は夜9時まで、|週末は夜8時まで|開いている。',
-    '公園の桜は|先週から咲き始め、|今週末には|満開になる見込みで、|多くの人が|花見に訪れるという。',
-    '市の図書館は|来月から改修工事のため|休館になり、|貸し出し中の本の返却は|駅前の分館で|受け付けると、|利用者に案内が届いた。',
-  ];
+  const READ_SENTENCES = PILOT_BANK.readingSentences;   // 中立短文3本の文言は bank.js (2026-09-06 分離)
   const READING_ON = (function () {
     const v = new URLSearchParams(location.search).get("read");
     if (v != null) return v !== "0";
@@ -1997,6 +1551,7 @@
       phase: cell.isTutorial ? "tutorial" : phase, block: CONFIG.block, stimulusType: BLOCK.stimulusType,
       ...(cell.isCheck ? checkMeta(cell) : BLOCK.trialMeta(cell)),  // 通常=ブロック別メタ / 注意チェック=isCheck メタ
       post_check: cell.postCheck === true,   // 弱DQS直後の本試行 (警戒モード汚染を感度分析で除外可能に。§6-2)
+      post_resume: resumePending === true,   // 中断→再開の直後の本試行 (§6-6 項17。間隔が空いた分を感度分析で除外可能に)
       choiceSide: null, correct: null,
       stimulusOnsetT: e.timeStamp, initiationT: null, responseT: null,
       rt_proxy_ms: null, mt_proxy_ms: null, total_ms: null,
@@ -2135,6 +1690,7 @@
       showPracticeFeedback();
     } else {
       records.push(trial);
+      resumePending = false;   // 再開直後の1試行だけ post_resume (§6-6 項17)
       saveBackup();   // 試行完了ごとにチェックポイント (中断時の全損防止)
       if (CONFIG.ratings) {
         beginRating();
@@ -2819,7 +2375,8 @@
   }
   function startMain() {
     if (CONFIG.block !== SEQ[seqIndex]) loadBlock(SEQ[seqIndex]);  // 統合練習の最後が別タイプだった場合に現ブロックへ復帰
-    clearBackup();  // 本番開始前は今セッションのバックアップ未作成なので無条件で前回分を破棄してよい
+    if (seqIndex === 0) clearBackup();  // 最初のブロックのみ前回セッションの残骸を破棄。2ブロック目以降 (attn/combo) は今セッションのチェックポイント
+                                        // なので消さない (消すと次の試行完了までの間に再読込すると再開できずデータも失う)
     if (!device.participantId) captureIntro();
     // 練習サマリ (行動ゲートの達成記録。理解確認の証跡 + データ品質共変量。§6-2)
     const prac = records.filter((r) => r.phase === "practice" && r.block === CONFIG.block);  // 統合では現ブロック分のみ
@@ -2887,6 +2444,7 @@
       mode: MIC.mode, threshold: MIC.threshold, checkMs: MIC.checkMs, quietMs: MIC.quietMs,
       gateMinOverMs: MIC.gateMinOverMs, ambientDb: MIC.ambientDb,
       ambientRetries: MIC.ambientRetries, drops: MIC.drops,
+      muteCount: MIC.muteCount, mutedMs: Math.round(MIC.mutedMs),
     };
     // 完了コード (§6-6 項12): 1人1コードを発行しデータにも記録 → 募集サイトの申請コードと機械照合。
     // 全員共通コードの横流し (未実施申請) に耐性。紛らわしい文字 (0/O/1/I/L) は除外
@@ -2957,8 +2515,83 @@
     try {
       const p = buildPayload();
       p.interruptedAt = new Date().toISOString();
+      if (phase === "main" && !device.partial) p.resume = resumeState();   // 続きから再開するための進行状態 (本番中のみ。§6-6 項17)
       localStorage.setItem(BACKUP_KEY, JSON.stringify(p));
     } catch (_) {}
+  }
+
+  // ===== 中断からの再開 (2026-09-06、experiment-design §6-6 項17) =====
+  // iOS Safari はバックグラウンドのタブを破棄して戻ると再読込になる・誤って更新/戻る、で本番の途中から最初の画面に
+  // 戻される事故への対策。チェックポイント (試行完了ごと) に進行状態 (残りキュー・ブロック順・経過時間) を添え、
+  // 同じ URL (クエリ一致) を 3 時間以内に開き直したら「続きから再開」を提示する。再開後は環境音チェック (マイクの
+  // 再取得) を通して次の試行へ。データは従来どおり完走時にまとめて送信し、途中データは送らない (説明資料の記載どおり)。
+  // 記録: device.resumes[]={at, afterTrial, gapMs}・再開直後の本試行に post_resume=true (感度分析で除外可能)。
+  // 対面 kiosk (共用端末) では再開を提示せず、前の人の途中データを partial として未送信キューへ退避する (salvageBackup)。
+  let resumePending = false;   // 再開直後の本試行に post_resume を立てる
+  let resumeOffered = false;   // 起動時に再開画面を出したか (検証用)
+  function resumeState() {
+    return {
+      v: 1, search: location.search, seq: SEQ.slice(), seqIndex, block: CONFIG.block,
+      queue, totalMain, tutChanged,
+      mainElapsedMs: mainStartedAt != null ? +(performance.now() - mainStartedAt).toFixed(0) : 0,
+    };
+  }
+  function canResume(b) {   // 同じ構成 (URL クエリ) の本番途中データが 3 時間以内に残っているか
+    if (!b || !b.resume || b.resume.v !== 1 || b.resume.search !== location.search) return false;
+    if (b.device && b.device.partial) return false;
+    if (!Array.isArray(b.resume.queue) || !Array.isArray(b.resume.seq)) return false;
+    // キューが空 = そのブロックは完了。残ブロック (attn 等) が無ければ本番完了後の未回収分なので再開対象外。
+    // 残ブロックがあれば再開可 (再開後の nextTrial が advanceBlockOrFinish で次ブロックへ進む)
+    if (b.resume.queue.length === 0 && b.resume.seqIndex >= b.resume.seq.length - 1) return false;
+    const gap = Date.now() - Date.parse(b.interruptedAt);
+    return gap >= 0 && gap <= RESUME_WINDOW_MS;
+  }
+  function showResume(b) {
+    const done = b.trials.filter((t) => t.phase === "main" && t.block === b.resume.block).length;
+    $("resumeInfo").innerHTML = `前回は <b>${done} / ${b.resume.totalMain} 問</b>まで進んでいました。`;
+    show("resume");
+    $("resume").querySelector(".pad").scrollTop = 0;
+  }
+  function doResume(b) {
+    const r = b.resume;
+    const gapMs = Math.max(0, Date.now() - Date.parse(b.interruptedAt));
+    // device を復元 (事前アンケート・読速・練習サマリ・評定チュートリアル・休憩ログ・ブロック順)。端末情報は同一端末・
+    // 同一ブラウザでしか backup が見えないので前回値のまま。config は現プロセスの CONFIG を指し直す
+    Object.assign(device, b.device);
+    device.config = CONFIG;
+    device.exportedAt = null;
+    device.resumes = Array.isArray(device.resumes) ? device.resumes : [];
+    records.length = 0;
+    for (const t of b.trials) records.push(t);
+    SEQ.length = 0; for (const id of r.seq) SEQ.push(id);   // combo のランダム順は前回のものを引き継ぐ
+    seqIndex = r.seqIndex;
+    loadBlock(r.block);
+    phase = "main";
+    queue = r.queue;
+    totalMain = r.totalMain;
+    trialIndex = records.filter((t) => t.phase === "main" && t.block === CONFIG.block).length;
+    device.resumes.push({ at: new Date().toISOString(), afterTrial: trialIndex, gapMs });
+    mainStartedAt = performance.now() - (r.mainElapsedMs || 0);   // 中断中の時間は本番時間 (maxmin / mainMs) に含めない
+    trialShownAt = null; lastTrialMs = null;
+    ratingTutorialDone = true; tutIdx = -1; tutChanged = !!r.tutChanged;
+    dragTutState.done = true;
+    resumePending = true;
+    uiLocked = false; recording = false; activePointerId = null;
+    requestWakeLock();   // ユーザー操作 (再開ボタン) 起点
+    const go = () => { sizeCanvas(); nextTrial(); };
+    if (MIC.mode !== "off") showMicGate("precheck", go); else go();   // マイクは再取得+環境音チェックをやり直してから続きへ
+  }
+  function salvageBackup(b) {   // kiosk: 前の参加者の途中データ (再読込等で finishSession を通らなかった分) を未送信キューへ退避
+    try {
+      const p = { device: b.device, trials: b.trials, interruptedAt: b.interruptedAt };
+      p.device.partial = true;
+      p.device.endedBy = p.device.endedBy || "reload";
+      p.device.endedPhase = p.device.endedPhase || "main";
+      p.device.mainCompleted = p.trials.filter((t) => t.phase === "main").length;
+      p.device.exportedAt = new Date().toISOString();
+      outboxPush(p);
+    } catch (_) {}
+    clearBackup();
   }
   function clearBackup() {
     try { localStorage.removeItem(BACKUP_KEY); } catch (_) {}
@@ -3027,7 +2660,7 @@
   }
   function outboxPush(payload) {
     const list = outboxLoad();
-    list.push({ id: (device.participantId || "anon") + "_" + Date.now(), at: new Date().toISOString(), payload });
+    list.push({ id: (((payload.device || {}).participantId) || "anon") + "_" + Date.now(), at: new Date().toISOString(), payload });
     const ok = outboxSave(list);
     outboxRender();
     return ok;
@@ -3115,10 +2748,20 @@
   window.addEventListener("orientationchange", checkOrientation);
   checkOrientation();
 
-  // ===== 中断データ復旧 (intro 表示時に前回チェックポイントがあれば提示) =====
+  // ===== 中断データの扱い (起動時に前回チェックポイントがあれば) =====
+  //   kiosk (対面・共用端末): 途中データ (partial でないもの=再読込で途切れた分) を未送信キューへ退避し、次の人は最初から
+  //   クラウド配布: 3 時間以内・同じ URL の本番途中データなら「続きから再開」を提示 (§6-6 項17)
+  //   それ以外 (別構成・3時間超・本番完了後の未回収分): 従来の手動保存/破棄 UI を intro に出す
   {
     const backup = loadBackup();
-    if (backup) {
+    if (backup && KIOSK && !(backup.device && backup.device.partial)) {
+      salvageBackup(backup);
+    } else if (backup && !KIOSK && canResume(backup)) {
+      resumeOffered = true;
+      showResume(backup);
+      $("resumeGo").addEventListener("click", () => doResume(backup), { passive: true });
+      $("resumeRestart").addEventListener("click", () => { clearBackup(); wcIdx = 0; wcRender(); show("welcome"); }, { passive: true });
+    } else if (backup) {
       $("recovery").classList.add("show");
       $("recoverDl").addEventListener("click", () => {
         const pid = ((backup.device && backup.device.participantId) || "anon").replace(/[^\w-]/g, "");
@@ -3158,10 +2801,16 @@
          '<ul><li>はじめに <b>読む速さの確認</b>（短い文章3本）→ <b>操作の説明</b> → <b>練習</b> と進みます。説明は何度でも見直せます。</li>' +
          '<li>急ぐ必要はありません。<b>自分のペース</b>で進めてください。</li>' +
          '<li>途中に休憩をはさみます。<b>最後まで通して</b>行ってください。</li></ul>' },
-    { h: "実施する環境について", mic: true,
+    { h: "実施する環境について",
       b: '<p><b>静かな場所</b>で、落ち着いて取り組める時に始めてください。</p>' +
          '<ul><li>スマートフォンを<b>手で持って</b>操作します（机に置いたままにしないでください）。</li>' +
-         '<li>通知や他のアプリで中断しないよう、画面をこのままにしてください。</li></ul>' },
+         '<li>通知で中断されないよう、<b>おやすみモード</b>などにしておくと安心です。</li></ul>' },
+    // 2026-09-06: 画面切替・再読込の注意 (§6-6 項17)。画面切替の回数・時間の記録は倫理申請 (実施計画書 §3D) に記載済。
+    // 報酬の承認条件 (非承認の基準) はアプリでなく募集文に書く (身内配布では報酬がないため、ここでは「有効な回答として扱えない」に留める)
+    { h: "進めるうえでのお願い", mic: true,
+      b: '<ul><li><b>途中で他のアプリや別の画面に切り替えないでください。</b>切り替えた回数と時間は記録されます。切り替えの多い回答は、有効なデータとして扱えないことがあります。</li>' +
+         '<li><b>ページの更新（再読み込み）や「戻る」の操作はしないでください。</b>万一とちゅうで画面が消えても、同じURLを開き直せば<b>続きから再開</b>できます。</li>' +
+         '<li>着信などでやむを得ず中断したときは、戻ってからそのまま続けてください。</li></ul>' },
   ];
   const WELCOME = KIOSK ? WELCOME_KIOSK : WELCOME_DEFAULT;
   let wcIdx = 0, wcCueTimer = null;
@@ -3289,7 +2938,10 @@
     enterSession();
   }, { passive: true });
   $("micgateStart").addEventListener("click", micGateStart, { passive: true });
-  $("micgateGo").addEventListener("click", () => { micGateMode = null; enterSession(); }, { passive: true });
+  $("micgateGo").addEventListener("click", () => {
+    const f = micGateNext || enterSession;   // 通常=読速→練習 / 再開 (§6-6 項17)=本番の続き
+    micGateMode = null; micGateNext = null; f();
+  }, { passive: true });
   $("readDone").addEventListener("click", readAdvance, { passive: true });
   $("noisegateGo").addEventListener("click", () => {
     if (!noiseGate) return;
@@ -3359,8 +3011,25 @@
       trialIndex: () => trialIndex,
       outboxCount: () => outboxLoad().length,
       outboxClear: () => { try { localStorage.removeItem(OUTBOX_KEY); } catch (_) {} outboxRender(); },
+      // 中断からの再開 (§6-6 項17) の検証用
+      resumeOffered: () => resumeOffered,
+      backdateBackup: (ms) => {   // チェックポイントの中断時刻を ms だけ過去にずらす (3時間超の判定を検証)
+        try { const b = JSON.parse(localStorage.getItem(BACKUP_KEY)); b.interruptedAt = new Date(Date.now() - ms).toISOString();
+          localStorage.setItem(BACKUP_KEY, JSON.stringify(b)); } catch (_) {}
+      },
+      noiseSamples: () => noiseAcc.n,   // 現在の試行窓のサンプル数 (ミュート中は増えないことの検証)
+      muteMic: (on) => {   // ミュート状態の模擬 (mic=mock と併用。1.5秒超のミュートとして扱わせる)
+        if (on) { MIC.muted = true; MIC.mutedAt = performance.now() - 5000; MIC.muteCount++; } else { MIC.muted = false; }
+      },
     };
   }
+
+  // 本番中のうっかり更新・離脱への確認ダイアログ (PC ブラウザ向け。iOS Safari は表示しないが害はない。§6-6 項17)。
+  // 完了後 (exportedAt あり) と練習中は出さない。kiosk の「つぎの人にわたす」は完了後なので出ない
+  window.addEventListener("beforeunload", (e) => {
+    if (phase !== "main" || device.exportedAt) return;
+    e.preventDefault(); e.returnValue = "";
+  });
 
   // 課題面のプルリフレッシュ/スクロール抑止 (intro/done の .pad スクロールは妨げない)
   surface.addEventListener("touchmove", (e) => { if (e.cancelable) e.preventDefault(); }, { passive: false });
