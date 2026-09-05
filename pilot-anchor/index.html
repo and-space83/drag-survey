@@ -1920,8 +1920,10 @@
     // 練習中はコーチング表示 (ステップ1: ボックスを隠し、上部の大きな説明で START へ誘導)。
     // 本番は一切出さない
     $("taskMsg").textContent = "";
-    if (cell.isTutorial) pendingBanner = `ここから練習です（${CONFIG.practiceTrials}問）`;   // 次 (=最初の練習) で告知
-    else if (pendingBanner) { showBanner(pendingBanner); pendingBanner = null; }
+    if (cell.isTutorial) {   // チュートリアル試行 = 実演から「自分で操作する」段階へ。帯で切り替えを告知し、練習の帯は次に回す
+      showBanner("ここからは自分で操作します");
+      pendingBanner = `ここから練習です（${CONFIG.practiceTrials}問）`;
+    } else if (pendingBanner) { showBanner(pendingBanner); pendingBanner = null; }
     if (phase === "main" && trialShownAt != null) lastTrialMs = performance.now() - trialShownAt;   // 前問の所要を確定
     trialShownAt = performance.now();
     resetMonitors();   // 環境音の試行窓を開始 (呈示〜評定送信。無効リトライ中は継続 = 同一試行の環境として合算)
@@ -1930,6 +1932,10 @@
     if (phase === "practice" && !dragTutState.done) {
       coachMsg(nb('まずは下の <b>START</b> を|指で<b>押さえたまま</b>にします'), "top");
       setCoach("start");
+    } else if (phase === "practice" && cell.isTutorial) {
+      // チュートリアル試行: 最初から START 案内を出す (4秒待たない)。実演ではないことを小さく添える。START 押下で消える
+      setCoach(null);
+      coachMsg(nb('まずは下の <b>START</b> を|指で<b>押さえます</b>') + '<span class="sub">' + nb('ここからは実演ではなく、|自分で操作します') + '</span>', "top");
     } else if (phase === "practice") {
       coachHide(); setCoach(null); armIdleCoach();   // 説明は出さない。触れないまま4秒たったときだけ START 案内
     } else {
