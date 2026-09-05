@@ -115,7 +115,7 @@
   #intro h1 { font-size: 19px; }
   #intro .field { margin: 7px 0; }
   #introMissing:empty { display: none; }   /* 未入力の案内は出るときだけ高さを取る */
-  #intro label.missing { color: var(--err); }   /* 未入力の欄はラベルを赤に (1つでも入力してから) */
+  #introMissing { color: var(--err); font-weight: 700; }   /* 「未入力: …」の行を赤に (ラベルの色は変えない) */
   #intro label { margin-bottom: 3px; font-size: 13.5px; }
   #intro .pad input { padding: 9px 12px; }
   #intro .seg { gap: 6px; }
@@ -550,7 +550,7 @@
     <p class="opt-note" id="micNote" style="display:none"></p>
     <div class="btnrow">
       <!-- 練習は必須 (スキップ不可)。開発用の抜け道は ?practice=0 クエリのみ (2026-07-07 決定) -->
-      <button class="btn primary advance" id="goPractice">練習を始める</button>
+      <button class="btn primary advance" id="goPractice">はじめる</button>
     </div>
     <p class="opt-note" id="introMissing" style="text-align:center;margin-top:6px"></p>
   </div>
@@ -2274,7 +2274,8 @@
     document.body.appendChild(ratSpot);
     ratPop = document.createElement("div"); ratPop.id = "ratPop"; ratPop.className = "tut-pop hidden";
     ratPop.innerHTML = '<div class="s" id="tutStepLabel"></div><div class="t" id="ratTutText"></div>' +
-      '<div class="g hidden" id="ratPopOp"></div>';
+      '<div class="g hidden" id="ratPopOp"></div>' +
+      '<div class="dots" id="ratPopDots"></div>';   // 何枚目かの点 (ドラッグ導入と同じ。2026-09-06)
     document.body.appendChild(ratPop);
     // ボタン行: [↻ もう一度 (控えめ)] [次へ/確定 (緑)] を横並びに (ドラッグ導入と同じ形。2026-09-05)
     const rep = document.createElement("button"); rep.id = "ratReplay"; rep.className = "rat-replay hidden";
@@ -2324,6 +2325,8 @@
     qc.classList.toggle("tut-off", p.act === "next"); qh.classList.toggle("tut-off", p.act === "next" || p.act === "conf");
     if (ratNudgeEl) ratNudgeEl.classList.add("hidden");
     $("tutStepLabel").textContent = `説明 ${tutIdx + 1} / ${TUT_PAGES.length}`;
+    const rdots = $("ratPopDots"); rdots.innerHTML = "";
+    for (let i = 0; i < TUT_PAGES.length; i++) { const d = document.createElement("i"); if (i === tutIdx) d.className = "a"; rdots.appendChild(d); }
     $("ratTutText").innerHTML = nb(p.text);
     $("ratReplay").classList.toggle("hidden", p.act !== "submit");   // 「もう一度見る」は最終ページのみ
     $("ratPopOp").textContent = p.op || ""; $("ratPopOp").classList.toggle("hidden", !p.op);   // 操作方法(緑)
@@ -2432,9 +2435,7 @@
     const shownCount = ["pid", AGEBAND_ON ? "ageBandSeg" : "age", "devModel", "sexSeg", "handSeg"].filter(shown).length;
     const flag = !(ready || miss.length === 0 || miss.length >= shownCount);
     $("introMissing").textContent = flag ? "未入力: " + miss.join("・") : "";
-    const mark = (id, on) => { const f = $(id) && $(id).closest(".field"); const l = f && f.querySelector("label"); if (l) l.classList.toggle("missing", flag && on); };
-    mark("pid", miss.includes("名前")); mark(AGEBAND_ON ? "ageBandSeg" : "age", miss.includes("年齢") || miss.includes("年代"));
-    mark("devModel", miss.includes("機種名")); mark("sexSeg", miss.includes("性別")); mark("handSeg", miss.includes("利き手"));
+
   }
 
   // ===== ドラッグ導入チュートリアル (スポットライト方式。§6-6 項14・decisions-log 2026-09-02) =====
