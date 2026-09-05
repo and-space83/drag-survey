@@ -109,13 +109,16 @@
   .pad ul { margin: 6px 0 6px 20px; }
   .pad .field { margin: 14px 0; }
   /* 入力画面 (intro) は1画面に収める = スクロールさせない (2026-09-05)。説明は welcome/チュートリアルへ移した */
-  #intro .pad { padding: 18px 20px; justify-content: flex-start; }
+  #intro .pad { padding: 14px 18px; justify-content: flex-start; }
   #intro .pad::before, #intro .pad::after { content: none; }
-  #intro .field { margin: 10px 0; }
-  #intro label { margin-bottom: 4px; }
-  #intro .pad input { padding: 10px 12px; }
-  #intro .seg button { padding: 10px 8px; font-size: 14px; }
-  #intro .btn.advance { margin-top: 14px; }
+  #intro h1 { font-size: 19px; }
+  #intro .field { margin: 8px 0; }
+  #intro label { margin-bottom: 3px; font-size: 13.5px; }
+  #intro .pad input { padding: 9px 12px; }
+  #intro .seg { gap: 6px; }
+  #intro .seg button { padding: 9px 6px; font-size: 14px; min-width: 60px; }
+  #intro .btn.advance { margin-top: 12px; padding: 14px 24px; }
+  #intro .mono { display: none; }   /* 端末情報のデバッグ行は participant には不要 */
   .pad label { display: block; font-size: 14px; color: var(--ink-2); margin-bottom: 6px; font-weight: 600; }
   .pad input { width: 100%; max-width: 320px; padding: 12px; font-size: 16px;
     background: var(--panel); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; }
