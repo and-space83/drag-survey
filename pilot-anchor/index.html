@@ -112,7 +112,8 @@
   #intro .pad { padding: 14px 18px; justify-content: flex-start; }
   #intro .pad::before, #intro .pad::after { content: none; }
   #intro h1 { font-size: 19px; }
-  #intro .field { margin: 8px 0; }
+  #intro .field { margin: 7px 0; }
+  #introMissing:empty { display: none; }   /* 未入力の案内は出るときだけ高さを取る */
   #intro label { margin-bottom: 3px; font-size: 13.5px; }
   #intro .pad input { padding: 9px 12px; }
   #intro .seg { gap: 6px; }
@@ -263,6 +264,21 @@
   .anchors span { max-width: 44%; }
   .anchors span:last-child { text-align: right; }
   .qitem.dim { opacity: 0.3; pointer-events: none; }        /* 評定チュートリアル: 非対象項目を薄く */
+  /* 評定チュートリアル: まだ押す段階でない行は薄く (タップは受けて「次へ」へ誘導する = 無反応にしない) */
+  .qitem.tut-off { opacity: .42; transition: opacity .3s; }
+  .rat-nudge { position: fixed; z-index: 43; left: 50%; transform: translateX(-50%); max-width: 86vw;
+    font-size: 14px; font-weight: 700; color: var(--warn); background: rgba(255,255,255,.96);
+    border: 1px solid var(--warn); border-radius: 10px; padding: 8px 14px; pointer-events: none; text-align: center; }
+  .rat-nudge.hidden { display: none; }
+  .phase-banner { position: fixed; z-index: 30; left: 50%; top: 40%; transform: translate(-50%, -50%); pointer-events: none;
+    font-size: 17px; font-weight: 700; color: var(--go); background: rgba(255,255,255,.96); border: 2px solid var(--go);
+    border-radius: 12px; padding: 12px 20px; }
+  .phase-banner.hidden { display: none; }
+  @keyframes btnNudge { 0%,100% { transform: translateX(0); } 20% { transform: translateX(-6px); } 40% { transform: translateX(6px); }
+    60% { transform: translateX(-4px); } 80% { transform: translateX(4px); } }
+  .btn.nudge { animation: btnNudge .5s ease-in-out; }
+  /* 説明BOXの高さぶん評定行を下げる (全ページ同じ量 = 行の位置は動かない。BOXが自信行に被る対策) */
+  #rating.tut-front .qwrap { padding-top: var(--ratReserve, 0px); }
   .qitem.tfocus .qi-text { color: var(--warn); font-weight: 700; } /* 評定チュートリアル: 対象項目を強調 */
   /* ---- 評定チュートリアル v2 (2026-07-22): 枠付き説明ボックス+ステップ表示 (説明 n/6)。
      強調 (b) は色+ややサイズ大で一色べた書きを避ける。ボックスは対象評定の直上に挿入され、
@@ -479,8 +495,8 @@
     <h1 style="margin-bottom:4px">はじめに、あなたについて</h1>
     <p class="opt-note" id="introLead" style="margin:0 0 2px">すべてご記入ください（分析用で、個人の特定はしません）。</p>
     <div class="field">
-      <label for="pid">ニックネーム (ローマ字)</label>
-      <input id="pid" type="text" inputmode="latin" autocomplete="off" placeholder="例: taro / P01">
+      <label for="pid">名前</label>
+      <input id="pid" type="text" autocomplete="off" placeholder="例: 山田 太郎">
     </div>
     <div class="field">
       <label for="age">年齢</label>
@@ -533,6 +549,7 @@
       <!-- 練習は必須 (スキップ不可)。開発用の抜け道は ?practice=0 クエリのみ (2026-07-07 決定) -->
       <button class="btn primary advance" id="goPractice">練習を始める</button>
     </div>
+    <p class="opt-note" id="introMissing" style="text-align:center;margin-top:6px"></p>
   </div>
 </section>
 
@@ -607,7 +624,7 @@
 <section id="reading" class="screen">
   <div class="pad">
     <h1>文章を読む速さの確認</h1>
-    <p id="readIntro">はじめに、文章を読む速さを確認します（全3問）。<br>表示された文章を<b>ふだんどおりの速さ</b>で読み、読み終えたら<b>すぐ</b>下のボタンを押してください。<br>内容についての質問はありません。覚える必要もありません。</p>
+    <p id="readIntro">まず、文章を読む速さを確認します（短い文章を3本）。<br>表示された文章を<b>ふだんどおりの速さ</b>で読み、読み終えたら<b>すぐ</b>下のボタンを押してください。<br>内容についての質問はありません。覚える必要もありません。</p>
     <p class="opt-note" id="readCounter"></p>
     <div class="rtext" id="readText" style="display:none"></div>
     <div class="vgap"></div>
@@ -1252,16 +1269,15 @@
   //     何度でも変更できる」を明示的に説明する方式へ (変更の実施有無は tutChanged で観察記録)
   // act: next=「次へ」で進む / conf=自信を選ぶ / hes=迷いを選ぶ / submit=決定ボタンで完遂
   const TUT_PAGES = [
+    // 2026-09-06: 旧 1/5+2/5 を統合 (重複削減・「壊れた?」と感じる無反応ページを1枚減らす)
     { act: "next",   focus: null, op: '読んだら「次へ」',
-      text: 'ここからは、|答えたあとの|<b>ふりかえり</b>の練習です。|設問に答えるたびに毎回、|下の<b>2つの質問</b>に|答えます。' },
-    { act: "next",   focus: null, op: '読んだら「次へ」',
-      text: 'どちらの質問も|<b>1〜5</b> から選びます。|<b>どちら寄りか</b>を|選ぶだけで、|<b>正解はありません</b>。' },
+      text: 'ここからは、|選んだあとの|<b>ふりかえり</b>の練習です。|毎回、下の<b>2つの質問</b>に|<b>1〜5</b> で答えます。|感じたままで、|<b>正解はありません</b>。' },
     { act: "conf",   focus: "confidence", op: '下の番号を1つ押す',
       text: '1つ目は<b>自信</b>です。|<b>いま選んだ答え</b>への|気持ちの強さを表します。|「自分はこちらだ」と|思える強さを、|ためしに1つ|押してみてください。' },
     { act: "hes",    focus: "hesitation", op: '下の番号を1つ押す',
       text: '2つ目は、下の<b>迷い</b>です。|<b>答えを決めるまで</b>に|どれくらい迷ったかを|表します。|<b>迷うのはごく普通のこと</b>です。|感じたままを、|ためしに1つ|押してみてください。' },
-    { act: "submit", focus: null, op: '「決定して次へ」で確定（何度でも変更できます）',
-      text: 'これで2つとも|答えられました。|見直して、よければ|<b>「決定して次へ」</b>で|確定してください。' },
+    { act: "submit", focus: null, op: '「次へ」で確定（押すまで何度でも変更できます）',
+      text: 'これで2つとも|答えられました。|見直して、よければ|<b>「次へ」</b>で|確定してください。' },
   ];
 
   const $ = (id) => document.getElementById(id);
@@ -1866,10 +1882,20 @@
     $("blockintro").querySelector(".pad").scrollTop = 0;
   }
 
+  // 段階の切り替えを1回だけ短く知らせる帯 (チュートリアル完了→練習)。触れず・記録に入らない
+  let pendingBanner = null, bannerTimer = null;
+  function showBanner(text) {
+    let el = $("phaseBanner");
+    if (!el) { el = document.createElement("div"); el.id = "phaseBanner"; el.className = "phase-banner hidden"; document.body.appendChild(el); }
+    el.textContent = text; el.classList.remove("hidden");
+    if (bannerTimer) clearTimeout(bannerTimer);
+    bannerTimer = setTimeout(() => el.classList.add("hidden"), 2200);
+  }
   function presentStimulus() {
     // 練習中はコーチング表示 (ステップ1: ボックスを隠し、上部の大きな説明で START へ誘導)。
     // 本番は一切出さない
     $("taskMsg").textContent = "";
+    if (pendingBanner) { showBanner(pendingBanner); pendingBanner = null; }
     if (phase === "main" && trialShownAt != null) lastTrialMs = performance.now() - trialShownAt;   // 前問の所要を確定
     trialShownAt = performance.now();
     resetMonitors();   // 環境音の試行窓を開始 (呈示〜評定送信。無効リトライ中は継続 = 同一試行の環境として合算)
@@ -2131,7 +2157,7 @@
     } else if (phase === "practice") {
       $("ratingHead").className = "practice";
       const left = queue.length;
-      $("ratingHead").textContent = "【練習】選んだ直後に毎回この2問に直感で答えます"
+      $("ratingHead").textContent = "【練習】選んだ直後に毎回この2問に答えます"
         + (left > 0 ? `（練習はあと${left}問）` : "（送信すると練習おわり）");
     } else {
       $("ratingHead").className = "";
@@ -2174,7 +2200,27 @@
   // 評定チュートリアル v3 (2026-09-02): tutBox 挿入方式 → スポットライト方式。実要素(評定行/確定ボタン)を
   // ハイライトし、説明は吹き出し(#ratPop)に。fixed オーバーレイで評定行は不動 (位置ずれなし)。gating
   // (selectRating/submitRating/device.ratingTutorial) は不変。ドラッグ導入と CSS 共用 (.tut-spot/.tut-pop)。§6-6 項14
-  let ratSpot = null, ratPop = null, ratCueTimer = null;
+  let ratSpot = null, ratPop = null, ratCueTimer = null, ratNudgeEl = null, ratNudgeTimer = null, ratReserveDone = false;
+  // 説明ページで評定ボタンを押した人への案内 (無反応にしない)。ボタンを渡すとそのボタンも揺らす
+  function ratNudge(text, btn) {
+    if (!ratNudgeEl) { ratNudgeEl = document.createElement("div"); ratNudgeEl.id = "ratNudge"; ratNudgeEl.className = "rat-nudge hidden"; document.body.appendChild(ratNudgeEl); }
+    ratNudgeEl.textContent = text; ratNudgeEl.classList.remove("hidden");
+    const anchor = btn || $("ratingSubmit"), ar = anchor.getBoundingClientRect();
+    ratNudgeEl.style.top = Math.max(8, ar.top - ratNudgeEl.offsetHeight - 10) + "px";
+    if (btn) { btn.classList.remove("nudge"); void btn.offsetWidth; btn.classList.add("nudge"); }
+    if (ratNudgeTimer) clearTimeout(ratNudgeTimer);
+    ratNudgeTimer = setTimeout(() => { ratNudgeEl.classList.add("hidden"); if (btn) btn.classList.remove("nudge"); }, 2000);
+  }
+  // 説明BOXの最大高さを測り、評定行をその分だけ下げる (全ページ同じ量 = 行は不動)。チュートリアル開始時に1回
+  function ratReserve() {
+    if (ratReserveDone) return; ratReserveDone = true;
+    const txt = $("ratTutText"), op = $("ratPopOp"), wasHidden = ratPop.classList.contains("hidden");
+    ratPop.classList.remove("hidden"); const vis = ratPop.style.visibility; ratPop.style.visibility = "hidden";
+    let maxH = 0;
+    for (const pg of TUT_PAGES) { txt.innerHTML = nb(pg.text); op.textContent = pg.op || ""; op.classList.toggle("hidden", !pg.op); maxH = Math.max(maxH, ratPop.offsetHeight); }
+    ratPop.style.visibility = vis; if (wasHidden) ratPop.classList.add("hidden");
+    $("rating").style.setProperty("--ratReserve", (maxH + 30) + "px");
+  }
   // 説明文の長さから「読み終わる頃」を見積もる (遅い読み手基準 ≈ 8字/秒 + 下限1.8s・上限6s)。
   // 読速ベースライン (device.readingBaseline.charsPerSec) があればそれを優先し、その 0.6 倍の速度で見積もる
   function readCueDelay(text) {
@@ -2229,6 +2275,8 @@
       ratSpot.classList.remove("on", "strong"); ratPop.classList.remove("on");
       ratSpot.classList.add("hidden"); ratPop.classList.add("hidden");
       if (lkC) lkC.classList.remove("tut-cue"); if (lkH) lkH.classList.remove("tut-cue");
+      qc.classList.remove("tut-off"); qh.classList.remove("tut-off");
+      if (ratNudgeEl) ratNudgeEl.classList.add("hidden");
       $("ratReplay").classList.add("hidden");
       $("rating").classList.remove("tut-front");
       $("tutNext").classList.remove("cue"); $("ratingSubmit").classList.remove("cue");
@@ -2238,6 +2286,10 @@
       return;
     }
     const p = TUT_PAGES[tutIdx];
+    ratReserve();
+    // まだ押す段階でない行は薄く (説明ページ=両方 / 自信ページ=迷い行)。タップは selectRating が誘導に変える
+    qc.classList.toggle("tut-off", p.act === "next"); qh.classList.toggle("tut-off", p.act === "next" || p.act === "conf");
+    if (ratNudgeEl) ratNudgeEl.classList.add("hidden");
     $("tutStepLabel").textContent = `説明 ${tutIdx + 1} / ${TUT_PAGES.length}`;
     $("ratTutText").innerHTML = nb(p.text);
     $("ratReplay").classList.toggle("hidden", p.act !== "submit");   // 「もう一度見る」は最終ページのみ
@@ -2277,11 +2329,11 @@
   }
   function tutAdvance() { tutIdx++; tutRender(); }
   function selectRating(key, value, container, btn) {
-    if (tutActive()) {   // チュートリアル: 現ページの対象以外は受け付けない (説明ページは操作不可)
+    if (tutActive()) {   // チュートリアル: 現ページの対象以外は受け付けない。ただし無反応にせず、いま押す場所へ誘導
       const act = TUT_PAGES[tutIdx].act;
-      if (act === "next") return;
-      if (act === "conf" && key !== "confidence") return;
-      if (act === "hes" && key !== "hesitation") return;
+      if (act === "next") { ratNudge("まず、下の「次へ」で読み進めてください", $("tutNext")); return; }
+      if (act === "conf" && key !== "confidence") { ratNudge("いまは、上の「自信」を1つ押します"); return; }
+      if (act === "hes" && key !== "hesitation") { ratNudge("いまは、下の「迷い」を1つ押します"); return; }
       // 変更の観察記録 (最終ページの「押すまで変更できます」説明を実際に試したか等)
       if (trial.ratings[key] && trial.ratings[key].value !== value) tutChanged = true;
     }
@@ -2333,7 +2385,19 @@
       device.sex != null && device.handedness != null;
   }
   function refreshIntro() {
-    $("goPractice").disabled = !introReady();
+    const ready = introReady();
+    $("goPractice").disabled = !ready;
+    // どの欄が未入力かを示す (グレーのボタンだけでは分からない)。非表示の欄 (URL プリセット/kiosk) は数えない
+    const shown = (id) => { const f = $(id) && $(id).closest(".field"); return f && getComputedStyle(f).display !== "none"; };
+    const miss = [];
+    if (shown("pid") && $("pid").value.trim() === "") miss.push("名前");
+    if (AGEBAND_ON ? (shown("ageBandSeg") && device.ageBand == null) : (shown("age") && !Number.isFinite(parseInt($("age").value, 10)))) miss.push(AGEBAND_ON ? "年代" : "年齢");
+    if (shown("devModel") && $("devModel").value.trim() === "") miss.push("機種名");
+    if (shown("sexSeg") && device.sex == null) miss.push("性別");
+    if (shown("handSeg") && device.handedness == null) miss.push("利き手");
+    // 何も入力していない初期状態では出さない (全欄が並ぶだけでノイズ)。1つでも入力してから、残りを示す
+    const shownCount = ["pid", AGEBAND_ON ? "ageBandSeg" : "age", "devModel", "sexSeg", "handSeg"].filter(shown).length;
+    $("introMissing").textContent = ready || miss.length === 0 || miss.length >= shownCount ? "" : "未入力: " + miss.join("・");
   }
 
   // ===== ドラッグ導入チュートリアル (スポットライト方式。§6-6 項14・decisions-log 2026-09-02) =====
@@ -2351,14 +2415,14 @@
     const rnd = (a, b) => a + Math.random() * (b - a);
     const PAD = 10;
     const STEPS = [
-      { focus: "orient",   act: "next", sample: true, reveal: 0, op: "読んだら「次へ」", txt: "これから、いくつかの<b>問題文</b>を読んで、<b>2つの選択肢</b>から、あなたの考えに近いほうを選びます。<br>枠の説明を読み、下の<b>緑の案内</b>で進みます。<b>光って囲まれた所</b>が、いま説明している場所です。" },
+      { focus: "orient",   act: "next", sample: true, reveal: 0, op: "読んだら「次へ」", txt: "これから、<b>短い文章（場面文）</b>を読んで、<b>2つの選択肢</b>から あなたの考えに近いほうを選びます。<br>説明は<b>この枠</b>に出ます。<b>黄色く囲まれた所</b>が、いま説明している場所です。読んだら、下の<b>緑のボタン</b>で進みます。" },
       // 2/6: まず問題文の位置に説明だけを 3 秒置いて読ませ、その後 BOX が下へスライドして問題文が現れる
-      { focus: "stem",     act: "next", sample: true, reveal: 1, revealDelay: 3000, op: "読んだら「次へ」", txt: "まず、画面の<b>上</b>に出る<b>問題文（場面文）</b>を読みます。（下は説明用の例です）" },
-      { focus: "choices2", act: "next", sample: true, reveal: 2, op: "読んだら「次へ」", txt: "その<b>下の2つ</b>が選択肢です。問題文を読んで、<b>選ぶほう</b>を決めます。" },
-      { focus: "start",    act: "next", reveal: 2, op: "読んだら「次へ」", txt: "では操作です。下の <b>START</b> を指で押さえ、<b>そのまま指を離さずに</b>運びます。" },
+      { focus: "stem",     act: "next", sample: true, reveal: 1, revealDelay: 3000, op: "読んだら「次へ」", txt: "まず、画面の<b>上</b>に出る<b>場面文</b>を読みます。（上の文は説明用の例です）" },
+      { focus: "choices2", act: "next", sample: true, reveal: 2, op: "読んだら「次へ」", txt: "この<b>2つ</b>が選択肢です。場面文を読んで、<b>選ぶほう</b>を決めます。" },
+      { focus: "start",    act: "next", reveal: 2, op: "読んだら「次へ」", txt: "操作は<b>次の画面</b>で実際にやってみます。下の <b>START</b> に指を置き、<b>離さずに</b>運ぶ操作です。" },
       // 5/6・6/6 はハンズオン: 実演を見せたあと自分で運んでもらい、成功したら進めるようにする
-      { focus: "sandbox",  act: "concept", hands: "sandbox", op: "実演のあと、自分で運んでみましょう", txt: "指を離さずに運びます。<b>道すじは自由</b>です。まっすぐでも、回り道でもかまいません。" },
-      { focus: "action",   act: "real", hands: "real", op: "実演のあと、自分で運んでみましょう", txt: "本番はこの<b>2つの箱</b>のどちらか。押さえたまま運んで、箱の中で指を離します。" },
+      { focus: "sandbox",  act: "concept", hands: "sandbox", op: "実演を見ながら、自分でも START から運んでみましょう", txt: "指を離さずに運びます。<b>道すじは自由</b>です。まっすぐでも、回り道でもかまいません。" },
+      { focus: "action",   act: "real", hands: "real", op: "実演を見ながら、自分でも START から運んでみましょう", txt: "本番はこの<b>2つの箱</b>のどちらか。押さえたまま運んで、箱の中で指を離します。" },
     ];
     function build() {
       if (built) return;
@@ -2376,7 +2440,7 @@
       hint = document.createElement("div"); hint.id = "tutHint"; hint.className = "hidden"; document.body.appendChild(hint);
       ink = document.createElement("canvas"); ink.id = "tutInk"; surface.appendChild(ink); ig = ink.getContext("2d");
       $("tutPopNext").addEventListener("click", advance, { passive: true });
-      $("tutReplay").addEventListener("click", () => { idx = 0; render(); }, { passive: true });   // 分からなかった人向け=最初から
+      $("tutReplay").addEventListener("click", () => { if (idx < 0) return; idx = 0; render(); }, { passive: true });   // 分からなかった人向け=最初から
       built = true;
     }
     function lc(el) { const s = surface.getBoundingClientRect(), r = el.getBoundingClientRect(); return { x: r.left + r.width / 2 - s.left, y: r.top + r.height / 2 - s.top }; }
@@ -2488,7 +2552,7 @@
       let ptop, pcx = tr.left + tr.width / 2;
       if (step.focus === "orient") ptop = tr.top + tr.height * 0.12;
       else if (step.revealDelay && !revealedNow) ptop = stemEl.getBoundingClientRect().top;   // 待機中: 対象が出る位置に説明だけ置く
-      else if (demoStep || step.focus === "choices2") ptop = tr.top + 8;   // 選択肢の説明は上に固定 (3/6)
+      else if (demoStep) ptop = tr.top + 8;   // 実演ステップは最上部 (3/6 は選択肢の直下 = 場面文を覆わない)
       else {
         const r = targetRect(step.focus); pcx = r.left + r.width / 2;
         ptop = step.focus === "start" ? (r.top - PAD - GAP - ph) : (r.bottom + PAD + GAP);
@@ -2511,7 +2575,7 @@
       // 進行ボタンの状態リセット (ハンズオン中は解錠待ち / cueDelay 後に強調)
       if (cueTimer) { clearTimeout(cueTimer); cueTimer = null; }
       handsMode = null; handsDone = false; hTracking = false; setHint("");
-      btnRow.classList.toggle("pending", !!step.hands);
+      btnRow.classList.toggle("pending", !!step.hands || !!step.revealDelay);   // 遅延開示の待機中も押せない (対象を見てから進む)
       $("tutPopNext").classList.remove("cue");
       // 説明ページは「読み終わる頃」に「次へ」を強調 (読むのが遅い人でも押し時が分かる)。
       // revealDelay があるページは対象が現れてから読み始めるので、その分あとにずらす
@@ -2535,7 +2599,7 @@
       if (delayed) {
         setTimeout(() => {
           if (idx < 0 || STEPS[idx] !== step) return;
-          revealedNow = true;
+          revealedNow = true; btnRow.classList.remove("pending");
           showSample(step.reveal || 0); fadeIn(stemEl);                  // 対象が現れる
           spot.classList.remove("hidden");
           requestAnimationFrame(() => { spot.classList.add("on"); place(step); });   // 枠線+BOXが下へスライド
@@ -2615,7 +2679,7 @@
     }, { passive: true });
     surface.addEventListener("pointercancel", () => { if (hTracking) { hTracking = false; hPid = null; startBtn.classList.remove("armed"); inkClear(); } }, { passive: true });
 
-    function advance() { if (idx < STEPS.length - 1) { idx++; render(); } else finish(); }
+    function advance() { if (idx < 0) return; if (idx < STEPS.length - 1) { idx++; render(); } else finish(); }   // idx<0 = 終了後 (迷いクリックの保険)
     function finish() {
       tok++; idx = -1;
       spot.classList.remove("on"); pop.classList.remove("on"); spot.classList.add("hidden"); pop.classList.add("hidden");
@@ -2646,7 +2710,10 @@
 
   function startPractice() {
     // ドラッグ導入チュートリアル (初回・第1ブロックのみ・?tut=0 で無効)。完了後に startPractice を再入
-    if (seqIndex === 0 && DRAG_TUT_ON && !dragTutState.done) { DragTut.run(startPractice); return; }
+    if (seqIndex === 0 && DRAG_TUT_ON && !dragTutState.done) {
+      DragTut.run(() => { pendingBanner = `ここから練習です（${CONFIG.practiceTrials}問）`; startPractice(); });   // 段階の告知 (操作説明ではない)
+      return;
+    }
     if (seqIndex === 0) clearBackup();  // 復旧チャンスは intro 画面まで (統合の2ブロック目では前ブロック分を消さない)
     requestWakeLock();   // ユーザー操作起点で取得 (§6-6 項11)
     captureIntro();
@@ -3017,12 +3084,12 @@
   ];
   const WELCOME_DEFAULT = [
     { h: "ご参加ありがとうございます",
-      b: '<p>この調査では、短い場面を読んで、<b>2つの選択肢から あなたの考えに近いほう</b>を選んでいきます。</p>' +
+      b: '<p>この調査では、<b>短い文章（場面文）</b>を読んで、<b>2つの選択肢から あなたの考えに近いほう</b>を選んでいきます。</p>' +
          '<ul><li><b>正解・不正解はありません。</b>あなたの素直な判断で構いません。</li>' +
          '<li>選んだあとに「自信」と「迷い」を5段階でふりかえります。</li></ul>' },
     { h: "所要時間と進め方",
       b: '<p>全体で <b>15〜25分</b>ほどです。</p>' +
-         '<ul><li>はじめに<b>操作の説明</b>と<b>練習</b>があります。分からなければ何度でも見直せます。</li>' +
+         '<ul><li>はじめに <b>読む速さの確認</b>（短い文章3本）→ <b>操作の説明</b> → <b>練習</b> と進みます。説明は何度でも見直せます。</li>' +
          '<li>急ぐ必要はありません。<b>自分のペース</b>で進めてください。</li>' +
          '<li>途中に休憩をはさみます。<b>最後まで通して</b>行ってください。</li></ul>' },
     { h: "実施する環境について", mic: true,
@@ -3036,7 +3103,7 @@
     const p = WELCOME[wcIdx];
     $("wcStep").textContent = `${wcIdx + 1} / ${WELCOME.length}`;
     $("wcBody").innerHTML = `<h1>${p.h}</h1>` + p.b +
-      (p.mic && MIC.mode !== "off" ? '<p class="opt-note" style="margin-top:12px">※ 静かな環境での実施を確認するため、課題中はマイクで<b>周囲の音量レベルのみ</b>を測定します。会話などの内容は記録・送信されません。許可いただけない場合は参加できません。</p>' : "") +
+      (p.mic && MIC.mode !== "off" ? '<p class="opt-note" style="margin-top:12px">※ 次の画面でマイクの許可をお願いします（測るのは周囲の<b>音量レベルだけ</b>で、会話の内容は記録しません）。</p>' : "") +
       (wcIdx === WELCOME.length - 1 ? '<p class="opt-note" style="margin-top:10px">※ 重複参加の確認のため、端末にランダムな目印（個人を特定しない記号）を保存します。</p>' : "");
     $("wcNext").textContent = wcIdx === WELCOME.length - 1 ? "はじめる" : "次へ";
     $("wcNext").classList.remove("cue");
