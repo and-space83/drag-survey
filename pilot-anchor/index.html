@@ -1283,8 +1283,8 @@
       text: '1つ目は<b>自信</b>です。|<b>いま選んだ答え</b>への|気持ちの強さを表します。|「自分はこちらだ」と|思える強さを、|ためしに1つ|押してみてください。' },
     { act: "hes",    focus: "hesitation", op: '下の番号を1つ押す',
       text: '2つ目は、下の<b>迷い</b>です。|<b>答えを決めるまで</b>に|どれくらい迷ったかを|表します。|<b>迷うのはごく普通のこと</b>です。|感じたままを、|ためしに1つ|押してみてください。' },
-    { act: "submit", focus: null, op: '「次へ」で確定（押すまで何度でも変更できます）',
-      text: 'これで2つとも|答えられました。|見直して、よければ|<b>「次へ」</b>で|確定してください。' },
+    { act: "submit", focus: null, op: '「次へ」で確定',
+      text: 'これで2つとも|答えられました。|見直して、よければ|<b>「次へ」</b>で|確定してください。|（「次へ」を押すまで|何度でも変更できます）' },
   ];
 
   const $ = (id) => document.getElementById(id);
@@ -2459,14 +2459,14 @@
     const rnd = (a, b) => a + Math.random() * (b - a);
     const PAD = 10;
     const STEPS = [
-      { focus: "orient",   act: "next", sample: true, reveal: 0, op: "読んだら「次へ」", txt: "これから、<b>短い問題文</b>を読んで、<b>2つの選択肢</b>から あなたの考えに近いほうを選びます。<br>説明は<b>この枠</b>に出ます。読んだら、下の<b>緑のボタン</b>で進みます。" },
+      { focus: "orient",   act: "next", sample: true, reveal: 0, op: "読んだら「次へ」", txt: "これから<b>短い問題文</b>を読んで、<b>2つの選択肢</b>から あなたの考えに近いほうを選んでもらいます。<br>説明は<b>この枠</b>に出ます。読んだら下の<b>緑のボタン</b>で進みます。" },
       // 2/6: まず問題文の位置に説明だけを 3 秒置いて読ませ、その後 BOX が下へスライドして問題文が現れる
       { focus: "stem",     act: "next", sample: true, reveal: 1, revealDelay: 1800, op: "読んだら「次へ」", txt: "まず、画面の<b>上</b>に出る<b>問題文（場面文）</b>を読みます。" },
       { focus: "choices2", act: "next", sample: true, reveal: 2, op: "読んだら「次へ」", txt: "その<b>下の2つ</b>が選択肢です。問題文を読んで、<b>選ぶほう</b>を決めます。" },
       { focus: "start",    act: "next", reveal: 2, op: "読んだら「次へ」", txt: "画面の<b>下</b>に <b>START</b> ボタンがあります。<br>この START に指を置いて操作します。<br>操作は<b>次の画面</b>で実際にやってみます。" },
       // 5/6・6/6 はハンズオン: 実演を見せたあと自分で運んでもらい、成功したら進めるようにする
       { focus: "sandbox",  act: "concept", hands: "sandbox", op: "実際に START から運んでみましょう", txt: "START に指をおいて、<b>離さずに</b>運びます。<b>道すじは自由</b>です。（まっすぐでも、回り道でもかまいません）" },
-      { focus: "action",   act: "real", hands: "real", op: "実際に START から運んでみましょう", txt: "本番はこの<b>2つの選択肢</b>のどちらかへ、押さえたまま運んで、<b>ボックスの中で指を離します</b>。" },
+      { focus: "action",   act: "real", hands: "real", labels: true, op: "実際に START から運んでみましょう", txt: "本番はこの<b>2つの選択肢</b>のどちらかへ、指を押さえたまま運んで、<b>ボックスの中で離します</b>。" },
     ];
     function build() {
       if (built) return;
@@ -2642,6 +2642,10 @@
       // revealDelay: 最初は説明だけを対象の位置に置いて読ませ、n ミリ秒後に BOX が下へ動いて対象が現れる
       const delayed = !!step.revealDelay;
       showSample(delayed ? 0 : (step.reveal || 0));                      // 上から順に開示 (問題文→選択肢→START)
+      if (step.labels) {   // 6/6: 例の2択の回答だけを選択肢に出す (問題文は出さない)。実演の丸は上のキャンバス (z-index 5) に重なる
+        numA.textContent = "海でのんびり"; numB.textContent = "山でハイキング";
+        numA.className = "txt"; numB.className = "txt"; numA.style.visibility = "visible"; numB.style.visibility = "visible";
+      }
       if (delayed) {
         setTimeout(() => {
           if (idx < 0 || STEPS[idx] !== step) return;
