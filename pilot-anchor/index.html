@@ -108,6 +108,14 @@
   .pad p, .pad li { font-size: 15px; color: var(--ink); }
   .pad ul { margin: 6px 0 6px 20px; }
   .pad .field { margin: 14px 0; }
+  /* 入力画面 (intro) は1画面に収める = スクロールさせない (2026-09-05)。説明は welcome/チュートリアルへ移した */
+  #intro .pad { padding: 18px 20px; justify-content: flex-start; }
+  #intro .pad::before, #intro .pad::after { content: none; }
+  #intro .field { margin: 10px 0; }
+  #intro label { margin-bottom: 4px; }
+  #intro .pad input { padding: 10px 12px; }
+  #intro .seg button { padding: 10px 8px; font-size: 14px; }
+  #intro .btn.advance { margin-top: 14px; }
   .pad label { display: block; font-size: 14px; color: var(--ink-2); margin-bottom: 6px; font-weight: 600; }
   .pad input { width: 100%; max-width: 320px; padding: 12px; font-size: 16px;
     background: var(--panel); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; }
@@ -277,6 +285,17 @@
 
   .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; color: var(--ink-3); }
 
+  /* ---- 未送信データのバー (2026-09-05) ---- */
+  #outboxBar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 45; display: none;
+    align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap;
+    padding: 8px 12px; font-size: 13px; background: var(--warnbg, rgba(255,196,0,.14));
+    border-top: 1px solid var(--warn, #d99); color: var(--fg, #333); }
+  #outboxBar.on { display: flex; }
+  #outboxBar button { padding: 6px 12px; font-size: 13px; border: 1px solid var(--go, #4a8);
+    border-radius: 8px; background: transparent; color: inherit; touch-action: manipulation; }
+  #outboxStatus { opacity: .8; }
+  #hud { color: var(--go, #4a8); font-variant-numeric: tabular-nums; }
+
   /* ---- 中断ボタン (対面セッション ?stop=1。§6-6 項15) ----
      いつでも終了できることを画面上に常駐させる。誤タップは確認画面 (stopconfirm) で戻れる。
      クラウド配布 URL では JS が .on を付けないので存在しない (display:none のまま)。 */
@@ -417,6 +436,14 @@
   <p>この課題は<b>縦向き</b>で行います。<br>画面を縦にしてください。</p>
 </div>
 
+<!-- ===== 未送信データのバー (2026-09-05)。送信できずに端末へ貯まっているセッション数を実験者に見せる。
+     0件のときは出ない。電波のある場所で「いま送る」を押せばまとめて送信できる。 -->
+<div id="outboxBar">
+  <span>未送信のデータ <b id="outboxCount">0</b> 件</span>
+  <button type="button" id="outboxSend">いま送る</button>
+  <span id="outboxStatus"></span>
+</div>
+
 <!-- ===== 中断ボタン + 確認画面 (対面セッション ?stop=1。§6-6 項15) =====
      どの画面からでも終了でき、そこまでのデータは通常の完了と同じ経路で自動送信される (partial フラグ付き)。 -->
 <button id="stopBtn" type="button">終了</button>
@@ -446,7 +473,8 @@
   <div class="pad">
     <!-- ブロック別の説明 (数値サイズ一致性 / 価値・選好)。起動時に BLOCK.introHtml で差し込む -->
     <div id="introInstructions"></div>
-    <p class="opt-note" style="margin:10px 0 2px">始める前に、下記をすべてご記入ください。</p>
+    <h1 style="margin-bottom:4px">はじめに、あなたについて</h1>
+    <p class="opt-note" id="introLead" style="margin:0 0 2px">すべてご記入ください（分析用で、個人の特定はしません）。</p>
     <div class="field">
       <label for="pid">ニックネーム (ローマ字)</label>
       <input id="pid" type="text" inputmode="latin" autocomplete="off" placeholder="例: taro / P01">
@@ -455,10 +483,20 @@
       <label for="age">年齢</label>
       <input id="age" type="number" inputmode="numeric" min="0" max="120" autocomplete="off" placeholder="例: 22">
     </div>
+    <!-- 年代タップ (?ageband=1 / kiosk): 高齢者に数値キーボードを出さないための代替。device.ageBand に記録 -->
+    <div class="field" id="ageBandField" style="display:none">
+      <label>年代</label>
+      <div class="seg seg-v" id="ageBandSeg">
+        <button type="button" data-val="lt60">60歳より下</button>
+        <button type="button" data-val="60s">60代</button>
+        <button type="button" data-val="70s">70代</button>
+        <button type="button" data-val="80s">80代</button>
+        <button type="button" data-val="90plus">90歳以上</button>
+      </div>
+    </div>
     <div class="field">
-      <label for="devModel">お使いの機種名</label>
+      <label for="devModel">お使いの機種名<span class="opt-note" style="font-weight:400"> （分かる範囲で）</span></label>
       <input id="devModel" type="text" inputmode="latin" autocomplete="off" placeholder="例: iPhone 14 / Pixel 7">
-      <div class="opt-note">※ 分かる範囲で。設定 → 端末情報などで確認できます。</div>
     </div>
     <div class="field">
       <label>性別</label>
@@ -470,13 +508,12 @@
       </div>
     </div>
     <div class="field">
-      <label>利き手</label>
+      <label>利き手<span class="opt-note" style="font-weight:400"> （普段使う手）</span></label>
       <div class="seg" id="handSeg">
         <button type="button" data-val="right">右</button>
         <button type="button" data-val="left">左</button>
         <button type="button" data-val="both">両利き</button>
       </div>
-      <div class="opt-note">※ 普段どちらの手を使うか。実際に操作する手は最後に伺います。</div>
     </div>
     <div id="recovery">
       <p>⚠️ 前回中断したデータが残っています。</p>
@@ -498,7 +535,7 @@
 
 <!-- ===== TASK ===== -->
 <section id="task" class="screen">
-  <div id="topbar"><span id="phaseLabel">練習</span><span id="counter">0 / 0</span><span id="calDb" style="display:none"></span>
+  <div id="topbar"><span id="phaseLabel">練習</span><span id="counter">0 / 0</span><span id="calDb" style="display:none"></span><span id="hud" style="display:none"></span>
     <button type="button" id="tutAgain" class="hidden">↻ 説明</button></div>
   <div id="surface">
     <canvas id="trace"></canvas>
@@ -647,6 +684,8 @@
     <div id="debrief" style="display:none"></div>
     <div class="mono" id="summary"></div>
     <div class="mono" id="uploadStatus"></div>
+    <!-- 対面の連続実施 (kiosk): 送信完了 or 端末保存が済んでから出す。押すと同じ URL で最初から -->
+    <button class="btn primary advance" id="nextParticipant" style="display:none">つぎの人にわたす</button>
     <div class="btnrow" id="exportRow">
       <button class="btn primary" id="shareJson" style="display:none">データを送る (共有)</button>
       <button class="btn primary" id="dlJson">データを保存 (JSON)</button>
@@ -688,13 +727,30 @@
   // 既定はすべて OFF = クラウドソーシング配布 URL の挙動は不変 (中断ボタンなし・時間上限なし・マイクの
   // 進行ブロックあり・完全ランダム順)。対面用 URL でだけクエリを足して有効化する。
   const QS = new URLSearchParams(location.search);
-  const STOP_ON = QS.get("stop") === "1";        // 中断ボタン: いつでも終了 → そこまでのデータを送信
+  // ?kiosk=1 = 対面・複数人・実験者不在の連続実施モード (2026-09-05)。下の対面オプションをまとめて既定 ON に
+  // する (個別クエリでの上書きは可)。URL を編集できない人が同じ URL を毎回開くだけで回せる状態を作るのが目的:
+  //   中断ボタン / 環境音の非ブロック / 層別順 / 事前入力の省略 / 年代タップ / 参加者IDの自動採番 /
+  //   つぎの人へボタン / 注意チェック・完了コードの省略 / 対面向けウェルカム文言。
+  const KIOSK = QS.get("kiosk") === "1";
+  const on1 = (k) => QS.get(k) === "1" || (KIOSK && QS.get(k) == null);   // 既定OFF・kiosk で ON
+  const off0 = (k) => !(QS.get(k) === "0" || (KIOSK && QS.get(k) == null));  // 既定ON・kiosk で OFF
+  const STOP_ON = on1("stop");                   // 中断ボタン: いつでも終了 → そこまでのデータを送信
   const MAX_MIN = (function () { const v = parseFloat(QS.get("maxmin")); return isFinite(v) && v > 0 ? v : null; })();
                                                  // 本番の時間上限 (分)。超えたら次の試行境界で自動終了 (試行の途中では切らない)
-  const MICGATE_ON = QS.get("micgate") !== "0";  // 0 = 環境音は計測・記録するが進行は止めない (対面は会場を変えられないため)
-  const STRAT_ON = QS.get("strat") === "1";      // 葛藤水準を均等に散らす出題順 (途中で切れても水準構成が偏らない)
+  const MICGATE_ON = off0("micgate");            // OFF = 環境音は計測・記録するが進行は止めない (対面は会場を変えられないため)
+  const STRAT_ON = on1("strat");                 // 葛藤水準を均等に散らす出題順 (途中で切れても水準構成が偏らない)
   const RTUT_ON = QS.get("rtut") !== "0";        // 評定チュートリアル (5ページ)。対面で口頭説明するなら 0
   const COHORT = (QS.get("cohort") || "").slice(0, 40);   // 標本タグ (例 elderly-inperson)。解析で母集団をプールしない目印
+  const AGEBAND_ON = QS.get("ageband") != null ? QS.get("ageband") !== "0" : KIOSK;
+                                                 // 年齢を数値入力でなく年代タップで取る (高齢者にキーボードを出さない)。
+                                                 // ?ageband=70s のように値を渡すと初期選択も入る
+  const PID_AUTO = QS.get("pidauto") != null ? (QS.get("pidauto") || "P") : (KIOSK ? "P" : null);
+                                                 // 参加者IDの自動採番 (端末内カウンタ)。?pidauto=E → E01, E02, …
+  // 課題画面に経過時間・直前1問の所要秒 (時間配分の実測用)。**明示指定のときだけ** ON にする:
+  // 参加者から見える位置に時計を出すと時間圧がかかり、主予測ターゲット (迷い) を汚しうるため、
+  // 自分でリハーサルする実機確認では付け、本番セッションでは付けない (所要時間はデータから出せる)
+  const HUD_ON = QS.get("hud") === "1";
+  const HIDE_INTRO_FILLED = QS.get("intro") === "0" || KIOSK;   // 埋まった入力欄を隠す
   const STOPPABLE = { task: 1, rating: 1, break: 1, blockintro: 1, reading: 1 };   // 中断ボタンを出す画面
 
   // 場面文・説明文の改行制御 (2026-07-22 ブロック方式へ改訂): 文字列中の "|" は文節の区切り。
@@ -1142,6 +1198,7 @@
   const ATTN_ON = (function () {
     const q = new URLSearchParams(location.search);
     if (q.get("attn") != null) return q.get("attn") !== "0";
+    if (KIOSK) return false;   // 対面の短時間セッションでは careless 検出が目的でない (実験者が同席・試行数も足りない)
     return SEQ.some((id) => BLOCKS[id] && BLOCKS[id].ratings);   // 評定を取るブロック (value/moral) を含めば ON
   })();
   if (ATTN_ON && SEQ[SEQ.length - 1] !== "attn") SEQ.push("attn");
@@ -1164,6 +1221,12 @@
     document.body.classList.add("block-" + id);
   }
   if (new URLSearchParams(location.search).get("upload") === "0") CONFIG.uploadUrl = null;  // 検証・デモ用 (GAS にゴミを送らない)
+  // 送信先の差し替え (headless 検証専用: 未送信キューの失敗→保存→再送を検証するためのフック)。
+  // 同一オリジンの相対パスのみ許可 = 配布 URL に付けても外部へデータが飛ばない
+  {
+    const u = new URLSearchParams(location.search).get("uploadurl");
+    if (u && /^\/[\w./-]*$/.test(u)) CONFIG.uploadUrl = u;
+  }
   loadBlock(SEQ[0]);
 
   // 評定 2 項目 (experiment-design.md §3-1。2026-07-15 改訂: 難しさ削除・迷い主軸・文言プロセス係留)。
@@ -1206,6 +1269,7 @@
   function show(name) {
     for (const k in screens) screens[k].classList.toggle("active", k === name);
     if (STOP_ON) $("stopBtn").classList.toggle("on", !!STOPPABLE[name]);   // 中断ボタンは課題系の画面だけに出す
+    if (typeof outboxRender === "function") outboxRender();   // 未送信バーは welcome/intro/done でだけ出す
   }
 
   // セグメント選択 (性別・利き手・事後質問)。クリックで data-val を onPick に渡す。
@@ -1265,7 +1329,9 @@
     practiceSummary: null,    // 行動ゲートの達成記録 (startMain で設定。§6-2。統合では最後のブロック分=単体互換)
     practiceSummaryByBlock: {}, // ブロック別の達成記録 (統合セッション用)
     breaks: [],               // 休憩の滞在時間ログ {block, atTrial, dwellMs} (breakEvery>0 のブロック。負担の行動指標。2026-08-23)
+    ageBand: null,            // 年代タップ (?ageband=1 / kiosk) で取った場合の年代。数値 age は null のまま
     // 対面セッション (§6-6 項15)。クラウド配布では cohort=null・partial=false・endedBy="complete" になる
+    kiosk: KIOSK,             // 連続実施モードで取ったデータか (教示・注意チェックの構成が違う)
     cohort: COHORT || null,   // 標本タグ (elderly-inperson 等)。異なる母集団を解析でプールしないための目印
     partial: false,           // 本番を最後まで通していない (中断ボタン / 時間上限で終了) か
     endedBy: null,            // "complete" | "operator" (中断ボタン) | "timebox" (時間上限)
@@ -1281,13 +1347,23 @@
   // 匿名 first-party マーカー: 重複参加を事後 (解析時) に検出するための消去可能な目印。
   // localStorage に残る間は不変 → 同端末・同ブラウザの再参加は同一 ID。消去/別ブラウザ/別端末/
   // iOS ITP で変わるため「弱い手がかり」。固有ハードウェア ID ではなく個人を特定しない。
+  // 参加者IDの自動採番 (端末内カウンタ)。採番はページ読込時 = 同じ番号が2人に付くことがない (安全側)
+  const PID_SEQ_KEY = "pilotAnchorPidSeq_v1";
+  function nextParticipantId(prefix) {
+    let n;
+    try {
+      n = (parseInt(localStorage.getItem(PID_SEQ_KEY), 10) || 0) + 1;
+      localStorage.setItem(PID_SEQ_KEY, String(n));
+    } catch (_) { n = Math.floor(Math.random() * 900) + 100; }   // 保存できない環境は乱数で衝突回避
+    return String(prefix).replace(/[^\w-]/g, "").slice(0, 8) + String(n).padStart(2, "0");
+  }
   function getOrCreateClientId() {
     const gen = () => (window.crypto && crypto.randomUUID)
       ? crypto.randomUUID()
       : "cid-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 10);
     // 対面で1台を複数の参加者が使う運用 (URL で pid を渡す) では端末マーカーを共有しない。
     // clientId は「同一人物の重複参加」の事後検出用なので、共用端末では別人が同一人物に見えてしまう
-    if (QS.get("pid")) return gen();
+    if (QS.get("pid") || PID_AUTO) return gen();
     try {
       let id = localStorage.getItem(CLIENT_ID_KEY);
       if (!id) { id = gen(); localStorage.setItem(CLIENT_ID_KEY, id); }
@@ -1646,6 +1722,7 @@
   let totalMain = 0;
   let breakShownAt = null, breakAtTrial = 0;  // 休憩画面の表示時刻・地点 (滞在時間記録用。2026-08-23)
   let mainStartedAt = null;   // 本番開始時刻 (?maxmin の時間上限判定・device.mainMs 用。2026-09-04)
+  let trialShownAt = null, lastTrialMs = null;   // 直前1問の所要 (呈示〜次の問題へ)。HUD 表示・所要時間の実測用
   let streak = 0;         // 練習の連続成功数 (行動ゲート §6-2。無効試行/不正解でリセット)
   let trial = null;       // 現在試行の記録オブジェクト
   let cell = null;        // 現在の cell
@@ -1790,6 +1867,8 @@
     // 練習中はコーチング表示 (ステップ1: ボックスを隠し、上部の大きな説明で START へ誘導)。
     // 本番は一切出さない
     $("taskMsg").textContent = "";
+    if (phase === "main" && trialShownAt != null) lastTrialMs = performance.now() - trialShownAt;   // 前問の所要を確定
+    trialShownAt = performance.now();
     resetMonitors();   // 環境音の試行窓を開始 (呈示〜評定送信。無効リトライ中は継続 = 同一試行の環境として合算)
     if (phase === "practice" && cell._pblock && cell._pblock !== CONFIG.block) loadBlock(cell._pblock);  // 統合練習: セルのタイプへ切替
     // 練習中の説明: ドラッグ導入チュートリアルを終えていれば出さない (2026-09-04 練習は説明なしで自由に。§6-2)
@@ -2245,8 +2324,8 @@
   }
   // 事前項目を全て埋めるまで開始ボタンを無効化 (必須化)。性別の「回答しない」(na) も回答済み扱い。
   function introReady() {
-    return $("pid").value.trim() !== "" &&
-      Number.isFinite(parseInt($("age").value, 10)) &&
+    const ageOk = AGEBAND_ON ? device.ageBand != null : Number.isFinite(parseInt($("age").value, 10));
+    return $("pid").value.trim() !== "" && ageOk &&
       $("devModel").value.trim() !== "" &&
       device.sex != null && device.handedness != null;
   }
@@ -2618,6 +2697,7 @@
     device.practiceSummaryByBlock[CONFIG.block] = summary;
     phase = "main";
     trialIndex = 0;
+    trialShownAt = null; lastTrialMs = null;   // 練習→本番の間隔を「前問の所要」に混ぜない (HUD)
     if (mainStartedAt == null) mainStartedAt = performance.now();   // 統合では最初のブロック開始を起点にする
     queue = BLOCK.buildMain();
     if (ATTN_ON && BLOCK.ratings && BLOCK.id !== "attn") queue = insertDqs(queue);  // ②③に弱DQSを1/3・2/3で埋め込む (§6-5)
@@ -2675,7 +2755,7 @@
     // 完了コード (§6-6 項12): 1人1コードを発行しデータにも記録 → 募集サイトの申請コードと機械照合。
     // 全員共通コードの横流し (未実施申請) に耐性。紛らわしい文字 (0/O/1/I/L) は除外
     device.completionCode = makeCompletionCode();
-    if (new URLSearchParams(location.search).get("ccode") !== "0") {
+    if (new URLSearchParams(location.search).get("ccode") !== "0" && !KIOSK) {   // 対面では申請コード不要
       $("ccode").textContent = device.completionCode;
       $("ccodeBox").style.display = "";
     }
@@ -2712,6 +2792,7 @@
       $("doneMsg").textContent = "ここまでのご回答をお送りします。ご協力ありがとうございました。";
     show("done");
     if (CONFIG.uploadUrl) uploadJson();
+    else showNextParticipant();   // 送信なし (デモ・検証) でも連続実施は回せるように
   }
 
   function makeCompletionCode() {
@@ -2794,26 +2875,93 @@
     }
     download(`pilot_${stamp()}_events.csv`, rows.join("\n") + "\n", "text/csv");
   });
+  // ===== 未送信キュー (outbox。2026-09-05) =====
+  // 送信に失敗したセッションを端末に貯め、次に開いたとき / オンライン復帰時 / 「いま送る」で送り直す。
+  // 実験者が同席しない対面運用 (複数日・複数会場・ネットに不慣れな実施者) では「失敗→手動保存して
+  // LINE で送る」が回らず、しかも次の参加者が本番を始めると旧チェックポイントが消えてデータが失われる。
+  const OUTBOX_KEY = "pilotAnchorOutbox_v1";
+  const POST_TIMEOUT_MS = 15000;   // 会場の弱い回線でハングしないよう1回の送信に上限を設ける
+  function outboxLoad() {
+    try { const a = JSON.parse(localStorage.getItem(OUTBOX_KEY) || "[]"); return Array.isArray(a) ? a : []; }
+    catch (_) { return []; }
+  }
+  function outboxSave(list) {
+    try { localStorage.setItem(OUTBOX_KEY, JSON.stringify(list)); return true; }
+    catch (_) { return false; }   // 容量超過・私的モード等
+  }
+  function outboxPush(payload) {
+    const list = outboxLoad();
+    list.push({ id: (device.participantId || "anon") + "_" + Date.now(), at: new Date().toISOString(), payload });
+    const ok = outboxSave(list);
+    outboxRender();
+    return ok;
+  }
+  function outboxRender() {
+    const n = outboxLoad().length;
+    const bar = $("outboxBar");
+    if (!bar) return;
+    $("outboxCount").textContent = n;
+    const scr = (document.querySelector(".screen.active") || {}).id;
+    bar.classList.toggle("on", n > 0 && (scr === "welcome" || scr === "intro" || scr === "done"));
+  }
+  function postPayload(payload) {   // 1件送信 (タイムアウト付き)。成功時のみ resolve
+    const ctl = ("AbortController" in window) ? new AbortController() : null;
+    const timer = ctl ? setTimeout(() => ctl.abort(), POST_TIMEOUT_MS) : null;
+    // GAS Web アプリは CORS preflight (OPTIONS) に応答しないため text/plain で simple request にする
+    return fetch(CONFIG.uploadUrl, {
+      method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(payload), signal: ctl ? ctl.signal : undefined,
+    }).then((res) => res.ok ? res.json() : Promise.reject(new Error("HTTP " + res.status)))
+      .then((j) => { if (!j || !j.ok) throw new Error((j && j.error) || "server error"); return j; })
+      .finally(() => { if (timer) clearTimeout(timer); });
+  }
+  let outboxBusy = false;
+  function outboxFlush(onDone) {   // 先頭から順に送る。1件でも失敗したら中断 (回線が無い状態で叩き続けない)
+    if (outboxBusy || !CONFIG.uploadUrl) { if (onDone) onDone(0, outboxLoad().length); return; }
+    const list = outboxLoad();
+    if (list.length === 0) { if (onDone) onDone(0, 0); return; }
+    outboxBusy = true;
+    let sent = 0;
+    const step = (i) => {
+      if (i >= list.length) { outboxBusy = false; outboxRender(); if (onDone) onDone(sent, outboxLoad().length); return; }
+      postPayload(list[i].payload)
+        .then(() => {
+          outboxSave(outboxLoad().filter((e) => e.id !== list[i].id));
+          sent++; outboxRender(); step(i + 1);
+        })
+        .catch(() => { outboxBusy = false; outboxRender(); if (onDone) onDone(sent, outboxLoad().length); });
+    };
+    step(0);
+  }
+
   function uploadJson(attempt) {
     attempt = attempt || 1;
     $("uploadStatus").textContent = attempt > 1 ? `送信中… (再試行 ${attempt}/3)` : "送信中…";
-    // GAS Web アプリは CORS preflight (OPTIONS) に応答しないため text/plain で simple request にする
-    fetch(CONFIG.uploadUrl, {
-      method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify(buildPayload()),
-    }).then((res) => res.ok ? res.json() : Promise.reject(new Error("HTTP " + res.status)))
-      .then((j) => {
-        if (!j || !j.ok) throw new Error(j && j.error || "server error");
+    postPayload(buildPayload())
+      .then(() => {
         $("uploadStatus").textContent = "✅ 送信完了。このまま閉じて大丈夫です。";
         $("doneMsg").textContent = "ご協力ありがとうございました。データは自動送信されました。";
         clearBackup();
+        showNextParticipant();
+        outboxFlush();   // 回線が復活したので、貯まっていた過去分もついでに送る
       })
       .catch(() => {
         if (attempt < 3) { setTimeout(() => uploadJson(attempt + 1), 1500 * attempt); return; }
-        $("uploadStatus").textContent =
-          "⚠️ 自動送信に失敗しました。下のボタンでデータを保存し、LINE 等で送ってください。";
-        $("exportRow").style.display = "";  // 失敗確定時のみ手動フォールバックを提示
+        // 3回失敗 = 回線が無い/不安定。端末に貯めて次回起動時・オンライン復帰時に自動送信する
+        if (outboxPush(buildPayload())) {
+          $("uploadStatus").textContent =
+            "📥 この端末に保存しました。電波のあるところでこの画面をもう一度開くと、自動で送信されます。";
+          clearBackup();   // outbox 側が保持しているのでチェックポイントは不要
+        } else {
+          $("uploadStatus").textContent =
+            "⚠️ 自動送信に失敗しました。下のボタンでデータを保存し、LINE 等で送ってください。";
+          $("exportRow").style.display = "";  // 失敗確定時のみ手動フォールバックを提示
+        }
+        showNextParticipant();
       });
+  }
+  function showNextParticipant() {   // 連続実施: データの行き先が確定してから (送信済 or 端末保存) 次の人へ
+    if (KIOSK) $("nextParticipant").style.display = "";
   }
 
   // ===== 横向きガード =====
@@ -2850,7 +2998,21 @@
   // ===== ウェルカム (入力の前に説明を1枚ずつ。2026-09-05) =====
   // 小さい注記を intro に並べても読まれないため、参加を決める材料 (内容・所要時間・環境と記録) を
   // 入力より前に置き、「次へ」で1枚ずつ読ませる。読み終わる頃にボタンを強調 (readCueDelay)
-  const WELCOME = [
+  // 対面 (kiosk) は係の人が横にいて時間で区切るため、所要時間と「最後まで通して」の案内が実態と食い違う。
+  // 2枚に減らし「途中で終わってよい」「分からなければ声をかけて」を明示する
+  const WELCOME_KIOSK = [
+    { h: "ご参加ありがとうございます",
+      b: '<p>短い場面を読んで、<b>2つの選択肢から あなたの考えに近いほう</b>を選んでいきます。</p>' +
+         '<ul><li><b>正解・不正解はありません。</b>思ったとおりで大丈夫です。</li>' +
+         '<li>選んだあとに「自信」と「迷い」を5段階でふりかえります。</li>' +
+         '<li>分からないときは、<b>近くの係の者に声をかけてください。</b></li></ul>' },
+    { h: "進め方", mic: true,
+      b: '<p>はじめに<b>操作の説明</b>と<b>練習</b>があります。</p>' +
+         '<ul><li><b>時間が来たら自動で終わります。</b>最後まで解ききる必要はありません。</li>' +
+         '<li>やめたいときは、画面右上の<b>「終了」</b>を押してください。<b>いつやめても大丈夫</b>です。</li>' +
+         '<li>スマートフォンを<b>手で持って</b>操作します。</li></ul>' },
+  ];
+  const WELCOME_DEFAULT = [
     { h: "ご参加ありがとうございます",
       b: '<p>この調査では、短い場面を読んで、<b>2つの選択肢から あなたの考えに近いほう</b>を選んでいきます。</p>' +
          '<ul><li><b>正解・不正解はありません。</b>あなたの素直な判断で構いません。</li>' +
@@ -2865,6 +3027,7 @@
          '<ul><li>スマートフォンを<b>手で持って</b>操作します（机に置いたままにしないでください）。</li>' +
          '<li>通知や他のアプリで中断しないよう、画面をこのままにしてください。</li></ul>' },
   ];
+  const WELCOME = KIOSK ? WELCOME_KIOSK : WELCOME_DEFAULT;
   let wcIdx = 0, wcCueTimer = null;
   function wcRender() {
     const p = WELCOME[wcIdx];
@@ -2886,12 +3049,15 @@
   wcRender();
 
   // ===== 起動 =====
-  // body クラスは loadBlock で設定済み。intro には最初のブロックの説明を出す (統合は「パート1/N」を予告)
-  $("introInstructions").innerHTML =
-    (SEQ.length > 1 ? `<p class="opt-note">この調査はいくつかのパートに分かれています（パート 1 / ${SEQ.length}）。</p>` : "") + BLOCK.introHtml;
+  // 2026-09-05: intro からブロック説明の長文 (BLOCK.introHtml ≈480字) を撤去し、入力欄だけの
+  // 1画面に (スクロール解消)。全体像は welcome 1枚目、操作方法はチュートリアル (実演+ハンズオン) が
+  // 担う = 同じ内容を3箇所で繰り返さない。BLOCK.introHtml は blockintro (パート切替) で引き続き使用
+  $("introInstructions").innerHTML = SEQ.length > 1
+    ? `<p class="opt-note">この調査はいくつかのパートに分かれています（パート 1 / ${SEQ.length}）。</p>` : "";
   document.title = "パイロット: " + (SEQ.length > 1 ? "価値・選好 と 道徳判断" : BLOCK.title);
 
   // 事前アンケート (特性): 性別・利き手。選択で開始ボタンの有効/無効を再評価
+  wireSeg("ageBandSeg", (v) => { device.ageBand = v; refreshIntro(); });   // 年代タップ (?ageband=1 / kiosk)
   wireSeg("sexSeg", (v) => { device.sex = v; refreshIntro(); });
   wireSeg("handSeg", (v) => { device.handedness = v; refreshIntro(); });
   // 事後アンケート (状態): 持ち方+操作を1問で
@@ -2913,7 +3079,9 @@
   (function presetIntro() {
     const filled = {};
     const setInput = (id, v) => { if (v) { $(id).value = v; filled[id] = true; } };
-    setInput("pid", QS.get("pid"));
+    // 参加者ID: URL 指定がなければ端末内カウンタで自動採番 (?pidauto=E → E01, E02…)。
+    // URL を書き換えられない実施者でも重複しないIDが振れる。リロードで番号が飛ぶことはあるが実害はない
+    setInput("pid", QS.get("pid") || (PID_AUTO ? nextParticipantId(PID_AUTO) : null));
     setInput("age", QS.get("age"));
     setInput("devModel", QS.get("model"));
     const pickSeg = (segId, v) => {
@@ -2923,12 +3091,52 @@
     };
     pickSeg("sexSeg", QS.get("sex"));
     pickSeg("handSeg", QS.get("hand"));
-    if (QS.get("intro") === "0")
+    pickSeg("ageBandSeg", QS.get("ageband") && QS.get("ageband") !== "1" ? QS.get("ageband") : null);
+    if (AGEBAND_ON) {   // 年齢は数値入力でなく年代タップ (キーボードを出さない)
+      $("ageBandField").style.display = "";
+      filled.age = true;   // 数値欄は使わないので隠す対象に
+    }
+    if (KIOSK) {
+      $("introLead").textContent = "つぎの3つをタップで選んでください。";
+      $("goPractice").textContent = "はじめる";
+    }
+    if (HIDE_INTRO_FILLED)
       for (const id of Object.keys(filled)) {
         const f = $(id).closest(".field");
         if (f) f.style.display = "none";
       }
   })();
+
+  // 未送信キュー: 起動時に自動再送 + オンライン復帰で再送 + 「いま送る」ボタン (2026-09-05)
+  outboxRender();
+  if (outboxLoad().length) outboxFlush();
+  window.addEventListener("online", () => outboxFlush());
+  $("outboxSend").addEventListener("click", () => {
+    $("outboxStatus").textContent = "送信中…";
+    outboxFlush((sent, left) => {
+      $("outboxStatus").textContent = sent > 0
+        ? `${sent}件 送信しました` + (left > 0 ? ` (残り ${left}件)` : "")
+        : "送れませんでした。電波のある場所でもう一度お試しください";
+    });
+  }, { passive: true });
+  // 連続実施 (kiosk): 同じ URL のまま最初から (URL の編集・ブラウザ操作が要らない)
+  $("nextParticipant").addEventListener("click", () => { location.reload(); }, { passive: true });
+
+  // HUD (?hud=1 / kiosk): 課題画面に「本番開始からの経過」と「直前1問の所要秒」。
+  // 高齢者が1問にどれくらいかかるかをその場で把握する / 実機で時間配分を実測するための表示
+  if (HUD_ON) setInterval(() => {
+    const el = $("hud");
+    if (!screens.task.classList.contains("active")) { el.style.display = "none"; return; }
+    const mmss = (ms) => { const s = Math.max(0, Math.floor(ms / 1000));
+      return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`; };
+    let txt = mmss(performance.now());   // ページを開いてからの経過 (説明・練習・チュートリアル込み)
+    if (phase === "main" && mainStartedAt != null) {
+      txt += `｜本番 ${mmss(performance.now() - mainStartedAt)}`;
+      if (lastTrialMs != null) txt += `｜前問 ${(lastTrialMs / 1000).toFixed(1)}s`;
+    }
+    el.textContent = txt;
+    el.style.display = "";
+  }, 500);
 
   // 中断ボタン (対面 ?stop=1)。誤タップは確認画面から戻れる
   if (STOP_ON) {
@@ -3014,6 +3222,8 @@
       // 対面セッションの検証用 (§6-6 項15)
       stopVisible: () => $("stopBtn").classList.contains("on"),
       trialIndex: () => trialIndex,
+      outboxCount: () => outboxLoad().length,
+      outboxClear: () => { try { localStorage.removeItem(OUTBOX_KEY); } catch (_) {} outboxRender(); },
     };
   }
 
