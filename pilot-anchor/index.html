@@ -115,6 +115,7 @@
   #intro h1 { font-size: 19px; }
   #intro .field { margin: 7px 0; }
   #introMissing:empty { display: none; }   /* 未入力の案内は出るときだけ高さを取る */
+  #intro label.missing { color: var(--err); }   /* 未入力の欄はラベルを赤に (1つでも入力してから) */
   #intro label { margin-bottom: 3px; font-size: 13.5px; }
   #intro .pad input { padding: 9px 12px; }
   #intro .seg { gap: 6px; }
@@ -1914,7 +1915,8 @@
     // 練習中はコーチング表示 (ステップ1: ボックスを隠し、上部の大きな説明で START へ誘導)。
     // 本番は一切出さない
     $("taskMsg").textContent = "";
-    if (pendingBanner) { showBanner(pendingBanner); pendingBanner = null; }
+    if (cell.isTutorial) pendingBanner = `ここから練習です（${CONFIG.practiceTrials}問）`;   // 次 (=最初の練習) で告知
+    else if (pendingBanner) { showBanner(pendingBanner); pendingBanner = null; }
     if (phase === "main" && trialShownAt != null) lastTrialMs = performance.now() - trialShownAt;   // 前問の所要を確定
     trialShownAt = performance.now();
     resetMonitors();   // 環境音の試行窓を開始 (呈示〜評定送信。無効リトライ中は継続 = 同一試行の環境として合算)
@@ -1936,10 +1938,10 @@
     stemEl.style.visibility = "hidden";
     startBtn.classList.remove("armed");
     startBtn.textContent = "START";
-    $("phaseLabel").textContent = phase === "practice" ? "練習" : "本番";
+    $("phaseLabel").textContent = cell.isTutorial ? "チュートリアル" : (phase === "practice" ? "練習" : "本番");
     // 練習中のみ「↻ 説明」= 分からなくなったらチュートリアルを見直せる (本番では出さない)
     $("tutAgain").classList.toggle("hidden", !(phase === "practice" && dragTutState.done && DRAG_TUT_ON));
-    $("counter").textContent = phase === "practice" ? practiceCounter() : `${trialIndex + 1} / ${totalMain}`;
+    $("counter").textContent = counterText();
     recording = false;
     uiLocked = false;
     activePointerId = null;
@@ -1980,7 +1982,8 @@
     const sc = center(stRect), ac = center(aRect), bc = center(bRect);
     trial = {
       index: phase === "main" ? trialIndex + 1 : null,
-      phase, block: CONFIG.block, stimulusType: BLOCK.stimulusType,   // block: 統合セッションで value/moral を分離するため per-trial に記録
+      // phase 'tutorial' = 導入の例を操作した1回 (練習にも解析にも数えない)。block: 統合セッションで value/moral を分離するため per-trial に記録
+      phase: cell.isTutorial ? "tutorial" : phase, block: CONFIG.block, stimulusType: BLOCK.stimulusType,
       ...(cell.isCheck ? checkMeta(cell) : BLOCK.trialMeta(cell)),  // 通常=ブロック別メタ / 注意チェック=isCheck メタ
       post_check: cell.postCheck === true,   // 弱DQS直後の本試行 (警戒モード汚染を感度分析で除外可能に。§6-2)
       choiceSide: null, correct: null,
@@ -2056,7 +2059,7 @@
       // 練習中: 無効試行は連続成功をリセットし、原因別のコーチングを出して同一刺激からやり直し
       // (ステップ1 状態に戻す = ボックスを隠して START へ再誘導)
       streak = 0;
-      $("counter").textContent = practiceCounter();
+      $("counter").textContent = counterText();
       // 誤操作のリカバリは説明なし方針でも残す (詰まりの解消)。チュートリアル後は短い注意のみ
       if (dragTutState.done) {   // チュートリアル後: 選択肢の枠は消さない (消えるとバグに見える)。案内は選択肢と START の間
         coachMsg(nb(msg || "やり直し") + '<span class="sub">STARTからもう一度</span>', "gap");
@@ -2134,17 +2137,21 @@
   // 練習の終了条件 (2026-09-05): 練習キューを使い切り (= practiceTrials 問を完了) かつ行動ゲート達成。
   // ゲート未達なら nextTrial がキューを補充するので「5問やって、操作も理解できたら本番」になる
   function practiceDone() { return queue.length === 0 && streak >= BLOCK.gateStreak; }
-  // 練習カウンタ表示: 「練習 n / 5」(この試行を含む残数から算出。ゲート未達で補充されたら総数も増える)
+  // 練習カウンタ表示: 「n / 5」(段階名 phaseLabel と重ねない。この試行を含む残数から算出。ゲート未達で補充されたら総数も増える)
   function practiceCounter() {
     const total = Math.max(CONFIG.practiceTrials, queue.length + 1);
-    return `練習 ${total - queue.length} / ${total}`;
+    return `${total - queue.length} / ${total}`;
+  }
+  function counterText() {   // チュートリアル試行は番号なし / 練習=n / 5 / 本番=n / N
+    if (cell && cell.isTutorial) return "";
+    return phase === "practice" ? practiceCounter() : `${trialIndex + 1} / ${totalMain}`;
   }
   function showPracticeFeedback() {
     uiLocked = true;   // フィードバック表示中の START 再押下を無効化
     setCoach(null);
     // 行動ゲート更新: 有効ドラッグ (+客観課題は正解) で連続成功+1、不正解でリセット (無効試行は retryTrial 側)
     const pass = BLOCK.gateCorrect ? trial.correct === true : true;
-    streak = pass ? streak + 1 : 0;
+    if (!cell.isTutorial) streak = pass ? streak + 1 : 0;   // チュートリアル試行はゲートに数えない
     let head;
     if (BLOCK.practiceFeedback === "correct") {
       head = trial.correct
@@ -2154,7 +2161,7 @@
       // 主観選択 (価値・選好) は正誤がないので中立フィードバックのみ
       head = '<span class="feedback ok">○ 記録しました</span>';
     }
-    $("counter").textContent = practiceCounter();
+    $("counter").textContent = counterText();
     numA.style.visibility = "hidden";
     numB.style.visibility = "hidden";
     stemEl.style.visibility = "hidden";
@@ -2184,9 +2191,7 @@
       $("ratingHead").textContent = "";
     } else if (phase === "practice") {
       $("ratingHead").className = "practice";
-      const left = queue.length;
-      $("ratingHead").textContent = "【練習】選んだ直後に毎回この2問に答えます"
-        + (left > 0 ? `（練習はあと${left}問）` : "（送信すると練習おわり）");
+      $("ratingHead").textContent = "";   // 2026-09-06: 練習でも見出しは出さない (チュートリアルで説明済み)
     } else {
       $("ratingHead").className = "";
       $("ratingHead").textContent = "回答について教えてください";
@@ -2425,7 +2430,11 @@
     if (shown("handSeg") && device.handedness == null) miss.push("利き手");
     // 何も入力していない初期状態では出さない (全欄が並ぶだけでノイズ)。1つでも入力してから、残りを示す
     const shownCount = ["pid", AGEBAND_ON ? "ageBandSeg" : "age", "devModel", "sexSeg", "handSeg"].filter(shown).length;
-    $("introMissing").textContent = ready || miss.length === 0 || miss.length >= shownCount ? "" : "未入力: " + miss.join("・");
+    const flag = !(ready || miss.length === 0 || miss.length >= shownCount);
+    $("introMissing").textContent = flag ? "未入力: " + miss.join("・") : "";
+    const mark = (id, on) => { const f = $(id) && $(id).closest(".field"); const l = f && f.querySelector("label"); if (l) l.classList.toggle("missing", flag && on); };
+    mark("pid", miss.includes("名前")); mark(AGEBAND_ON ? "ageBandSeg" : "age", miss.includes("年齢") || miss.includes("年代"));
+    mark("devModel", miss.includes("機種名")); mark("sexSeg", miss.includes("性別")); mark("handSeg", miss.includes("利き手"));
   }
 
   // ===== ドラッグ導入チュートリアル (スポットライト方式。§6-6 項14・decisions-log 2026-09-02) =====
@@ -2443,7 +2452,7 @@
     const rnd = (a, b) => a + Math.random() * (b - a);
     const PAD = 10;
     const STEPS = [
-      { focus: "orient",   act: "next", sample: true, reveal: 0, op: "読んだら「次へ」", txt: "これから、<b>短い問題文</b>を読んで、<b>2つの選択肢</b>から あなたの考えに近いほうを選びます。<br>説明は<b>この枠</b>に出ます。<b>黄色く囲まれた所</b>が、いま説明している場所です。読んだら、下の<b>緑のボタン</b>で進みます。" },
+      { focus: "orient",   act: "next", sample: true, reveal: 0, op: "読んだら「次へ」", txt: "これから、<b>短い問題文</b>を読んで、<b>2つの選択肢</b>から あなたの考えに近いほうを選びます。<br>説明は<b>この枠</b>に出ます。読んだら、下の<b>緑のボタン</b>で進みます。" },
       // 2/6: まず問題文の位置に説明だけを 3 秒置いて読ませ、その後 BOX が下へスライドして問題文が現れる
       { focus: "stem",     act: "next", sample: true, reveal: 1, revealDelay: 3000, op: "読んだら「次へ」", txt: "まず、画面の<b>上</b>に出る<b>問題文（場面文）</b>を読みます。" },
       { focus: "choices2", act: "next", sample: true, reveal: 2, op: "読んだら「次へ」", txt: "その<b>下の2つ</b>が選択肢です。問題文を読んで、<b>選ぶほう</b>を決めます。" },
@@ -2730,7 +2739,7 @@
       numA.style.visibility = "hidden"; numB.style.visibility = "hidden"; stemEl.style.visibility = "hidden";
       startBtn.classList.remove("armed"); startBtn.textContent = "START";
       show("task"); if (typeof sizeCanvas === "function") sizeCanvas();
-      $("counter").textContent = "チュートリアル";   // 練習 0/0 を出さない (練習の番号は finish 後の presentStimulus が付ける)
+      $("phaseLabel").textContent = "チュートリアル"; $("counter").textContent = "";   // 練習 0/0 を出さない
       resizeBound = () => { if (idx >= 0) place(STEPS[idx]); };
       addEventListener("resize", resizeBound, { passive: true });
       idx = 0; render();
@@ -2741,7 +2750,7 @@
   function startPractice() {
     // ドラッグ導入チュートリアル (初回・第1ブロックのみ・?tut=0 で無効)。完了後に startPractice を再入
     if (seqIndex === 0 && DRAG_TUT_ON && !dragTutState.done) {
-      DragTut.run(() => { pendingBanner = `ここから練習です（${CONFIG.practiceTrials}問）`; startPractice(); });   // 段階の告知 (操作説明ではない)
+      DragTut.run(startPractice);   // 完了後に再入 → チュートリアル試行 (例の操作+評定チュートリアル) → 練習5問
       return;
     }
     if (seqIndex === 0) clearBackup();  // 復旧チャンスは intro 画面まで (統合の2ブロック目では前ブロック分を消さない)
@@ -2762,6 +2771,15 @@
       queue = queue.slice(0, total);   // 合計を practiceTrials に揃える
     } else {
       queue = BLOCK.buildPractice(CONFIG.practiceTrials);
+    }
+    // チュートリアル試行 (2026-09-06): ドラッグ導入で見た例 (休日は…海/山) をそのまま1回操作し、その直後の評定で
+    // 評定チュートリアルを行う。練習5問には数えない (phase:'tutorial' で記録・ゲートにも数えない)。導入が走ったときだけ
+    if (seqIndex === 0 && dragTutState.done && queue.length > 0) {
+      const tb = UNIFIED ? BLOCKS[REAL_BLOCKS[0]] : BLOCK;
+      const tc = tb.makeCell({ mtype: "tutorial", domain: "tutorial", id: "tutorial",
+        stem: "（例）休日は、どちらで過ごしたいですか？", a: { label: "海でのんびり" }, b: { label: "山でハイキング" }, better: null }, "left");
+      tc.isTutorial = true; if (UNIFIED) tc._pblock = REAL_BLOCKS[0];
+      queue.unshift(tc);
     }
     sizeCanvas();
     if (queue.length === 0) { startMain(); return; }  // ?practice=0 (開発用) のみ練習スキップ
