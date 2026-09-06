@@ -43,7 +43,9 @@
              completionCode,                   // 実施確認用の完了コード (§6-6 項12。1人1コード・募集サイト納品欄と機械照合)
              readingBaseline:                  // 読速ベースライン (2026-07-22 §6-6 項13。moral 含むセッションで実施・?read=0/1)
                {trials:[{chars,ms}], charsPerSec},    // 中立短文3本の「読み終えたらタップ」計測 → 場面文RTの読解時間分離の材料
-             resumes: [{at, afterTrial, gapMs}]},  // 中断→再開の記録 (2026-09-06 §6-6 項17。再読込/タブ破棄の後に同じ URL で続きから再開。空=再開なし)
+             resumes: [{at, afterTrial, gapMs}],   // 中断→再開の記録 (2026-09-06 §6-6 項17。再読込/タブ破棄の後に同じ URL で続きから再開。空=再開なし)
+             tutorialLog: [{kind('drag'|'rating'), step|page, ms} | {kind, event('replay'|'again')}]},
+                                               // チュートリアルの各説明ページの滞在時間と「もう一度」「↻ 説明」の回数 (2026-09-07。対面での教示の評価用)
     trials: [ {
       index, phase('main'|'practice'), stimulusType('numeric-size'|'text-choice'),
       // --- ① anchor (numeric-size) のメタ ---
@@ -417,6 +419,7 @@
   //   done (完了画面) / break (休憩) / micgate (環境音チェック)。事前アンケートはダミー・読速は省略・マイクは micgate 以外
   //   省略・送信は常に無効・block 未指定なら moral。右下に「確認モード」の印を出す (配布と取り違えない)
   const GO = (QS.get("go") || "").replace(/[^a-z]/g, "") || null;
+  const WELCOME_OFF = QS.get("welcome") === "0";   // 説明画面 (ウェルカム) を飛ばして入力画面から (研究者が同席して口頭で説明する対面用。2026-09-07)
   const on1 = (k) => QS.get(k) === "1" || (KIOSK && QS.get(k) == null);   // 既定OFF・kiosk で ON
   const off0 = (k) => !(QS.get(k) === "0" || (KIOSK && QS.get(k) == null));  // 既定ON・kiosk で OFF
   const STOP_ON = on1("stop");                   // 中断ボタン: いつでも終了 → そこまでのデータを送信
@@ -939,6 +942,7 @@
     mainMs: null,             // 本番開始〜終了の実時間 (ms)
     stopPauses: [],           // 中断確認画面に入って戻った記録 {screen, durationMs} (該当試行の時間指標の汚染検出用)
     resumes: [],              // 中断→再開の記録 {at, afterTrial, gapMs} (§6-6 項17。再読込/タブ破棄の後に同じ URL で続きから再開)
+    tutorialLog: [],          // チュートリアルの各説明ページの滞在 ms とやり直し {kind:'drag'|'rating', step|page, ms} / {kind, event:'replay'|'again'} (2026-09-07)
     exportedAt: null,
   };
   $("devline").textContent = `${device.screenW}×${device.screenH} @${device.dpr}x`;
@@ -1892,6 +1896,7 @@
     const row = document.createElement("div"); row.id = "ratBtnRow"; row.className = "rat-btnrow";
     sub.parentNode.insertBefore(row, nxt); row.append(rep, nxt, sub);
     rep.addEventListener("click", () => {   // 分からなかった人向け=最初から。評定は選んでいない状態に戻す
+      device.tutorialLog.push({ kind: "rating", event: "replay" });
       trial.ratings = { confidence: null, hesitation: null };
       for (const it of ITEMS) { const lk = $("qitem-" + it.key); const c = lk && lk.querySelector(".likert"); if (c) for (const b of c.children) b.classList.remove("sel"); }
       tutIdx = 0; tutRender();
@@ -1906,9 +1911,13 @@
     const bottom = Math.min(r.bottom, last.bottom);
     return { left: r.left, top: r.top, right: r.right, bottom, width: r.width, height: bottom - r.top };
   }
+  let ratPageShownAt = null, ratPageShownIdx = -1;   // 説明ページの滞在時間の記録用 (device.tutorialLog)
   function tutRender() {
     const qc = $("qitem-confidence"), qh = $("qitem-hesitation");
     if (!qc || !qh) return;
+    if (ratPageShownIdx >= 0 && ratPageShownAt != null)   // 直前のページの滞在時間を記録 (ページ送り・やり直し・完遂のたび)
+      device.tutorialLog.push({ kind: "rating", page: ratPageShownIdx + 1, ms: Math.round(performance.now() - ratPageShownAt) });
+    ratPageShownIdx = tutActive() ? tutIdx : -1; ratPageShownAt = tutActive() ? performance.now() : null;
     ensureRatSpot();
     const oldBox = $("tutBox"); if (oldBox) oldBox.remove();
     qc.classList.remove("dim", "tfocus"); qh.classList.remove("dim", "tfocus");   // 焦点はスポットライトが担う (行は不動)
@@ -2090,7 +2099,7 @@
       hint = document.createElement("div"); hint.id = "tutHint"; hint.className = "hidden"; document.body.appendChild(hint);
       ink = document.createElement("canvas"); ink.id = "tutInk"; surface.appendChild(ink); ig = ink.getContext("2d");
       $("tutPopNext").addEventListener("click", advance, { passive: true });
-      $("tutReplay").addEventListener("click", () => { if (idx < 0) return; idx = 0; render(); }, { passive: true });   // 分からなかった人向け=最初から
+      $("tutReplay").addEventListener("click", () => { if (idx < 0) return; device.tutorialLog.push({ kind: "drag", event: "replay" }); idx = 0; render(); }, { passive: true });   // 分からなかった人向け=最初から
       built = true;
     }
     function lc(el) { const s = surface.getBoundingClientRect(), r = el.getBoundingClientRect(); return { x: r.left + r.width / 2 - s.left, y: r.top + r.height / 2 - s.top }; }
@@ -2213,8 +2222,14 @@
       pop.style.left = Math.max(12, Math.min(pcx - pw / 2, vw - pw - 12)) + "px";
     }
     let revealedNow = false;   // 遅延開示 (revealDelay) の対象が現れたか
+    let stepShownAt = null, stepShownIdx = -1;   // ステップ滞在時間の記録用 (device.tutorialLog)
+    function logStepEnd() {
+      if (stepShownIdx >= 0 && stepShownAt != null) device.tutorialLog.push({ kind: "drag", step: stepShownIdx + 1, ms: Math.round(performance.now() - stepShownAt) });
+      stepShownIdx = -1; stepShownAt = null;
+    }
     function render() {
       const step = STEPS[idx];
+      logStepEnd(); stepShownIdx = idx; stepShownAt = performance.now();
       revealedNow = false;
       $("tutPopStep").textContent = "説明 " + (idx + 1) + " / " + STEPS.length;
       $("tutPopTxt").innerHTML = step.txt;
@@ -2337,6 +2352,7 @@
 
     function advance() { if (idx < 0) return; if (idx < STEPS.length - 1) { idx++; render(); } else finish(); }   // idx<0 = 終了後 (迷いクリックの保険)
     function finish() {
+      logStepEnd();
       tok++; idx = -1;
       spot.classList.remove("on"); pop.classList.remove("on"); spot.classList.add("hidden"); pop.classList.add("hidden");
       btnRow.classList.add("hidden", "pending"); btnRow.classList.remove("pending");
@@ -2983,6 +2999,7 @@
     show("intro"); $("intro").querySelector(".pad").scrollTop = 0;
   }, { passive: true });
   wcRender();
+  if (WELCOME_OFF && !resumeOffered) { show("intro"); $("intro").querySelector(".pad").scrollTop = 0; }   // ?welcome=0: 入力画面から始める
 
   // ===== 起動 =====
   // 2026-09-05: intro からブロック説明の長文 (BLOCK.introHtml ≈480字) を撤去し、入力欄だけの
@@ -3107,6 +3124,7 @@
   // 練習中に説明を見直す (ドラッグ導入チュートリアルを再生。終わると練習の同じ試行へ戻る)
   $("tutAgain").addEventListener("click", () => {
     if (recording || uiLocked || dragTutState.active) return;
+    device.tutorialLog.push({ kind: "drag", event: "again" });   // 練習中に説明を見直した回数
     $("tutAgain").classList.add("hidden");
     DragTut.run(() => { presentStimulus(); });   // 見直し後は同じ試行を出し直す (RT に説明時間を混ぜない)
   }, { passive: true });
