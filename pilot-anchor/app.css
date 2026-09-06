@@ -385,3 +385,13 @@
   #tutAgain { pointer-events: auto; background: var(--panel); border: 1px solid var(--line); color: var(--ink-2);
     font: inherit; font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 999px; cursor: pointer; }
   #tutAgain.hidden { display: none; }
+
+  /* ---- 事後アンケート 拡充分 (2026-09-06 §6-6 項8): 5段階は 1–5 ボタンを1行に (評定と同じ尺度)、端点ラベルを下に ---- */
+  .seg.scale { flex-wrap: nowrap; }
+  .seg.scale button { min-width: 0; padding: 12px 2px; font-size: 16px; font-weight: bold; }
+  .seg-anchors { display: flex; justify-content: space-between; margin-top: 4px; font-size: 12px; color: var(--ink-3); }
+  .seg-anchors span { max-width: 48%; }
+  .seg-anchors span:last-child { text-align: right; }
+  #postBlock h2 { margin-top: 22px; }
+  #postBlock .field { margin: 12px 0; }
+  #postMissing:empty { display: none; }

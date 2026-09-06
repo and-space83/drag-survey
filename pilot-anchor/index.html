@@ -27,6 +27,12 @@
              grip,                             // 事後アンケート (持ち方+操作を1問に。課題後に回顧で取得)
              survey:                           // 事後アンケート UI/負担 (②③=評定ブロックのみ。anchor は null)
                {problems:[slug…], ease('easy'|'ok'|'hard'), free},  // free=その他選択時のみ表示・必須の自由記述
+             post:                             // 事後アンケート 拡充分 (2026-09-06 §6-6 項8。評定ブロックを含むクラウド配布のみ = 対面 kiosk/stop では null。
+               {fatigue_pre, fatigue_post, sleepiness, sleep_hours, condition,        //   5段階は 1–5 の整数・選択式は英語スラッグ・未回答は null)
+                location, posture, others_present, noise_self, interruptions,
+                usage_years, usage_hours, native_ja, moral_familiar,
+                seriousness, attention_lapse, rating_meaning, discomfort},
+             postMs,                           // 事後アンケート画面の滞在時間 ms (表示〜完了。負担の指標)
              practiceSummary:                  // 練習の行動ゲート達成記録 (理解確認の証跡 + 品質共変量)
                {gateStreak, gateCorrect, trials, aborts, skipped},
              mic:                              // 環境音モニタ (2026-07-21 §6-6 項10。マイク必須・音量レベルのみ・生音声は取得しない)
@@ -301,6 +307,11 @@
       </div>
     </div>
 
+    <!-- 事後アンケート 拡充分 (2026-09-06 §6-6 項8): 状態・環境・習熟・ふりかえりの 18 項目。POST_ITEMS から描画。
+         評定ブロックを含むクラウド配布のみ (対面 kiosk/stop では出さない = 時間枠・実施者不在。操作の質問だけに留める) -->
+    <p class="opt-note" id="postLead" style="display:none;margin-top:14px">続けて、いくつか質問にお答えください（約2分。分析用で、個人の特定はしません）。</p>
+    <div id="postBlock" style="display:none"></div>
+
     <!-- 事後アンケート (UI/負担。②③=評定ブロックのみ表示。G4 負担の主観版裏付け + 改善材料。pilot2-design-notes) -->
     <div id="surveyBlock" style="display:none">
       <h2>使いにくかった点・改善してほしい点</h2>
@@ -332,6 +343,7 @@
     </div>
 
     <button class="btn primary advance" id="postSubmit" disabled>完了する</button>
+    <p class="opt-note" id="postMissing" style="text-align:center;margin-top:6px;color:var(--err);font-weight:700"></p>
   </div>
 </section>
 
@@ -775,6 +787,9 @@
   const REAL_BLOCKS = SEQ.filter((b) => b !== "attn");   // device.block/combo 判定は attn を除いた実ブロックで
   const UNIFIED = REAL_BLOCKS.length > 1;   // 統合セッション: 練習を冒頭に統合しブロック別練習は廃止 (2026-07-15、§6-2)
   const HAS_RATING_BLOCK = REAL_BLOCKS.some((id) => BLOCKS[id] && BLOCKS[id].ratings);  // 事後アンケートは「評定ブロックを含むセッション」で出す (最後が attn でも出す)
+  // 事後アンケート拡充分 (§6-6 項8、2026-09-06): 評定ブロックを含む**クラウド配布**のみ。対面 (kiosk / 中断ボタンあり) は
+  // 時間枠が短く実施者も不在なので、操作の質問 (grip + UI/負担) だけに留める (ユーザー方針 2026-09-06)
+  const POST_ON = HAS_RATING_BLOCK && !KIOSK && !STOP_ON;
   let seqIndex = 0;
   let pendingMainStart = false;   // 練習クリア画面 (blockintro 流用) から「続ける」で本番へ (2026-07-15 自己ペース化)
   let BLOCK;   // 現在のブロック (統合では切替で再代入)
@@ -888,6 +903,8 @@
     // 事後アンケート UI/負担 (②③=評定ブロックのみ)。使いにくかった点[複数選択]/操作しやすさ/自由記述(その他選択時のみ表示・必須)。
     //   時間ゲートを廃し離脱率で判定する G4 の「負担の主観版」裏付け + UI/チュートリアル改善材料 (pilot2-design-notes)。
     survey: null,
+    post: null,               // 事後アンケート 拡充分 (2026-09-06 §6-6 項8。POST_ITEMS の 18 項目。評定ブロックを含むクラウド配布のみ、未回答は null)
+    postMs: null,             // 事後アンケート画面の滞在時間 (表示〜完了。負担の指標)
     mic: null,   // 環境音モニタの実測記録 {mode, threshold, …, ambientDb, ambientRetries, drops} (finishSession で確定。§6-6 項10)
     wakeLock: null,        // Screen Wake Lock の取得可否 (§6-6 項11。iOS 16.4+ / 非対応端末は false)
     completionCode: null,  // 実施確認用の完了コード (§6-6 項12。finishSession で発行しデータにも記録)
@@ -2401,6 +2418,68 @@
 
   // ===== 事後アンケート (持ち方 grip は両ブロック / 使いにくさ survey は②③=評定ブロックのみ) =====
   const survey = { problems: [], ease: null, free: "" };  // free=「その他」選択時のみ表示・必須の自由記述
+
+  // ===== 事後アンケート 拡充分 (2026-09-06、experiment-design §6-6 項8 / decisions-log 2026-09-06) =====
+  // 課題の後に 18 項目 (状態・環境・習熟・ふりかえり)。5段階は評定と同じ 1–5 ボタン (尺度を揃える。10段階スライダーは
+  // 端末で精度が落ち・既定位置に引かれ・ドラッグが課題操作と紛れるため不採用)。選択式は英語スラッグで記録。
+  // 表示は POST_ON (評定ブロックを含むクラウド配布) のみ。途中終了 (partial) では必須にしない。用途は品質共変量・探索
+  // (analysis-plan §3.6)。項目の文言・選定理由の正本は experiment-design §6-6 項8 / decisions-log、候補の経緯は post-survey-candidates。
+  const POST_ITEMS = [
+    { sec: "課題の前後の状態" },
+    { key: "fatigue_pre", q: "課題を始める前、どれくらい疲れていましたか", scale: ["まったく疲れていなかった", "とても疲れていた"] },
+    { key: "fatigue_post", q: "いま、どれくらい疲れていますか", scale: ["まったく疲れていない", "とても疲れている"] },
+    { key: "sleepiness", q: "いま、どれくらい眠いですか", scale: ["はっきり目が覚めている", "とても眠い"] },
+    { key: "sleep_hours", q: "昨夜の睡眠時間はどれくらいでしたか", opts: [["lt4", "4時間未満"], ["4-6", "4〜6時間"], ["6-8", "6〜8時間"], ["ge8", "8時間以上"]] },
+    { key: "condition", q: "今日の体調はどうですか", scale: ["悪い", "良い"] },
+    { sec: "回答した環境" },
+    { key: "location", q: "どこで回答しましたか", v: true, opts: [["home", "自宅"], ["work_school", "職場・学校"], ["transit", "電車・バスなど移動中"], ["outdoor", "屋外・店など"], ["other", "その他"]] },
+    { key: "posture", q: "回答中の姿勢はどれに近いですか", opts: [["sitting", "座って"], ["standing", "立って"], ["lying", "横になって"], ["walking", "歩きながら"]] },
+    { key: "others_present", q: "近くに他の人はいましたか", opts: [["alone", "一人だった"], ["present_quiet", "いたが話さなかった"], ["talking", "会話しながら"]] },
+    { key: "noise_self", q: "周囲はどれくらい静かでしたか", scale: ["とても静か", "とてもうるさい"] },
+    { key: "interruptions", q: "途中で中断（着信・呼びかけ・別のアプリ）はありましたか", opts: [["none", "なかった"], ["once", "1回"], ["twice_plus", "2回以上"]] },
+    { sec: "あなたについて" },
+    { key: "usage_years", q: "スマートフォンを使い始めて何年くらいですか", opts: [["lt1", "1年未満"], ["1-3", "1〜3年"], ["3-5", "3〜5年"], ["5-10", "5〜10年"], ["ge10", "10年以上"]] },
+    { key: "usage_hours", q: "1日にスマートフォンを使う時間はどれくらいですか", opts: [["lt1", "1時間未満"], ["1-3", "1〜3時間"], ["3-5", "3〜5時間"], ["ge5", "5時間以上"]] },
+    { key: "native_ja", q: "日本語は母語ですか", opts: [["yes", "はい"], ["no", "いいえ"]] },
+    { key: "moral_familiar", q: "「トロッコ問題」のような、どちらを選ぶか迷う道徳的な問題を、以前に考えたことがありますか", opts: [["often", "よくある"], ["some", "少しある"], ["never", "ない"]] },
+    { sec: "回答のふりかえり" },
+    { key: "seriousness", q: "この調査に、どれくらい真剣に取り組みましたか", scale: ["まったく", "とても"] },
+    { key: "attention_lapse", q: "回答中に、注意がそれたり他のことをしていた時間はありましたか", opts: [["none", "なかった"], ["some", "少し"], ["much", "かなり"]] },
+    { key: "rating_meaning", q: "「自信」と「迷い」の違いは分かりやすかったですか", scale: ["分かりにくかった", "分かりやすかった"] },
+    { key: "discomfort", q: "不快に感じた場面はありましたか", opts: [["none", "なかった"], ["some", "少し"], ["much", "かなり"]] },
+  ];
+  const POST_KEYS = POST_ITEMS.filter((it) => it.key).map((it) => it.key);
+  const post = {};
+  let postShownAt = null, postBuilt = false;
+  function postBuild() {   // POST_ITEMS から DOM を組む (1回だけ)。scale = 1–5 ボタン1行 + 端点ラベル / opts = 単一選択 (v=縦並び)
+    if (postBuilt) return; postBuilt = true;
+    const host = $("postBlock");
+    for (const it of POST_ITEMS) {
+      if (it.sec) { const h = document.createElement("h2"); h.textContent = it.sec; host.appendChild(h); continue; }
+      const f = document.createElement("div"); f.className = "field";
+      const lab = document.createElement("label"); lab.textContent = it.q; f.appendChild(lab);
+      const seg = document.createElement("div"); seg.id = "post-" + it.key;
+      seg.className = "seg" + (it.scale ? " scale" : (it.v ? " seg-v" : ""));
+      const opts = it.scale ? [1, 2, 3, 4, 5].map((v) => [String(v), String(v)]) : it.opts;
+      for (const [val, label] of opts) {
+        const b = document.createElement("button"); b.type = "button"; b.dataset.val = val; b.textContent = label; seg.appendChild(b);
+      }
+      f.appendChild(seg);
+      if (it.scale) {
+        const an = document.createElement("div"); an.className = "seg-anchors";
+        const lo = document.createElement("span"); lo.textContent = "1 = " + it.scale[0];
+        const hi = document.createElement("span"); hi.textContent = "5 = " + it.scale[1];
+        an.append(lo, hi); f.appendChild(an);
+      }
+      host.appendChild(f);
+      wireSeg(seg.id, (v) => { post[it.key] = it.scale ? parseInt(v, 10) : v; postReady(); });
+    }
+  }
+  function postReset() {
+    for (const k of POST_KEYS) post[k] = null;
+    for (const b of $("postBlock").querySelectorAll("button.sel")) b.classList.remove("sel");
+  }
+  function postMissing() { return POST_KEYS.filter((k) => post[k] == null).length; }
   function showSurveyFree(show) {   // 「その他」にチェック時だけ、その下に必須の自由記述欄を出す
     $("surveyFreeField").style.display = show ? "" : "none";
     if (!show) { survey.free = ""; $("surveyFree").value = ""; }
@@ -2422,12 +2501,20 @@
       const otherOk = !survey.problems.includes("other") || survey.free.trim().length > 0;  // その他は自由記述で具体化
       ok = ok && hasProblem && otherOk && !!survey.ease;
     }
+    if (POST_ON) ok = ok && postMissing() === 0;   // 拡充分 18 項目も必須 (1タップずつ。途中終了は上で免除済み)
     $("postSubmit").disabled = !ok;
+    // 未回答の案内 (長い画面で見落とした項目を探しやすく。1つも答えていない初期状態では出さない)
+    const anyAnswered = !!device.grip || (POST_ON && postMissing() < POST_KEYS.length);
+    $("postMissing").textContent = (!ok && anyAnswered && POST_ON && postMissing() > 0) ? `未回答の質問が ${postMissing()} 件あります` : "";
   }
   function showPostQuestions() {
     const hasSurvey = HAS_RATING_BLOCK;
     $("surveyBlock").style.display = hasSurvey ? "" : "none";
     if (hasSurvey) surveyReset();
+    $("postLead").style.display = POST_ON ? "" : "none";
+    $("postBlock").style.display = POST_ON ? "" : "none";
+    if (POST_ON) { postBuild(); postReset(); }
+    postShownAt = performance.now();
     show("postq");
     postReady();
     $("postq").querySelector(".pad").scrollTop = 0;
@@ -2983,6 +3070,8 @@
     if (HAS_RATING_BLOCK) {
       device.survey = { problems: survey.problems.slice(), ease: survey.ease, free: survey.free.trim() };
     }
+    if (POST_ON) { device.post = {}; for (const k of POST_KEYS) device.post[k] = post[k] == null ? null : post[k]; }
+    device.postMs = postShownAt != null ? +(performance.now() - postShownAt).toFixed(0) : null;
     finishSession();
   }, { passive: true });
 
