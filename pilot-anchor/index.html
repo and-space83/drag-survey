@@ -821,12 +821,13 @@
   loadBlock(SEQ[0]);
 
   // 評定 2 項目 (experiment-design.md §3-1。2026-07-15 改訂: 難しさ削除・迷い主軸・文言プロセス係留)。
-  // 表示順は自信→迷い (チュートリアルの教授順と一致)。変数名は英語で統一
+  // 表示順は迷い→自信 (2026-09-06 反転、decisions-log): 主ターゲットの迷いを先に答えさせ、質問順序効果 (2つ目は1つ目に
+  // 引きずられる) と過程の記憶の減衰から守る。チュートリアルの教授順も同じ。変数名は英語で統一
   const ITEMS = [
-    { key: "confidence", q: "いま選んだ答えに、どれくらい自信がありますか",
-      low: "1 = まったく自信がない", high: "5 = とても自信がある" },
     { key: "hesitation", q: "答えを決めるまでに、どれくらい迷いましたか",
       low: "1 = まったく迷わなかった", high: "5 = とても迷った" },
+    { key: "confidence", q: "いま選んだ答えに、どれくらい自信がありますか",
+      low: "1 = まったく自信がない", high: "5 = とても自信がある" },
   ];
   // 評定チュートリアル v2 (2026-07-22 改訂+同日実機FB反映、練習1問目の評定画面。§6-2)。
   // 旧 Step1-3 (ヘッダに長文一括) をページ分割: 「次へ」ボタン/実操作で1ページずつ進み、
@@ -846,10 +847,11 @@
     //   「正解はありませんので、感じたまま選んでください」が両項目に対称に効く)。ユーザー確認後に decisions-log へ
     { act: "next",   focus: null, op: '読んだら「次へ」',
       text: 'ここからは、選んだあとの<b>ふりかえり</b>の練習です。<br>毎回、下の<b>2つの質問</b>に <b>1〜5</b> で答えます。<br><b>正解はありません</b>ので、感じたまま選んでください。' },
-    { act: "conf",   focus: "confidence", op: '下の番号を1つ押す',
-      text: '1つ目は<b>自信</b>です。<br><b>いま選んだ答え</b>への自信の強さを選んでもらいます。<br>ためしに1つ押してみてください。' },
+    // 2026-09-06: 教授順も表示順と同じ 迷い→自信 (1つ目=迷い・2つ目=自信)
     { act: "hes",    focus: "hesitation", op: '下の番号を1つ押す',
-      text: '2つ目は<b>迷い</b>です。<br><b>答えを決めるまで</b>にどれくらい迷ったかを選んでもらいます。<br>ためしに1つ押してみてください。' },
+      text: '1つ目は<b>迷い</b>です。<br><b>答えを決めるまで</b>にどれくらい迷ったかを選んでもらいます。<br>ためしに1つ押してみてください。' },
+    { act: "conf",   focus: "confidence", op: '下の番号を1つ押す',
+      text: '2つ目は<b>自信</b>です。<br><b>いま選んだ答え</b>への自信の強さを選んでもらいます。<br>ためしに1つ押してみてください。' },
     { act: "submit", focus: null, op: '「次へ」で確定',
       text: 'これで2つとも答えられました。<br>見直して、よければ<b>「次へ」</b>で確定してください。<br>（「次へ」を押すまで何度でも変更できます）' },
   ];
@@ -1898,8 +1900,8 @@
     if (p.act === "conf") return $("qitem-confidence").getBoundingClientRect();
     if (p.act === "hes") return $("qitem-hesitation").getBoundingClientRect();
     // 説明/確定ページ: 評定2項目だけを囲う。#ratingItems の rect は下余白でボタンに達するので、
-    // 実際に見えている最後の項目 (迷い行) の下端で切る (ボタンに被らない)
-    const r = $("ratingItems").getBoundingClientRect(), last = $("qitem-hesitation").getBoundingClientRect();
+    // 実際に見えている最後の項目 (ITEMS の末尾行) の下端で切る (ボタンに被らない)
+    const r = $("ratingItems").getBoundingClientRect(), last = $("qitem-" + ITEMS[ITEMS.length - 1].key).getBoundingClientRect();
     const bottom = Math.min(r.bottom, last.bottom);
     return { left: r.left, top: r.top, right: r.right, bottom, width: r.width, height: bottom - r.top };
   }
@@ -1962,9 +1964,10 @@
       ratSpot.style.width = (r.width + PAD * 2) + "px"; ratSpot.style.height = (r.height + PAD * 2) + "px";
       ratSpot.classList.add("on"); ratPop.classList.add("on");
       // 吹き出しは評定行の「上」に固定 = 下部の 次へ/確定/もう一度 に被らない (1/5・5/5対策)。
-      // 迷いページだけは迷い行の直上 (薄くした自信行に被ってよい。2026-09-06 実機FB: 説明と対象を近づける)
+      // 2つ目の行が対象のページだけは、その行の直上 (薄くした1つ目の行に被ってよい。2026-09-06 実機FB: 説明と対象を近づける)
       const ir = $("ratingItems").getBoundingClientRect(), ph = ratPop.offsetHeight, pw = ratPop.offsetWidth, vw = innerWidth;
-      const anchorTop = p.act === "hes" ? $("qitem-hesitation").getBoundingClientRect().top : ir.top;
+      const targetKey = p.act === "conf" ? "confidence" : (p.act === "hes" ? "hesitation" : null);
+      const anchorTop = (targetKey && targetKey === ITEMS[1].key) ? $("qitem-" + targetKey).getBoundingClientRect().top : ir.top;
       ratPop.style.top = Math.max(8, anchorTop - PAD - 10 - ph) + "px";
       ratPop.style.left = Math.max(12, Math.min(ir.left + ir.width / 2 - pw / 2, vw - pw - 12)) + "px";
     });
@@ -1975,8 +1978,9 @@
     if (tutActive()) {   // チュートリアル: 現ページの対象以外は受け付けない。ただし無反応にせず、いま押す場所へ誘導
       const act = TUT_PAGES[tutIdx].act;
       if (act === "next") { ratNudge("まず、上の「次へ」で読み進めてください", $("tutNext"), true); return; }
-      if (act === "conf" && key !== "confidence") { ratNudge("いまは、上の「自信」を1つ押します"); return; }
-      if (act === "hes" && key !== "hesitation") { ratNudge("いまは、下の「迷い」を1つ押します"); return; }
+      const posOf = (k) => (ITEMS[0].key === k ? "上" : "下");   // 表示順に追従 (2026-09-06: 迷い→自信)
+      if (act === "conf" && key !== "confidence") { ratNudge(`いまは、${posOf("confidence")}の「自信」を1つ押します`); return; }
+      if (act === "hes" && key !== "hesitation") { ratNudge(`いまは、${posOf("hesitation")}の「迷い」を1つ押します`); return; }
       // 変更の観察記録 (最終ページの「押すまで変更できます」説明を実際に試したか等)
       if (trial.ratings[key] && trial.ratings[key].value !== value) tutChanged = true;
     }
