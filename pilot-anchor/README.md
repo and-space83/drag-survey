@@ -85,7 +85,8 @@
 | `?pid=`/`?age=`/`?model=`/`?sex=`/`?hand=` | — | 事前アンケートのプリセット。`?intro=0` で埋まった欄を隠す |
 | `?rtut=0` | ON | 評定チュートリアル (4ページ。表示順は迷い→自信、2026-09-06) を省く |
 | `?hud=1` | OFF | 課題画面に経過時間・直前1問の所要秒 (自分でリハーサルするとき用。参加者に時計を見せると時間圧がかかるので本番では付けない) |
-| `?cohort=` | — | 標本タグ (`device.cohort`)。解析で母集団を分けるための目印 |
+| `?cohort=` | — | 標本タグ (`device.cohort`)。解析で母集団を分けるための目印。受け口はこの値のサブフォルダに保存する |
+| `?study=` | — | 実験名 (`device.study`)。受け口 (Drive) の保存先サブフォルダ = `study` (無ければ `cohort`)。実験ごとにデータを混ぜないため |
 | `?ccode=0` | 表示 | 完了コードの非表示 (身内配布用。データへの記録は常に行う) |
 
 データ回収は完了時に GAS Web アプリへ自動 POST → Google Drive `pilot-anchor-data/` に保存。失敗時はダウンロード / Web Share にフォールバック。受け口の実装・デプロイ手順は private リポの `tools/pilot-anchor/gas-collector.gs` / `DEPLOY.md`。

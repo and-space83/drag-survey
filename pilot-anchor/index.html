@@ -43,6 +43,7 @@
              completionCode,                   // 実施確認用の完了コード (§6-6 項12。1人1コード・募集サイト納品欄と機械照合)
              readingBaseline:                  // 読速ベースライン (2026-07-22 §6-6 項13。moral 含むセッションで実施・?read=0/1)
                {trials:[{chars,ms}], charsPerSec},    // 中立短文3本の「読み終えたらタップ」計測 → 場面文RTの読解時間分離の材料
+             study,                            // 実験名 (?study=。2026-09-07。GAS の保存先サブフォルダ = study || cohort)
              resumes: [{at, afterTrial, gapMs}],   // 中断→再開の記録 (2026-09-06 §6-6 項17。再読込/タブ破棄の後に同じ URL で続きから再開。空=再開なし)
              tutorialLog: [{kind('drag'|'rating'), step|page, ms} | {kind, event('replay'|'again')}]},
                                                // チュートリアルの各説明ページの滞在時間と「もう一度」「↻ 説明」の回数 (2026-09-07。対面での教示の評価用)
@@ -429,6 +430,7 @@
   const STRAT_ON = on1("strat");                 // 葛藤水準を均等に散らす出題順 (途中で切れても水準構成が偏らない)
   const RTUT_ON = QS.get("rtut") !== "0";        // 評定チュートリアル (5ページ)。対面で口頭説明するなら 0
   const COHORT = (QS.get("cohort") || "").slice(0, 40);   // 標本タグ (例 elderly-inperson)。解析で母集団をプールしない目印
+  const STUDY = (QS.get("study") || "").replace(/[^\w-]/g, "").slice(0, 40);   // 実験名 (例 pilot3)。GAS が Drive の保存先サブフォルダに使う (study || cohort。2026-09-07)
   const AGEBAND_ON = QS.get("ageband") != null ? QS.get("ageband") !== "0" : KIOSK;
                                                  // 年齢を数値入力でなく年代タップで取る (高齢者にキーボードを出さない)。
                                                  // ?ageband=70s のように値を渡すと初期選択も入る
@@ -934,6 +936,7 @@
     // 対面セッション (§6-6 項15)。クラウド配布では cohort=null・partial=false・endedBy="complete" になる
     kiosk: KIOSK,             // 連続実施モードで取ったデータか (教示・注意チェックの構成が違う)
     cohort: COHORT || null,   // 標本タグ (elderly-inperson 等)。異なる母集団を解析でプールしないための目印
+    study: STUDY || null,     // 実験名 (?study=。GAS の保存先サブフォルダ = study || cohort。実験ごとにデータを混ぜないため。2026-09-07)
     partial: false,           // 本番を最後まで通していない (中断ボタン / 時間上限で終了) か
     endedBy: null,            // "complete" | "operator" (中断ボタン) | "timebox" (時間上限)
     endedPhase: null,         // 終了時のフェーズ ("practice" | "main")
