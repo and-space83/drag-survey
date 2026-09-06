@@ -411,6 +411,11 @@
   //   中断ボタン / 環境音の非ブロック / 層別順 / 事前入力の省略 / 年代タップ / 参加者IDの自動採番 /
   //   つぎの人へボタン / 注意チェック・完了コードの省略 / 対面向けウェルカム文言。
   const KIOSK = QS.get("kiosk") === "1";
+  // 確認モード ?go= (開発専用。2026-09-06): 該当画面だけを実機で確認する。**配布 URL には付けない**。
+  //   tut (操作説明→例の1問→評定の説明→練習) / rtut (評定の説明だけ) / rating (評定画面) / post (最後のアンケート) /
+  //   done (完了画面) / break (休憩) / micgate (環境音チェック)。事前アンケートはダミー・読速は省略・マイクは micgate 以外
+  //   省略・送信は常に無効・block 未指定なら moral。右下に「確認モード」の印を出す (配布と取り違えない)
+  const GO = (QS.get("go") || "").replace(/[^a-z]/g, "") || null;
   const on1 = (k) => QS.get(k) === "1" || (KIOSK && QS.get(k) == null);   // 既定OFF・kiosk で ON
   const off0 = (k) => !(QS.get(k) === "0" || (KIOSK && QS.get(k) == null));  // 既定ON・kiosk で OFF
   const STOP_ON = on1("stop");                   // 中断ボタン: いつでも終了 → そこまでのデータを送信
@@ -767,7 +772,7 @@
   // 単体 (?block=value 等) は従来どおり1ブロック。統合では loadBlock でブロックを切り替える。
   const SEQ = (function buildSeq() {
     const q = new URLSearchParams(location.search);
-    const want = q.get("block");
+    const want = q.get("block") || (GO ? "moral" : null);   // 確認モードは既定で moral (評定・アンケートを持つ構成)
     if (want === "combo") {
       const order = q.get("order");
       const mv = order === "mv" ? true : order === "vm" ? false : (Math.random() < 0.5);
@@ -806,6 +811,7 @@
     document.body.classList.add("block-" + id);
   }
   if (new URLSearchParams(location.search).get("upload") === "0") CONFIG.uploadUrl = null;  // 検証・デモ用 (GAS にゴミを送らない)
+  if (GO) CONFIG.uploadUrl = null;   // 確認モードは常に送信しない
   // 送信先の差し替え (headless 検証専用: 未送信キューの失敗→保存→再送を検証するためのフック)。
   // 同一オリジンの相対パスのみ許可 = 配布 URL に付けても外部へデータが飛ばない
   {
@@ -835,14 +841,17 @@
   // act: next=「次へ」で進む / conf=自信を選ぶ / hes=迷いを選ぶ / submit=決定ボタンで完遂
   const TUT_PAGES = [
     // 2026-09-06: 旧 1/5+2/5 を統合 (重複削減・「壊れた?」と感じる無反応ページを1枚減らす)
+    // 2026-09-06 実機FB: 説明BOX内は文節ブロック改行 ("|") をやめ、文ごとに改行 (<br>)。文言を簡素化。
+    //   「迷うのはごく普通のこと」は削除 (自信側に対応する文がなく非対称・主ターゲットの迷いを押し上げる需要特性になりうる。
+    //   「正解はありませんので、感じたまま選んでください」が両項目に対称に効く)。ユーザー確認後に decisions-log へ
     { act: "next",   focus: null, op: '読んだら「次へ」',
-      text: 'ここからは、|選んだあとの|<b>ふりかえり</b>の練習です。|毎回、下の<b>2つの質問</b>に|<b>1〜5</b> で答えます。|感じたままで、|<b>正解はありません</b>。' },
+      text: 'ここからは、選んだあとの<b>ふりかえり</b>の練習です。<br>毎回、下の<b>2つの質問</b>に <b>1〜5</b> で答えます。<br><b>正解はありません</b>ので、感じたまま選んでください。' },
     { act: "conf",   focus: "confidence", op: '下の番号を1つ押す',
-      text: '1つ目は<b>自信</b>です。|<b>いま選んだ答え</b>への|気持ちの強さを表します。|「自分はこちらだ」と|思える強さを、|ためしに1つ|押してみてください。' },
+      text: '1つ目は<b>自信</b>です。<br><b>いま選んだ答え</b>への自信の強さを選んでもらいます。<br>ためしに1つ押してみてください。' },
     { act: "hes",    focus: "hesitation", op: '下の番号を1つ押す',
-      text: '2つ目は、下の<b>迷い</b>です。|<b>答えを決めるまで</b>に|どれくらい迷ったかを|表します。|<b>迷うのはごく普通のこと</b>です。|感じたままを、|ためしに1つ|押してみてください。' },
+      text: '2つ目は<b>迷い</b>です。<br><b>答えを決めるまで</b>にどれくらい迷ったかを選んでもらいます。<br>ためしに1つ押してみてください。' },
     { act: "submit", focus: null, op: '「次へ」で確定',
-      text: 'これで2つとも|答えられました。|見直して、よければ|<b>「次へ」</b>で|確定してください。|（「次へ」を押すまで|何度でも変更できます）' },
+      text: 'これで2つとも答えられました。<br>見直して、よければ<b>「次へ」</b>で確定してください。<br>（「次へ」を押すまで何度でも変更できます）' },
   ];
 
   const $ = (id) => document.getElementById(id);
@@ -982,7 +991,7 @@
   const MIC = (function () {
     const q = new URLSearchParams(location.search);
     const p = (k, d) => { const v = q.get(k); const n = v == null ? NaN : parseFloat(v); return isNaN(n) ? d : n; };
-    const m = q.get("mic");
+    const m = (GO && GO !== "micgate" && q.get("mic") == null) ? "0" : q.get("mic");   // 確認モードは micgate 以外マイク省略
     return {
       mode: m === "0" ? "off" : m === "mock" ? "mock" : "real",
       cal: q.get("miccal") === "1",  // 較正モード (開発専用): 現在レベルを数値表示して閾値決定の実測に使う
@@ -1224,6 +1233,7 @@
   // moral を含むセッションで既定ON (?read=0 で無効・?read=1 で強制ON)。位置 = micgate 通過後・練習の前。
   const READ_SENTENCES = PILOT_BANK.readingSentences;   // 中立短文3本の文言は bank.js (2026-09-06 分離)
   const READING_ON = (function () {
+    if (GO) return false;   // 確認モードは読速ベースラインを省略
     const v = new URLSearchParams(location.search).get("read");
     if (v != null) return v !== "0";
     return REAL_BLOCKS.includes("moral");
@@ -1370,6 +1380,7 @@
   function coachHide() { coachEl.className = ""; coachEl.innerHTML = ""; coachEl.style.top = ""; }
   // 練習 (チュートリアル後): 一定時間 START に触れられないときだけ「まずは下の START を…」を出す (2026-09-06)
   let idleTimer = null;
+  let tutCoachTimer = null;   // チュートリアル試行の START 案内 (帯の後 0.5 秒) のタイマー
   function armIdleCoach() {
     clearIdleCoach();
     if (!(phase === "practice" && dragTutState.done)) return;
@@ -1475,7 +1486,7 @@
 
   // 段階の切り替えを1回だけ短く知らせる帯 (チュートリアル完了→練習)。触れず・記録に入らない
   let pendingBanner = null, bannerTimer = null;
-  function showBanner(text) {
+  function showBanner(text, onHidden) {   // onHidden: 帯が消えた直後に呼ぶ (帯の後に案内を出す順序制御用)
     let el = $("phaseBanner");
     if (!el) { el = document.createElement("div"); el.id = "phaseBanner"; el.className = "phase-banner hidden"; document.body.appendChild(el); }
     el.textContent = text; el.classList.remove("hidden");
@@ -1485,14 +1496,23 @@
       if (st > cb) el.style.top = ((cb + st) / 2) + "px"; else el.style.top = ""; return st > cb; };
     if (!placeIt()) requestAnimationFrame(() => { if (!placeIt()) setTimeout(placeIt, 60); });
     if (bannerTimer) clearTimeout(bannerTimer);
-    bannerTimer = setTimeout(() => el.classList.add("hidden"), 2200);
+    bannerTimer = setTimeout(() => { el.classList.add("hidden"); if (onHidden) onHidden(); }, 2200);
   }
   function presentStimulus() {
     // 練習中はコーチング表示 (ステップ1: ボックスを隠し、上部の大きな説明で START へ誘導)。
     // 本番は一切出さない
     $("taskMsg").textContent = "";
     if (cell.isTutorial) {   // チュートリアル試行 = 実演から「自分で操作する」段階へ。帯で切り替えを告知し、練習の帯は次に回す
-      showBanner("では、1問やってみましょう");   // この1問だけ (直後に評定チュートリアル) なので「ここからは」と言わない
+      // 帯「では、1問やってみましょう」が消えて 0.5 秒後に START 案内を出す (同時に出すと上から読んで帯を読み飛ばす。2026-09-06 実機FB)
+      const myCell = cell;
+      if (tutCoachTimer) { clearTimeout(tutCoachTimer); tutCoachTimer = null; }
+      showBanner("では、1問やってみましょう", () => {   // この1問だけ (直後に評定チュートリアル) なので「ここからは」と言わない
+        tutCoachTimer = setTimeout(() => {
+          tutCoachTimer = null;
+          if (cell !== myCell || phase !== "practice" || recording || uiLocked || trial) return;   // もう押している/進んだなら出さない
+          coachMsg(nb('まずは下の <b>START</b> を|指で<b>押さえます</b>') + '<span class="sub">' + nb('実演ではなく、|自分で操作します') + '</span>', "top");
+        }, 500);
+      });
       pendingBanner = `ここから練習です（${CONFIG.practiceTrials}問）`;
     } else if (pendingBanner) { showBanner(pendingBanner); pendingBanner = null; }
     if (phase === "main" && trialShownAt != null) lastTrialMs = performance.now() - trialShownAt;   // 前問の所要を確定
@@ -1504,9 +1524,8 @@
       coachMsg(nb('まずは下の <b>START</b> を|指で<b>押さえたまま</b>にします'), "top");
       setCoach("start");
     } else if (phase === "practice" && cell.isTutorial) {
-      // チュートリアル試行: 最初から START 案内を出す (4秒待たない)。実演ではないことを小さく添える。START 押下で消える
-      setCoach(null);
-      coachMsg(nb('まずは下の <b>START</b> を|指で<b>押さえます</b>') + '<span class="sub">' + nb('実演ではなく、|自分で操作します') + '</span>', "top");
+      // チュートリアル試行: 帯の間は案内を出さず、帯が消えて 0.5 秒後に START 案内 (上の showBanner のコールバック)。START 押下で消える
+      setCoach(null); coachHide();
     } else if (phase === "practice") {
       coachHide(); setCoach(null); armIdleCoach();   // 説明は出さない。触れないまま4秒たったときだけ START 案内
     } else {
@@ -1547,6 +1566,7 @@
     if (dragTutState.active) return;              // ドラッグ導入チュートリアル表示中は本課題の操作/コーチを出さない (phase 初期値=practice のため)
     if (recording || uiLocked) return;           // 進行中 (マルチタッチ二本目) / 遷移待ち中は無視
     clearIdleCoach();
+    if (tutCoachTimer) { clearTimeout(tutCoachTimer); tutCoachTimer = null; }   // 押したら帯後の案内は出さない
     if (!inRect(rectOf(startBtn), e.clientX, e.clientY)) {
       // 練習中は原因別コーチング (ボックス直タップ等のありがちな誤操作)。本番は従来の短い注意のみ
       if (phase === "practice") coachMsg(nb('まずは下の <b>START</b> を|指で押さえます') + '<span class="sub">' + nb('指をつけたまま動かして|選ぶ課題です') + '</span>', "top");
@@ -1835,7 +1855,7 @@
     const txt = $("ratTutText"), op = $("ratPopOp"), wasHidden = ratPop.classList.contains("hidden");
     ratPop.classList.remove("hidden"); const vis = ratPop.style.visibility; ratPop.style.visibility = "hidden";
     let maxH = 0;
-    for (const pg of TUT_PAGES) { txt.innerHTML = nb(pg.text); op.textContent = pg.op || ""; op.classList.toggle("hidden", !pg.op); maxH = Math.max(maxH, ratPop.offsetHeight); }
+    for (const pg of TUT_PAGES) { txt.innerHTML = pg.text; op.textContent = pg.op || ""; op.classList.toggle("hidden", !pg.op); maxH = Math.max(maxH, ratPop.offsetHeight); }
     ratPop.style.visibility = vis; if (wasHidden) ratPop.classList.add("hidden");
     $("rating").style.setProperty("--ratReserve", (maxH + 30) + "px");
   }
@@ -1906,13 +1926,13 @@
     }
     const p = TUT_PAGES[tutIdx];
     ratReserve();
-    // まだ押す段階でない行は薄く (説明ページ=両方 / 自信ページ=迷い行)。タップは selectRating が誘導に変える
-    qc.classList.toggle("tut-off", p.act === "next"); qh.classList.toggle("tut-off", p.act === "next" || p.act === "conf");
+    // まだ押す段階でない行は薄く (説明ページ=両方 / 自信ページ=迷い行 / 迷いページ=自信行 [2026-09-06 実機FB])。タップは selectRating が誘導に変える
+    qc.classList.toggle("tut-off", p.act === "next" || p.act === "hes"); qh.classList.toggle("tut-off", p.act === "next" || p.act === "conf");
     if (ratNudgeEl) ratNudgeEl.classList.add("hidden");
     $("tutStepLabel").textContent = `説明 ${tutIdx + 1} / ${TUT_PAGES.length}`;
     const rdots = $("ratPopDots"); rdots.innerHTML = "";
     for (let i = 0; i < TUT_PAGES.length; i++) { const d = document.createElement("i"); if (i === tutIdx) d.className = "a"; rdots.appendChild(d); }
-    $("ratTutText").innerHTML = nb(p.text);
+    $("ratTutText").innerHTML = p.text;   // 文ごとの改行 (<br>)。文節ブロック改行は使わない (2026-09-06)
     $("ratReplay").classList.toggle("hidden", p.act !== "submit");   // 「もう一度見る」は最終ページのみ
     $("ratPopOp").textContent = p.op || ""; $("ratPopOp").classList.toggle("hidden", !p.op);   // 操作方法(緑)
     $("rating").classList.add("tut-front");   // 次へ/確定/もう一度 を暗幕より手前に
@@ -1941,9 +1961,11 @@
       ratSpot.style.top = (r.top - PAD) + "px"; ratSpot.style.left = (r.left - PAD) + "px";
       ratSpot.style.width = (r.width + PAD * 2) + "px"; ratSpot.style.height = (r.height + PAD * 2) + "px";
       ratSpot.classList.add("on"); ratPop.classList.add("on");
-      // 吹き出しは評定行の「上」に固定 = 下部の 次へ/確定/もう一度 に被らない (1/5・5/5対策)。行も塞がない
+      // 吹き出しは評定行の「上」に固定 = 下部の 次へ/確定/もう一度 に被らない (1/5・5/5対策)。
+      // 迷いページだけは迷い行の直上 (薄くした自信行に被ってよい。2026-09-06 実機FB: 説明と対象を近づける)
       const ir = $("ratingItems").getBoundingClientRect(), ph = ratPop.offsetHeight, pw = ratPop.offsetWidth, vw = innerWidth;
-      ratPop.style.top = Math.max(8, ir.top - PAD - 10 - ph) + "px";
+      const anchorTop = p.act === "hes" ? $("qitem-hesitation").getBoundingClientRect().top : ir.top;
+      ratPop.style.top = Math.max(8, anchorTop - PAD - 10 - ph) + "px";
       ratPop.style.left = Math.max(12, Math.min(ir.left + ir.width / 2 - pw / 2, vw - pw - 12)) + "px";
     });
     tutRenderedAt = performance.now();   // 連打デバウンスの基準時刻
@@ -2843,7 +2865,7 @@
     const backup = loadBackup();
     if (backup && KIOSK && !(backup.device && backup.device.partial)) {
       salvageBackup(backup);
-    } else if (backup && !KIOSK && canResume(backup)) {
+    } else if (backup && !KIOSK && !GO && canResume(backup)) {
       resumeOffered = true;
       showResume(backup);
       $("resumeGo").addEventListener("click", () => doResume(backup), { passive: true });
@@ -3102,6 +3124,7 @@
       outboxClear: () => { try { localStorage.removeItem(OUTBOX_KEY); } catch (_) {} outboxRender(); },
       // 中断からの再開 (§6-6 項17) の検証用
       resumeOffered: () => resumeOffered,
+      uploadUrl: () => CONFIG.uploadUrl,
       backdateBackup: (ms) => {   // チェックポイントの中断時刻を ms だけ過去にずらす (3時間超の判定を検証)
         try { const b = JSON.parse(localStorage.getItem(BACKUP_KEY)); b.interruptedAt = new Date(Date.now() - ms).toISOString();
           localStorage.setItem(BACKUP_KEY, JSON.stringify(b)); } catch (_) {}
@@ -3111,6 +3134,42 @@
         if (on) { MIC.muted = true; MIC.mutedAt = performance.now() - 5000; MIC.muteCount++; } else { MIC.muted = false; }
       },
     };
+  }
+
+  // ===== 確認モード ?go= (開発専用): 該当画面へ直行 (2026-09-06) =====
+  if (GO) {
+    $("pid").value = "check"; $("age").value = "30"; $("devModel").value = "check";   // ダミーの事前アンケート
+    device.sex = "na"; device.handedness = "right";
+    captureIntro();
+    const badge = document.createElement("div"); badge.id = "goBadge";
+    badge.textContent = "確認モード（送信しません）: " + GO; document.body.appendChild(badge);
+    const tutorialCell = () => {   // 例の1問 (startPractice と同じ内容)
+      const tc = BLOCK.makeCell({ mtype: "tutorial", domain: "tutorial", id: "tutorial",
+        stem: "（例）休日は、どちらで過ごしたいですか？", a: { label: "海でのんびり" }, b: { label: "山でハイキング" }, better: null }, "left");
+      tc.isTutorial = true; return tc;
+    };
+    const ratingAt = (withTutorial) => {   // 例の1問を答えた直後の評定画面を作る
+      dragTutState.done = true; ratingTutorialDone = !withTutorial; phase = "practice"; streak = 0;
+      queue = BLOCK.buildPractice(CONFIG.practiceTrials);
+      cell = tutorialCell();
+      trial = { phase: "tutorial", block: CONFIG.block, stimulusType: BLOCK.stimulusType, ...BLOCK.trialMeta(cell),
+        choiceSide: "left", correct: null, ratings: { confidence: null, hesitation: null }, events: [], aborts: 0 };
+      sizeCanvas(); beginRating();
+    };
+    const jump = {
+      tut: () => startPractice(),                       // 操作説明 → 例の1問 → 評定の説明 → 練習 (→ 本番へ続く)
+      rtut: () => ratingAt(true),                       // 評定の説明 (4ページ) だけ
+      rating: () => ratingAt(false),                    // 通常の評定画面
+      post: () => { phase = "main"; showPostQuestions(); },   // 最後のアンケート (完了で完了画面へ)
+      done: () => { phase = "main"; finishSession(); },       // 完了画面 (完了コード・保存ボタン)
+      break: () => { dragTutState.done = true; ratingTutorialDone = true; phase = "main";
+        queue = BLOCK.buildMain(); totalMain = queue.length; trialIndex = CONFIG.breakEvery || 16; cell = queue.shift(); sizeCanvas(); showBreak(); },
+      micgate: () => showMicGate("precheck"),           // 環境音チェック (マイクは実物)
+    };
+    if (BLOCK.stimulusType !== "text-choice" && GO !== "micgate" && GO !== "done") {
+      badge.textContent += " (block=moral/value で使う)";
+    } else if (jump[GO]) jump[GO]();
+    else badge.textContent += " (不明。tut / rtut / rating / post / done / break / micgate)";
   }
 
   // 本番中のうっかり更新・離脱への確認ダイアログ (PC ブラウザ向け。iOS Safari は表示しないが害はない。§6-6 項17)。

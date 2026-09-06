@@ -395,3 +395,7 @@
   #postBlock h2 { margin-top: 22px; }
   #postBlock .field { margin: 12px 0; }
   #postMissing:empty { display: none; }
+
+  /* ---- 確認モード ?go= の印 (開発専用。配布と取り違えないため常時表示) ---- */
+  #goBadge { position: fixed; right: 8px; bottom: 8px; z-index: 60; font-size: 11px; padding: 4px 8px; border-radius: 8px;
+    background: rgba(184,83,26,.92); color: #fff; pointer-events: none; }
