@@ -76,7 +76,8 @@
   === データ回収 ===
   完了時に CONFIG.uploadUrl (GAS Web アプリ) へ自動 POST。失敗時はダウンロード/Web Share にフォールバック。
   中断対策: 本番試行完了ごとに localStorage へチェックポイント (interruptedAt 付き同形 JSON + resume 進行状態)。同じ URL を
-  3時間以内に開き直すと「続きから再開」を提示 (§6-6 項17。完走してから送信 = 途中データは自動送信しない [説明資料の記載]。
+  3時間以内に開き直すと「続きから再開」を提示 (§6-6 項17。本番の途中なら次の問題から、本番を終えていれば最後のアンケートから。
+  完走してから送信 = 途中データは自動送信しない [説明資料の記載]。
   対面 kiosk のみ、前の人の途中データを partial として未送信キューへ退避して次の人は最初から)。
   受け口の実装とデプロイ手順は gas-collector.gs / DEPLOY.md を参照。
 -->
@@ -119,7 +120,7 @@
   <div class="pad">
     <h1>前回の続きから再開できます</h1>
     <p id="resumeInfo"></p>
-    <p>「続きから再開する」を押すと、マイクの確認のあと、<b>次の問題から</b>続きます。</p>
+    <p id="resumeHow">「続きから再開する」を押すと、マイクの確認のあと、次の問題から続きます。</p>
     <p class="opt-note">「最初からやり直す」を選ぶと、前回のご回答は端末から削除されます。</p>
     <div class="vgap"></div>
     <button class="btn primary advance" id="resumeGo">続きから再開する</button>
@@ -309,7 +310,7 @@
 
     <!-- 事後アンケート 拡充分 (2026-09-06 §6-6 項8): 状態・環境・習熟・ふりかえりの 18 項目。POST_ITEMS から描画。
          評定ブロックを含むクラウド配布のみ (対面 kiosk/stop では出さない = 時間枠・実施者不在。操作の質問だけに留める) -->
-    <p class="opt-note" id="postLead" style="display:none;margin-top:14px">続けて、いくつか質問にお答えください（約2分。分析用で、個人の特定はしません）。</p>
+    <p class="opt-note" id="postLead" style="display:none;margin-top:14px">続けて、いくつか質問にお答えください（約2分）。分析用で、個人の特定はしません。</p>
     <div id="postBlock" style="display:none"></div>
 
     <!-- 事後アンケート (UI/負担。②③=評定ブロックのみ表示。G4 負担の主観版裏付け + 改善材料。pilot2-design-notes) -->
@@ -2452,27 +2453,29 @@
   // (analysis-plan §3.6)。項目の文言・選定理由の正本は experiment-design §6-6 項8 / decisions-log、候補の経緯は post-survey-candidates。
   const POST_ITEMS = [
     { sec: "課題の前後の状態" },
-    { key: "fatigue_pre", q: "課題を始める前、どれくらい疲れていましたか", scale: ["まったく疲れていなかった", "とても疲れていた"] },
-    { key: "fatigue_post", q: "いま、どれくらい疲れていますか", scale: ["まったく疲れていない", "とても疲れている"] },
-    { key: "sleepiness", q: "いま、どれくらい眠いですか", scale: ["はっきり目が覚めている", "とても眠い"] },
-    { key: "sleep_hours", q: "昨夜の睡眠時間はどれくらいでしたか", opts: [["lt4", "4時間未満"], ["4-6", "4〜6時間"], ["6-8", "6〜8時間"], ["ge8", "8時間以上"]] },
+    // 配置 (2026-09-06 実機幅 375px で確認): 短い選択肢 4〜5 個は 2 列グリッド (grid2)、文になる選択肢は縦並び (v)。
+    //   横 1 行に詰めると「4時間未 / 満」のように単語の途中で折れるため。端点ラベルは 1 行に収まる長さに
+    { key: "fatigue_pre", q: "課題を始める前、どれくらい疲れていましたか", scale: ["疲れていなかった", "とても疲れていた"] },
+    { key: "fatigue_post", q: "いま、どれくらい疲れていますか", scale: ["疲れていない", "とても疲れている"] },
+    { key: "sleepiness", q: "いま、どれくらい眠いですか", scale: ["目が覚めている", "とても眠い"] },
+    { key: "sleep_hours", q: "昨夜の睡眠時間はどれくらいでしたか", grid2: true, opts: [["lt4", "4時間未満"], ["4-6", "4〜6時間"], ["6-8", "6〜8時間"], ["ge8", "8時間以上"]] },
     { key: "condition", q: "今日の体調はどうですか", scale: ["悪い", "良い"] },
     { sec: "回答した環境" },
     { key: "location", q: "どこで回答しましたか", v: true, opts: [["home", "自宅"], ["work_school", "職場・学校"], ["transit", "電車・バスなど移動中"], ["outdoor", "屋外・店など"], ["other", "その他"]] },
-    { key: "posture", q: "回答中の姿勢はどれに近いですか", opts: [["sitting", "座って"], ["standing", "立って"], ["lying", "横になって"], ["walking", "歩きながら"]] },
-    { key: "others_present", q: "近くに他の人はいましたか", opts: [["alone", "一人だった"], ["present_quiet", "いたが話さなかった"], ["talking", "会話しながら"]] },
+    { key: "posture", q: "回答中の姿勢はどれに近いですか", grid2: true, opts: [["sitting", "座って"], ["standing", "立って"], ["lying", "横になって"], ["walking", "歩きながら"]] },
+    { key: "others_present", q: "近くに他の人はいましたか", v: true, opts: [["alone", "一人だった"], ["present_quiet", "いたが、話はしなかった"], ["talking", "いて、会話もした"]] },
     { key: "noise_self", q: "周囲はどれくらい静かでしたか", scale: ["とても静か", "とてもうるさい"] },
     { key: "interruptions", q: "途中で中断（着信・呼びかけ・別のアプリ）はありましたか", opts: [["none", "なかった"], ["once", "1回"], ["twice_plus", "2回以上"]] },
     { sec: "あなたについて" },
-    { key: "usage_years", q: "スマートフォンを使い始めて何年くらいですか", opts: [["lt1", "1年未満"], ["1-3", "1〜3年"], ["3-5", "3〜5年"], ["5-10", "5〜10年"], ["ge10", "10年以上"]] },
-    { key: "usage_hours", q: "1日にスマートフォンを使う時間はどれくらいですか", opts: [["lt1", "1時間未満"], ["1-3", "1〜3時間"], ["3-5", "3〜5時間"], ["ge5", "5時間以上"]] },
+    { key: "usage_years", q: "スマートフォンを使い始めて何年くらいですか", grid2: true, opts: [["lt1", "1年未満"], ["1-3", "1〜3年"], ["3-5", "3〜5年"], ["5-10", "5〜10年"], ["ge10", "10年以上"]] },
+    { key: "usage_hours", q: "1日にスマートフォンを使う時間はどれくらいですか", grid2: true, opts: [["lt1", "1時間未満"], ["1-3", "1〜3時間"], ["3-5", "3〜5時間"], ["ge5", "5時間以上"]] },
     { key: "native_ja", q: "日本語は母語ですか", opts: [["yes", "はい"], ["no", "いいえ"]] },
-    { key: "moral_familiar", q: "「トロッコ問題」のような、どちらを選ぶか迷う道徳的な問題を、以前に考えたことがありますか", opts: [["often", "よくある"], ["some", "少しある"], ["never", "ない"]] },
+    { key: "moral_familiar", q: "「トロッコ問題」のような、どちらを選ぶか迷う道徳的な問題を、以前に見たり考えたりしたことがありますか", opts: [["often", "よくある"], ["some", "少しある"], ["never", "ない"]] },
     { sec: "回答のふりかえり" },
-    { key: "seriousness", q: "この調査に、どれくらい真剣に取り組みましたか", scale: ["まったく", "とても"] },
-    { key: "attention_lapse", q: "回答中に、注意がそれたり他のことをしていた時間はありましたか", opts: [["none", "なかった"], ["some", "少し"], ["much", "かなり"]] },
+    { key: "seriousness", q: "この調査に、どれくらい真剣に取り組みましたか", scale: ["真剣でなかった", "とても真剣に"] },
+    { key: "attention_lapse", q: "回答中に、注意がそれたり他のことをしていた時間はありましたか", opts: [["none", "なかった"], ["some", "少しあった"], ["much", "かなりあった"]] },
     { key: "rating_meaning", q: "「自信」と「迷い」の違いは分かりやすかったですか", scale: ["分かりにくかった", "分かりやすかった"] },
-    { key: "discomfort", q: "不快に感じた場面はありましたか", opts: [["none", "なかった"], ["some", "少し"], ["much", "かなり"]] },
+    { key: "discomfort", q: "不快に感じた場面はありましたか", opts: [["none", "なかった"], ["some", "少しあった"], ["much", "かなりあった"]] },
   ];
   const POST_KEYS = POST_ITEMS.filter((it) => it.key).map((it) => it.key);
   const post = {};
@@ -2485,7 +2488,7 @@
       const f = document.createElement("div"); f.className = "field";
       const lab = document.createElement("label"); lab.textContent = it.q; f.appendChild(lab);
       const seg = document.createElement("div"); seg.id = "post-" + it.key;
-      seg.className = "seg" + (it.scale ? " scale" : (it.v ? " seg-v" : ""));
+      seg.className = "seg" + (it.scale ? " scale" : (it.v ? " seg-v" : (it.grid2 ? " grid2" : "")));
       const opts = it.scale ? [1, 2, 3, 4, 5].map((v) => [String(v), String(v)]) : it.opts;
       for (const [val, label] of opts) {
         const b = document.createElement("button"); b.type = "button"; b.dataset.val = val; b.textContent = label; seg.appendChild(b);
@@ -2529,10 +2532,33 @@
     }
     if (POST_ON) ok = ok && postMissing() === 0;   // 拡充分 18 項目も必須 (1タップずつ。途中終了は上で免除済み)
     $("postSubmit").disabled = !ok;
-    // 未回答の案内 (長い画面で見落とした項目を探しやすく。1つも答えていない初期状態では出さない)
-    const anyAnswered = !!device.grip || (POST_ON && postMissing() < POST_KEYS.length);
-    $("postMissing").textContent = (!ok && anyAnswered && POST_ON && postMissing() > 0) ? `未回答の質問が ${postMissing()} 件あります` : "";
+    // 未回答の案内 (2026-09-06 実機確認: 必須項目すべてを列挙し、タップで最初の未回答へ移動。1つも答えていない初期状態では出さない)
+    const anyAnswered = !!device.grip || (POST_ON && postMissing() < POST_KEYS.length) || survey.problems.length > 0 || !!survey.ease;
+    const miss = postMissingList().map((m) => m.label);
+    $("postMissing").textContent = (!ok && anyAnswered && miss.length) ? "未回答: " + miss.join("・") + "（タップで移動）" : "";
   }
+  function postMissingList() {   // 必須で未回答のもの (画面の並び順)。{label, el} — el は移動先
+    const out = [];
+    if (!device.grip) out.push({ label: "持ち方", el: $("gripSeg") });
+    if (POST_ON) {
+      const keys = POST_KEYS.filter((k) => post[k] == null);
+      if (keys.length) out.push({ label: `質問 ${keys.length} 件`, el: $("post-" + keys[0]), els: keys.map((k) => $("post-" + k)) });
+    }
+    if (HAS_RATING_BLOCK) {
+      if (survey.problems.length === 0) out.push({ label: "使いにくかった点", el: $("surveyProblems") });
+      else if (survey.problems.includes("other") && survey.free.trim().length === 0) out.push({ label: "「その他」の内容", el: $("surveyFreeField") });
+      if (!survey.ease) out.push({ label: "操作のしやすさ", el: $("surveyEaseSeg") });
+    }
+    return out;
+  }
+  $("postMissing").addEventListener("click", () => {   // 最初の未回答へスクロールし、未回答をしばらく赤枠で示す
+    const list = postMissingList();
+    if (!list.length) return;
+    const targets = list.flatMap((m) => m.els || [m.el]).filter(Boolean);
+    for (const t of targets) { const box = t.closest(".field") || t; box.classList.add("miss"); setTimeout(() => box.classList.remove("miss"), 3000); }
+    const first = list[0].el.closest(".field") || list[0].el;
+    first.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, { passive: true });
   function showPostQuestions() {
     const hasSurvey = HAS_RATING_BLOCK;
     $("surveyBlock").style.display = hasSurvey ? "" : "none";
@@ -2547,6 +2573,8 @@
   }
 
   function finishSession() {
+    sessionFinished = true;
+    saveBackup();   // 完了画面に到達 = 以後は再開対象外 (resume を外して保存。送信失敗時の手動保存には使える)
     device.exportedAt = new Date().toISOString();
     // セッションの終わり方 (§6-6 項15)。完走なら partial=false・endedBy="complete"
     device.endedBy = device.endedBy || "complete";
@@ -2624,11 +2652,12 @@
 
   // ===== 中断対策チェックポイント (試行完了ごとに localStorage へ) =====
   // 84 試行 ≈ 1-2MB < localStorage 上限。失敗 (私的モード等) は無視して続行。
+  let sessionFinished = false;   // finishSession 到達後は resume を付けない (未回収分の手動保存は従来どおり)
   function saveBackup() {
     try {
       const p = buildPayload();
       p.interruptedAt = new Date().toISOString();
-      if (phase === "main" && !device.partial) p.resume = resumeState();   // 続きから再開するための進行状態 (本番中のみ。§6-6 項17)
+      if (phase === "main" && !device.partial && !sessionFinished) p.resume = resumeState();   // 続きから再開するための進行状態 (本番中〜アンケート中。§6-6 項17)
       localStorage.setItem(BACKUP_KEY, JSON.stringify(p));
     } catch (_) {}
   }
@@ -2653,15 +2682,23 @@
     if (!b || !b.resume || b.resume.v !== 1 || b.resume.search !== location.search) return false;
     if (b.device && b.device.partial) return false;
     if (!Array.isArray(b.resume.queue) || !Array.isArray(b.resume.seq)) return false;
-    // キューが空 = そのブロックは完了。残ブロック (attn 等) が無ければ本番完了後の未回収分なので再開対象外。
-    // 残ブロックがあれば再開可 (再開後の nextTrial が advanceBlockOrFinish で次ブロックへ進む)
-    if (b.resume.queue.length === 0 && b.resume.seqIndex >= b.resume.seq.length - 1) return false;
+    // キューが空 = そのブロックは完了。残ブロック (attn 等) があれば次ブロックへ、無ければ**最後のアンケートから**再開する
+    // (2026-09-06: 送信はアンケート完了後なので、アンケート中に画面が消えると本番 49 問ぶんが失われる穴を塞ぐ)。
+    // 完了画面まで到達したセッションは finishSession が resume を外して保存するので、ここには来ない
     const gap = Date.now() - Date.parse(b.interruptedAt);
     return gap >= 0 && gap <= RESUME_WINDOW_MS;
   }
+  function resumeAtSurvey(b) {   // 本番を全ブロック終えていて、残りは最後のアンケートだけか
+    return b.resume.queue.length === 0 && b.resume.seqIndex >= b.resume.seq.length - 1;
+  }
   function showResume(b) {
     const done = b.trials.filter((t) => t.phase === "main" && t.block === b.resume.block).length;
-    $("resumeInfo").innerHTML = `前回は <b>${done} / ${b.resume.totalMain} 問</b>まで進んでいました。`;
+    $("resumeInfo").innerHTML = resumeAtSurvey(b)
+      ? `前回は<b>問題をすべて終えて</b>、最後のアンケートの途中でした。`
+      : `前回は <b>${done} / ${b.resume.totalMain} 問</b>まで進んでいました。`;
+    $("resumeHow").textContent = resumeAtSurvey(b)
+      ? "「続きから再開する」を押すと、最後のアンケートから続きます。"
+      : "「続きから再開する」を押すと、マイクの確認のあと、次の問題から続きます。";
     show("resume");
     $("resume").querySelector(".pad").scrollTop = 0;
   }
@@ -2691,6 +2728,7 @@
     resumePending = true;
     uiLocked = false; recording = false; activePointerId = null;
     requestWakeLock();   // ユーザー操作 (再開ボタン) 起点
+    if (resumeAtSurvey(b)) { resumePending = false; showPostQuestions(); return; }   // 残りはアンケートだけ: マイク不要でそのまま
     const go = () => { sizeCanvas(); nextTrial(); };
     if (MIC.mode !== "off") showMicGate("precheck", go); else go();   // マイクは再取得+環境音チェックをやり直してから続きへ
   }

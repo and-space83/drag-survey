@@ -399,3 +399,10 @@
   /* ---- 確認モード ?go= の印 (開発専用。配布と取り違えないため常時表示) ---- */
   #goBadge { position: fixed; right: 8px; bottom: 8px; z-index: 60; font-size: 11px; padding: 4px 8px; border-radius: 8px;
     background: rgba(184,83,26,.92); color: #fff; pointer-events: none; }
+  /* 2026-09-06 実機幅 375px で確認して追加: 短い選択肢 4〜5 個は 2 列グリッド (横 1 行に詰めると単語の途中で折れる) */
+  .seg.grid2 button { flex: 1 1 42%; min-width: 42%; }
+  .seg-anchors { font-size: 11.5px; }
+  .seg-anchors span { max-width: 50%; }
+  /* 未回答の案内: タップで移動できる見た目 + 移動先を 3 秒だけ赤枠で示す */
+  #postMissing { cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+  .field.miss, .miss { outline: 2px solid var(--err); outline-offset: 5px; border-radius: 10px; transition: outline-color .3s; }
