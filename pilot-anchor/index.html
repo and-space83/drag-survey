@@ -300,6 +300,8 @@
 <section id="postq" class="screen">
   <div class="pad">
     <h1>最後の質問です</h1>
+    <!-- 対面 (中断ボタンあり): 「ここで終了する」まで押してしまったときの取り消し (課題に戻る)。時間上限で終わった場合は出さない (2026-09-07) -->
+    <button class="btn ghost" id="postBack" style="display:none;margin:0 0 12px">← 課題に戻る（終了を取り消す）</button>
     <p>さきほどの課題では、スマートフォンをどのように持って操作していましたか？<br>最も近いものを 1 つお選びください。</p>
     <div class="field">
       <div class="seg seg-v" id="gripSeg">
@@ -367,6 +369,18 @@
     <div class="mono" id="uploadStatus"></div>
     <!-- 対面の連続実施 (kiosk): 送信完了 or 端末保存が済んでから出す。押すと同じ URL で最初から -->
     <button class="btn primary advance" id="nextParticipant" style="display:none">つぎの人にわたす</button>
+    <!-- 対面 (kiosk): 送信はボタンを押すまで端末内に保留。この人のデータを消して最初に戻れる (テスト・取り下げ・操作ミス)。
+         2 段階で誤タップを防ぐ (2026-09-07) -->
+    <div id="discardRow" style="display:none">
+      <button class="btn ghost advance" id="discardAsk">保存せずに最初から</button>
+      <div id="discardConfirm" style="display:none">
+        <p class="opt-note" style="text-align:center;margin-top:12px">この人のデータを<b>消して</b>、最初の画面に戻ります。よろしいですか？</p>
+        <div class="btnrow" style="justify-content:center">
+          <button class="btn ghost" id="discardNo">戻る</button>
+          <button class="btn" id="discardYes" style="border-color:var(--err);color:var(--err)">消して最初から</button>
+        </div>
+      </div>
+    </div>
     <div class="btnrow" id="exportRow">
       <button class="btn primary" id="shareJson" style="display:none">データを送る (共有)</button>
       <button class="btn primary" id="dlJson">データを保存 (JSON)</button>
@@ -1115,10 +1129,10 @@
         '<p>開始前に、マイクで<b>周囲の音の大きさ</b>を確認します。下のボタンを押して、マイクの利用を<b>許可</b>してください。</p>' +
         '<p class="opt-note">マイクで測定するのは<b>音量レベルのみ</b>です。会話などの音声の内容は記録・送信されません。マイクを許可いただけない場合、この調査には参加できません。</p>'
       // 対面 (?micgate=0): 会場は参加者が変えられないので「静かな場所へ移動」を求めない。計測・記録はする
-      : '<p>はじめに、マイクで<b>周囲の音の大きさ</b>を確認します。下のボタンを押して、マイクの利用を<b>許可</b>してください。</p>' +
-        '<p class="opt-note">測定するのは<b>音量レベルのみ</b>です。会話などの音声の内容は記録・送信されません。音の大きさで先に進めなくなることはありません。</p>';
+      : '<p>はじめに、マイクの利用を<b>許可</b>してください。</p>' +
+        '<p class="opt-note">周囲の音の<b>大きさだけ</b>を記録します。会話などの音声の内容は記録・送信されません。音の大きさで先に進めなくなることはありません。</p>';
     $("micgateStatus").textContent = "";
-    $("micgateStart").textContent = mode === "precheck" ? "マイクを許可して計測する" : "マイクを再取得する";
+    $("micgateStart").textContent = mode === "precheck" ? (MICGATE_ON ? "マイクを許可して計測する" : "マイクを許可する") : "マイクを再取得する";
     $("micgateGo").textContent = (mode === "precheck" && next) ? "続きにすすむ" : "練習にすすむ";   // 再開 (§6-6 項17) は練習でなく本番の続きへ
     $("micgateStart").style.display = "";
     $("micgateGo").style.display = "none";
@@ -1135,6 +1149,9 @@
       }
       ambientRun = { until: performance.now() + MIC.checkMs, sum: 0, n: 0 };   // 事前チェック計測開始
       $("micgateStart").style.display = "none";
+      if (!MICGATE_ON) {   // 対面 (kiosk / ?micgate=0): 計測を待たせず先へ。会場の音量は裏で計測して ambientDb に残す (2026-09-07)
+        const f = micGateNext || enterSession; micGateMode = null; micGateNext = null; f();
+      }
     }).catch(() => {
       $("micgateStatus").innerHTML =
         "⚠️ マイクを利用できませんでした。参加にはマイクの許可が必要です。<br>" +
@@ -1246,6 +1263,7 @@
     if (GO) return false;   // 確認モードは読速ベースラインを省略
     const v = new URLSearchParams(location.search).get("read");
     if (v != null) return v !== "0";
+    if (KIOSK) return false;   // 対面 (kiosk) は主分析に入れないので読速を省き、限られた時間を問題に回す (2026-09-07。?read=1 で強制ON)
     return REAL_BLOCKS.includes("moral");
   })();
   let readIdx = -1, readShownAt = 0;
@@ -1284,7 +1302,7 @@
     $("readDone").textContent = "読み終えた";
     readShownAt = performance.now();
   }
-  function enterSession() {   // intro/micgate 通過後の入口: 読速ベースライン → 練習 (§6-6 項13)
+  function enterSession() {   // intro/micgate 通過後の入口: 読速ベースライン → 練習 (§6-6 項13。対面は読速なしで操作説明へ直行)
     if (READING_ON && !(device.readingBaseline && device.readingBaseline.charsPerSec != null)) { showReading(); return; }
     startPractice();
   }
@@ -1465,7 +1483,9 @@
     if (r.screen === "rating" && trial) trial.stopPause = pause;   // 評定時間は汚染するので該当試行に印を残す
     show(r.screen);
   }
+  let endedFrom = null;   // 中断ボタンで終了したときに居た画面 {screen, at} (「課題に戻る」で戻る先。2026-09-07)
   function endEarly(reason) {   // reason: "operator" (中断ボタン) | "timebox" (時間上限)
+    endedFrom = reason === "operator" && stopReturn ? { screen: stopReturn.screen, at: performance.now() } : null;
     stopReturn = null;
     recording = false; activePointerId = null; uiLocked = true;
     setCoach(null); coachHide();
@@ -2582,6 +2602,7 @@
     const hasSurvey = HAS_RATING_BLOCK;
     $("surveyBlock").style.display = hasSurvey ? "" : "none";
     if (hasSurvey) surveyReset();
+    $("postBack").style.display = (device.partial && device.endedBy === "operator" && endedFrom) ? "" : "none";   // 終了の取り消し
     $("postLead").style.display = POST_ON ? "" : "none";
     $("postBlock").style.display = POST_ON ? "" : "none";
     if (POST_ON) { postBuild(); postReset(); }
@@ -2645,8 +2666,30 @@
     else if (device.partial)
       $("doneMsg").textContent = "ここまでのご回答をお送りします。ご協力ありがとうございました。";
     show("done");
-    if (CONFIG.uploadUrl) uploadJson();
+    if (KIOSK) kioskHold();           // 対面: すぐ送らず端末内に保留 → 「送信して次の人へ」で送信 (2026-09-07)
+    else if (CONFIG.uploadUrl) uploadJson();
     else showNextParticipant();   // 送信なし (デモ・検証) でも連続実施は回せるように
+  }
+  // 対面 (kiosk) の完了画面 (2026-09-07): すぐ送信せず未送信キューに保留し、「送信して次の人へ」で送る (押し忘れて
+  // 閉じても、次にこの URL を開いたとき自動送信 = 失わない)。「保存せずに最初から」でこの人のデータを消せる
+  // (テスト・本人の取り下げ・操作ミス)。送信前に決められることが要件
+  let heldId = null;
+  function kioskHold() {
+    heldId = outboxPush(buildPayload());
+    clearBackup();
+    if (heldId) {
+      $("uploadStatus").textContent = "📥 端末に保存しました。「送信して次の人へ」を押すと送信します（電波が無ければ、次にこの画面を開いたとき自動で送信します）。";
+      $("discardRow").style.display = "";
+    } else {
+      $("uploadStatus").textContent = "⚠️ 端末に保存できませんでした。下のボタンでデータを保存してください。";
+      $("exportRow").style.display = "";
+    }
+    $("nextParticipant").textContent = "送信して次の人へ";
+    $("nextParticipant").style.display = "";
+  }
+  function discardHeld() {   // 保留中のこの人のデータを消して最初から
+    if (heldId) outboxSave(outboxLoad().filter((e) => e.id !== heldId));
+    heldId = null; clearBackup(); location.reload();
   }
 
   function makeCompletionCode() {
@@ -2828,12 +2871,13 @@
     try { localStorage.setItem(OUTBOX_KEY, JSON.stringify(list)); return true; }
     catch (_) { return false; }   // 容量超過・私的モード等
   }
-  function outboxPush(payload) {
+  function outboxPush(payload) {   // 戻り値 = 保存したエントリの id (保存できなければ null)
     const list = outboxLoad();
-    list.push({ id: (((payload.device || {}).participantId) || "anon") + "_" + Date.now(), at: new Date().toISOString(), payload });
+    const id = (((payload.device || {}).participantId) || "anon") + "_" + Date.now();
+    list.push({ id, at: new Date().toISOString(), payload });
     const ok = outboxSave(list);
     outboxRender();
-    return ok;
+    return ok ? id : null;
   }
   function outboxRender() {
     const n = outboxLoad().length;
@@ -3075,7 +3119,17 @@
     });
   }, { passive: true });
   // 連続実施 (kiosk): 同じ URL のまま最初から (URL の編集・ブラウザ操作が要らない)
-  $("nextParticipant").addEventListener("click", () => { location.reload(); }, { passive: true });
+  $("nextParticipant").addEventListener("click", () => {
+    if (KIOSK && heldId) {   // 保留中のデータを送ってから次の人へ (送れなければ端末に残り、次に開いたとき自動送信)
+      $("uploadStatus").textContent = "送信中…";
+      outboxFlush(() => location.reload());
+      return;
+    }
+    location.reload();
+  }, { passive: true });
+  $("discardAsk").addEventListener("click", () => { $("discardConfirm").style.display = ""; }, { passive: true });
+  $("discardNo").addEventListener("click", () => { $("discardConfirm").style.display = "none"; }, { passive: true });
+  $("discardYes").addEventListener("click", discardHeld, { passive: true });
 
   // HUD (?hud=1 / kiosk): 課題画面に「本番開始からの経過」と「直前1問の所要秒」。
   // 高齢者が1問にどれくらいかかるかをその場で把握する / 実機で時間配分を実測するための表示
@@ -3149,6 +3203,19 @@
   $("blockintroGo").addEventListener("click", () => {
     if (pendingMainStart) { pendingMainStart = false; startMain(); return; }  // 練習クリア→本番 (自己ペース)
     UNIFIED ? startMain() : startPractice();   // 統合: 練習は冒頭に統合済み→次パートは本番へ直行 (2026-07-15)
+  }, { passive: true });
+  // 終了の取り消し (対面): 「ここで終了する」まで押してしまった → 最後の質問画面から課題に戻る。終了前の画面へ戻し、
+  // 課題中なら同じ問題を出し直す (RT に迷った時間を混ぜない)。戻った記録は device.stopPauses に残す (2026-09-07)
+  $("postBack").addEventListener("click", () => {
+    if (!endedFrom || !device.partial) return;
+    const from = endedFrom; endedFrom = null;
+    device.partial = false; device.endedBy = null; device.endedPhase = null;
+    const pause = { screen: "postq", from: from.screen, durationMs: +(performance.now() - from.at).toFixed(0) };
+    device.stopPauses.push(pause);
+    uiLocked = false;
+    if (from.screen === "task") { presentStimulus(); return; }
+    if (from.screen === "rating" && trial) trial.stopPause = pause;
+    show(from.screen);
   }, { passive: true });
   $("postSubmit").addEventListener("click", () => {
     if ($("postSubmit").disabled) return;   // 未完了 (grip / 事後アンケート必須) なら無視

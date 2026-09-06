@@ -49,7 +49,7 @@
 | **① アンカー 本番 (Stage 1)** | `https://and-space83.github.io/drag-survey/pilot-anchor/` | 練習 (ゲート制・正解3連続) + 本番 84 試行、評定OFF、自動送信 ON |
 | **② 価値・選好 本番 (Stage 2)** | `…/pilot-anchor/?block=value` | 練習 (ゲート制・有効2連続) + 本番 24 試行、**評定ON**、自動送信 ON |
 | **③ 道徳ジレンマ 本番 (Stage 2)** | `…/pilot-anchor/?block=moral` | 練習 (ゲート制) + 本番 49 試行 (7類型×[明確1・中間2・拮抗4])、**評定ON**、16問ごとに休憩、自動送信 ON |
-| **対面 (高齢者・短時間) キオスク** | `…/pilot-anchor/?block=moral&kiosk=1&maxmin=3&pidauto=E&model=iPhone%2013&cohort=elderly-inperson` | 同じ URL を開いて渡すだけで回る対面用。中断ボタン・時間上限・ID自動採番・年代タップ・環境音は記録のみ・**送信できなければ端末に貯めて次回自動送信**・done に「つぎの人にわたす」 |
+| **対面 (高齢者・短時間) キオスク** | `…/pilot-anchor/?block=moral&kiosk=1&pidauto=E&model=iPhone%2017&cohort=elderly-inperson` (研究者同席なら `&welcome=0`) | 同じ URL を開いて渡すだけで回る対面用。中断ボタン (取り消し可)・ID自動採番・年代タップ・マイクは許可のみ (計測は裏で)・読速なし・完了画面は「送信して次の人へ」(押すまで端末内に保留、押し忘れても次回自動送信) と「保存せずに最初から」 |
 | **★②③ 統合 本番 (第二パイロット配布用)** | `…/pilot-anchor/?block=combo` | ②③を1セッションで通す。ブロック順は既定ランダム=被験者間CB (`?order=vm`/`mv` で固定)。**⑤注意チェック込み** (`?attn=0` で無効化)。事後アンケートは末尾1回 |
 | 短縮スモークテスト (①) | `…/pilot-anchor/?reps=1&practice=0` | 本番12試行のみ (練習スキップ=**開発専用・配布URL禁止**)。**送信は ON なので Drive に届く**点に注意 |
 | 短縮スモークテスト (②) | `…/pilot-anchor/?block=value&reps=1&practice=1` | 練習(ゲート制)+本番24。**送信 ON** |
