@@ -49,7 +49,8 @@
              uiScale,                          // 説明・評定・アンケート画面の文字倍率 (2026-09-08 §6-6 項18。短辺≥700px で 1.6、?fs= で上書き。課題画面は対象外)
              ratingTutorial: {changed, completed, pages},   // 評定チュートリアル (2026-09-08 から 2 ページ = 迷い画面・自信画面)
              startMode('dynamic'),             // 開始手続き (2026-09-09。'dynamic' = 場面文先出し・枠から出たら選択肢。旧データは無し = 静的)
-             instructed: {n, itemIds, text}},  // 教示誘導ブロックの構成 (クラウド配布のみ。kiosk/stop では null)
+             instructed: {n, itemIds, text},   // 教示誘導ブロックの構成 (クラウド配布のみ。kiosk/stop では null)
+             stopNotices: [{afterTrial, ms}]},   // 停止の案内画面の表示記録 (何問目の後に・滞在 ms。§6-6 項19)
                                                // チュートリアルの各説明ページの滞在時間と「もう一度」「↻ 説明」の回数 (2026-09-07。対面での教示の評価用)
     trials: [ {
       index, phase('main'|'practice'|'instructed'), stimulusType('numeric-size'|'text-choice'),
@@ -74,7 +75,7 @@
       stimulusOnsetT(場面文の表示時刻), startPressT(START 押下), preStartMs(表示〜押下 = 読解+熟考),
       revealT(選択肢の出現 = 枠から出た時刻), revealXY(出現時の指位置。surface 相対 CSS px),
       stopsAfterReveal:{n, ms, maxMs}(出現後の停止 = 6px 以内に 500ms 以上とどまった区間), stopFlag(maxMs>=1000),
-      stopNotice(true=この試行の START 上に前問の停止の案内が出ていた),
+      stopNotice(true=この試行の直前に停止の案内画面を見た。案内は評定送信後・次の場面文を出す前の独立画面 = 次問の読解時間に混ぜない),
       initiationT(=枠から出た時刻), responseT, rt_proxy_ms(押下〜枠から出るまで = 押さえていた時間), mt_proxy_ms(出現〜離す), total_ms(押下〜離す),
       dispHz, nDispatched, nCoalesced, aborts,
       ratings: {confidence:{value,rt_ms}, hesitation:{...}} (2026-07-15 2項目化。第二パイロット以前のデータは difficulty あり。
@@ -248,6 +249,16 @@
       <button type="button" class="btn primary" id="ratingNext" disabled>次へ</button>
       <button class="btn primary" id="ratingSubmit" disabled style="display:none">決定して次へ</button>
     </div>
+  </div>
+</section>
+
+<!-- ===== STOP NOTICE (動的スタート: 1 秒以上止まった試行の後、次の問題を出す前に案内だけの画面。§6-6 項19。2026-09-09) ===== -->
+<section id="notice" class="screen">
+  <div class="pad">
+    <h1>お願い</h1>
+    <p id="noticeText"></p>
+    <div class="vgap"></div>
+    <button class="btn primary advance" id="noticeGo">次へ</button>
   </div>
 </section>
 
@@ -476,7 +487,7 @@
   // 自分でリハーサルする実機確認では付け、本番セッションでは付けない (所要時間はデータから出せる)
   const HUD_ON = QS.get("hud") === "1";
   const HIDE_INTRO_FILLED = QS.get("intro") === "0" || KIOSK;   // 埋まった入力欄を隠す
-  const STOPPABLE = { task: 1, rating: 1, break: 1, blockintro: 1, reading: 1 };   // 中断ボタンを出す画面
+  const STOPPABLE = { task: 1, rating: 1, break: 1, blockintro: 1, reading: 1, notice: 1 };   // 中断ボタンを出す画面
 
   // 場面文・説明文の改行制御 (2026-07-22 ブロック方式へ改訂): 文字列中の "|" は文節の区切り。
   // 表示時は文節ごとに inline-block (.nb) へ包み、ブロックの途中では折り返さない (改行はブロック単位)。
@@ -906,7 +917,7 @@
   const screens = { welcome: $("welcome"), intro: $("intro"), task: $("task"), rating: $("rating"),
     break: $("break"), blockintro: $("blockintro"), postq: $("postq"), done: $("done"),
     micgate: $("micgate"), noisegate: $("noisegate"), reading: $("reading"),
-    stopconfirm: $("stopconfirm"), resume: $("resume") };
+    stopconfirm: $("stopconfirm"), resume: $("resume"), notice: $("notice") };
   function show(name) {
     for (const k in screens) screens[k].classList.toggle("active", k === name);
     if (STOP_ON) $("stopBtn").classList.toggle("on", !!STOPPABLE[name]);   // 中断ボタンは課題系の画面だけに出す
@@ -989,6 +1000,7 @@
     uiScale: UI_SCALE,        // 説明・評定・アンケート画面の文字倍率 (§6-6 項18)
     startMode: "dynamic",     // 動的スタート (§6-6 項19。2026-09-09)
     instructed: null,         // 教示誘導ブロック {n, itemIds, text} (careless GT 候補 A。§6-6 項19)
+    stopNotices: [],          // 停止の案内画面の表示記録 {afterTrial, ms} (§6-6 項19)
     exportedAt: null,
   };
   $("devline").textContent = `${device.screenW}×${device.screenH} @${device.dpr}x`;
@@ -1595,13 +1607,28 @@
     if (bannerTimer) clearTimeout(bannerTimer);
     bannerTimer = setTimeout(() => { el.classList.add("hidden"); if (onHidden) onHidden(); }, 2200);
   }
+  // 停止の案内画面 (§6-6 項19): 表示〜「次へ」の滞在を device.stopNotices に記録し、直後の試行に stopNotice=true を付ける
+  let noticeShownAt = null;
+  function showStopNotice() {
+    $("noticeText").textContent = STOP_NOTICE_TEXT;
+    noticeShownAt = performance.now();
+    show("notice");
+    $("notice").querySelector(".pad").scrollTop = 0;
+  }
+  $("noticeGo").addEventListener("click", () => {
+    if (noticeShownAt == null) return;
+    device.stopNotices.push({ afterTrial: phase === "main" ? trialIndex : null, ms: +(performance.now() - noticeShownAt).toFixed(0) });
+    noticeShownAt = null; stopNoticeShown = true;
+    presentStimulus();   // ここから場面文の表示 = 次の試行の stimulusOnsetT
+  }, { passive: true });
   function presentStimulus() {
     // 練習中はコーチング表示 (ステップ1: ボックスを隠し、上部の大きな説明で START へ誘導)。
     // 本番は一切出さない
-    // 前問の停止の案内 (動的スタート。評定送信後 = ここで出す。教示誘導ブロックでは出さない)
-    stopNoticeShown = pendingStopNotice && phase !== "instructed";
-    $("taskMsg").textContent = stopNoticeShown ? STOP_NOTICE_TEXT : "";
+    // 前問の停止の案内 (動的スタート): 評定送信後・次の場面文を出す前に案内だけの画面を挟む
+    // (次の問題の画面に出すと案内を読む時間が次問の読解時間 preStartMs に混ざる。2026-09-09 ユーザー指摘)。教示誘導ブロックでは出さない
+    if (pendingStopNotice && phase !== "instructed") { pendingStopNotice = false; showStopNotice(); return; }
     pendingStopNotice = false;
+    $("taskMsg").textContent = "";
     if (cell.isTutorial) {   // チュートリアル試行 = 実演から「自分で操作する」段階へ。帯で切り替えを告知し、練習の帯は次に回す
       // 帯「では、1問やってみましょう」が消えて 0.5 秒後に START 案内を出す (同時に出すと上から読んで帯を読み飛ばす。2026-09-06 実機FB)
       const myCell = cell;
@@ -1712,6 +1739,7 @@
       events: [],
     };
     pushEvent(e, "down");
+    stopNoticeShown = false;   // 案内の効果は直後の 1 試行だけに印を付ける
     startBtn.classList.add("armed"); startBtn.textContent = "→";   // 押下では選択肢を出さない (枠から出た瞬間に出す)
     // 練習中はステップ2: ボックスを出現+発光させ「離さず運んで中で離す」(文言はブロック別。経路の形は指示しない)
     if (phase === "practice" && !dragTutState.done) { coachMsg(nb(BLOCK.coachDrag), "mid"); setCoach("drag"); }
