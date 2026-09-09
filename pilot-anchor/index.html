@@ -862,6 +862,9 @@
   const EARLY_CPS = 25;
   const EARLY_NOTICE_TEXT = "前の問題では、問題文を読み終える前に指が START から出ました。問題文を読み終えてから START に指を置き、指を出してください。";
   const NOTICE_TEXTS = { stop: STOP_NOTICE_TEXT, early: EARLY_NOTICE_TEXT };
+  // 表示用 (伝えたい行動を太字に。textContent は上の平文と一致)
+  const NOTICE_HTML = { stop: "前の問題では指が1秒以上止まりました。<br><b>できるだけ指を止めないで考えながら運んでください。</b>",
+                        early: "前の問題では、問題文を読み終える前に指が START から出ました。<br><b>問題文を読み終えてから START に指を置き、指を出してください。</b>" };
   let pendingNotice = null, stopNoticeShown = false, stemShownT = 0;
   let seqIndex = 0;
   let pendingMainStart = false;   // 練習クリア画面 (blockintro 流用) から「続ける」で本番へ (2026-07-15 自己ペース化)
@@ -914,7 +917,7 @@
   // act: hes=迷いを選んで「次へ」 / conf=自信を選んで「次へ」(確定)
   const TUT_PAGES = [
     { act: "hes",  focus: "hesitation", op: 'いちばん近いものを1つ押して、「次へ」',
-      text: '1つ目は<b>迷い</b>です。<br><b>答えを決めるまで</b>に、どれくらい迷ったかを選びます。<br>迷いと自信は<b>別々の質問</b>です。<br><b>正解はありません</b>ので、感じたまま選んでください。' },
+      text: '選んだあとは、毎回<b>2つの質問</b>に答えます。<br>1つ目は<b>迷い</b>です。<br><b>答えを決めるまで</b>に、どれくらい迷ったかを選びます。<br>迷いと自信は<b>別々の質問</b>です。<br><b>正解はありません</b>ので、感じたまま選んでください。' },
     { act: "conf", focus: "confidence", op: '1つ押して、「次へ」で確定',
       text: '2つ目は<b>自信</b>です。<br><b>いま選んだ答え</b>への自信の強さを選びます。<br>問題ごとに、<b>その問題のこと</b>だけをふりかえって選んでください。<br>（「戻る」で1つ目を直せます）' },
   ];
@@ -1616,7 +1619,7 @@
   // 停止の案内画面 (§6-6 項19): 表示〜「次へ」の滞在を device.stopNotices に記録し、直後の試行に stopNotice=true を付ける
   let noticeShownAt = null, noticeKind = null;
   function showStopNotice(kind) {
-    noticeKind = kind; $("noticeText").textContent = NOTICE_TEXTS[kind] || STOP_NOTICE_TEXT;
+    noticeKind = kind; $("noticeText").innerHTML = NOTICE_HTML[kind] || NOTICE_HTML.stop;   // 文言は内部定数のみ
     noticeShownAt = performance.now();
     show("notice");
     $("notice").querySelector(".pad").scrollTop = 0;
@@ -2139,13 +2142,12 @@
     // geometry は rAF 内で読む: beginRating は tutRender→show("rating") の順で呼ぶため、
     // 同期読みだと #rating 非 active で rect=0 になる。rAF なら show 後で正しい。
     // 黄色い枠線で対象の場所を示す (2026-09-05: 暗幕での強調は廃止・枠線のみ)
-    ratSpot.classList.remove("strong"); ratSpot.classList.remove("hidden"); ratPop.classList.remove("hidden");
+    // 枠線 (ratSpot) は出さない: 1 項目 1 画面で対象は一目で分かる (2026-09-09 ユーザー指示)。吹き出しだけ
+    ratSpot.classList.remove("strong", "on"); ratSpot.classList.add("hidden"); ratPop.classList.remove("hidden");
     const PAD = 10;
     requestAnimationFrame(() => {
       const r = ratRect(p);
-      ratSpot.style.top = (r.top - PAD) + "px"; ratSpot.style.left = (r.left - PAD) + "px";
-      ratSpot.style.width = (r.width + PAD * 2) + "px"; ratSpot.style.height = (r.height + PAD * 2) + "px";
-      ratSpot.classList.add("on"); ratPop.classList.add("on");
+      ratPop.classList.add("on");
       const ph = ratPop.offsetHeight, pw = ratPop.offsetWidth, vw = innerWidth;
       ratPop.style.top = Math.max(8, r.top - PAD - 10 - ph) + "px";
       ratPop.style.left = Math.max(12, Math.min(r.left + r.width / 2 - pw / 2, vw - pw - 12)) + "px";
@@ -2241,7 +2243,7 @@
       { part: "screen", focus: "choices2", act: "next", sample: true, reveal: 2, op: "読んだら「次へ」", txt: "その<b>下の2つ</b>が選択肢です。問題文を読んで、<b>選ぶほう</b>を決めます。" },
       { part: "screen", focus: "start",    act: "next", reveal: 2, op: "読んだら「次へ」", txt: "画面の<b>下</b>に <b>START</b> ボタンがあります。<br>この START に指を置いて操作します。<br>操作は<b>あとの画面</b>で実際にやってみます。" },
       // 5/7 (2026-09-08): 本番では START に指を置いている間だけ問題文と選択肢が出る (離すと消える) ことを先に伝える
-      { part: "screen", focus: "start",    act: "next", reveal: 2, op: "読んだら「次へ」", txt: "問題文は<b>最初から</b>出ています。<br>問題文を<b>読み終えてから</b>、START に指を置きます。<br>START から指を出すと <b>2つの選択肢</b> が出ます。<br>選択肢が出たら、できるだけ<b>指を止めないで</b>、考えながら運びます。" },
+      { part: "screen", focus: "start",    act: "next", reveal: 2, op: "読んだら「次へ」", txt: "問題文を<b>読み終えてから</b>、START に指を置きます。<br>START から指を出すと <b>2つの選択肢</b> が出ます。<br>選択肢が出たら、できるだけ<b>指を止めないで</b>、考えながら運びます。" },
       // ---- ここから操作の練習 (触る段階であることを見出しと切り替え画面で明示。2026-09-09 対面 1 日目「説明中に押してしまう」への対応) ----
       { part: "hands",  focus: "orient",   act: "next", sample: true, reveal: 0, op: "読んだら「次へ」", txt: "ここからは、<b>実際に指で操作</b>します。<br>次の画面で START に指を置いて、離さずに運んでみましょう。" },
       // 5/6・6/6 はハンズオン: 実演を見せたあと自分で運んでもらい、成功したら進めるようにする
@@ -2283,7 +2285,7 @@
     let sbxRevealed = false, demoLeft = false;   // 「選択肢」ラベル: 自分の指が START から出た (sbxRevealed) / 実演の指が出た (demoLeft) ときに箱の中に出す
     function drawSbx(T) {
       g.save(); g.strokeStyle = "rgba(18,133,90,.85)"; g.lineWidth = 2; roundRect(T.x - T.bw / 2, T.y - T.bh / 2, T.bw, T.bh, 12); g.stroke();
-      if (sbxRevealed || demoLeft) { g.fillStyle = "rgba(26,29,33,.9)"; g.font = "600 " + Math.round(Math.min(surface.clientWidth, surface.clientHeight) * 0.045) + "px -apple-system, sans-serif";
+      if (sbxRevealed) { g.fillStyle = "rgba(26,29,33,.9)";   // 自分の指が START から出たときだけ (実演では出さない。2026-09-09) g.font = "600 " + Math.round(Math.min(surface.clientWidth, surface.clientHeight) * 0.045) + "px -apple-system, sans-serif";
         g.textAlign = "center"; g.textBaseline = "middle"; g.fillText("選択肢", T.x, T.y); }
       g.restore();
     }
@@ -2327,9 +2329,8 @@
       const P1x = sx + dx * f1 + nx * o1, P1y = sy + dy * f1 + ny * o1, P2x = sx + dx * f2 + nx * o2, P2y = sy + dy * f2 + ny * o2;
       const cub = (a, b, c, d, t) => { const u = 1 - t; return u * u * u * a + 3 * u * u * t * b + 3 * u * t * t * c + t * t * t * d; };
       return (async () => {
-        demoLeft = false;   // 実演の指が START に置かれた時点ではラベルなし → 出た時点で「選択肢」が現れる (出現の仕組みの実演)
         await tween(300, my, (t) => { clr(); drawSbx(T); finger(sx, sy, 1); ring(sx, sy, 18 + t * 6, .9); });
-        await tween(1000, my, (t) => { if (t > 0.08) demoLeft = true; clr(); drawSbx(T); const e = easeIO(t); const px = cub(sx, P1x, P2x, ex, e), py = cub(sy, P1y, P2y, ey, e); const a = 1 - .5 * Math.sin(Math.PI * t); finger(px, py, a); ring(px, py, 20, a * .9); });
+        await tween(1000, my, (t) => { clr(); drawSbx(T); const e = easeIO(t); const px = cub(sx, P1x, P2x, ex, e), py = cub(sy, P1y, P2y, ey, e); const a = 1 - .5 * Math.sin(Math.PI * t); finger(px, py, a); ring(px, py, 20, a * .9); });
         if (my !== tok) return;
         await tween(420, my, (t) => { clr(); drawSbx(T); finger(ex, ey, 1 - t * .3); ring(ex, ey, 20 + t * 40, 1 - t, "rgba(18,133,90,.9)"); });
       })();
@@ -2341,11 +2342,10 @@
       while (my === tok && !handsDone) {       // 成功するまで左右交互に実演を繰り返す (両destination均等)
         if (hTracking) { await sleep(120); continue; }   // 操作中は実演を描かない
         const s = lc(startBtn), box = side === "B" ? choiceB : choiceA, c = lc(box);
-        if (!sbxRevealed) { numA.style.visibility = "hidden"; numB.style.visibility = "hidden"; }   // 実演: START に置いた時点では選択肢なし
         await tween(520, my, (t) => { clr(); finger(s.x, s.y, 1); ring(s.x, s.y, 20 + Math.sin(t * 10) * 3, .9); });
         await tween(240, my, (t) => { clr(); finger(s.x, s.y, 1 - t); });
         if (my !== tok) return;
-        numA.style.visibility = "visible"; numB.style.visibility = "visible";   // 指が START から出た → 選択肢が現れる
+        // ラベル「選択肢1/2」は自分の指が START から出たときだけ現す (実演では出さない。2026-09-09)
         box.classList.add("tut-rcv"); setTimeout(() => box.classList.remove("tut-rcv"), 600);
         await tween(520, my, (t) => { clr(); finger(c.x, c.y, Math.min(1, t * 2)); ring(c.x, c.y, 20 + t * 26, (1 - t) * .8, "rgba(18,133,90,.9)"); });
         await sleep(500);

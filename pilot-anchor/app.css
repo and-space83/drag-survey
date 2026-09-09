@@ -208,6 +208,9 @@
   .rating-answer { text-align: center; font-size: calc(16px * var(--ui-scale)); color: var(--ink-2); margin-bottom: 14px; line-height: 1.5; }
   .rating-answer b { color: var(--go); font-size: calc(18px * var(--ui-scale)); }
   .rating-answer[hidden] { display: none; }
+  /* 停止・早出しの案内画面 (2026-09-09): 大きめの文字、伝えたい行動は太字 */
+  #noticeText { font-size: calc(20px * var(--ui-scale)); line-height: 1.7; }
+  #noticeText b { color: var(--warn); }
   .anchors { display: flex; justify-content: space-between; margin-top: 6px;
     font-size: calc(14px * var(--ui-scale)); color: var(--ink-2); }  /* 2026-07-15 高齢者配慮: 端点の意味が読める大きさ・明度に */
   .anchors span { max-width: 44%; }
@@ -325,8 +328,8 @@
     border-radius: 14px; box-shadow: 0 10px 28px -12px rgba(20,26,34,.35); padding: 15px 16px 14px; opacity: 0; transform: translateY(4px);
     transition: opacity .22s, transform .22s, top .55s cubic-bezier(.4,0,.2,1), left .3s cubic-bezier(.4,0,.2,1); }
   .tut-pop.on { opacity: 1; transform: translateY(0); }
-  .tut-pop .s { font-size: calc(12px * var(--ui-scale)); color: var(--warn); font-weight: 700; letter-spacing: 1.5px; margin-bottom: 7px; }
-  .tut-pop .t { font-size: calc(15.5px * var(--ui-scale)); line-height: 1.75; color: var(--ink); }
+  .tut-pop .s { font-size: calc(14px * var(--ui-scale)); color: var(--warn); font-weight: 700; letter-spacing: 1.5px; margin-bottom: 7px; }
+  .tut-pop .t { font-size: calc(18.5px * var(--ui-scale)); line-height: 1.7; color: var(--ink); }   /* 2026-09-09: 1.2 倍 (旧 15.5px) */
   .tut-pop .t b { color: var(--warn); font-weight: 700; }
   .tut-pop .f { font-size: calc(12.5px * var(--ui-scale)); color: #7fd0a4; margin-top: 9px; font-weight: 600; }
   .tut-pop .r { display: flex; align-items: center; gap: 8px; margin-top: 13px; }
@@ -344,7 +347,7 @@
   .likert.tut-cue button { animation: tutCueGlow 1.25s ease-in-out infinite; }
   @media (prefers-reduced-motion: reduce) { .likert.tut-cue button { animation: none; border-color: var(--warn); } }
   /* 吹き出し: 説明(白/黄)=.t、操作方法(緑)=.g。要素の近くに置きどこの話か瞬時にわかるように */
-  .tut-pop .g { font-size: calc(13.5px * var(--ui-scale)); color: var(--go); margin-top: 8px; font-weight: 700; }
+  .tut-pop .g { font-size: calc(16px * var(--ui-scale)); color: var(--go); margin-top: 8px; font-weight: 700; }
   .tut-pop .g.hidden { display: none; }
   /* 下部の進行ボタン列 (評定チュートリアルと同様に大きく緑で)。最終ページは [もう一度(控えめ)|完了(緑)] に分割 */
   .tut-btnrow { position: fixed; z-index: 42; display: flex; gap: 8px; }
