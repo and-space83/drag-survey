@@ -321,7 +321,7 @@
   .tut-spot.on { opacity: 1; transition: top .34s cubic-bezier(.4,0,.2,1), left .34s cubic-bezier(.4,0,.2,1),
     width .34s cubic-bezier(.4,0,.2,1), height .34s cubic-bezier(.4,0,.2,1), opacity .2s; }
   .tut-spot.hidden, .tut-pop.hidden, .tut-pop .f.hidden { display: none; }
-  .tut-pop { position: fixed; z-index: 41; width: min(calc(310px * var(--ui-scale)), 84vw); background: var(--panel); border: 2px solid var(--warn);
+  .tut-pop { position: fixed; z-index: 41; width: min(92vw, calc(440px * var(--ui-scale)));   /* 2026-09-09: 機種の幅を使う (旧 310px 固定) */ background: var(--panel); border: 2px solid var(--warn);
     border-radius: 14px; box-shadow: 0 10px 28px -12px rgba(20,26,34,.35); padding: 15px 16px 14px; opacity: 0; transform: translateY(4px);
     transition: opacity .22s, transform .22s, top .55s cubic-bezier(.4,0,.2,1), left .3s cubic-bezier(.4,0,.2,1); }
   .tut-pop.on { opacity: 1; transform: translateY(0); }
