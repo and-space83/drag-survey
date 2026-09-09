@@ -487,6 +487,8 @@
   // 参加者から見える位置に時計を出すと時間圧がかかり、主予測ターゲット (迷い) を汚しうるため、
   // 自分でリハーサルする実機確認では付け、本番セッションでは付けない (所要時間はデータから出せる)
   const HUD_ON = QS.get("hud") === "1";
+  // 開発専用 (2026-09-10): 本番の問題数を先頭 N 問に絞る (validate.js の再開・環境音セッションの短縮用)。**配布 URL には付けない**
+  const NMAIN = (function () { const v = parseInt(QS.get("nmain"), 10); return isFinite(v) && v > 0 ? v : null; })();
   const HIDE_INTRO_FILLED = QS.get("intro") === "0" || KIOSK;   // 埋まった入力欄を隠す
   const STOPPABLE = { task: 1, rating: 1, break: 1, blockintro: 1, reading: 1, notice: 1 };   // 中断ボタンを出す画面
 
@@ -2127,7 +2129,7 @@
     const rdots = $("ratPopDots"); rdots.innerHTML = "";
     for (let i = 0; i < TUT_PAGES.length; i++) { const d = document.createElement("i"); if (i === tutIdx) d.className = "a"; rdots.appendChild(d); }
     $("ratTutText").innerHTML = p.text;   // 文ごとの改行 (<br>)。文節ブロック改行は使わない (2026-09-06)
-    $("ratReplay").classList.toggle("hidden", p.act !== "conf");   // 「もう一度見る」は最終ページ (自信) のみ
+    $("ratReplay").classList.add("hidden");   // 「もう一度」は出さない (「戻る」と役割が同じ。2026-09-09)
     $("ratPopOp").textContent = p.op || ""; $("ratPopOp").classList.toggle("hidden", !p.op);   // 操作方法(緑)
     $("rating").classList.add("tut-front");   // 次へ/確定/もう一度 を暗幕より手前に
     if (ratCueTimer) { clearTimeout(ratCueTimer); ratCueTimer = null; }
@@ -2271,8 +2273,13 @@
     }
     function lc(el) { const s = surface.getBoundingClientRect(), r = el.getBoundingClientRect(); return { x: r.left + r.width / 2 - s.left, y: r.top + r.height / 2 - s.top }; }
     function sbxT() { const w = surface.clientWidth, h = surface.clientHeight; return { x: w * .5, y: h * .34, bw: w * .36, bh: h * .12 }; }
-    function ctx() { demo.width = surface.clientWidth; demo.height = surface.clientHeight; return g; }
-    function clr() { g.clearRect(0, 0, demo.width, demo.height); }
+    function ctx() {   // DPR 対応 (2026-09-09: 非 DPR だと文字がぼやけ、線がガビガビに太る)
+      const dpr = window.devicePixelRatio || 1;
+      demo.width = Math.round(surface.clientWidth * dpr); demo.height = Math.round(surface.clientHeight * dpr);
+      demo.style.width = surface.clientWidth + "px"; demo.style.height = surface.clientHeight + "px";
+      g.setTransform(dpr, 0, 0, dpr, 0, 0); return g;
+    }
+    function clr() { g.clearRect(0, 0, surface.clientWidth, surface.clientHeight); }
     function finger(x, y, a) {
       g.save(); g.globalAlpha = a;
       const grd = g.createRadialGradient(x - 4, y - 5, 2, x, y, 17);
@@ -2285,7 +2292,8 @@
     let sbxRevealed = false, demoLeft = false;   // 「選択肢」ラベル: 自分の指が START から出た (sbxRevealed) / 実演の指が出た (demoLeft) ときに箱の中に出す
     function drawSbx(T) {
       g.save(); g.strokeStyle = "rgba(18,133,90,.85)"; g.lineWidth = 2; roundRect(T.x - T.bw / 2, T.y - T.bh / 2, T.bw, T.bh, 12); g.stroke();
-      if (sbxRevealed) { g.fillStyle = "rgba(26,29,33,.9)";   // 自分の指が START から出たときだけ (実演では出さない。2026-09-09) g.font = "600 " + Math.round(Math.min(surface.clientWidth, surface.clientHeight) * 0.045) + "px -apple-system, sans-serif";
+      if (sbxRevealed) {   // 自分の指が START から出たときだけ (実演では出さない。2026-09-09)。文字は選択肢ラベルより一回り大きく (6.2vmin 相当)
+        g.fillStyle = "rgba(26,29,33,.95)"; g.font = "700 " + Math.round(Math.min(surface.clientWidth, surface.clientHeight) * 0.062) + "px -apple-system, BlinkMacSystemFont, sans-serif";
         g.textAlign = "center"; g.textBaseline = "middle"; g.fillText("選択肢", T.x, T.y); }
       g.restore();
     }
@@ -2491,12 +2499,17 @@
       handsMode = null;
     }
     // 自分の軌跡 (触れている実感のために描く。装飾レイヤー=記録には一切入らない)
-    function inkSize() { ink.width = surface.clientWidth; ink.height = surface.clientHeight; }
-    function inkClear() { if (ig) ig.clearRect(0, 0, ink.width, ink.height); }
+    function inkSize() {   // DPR 対応 (本番の #trace と同じ描き方に揃える)
+      const dpr = window.devicePixelRatio || 1;
+      ink.width = Math.round(surface.clientWidth * dpr); ink.height = Math.round(surface.clientHeight * dpr);
+      ink.style.width = surface.clientWidth + "px"; ink.style.height = surface.clientHeight + "px";
+      ig.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    function inkClear() { if (ig) ig.clearRect(0, 0, surface.clientWidth, surface.clientHeight); }
     function inkStart(x, y) { const r = surface.getBoundingClientRect(); inkClear(); ig.beginPath(); ig.moveTo(x - r.left, y - r.top); }
     function inkTo(x, y) {
       const r = surface.getBoundingClientRect();
-      ig.lineTo(x - r.left, y - r.top); ig.strokeStyle = "#1668c4"; ig.lineWidth = 2.5; ig.lineCap = "round"; ig.stroke();
+      ig.lineTo(x - r.left, y - r.top); ig.strokeStyle = "#1668c4"; ig.lineWidth = 2.5; ig.lineCap = "round"; ig.lineJoin = "round"; ig.stroke();
     }
     let hTracking = false, hPid = null;
     function hInRect(el, x, y) { const r = el.getBoundingClientRect(); return x >= r.left && x <= r.right && y >= r.top && y <= r.bottom; }
@@ -2534,10 +2547,13 @@
       hTracking = false; hPid = null; startBtn.classList.remove("armed");
       const ok = handsMode === "sandbox" ? hInSbxBox(e.clientX, e.clientY)
                                          : (hInRect(choiceA, e.clientX, e.clientY) || hInRect(choiceB, e.clientX, e.clientY));
+      // 指を離したらラベルを消す (出るのは指が START から出て運んでいる間だけ。2026-09-09)
+      sbxRevealed = false;
+      if (handsMode === "sandbox") { clr(); drawSbx(sbxT()); } else { numA.style.visibility = "hidden"; numB.style.visibility = "hidden"; }
       if (ok) endHands(true);
       else { setHint("ボックスの中で指を離します。<br>もう一度どうぞ", true); setTimeout(() => inkClear(), 600); }
     }, { passive: true });
-    surface.addEventListener("pointercancel", () => { if (hTracking) { hTracking = false; hPid = null; startBtn.classList.remove("armed"); inkClear(); } }, { passive: true });
+    surface.addEventListener("pointercancel", () => { if (hTracking) { hTracking = false; hPid = null; startBtn.classList.remove("armed"); inkClear(); sbxRevealed = false; numA.style.visibility = "hidden"; numB.style.visibility = "hidden"; } }, { passive: true });
 
     function advance() { if (idx < 0) return; if (idx < STEPS.length - 1) { idx++; render(); } else finish(); }   // idx<0 = 終了後 (迷いクリックの保険)
     function finish() {
@@ -2642,6 +2658,7 @@
     trialShownAt = null; lastTrialMs = null;   // 練習→本番の間隔を「前問の所要」に混ぜない (HUD)
     if (mainStartedAt == null) mainStartedAt = performance.now();   // 統合では最初のブロック開始を起点にする
     queue = BLOCK.buildMain();
+    if (NMAIN && BLOCK.id !== "attn") queue = queue.slice(0, NMAIN);   // 開発専用 ?nmain=N (検証の短縮)
     if (ATTN_ON && BLOCK.ratings && BLOCK.id !== "attn") queue = insertDqs(queue);  // ②③に弱DQSを1/3・2/3で埋め込む (§6-5)
     totalMain = queue.length;
     sizeCanvas();
