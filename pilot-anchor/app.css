@@ -234,6 +234,10 @@
   .btn.nudge { animation: btnNudge .5s ease-in-out; }
   /* 説明BOXの高さぶん評定行を下げる (全ページ同じ量 = 行の位置は動かない。BOXが自信行に被る対策) */
   #rating.tut-front .qwrap { padding-top: var(--ratReserve, 0px); }
+  /* 低い画面 (iPhone SE の Safari ≈ 548px・mini/14 の Safari ≈ 700–730px) では評定画面の倍率を下げ、振り返りの説明の
+     ボックス分だけ下がっても 5 段のボタンと「次へ」が 1 画面に収まるようにする (2026-09-13: スクロールは誰もしない前提) */
+  @media (max-height: 640px) { #rating { --ui-scale: .78; } #rating .qitem { margin-bottom: 6px; } #rating .likert { gap: 4px; } #rating .likert button { padding: 7px 12px; } #rating .rating-answer { margin-bottom: 4px; } #rating .qi-text { margin-bottom: 4px; } #rating .qwrap { padding-bottom: 6px; } }
+  @media (min-height: 641px) and (max-height: 760px) { #rating { --ui-scale: .92; } #rating .qitem { margin-bottom: 12px; } #rating .likert { gap: 6px; } #rating .likert button { padding: 9px 13px; } }
   #rating.rat-intro .qitem, #rating.rat-intro #ratingAnswer { visibility: hidden; }   /* 振り返りの説明の導入ページは白紙 (位置は保つ = 次のページで行が動かない。2026-09-12 夜) */
   .qitem.tfocus .qi-text { color: var(--warn); font-weight: 700; } /* 評定チュートリアル: 対象項目を強調 */
   /* ---- 評定チュートリアル v2 (2026-07-22): 枠付き説明ボックス+ステップ表示 (説明 n/6)。
@@ -289,7 +293,8 @@
   #zoomGuard.show { display: flex; }
   #zoomGuard .icon { font-size: calc(48px * var(--ui-scale)); }
   #zoomGuard p { font-size: calc(16px * var(--ui-scale)); color: var(--ink); line-height: 1.6; }
-  #zoomGuard p.how { font-size: calc(14px * var(--ui-scale)); color: var(--ink-2); }
+  #zoomGuard p.how { font-size: calc(14px * var(--ui-scale)); color: var(--ink-2); text-align: left; max-width: 420px; }
+  #zoomGuard p.now { font-size: calc(18px * var(--ui-scale)); color: var(--err); font-weight: 700; }
   /* 文字だけの拡大の検出用の見本 (画面外)。A は拡大を受けない (text-size-adjust: none)、B は受ける (auto)。幅の比 = 文字の拡大率 */
   #zoomProbe { position: fixed; left: -9999px; top: 0; white-space: nowrap; font-size: 16px; line-height: 1; pointer-events: none; }
   #zoomProbe span { display: inline-block; }
@@ -343,12 +348,13 @@
     width .34s cubic-bezier(.4,0,.2,1), height .34s cubic-bezier(.4,0,.2,1), opacity .2s; }
   .tut-spot.hidden, .tut-pop.hidden, .tut-pop .f.hidden { display: none; }
   .tut-pop { position: fixed; z-index: 41; width: min(92vw, calc(440px * var(--ui-scale)));   /* 2026-09-09: 機種の幅を使う (旧 310px 固定) */ background: var(--panel); border: 2px solid var(--warn);
-    border-radius: 14px; box-shadow: 0 10px 28px -12px rgba(20,26,34,.35); padding: 15px 16px 14px; opacity: 0; transform: translateY(4px);
+    border-radius: 14px; box-shadow: 0 10px 28px -12px rgba(20,26,34,.35); padding: 12px 14px 11px; opacity: 0; transform: translateY(4px);
     transition: opacity .22s, transform .22s, top .55s cubic-bezier(.4,0,.2,1), left .3s cubic-bezier(.4,0,.2,1); }
   .tut-pop.on { opacity: 1; transform: translateY(0); }
-  .tut-pop .s { font-size: calc(14px * var(--ui-scale)); color: var(--warn); font-weight: 700; letter-spacing: 1.5px; margin-bottom: 7px; }
-  /* 説明の文字は画面の高さに連続で追従 (2026-09-12 後刻): 2.9vh = 548px (SE の Safari) で 15.9px 〜 640px 以上で上限 18.5px。旧: 18.5px 固定 (2026-09-09 の 1.2 倍) */
-  .tut-pop .t { font-size: clamp(calc(15.5px * var(--ui-scale)), 2.9vh, calc(18.5px * var(--ui-scale))); line-height: 1.62; color: var(--ink); }
+  .tut-pop .s { font-size: calc(13px * var(--ui-scale)); color: var(--warn); font-weight: 700; letter-spacing: 1.5px; margin-bottom: 6px; }
+  /* 説明の文字は画面の高さに連続で追従 (2026-09-12 後刻)。2026-09-13: 一段小さく (実機 iPhone 17 Safari で 100% にすると選択肢に被った):
+     2.3vh = 548px (SE の Safari) で 14px 〜 740px 以上で上限 17px。旧: clamp(15.5px, 2.9vh, 18.5px) */
+  .tut-pop .t { font-size: clamp(calc(14px * var(--ui-scale)), 2.3vh, calc(17px * var(--ui-scale))); line-height: 1.55; color: var(--ink); }
   .tut-pop .t b { color: var(--warn); font-weight: 700; }
   .tut-pop .f { font-size: calc(12.5px * var(--ui-scale)); color: #7fd0a4; margin-top: 9px; font-weight: 600; }
   .tut-pop .r { display: flex; align-items: center; gap: 8px; margin-top: 13px; }
@@ -366,9 +372,8 @@
   .likert.tut-cue button { animation: tutCueGlow 1.25s ease-in-out infinite; }
   @media (prefers-reduced-motion: reduce) { .likert.tut-cue button { animation: none; border-color: var(--warn); } }
   /* 吹き出し: 説明(白/黄)=.t、操作方法(緑)=.g。要素の近くに置きどこの話か瞬時にわかるように */
-  .tut-pop .g { font-size: calc(16px * var(--ui-scale)); color: var(--go); margin-top: 8px; font-weight: 700; }
+  .tut-pop .g { font-size: calc(15px * var(--ui-scale)); color: var(--go); margin-top: 7px; font-weight: 700; }
   .tut-pop .g.hidden { display: none; }
-  @media (max-height: 600px) { .tut-pop { padding: 12px 14px 11px; } }   /* 低い画面では余白も詰める */   /* 赤い注意 (早押し・説明中に触った)。ボックスの中 = 被らない (2026-09-12) */
   .tut-pop .n.hidden { display: none; }
   /* 下部の進行ボタン列 (評定チュートリアルと同様に大きく緑で)。最終ページは [もう一度(控えめ)|完了(緑)] に分割 */
   .tut-btnrow { position: fixed; z-index: 42; display: flex; gap: 8px; }

@@ -111,7 +111,8 @@
 <div id="zoomGuard">
   <div class="icon">🔍</div>
   <p><b>文字の大きさ（ページの拡大）</b>が 100% 以外になっています。<br>このアンケートは <b>100%</b> で行います。</p>
-  <p class="how">Safari: アドレスバーの「<b>ぁあ</b>」→「<b>100%</b>」<br>Chrome: 「<b>…</b>」→「<b>ズーム</b>」→ 100%<br>戻すと自動で進みます。</p>
+  <p class="now" id="zgNow"></p>
+  <p class="how"><b>Safari</b>: アドレスバー（画面の下または上の URL の欄）の左にある「<b>ぁあ</b>」を押す → 出てきたメニューの<b>小さい「あ」／大きい「あ」</b>で調整し、真ん中の数字を <b>100%</b> にする（数字を押すと 100% に戻ります）。<br><b>Chrome</b>: 右下の「<b>…</b>」→「<b>ズーム</b>」（または「テキストのサイズ」）→ 「−」「＋」で <b>100%</b> にする。<br>100% に戻すと、この画面は自動で消えます。</p>
 </div>
 <div id="zoomProbe" aria-hidden="true"><span id="zpA">あいうえお0123456789</span><span id="zpB">あいうえお0123456789</span></div>
 
@@ -935,11 +936,11 @@
     // 2026-09-12 後刻: 導入ページを追加して 3 ページに (長い 1 ページ目を分割)。導入 = 2 つの質問・5 段階・正直に・段を使い分ける (ユーザー決定。
     // Claude は「使い分けて」が分散を求める要求特性になりうると懸念したが、固定回答 2 名の実態を優先して採用。文は「同じ段になるとは限らない」に留める)
     { act: "intro", focus: "hesitation", op: '読んだら「次へ」',
-      text: '選んだあとは、毎回<b>2つの質問</b>に答えます。<br><b>迷い</b>と<b>自信</b>を、それぞれ<b>5段階</b>から選びます。<br><b>正解はありません。</b>分析に使うので、<b>正直に</b>感じたまま選んでください。<br>迷いや自信は、問題によって変わります。感じ方が変わったときは、<b>前と同じ段のままにせず</b>、そのときの感じに合う段を選んでください。' },
+      text: '選んだあとは、毎回<b>2つの質問</b>に答えます。<br><b>迷い</b>と<b>自信</b>を、それぞれ<b>5段階</b>から選びます。迷いと自信は<b>別々の質問</b>です。<br><b>正解はありません。</b>分析に使うので、<b>正直に</b>感じたまま選んでください。<br>迷いや自信は、問題によって変わります。毎回<b>その問題ごと</b>に考え、感じ方が変わったときは、<b>前と同じ段のままにせず</b>、そのときの感じに合う段を選んでください。' },
     { act: "hes",  focus: "hesitation", op: 'いちばん近いものを1つ押して、「次へ」',
       text: '1つ目は<b>迷い</b>です。<br><b>答えを決めるまで</b>に、どれくらい迷ったかを選びます。' },
     { act: "conf", focus: "confidence", op: '1つ押して、「次へ」で確定',
-      text: '2つ目は<b>自信</b>です。<br><b>いま選んだ答え</b>への自信の強さを選びます。<br>迷いと自信は<b>別々の質問</b>です。<br>毎回、<b>その問題ごと</b>に考えて選んでください。<br>（「戻る」で1つ目を直せます）' },
+      text: '2つ目は<b>自信</b>です。<br><b>いま選んだ答え</b>への自信の強さを選びます。<br>（「戻る」で1つ目を直せます）' },
   ];
 
   const $ = (id) => document.getElementById(id);
@@ -2115,9 +2116,11 @@
     const txt = $("ratTutText"), op = $("ratPopOp"), wasHidden = ratPop.classList.contains("hidden");
     ratPop.classList.remove("hidden"); const vis = ratPop.style.visibility; ratPop.style.visibility = "hidden";
     let maxH = 0;
-    for (const pg of TUT_PAGES) { txt.innerHTML = pg.text; op.textContent = pg.op || ""; op.classList.toggle("hidden", !pg.op); maxH = Math.max(maxH, ratPop.offsetHeight); }
+    for (const pg of TUT_PAGES) { if (pg.act === "intro") continue;   // 導入ページは白紙で評定行を使わないので余白の計算に入れない (2026-09-13)
+      txt.innerHTML = pg.text; op.textContent = pg.op || ""; op.classList.toggle("hidden", !pg.op); maxH = Math.max(maxH, ratPop.offsetHeight); }
     ratPop.style.visibility = vis; if (wasHidden) ratPop.classList.add("hidden");
-    $("rating").style.setProperty("--ratReserve", (maxH + 30) + "px");
+    const ans = $("ratingAnswer"), extra = ans && !ans.hidden ? ans.offsetHeight + 10 : 0;   // 「あなたの回答」の分も上に空ける (説明ボックスはその上に置く。2026-09-13)
+    $("rating").style.setProperty("--ratReserve", (maxH + 10 + extra) + "px");
   }
   // 説明文の長さから「読み終わる頃」を見積もる (遅い読み手基準 ≈ 8字/秒 + 下限1.8s・上限6s)。
   // 読速ベースライン (device.readingBaseline.charsPerSec) があればそれを優先し、その 0.6 倍の速度で見積もる
@@ -2159,7 +2162,9 @@
     }, { passive: true });
   }
   function ratRect(p) {   // ページ別スポットライト対象 = いま表示している項目 (ボタン列は囲いに含めない)
-    return $("qitem-" + (p.act === "conf" ? "confidence" : "hesitation")).getBoundingClientRect();
+    const q = $("qitem-" + (p.act === "conf" ? "confidence" : "hesitation")).getBoundingClientRect();
+    const a = $("ratingAnswer"), ar = a && !a.hidden ? a.getBoundingClientRect() : null;   // 「あなたの回答」が出ていればその上に置く (2026-09-13: 自信ページで隠れていた)
+    return ar && ar.top < q.top ? { top: ar.top, left: q.left, width: q.width, height: q.bottom - ar.top, bottom: q.bottom } : q;
   }
   let ratPageShownAt = null, ratPageShownIdx = -1;   // 説明ページの滞在時間の記録用 (device.tutorialLog)
   function tutRender() {
@@ -3272,6 +3277,10 @@
     const off = ZOOM_GUARD_ON && (Math.abs(z.pageZoom - 1) > 0.03 || Math.abs(z.textZoom - 1) > 0.03);
     if (off && !zoomGuardWasOn) device.zoomGuardShown++;
     zoomGuardWasOn = off;
+    if (off) {   // いまの設定を割合と向きで示す (2026-09-13: 大きめか小さめか分からないと戻せない)
+      const zz = Math.abs(z.pageZoom - 1) > 0.03 ? z.pageZoom : z.textZoom;
+      $("zgNow").textContent = "いまの設定: 約 " + Math.round(zz * 100) + "%（" + (zz > 1 ? "大きめ" : "小さめ") + "）";
+    }
     $("zoomGuard").classList.toggle("show", off);
     return off;
   }
