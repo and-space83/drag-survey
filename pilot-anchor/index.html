@@ -2467,12 +2467,27 @@
       const bh = btnRow.offsetHeight || 52;
       const btnTop = step.sample ? (sr.top + sr.height / 2 - bh / 2) : (vh - bh - Math.max(10, vh * 0.025));
       btnRow.style.top = btnTop + "px";
+      // 説明ボックスが「見せたい対象」に被るときは一段小さい文字 (compact) にする (2026-09-13: 実機 iPhone 17 Safari で 4/4・操作の練習 2/3・3/3 が選択肢に被った)
+      pop.classList.remove("compact");
+      let demoBelow = null;   // 実演で compact でも対象の上に入らないとき: 対象の下 (START との間) に置く (2026-09-13: SE の Safari)
+      const allowed = (() => {
+        if (demoStep) {   // 実演: 最上部に置く。下端が対象 (別ステージの箱 / 実 2 箱) の上端に届かないこと
+          const surf = surface.getBoundingClientRect(), T = sbxT();
+          const targetTop = step.hands === "sandbox" ? (surf.top + T.y - T.bh / 2) : Math.min(choiceA.getBoundingClientRect().top, choiceB.getBoundingClientRect().top);
+          demoBelow = (step.hands === "sandbox" ? (surf.top + T.y + T.bh / 2) : Math.max(choiceA.getBoundingClientRect().bottom, choiceB.getBoundingClientRect().bottom)) + GAP;
+          return targetTop - GAP - (tr.top + 8);
+        }
+        if (step.focus === "choices2") { const r = targetRect(step.focus); return Math.max(r.top - PAD - GAP - 8, btnTop - GAP - (r.bottom + PAD + GAP)); }
+        if (step.focus === "start") return sr.top - PAD - GAP - 8;
+        return Infinity;
+      })();
+      if (pop.offsetHeight > allowed) pop.classList.add("compact");
       // 説明BOX: orient=上部中央 / 問題文・選択肢=対象の直下 / START=対象の直上 / 実演=最上部ピン (上から下)
       const ph = pop.offsetHeight, pw = pop.offsetWidth;
       let ptop, pcx = tr.left + tr.width / 2;
       if (step.focus === "orient") ptop = tr.top + tr.height * 0.12;
       else if (step.revealDelay && !revealedNow) ptop = stemEl.getBoundingClientRect().top;   // 待機中: 対象が出る位置に説明だけ置く
-      else if (demoStep) ptop = tr.top + 8;   // 実演は最上部
+      else if (demoStep) ptop = (ph > allowed && demoBelow != null) ? demoBelow : tr.top + 8;   // 実演は最上部。入らなければ対象の下 (2026-09-13)
       else {
         const r = targetRect(step.focus); pcx = r.left + r.width / 2;
         // START・選択肢 (3/6) = 対象のすぐ上 (上から読む順で、対象に接して置く。2026-09-06) / 問題文 = 対象の直下
