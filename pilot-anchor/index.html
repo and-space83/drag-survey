@@ -33,6 +33,7 @@
                 usage_years, usage_hours, native_ja, moral_familiar,
                 seriousness, attention_lapse, rating_meaning, discomfort},
              postMs,                           // 事後アンケート画面の滞在時間 ms (表示〜完了。負担の指標)
+             practiceEarlyPress,               // 練習で読み切る前に START を押して止められた回数 (2026-09-13)
              practiceSummary:                  // 練習の行動ゲート達成記録 (理解確認の証跡 + 品質共変量)
                {gateStreak, gateCorrect, trials, aborts, skipped},
              mic:                              // 環境音モニタ (2026-07-21 §6-6 項10。マイク必須・音量レベルのみ・生音声は取得しない)
@@ -875,6 +876,7 @@
   // 早出し (2026-09-09): 表示〜枠から出るまでが「文字数 ÷ EARLY_CPS」より短ければ読み切る前に指を出したとみなす (品質共変量。除外基準ではない)。
   // 案内は 1 画面 1 つの理由: 早出しがあれば読解の案内、無ければ停止の案内 (両方なら早出し = 原因のほう)
   const EARLY_CPS = 25;
+  const READGATE_ON = QS.get("readgate") !== "0";   // 練習の読了ゲート (2026-09-13)。validate/開発用に無効化可
   const EARLY_NOTICE_TEXT = "前の問題では、問題文を読み終える前に指が START から出ました。問題文を読み終えてから START に指を置き、指を出してください。";
   const NOTICE_TEXTS = { stop: STOP_NOTICE_TEXT, early: EARLY_NOTICE_TEXT };
   // 表示用 (伝えたい行動を太字に。textContent は上の平文と一致)
@@ -1015,6 +1017,7 @@
     seq: SEQ.slice(),         // ブロック提示順 (被験者間CB の割付記録。単体は1要素)
     config: CONFIG,
     practiceSummary: null,    // 行動ゲートの達成記録 (startMain で設定。§6-2。統合では最後のブロック分=単体互換)
+    practiceEarlyPress: 0,    // 練習で「読み切る前に START を押した」回数 (読了ゲートで止めた数。2026-09-13)
     practiceSummaryByBlock: {}, // ブロック別の達成記録 (統合セッション用)
     breaks: [],               // 休憩の滞在時間ログ {block, atTrial, dwellMs} (breakEvery>0 のブロック。負担の行動指標。2026-08-23)
     ageBand: null,            // 年代タップ (?ageband=1 / kiosk) で取った場合の年代。数値 age は null のまま
@@ -1755,6 +1758,16 @@
       return;
     }
     e.preventDefault();
+    // 練習の読了ゲート (2026-09-13): 問題文の理論読了時間 (文字数 ÷ EARLY_CPS) より早い START 押下は受け付けず、「読んでから」の案内を出す。
+    // 本番では止めない (早出しは earlyStart フラグ+評定後の案内)。おためしの 1 問は対象外。?readgate=0 で無効 (validate 用)
+    if (READGATE_ON && phase === "practice" && !cell.isTutorial && cell.stem) {
+      const minMs = (stemRecord(cell.stem).length / EARLY_CPS) * 1000;
+      if (e.timeStamp - stemShownT < minMs) {
+        device.practiceEarlyPress++;
+        coachMsg(nb('問題文を<b>読んでから</b>、|START を押してください'), "gap", "start");
+        return;
+      }
+    }
     $("taskMsg").textContent = "";   // 停止の案内・注意は押下で消す
     activePointerId = e.pointerId;
     try { surface.setPointerCapture(e.pointerId); } catch (_) {}
@@ -2351,7 +2364,8 @@
       built = true;
     }
     function lc(el) { const s = surface.getBoundingClientRect(), r = el.getBoundingClientRect(); return { x: r.left + r.width / 2 - s.left, y: r.top + r.height / 2 - s.top }; }
-    function sbxT() { const w = surface.clientWidth, h = surface.clientHeight; return { x: w * .5, y: h * .34, bw: w * .36, bh: h * .12 }; }
+    let tutShift = 0;   // 操作の練習で箱を下げている量 px (説明ボックスが上に入らない低い画面でだけ > 0。本番の幾何には触れない。2026-09-13)
+    function sbxT() { const w = surface.clientWidth, h = surface.clientHeight; return { x: w * .5, y: h * .34 + tutShift, bw: w * .36, bh: h * .12 }; }
     function ctx() {   // DPR 対応 (2026-09-09: 非 DPR だと文字がぼやけ、線がガビガビに太る)
       const dpr = window.devicePixelRatio || 1;
       demo.width = Math.round(surface.clientWidth * dpr); demo.height = Math.round(surface.clientHeight * dpr);
@@ -2469,7 +2483,17 @@
       btnRow.style.top = btnTop + "px";
       // 説明ボックスが「見せたい対象」に被るときは一段小さい文字 (compact) にする (2026-09-13: 実機 iPhone 17 Safari で 4/4・操作の練習 2/3・3/3 が選択肢に被った)
       pop.classList.remove("compact");
-      let demoBelow = null;   // 実演で compact でも対象の上に入らないとき: 対象の下 (START との間) に置く (2026-09-13: SE の Safari)
+      // 実演ページ: 説明ボックスが対象 (箱) の上に入らなければ、箱を下げて入れる (説明ボックス → 箱 → START → 次へ の順。通り道に説明を置かない。2026-09-13)
+      // 下げる量は「箱の下端 + 40px が START の上端に届かない」まで。本番の幾何 (--choice-top) には触れない
+      if (demoStep) {
+        const surf0 = surface.getBoundingClientRect(), T0 = sbxT();
+        const natTop = (step.hands === "sandbox" ? (surf0.top + T0.y - T0.bh / 2) : Math.min(choiceA.getBoundingClientRect().top, choiceB.getBoundingClientRect().top)) - tutShift;
+        const natBottom = (step.hands === "sandbox" ? (surf0.top + T0.y + T0.bh / 2) : Math.max(choiceA.getBoundingClientRect().bottom, choiceB.getBoundingClientRect().bottom)) - tutShift;
+        const need = (tr.top + 8 + pop.offsetHeight + GAP) - natTop, cap = (sr.top - 40) - natBottom;
+        tutShift = Math.max(0, Math.min(need, cap));
+      } else tutShift = 0;
+      $("task").style.setProperty("--tut-shift", tutShift + "px");
+      let demoBelow = null;   // 実演で (箱を下げても) 上に入らないとき: 対象の下 (START との間) に置く (2026-09-13: SE の Safari)
       popBelow = false;
       const allowed = (() => {
         if (demoStep) {   // 実演: 最上部に置く。下端が対象 (別ステージの箱 / 実 2 箱) の上端に届かないこと
@@ -2679,6 +2703,7 @@
     }
     function teardown() {   // 表示をすべて畳む (完了・中断の共通部。2026-09-12 に finish から分離)
       logStepEnd();
+      tutShift = 0; $("task").style.setProperty("--tut-shift", "0px");   // 箱の位置を本番の幾何に戻す (2026-09-13)
       tok++; idx = -1;
       spot.classList.remove("on"); pop.classList.remove("on"); spot.classList.add("hidden"); pop.classList.add("hidden");
       btnRow.classList.add("hidden", "pending"); btnRow.classList.remove("pending");

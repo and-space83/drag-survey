@@ -110,11 +110,12 @@ window.PILOT_BANK = {
     practiceBank: [
       // 練習5問ぶんを別々の項目で (2026-09-06: 2問の使い回しをやめる)。価値・選好 (旧②) バンクの中立な項目から採用 =
       // 道徳的な重さがなく本番49問と非重複。1問目=明確 (操作の習得)、以降=トレードオフ (評定リハーサルで尺度の両側を使う)
-      { mtype: "practice", id: "practice-1", stem: "どちらが欲しいですか？", a: { label: "1万円札1枚" }, b: { label: "10円玉1枚" }, better: "a" },
-      { mtype: "practice", id: "practice-2", stem: "どちらを選びますか？", a: { label: "デザイン重視の靴" }, b: { label: "履き心地重視の靴" }, better: null },
-      { mtype: "practice", id: "practice-3", stem: "どちらが欲しいですか？", a: { label: "図書カード1000円" }, b: { label: "ドリンク券1000円" }, better: null },
-      { mtype: "practice", id: "practice-4", stem: "どちらのくじを選びますか？", a: { label: "確実にコーヒー1杯" }, b: { label: "50%でケーキセット" }, better: null },
-      { mtype: "practice", id: "practice-5", stem: "どちらを選びますか？", a: { label: "映画チケット1枚" }, b: { label: "好きな漫画1冊" }, better: null },
+      // 2026-09-13: 場面文を本番並みの長さ (50 字前後。本番の中央値 58 字) に。「問題文を読んでから START」の練習にするため (読了ゲート)。選択肢は不変
+      { mtype: "practice", id: "practice-1", stem: "アンケートに|答えたお礼に、|係の人から|好きなほうを|1つ選んでよいと|言われた。|どちらが欲しいですか？", a: { label: "1万円札1枚" }, b: { label: "10円玉1枚" }, better: "a" },
+      { mtype: "practice", id: "practice-2", stem: "毎日はく靴を|新しく買うことにした。|予算は同じで、|店には|2種類だけ残っている。|どちらを選びますか？", a: { label: "デザイン重視の靴" }, b: { label: "履き心地重視の靴" }, better: null },
+      { mtype: "practice", id: "practice-3", stem: "町内の行事を|手伝ったお礼に、|商品券を1枚|もらえることになった。|金額はどちらも|同じ1000円分。|どちらが欲しいですか？", a: { label: "図書カード1000円" }, b: { label: "ドリンク券1000円" }, better: null },
+      { mtype: "practice", id: "practice-4", stem: "喫茶店の|スタンプがたまり、|くじを1回引ける。|はずれはなく、|当たり方が|2種類ある。|どちらのくじを選びますか？", a: { label: "確実にコーヒー1杯" }, b: { label: "50%でケーキセット" }, better: null },
+      { mtype: "practice", id: "practice-5", stem: "誕生日に友人が、|どちらか好きなほうを|プレゼントしてくれる|という。|値段は|どちらも同じくらい。|どちらを選びますか？", a: { label: "映画チケット1枚" }, b: { label: "好きな漫画1冊" }, better: null },
     ],
   },
   // ===== 読速ベースライン: ③バンクで落選した明確場面 4 本 (2026-09-09。旧: 中立短文 3 本)。ジャンルを場面文に揃えて

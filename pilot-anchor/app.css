@@ -130,7 +130,7 @@
     /* 改行は stem 中の "|" ヒント (表示時 ZWSP 変換) の位置だけに制限し、文節の途中で折れるのを防ぐ。
        keep-all=CJK の任意折返しを禁止 / anywhere=ヒント無し長文が溢れる場合の保険 / balance=行長の均等化 */
     word-break: keep-all; overflow-wrap: anywhere; text-wrap: balance; }
-  .choice { position: absolute; top: var(--choice-top); width: var(--choice-w); height: var(--choice-h);
+  .choice { position: absolute; top: calc(var(--choice-top) + var(--tut-shift, 0px)); width: var(--choice-w); height: var(--choice-h);   /* --tut-shift: 操作の練習でだけ箱を下げる (説明ボックスを通り道に置かない。本番は 0。2026-09-13) */
     border: 2px solid var(--go); border-radius: 14px; display: flex;
     align-items: center; justify-content: center; color: var(--ink); z-index: 2;
     background: rgba(18,133,90,0.07); overflow: hidden; }
@@ -418,7 +418,7 @@
   @media (prefers-reduced-motion: reduce) { .tut-btnrow .nx.cue { animation: none; } }
   .tut-btnrow.pending .nx { opacity: .35; pointer-events: none; }   /* 実演/操作の完了待ち */
   .tut-btnrow .nx.wait { opacity: .55; }   /* 最小読了時間の間 (押せるが進まず、ボックス内に注意。2026-09-12) */
-  .tut-btnrow .nx.warn { background: var(--err); opacity: 1; font-size: calc(16px * var(--ui-scale)); }   /* 早押し・説明中に触った: ボタン自体に短い注意 (2.5 秒。2026-09-12 後刻) */
+  .tut-btnrow .nx.warn { opacity: 1; font-size: calc(16px * var(--ui-scale)); animation: btnNudge .5s ease-in-out; }   /* 早押し・説明中に触った: 緑のまま文言を変えて揺らす (赤にしない = エラーに見せない。2026-09-13) */
   /* ハンズオン中の合図 (チュートリアル内で実際に運ばせる) */
   #tutHint { position: fixed; z-index: 43; left: 50%; transform: translateX(-50%); white-space: nowrap;
     text-align: center; font-size: calc(15px * var(--ui-scale)); font-weight: 700; color: var(--go); pointer-events: none;
