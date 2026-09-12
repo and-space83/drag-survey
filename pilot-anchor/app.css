@@ -3,6 +3,8 @@
    drag-survey/pilot-anchor/ へコピーする (DEPLOY.md §3)。 */
   /* ---- 配色 (2026-09-05: ダーク→ライトへ変更。幅広い年代・明るい場所での可読性、
      調査アプリとしての信頼感を優先。軌跡記録の精度には無関係) ---- */
+  /* iOS Safari の自動文字拡大 (横向き/一部条件) を止める。ユーザーが Aa で選んだ拡大は残る (2026-09-12) */
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   :root {
     --bg: #fbfbfc;          /* 画面の地 */
     --panel: #ffffff;       /* カード・入力の地 */
@@ -93,6 +95,7 @@
   .btn.cue { animation: btnCue 1.2s ease-in-out infinite; }
   @media (prefers-reduced-motion: reduce) { .btn.cue { animation: none; } }
   .btn.ghost { border-color: var(--line); color: var(--ink-2); background: var(--panel); }
+  .btn.danger { color: var(--err); border-color: var(--err); font-size: calc(14px * var(--ui-scale)); }   /* 「はじめから」(回答を消す) 2026-09-12 */
   .btn:active { filter: brightness(0.92); }
   .btn:disabled { opacity: 0.4; }
   .btnrow { display: flex; gap: 10px; flex-wrap: wrap; }
@@ -231,6 +234,7 @@
   .btn.nudge { animation: btnNudge .5s ease-in-out; }
   /* 説明BOXの高さぶん評定行を下げる (全ページ同じ量 = 行の位置は動かない。BOXが自信行に被る対策) */
   #rating.tut-front .qwrap { padding-top: var(--ratReserve, 0px); }
+  #rating.rat-intro .qitem, #rating.rat-intro #ratingAnswer { visibility: hidden; }   /* 振り返りの説明の導入ページは白紙 (位置は保つ = 次のページで行が動かない。2026-09-12 夜) */
   .qitem.tfocus .qi-text { color: var(--warn); font-weight: 700; } /* 評定チュートリアル: 対象項目を強調 */
   /* ---- 評定チュートリアル v2 (2026-07-22): 枠付き説明ボックス+ステップ表示 (説明 n/6)。
      強調 (b) は色+ややサイズ大で一色べた書きを避ける。ボックスは対象評定の直上に挿入され、
@@ -280,6 +284,17 @@
     flex-direction: column; align-items: center; justify-content: center; gap: 12px;
     background: var(--bg); text-align: center; padding: 24px; }
   #rotateGuard.show { display: flex; }
+  #zoomGuard { position: fixed; inset: 0; z-index: 101; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+    background: var(--bg); text-align: center; padding: 24px; }
+  #zoomGuard.show { display: flex; }
+  #zoomGuard .icon { font-size: calc(48px * var(--ui-scale)); }
+  #zoomGuard p { font-size: calc(16px * var(--ui-scale)); color: var(--ink); line-height: 1.6; }
+  #zoomGuard p.how { font-size: calc(14px * var(--ui-scale)); color: var(--ink-2); }
+  /* 文字だけの拡大の検出用の見本 (画面外)。A は拡大を受けない (text-size-adjust: none)、B は受ける (auto)。幅の比 = 文字の拡大率 */
+  #zoomProbe { position: fixed; left: -9999px; top: 0; white-space: nowrap; font-size: 16px; line-height: 1; pointer-events: none; }
+  #zoomProbe span { display: inline-block; }
+  #zpA { -webkit-text-size-adjust: none; text-size-adjust: none; }
+  #zpB { -webkit-text-size-adjust: auto; text-size-adjust: auto; }
   #rotateGuard .icon { font-size: calc(48px * var(--ui-scale)); }
   #rotateGuard p { font-size: calc(16px * var(--ui-scale)); color: var(--ink); line-height: 1.6; }
 
@@ -312,7 +327,10 @@
     font-weight: 700; color: var(--warn); z-index: 6; pointer-events: none; opacity: 0; transition: opacity .2s; line-height: 1.4; }
   .choice.tut-sbxhide { opacity: 0; }   /* 別ステージ実演中は実選択肢を退場 (opacity のみ=geom 不変) */
   /* ハンズオン成功後: 消さずに暗くする (終わったことは伝えつつ場所は見えたままにする) */
-  .choice.tut-dim, #start.tut-dim { opacity: .18; transition: opacity .35s; }
+  /* 中断の確認画面の間は body 直下の説明・帯を隠す (2026-09-12: 説明の吹き出しが確認画面の上に残った) */
+  body.stop-open .tut-pop, body.stop-open .tut-spot, body.stop-open .tut-btnrow, body.stop-open #tutHint,
+  body.stop-open .rat-nudge, body.stop-open .phase-banner { display: none !important; }
+  .choice.tut-dim, #start.tut-dim, #stem.tut-dim { opacity: .18; transition: opacity .35s; }   /* #stem: 画面の説明 4/4 (START) で問題文も薄く (2026-09-12) */
   @keyframes tutRcv { 0%,100% { box-shadow: 0 0 0 0 rgba(18,133,90,0); }
     50% { box-shadow: 0 0 0 6px rgba(18,133,90,.35); } }
   .choice.tut-rcv { animation: tutRcv .6s ease-out; border-color: var(--go); }
@@ -329,7 +347,8 @@
     transition: opacity .22s, transform .22s, top .55s cubic-bezier(.4,0,.2,1), left .3s cubic-bezier(.4,0,.2,1); }
   .tut-pop.on { opacity: 1; transform: translateY(0); }
   .tut-pop .s { font-size: calc(14px * var(--ui-scale)); color: var(--warn); font-weight: 700; letter-spacing: 1.5px; margin-bottom: 7px; }
-  .tut-pop .t { font-size: calc(18.5px * var(--ui-scale)); line-height: 1.7; color: var(--ink); }   /* 2026-09-09: 1.2 倍 (旧 15.5px) */
+  /* 説明の文字は画面の高さに連続で追従 (2026-09-12 後刻): 2.9vh = 548px (SE の Safari) で 15.9px 〜 640px 以上で上限 18.5px。旧: 18.5px 固定 (2026-09-09 の 1.2 倍) */
+  .tut-pop .t { font-size: clamp(calc(15.5px * var(--ui-scale)), 2.9vh, calc(18.5px * var(--ui-scale))); line-height: 1.62; color: var(--ink); }
   .tut-pop .t b { color: var(--warn); font-weight: 700; }
   .tut-pop .f { font-size: calc(12.5px * var(--ui-scale)); color: #7fd0a4; margin-top: 9px; font-weight: 600; }
   .tut-pop .r { display: flex; align-items: center; gap: 8px; margin-top: 13px; }
@@ -349,6 +368,8 @@
   /* 吹き出し: 説明(白/黄)=.t、操作方法(緑)=.g。要素の近くに置きどこの話か瞬時にわかるように */
   .tut-pop .g { font-size: calc(16px * var(--ui-scale)); color: var(--go); margin-top: 8px; font-weight: 700; }
   .tut-pop .g.hidden { display: none; }
+  @media (max-height: 600px) { .tut-pop { padding: 12px 14px 11px; } }   /* 低い画面では余白も詰める */   /* 赤い注意 (早押し・説明中に触った)。ボックスの中 = 被らない (2026-09-12) */
+  .tut-pop .n.hidden { display: none; }
   /* 下部の進行ボタン列 (評定チュートリアルと同様に大きく緑で)。最終ページは [もう一度(控えめ)|完了(緑)] に分割 */
   .tut-btnrow { position: fixed; z-index: 42; display: flex; gap: 8px; }
   .tut-btnrow.hidden { display: none; }
@@ -386,6 +407,8 @@
   .tut-btnrow .nx.cue { animation: tutBtnCue 1.2s ease-in-out infinite; }
   @media (prefers-reduced-motion: reduce) { .tut-btnrow .nx.cue { animation: none; } }
   .tut-btnrow.pending .nx { opacity: .35; pointer-events: none; }   /* 実演/操作の完了待ち */
+  .tut-btnrow .nx.wait { opacity: .55; }   /* 最小読了時間の間 (押せるが進まず、ボックス内に注意。2026-09-12) */
+  .tut-btnrow .nx.warn { background: var(--err); opacity: 1; font-size: calc(16px * var(--ui-scale)); }   /* 早押し・説明中に触った: ボタン自体に短い注意 (2.5 秒。2026-09-12 後刻) */
   /* ハンズオン中の合図 (チュートリアル内で実際に運ばせる) */
   #tutHint { position: fixed; z-index: 43; left: 50%; transform: translateX(-50%); white-space: nowrap;
     text-align: center; font-size: calc(15px * var(--ui-scale)); font-weight: 700; color: var(--go); pointer-events: none;

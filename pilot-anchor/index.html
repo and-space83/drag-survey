@@ -21,7 +21,7 @@
     開発・運用: validate.js (headless 自動検証) / serve.js (LAN 配信) / gas-collector.gs (受け口) / DEPLOY.md (手順)
 
   === データ仕様 (エクスポート JSON) ===
-  { device: {ua, screenW, screenH, dpr, refreshHz, exportedAt, participantId, clientId, deviceModel,
+  { device: {ua, screenW, screenH, dpr, fontPx(基準文字サイズ px), vvScale(ピンチ拡大率), pageZoom(screen.width/innerWidth)・textZoom(文字だけの拡大比)・zoomGuardShown(ガード表示回数), refreshHz, exportedAt, participantId, clientId, deviceModel,
              block('anchor'|'value'), config,
              age, sex, handedness,            // 事前アンケート (特性。必須。性別は na=回答しない可)
              grip,                             // 事後アンケート (持ち方+操作を1問に。課題後に回顧で取得)
@@ -47,7 +47,7 @@
              resumes: [{at, afterTrial, gapMs}],   // 中断→再開の記録 (2026-09-06 §6-6 項17。再読込/タブ破棄の後に同じ URL で続きから再開。空=再開なし)
              tutorialLog: [{kind('drag'|'rating'), step|page, ms} | {kind, event('replay'|'again'|'back')}],
              uiScale,                          // 説明・評定・アンケート画面の文字倍率 (2026-09-08 §6-6 項18。短辺≥700px で 1.6、?fs= で上書き。課題画面は対象外)
-             ratingTutorial: {changed, completed, pages},   // 評定チュートリアル (2026-09-08 から 2 ページ = 迷い画面・自信画面)
+             ratingTutorial: {changed, completed, pages},   // 振り返りの説明 (2026-09-12 後刻から 3 ページ = 導入・迷い・自信。2026-09-08〜 は 2)
              startMode('dynamic'),             // 開始手続き (2026-09-09。'dynamic' = 場面文先出し・枠から出たら選択肢。旧データは無し = 静的)
              instructed: {n, itemIds, text},   // 教示誘導ブロックの構成 (クラウド配布のみ。kiosk/stop では null)
              stopNotices: [{afterTrial, kind('stop'|'early'), ms}]},   // 案内画面の表示記録 (何問目の後に・種類・滞在 ms。§6-6 項19)
@@ -74,7 +74,7 @@
       // --- 動的スタート (2026-09-09 §6-6 項19): 場面文は最初から表示 → START に指を置く → 枠から出た瞬間に選択肢が出る ---
       stimulusOnsetT(場面文の表示時刻), startPressT(START 押下), preStartMs(表示〜押下 = 読解+熟考),
       revealT(選択肢の出現 = 枠から出た時刻), revealXY(出現時の指位置。surface 相対 CSS px),
-      stopsAfterReveal:{n, ms, maxMs}(出現後の停止 = 6px 以内に 500ms 以上とどまった区間), stopFlag(maxMs>=1000),
+      stopsAfterReveal:{n, ms, maxMs}(出現後の停止 = 6px 以内に 500ms 以上とどまった区間), stopFlag(maxMs>=3000。2026-09-12 に 1000 から変更),
       stopNotice('stop'|'early'|false = この試行の直前に見た案内の種類。案内は評定送信後・次の場面文を出す前の独立画面 = 次問の読解時間に混ぜない),
       stemChars, earlyStart(true=表示〜枠から出るまでが 文字数÷25字/秒 より短い = 読み切る前に指を出した。品質共変量),
       initiationT(=枠から出た時刻), responseT, rt_proxy_ms(押下〜枠から出るまで = 押さえていた時間), mt_proxy_ms(出現〜離す), total_ms(押下〜離す),
@@ -106,6 +106,14 @@
   <div class="icon">📱</div>
   <p>この課題は<b>縦向き</b>で行います。<br>画面を縦にしてください。</p>
 </div>
+<!-- ===== 文字サイズ・ページ拡大のガード (2026-09-12 夜): Safari の「ぁあ」/ Chrome のズームが 100% 以外なら進行を止める。
+     レイアウトの検証 (shots.js) は 100% 前提。拡大は CSS px の幅が縮む = 小さい機種と同じ効果だが、説明ボックスの収まりが崩れるため固定する。?zoomguard=0 で無効 -->
+<div id="zoomGuard">
+  <div class="icon">🔍</div>
+  <p><b>文字の大きさ（ページの拡大）</b>が 100% 以外になっています。<br>このアンケートは <b>100%</b> で行います。</p>
+  <p class="how">Safari: アドレスバーの「<b>ぁあ</b>」→「<b>100%</b>」<br>Chrome: 「<b>…</b>」→「<b>ズーム</b>」→ 100%<br>戻すと自動で進みます。</p>
+</div>
+<div id="zoomProbe" aria-hidden="true"><span id="zpA">あいうえお0123456789</span><span id="zpB">あいうえお0123456789</span></div>
 
 <!-- ===== 未送信データのバー (2026-09-05)。送信できずに端末へ貯まっているセッション数を実験者に見せる。
      0件のときは出ない。電波のある場所で「いま送る」を押せばまとめて送信できる。 -->
@@ -120,12 +128,15 @@
 <button id="stopBtn" type="button">終了</button>
 <section id="stopconfirm" class="screen">
   <div class="pad">
-    <h1>ここで終了しますか？</h1>
-    <p>ここまでのご回答は<b>保存されます</b>。途中でやめても問題ありません。</p>
+    <h1>終了しますか？</h1>
+    <p>「終了する」を押すと、ここまでのご回答は<b>保存されます</b>。途中でやめても問題ありません。</p>
     <div class="vgap"></div>
-    <button class="btn primary advance" id="stopBack">課題に戻る</button>
+    <button class="btn primary advance" id="stopBack">続ける</button>
     <div class="vgap"></div>
-    <button class="btn ghost advance" id="stopGo">ここで終了する</button>
+    <button class="btn ghost advance" id="stopGo">終了する</button>
+    <div class="vgap"></div>
+    <!-- 2026-09-12: 回答を消して最初の画面へ (テスト・本人の取り下げ・操作ミス)。誤タップ防止に 2 回押し (1 回目で文言が変わり 3 秒で戻る) -->
+    <button class="btn ghost advance danger" id="stopRestart">はじめから（回答を消して最初の画面へ）</button>
   </div>
 </section>
 
@@ -253,7 +264,7 @@
   </div>
 </section>
 
-<!-- ===== STOP NOTICE (動的スタート: 1 秒以上止まった試行の後、次の問題を出す前に案内だけの画面。§6-6 項19。2026-09-09) ===== -->
+<!-- ===== STOP NOTICE (動的スタート: 3 秒以上止まった試行の後、次の問題を出す前に案内だけの画面。§6-6 項19。2026-09-09、閾値 3 秒は 2026-09-12) ===== -->
 <section id="notice" class="screen">
   <div class="pad">
     <h1>お願い</h1>
@@ -856,16 +867,17 @@
   const INSTR_N = 8;
   const INSTR_TEXT = "ここからの 8 問は、問題文をよく読まずに、できるだけ速く、どちらか一方を選んでください。内容や正解、迷いは気にしなくて構いません。";
   let instructedDone = false, pendingInstructedStart = false, instrIndex = 0;
-  // 動的スタートの停止 (§6-6 項19): 6px 以内に STOP_MIN_MS 以上とどまれば停止。STOP_NOTICE_MS 以上なら次の問題の START 上に案内
-  const STOP_MIN_MS = 500, STOP_NOTICE_MS = 1000, STOP_EPS_PX = 6;
-  const STOP_NOTICE_TEXT = "前の問題では指が1秒以上止まりました。できるだけ指を止めないで考えながら運んでください。";
+  // 動的スタートの停止 (§6-6 項19): 6px 以内に STOP_MIN_MS 以上とどまれば停止。STOP_NOTICE_MS 以上なら評定送信後に独立画面で案内
+  const STOP_MIN_MS = 500, STOP_NOTICE_MS = 3000, STOP_EPS_PX = 6;   // 案内は 3 秒 (2026-09-12: 1 秒は「1 秒以内に動かさねば」の意識を生み、自然な小停止=迷いの信号まで抑えるため)
+  const STOP_NOTICE_MAX = 3;   // 案内は種類ごとに 1 セッション 3 回まで (2026-09-12 夜)。4 回目以降は記録 (stopFlag/earlyStart) だけ残し画面には出さない = 「出すぎる」の保険
+  const STOP_NOTICE_TEXT = "前の問題では指が3秒以上止まりました。できるだけ指を止めないで考えながら運んでください。";
   // 早出し (2026-09-09): 表示〜枠から出るまでが「文字数 ÷ EARLY_CPS」より短ければ読み切る前に指を出したとみなす (品質共変量。除外基準ではない)。
   // 案内は 1 画面 1 つの理由: 早出しがあれば読解の案内、無ければ停止の案内 (両方なら早出し = 原因のほう)
   const EARLY_CPS = 25;
   const EARLY_NOTICE_TEXT = "前の問題では、問題文を読み終える前に指が START から出ました。問題文を読み終えてから START に指を置き、指を出してください。";
   const NOTICE_TEXTS = { stop: STOP_NOTICE_TEXT, early: EARLY_NOTICE_TEXT };
   // 表示用 (伝えたい行動を太字に。textContent は上の平文と一致)
-  const NOTICE_HTML = { stop: "前の問題では指が1秒以上止まりました。<br><b>できるだけ指を止めないで考えながら運んでください。</b>",
+  const NOTICE_HTML = { stop: "前の問題では指が3秒以上止まりました。<br><b>できるだけ指を止めないで考えながら運んでください。</b>",
                         early: "前の問題では、問題文を読み終える前に指が START から出ました。<br><b>問題文を読み終えてから START に指を置き、指を出してください。</b>" };
   let pendingNotice = null, stopNoticeShown = false, stemShownT = 0;
   let seqIndex = 0;
@@ -918,10 +930,16 @@
   // 残す役割 = 「別々の質問」「過程と結果の違い」「問題ごとにふりかえる」「2 画面の流れ」。具体例は出さない (2026-07-22)。
   // act: hes=迷いを選んで「次へ」 / conf=自信を選んで「次へ」(確定)
   const TUT_PAGES = [
+    // 2026-09-12: 「別々の質問」は自信のページへ (迷いだけの画面で言っても意味が分からない)。「分析に使うので正直に」を追加。
+    // 「毎回同じものを選ばない」は要求特性 (変えなければと思わせる) になるので書かず、「前と同じでも違ってもよい・問題ごとに考える」に留める
+    // 2026-09-12 後刻: 導入ページを追加して 3 ページに (長い 1 ページ目を分割)。導入 = 2 つの質問・5 段階・正直に・段を使い分ける (ユーザー決定。
+    // Claude は「使い分けて」が分散を求める要求特性になりうると懸念したが、固定回答 2 名の実態を優先して採用。文は「同じ段になるとは限らない」に留める)
+    { act: "intro", focus: "hesitation", op: '読んだら「次へ」',
+      text: '選んだあとは、毎回<b>2つの質問</b>に答えます。<br><b>迷い</b>と<b>自信</b>を、それぞれ<b>5段階</b>から選びます。<br><b>正解はありません。</b>分析に使うので、<b>正直に</b>感じたまま選んでください。<br>迷いや自信は、問題によって変わります。感じ方が変わったときは、<b>前と同じ段のままにせず</b>、そのときの感じに合う段を選んでください。' },
     { act: "hes",  focus: "hesitation", op: 'いちばん近いものを1つ押して、「次へ」',
-      text: '選んだあとは、毎回<b>2つの質問</b>に答えます。<br>1つ目は<b>迷い</b>です。<br><b>答えを決めるまで</b>に、どれくらい迷ったかを選びます。<br>迷いと自信は<b>別々の質問</b>です。<br><b>正解はありません</b>ので、感じたまま選んでください。' },
+      text: '1つ目は<b>迷い</b>です。<br><b>答えを決めるまで</b>に、どれくらい迷ったかを選びます。' },
     { act: "conf", focus: "confidence", op: '1つ押して、「次へ」で確定',
-      text: '2つ目は<b>自信</b>です。<br><b>いま選んだ答え</b>への自信の強さを選びます。<br>問題ごとに、<b>その問題のこと</b>だけをふりかえって選んでください。<br>（「戻る」で1つ目を直せます）' },
+      text: '2つ目は<b>自信</b>です。<br><b>いま選んだ答え</b>への自信の強さを選びます。<br>迷いと自信は<b>別々の質問</b>です。<br>毎回、<b>その問題ごと</b>に考えて選んでください。<br>（「戻る」で1つ目を直せます）' },
   ];
 
   const $ = (id) => document.getElementById(id);
@@ -931,6 +949,8 @@
     stopconfirm: $("stopconfirm"), resume: $("resume"), notice: $("notice") };
   function show(name) {
     for (const k in screens) screens[k].classList.toggle("active", k === name);
+    document.body.classList.toggle("stop-open", name === "stopconfirm");   // 確認画面の間は body 直下の説明 (tutPop/ratPop/tutHint/帯) を隠す (2026-09-12)
+    if (typeof checkZoom === "function") checkZoom();   // 画面が切り替わるたびに文字サイズ・拡大を再確認 (2026-09-12 夜)
     if (STOP_ON) $("stopBtn").classList.toggle("on", !!STOPPABLE[name]);   // 中断ボタンは課題系の画面だけに出す
     if (typeof outboxRender === "function") outboxRender();   // 未送信バーは welcome/intro/done でだけ出す
   }
@@ -969,6 +989,8 @@
     screenW: window.innerWidth,
     screenH: window.innerHeight,
     dpr: window.devicePixelRatio || 1,
+    fontPx: (() => { try { return parseFloat(getComputedStyle(document.documentElement).fontSize) || null; } catch (_) { return null; } })(),   // 実効の基準文字サイズ px (OS/ブラウザの文字サイズ設定の検出用。2026-09-12)
+    vvScale: (window.visualViewport && window.visualViewport.scale) || 1,   // ピンチ/ページ拡大の倍率 (2026-09-12)
     refreshHz: null,
     participantId: "",        // ニックネーム (ローマ字、必須)
     clientId: getOrCreateClientId(),  // 匿名 first-party マーカー (重複参加の事後検出用。消去/別ブラウザで変わる)
@@ -1011,7 +1033,9 @@
     uiScale: UI_SCALE,        // 説明・評定・アンケート画面の文字倍率 (§6-6 項18)
     startMode: "dynamic",     // 動的スタート (§6-6 項19。2026-09-09)
     instructed: null,         // 教示誘導ブロック {n, itemIds, text} (careless GT 候補 A。§6-6 項19)
-    stopNotices: [],          // 停止の案内画面の表示記録 {afterTrial, ms} (§6-6 項19)
+    stopNotices: [],          // 停止の案内画面の表示記録 {afterTrial, kind, ms} (§6-6 項19)
+    stopNoticesSuppressed: 0, // 上限 (種類ごと 3 回) で出さなかった案内の数 (2026-09-12 夜)
+    pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
     exportedAt: null,
   };
   $("devline").textContent = `${device.screenW}×${device.screenH} @${device.dpr}x`;
@@ -1535,16 +1559,28 @@
     const r = stopReturn; stopReturn = null;
     const pause = { screen: r.screen, durationMs: +(performance.now() - r.at).toFixed(0) };
     device.stopPauses.push(pause);
+    if (r.screen === "task" && dragTutState.active) { show("task"); return; }   // 画面の説明・操作の練習の途中: 説明をそのまま再表示 (2026-09-12。旧: presentStimulus で説明が壊れて戻れなかった)
     if (r.screen === "task") { presentStimulus(); return; }   // 同じ試行を出し直す (RT に確認画面の滞在を混ぜない)
     if (r.screen === "rating" && trial) trial.stopPause = pause;   // 評定時間は汚染するので該当試行に印を残す
     show(r.screen);
   }
   let endedFrom = null;   // 中断ボタンで終了したときに居た画面 {screen, at} (「課題に戻る」で戻る先。2026-09-07)
+  let discarding = false;  // 「はじめから」で消去中 (beforeunload の確認を出さない)
+  function restartFresh() {   // 回答を消して最初の画面へ (2026-09-12)。バックアップを消してから再読込
+    // (kiosk は起動時にバックアップを partial として未送信キューへ退避するので、消さずに再読込すると捨てたはずの回答が残る)
+    discarding = true;
+    if (dragTutState.active) DragTut.abort();
+    clearBackup();
+    location.reload();
+  }
   function endEarly(reason) {   // reason: "operator" (中断ボタン) | "timebox" (時間上限)
     endedFrom = reason === "operator" && stopReturn ? { screen: stopReturn.screen, at: performance.now() } : null;
     stopReturn = null;
     recording = false; activePointerId = null; uiLocked = true;
     setCoach(null); coachHide();
+    // 説明の途中で終了 (2026-09-12): 説明を畳む (畳まないと最後の質問画面の上に残る)。取り消しで戻るときは説明の最初から
+    if (dragTutState.active) { DragTut.abort(); if (endedFrom) endedFrom.screen = "tutorial"; }
+    if (tutActive()) { tutIdx = -1; tutRender(); if (endedFrom) endedFrom.screen = "ratingTut"; }
     device.partial = true;
     device.endedBy = reason;
     device.endedPhase = phase;
@@ -1637,7 +1673,11 @@
     // 本番は一切出さない
     // 前問の停止の案内 (動的スタート): 評定送信後・次の場面文を出す前に案内だけの画面を挟む
     // (次の問題の画面に出すと案内を読む時間が次問の読解時間 preStartMs に混ざる。2026-09-09 ユーザー指摘)。教示誘導ブロックでは出さない
-    if (pendingNotice && phase !== "instructed") { const k = pendingNotice; pendingNotice = null; showStopNotice(k); return; }
+    if (pendingNotice && phase !== "instructed") {
+      const k = pendingNotice; pendingNotice = null;
+      if (device.stopNotices.filter((n) => n.kind === k).length >= STOP_NOTICE_MAX) device.stopNoticesSuppressed++;   // 上限に達した: 出さない (記録は trial 側に残る)
+      else { showStopNotice(k); return; }
+    }
     pendingNotice = null;
     $("taskMsg").textContent = "";
     if (cell.isTutorial) {   // チュートリアル試行 = 実演から「自分で操作する」段階へ。帯で切り替えを告知し、練習の帯は次に回す
@@ -1679,7 +1719,7 @@
     stemShownT = performance.now();
     startBtn.classList.remove("armed");
     startBtn.textContent = "START";
-    $("phaseLabel").textContent = cell.isTutorial ? "チュートリアル" : (phase === "practice" ? "練習" : (phase === "instructed" ? "追加" : "本番"));
+    $("phaseLabel").textContent = cell.isTutorial ? "おためし" : (phase === "practice" ? "練習" : (phase === "instructed" ? "追加" : "本番"));   // おためし = 例の 1 問 (2026-09-12。旧「チュートリアル」)
     // 練習中のみ「↻ 説明」= 分からなくなったらチュートリアルを見直せる (本番では出さない)
     $("tutAgain").classList.toggle("hidden", !(phase === "practice" && dragTutState.done && DRAG_TUT_ON));
     $("counter").textContent = counterText();
@@ -1824,7 +1864,7 @@
       }
       // 問題文は出したまま (動的スタート: 場面文は最初から見えている。再読は不要)
     } else {
-      $("taskMsg").textContent = (msg || "やり直し").replace(/\|/g, "") + " — STARTからもう一度";
+      $("taskMsg").innerHTML = nbText(msg || "やり直し") + "<br>STARTからもう一度";   // 2 行 (2026-09-12: 1 行の「— STARTからもう一度」は詰まって読みにくい)
     }
     // 同一刺激を再呈示 (デザインのバランス維持)。少し待って再表示
     numA.style.visibility = "hidden";
@@ -1971,7 +2011,7 @@
     // ヘッダは2行以内に抑える (SE の実効 viewport で送信ボタンが fold 下に落ちないため)
     if (phase === "practice" && RTUT_ON && !ratingTutorialDone) {
       // 評定チュートリアル v2 (2026-07-22): 説明はヘッダでなく tutBox (対象評定の直上) に出す
-      tutIdx = 0;
+      tutIdx = 0; tutIntroDone = false;
       $("ratingHead").className = "practice";
       $("ratingHead").textContent = "";
     } else if (phase === "practice") {
@@ -2023,11 +2063,17 @@
     $("ratingNext").disabled = trial.ratings[ITEMS[0].key] == null;
     $("ratingSubmit").disabled = trial.ratings[ITEMS[1].key] == null;
     $("ratingNext").classList.remove("cue"); $("ratingSubmit").classList.remove("cue");
-    if (tutActive()) { tutIdx = p; tutRender(); }
+    if (tutActive()) { tutIdx = p === 0 ? (tutIntroDone ? 1 : 0) : 2; tutRender(); }   // 評定ページ → 説明ページ (導入は 1 回だけ)
     $("rating").querySelector(".qwrap").scrollTop = 0;
   }
   $("ratingNext").addEventListener("click", () => {
-    if (ratPage !== 0 || trial.ratings[ITEMS[0].key] == null) return;
+    if (ratPage !== 0) return;
+    if (tutActive() && TUT_PAGES[tutIdx].act === "intro") {   // 導入ページ → 迷いのページ (評定画面は 0 のまま。2026-09-12 後刻)
+      if (ratTooEarly($("ratingNext"))) return;
+      tutIntroDone = true; tutIdx = 1; tutRender(); return;
+    }
+    if (trial.ratings[ITEMS[0].key] == null) return;
+    if (tutActive() && ratTooEarly($("ratingNext"))) return;   // 読み終わる前の「次へ」 (2026-09-12)
     ratShowPage(1);
   }, { passive: true });
   $("ratingBack").addEventListener("click", () => {   // 自信の画面 → 迷いの画面 (選択は保持)
@@ -2039,11 +2085,19 @@
   // 評定チュートリアル v2 の状態 (練習1問目のみ。§6-2 2026-07-22)。
   // tutChanged = チュートリアル中に評定を変更したか (旧・変更練習の行動ゲートに代わる観察記録)
   let ratingTutorialDone = false, tutIdx = -1, tutChanged = false, tutRenderedAt = 0;
+  let tutIntroDone = false;   // 導入ページ (TUT_PAGES[0]) を読み終えたか (2026-09-12 後刻)。tutIdx は評定ページと 1 対 1 ではない: 0=導入, 1=迷い (評定ページ 0), 2=自信 (評定ページ 1)
   const tutActive = () => tutIdx >= 0;
   // 評定チュートリアル v3 (2026-09-02): tutBox 挿入方式 → スポットライト方式。実要素(評定行/確定ボタン)を
   // ハイライトし、説明は吹き出し(#ratPop)に。fixed オーバーレイで評定行は不動 (位置ずれなし)。gating
   // (selectRating/submitRating/device.ratingTutorial) は不変。ドラッグ導入と CSS 共用 (.tut-spot/.tut-pop)。§6-6 項14
   let ratSpot = null, ratPop = null, ratCueTimer = null, ratNudgeEl = null, ratNudgeTimer = null, ratReserveDone = false;
+  let ratLockUntil = 0;   // 最小読了時間 (2026-09-12): これより早い「次へ」/確定は受け付けず注意
+  function ratTooEarly(btn) {
+    if (performance.now() >= ratLockUntil) return false;
+    device.tutorialLog.push({ kind: "rating", page: tutIdx + 1, event: "early" });
+    ratNudge("読み終えてから押してください", btn);
+    return true;
+  }
   // 説明ページで評定ボタンを押した人への案内 (無反応にしない)。ボタンを渡すとそのボタンも揺らす
   function ratNudge(text, btn, below) {   // below=true: ボタンの下に置く (「上の「次へ」で…」)
     if (!ratNudgeEl) { ratNudgeEl = document.createElement("div"); ratNudgeEl.id = "ratNudge"; ratNudgeEl.className = "rat-nudge hidden"; document.body.appendChild(ratNudgeEl); }
@@ -2067,6 +2121,14 @@
   }
   // 説明文の長さから「読み終わる頃」を見積もる (遅い読み手基準 ≈ 8字/秒 + 下限1.8s・上限6s)。
   // 読速ベースライン (device.readingBaseline.charsPerSec) があればそれを優先し、その 0.6 倍の速度で見積もる
+  // 最小読了時間 (2026-09-12): 速い読み手でもこれより早くは読み終えない下限 (22 字/秒 + 0.5 s、1.2–7 s)。
+  // これより早い「次へ」は進めずに注意を出す (読まずに押す人を止める。遅い人は影響なし)。?minread=0 で無効 (validate/開発用)
+  const MINREAD_ON = QS.get("minread") !== "0";
+  function minReadMs(text) {
+    if (!MINREAD_ON) return 0;
+    const chars = String(text || "").replace(/<[^>]*>/g, "").replace(/\|/g, "").length;
+    return Math.max(1200, Math.min(7000, Math.round((chars / 22) * 1000) + 500));
+  }
   function readCueDelay(text) {
     const chars = String(text || "").replace(/<[^>]*>/g, "").replace(/\|/g, "").length;
     const base = (device.readingBaseline && device.readingBaseline.charsPerSec) || null;
@@ -2093,7 +2155,7 @@
       device.tutorialLog.push({ kind: "rating", event: "replay" });
       trial.ratings = { confidence: null, hesitation: null };
       for (const it of ITEMS) { const lk = $("qitem-" + it.key); const c = lk && lk.querySelector(".likert"); if (c) for (const b of c.children) b.classList.remove("sel"); }
-      tutIdx = 0; ratShowPage(0);
+      tutIdx = 0; tutIntroDone = false; ratShowPage(0);
     }, { passive: true });
   }
   function ratRect(p) {   // ページ別スポットライト対象 = いま表示している項目 (ボタン列は囲いに含めない)
@@ -2116,7 +2178,7 @@
       if (lkC) lkC.classList.remove("tut-cue"); if (lkH) lkH.classList.remove("tut-cue");
       if (ratNudgeEl) ratNudgeEl.classList.add("hidden");
       $("ratReplay").classList.add("hidden");
-      $("rating").classList.remove("tut-front");
+      $("rating").classList.remove("tut-front", "rat-intro");
       $("ratingNext").classList.remove("cue"); $("ratingSubmit").classList.remove("cue");
       if (ratCueTimer) { clearTimeout(ratCueTimer); ratCueTimer = null; }
       $("ratingSubmit").textContent = "決定して次へ";   // 本番の表記に戻す
@@ -2125,7 +2187,7 @@
     const p = TUT_PAGES[tutIdx];
     ratReserve();
     if (ratNudgeEl) ratNudgeEl.classList.add("hidden");
-    $("tutStepLabel").textContent = `説明 ${tutIdx + 1} / ${TUT_PAGES.length}`;
+    $("tutStepLabel").textContent = `振り返りの説明 ${tutIdx + 1} / ${TUT_PAGES.length}`;   // 見出しも段階名で (2026-09-12)
     const rdots = $("ratPopDots"); rdots.innerHTML = "";
     for (let i = 0; i < TUT_PAGES.length; i++) { const d = document.createElement("i"); if (i === tutIdx) d.className = "a"; rdots.appendChild(d); }
     $("ratTutText").innerHTML = p.text;   // 文ごとの改行 (<br>)。文節ブロック改行は使わない (2026-09-06)
@@ -2137,8 +2199,15 @@
     // 押す対象の評定行を鼓動 (まだ選んでいないときだけ。選んだら進むボタンへ合図が移る)
     const key = p.act === "conf" ? "confidence" : "hesitation", lk = $("qitem-" + key).querySelector(".likert");
     if (lkC) lkC.classList.remove("tut-cue"); if (lkH) lkH.classList.remove("tut-cue");
-    if (trial.ratings[key] == null) lk.classList.add("tut-cue");
-    else (p.act === "conf" ? $("ratingSubmit") : $("ratingNext")).classList.add("cue");
+    $("rating").classList.toggle("rat-intro", p.act === "intro");   // 導入ページは白紙 (評定行と「あなたの回答」を見えなくする。2026-09-12 夜)
+    if (p.act === "intro") {   // 導入ページ (2026-09-12 後刻): 評定はまだ押さなくてよい。「次へ」は有効にして、読み終わる頃に合図
+      $("ratingNext").disabled = false;
+      ratCueTimer = setTimeout(() => { if (tutActive() && TUT_PAGES[tutIdx] === p) $("ratingNext").classList.add("cue"); }, readCueDelay(p.text));
+    } else {
+      if (p.act === "hes") $("ratingNext").disabled = trial.ratings[key] == null;   // 導入で有効にした「次へ」を評定待ちに戻す
+      if (trial.ratings[key] == null) lk.classList.add("tut-cue");
+      else (p.act === "conf" ? $("ratingSubmit") : $("ratingNext")).classList.add("cue");
+    }
     $("rating").querySelector(".qwrap").scrollTop = 0;
     // スポットライト+吹き出しの配置 (吹き出しは表示中の項目の直上=評定行を塞がない)。
     // geometry は rAF 内で読む: beginRating は tutRender→show("rating") の順で呼ぶため、
@@ -2155,6 +2224,7 @@
       ratPop.style.left = Math.max(12, Math.min(r.left + r.width / 2 - pw / 2, vw - pw - 12)) + "px";
     });
     tutRenderedAt = performance.now();   // 連打デバウンスの基準時刻
+    ratLockUntil = tutRenderedAt + minReadMs(p.text);   // 最小読了時間 (2026-09-12)
   }
   function selectRating(key, value, container, btn) {
     if (key !== ITEMS[ratPage].key) return;   // 表示中の項目だけ受け付ける (保険。他方の項目は hidden)
@@ -2172,6 +2242,7 @@
   function submitRating() {
     if (ITEMS.some((it) => trial.ratings[it.key] == null)) return;
     if (ratPage !== 1) return;   // 自信の画面でのみ確定 (保険)
+    if (tutActive() && ratTooEarly($("ratingSubmit"))) return;   // 読み終わる前の確定 (2026-09-12)
     trial.ratingSubmitMs = +(performance.now() - ratingOnset).toFixed(1); // 2項目合計の所要時間 (負担指標)
     stampMonitors(trial);   // 評定時間も含めた試行窓で環境音要約を上書き (§6-6 項10: 評定中も計測)
     if (tutActive()) {   // チュートリアル完遂 (練習1問目)
@@ -2239,18 +2310,21 @@
     const PAD = 10;
     const STEPS = [
       // 二部構成 (2026-09-09): part 'screen' = 画面の説明 (触らない・読むだけ) / part 'hands' = 操作の練習 (実際に指で運ぶ)。見出し・点は部ごと
-      { part: "screen", focus: "orient",   act: "next", sample: true, reveal: 0, op: "読んだら「次へ」", txt: "これから<b>短い問題文</b>を読んで、<b>2つの選択肢</b>から あなたの考えに近いほうを選んでもらいます。<br>まず<b>画面の説明</b>です。ここでは<b>画面には触りません</b>。読むだけです。<br>読んだら下の<b>緑のボタン</b>で進みます。" },
-      // 2/6: まず問題文の位置に説明だけを 3 秒置いて読ませ、その後 BOX が下へスライドして問題文が現れる
-      { part: "screen", focus: "stem",     act: "next", sample: true, reveal: 1, revealDelay: 1800, op: "読んだら「次へ」", txt: "まず、画面の<b>上</b>に出る<b>問題文（場面文）</b>を読みます。" },
-      { part: "screen", focus: "choices2", act: "next", sample: true, reveal: 2, op: "読んだら「次へ」", txt: "その<b>下の2つ</b>が選択肢です。問題文を読んで、<b>選ぶほう</b>を決めます。" },
-      { part: "screen", focus: "start",    act: "next", reveal: 2, op: "読んだら「次へ」", txt: "画面の<b>下</b>に <b>START</b> ボタンがあります。<br>この START に指を置いて操作します。<br>操作は<b>あとの画面</b>で実際にやってみます。" },
-      // 5/7 (2026-09-08): 本番では START に指を置いている間だけ問題文と選択肢が出る (離すと消える) ことを先に伝える
-      { part: "screen", focus: "start",    act: "next", reveal: 2, op: "読んだら「次へ」", txt: "問題文を<b>読み終えてから</b>、START に指を置きます。<br>START から指を出すと <b>2つの選択肢</b> が出ます。<br>選択肢が出たら、できるだけ<b>指を止めないで</b>、考えながら運びます。" },
+      // 三部構成 (2026-09-12 夜): 「はじめに」(やることを文字で 1 枚) → 「画面の説明 1–4」(導入・問題文・START・選択肢 = 実際の流れの順) → 「操作の練習 1–3」
+      { part: "about",  focus: "orient",   act: "next", sample: true, reveal: 0, op: "読んだら「次へ」", txt: "これから<b>問題文</b>を読んで、<b>2つの選択肢</b>から あなたの考えに近いほうを選んでもらいます。<br>選ぶときは <b>START</b> に指を置き、<b>指を離さずに</b>選択肢のボックスまで運びます。この操作をくり返します。<br>読んだら、画面の下の緑の<b>「次へ」</b>ボタンで進みます。" },
+      { part: "screen", focus: "orient",   act: "next", sample: true, reveal: 0, op: "読んだら「次へ」", txt: "まず<b>画面の説明</b>です。<br>ここでは<b>画面には触りません</b>。読むだけです。<br>実際の流れの順に、<b>問題文 → START → 選択肢</b> と見ていきます。" },
+      // 2/4: まず問題文の位置に説明だけを置いて読ませ、その後 BOX が下へスライドして問題文が現れる
+      { part: "screen", focus: "stem",     act: "next", sample: true, reveal: 1, revealDelay: 1800, op: "読んだら「次へ」", txt: "まず、画面の<b>上</b>に出る<b>問題文</b>を読みます。" },
+      // 3/4: START。問題文と選択肢 (枠だけ・中身なし) は薄くして START に目を向ける
+      { part: "screen", focus: "start",    act: "next", reveal: 2, blank: true, dimStem: true, dimChoices: true, op: "読んだら「次へ」", txt: "画面の<b>下</b>に <b>START</b> ボタンがあります。<br>問題文を<b>読み終えてから</b>、この START に指を置きます。<br>START から指が出ると、上の 2 つの枠に<b>選択肢</b>が出ます。" },
+      // 4/4: 選択肢。枠だけ見せて中身は出さない (本番も START から指が出るまで中身は出ない)。問題文と START は薄く。「止めないで運ぶ」と 3 秒の予告はここ
+      { part: "screen", focus: "choices2", act: "next", reveal: 2, blank: true, dimStem: true, dimStart: true, op: "読んだら「次へ」", txt: "指が START から出ると、ここに<b>選択肢</b>が出ます。<br>出てきた選択肢のうち<b>選ぶほう</b>へ、できるだけ<b>指を止めないで</b>、考えながら運び、<b>ボックスの中で離します</b>。<br>（3秒以上止まったままだと、あとで注意が出ます）" },
       // ---- ここから操作の練習 (触る段階であることを見出しと切り替え画面で明示。2026-09-09 対面 1 日目「説明中に押してしまう」への対応) ----
       { part: "hands",  focus: "orient",   act: "next", sample: true, reveal: 0, op: "読んだら「次へ」", txt: "ここからは、<b>実際に指で操作</b>します。<br>次の画面で START に指を置いて、離さずに運んでみましょう。" },
-      // 5/6・6/6 はハンズオン: 実演を見せたあと自分で運んでもらい、成功したら進めるようにする
-      { part: "hands",  focus: "sandbox",  act: "concept", hands: "sandbox", op: "実際に START から運んでみましょう", txt: "START に指をおいて、<b>離さずに</b>運びます。指が START から出ると<b>「選択肢」</b>と表示されます。<b>道すじは自由</b>です。（まっすぐでも、回り道でもかまいません）" },
-      { part: "hands",  focus: "action",   act: "real", hands: "real", labels: true, op: "実際に START から運んでみましょう", txt: "本番はこの<b>2つの選択肢</b>のどちらかへ運びます。指が START から出ると選択肢が現れます。指を押さえたまま運んで、<b>ボックスの中で離します</b>。" },
+      // 2/3・3/3 はハンズオン: 実演を見せたあと自分で運んでもらい、成功したら進めるようにする
+      { part: "hands",  focus: "sandbox",  act: "concept", hands: "sandbox", op: "実際に START から運んでみましょう", txt: "START に指を置いて、<b>離さずに</b>運びます。指が START から出ると<b>「選択肢」</b>と表示されます。<b>道すじは自由</b>です。（まっすぐでも、回り道でもかまいません）" },
+      // 3/3 (2026-09-12): 「止めないで運ぶ」を実際に運ぶ場面でも言う (3 秒の予告は 4/4)。文は 3 行台に抑える = 説明ボックスが運ぶ先の箱を隠さない
+      { part: "hands",  focus: "action",   act: "real", hands: "real", labels: true, op: "実際に START から運んでみましょう", txt: "<b>2つの選択肢</b>のどちらかへ運びます。指が START から出ると<b>選択肢の内容</b>が出ます。<br>できるだけ<b>指を止めないで</b>考えながら運び、<b>ボックスの中で離します</b>。" },
     ];
     function build() {
       if (built) return;
@@ -2398,6 +2472,10 @@
         const r = targetRect(step.focus); pcx = r.left + r.width / 2;
         // START・選択肢 (3/6) = 対象のすぐ上 (上から読む順で、対象に接して置く。2026-09-06) / 問題文 = 対象の直下
         ptop = (step.focus === "start" || step.focus === "choices2") ? (r.top - PAD - GAP - ph) : (r.bottom + PAD + GAP);
+        if (step.focus === "choices2" && ptop < 8) {   // 上に入らなければ選択肢の下 (START は薄くしてあるので被ってよい)。下にも入らなければ最上部 (選択肢の上端に少し被る。2026-09-12)
+          const below = r.bottom + PAD + GAP;
+          ptop = (below + ph <= btnTop - GAP) ? below : 8;
+        }
       }
       ptop = Math.max(8, Math.min(ptop, btnTop - GAP - ph, vh - ph - 8));   // ボタン列に被らせない
       pop.style.top = ptop + "px";
@@ -2414,12 +2492,15 @@
       logStepEnd(); stepShownIdx = idx; stepShownAt = performance.now();
       revealedNow = false;
       const inPart = STEPS.filter((s) => s.part === step.part), pi = inPart.indexOf(step);
-      $("tutPopStep").textContent = (step.part === "hands" ? "操作の練習 " : "画面の説明 ") + (pi + 1) + " / " + inPart.length;
+      const PART_NAME = { about: "はじめに", screen: "画面の説明", hands: "操作の練習" };
+      $("tutPopStep").textContent = step.part === "about" ? PART_NAME.about : PART_NAME[step.part] + " " + (pi + 1) + " / " + inPart.length;   // 「はじめに」は 1 枚なので番号なし
       $("tutPopTxt").innerHTML = step.txt;
       $("tutPopOp").textContent = step.op || "";                          // 操作方法 (緑)
       $("tutPopOp").classList.toggle("hidden", !step.op);
+      $("phaseLabel").textContent = PART_NAME[step.part];   // 上部の段階名も部ごと (2026-09-12。旧「チュートリアル」)
       const last = idx === STEPS.length - 1;
       $("tutPopNext").textContent = "次へ"; btnRow.classList.remove("hidden");   // 全ページ「次へ」に統一 (2026-09-08。旧: 最終ページのみ「完了」)
+      if (flashTimer) { clearTimeout(flashTimer); flashTimer = null; } $("tutPopNext").classList.remove("warn");
       $("tutReplay").classList.toggle("hidden", !last);                   // 「もう一度」は最後のページのみ
       // 進行ボタンの状態リセット (ハンズオン中は解錠待ち / cueDelay 後に強調)
       if (cueTimer) { clearTimeout(cueTimer); cueTimer = null; }
@@ -2432,11 +2513,16 @@
         const d = readCueDelay(step.txt) + (step.revealDelay || 0);
         cueTimer = setTimeout(() => { if (idx >= 0 && STEPS[idx] === step) $("tutPopNext").classList.add("cue"); }, d);
       }
+      // 最小読了時間 (2026-09-12): 読み終わる前の「次へ」は受け付けず注意を出す。速い読み手の下限 (minReadMs) に合わせる。?minread=0 で無効
+      lockUntil = step.hands ? 0 : performance.now() + minReadMs(step.txt) + (step.revealDelay || 0);
+      if (lockTimer) { clearTimeout(lockTimer); lockTimer = null; }
+      $("tutPopNext").classList.toggle("wait", lockUntil > performance.now());
+      if (lockUntil > performance.now()) lockTimer = setTimeout(() => { if (idx >= 0 && STEPS[idx] === step) $("tutPopNext").classList.remove("wait"); }, lockUntil - performance.now());
       // 枠線を出さないのは「対象がまだ無い」ページだけ (説明のみの1枚目・遅延開示の待機中)
       const demoStep = step.act === "concept" || step.act === "real";
       const noSpot = step.focus === "orient" || (step.revealDelay && !revealedNow) || demoStep;   // 実演ステップは囲わない (2026-09-06)
       const dots = $("tutPopDots"); dots.innerHTML = "";
-      for (let i = 0; i < inPart.length; i++) { const d = document.createElement("i"); if (i === pi) d.className = "a"; dots.appendChild(d); }
+      if (step.part !== "about") for (let i = 0; i < inPart.length; i++) { const d = document.createElement("i"); if (i === pi) d.className = "a"; dots.appendChild(d); }
       pop.classList.remove("hidden");
       // 黄色い枠線は全ページで表示 (暗幕での強調のみ廃止)。ただし要素がまだ無いページ (orient・
       // 遅延開示の待機中) と、操作を終えたあと (handsDone) は出さない
@@ -2464,10 +2550,12 @@
       else if (step.focus === "choices2") { fadeIn(choiceA); fadeIn(choiceB); }
       else if (step.focus === "start") fadeIn(startBtn);
       const hideChoices = step.focus === "orient" || step.focus === "stem" || step.focus === "sandbox";
-      document.querySelectorAll(".choice").forEach((e) => { e.classList.toggle("tut-sbxhide", hideChoices); e.classList.remove("tut-dim"); });
-      startBtn.classList.remove("tut-dim");
+      document.querySelectorAll(".choice").forEach((e) => { e.classList.toggle("tut-sbxhide", hideChoices); e.classList.toggle("tut-dim", !!step.dimChoices); });
+      stemEl.classList.toggle("tut-dim", !!step.dimStem);      // 説明している対象以外を薄くする (2026-09-12: START の説明では問題文・選択肢、選択肢の説明では問題文・START)
+      startBtn.classList.toggle("tut-dim", !!step.dimStart);
+      if (step.blank) { numA.style.visibility = "hidden"; numB.style.visibility = "hidden"; }   // 枠だけ見せて中身は出さない (2026-09-12)
       // START も段階開示: 問題文/選択肢を説明している間は隠す (1/6で見える問題の解消)。start ステップで現す
-      startBtn.style.visibility = (step.focus === "orient" || step.focus === "stem" || step.focus === "choices2") ? "hidden" : "visible";
+      startBtn.style.visibility = (step.focus === "orient" || step.focus === "stem") ? "hidden" : "visible";   // 2026-09-12 夜: 選択肢の説明 (4/4) は START の後なので START を出したまま
       if (step.act === "concept") setTimeout(() => { if (my === tok) playSandbox(my); }, 350);
       else if (step.act === "real") setTimeout(() => { if (my === tok) playReal(my); }, 300);
     }
@@ -2518,16 +2606,19 @@
       const lx = x - sr.left, ly = y - sr.top;
       return Math.abs(lx - T.x) <= T.bw / 2 && Math.abs(ly - T.y) <= T.bh / 2;
     }
-    let strayTimer = null;
-    function strayTap() {   // 説明ページ中に START や選択肢を押した人への案内 (2026-09-08: 対面で「触っても進まない」が多発)
-      setHint("いまは押さなくて大丈夫です<br>下の「次へ」で進みます");
+    let flashTimer = null;
+    function btnFlash(text) {   // 「次へ」ボタン自体に短い注意を出す (押した場所・見ている場所に出る = 気づく。2026-09-12 後刻)
+      const b = $("tutPopNext"); if (flashTimer) clearTimeout(flashTimer);
+      b.textContent = text; b.classList.add("warn");
+      flashTimer = setTimeout(() => { b.textContent = "次へ"; b.classList.remove("warn"); flashTimer = null; }, 2500);
+    }
+    function strayTap() {   // 説明ページ中に START や選択肢を押した人への案内 (2026-09-08: 対面で「触っても進まない」が多発)。注意はボタン自体に (2026-09-12 夜: ボックス内の赤い行は廃止、緑の操作行はそのまま)
+      btnFlash("この「次へ」で進みます");
       if (!btnRow.classList.contains("pending")) $("tutPopNext").classList.add("cue");
-      if (strayTimer) clearTimeout(strayTimer);
-      strayTimer = setTimeout(() => setHint(""), 2500);
     }
     surface.addEventListener("pointerdown", (e) => {
       if (!handsMode || handsDone) { if (idx >= 0 && !handsMode) strayTap(); return; }
-      if (!hInRect(startBtn, e.clientX, e.clientY)) { setHint("まず START を指で押さえます", true); return; }
+      if (!hInRect(startBtn, e.clientX, e.clientY)) { setHint("START に指を置いて<br>そのまま離さずに運びます", true); return; }   // 文言 2026-09-12
       hTracking = true; hPid = e.pointerId; hLeft = false; startBtn.classList.add("armed");
       inkSize(); inkStart(e.clientX, e.clientY);   // 軌跡を描き始める (触れている実感)
       setHint("");   // 運んでいる最中は案内を出さない (軌跡と実演に集中してもらう)
@@ -2551,25 +2642,43 @@
       sbxRevealed = false;
       if (handsMode === "sandbox") { clr(); drawSbx(sbxT()); } else { numA.style.visibility = "hidden"; numB.style.visibility = "hidden"; }
       if (ok) endHands(true);
-      else { setHint("ボックスの中で指を離します。<br>もう一度どうぞ", true); setTimeout(() => inkClear(), 600); }
+      else { setHint("選択肢のボックスの中で指を離してください<br>STARTからもう一度", true); setTimeout(() => inkClear(), 600); }   // 本番の失敗案内と同じ文言 (2026-09-12)
     }, { passive: true });
     surface.addEventListener("pointercancel", () => { if (hTracking) { hTracking = false; hPid = null; startBtn.classList.remove("armed"); inkClear(); sbxRevealed = false; numA.style.visibility = "hidden"; numB.style.visibility = "hidden"; } }, { passive: true });
 
-    function advance() { if (idx < 0) return; if (idx < STEPS.length - 1) { idx++; render(); } else finish(); }   // idx<0 = 終了後 (迷いクリックの保険)
-    function finish() {
+    let lockUntil = 0, lockTimer = null;   // 最小読了時間 (2026-09-12)
+    function advance() {
+      if (idx < 0) return;   // idx<0 = 終了後 (迷いクリックの保険)
+      if (performance.now() < lockUntil) {   // 読み終わる前の「次へ」: 進めずに注意 (tutorialLog に event:'early')
+        device.tutorialLog.push({ kind: "drag", step: idx + 1, event: "early" });
+        btnFlash("読んでから押してください"); return;
+      }
+      if (idx < STEPS.length - 1) { idx++; render(); } else finish();
+    }
+    function teardown() {   // 表示をすべて畳む (完了・中断の共通部。2026-09-12 に finish から分離)
       logStepEnd();
       tok++; idx = -1;
       spot.classList.remove("on"); pop.classList.remove("on"); spot.classList.add("hidden"); pop.classList.add("hidden");
       btnRow.classList.add("hidden", "pending"); btnRow.classList.remove("pending");
       spot.classList.remove("strong"); startBtn.classList.remove("coach-pulse", "armed"); startBtn.style.visibility = "";
       if (cueTimer) { clearTimeout(cueTimer); cueTimer = null; }
+      if (lockTimer) { clearTimeout(lockTimer); lockTimer = null; } lockUntil = 0; $("tutPopNext").classList.remove("wait");
+      if (flashTimer) { clearTimeout(flashTimer); flashTimer = null; } $("tutPopNext").classList.remove("warn"); $("tutPopNext").textContent = "次へ";
       handsMode = null; handsDone = false; hTracking = false; setHint(""); inkClear(); $("tutPopNext").classList.remove("cue");
       ctx(); setCap(""); demo.style.display = "none"; clearSample();
       document.querySelectorAll(".choice").forEach((e) => e.classList.remove("tut-sbxhide", "tut-rcv", "tut-dim"));
-      startBtn.classList.remove("tut-dim");
+      startBtn.classList.remove("tut-dim"); stemEl.classList.remove("tut-dim");
       if (resizeBound) { removeEventListener("resize", resizeBound); resizeBound = null; }
-      dragTutState.done = true; dragTutState.active = false;
+      dragTutState.active = false;
+    }
+    function finish() {
+      teardown();
+      dragTutState.done = true;
       const cb = onDone; onDone = null; if (cb) cb();
+    }
+    function abort() {   // 途中で終了 (中断ボタン)。完了扱いにしない = 戻ったときは run から (2026-09-12)
+      if (idx < 0 && !dragTutState.active) return;
+      teardown(); dragTutState.done = false; onDone = null;
     }
     function run(cb) {
       build(); onDone = cb; demo.style.display = ""; dragTutState.active = true;
@@ -2578,12 +2687,12 @@
       numA.style.visibility = "hidden"; numB.style.visibility = "hidden"; stemEl.style.visibility = "hidden";
       startBtn.classList.remove("armed"); startBtn.textContent = "START";
       show("task"); if (typeof sizeCanvas === "function") sizeCanvas();
-      $("phaseLabel").textContent = "チュートリアル"; $("counter").textContent = "";   // 練習 0/0 を出さない
+      $("phaseLabel").textContent = "画面の説明"; $("counter").textContent = "";   // 練習 0/0 を出さない (段階名は render が部ごとに更新)
       resizeBound = () => { if (idx >= 0) place(STEPS[idx]); };
       addEventListener("resize", resizeBound, { passive: true });
       idx = 0; render();
     }
-    return { run };
+    return { run, abort };
   })();
 
   function startPractice() {
@@ -3144,6 +3253,31 @@
   window.addEventListener("resize", checkOrientation);
   window.addEventListener("orientationchange", checkOrientation);
   checkOrientation();
+  // ===== 文字サイズ・ページ拡大のガード (2026-09-12 夜) =====
+  // pageZoom = screen.width / innerWidth: Safari「ぁあ」・Chrome「ズーム」はページの CSS px 幅を縮める (= 小さい機種と同じ効果) ので、縦向きで 1 から外れる。
+  // textZoom = 文字だけの拡大 (見本 B / 見本 A の幅)。どちらも 100%±3% を外れたら止めて戻し方を出す。解析は START→箱の直線に正規化するので
+  // 機種差と同じ種類の差だが、説明ボックスの収まり (shots.js で 100% 前提で検証) が崩れるため固定する。値は device.pageZoom / textZoom に記録
+  const ZOOM_GUARD_ON = navigator.maxTouchPoints > 0 && QS.get("zoomguard") !== "0";
+  function measureZoom() {
+    const portrait = innerHeight >= innerWidth;
+    const sw = portrait ? Math.min(screen.width, screen.height) : Math.max(screen.width, screen.height);
+    const pageZoom = sw > 0 && innerWidth > 0 ? +(sw / innerWidth).toFixed(3) : 1;
+    const a = $("zpA").getBoundingClientRect().width, b = $("zpB").getBoundingClientRect().width;
+    const textZoom = a > 0 ? +(b / a).toFixed(3) : 1;
+    return { pageZoom, textZoom };
+  }
+  let zoomGuardWasOn = false;
+  function checkZoom() {
+    const z = measureZoom(); device.pageZoom = z.pageZoom; device.textZoom = z.textZoom;
+    const off = ZOOM_GUARD_ON && (Math.abs(z.pageZoom - 1) > 0.03 || Math.abs(z.textZoom - 1) > 0.03);
+    if (off && !zoomGuardWasOn) device.zoomGuardShown++;
+    zoomGuardWasOn = off;
+    $("zoomGuard").classList.toggle("show", off);
+    return off;
+  }
+  window.addEventListener("resize", checkZoom);
+  if (window.visualViewport) window.visualViewport.addEventListener("resize", checkZoom);
+  checkZoom();
 
   // ===== 中断データの扱い (起動時に前回チェックポイントがあれば) =====
   //   kiosk (対面・共用端末): 途中データ (partial でないもの=再読込で途切れた分) を未送信キューへ退避し、次の人は最初から
@@ -3335,6 +3469,16 @@
     $("stopBtn").addEventListener("click", showStopConfirm, { passive: true });
     $("stopBack").addEventListener("click", cancelStop, { passive: true });
     $("stopGo").addEventListener("click", () => endEarly("operator"), { passive: true });
+    // はじめから (2026-09-12): 2 回押しで確定。1 回目で文言が変わり、3 秒以内に 2 回目で回答を消して最初の画面へ
+    const RESTART_LABEL = $("stopRestart").textContent;
+    let restartArmedAt = 0, restartTimer = null;
+    $("stopRestart").addEventListener("click", () => {
+      const now = performance.now();
+      if (restartArmedAt && now - restartArmedAt <= 3000) { restartFresh(); return; }
+      restartArmedAt = now; $("stopRestart").textContent = "もう一度押すと、回答を消して最初の画面に戻ります";
+      if (restartTimer) clearTimeout(restartTimer);
+      restartTimer = setTimeout(() => { restartArmedAt = 0; $("stopRestart").textContent = RESTART_LABEL; }, 3000);
+    }, { passive: true });
   }
 
   refreshIntro();   // 初期は未記入なので開始ボタンを無効化
@@ -3391,6 +3535,8 @@
     const pause = { screen: "postq", from: from.screen, durationMs: +(performance.now() - from.at).toFixed(0) };
     device.stopPauses.push(pause);
     uiLocked = false;
+    if (from.screen === "tutorial") { startPractice(); return; }               // 画面の説明・操作の練習の途中で終了していた → 説明の最初から (2026-09-12)
+    if (from.screen === "ratingTut" && trial) { beginRating(); return; }       // 振り返りの説明の途中 → 説明の 1 ページ目から
     if (from.screen === "task") { presentStimulus(); return; }
     if (from.screen === "rating" && trial) trial.stopPause = pause;
     show(from.screen);
@@ -3432,6 +3578,8 @@
       micState: () => ({ acquired: MIC.acquired, lost: MIC.lost, drops: MIC.drops, ambientDb: MIC.ambientDb }),
       // 対面セッションの検証用 (§6-6 項15)
       stopVisible: () => $("stopBtn").classList.contains("on"),
+      zoomGuard: () => $("zoomGuard").classList.contains("show"),   // 文字サイズ・拡大のガード (validate.js)
+      measureZoom: () => measureZoom(),
       trialIndex: () => trialIndex,
       outboxCount: () => outboxLoad().length,
       outboxClear: () => { try { localStorage.removeItem(OUTBOX_KEY); } catch (_) {} outboxRender(); },
@@ -3488,7 +3636,7 @@
   // 本番中のうっかり更新・離脱への確認ダイアログ (PC ブラウザ向け。iOS Safari は表示しないが害はない。§6-6 項17)。
   // 完了後 (exportedAt あり) と練習中は出さない。kiosk の「つぎの人にわたす」は完了後なので出ない
   window.addEventListener("beforeunload", (e) => {
-    if (phase !== "main" || device.exportedAt) return;
+    if (phase !== "main" || device.exportedAt || discarding) return;
     e.preventDefault(); e.returnValue = "";
   });
 
