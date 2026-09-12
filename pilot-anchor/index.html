@@ -2322,14 +2322,14 @@
       { part: "screen", focus: "stem",     act: "next", sample: true, reveal: 1, revealDelay: 1800, op: "読んだら「次へ」", txt: "まず、画面の<b>上</b>に出る<b>問題文</b>を読みます。" },
       // 3/4: START。問題文と選択肢 (枠だけ・中身なし) は薄くして START に目を向ける
       { part: "screen", focus: "start",    act: "next", reveal: 2, blank: true, dimStem: true, dimChoices: true, op: "読んだら「次へ」", txt: "画面の<b>下</b>に <b>START</b> ボタンがあります。<br>問題文を<b>読み終えてから</b>、この START に指を置きます。<br>START から指が出ると、上の 2 つの枠に<b>選択肢</b>が出ます。" },
-      // 4/4: 選択肢。枠だけ見せて中身は出さない (本番も START から指が出るまで中身は出ない)。問題文と START は薄く。「止めないで運ぶ」と 3 秒の予告はここ
-      { part: "screen", focus: "choices2", act: "next", reveal: 2, blank: true, dimStem: true, dimStart: true, op: "読んだら「次へ」", txt: "指が START から出ると、ここに<b>選択肢</b>が出ます。<br>出てきた選択肢のうち<b>選ぶほう</b>へ、できるだけ<b>指を止めないで</b>、考えながら運び、<b>ボックスの中で離します</b>。<br>（3秒以上止まったままだと、あとで注意が出ます）" },
+      // 4/4: 選択肢。枠だけ見せて中身は出さない (本番も START から指が出るまで中身は出ない)。問題文と START は薄く。簡潔に (3 秒の予告は操作の練習 3/3 へ。2026-09-13)
+      { part: "screen", focus: "choices2", act: "next", reveal: 2, blank: true, dimStem: true, dimStart: true, op: "読んだら「次へ」", txt: "指が START から出ると、ここに<b>選択肢</b>が出ます。<br>選ぶほうへ、できるだけ<b>指を止めないで考えながら運び</b>、ボックスの中で指を離します。" },
       // ---- ここから操作の練習 (触る段階であることを見出しと切り替え画面で明示。2026-09-09 対面 1 日目「説明中に押してしまう」への対応) ----
       { part: "hands",  focus: "orient",   act: "next", sample: true, reveal: 0, op: "読んだら「次へ」", txt: "ここからは、<b>実際に指で操作</b>します。<br>次の画面で START に指を置いて、離さずに運んでみましょう。" },
       // 2/3・3/3 はハンズオン: 実演を見せたあと自分で運んでもらい、成功したら進めるようにする
       { part: "hands",  focus: "sandbox",  act: "concept", hands: "sandbox", op: "実際に START から運んでみましょう", txt: "START に指を置いて、<b>離さずに</b>運びます。指が START から出ると<b>「選択肢」</b>と表示されます。<b>道すじは自由</b>です。（まっすぐでも、回り道でもかまいません）" },
-      // 3/3 (2026-09-12): 「止めないで運ぶ」を実際に運ぶ場面でも言う (3 秒の予告は 4/4)。文は 3 行台に抑える = 説明ボックスが運ぶ先の箱を隠さない
-      { part: "hands",  focus: "action",   act: "real", hands: "real", labels: true, op: "実際に START から運んでみましょう", txt: "<b>2つの選択肢</b>のどちらかへ運びます。指が START から出ると<b>選択肢の内容</b>が出ます。<br>できるだけ<b>指を止めないで</b>考えながら運び、<b>ボックスの中で離します</b>。" },
+      // 3/3 (2026-09-12): 「止めないで運ぶ」と 3 秒の予告は実際に運ぶ場面で言う (2026-09-13: 4/4 から移動)。文は 4 行以内 = 説明ボックスが運ぶ先の箱を隠しすぎない
+      { part: "hands",  focus: "action",   act: "real", hands: "real", labels: true, op: "実際に START から運んでみましょう", txt: "<b>2つの選択肢</b>のどちらかへ運びます。指が START から出ると<b>選択肢の内容</b>が出ます。<br>できるだけ<b>指を止めないで考えながら運び</b>、ボックスの中で離します。<br>（3秒以上指が止まると、注意が出ます）" },
     ];
     function build() {
       if (built) return;
