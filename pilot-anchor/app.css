@@ -354,12 +354,12 @@
   .tut-pop .s { font-size: calc(13px * var(--ui-scale)); color: var(--warn); font-weight: 700; letter-spacing: 1.5px; margin-bottom: 6px; }
   /* 説明の文字は画面の高さに連続で追従 (2026-09-12 後刻)。2026-09-13: 一段小さく (実機 iPhone 17 Safari で 100% にすると選択肢に被った):
      2.3vh = 548px (SE の Safari) で 14px 〜 740px 以上で上限 17px。旧: clamp(15.5px, 2.9vh, 18.5px) */
-  .tut-pop .t { font-size: clamp(calc(13.5px * var(--ui-scale)), 2.2vh, calc(16px * var(--ui-scale))); line-height: 1.5; color: var(--ink); }   /* 2026-09-13 実機 FB でさらに一段小さく (旧 14–17px) */
+  .tut-pop .t { font-size: clamp(calc(12.5px * var(--ui-scale)), 2.4vh, calc(17px * var(--ui-scale))); line-height: 1.5; color: var(--ink); }   /* 2026-09-13: SE (548px) を基準 13.2px に、高さに比例して大きく (667px → 16px、710px 以上 → 17px) */
   /* compact = 対象 (選択肢の箱・START) に被るときだけ place() が付ける一段小さい文字 (2026-09-13) */
-  .tut-pop.compact { padding: 9px 12px 8px; }
-  .tut-pop.compact .s { font-size: calc(11.5px * var(--ui-scale)); margin-bottom: 4px; }
-  .tut-pop.compact .t { font-size: calc(12.5px * var(--ui-scale)); line-height: 1.45; }
-  .tut-pop.compact .g { font-size: calc(13px * var(--ui-scale)); margin-top: 5px; }
+  .tut-pop.compact { padding: 8px 11px 7px; }
+  .tut-pop.compact .s { font-size: calc(11px * var(--ui-scale)); margin-bottom: 3px; }
+  .tut-pop.compact .t { font-size: calc(12px * var(--ui-scale)); line-height: 1.4; }
+  .tut-pop.compact .g { font-size: calc(12.5px * var(--ui-scale)); margin-top: 4px; }
   .tut-pop .t b { color: var(--warn); font-weight: 700; }
   .tut-pop .f { font-size: calc(12.5px * var(--ui-scale)); color: #7fd0a4; margin-top: 9px; font-weight: 600; }
   .tut-pop .r { display: flex; align-items: center; gap: 8px; margin-top: 13px; }

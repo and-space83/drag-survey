@@ -2470,6 +2470,7 @@
       // 説明ボックスが「見せたい対象」に被るときは一段小さい文字 (compact) にする (2026-09-13: 実機 iPhone 17 Safari で 4/4・操作の練習 2/3・3/3 が選択肢に被った)
       pop.classList.remove("compact");
       let demoBelow = null;   // 実演で compact でも対象の上に入らないとき: 対象の下 (START との間) に置く (2026-09-13: SE の Safari)
+      popBelow = false;
       const allowed = (() => {
         if (demoStep) {   // 実演: 最上部に置く。下端が対象 (別ステージの箱 / 実 2 箱) の上端に届かないこと
           const surf = surface.getBoundingClientRect(), T = sbxT();
@@ -2487,7 +2488,7 @@
       let ptop, pcx = tr.left + tr.width / 2;
       if (step.focus === "orient") ptop = tr.top + tr.height * 0.12;
       else if (step.revealDelay && !revealedNow) ptop = stemEl.getBoundingClientRect().top;   // 待機中: 対象が出る位置に説明だけ置く
-      else if (demoStep) ptop = (ph > allowed && demoBelow != null) ? demoBelow : tr.top + 8;   // 実演は最上部。入らなければ対象の下 (2026-09-13)
+      else if (demoStep) { popBelow = ph > allowed && demoBelow != null; ptop = popBelow ? demoBelow : tr.top + 8; }   // 実演は最上部。入らなければ対象の下 (2026-09-13)
       else {
         const r = targetRect(step.focus); pcx = r.left + r.width / 2;
         // START・選択肢 (3/6) = 対象のすぐ上 (上から読む順で、対象に接して置く。2026-09-06) / 問題文 = 対象の直下
@@ -2502,6 +2503,7 @@
       pop.style.left = Math.max(12, Math.min(pcx - pw / 2, vw - pw - 12)) + "px";
     }
     let revealedNow = false;   // 遅延開示 (revealDelay) の対象が現れたか
+    let popBelow = false;      // 実演の説明ボックスを対象の下に置いているか (合図 tutHint の置き場所を変える。2026-09-13)
     let stepShownAt = null, stepShownIdx = -1;   // ステップ滞在時間の記録用 (device.tutorialLog)
     function logStepEnd() {
       if (stepShownIdx >= 0 && stepShownAt != null) device.tutorialLog.push({ kind: "drag", step: stepShownIdx + 1, ms: Math.round(performance.now() - stepShownAt) });
@@ -2589,7 +2591,7 @@
         ? (surface.getBoundingClientRect().top + sbxT().y + sbxT().bh / 2)
         : Math.max(choiceA.getBoundingClientRect().bottom, choiceB.getBoundingClientRect().bottom);
       hint.style.left = (tr.left + tr.width / 2) + "px";
-      hint.style.top = Math.max(8, (boxBottom + sr.top) / 2 - hint.offsetHeight / 2) + "px";
+      hint.style.top = (popBelow ? (tr.top + 50) : Math.max(8, (boxBottom + sr.top) / 2 - hint.offsetHeight / 2)) + "px";   // 説明ボックスが下にあるときは上部 (被らない。2026-09-13)
     }
     function startHands(mode) {   // mode: 'sandbox' (中央の例の箱) | 'real' (本番の2箱)。実演と並行して受け付ける
       handsMode = mode; handsDone = false;
