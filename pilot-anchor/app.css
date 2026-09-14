@@ -60,7 +60,7 @@
   #intro .pad input { padding: 9px 12px; }
   #intro .seg { gap: 6px; }
   #intro .seg button { padding: 9px 6px; font-size: calc(14px * var(--ui-scale)); min-width: 60px; }
-  #intro .btn.advance { margin-top: 12px; padding: 14px 24px; }
+  #intro .btn.advance { margin-top: 12px; }
   #intro .mono { display: none; }   /* 端末情報のデバッグ行は participant には不要 */
   .pad label { display: block; font-size: calc(14px * var(--ui-scale)); color: var(--ink-2); margin-bottom: 6px; font-weight: 600; }
   .pad input { width: 100%; max-width: 320px; padding: 12px; font-size: calc(16px * var(--ui-scale));
@@ -87,8 +87,11 @@
     border: 2px solid var(--accent); color: var(--accent); background: var(--panel); margin-top: 16px; }
   /* 進行ボタン (次の段階へ進む系: 練習開始/計測/読了/続ける/完了 等) は中央寄せ+大型化
      (2026-07-22 実機フィードバック: 位置とサイズで「押せば進む」を分かりやすく) */
-  .btn.advance { display: flex; align-items: center; justify-content: center;
-    margin: 22px auto 0; min-width: 72%; max-width: 420px; padding: 16px 24px; font-size: calc(18px * var(--ui-scale)); }
+  /* 進行ボタンの共通寸法 (2026-09-15): はじめに/画面の説明/操作の練習の「次へ」・振り返りと本番の評定の「次へ」「決定して次へ」・
+     ウェルカム等の進行ボタンをすべて同じ大きさに。:root で解決するので #rating の局所倍率 (低い画面で縮める) の影響を受けない */
+  :root { --nav-fs: calc(18px * var(--ui-scale)); --nav-pad: 13px 18px; --nav-minh: calc(52px * var(--ui-scale)); --nav-maxw: calc(420px * var(--ui-scale)); }
+  .btn.advance { display: flex; align-items: center; justify-content: center; box-sizing: border-box;
+    margin: 22px auto 0; width: min(72%, var(--nav-maxw)); min-width: 0; max-width: none; padding: var(--nav-pad); min-height: var(--nav-minh); font-size: var(--nav-fs); }
   .btn.primary { background: var(--go); color: var(--go-ink); border-color: var(--go); }
   /* 読み終わる頃に進むボタンを強調 (ウェルカム・遷移画面。チュートリアルと同じ合図) */
   @keyframes btnCue { 0%,100% { box-shadow: 0 0 0 0 rgba(18,133,90,0); } 50% { box-shadow: 0 0 0 6px rgba(18,133,90,.32); } }
@@ -117,7 +120,7 @@
   #task { background: var(--task-bg); touch-action: none; --ui-scale: 1; }   /* 課題画面は倍率を掛けない (vmin で拡大済み・軌跡幾何を変えない) */
   #topbar { position: absolute; top: 0; left: 0; right: 0; height: 5%;
     display: flex; align-items: center; justify-content: center; gap: 14px;
-    font-size: calc(12px * var(--ui-scale)); color: var(--ink-3); pointer-events: none; z-index: 3; }
+    font-size: clamp(12px, 3.3vmin, 24px); color: var(--ink-3); pointer-events: none; z-index: 3; }   /* 画面サイズに追従 (375px → 12px、iPad 820px → 24px。2026-09-15) */
   #calDb { color: var(--warn); font-weight: 700; }   /* 較正モード (?miccal=1) の現在レベル表示 */
   #surface { position: absolute; inset: 0; touch-action: none; }
   #trace { position: absolute; top: 0; left: 0; pointer-events: none; z-index: 1; }
@@ -145,7 +148,7 @@
     text-wrap: balance; visibility: hidden; }
   #start { position: absolute; bottom: var(--start-bottom); left: 50%; transform: translateX(-50%);
     width: 34vmin; height: 16vmin; border: 2px solid var(--warn); border-radius: 14px;
-    display: flex; align-items: center; justify-content: center; font-size: calc(18px * var(--ui-scale));
+    display: flex; align-items: center; justify-content: center; font-size: clamp(16px, 4.8vmin, 34px);   /* 「スタート」の文字も画面サイズに追従 (375px → 18px、iPad → 34px。2026-09-15。旧 18px 固定 = #task は倍率を掛けないため) */
     font-weight: bold; color: var(--warn); background: rgba(184,83,26,0.07); z-index: 2; }
   #start.armed { border-color: var(--go); color: var(--go); background: rgba(18,133,90,0.10); }
   #taskMsg { position: absolute; bottom: calc(var(--start-bottom) + 18vmin); left: 12px; right: 12px;
@@ -221,17 +224,17 @@
   .qitem.dim { opacity: 0.3; pointer-events: none; }        /* 評定チュートリアル: 非対象項目を薄く */
   /* 評定チュートリアル: まだ押す段階でない行は薄く (タップは受けて「次へ」へ誘導する = 無反応にしない) */
   .qitem.tut-off { opacity: .42; transition: opacity .3s; }
-  .rat-nudge { position: fixed; z-index: 43; left: 50%; transform: translateX(-50%); max-width: 96vw; white-space: nowrap;
-    font-size: calc(14.5px * var(--ui-scale)); font-weight: 700; color: var(--err); background: transparent;
-    padding: 6px 10px; pointer-events: none; text-align: center; }
-  .rat-nudge.hidden { display: none; }
   .phase-banner { position: fixed; z-index: 30; left: 50%; top: 40%; transform: translate(-50%, -50%); pointer-events: none; white-space: nowrap;
     font-size: calc(17px * var(--ui-scale)); font-weight: 700; color: var(--go); background: rgba(255,255,255,.96); border: 2px solid var(--go);
     border-radius: 12px; padding: 12px 20px; }
   .phase-banner.hidden { display: none; }
   @keyframes btnNudge { 0%,100% { transform: translateX(0); } 20% { transform: translateX(-6px); } 40% { transform: translateX(6px); }
     60% { transform: translateX(-4px); } 80% { transform: translateX(4px); } }
-  .btn.nudge { animation: btnNudge .5s ease-in-out; }
+  /* 振り返りの説明の注意 (早押し・説明中に触った): ドラッグ導入の .nx.warn と同じく、進むボタン自体の文言を変えて緑のまま揺らす (2026-09-14)。
+     押せない「次へ」は親 (.rat-btnrow) でタップを受けて案内するため pointer-events を切る */
+  #rating .btn.warn { animation: btnNudge .5s ease-in-out; }
+  #rating .btn.warn:disabled { opacity: .75; }
+  #rating.tut-front .btn:disabled { pointer-events: none; }
   /* 説明BOXの高さぶん評定行を下げる (全ページ同じ量 = 行の位置は動かない。BOXが自信行に被る対策) */
   #rating.tut-front .qwrap { padding-top: var(--ratReserve, 0px); }
   /* 低い画面 (iPhone SE の Safari ≈ 548px・mini/14 の Safari ≈ 700–730px) では評定画面の倍率を下げ、振り返りの説明の
@@ -334,7 +337,7 @@
   /* ハンズオン成功後: 消さずに暗くする (終わったことは伝えつつ場所は見えたままにする) */
   /* 中断の確認画面の間は body 直下の説明・帯を隠す (2026-09-12: 説明の吹き出しが確認画面の上に残った) */
   body.stop-open .tut-pop, body.stop-open .tut-spot, body.stop-open .tut-btnrow, body.stop-open #tutHint,
-  body.stop-open .rat-nudge, body.stop-open .phase-banner { display: none !important; }
+  body.stop-open .phase-banner { display: none !important; }
   .choice.tut-dim, #start.tut-dim, #stem.tut-dim { opacity: .18; transition: opacity .35s; }   /* #stem: 画面の説明 4/4 (START) で問題文も薄く (2026-09-12) */
   @keyframes tutRcv { 0%,100% { box-shadow: 0 0 0 0 rgba(18,133,90,0); }
     50% { box-shadow: 0 0 0 6px rgba(18,133,90,.35); } }
@@ -385,12 +388,13 @@
   .tut-btnrow.hidden { display: none; }
   .tut-btnrow button { display: flex; align-items: center; justify-content: center; border: 0;
     border-radius: 12px; font: inherit; font-weight: bold; cursor: pointer; }
-  .tut-btnrow .nx { flex: 1; background: var(--go); color: var(--go-ink); font-size: calc(18px * var(--ui-scale)); padding: 14px 18px; box-shadow: 0 6px 16px -8px rgba(20,26,34,.35); }
+  .tut-btnrow .nx { flex: 1; background: var(--go); color: var(--go-ink); font-size: var(--nav-fs); padding: var(--nav-pad); min-height: var(--nav-minh); box-sizing: border-box; box-shadow: 0 6px 16px -8px rgba(20,26,34,.35); }
   .tut-btnrow .rp { flex: 0 0 40%; background: var(--panel); border: 1px solid var(--line); color: var(--ink-2); font-size: calc(12.5px * var(--ui-scale)); font-weight: 600; padding: 11px 8px; }
   .tut-btnrow .rp.hidden { display: none; }
   /* 評定のボタン行: [↻ もう一度 (控えめ)] [次へ/確定 (緑)] を横並び (ドラッグ導入と同じ形) */
   .rat-btnrow { display: flex; align-items: stretch; gap: 8px; align-self: center;
-    width: 100%; max-width: 420px; margin-top: 4px; margin-bottom: auto; }
+    width: min(72%, var(--nav-maxw)); margin-top: 4px; margin-bottom: auto; }   /* 幅・高さ・文字を説明の「次へ」と同じに (2026-09-15) */
+  .rat-btnrow .btn { font-size: var(--nav-fs); padding: var(--nav-pad); min-height: var(--nav-minh); box-sizing: border-box; }
   .rat-btnrow > * { margin-top: 0 !important; margin-bottom: 0 !important; }
   .rat-btnrow #ratingNext, .rat-btnrow #ratingSubmit { flex: 1; min-width: 0 !important; }
   .rat-btnrow #ratingBack { flex: 0 0 34%; min-width: 0 !important; }
@@ -418,7 +422,7 @@
   @media (prefers-reduced-motion: reduce) { .tut-btnrow .nx.cue { animation: none; } }
   .tut-btnrow.pending .nx { opacity: .35; pointer-events: none; }   /* 実演/操作の完了待ち */
   .tut-btnrow .nx.wait { opacity: .55; }   /* 最小読了時間の間 (押せるが進まず、ボックス内に注意。2026-09-12) */
-  .tut-btnrow .nx.warn { opacity: 1; font-size: calc(16px * var(--ui-scale)); animation: btnNudge .5s ease-in-out; }   /* 早押し・説明中に触った: 緑のまま文言を変えて揺らす (赤にしない = エラーに見せない。2026-09-13) */
+  .tut-btnrow .nx.warn { opacity: 1; animation: btnNudge .5s ease-in-out; }   /* 早押し・説明中に触った: 緑のまま文言を変えて揺らす (赤にしない = エラーに見せない。2026-09-13) */
   /* ハンズオン中の合図 (チュートリアル内で実際に運ばせる) */
   #tutHint { position: fixed; z-index: 43; left: 50%; transform: translateX(-50%); white-space: nowrap;
     text-align: center; font-size: calc(15px * var(--ui-scale)); font-weight: 700; color: var(--go); pointer-events: none;
