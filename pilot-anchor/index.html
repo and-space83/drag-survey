@@ -937,8 +937,9 @@
     // 「毎回同じものを選ばない」は要求特性 (変えなければと思わせる) になるので書かず、「前と同じでも違ってもよい・問題ごとに考える」に留める
     // 2026-09-12 後刻: 導入ページを追加して 3 ページに (長い 1 ページ目を分割)。導入 = 2 つの質問・5 段階・正直に・段を使い分ける (ユーザー決定。
     // Claude は「使い分けて」が分散を求める要求特性になりうると懸念したが、固定回答 2 名の実態を優先して採用。文は「同じ段になるとは限らない」に留める)
+    // 2026-09-14: 導入を 3 文に圧縮 (2 つは別々の質問 / 正解はない・感じたまま / 問題ごとに変わる・前回を引きずらず選び直す)。「分析に使うので正直に」は削除 (ユーザー文言)
     { act: "intro", focus: "hesitation", op: '読んだら「次へ」',
-      text: '選んだあとは、毎回<b>2つの質問</b>に答えます。<br><b>迷い</b>と<b>自信</b>を、それぞれ<b>5段階</b>から選びます。迷いと自信は<b>別々の質問</b>です。<br><b>正解はありません。</b>分析に使うので、<b>正直に</b>感じたまま選んでください。<br>迷いや自信は、問題によって変わります。毎回<b>その問題ごと</b>に考え、感じ方が変わったときは、<b>前と同じ段のままにせず</b>、そのときの感じに合う段を選んでください。' },
+      text: '選んだあとは毎回<b>「迷い」</b>と<b>「自信」</b>を<b>5段階</b>で答えます。2つは<b>別々の質問</b>です。<br><b>正解はありません。</b>感じたままを選んでください。<br>感じ方は<b>問題ごと</b>に変わります。<b>前回の選択を引きずらず</b>、そのつど選び直してください。' },
     { act: "hes",  focus: "hesitation", op: 'いちばん近いものを1つ押して、「次へ」',
       text: '1つ目は<b>迷い</b>です。<br><b>答えを決めるまで</b>に、どれくらい迷ったかを選びます。' },
     { act: "conf", focus: "confidence", op: '1つ押して、「次へ」で確定',
@@ -2104,25 +2105,39 @@
   // 評定チュートリアル v3 (2026-09-02): tutBox 挿入方式 → スポットライト方式。実要素(評定行/確定ボタン)を
   // ハイライトし、説明は吹き出し(#ratPop)に。fixed オーバーレイで評定行は不動 (位置ずれなし)。gating
   // (selectRating/submitRating/device.ratingTutorial) は不変。ドラッグ導入と CSS 共用 (.tut-spot/.tut-pop)。§6-6 項14
-  let ratSpot = null, ratPop = null, ratCueTimer = null, ratNudgeEl = null, ratNudgeTimer = null, ratReserveDone = false;
+  let ratSpot = null, ratPop = null, ratCueTimer = null, ratFlashTimer = null, ratReserveDone = false;
   let ratLockUntil = 0;   // 最小読了時間 (2026-09-12): これより早い「次へ」/確定は受け付けず注意
+  // 進むボタン自体に短い注意を出す (ドラッグ導入の btnFlash と同じ: 緑のまま文言を変えて揺らす。2026-09-14: 浮遊する赤い文字 (ratNudge) は廃止)
+  function ratBtnLabel(btn) { return btn.id === "ratingSubmit" && !tutActive() ? "決定して次へ" : "次へ"; }
+  function ratFlashClear() {
+    if (ratFlashTimer) { clearTimeout(ratFlashTimer); ratFlashTimer = null; }
+    for (const id of ["ratingNext", "ratingSubmit"]) { const b = $(id); if (b.classList.contains("warn")) { b.classList.remove("warn"); b.textContent = ratBtnLabel(b); } }
+  }
+  function ratBtnFlash(text, btn) {
+    ratFlashClear();
+    btn = btn || (ratPage === 0 ? $("ratingNext") : $("ratingSubmit"));
+    btn.textContent = text; btn.classList.add("warn");
+    ratFlashTimer = setTimeout(() => { ratFlashTimer = null; btn.classList.remove("warn"); btn.textContent = ratBtnLabel(btn); }, 2500);
+  }
   function ratTooEarly(btn) {
     if (performance.now() >= ratLockUntil) return false;
     device.tutorialLog.push({ kind: "rating", page: tutIdx + 1, event: "early" });
-    ratNudge("読み終えてから押してください", btn);
+    ratBtnFlash("読んでから押してください", btn);
     return true;
   }
-  // 説明ページで評定ボタンを押した人への案内 (無反応にしない)。ボタンを渡すとそのボタンも揺らす
-  function ratNudge(text, btn, below) {   // below=true: ボタンの下に置く (「上の「次へ」で…」)
-    if (!ratNudgeEl) { ratNudgeEl = document.createElement("div"); ratNudgeEl.id = "ratNudge"; ratNudgeEl.className = "rat-nudge hidden"; document.body.appendChild(ratNudgeEl); }
-    ratNudgeEl.textContent = text; ratNudgeEl.classList.remove("hidden");
-    const anchor = btn || $("ratingSubmit"), ar = anchor.getBoundingClientRect();
-    ratNudgeEl.style.top = (below ? Math.min(innerHeight - ratNudgeEl.offsetHeight - 8, ar.bottom + 8)
-                                  : Math.max(8, ar.top - ratNudgeEl.offsetHeight - 10)) + "px";
-    if (btn) { btn.classList.remove("nudge"); void btn.offsetWidth; btn.classList.add("nudge"); }
-    if (ratNudgeTimer) clearTimeout(ratNudgeTimer);
-    ratNudgeTimer = setTimeout(() => { ratNudgeEl.classList.add("hidden"); if (btn) btn.classList.remove("nudge"); }, 2000);
-  }
+  // 説明中に「次へ」以外の場所を押した人への案内 (ドラッグ導入の strayTap と同じ。2026-09-14)。評定ボタン・「戻る」・押せる「次へ」は本来の操作なので除く。
+  // 押せない (未選択の) 「次へ」は pointer-events:none (app.css) にして親で受ける → 「上から1つ選んでください」
+  $("rating").addEventListener("pointerdown", (e) => {
+    if (!tutActive()) return;
+    const t = e.target;
+    if (t.closest(".likert button") || t.closest("#ratingBack")) return;
+    const goBtn = ratPage === 0 ? $("ratingNext") : $("ratingSubmit");
+    if (t.closest("#" + goBtn.id) && !goBtn.disabled) return;   // 押せる「次へ」: click 側 (早押し判定) に任せる
+    const unselected = TUT_PAGES[tutIdx].act !== "intro" && trial.ratings[ITEMS[ratPage].key] == null;
+    device.tutorialLog.push({ kind: "rating", page: tutIdx + 1, event: "stray" });
+    ratBtnFlash(unselected ? "上から1つ選んでください" : "この「次へ」で進みます", goBtn);
+    if (!unselected) goBtn.classList.add("cue");
+  }, { passive: true });
   // 説明BOXの最大高さを測り、評定行をその分だけ下げる (全ページ同じ量 = 行は不動)。チュートリアル開始時に1回
   function ratReserve() {
     if (ratReserveDone) return; ratReserveDone = true;
@@ -2143,7 +2158,7 @@
   function minReadMs(text) {
     if (!MINREAD_ON) return 0;
     const chars = String(text || "").replace(/<[^>]*>/g, "").replace(/\|/g, "").length;
-    return Math.max(1200, Math.min(7000, Math.round((chars / 22) * 1000) + 500));
+    return Math.round(0.8 * Math.max(1200, Math.min(7000, Math.round((chars / 22) * 1000) + 500)));   // 2026-09-14: 実機で長く感じたので 0.8 倍 (実効 27.5 字/秒 + 0.4 s、0.96–5.6 s)
   }
   function readCueDelay(text) {
     const chars = String(text || "").replace(/<[^>]*>/g, "").replace(/\|/g, "").length;
@@ -2194,7 +2209,7 @@
       ratSpot.classList.remove("on", "strong"); ratPop.classList.remove("on");
       ratSpot.classList.add("hidden"); ratPop.classList.add("hidden");
       if (lkC) lkC.classList.remove("tut-cue"); if (lkH) lkH.classList.remove("tut-cue");
-      if (ratNudgeEl) ratNudgeEl.classList.add("hidden");
+      ratFlashClear();
       $("ratReplay").classList.add("hidden");
       $("rating").classList.remove("tut-front", "rat-intro");
       $("ratingNext").classList.remove("cue"); $("ratingSubmit").classList.remove("cue");
@@ -2204,7 +2219,7 @@
     }
     const p = TUT_PAGES[tutIdx];
     ratReserve();
-    if (ratNudgeEl) ratNudgeEl.classList.add("hidden");
+    ratFlashClear();
     $("tutStepLabel").textContent = `振り返りの説明 ${tutIdx + 1} / ${TUT_PAGES.length}`;   // 見出しも段階名で (2026-09-12)
     const rdots = $("ratPopDots"); rdots.innerHTML = "";
     for (let i = 0; i < TUT_PAGES.length; i++) { const d = document.createElement("i"); if (i === tutIdx) d.className = "a"; rdots.appendChild(d); }
@@ -2330,17 +2345,17 @@
       // 二部構成 (2026-09-09): part 'screen' = 画面の説明 (触らない・読むだけ) / part 'hands' = 操作の練習 (実際に指で運ぶ)。見出し・点は部ごと
       // 三部構成 (2026-09-12 夜): 「はじめに」(やることを文字で 1 枚) → 「画面の説明 1–4」(導入・問題文・START・選択肢 = 実際の流れの順) → 「操作の練習 1–3」
       { part: "about",  focus: "orient",   act: "next", sample: true, reveal: 0, op: "読んだら「次へ」", txt: "これから<b>問題文</b>を読んで、<b>2つの選択肢</b>から あなたの考えに近いほうを選んでもらいます。<br>選ぶときは <b>START</b> に指を置き、<b>指を離さずに</b>選択肢のボックスまで運びます。この操作をくり返します。<br>読んだら、画面の下の緑の<b>「次へ」</b>ボタンで進みます。" },
-      { part: "screen", focus: "orient",   act: "next", sample: true, reveal: 0, op: "読んだら「次へ」", txt: "まず<b>画面の説明</b>です。<br>ここでは<b>画面の操作はせず</b>、読むだけです。<br>実際の流れの順に、<b>問題文 → スタートボタン → 選択肢</b> と見ていきます。" },
+      { part: "screen", focus: "orient",   act: "next", sample: true, reveal: 0, op: "読んだら「次へ」", txt: "まず<b>画面の説明</b>です。<br>ここでは<b>画面の操作はせず</b>、読むだけです。<br>実際の流れの順に、<b>問題文 → スタートボタン → 選択肢</b> と説明していきます。" },
       // 2/4: まず問題文の位置に説明だけを置いて読ませ、その後 BOX が下へスライドして問題文が現れる
-      { part: "screen", focus: "stem",     act: "next", sample: true, reveal: 1, revealDelay: 1800, op: "読んだら「次へ」", txt: "まず、画面の<b>上</b>に出る<b>問題文</b>を読みます。" },
-      // 3/4: START。問題文と選択肢 (枠だけ・中身なし) は薄くして START に目を向ける
-      { part: "screen", focus: "start",    act: "next", reveal: 2, blank: true, dimStem: true, dimChoices: true, op: "読んだら「次へ」", txt: "画面の<b>下</b>に <b>START</b> ボタンがあります。<br>問題文を<b>読み終えてから</b>、この START に指を置きます。<br>START から指が出ると、上の 2 つの枠に<b>選択肢</b>が出ます。" },
+      { part: "screen", focus: "stem",     act: "next", sample: true, reveal: 1, revealDelay: 1000, op: "読んだら「次へ」", txt: "まず、画面の<b>上</b>に出る<b>問題文</b>を読みます。" },   // 遅延 1.8 → 1.0 秒 (2026-09-14: 実機で待ちが長い)
+      // 3/4: START。問題文と選択肢 (枠だけ・中身なし) は薄くして START に目を向ける。選択肢が出る話は 4/4 にまとめる (2026-09-14: 重複を解消)
+      { part: "screen", focus: "start",    act: "next", reveal: 2, blank: true, dimStem: true, dimChoices: true, op: "読んだら「次へ」", txt: "画面の<b>下</b>に <b>START</b> ボタンがあります。<br>問題文を<b>読み終えてから</b>、この START に指を置きます。" },
       // 4/4: 選択肢。枠だけ見せて中身は出さない (本番も START から指が出るまで中身は出ない)。問題文と START は薄く。簡潔に (3 秒の予告は操作の練習 3/3 へ。2026-09-13)
-      { part: "screen", focus: "choices2", act: "next", reveal: 2, blank: true, dimStem: true, dimStart: true, op: "読んだら「次へ」", txt: "指が START から出ると、ここに<b>選択肢</b>が出ます。<br>選ぶほうへ、できるだけ<b>指を止めないで考えながら運び</b>、ボックスの中で指を離します。" },
+      { part: "screen", focus: "choices2", act: "next", reveal: 2, blank: true, dimStem: true, dimStart: true, op: "読んだら「次へ」", txt: "指が START から出ると、ここに<b>選択肢の内容</b>が表示されます。<br>選ぶほうへ、できるだけ<b>指を止めないで考えながら運び</b>、ボックスの中で指を離します。" },
       // ---- ここから操作の練習 (触る段階であることを見出しと切り替え画面で明示。2026-09-09 対面 1 日目「説明中に押してしまう」への対応) ----
       { part: "hands",  focus: "orient",   act: "next", sample: true, reveal: 0, op: "読んだら「次へ」", txt: "ここからは、<b>実際に指で操作</b>します。<br>次の画面で START に指を置いて、離さずに運んでみましょう。" },
       // 2/3・3/3 はハンズオン: 実演を見せたあと自分で運んでもらい、成功したら進めるようにする
-      { part: "hands",  focus: "sandbox",  act: "concept", hands: "sandbox", op: "実際に START から運んでみましょう", txt: "START に指を置いて、<b>離さずに</b>運びます。指が START から出ると<b>「選択肢」</b>と表示されます。<b>道すじは自由</b>です。（まっすぐでも、回り道でもかまいません）" },
+      { part: "hands",  focus: "sandbox",  act: "concept", hands: "sandbox", op: "実際に START から運んでみましょう", txt: "START に指を置いて、<b>離さずに</b>運びます。<br>指が START から出ると<b>「選択肢」</b>と表示されます。<b>道すじは自由</b>です。（まっすぐでも、回り道でもかまいません）" },
       // 3/3 (2026-09-12): 「止めないで運ぶ」と 3 秒の予告は実際に運ぶ場面で言う (2026-09-13: 4/4 から移動)。文は 4 行以内 = 説明ボックスが運ぶ先の箱を隠しすぎない
       { part: "hands",  focus: "action",   act: "real", hands: "real", labels: true, op: "実際に START から運んでみましょう", txt: "<b>2つの選択肢</b>のどちらかへ運びます。指が START から出ると<b>選択肢の内容</b>が出ます。<br>できるだけ<b>指を止めないで考えながら運び</b>、ボックスの中で離します。<br>（3秒以上指が止まると、注意が出ます）" },
     ];
