@@ -2107,22 +2107,25 @@
   // (selectRating/submitRating/device.ratingTutorial) は不変。ドラッグ導入と CSS 共用 (.tut-spot/.tut-pop)。§6-6 項14
   let ratSpot = null, ratPop = null, ratCueTimer = null, ratFlashTimer = null, ratReserveDone = false;
   let ratLockUntil = 0;   // 最小読了時間 (2026-09-12): これより早い「次へ」/確定は受け付けず注意
+  const FLASH_MS = 1200;  // ボタンの注意の表示時間 (2026-09-14: 2.5 → 1.2 秒。表示中の連打では延長せず、ロックが切れる瞬間には必ず「次へ」に戻す)
   // 進むボタン自体に短い注意を出す (ドラッグ導入の btnFlash と同じ: 緑のまま文言を変えて揺らす。2026-09-14: 浮遊する赤い文字 (ratNudge) は廃止)
   function ratBtnLabel(btn) { return btn.id === "ratingSubmit" && !tutActive() ? "決定して次へ" : "次へ"; }
   function ratFlashClear() {
     if (ratFlashTimer) { clearTimeout(ratFlashTimer); ratFlashTimer = null; }
     for (const id of ["ratingNext", "ratingSubmit"]) { const b = $(id); if (b.classList.contains("warn")) { b.classList.remove("warn"); b.textContent = ratBtnLabel(b); } }
   }
-  function ratBtnFlash(text, btn) {
-    ratFlashClear();
+  function ratBtnFlash(text, btn, maxUntil) {   // maxUntil: これより後には残さない (早押しの注意はロックが切れたら消す)
     btn = btn || (ratPage === 0 ? $("ratingNext") : $("ratingSubmit"));
+    if (ratFlashTimer && btn.classList.contains("warn") && btn.textContent === text) return;   // 表示中の連打では延長しない
+    ratFlashClear();
+    const now = performance.now(); let end = now + FLASH_MS; if (maxUntil) end = Math.min(end, maxUntil);
     btn.textContent = text; btn.classList.add("warn");
-    ratFlashTimer = setTimeout(() => { ratFlashTimer = null; btn.classList.remove("warn"); btn.textContent = ratBtnLabel(btn); }, 2500);
+    ratFlashTimer = setTimeout(() => { ratFlashTimer = null; btn.classList.remove("warn"); btn.textContent = ratBtnLabel(btn); }, Math.max(150, end - now));
   }
   function ratTooEarly(btn) {
     if (performance.now() >= ratLockUntil) return false;
     device.tutorialLog.push({ kind: "rating", page: tutIdx + 1, event: "early" });
-    ratBtnFlash("読んでから押してください", btn);
+    ratBtnFlash("読んでから押してください", btn, ratLockUntil);
     return true;
   }
   // 説明中に「次へ」以外の場所を押した人への案内 (ドラッグ導入の strayTap と同じ。2026-09-14)。評定ボタン・「戻る」・押せる「次へ」は本来の操作なので除く。
@@ -2668,10 +2671,13 @@
       return Math.abs(lx - T.x) <= T.bw / 2 && Math.abs(ly - T.y) <= T.bh / 2;
     }
     let flashTimer = null;
-    function btnFlash(text) {   // 「次へ」ボタン自体に短い注意を出す (押した場所・見ている場所に出る = 気づく。2026-09-12 後刻)
-      const b = $("tutPopNext"); if (flashTimer) clearTimeout(flashTimer);
+    function btnFlash(text, maxUntil) {   // 「次へ」ボタン自体に短い注意を出す (押した場所・見ている場所に出る = 気づく。2026-09-12 後刻)。maxUntil: ロックが切れたら消す
+      const b = $("tutPopNext"), now = performance.now();
+      if (flashTimer && b.textContent === text) return;   // 表示中の連打では延長しない (2026-09-14)
+      if (flashTimer) clearTimeout(flashTimer);
+      let end = now + FLASH_MS; if (maxUntil) end = Math.min(end, maxUntil);
       b.textContent = text; b.classList.add("warn");
-      flashTimer = setTimeout(() => { b.textContent = "次へ"; b.classList.remove("warn"); flashTimer = null; }, 2500);
+      flashTimer = setTimeout(() => { b.textContent = "次へ"; b.classList.remove("warn"); flashTimer = null; }, Math.max(150, end - now));
     }
     function strayTap() {   // 説明ページ中に START や選択肢を押した人への案内 (2026-09-08: 対面で「触っても進まない」が多発)。注意はボタン自体に (2026-09-12 夜: ボックス内の赤い行は廃止、緑の操作行はそのまま)
       btnFlash("この「次へ」で進みます");
@@ -2712,7 +2718,7 @@
       if (idx < 0) return;   // idx<0 = 終了後 (迷いクリックの保険)
       if (performance.now() < lockUntil) {   // 読み終わる前の「次へ」: 進めずに注意 (tutorialLog に event:'early')
         device.tutorialLog.push({ kind: "drag", step: idx + 1, event: "early" });
-        btnFlash("読んでから押してください"); return;
+        btnFlash("読んでから押してください", lockUntil); return;
       }
       if (idx < STEPS.length - 1) { idx++; render(); } else finish();
     }
