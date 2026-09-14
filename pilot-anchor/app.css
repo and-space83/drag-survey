@@ -89,7 +89,7 @@
      (2026-07-22 実機フィードバック: 位置とサイズで「押せば進む」を分かりやすく) */
   /* 進行ボタンの共通寸法 (2026-09-15): はじめに/画面の説明/操作の練習の「次へ」・振り返りと本番の評定の「次へ」「決定して次へ」・
      ウェルカム等の進行ボタンをすべて同じ大きさに。:root で解決するので #rating の局所倍率 (低い画面で縮める) の影響を受けない */
-  :root { --nav-fs: calc(18px * var(--ui-scale)); --nav-pad: 13px 18px; --nav-minh: calc(52px * var(--ui-scale)); --nav-maxw: calc(420px * var(--ui-scale)); }
+  :root { --hint-fs: calc(15px * var(--ui-scale)); --nav-fs: calc(18px * var(--ui-scale)); --nav-pad: 13px 18px; --nav-minh: calc(52px * var(--ui-scale)); --nav-maxw: calc(420px * var(--ui-scale)); }
   .btn.advance { display: flex; align-items: center; justify-content: center; box-sizing: border-box;
     margin: 22px auto 0; width: min(72%, var(--nav-maxw)); min-width: 0; max-width: none; padding: var(--nav-pad); min-height: var(--nav-minh); font-size: var(--nav-fs); }
   .btn.primary { background: var(--go); color: var(--go-ink); border-color: var(--go); }
@@ -172,6 +172,8 @@
   /* ドラッグ開始 (initiation) でフェードアウト: 教示は START 押下中に読み、動き出したら経路帯を空ける
      (パネルが軌跡描画を覆う・「読みながら減速する」癖の形成を避ける。レビューWF指摘 2026-07-07) */
   #coach.dim { opacity: 0; }
+  /* ng = 操作の練習の合図 (#tutHint.ng) と同じ見た目: 赤・箱なし・同じ文字サイズ (課題画面は倍率を掛けないので :root の変数で揃える。2026-09-15) */
+  #coach.ng { background: transparent; border: none; padding: 0; color: var(--err); font-size: var(--hint-fs); font-weight: 700; line-height: 1.5; white-space: nowrap; }
   #coach b { color: var(--warn); }
   #coach .sub { display: block; font-size: 4.1vmin; color: var(--ink-2); font-weight: 600; margin-top: 8px; }
   #coach .feedback { font-size: 5.6vmin; }
@@ -426,7 +428,7 @@
   .tut-btnrow .nx.warn { opacity: 1; animation: btnNudge .5s ease-in-out; }   /* 早押し・説明中に触った: 緑のまま文言を変えて揺らす (赤にしない = エラーに見せない。2026-09-13) */
   /* ハンズオン中の合図 (チュートリアル内で実際に運ばせる) */
   #tutHint { position: fixed; z-index: 43; left: 50%; transform: translateX(-50%); white-space: nowrap;
-    text-align: center; font-size: calc(15px * var(--ui-scale)); font-weight: 700; color: var(--go); pointer-events: none;
+    text-align: center; font-size: var(--hint-fs); font-weight: 700; color: var(--go); pointer-events: none;
     background: rgba(255,255,255,.95); border: 1px solid var(--go); border-radius: 10px; padding: 9px 16px; }
   #tutHint.hidden { display: none; }
   #tutHint.ng { color: var(--err); border: none; background: transparent; }   /* やり直し系は箱なし・赤 (評定の誘導と同じ言語) */

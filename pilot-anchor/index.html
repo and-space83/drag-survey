@@ -1483,8 +1483,8 @@
     choiceA.style.visibility = boxVis;
     choiceB.style.visibility = boxVis;
   }
-  function coachMsg(html, pos, kind) {   // pos: 'top' (押下前・エラー) | 'mid' (ドラッグ中・フィードバック) | 'gap' (選択肢とスタートの間)。kind='start' =スタート案内 (押下で消す)
-    coachEl.className = pos === "mid" ? "pos-mid" : (pos === "gap" ? "pos-gap" : "pos-top");
+  function coachMsg(html, pos, kind, ng) {   // pos: 'top' (押下前・エラー) | 'mid' (ドラッグ中・フィードバック) | 'gap' (選択肢とスタートの間)。kind='start' =スタート案内 (押下で消す)
+    coachEl.className = (pos === "mid" ? "pos-mid" : (pos === "gap" ? "pos-gap" : "pos-top")) + (ng ? " ng" : "");   // ng = 操作の練習の合図と同じ見た目 (赤・箱なし。2026-09-15)
     coachEl.dataset.kind = kind || "";
     coachEl.innerHTML = html;
     coachEl.style.top = "";
@@ -1730,7 +1730,7 @@
     stemShownT = performance.now();
     startBtn.classList.remove("armed");
     startBtn.textContent = "スタート";
-    $("phaseLabel").textContent = cell.isTutorial ? "おためし" : (phase === "practice" ? "練習" : (phase === "instructed" ? "追加" : "本番"));   // おためし = 例の 1 問 (2026-09-12。旧「チュートリアル」)
+    $("phaseLabel").textContent = cell.isTutorial ? "" : (phase === "practice" ? "練習" : (phase === "instructed" ? "追加" : "本番"));   // 例の 1 問は段階名なし (2026-09-15 ユーザー指示。旧「おためし」)   // おためし = 例の 1 問 (2026-09-12。旧「チュートリアル」)
     // 練習中のみ「↻ 説明」= 分からなくなったらチュートリアルを見直せる (本番では出さない)
     $("tutAgain").classList.toggle("hidden", !(phase === "practice" && dragTutState.done && DRAG_TUT_ON));
     $("counter").textContent = counterText();
@@ -1760,7 +1760,7 @@
     if (tutCoachTimer) { clearTimeout(tutCoachTimer); tutCoachTimer = null; }   // 押したら帯後の案内は出さない
     if (!inRect(rectOf(startBtn), e.clientX, e.clientY)) {
       //スタート以外を押した: 練習・本番とも同じ案内を同じ場所 (選択肢とスタートの間) に (2026-09-15: 旧・本番はスタート上の小さな taskMsg で iPad では読めなかった)
-      coachMsg(nb('まずは下の<b>スタート</b>を|指で押さえます') + '<span class="sub">' + nb('指をつけたまま動かして|選ぶ課題です') + '</span>', "gap", "start");
+      coachMsg("スタートに指を置いて<br>そのまま離さずに運びます", "gap", "start", true);   // 操作の練習 2/3・3/3 の合図と同じ文言・赤・箱なし (2026-09-15)
       return;
     }
     e.preventDefault();
@@ -1875,8 +1875,8 @@
       streak = 0;
       $("counter").textContent = counterText();
       // 誤操作のリカバリは説明なし方針でも残す (詰まりの解消)。チュートリアル後は短い注意のみ
-      if (dragTutState.done) {   // チュートリアル後: 選択肢の枠は消さない (消えるとバグに見える)。案内は選択肢とスタートの間
-        coachMsg(nb(msg || "やり直し") + '<span class="sub">スタートからもう一度</span>', "gap");
+      if (dragTutState.done) {   // チュートリアル後: 選択肢の枠は消さない (消えるとバグに見える)。案内は選択肢とスタートの間 (操作の練習の失敗時と同じ見た目。2026-09-15)
+        coachMsg((msg || "やり直し").replace(/\|/g, "") + "<br>スタートからもう一度", "gap", null, true);
         setCoach(null);
       } else {
         coachMsg(coachHtml || ((msg || "やり直し") + '<span class="sub">スタートからもう一度</span>'), "top");
@@ -1884,7 +1884,7 @@
       }
       // 問題文は出したまま (動的スタート: 場面文は最初から見えている。再読は不要)
     } else {
-      coachMsg(nb(msg || "やり直し") + '<span class="sub">スタートからもう一度</span>', "gap");   // 本番も練習と同じ場所・大きさ・文言 (2026-09-15。旧:スタート上の taskMsg)
+      coachMsg((msg || "やり直し").replace(/\|/g, "") + "<br>スタートからもう一度", "gap", null, true);   // 本番も操作の練習の失敗時と同じ文言・赤・箱なし (2026-09-15。旧:スタート上の taskMsg)
       setCoach(null);
     }
     // 同一刺激を再呈示 (デザインのバランス維持)。少し待って再表示
