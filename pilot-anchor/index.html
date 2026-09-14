@@ -2079,6 +2079,7 @@
     ratPage = p; ratPageAt = performance.now();
     for (let i = 0; i < ITEMS.length; i++) { const el = $("qitem-" + ITEMS[i].key); if (el) el.hidden = i !== p; }
     $("ratingBack").style.display = p === 1 ? "" : "none";
+    $("ratBtnRow").classList.toggle("with-back", p === 1);   // 戻るがある行は広げる (2026-09-15)
     $("ratingNext").style.display = p === 0 ? "" : "none";
     $("ratingSubmit").style.display = p === 1 ? "" : "none";
     $("ratingNext").disabled = trial.ratings[ITEMS[0].key] == null;

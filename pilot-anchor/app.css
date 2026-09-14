@@ -397,7 +397,8 @@
   .rat-btnrow .btn { font-size: var(--nav-fs); padding: var(--nav-pad); min-height: var(--nav-minh); box-sizing: border-box; }
   .rat-btnrow > * { margin-top: 0 !important; margin-bottom: 0 !important; }
   .rat-btnrow #ratingNext, .rat-btnrow #ratingSubmit { flex: 1; min-width: 0 !important; }
-  .rat-btnrow #ratingBack { flex: 0 0 34%; min-width: 0 !important; }
+  .rat-btnrow #ratingBack { flex: 0 0 auto; min-width: 0 !important; white-space: nowrap; padding-left: 14px; padding-right: 14px; }
+  .rat-btnrow.with-back { width: min(100%, calc(var(--nav-maxw) + 100px)); }   /* 「戻る」がある画面は行を広げ、「次へ」の幅を他の画面と同じ程度に保つ (2026-09-15) */
   .rat-replay { flex: 0 0 40%; background: transparent;
     border: 1px solid var(--line); color: var(--ink-2); font: inherit; font-size: calc(12.5px * var(--ui-scale)); font-weight: 600;
     padding: 9px 8px; border-radius: 8px; cursor: pointer; }
