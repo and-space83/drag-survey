@@ -238,6 +238,8 @@
 <section id="task" class="screen">
   <div id="topbar"><span id="phaseLabel">練習</span><span id="counter">0 / 0</span><span id="calDb" style="display:none"></span><span id="hud" style="display:none"></span>
     <button type="button" id="tutAgain" class="hidden">↻ 説明</button></div>
+  <!-- 本番の進捗バー (2026-09-15): 「本番 n / N」の下。済んだ分を「次へ」と同じ緑で。練習・例の 1 問では出さない -->
+  <div id="progress"><div id="progressFill"></div></div>
   <div id="surface">
     <canvas id="trace"></canvas>
     <div id="stem"></div>
@@ -1484,7 +1486,7 @@
     choiceB.style.visibility = boxVis;
   }
   function coachMsg(html, pos, kind, ng) {   // pos: 'top' (押下前・エラー) | 'mid' (ドラッグ中・フィードバック) | 'gap' (選択肢とスタートの間)。kind='start' =スタート案内 (押下で消す)
-    coachEl.className = (pos === "mid" ? "pos-mid" : (pos === "gap" ? "pos-gap" : "pos-top")) + (ng ? " ng" : "");   // ng = 操作の練習の合図と同じ見た目 (赤・箱なし。2026-09-15)
+    coachEl.className = (pos === "mid" ? "pos-mid" : (pos === "gap" ? "pos-gap" : "pos-top")) + (ng ? " " + (ng === true ? "ng" : ng) : "");   // "ng"=赤・箱なし / "ok"=緑・箱あり (操作の練習の合図と同じ)   // ng = 操作の練習の合図と同じ見た目 (赤・箱なし。2026-09-15)
     coachEl.dataset.kind = kind || "";
     coachEl.innerHTML = html;
     coachEl.style.top = "";
@@ -1501,7 +1503,7 @@
     clearIdleCoach();
     if (!(phase === "practice" && dragTutState.done)) return;
     // 動的スタートでは場面文を読んでから押すので、無操作の猶予を 8 秒に (旧 4 秒)。位置は問題文に被らない gap (2026-09-09)
-    idleTimer = setTimeout(() => { if (!recording && !uiLocked && phase === "practice") { coachMsg(nb('読み終えたら、|下の<b>スタート</b>を|指で<b>押さえます</b>'), "gap", "start"); } }, 8000);
+    idleTimer = setTimeout(() => { if (!recording && !uiLocked && phase === "practice") { coachMsg("問題文を読み終えたら<br>スタートに指を置いて<br>そのまま離さずに運びます", "gap", "start", "ok"); } }, 8000);   // 例の 1 問と同じ文言・見た目 (2026-09-15)
   }
   function clearIdleCoach() { if (idleTimer) { clearTimeout(idleTimer); idleTimer = null; } }
 
@@ -1699,7 +1701,7 @@
         tutCoachTimer = setTimeout(() => {
           tutCoachTimer = null;
           if (cell !== myCell || phase !== "practice" || recording || uiLocked || trial) return;   // もう押している/進んだなら出さない
-          coachMsg(nb('まずは下の<b>スタート</b>を|指で<b>押さえます</b>') + '<span class="sub">' + nb('実演ではなく、|自分で操作します') + '</span>', "gap", "start");   // 問題文は最初から出ているので上部には置かない (2026-09-09)
+          coachMsg("問題文を読み終えたら<br>スタートに指を置いて<br>そのまま離さずに運びます", "gap", "start", "ok");   // 操作の練習の合図と同じ見た目 (緑・箱あり)。2026-09-15: 旧「まずは下のスタートを…実演ではなく自分で操作します」   // 問題文は最初から出ているので上部には置かない (2026-09-09)
         }, 500);
       });
       pendingBanner = `ここから練習です（${CONFIG.practiceTrials}問）`;
@@ -1733,7 +1735,7 @@
     $("phaseLabel").textContent = cell.isTutorial ? "" : (phase === "practice" ? "練習" : (phase === "instructed" ? "追加" : "本番"));   // 例の 1 問は段階名なし (2026-09-15 ユーザー指示。旧「おためし」)   // おためし = 例の 1 問 (2026-09-12。旧「チュートリアル」)
     // 練習中のみ「↻ 説明」= 分からなくなったらチュートリアルを見直せる (本番では出さない)
     $("tutAgain").classList.toggle("hidden", !(phase === "practice" && dragTutState.done && DRAG_TUT_ON));
-    $("counter").textContent = counterText();
+    $("counter").textContent = counterText(); updateProgress();
     recording = false;
     uiLocked = false;
     activePointerId = null;
@@ -1986,6 +1988,12 @@
   function practiceCounter() {
     const total = Math.max(CONFIG.practiceTrials, queue.length + 1);
     return `${total - queue.length} / ${total}`;
+  }
+  function updateProgress() {   // 本番 (と末尾の追加 8 問) の進捗バー: 済んだ試行の割合 (2026-09-15)
+    const on = !(cell && cell.isTutorial) && (phase === "main" || phase === "instructed");
+    $("progress").classList.toggle("on", on);
+    if (on) { const done = phase === "main" ? trialIndex : instrIndex, total = phase === "main" ? totalMain : INSTR_N;
+      $("progressFill").style.width = (total > 0 ? Math.max(0, Math.min(100, done / total * 100)) : 0) + "%"; }
   }
   function counterText() {   // チュートリアル試行は番号なし / 練習=n / 5 / 本番=n / N
     if (cell && cell.isTutorial) return "";
@@ -2361,13 +2369,13 @@
       // 3/4:スタート。問題文と選択肢 (枠だけ・中身なし) は薄くしてスタートに目を向ける。選択肢が出る話は 4/4 にまとめる (2026-09-14: 重複を解消)
       { part: "screen", focus: "start",    act: "next", reveal: 2, blank: true, dimStem: true, dimChoices: true, op: "読んだら「次へ」", txt: "画面の<b>下</b>に<b>スタート</b>ボタンがあります。<br>問題文を<b>読み終えてから</b>、このスタートに指を置きます。" },
       // 4/4: 選択肢。枠だけ見せて中身は出さない (本番もスタートから指が出るまで中身は出ない)。問題文とスタートは薄く。簡潔に (3 秒の予告は操作の練習 3/3 へ。2026-09-13)
-      { part: "screen", focus: "choices2", act: "next", reveal: 2, blank: true, dimStem: true, dimStart: true, op: "読んだら「次へ」", txt: "指がスタートから出ると、ここに<b>選択肢の内容</b>が表示されます。<br>選ぶほうへ、できるだけ<b>指を止めないで考えながら運び</b>、ボックスの中で指を離します。" },
+      { part: "screen", focus: "choices2", act: "next", reveal: 2, blank: true, dimStem: true, dimStart: true, op: "読んだら「次へ」", txt: "指がスタートボタンから出ると、ここに<b>選択肢の内容</b>が表示されます。<br>選ぶほうへ、できるだけ<b>指を止めないで考えながら運び</b>、ボックスの中で指を離します。" },
       // ---- ここから操作の練習 (触る段階であることを見出しと切り替え画面で明示。2026-09-09 対面 1 日目「説明中に押してしまう」への対応) ----
       { part: "hands",  focus: "orient",   act: "next", sample: true, reveal: 0, op: "読んだら「次へ」", txt: "ここからは、<b>実際に指で操作</b>します。<br>次の画面でスタートに指を置いて、離さずに運んでみましょう。" },
       // 2/3・3/3 はハンズオン: 実演を見せたあと自分で運んでもらい、成功したら進めるようにする
-      { part: "hands",  focus: "sandbox",  act: "concept", hands: "sandbox", op: "実際にスタートから運んでみましょう", txt: "スタートに指を置いて、<b>離さずに</b>運びます。<br>指がスタートから出ると<b>「選択肢」</b>と表示されます。<b>道すじは自由</b>です。（まっすぐでも、回り道でもかまいません）" },
+      { part: "hands",  focus: "sandbox",  act: "concept", hands: "sandbox", op: "実際にスタートから運んでみましょう", txt: "スタートに指を置いて、<b>離さずに</b>運びます。<br>指がスタートボタンから出ると<b>「選択肢」</b>と表示されます。<b>道すじは自由</b>です。（まっすぐでも、回り道でもかまいません）" },
       // 3/3 (2026-09-12): 「止めないで運ぶ」と 3 秒の予告は実際に運ぶ場面で言う (2026-09-13: 4/4 から移動)。文は 4 行以内 = 説明ボックスが運ぶ先の箱を隠しすぎない
-      { part: "hands",  focus: "action",   act: "real", hands: "real", labels: true, op: "実際にスタートから運んでみましょう", txt: "<b>2つの選択肢</b>のどちらかへ運びます。指がスタートから出ると<b>選択肢の内容</b>が出ます。<br>できるだけ<b>指を止めないで考えながら運び</b>、ボックスの中で離します。<br>（3秒以上指が止まると、注意が出ます）" },
+      { part: "hands",  focus: "action",   act: "real", hands: "real", labels: true, op: "実際にスタートから運んでみましょう", txt: "<b>2つの選択肢</b>のどちらかへ運びます。指がスタートボタンから出ると<b>選択肢の内容</b>が出ます。<br>できるだけ<b>指を止めないで考えながら運び</b>、ボックスの中で離します。<br>（3秒以上指が止まると、注意が出ます）" },
     ];
     function build() {
       if (built) return;
