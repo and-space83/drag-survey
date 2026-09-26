@@ -3822,15 +3822,16 @@
       post: () => { phase = "main"; showPostQuestions(); },   // 最後のアンケート (完了で完了画面へ)
       done: () => { phase = "main"; finishSession(); },       // 完了画面 (完了コード・保存ボタン)
       break: () => { dragTutState.done = true; ratingTutorialDone = true; phase = "main";
-        queue = BLOCK.buildMain(); totalMain = queue.length; trialIndex = CONFIG.breakEvery || 16; cell = queue.shift(); sizeCanvas(); showBreak(); },
+        queue = ATTN_ON ? insertDqs(BLOCK.buildMain()) : BLOCK.buildMain(); totalMain = queue.length; trialIndex = CONFIG.breakEvery || 20; cell = queue.shift(); sizeCanvas(); showBreak(); },   // 本番と同じ 53 問 (DQS 込み。2026-09-27)
       micgate: () => showMicGate("precheck"),           // 環境音チェック (マイクは実物)
       notice: () => { dragTutState.done = true; ratingTutorialDone = true; phase = "main";   // 案内画面 (遅い初動)。「次へ」で本番の課題画面へ (2026-09-26)
-        queue = BLOCK.buildMain(); totalMain = queue.length; trialIndex = 3; cell = queue.shift(); sizeCanvas(); showStopNotice("late"); },
+        queue = ATTN_ON ? insertDqs(BLOCK.buildMain()) : BLOCK.buildMain(); totalMain = queue.length; trialIndex = 3; cell = queue.shift(); sizeCanvas(); showStopNotice("late"); },
+      sending: () => { phase = "main"; finishSession(); sendUiStart(1); $("sendFill").style.width = "45%"; },   // 送信中の画面 (見た目の確認用。送信はしない)
     };
     if (BLOCK.stimulusType !== "text-choice" && GO !== "micgate" && GO !== "done") {
       badge.textContent += " (block=moral/value で使う)";
     } else if (jump[GO]) jump[GO]();
-    else badge.textContent += " (不明。tut / rtut / rating / post / done / break / micgate / notice)";
+    else badge.textContent += " (不明。tut / rtut / rating / post / done / break / micgate / notice / sending)";
   }
 
   // 本番中のうっかり更新・離脱への確認ダイアログ (PC ブラウザ向け。iOS Safari は表示しないが害はない。§6-6 項17)。
