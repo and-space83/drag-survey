@@ -332,7 +332,7 @@
 <section id="reading" class="screen">
   <div class="pad">
     <h1>文章を読む速さの確認</h1>
-    <p id="readIntro">まず、文章を読む速さを確認します（短い文章を4本）。<br>表示された文章を<b>ふだんどおりの速さ</b>で読み、読み終えたら<b>すぐ</b>下のボタンを押してください。<br><b>読むだけで、選びません。</b>内容についての質問はありません。覚える必要もありません。</p>
+    <p id="readIntro">まず、文章を読む速さを確認します（短い文章を4本）。<br>表示された文章を<b>ふだんどおりの速さ</b>で読み、読み終えたら<b>すぐ</b>下のボタンを押してください。<br><b>読むだけで、選びません。</b>このあとの問題文と同じような文です。内容についての質問はありません。覚える必要もありません。</p>
     <p class="opt-note" id="readCounter"></p>
     <div class="rtext" id="readText" style="display:none"></div>
     <div class="vgap"></div>
@@ -352,12 +352,13 @@
 <!-- ===== POST (事後質問: 直前の操作を回顧で。事前に聞くと操作を意識させ自然な使い方が崩れるため) ===== -->
 <section id="postq" class="screen">
   <div class="pad">
-    <h1>最後の質問です</h1>
+    <h1>実施後のアンケート</h1>
     <!-- 1 項目 1 画面 (2026-09-26): 課題と同じくスクロールせず「戻る / 次へ」で進む。ページ = 持ち方 → 拡充分 19 項目 → 使いにくかった点 → 操作のしやすさ -->
     <p class="opt-note" id="postStep"></p>
     <!-- 対面 (中断ボタンあり): 「ここで終了する」まで押してしまったときの取り消し (課題に戻る)。時間上限で終わった場合は出さない (2026-09-07) -->
     <button class="btn ghost" id="postBack" style="display:none;margin:0 0 12px">← 課題に戻る（終了を取り消す）</button>
     <div class="postpage" data-page="grip">
+    <p>最後に、<b>2分ほど</b>で終わるアンケートにお答えください。</p>
     <p>さきほどの課題では、スマートフォンをどのように持って操作していましたか？<br>最も近いものを 1 つお選びください。</p>
     <div class="field">
       <div class="seg seg-v" id="gripSeg">
@@ -423,7 +424,14 @@
 <!-- ===== DONE ===== -->
 <section id="done" class="screen">
   <div class="pad">
-    <h1>完了しました</h1>
+    <h1 id="doneTitle">完了しました</h1>
+    <!-- 送信中の案内 (2026-09-27): 参加者に操作させず、進み具合と「閉じない・更新しない」を見せる。完了コードは送信の結果が出てから出す -->
+    <div id="sendBox" style="display:none">
+      <div class="spin" aria-hidden="true"></div>
+      <p id="sendMsg">データを送信しています。しばらくお待ちください。</p>
+      <div class="sendbar"><div id="sendFill"></div></div>
+      <p class="opt-note">送信中は、画面を閉じたり更新（再読み込み）したりしないでください。</p>
+    </div>
     <p id="doneMsg">ご協力ありがとうございました。</p>
     <!-- 完了コード (§6-6 項12): 1人1コードをデータにも記録し「申請コード↔実データ」を機械照合。?ccode=0 で非表示 -->
     <div id="ccodeBox" style="display:none">
@@ -663,7 +671,7 @@
         '<h1>価値・選好の2択課題 (パイロット)</h1>' +
         '<p>スタートボタンに指を置くと、上に2つの選択肢が出ます。<b>指を離さずに、あなたが選ぶ方のボックスへドラッグ</b>して、そこで指を離してください。</p>' +
         '<ul><li><b>正解・不正解はありません。</b>あなたの素直な選び方で構いません。</li>' +
-        '<li>選んだあとに、「自信」と「迷い」の2つを5段階でふりかえります。答え方は練習で説明します。</li>' +
+        '<li>選んだあとに、「迷い」と「自信」の2つを5段階でふりかえります。答え方は練習で説明します。</li>' +
         '<li>できるだけ自然に操作してください。</li>' +
         '<li>急ぐ必要はありません。自分のペースで進められます。</li>' +
         '<li>操作のやり方は、最初の<b>練習</b>で画面の案内にそって覚えられます。</li></ul>',
@@ -754,7 +762,8 @@
     // ③ 道徳ジレンマ: 文字2択 (Stage 2。評定ON。experiment-design §6-5。②と同型・text-choice エンジン流用)
     moral: {
       id: "moral", stimulusType: "text-choice", title: "道徳的な判断の2択課題",
-      ratings: true, breakEvery: 16,   // 49問の負担対策: 16問ごとに休憩 (2026-08-23 確定・滞在時間を device.breaks に記録)。§6-5
+      ratings: true, practiceRefill: false,   // 練習は 5 問で打ち切り、ゲート未達でも本番へ (未達は practiceSummary.gateCorrect=false に残る。2026-09-27)
+      breakEvery: 20,   // 53問 (49+DQS4) の負担対策: 20問ごとに休憩 = 20・40 の 2 回 (2026-09-27。旧 16)。滞在時間を device.breaks に記録。§6-5
       repsPerCell: 1,        // 49項目 (7類型×[明確1・中間2・拮抗4]) × reps。既定1 = 本番49試行 (各項目1回・水準内で左右CB)。§6-5 確定表
       practiceTrials: 5,     // 練習5問 (2026-09-04: チュートリアル後に説明なしで自由に試す。§6-2)
       practiceFeedback: "neutral",  // 主観判断なので正誤フィードバックはしない
@@ -907,12 +916,12 @@
   const EARLY_CPS = 25;
   const READGATE_ON = QS.get("readgate") !== "0";   // 練習の読了ゲート (2026-09-13)。validate/開発用に無効化可
   const EARLY_NOTICE_TEXT = "前の問題では、問題文を読み終える前に指が動き出しました。問題文を読み終えてからスタートに指を置き、選択肢を見てから運んでください。";
-  const LATE_NOTICE_TEXT = "前の問題では、選択肢が出てから指が動き出すまでに3秒以上かかりました。問題文を読み終えてからスタートに指を置き、選択肢を見たら動かし始めてください。";
+  const LATE_NOTICE_TEXT = "前の問題では、選択肢が出てから3秒以上、指がスタートの上で止まっていました。迷っている間も、ゆっくりでよいので指を動かしながら考えてください。";
   const STOP_NOTICE_TEXT = LATE_NOTICE_TEXT;   // 旧名 (validate.js の互換用)
   const NOTICE_TEXTS = { early: EARLY_NOTICE_TEXT, late: LATE_NOTICE_TEXT };
   // 表示用 (伝えたい行動を太字に。textContent は上の平文と一致)
   const NOTICE_HTML = { early: "前の問題では、問題文を読み終える前に指が動き出しました。<br><b>問題文を読み終えてからスタートに指を置き、選択肢を見てから運んでください。</b>",
-                        late: "前の問題では、選択肢が出てから指が動き出すまでに3秒以上かかりました。<br><b>問題文を読み終えてからスタートに指を置き、選択肢を見たら動かし始めてください。</b>" };
+                        late: "前の問題では、選択肢が出てから3秒以上、指がスタートの上で止まっていました。<br><b>迷っている間も、ゆっくりでよいので指を動かしながら考えてください。</b>" };
   let pendingNotice = null, stopNoticeShown = false, stemShownT = 0;
   let seqIndex = 0;
   let pendingMainStart = false;   // 練習クリア画面 (blockintro 流用) から「続ける」で本番へ (2026-07-15 自己ペース化)
@@ -1072,6 +1081,7 @@
     stopNotices: [],          // 停止の案内画面の表示記録 {afterTrial, kind, ms} (§6-6 項19)
     stopNoticesSuppressed: 0, // 上限 (種類ごと 3 回) で出さなかった案内の数 (2026-09-12 夜)
     pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
+    appVersion: "2026-09-27",   // アプリの版 (文言・UI の改善履歴を解析で追えるように。設計・記録に触れない改修でも上げる。2026-09-27)
     devGuard: null,           // 機種ガード {on, minH, w, h, shown} (2026-09-26。本実験はフルスクリーン iPhone 限定)
     exportedAt: null,
   };
@@ -1543,11 +1553,15 @@
   }
   function insertDqs(q) {   // 本番キューの 1/5・2/5・3/5・4/5 に弱DQS 4 問を挿入 (指示側は左右 2:2 をシャッフル)。DQS直後を post_check に
     // 2026-09-26: 2 問 (1/3・2/3) → 4 問。自然発生の不注意者の人単位ラベルを 4 項目で作るため (decisions-log 同日)。
-    // 挿入後の総数 N = n+4 の k/5 の位置 (49 問なら N=53 → 10・21・31・42 問目)。休憩 (16・32 問目の後) の直後には当たらない
+    // 挿入後の総数 N = n+4 の k/5 の位置 (49 問なら N=53 → 10・21・31・42 問目)。休憩 20 問ごとの直後 (21) は 23 へずらす → 10・23・31・42
     const n = q.length;
     if (n < 5) return q;
     const cs = shuffle([makeDqsCell("left"), makeDqsCell("left"), makeDqsCell("right"), makeDqsCell("right")]);
-    for (let k = 1; k <= 4; k++) q.splice(Math.floor((n + 4) * k / 5) - 1, 0, cs[k - 1]);   // 前から挿入 (各位置は前の挿入より後ろなのでずれない)
+    for (let k = 1; k <= 4; k++) {
+      let pos = Math.floor((n + 4) * k / 5) - 1;   // 0-based
+      if (CONFIG.breakEvery > 0 && pos % CONFIG.breakEvery === 0) pos += 2;   // 休憩の直後 (21 問目など) には置かない → 2 つ後ろへ (2026-09-27)
+      q.splice(pos, 0, cs[k - 1]);   // 前から挿入 (各位置は前の挿入より後ろなのでずれない)
+    }
     for (let i = 1; i < q.length; i++) if (q[i - 1].isCheck === "dqs") q[i].postCheck = true;
     return q;
   }
@@ -1571,9 +1585,10 @@
     cell = queue.shift();
     aborts = 0;
     // 休憩: breakEvery の倍数地点。ただし休憩後に始まるセグメント (この cell + 残り = queue.length+1) が
-    //   breakEvery 未満なら省く = 末尾に細切れの塊 (1問だけ等) を作らない (2026-08-23、DQS 混在込みで判定)。
+    //   breakEvery の半分未満なら省く = 末尾に細切れの塊 (数問だけ) を作らない (2026-08-23、DQS 混在込みで判定。
+    //   2026-09-27: 20 問ごと・53 問で 40 問目の後 (残り 13) も休憩するよう「未満」の基準を breakEvery → breakEvery/2 に)。
     if (phase === "main" && CONFIG.breakEvery > 0 && trialIndex > 0 &&
-        trialIndex % CONFIG.breakEvery === 0 && (queue.length + 1) >= CONFIG.breakEvery) {
+        trialIndex % CONFIG.breakEvery === 0 && (queue.length + 1) >= CONFIG.breakEvery / 2) {
       showBreak(); return;   // cell は確保済み。続けるボタンで presentStimulus
     }
     presentStimulus();
@@ -2013,7 +2028,7 @@
 
   // 練習の終了条件 (2026-09-05): 練習キューを使い切り (= practiceTrials 問を完了) かつ行動ゲート達成。
   // ゲート未達なら nextTrial がキューを補充するので「5問やって、操作も理解できたら本番」になる
-  function practiceDone() { return queue.length === 0 && streak >= BLOCK.gateStreak; }
+  function practiceDone() { return queue.length === 0 && (streak >= BLOCK.gateStreak || BLOCK.practiceRefill === false); }   // practiceRefill=false のブロックは 5 問で終える (2026-09-27)
   // 練習カウンタ表示: 「n / 5」(段階名 phaseLabel と重ねない。この試行を含む残数から算出。ゲート未達で補充されたら総数も増える)
   function practiceCounter() {
     const total = Math.max(CONFIG.practiceTrials, queue.length + 1);
@@ -2399,13 +2414,13 @@
       // 3/4:スタート。問題文と選択肢 (枠だけ・中身なし) は薄くしてスタートに目を向ける。選択肢が出る話は 4/4 にまとめる (2026-09-14: 重複を解消)
       { part: "screen", focus: "start",    act: "next", reveal: 2, blank: true, dimStem: true, dimChoices: true, op: "読んだら「次へ」", txt: "画面の<b>下</b>に<b>スタート</b>ボタンがあります。<br>問題文を<b>読み終えてから</b>、このスタートに指を置きます。<br>指を置くと、選択肢の内容が表示されます。" },
       // 4/4: 選択肢。枠だけ見せて中身は出さない (本番もスタートに指を置くまで中身は出ない。2026-09-26: 押下で出現)。問題文とスタートは薄く。簡潔に (3 秒の予告は操作の練習 3/3 へ。2026-09-13)
-      { part: "screen", focus: "choices2", act: "next", reveal: 2, blank: true, dimStem: true, dimStart: true, op: "読んだら「次へ」", txt: "スタートに指を置くと、ここに<b>選択肢の内容</b>が表示されます。<br>選択肢を見たら、選ぶほうへ<b>指を離さずに運び</b>、ボックスの中で指を離します。" },
+      { part: "screen", focus: "choices2", act: "next", reveal: 2, blank: true, dimStem: true, dimStart: true, op: "読んだら「次へ」", txt: "ここに<b>2つの選択肢</b>が出ます。<br>選択肢を見たら、選ぶほうへ<b>指を離さずに運び</b>、ボックスの中で指を離します。" },
       // ---- ここから操作の練習 (触る段階であることを見出しと切り替え画面で明示。2026-09-09 対面 1 日目「説明中に押してしまう」への対応) ----
       { part: "hands",  focus: "orient",   act: "next", sample: true, reveal: 0, op: "読んだら「次へ」", txt: "ここからは、<b>実際に指で操作</b>します。<br>次の画面でスタートに指を置いて、離さずに運んでみましょう。" },
       // 2/3・3/3 はハンズオン: 実演を見せたあと自分で運んでもらい、成功したら進めるようにする
-      { part: "hands",  focus: "sandbox",  act: "concept", hands: "sandbox", op: "実際にスタートから運んでみましょう", txt: "スタートに指を置くと<b>「選択肢」</b>と表示されます。<br>そのまま<b>指を離さずに</b>運びます。<b>道すじは自由</b>です。（まっすぐでも、回り道でもかまいません）" },
+      { part: "hands",  focus: "sandbox",  act: "concept", hands: "sandbox", op: "実際にスタートから運んでみましょう", txt: "スタートに指を置いて、そのまま<b>指を離さずに</b>ボックスまで運びます。<br><b>道すじは自由</b>です。（まっすぐでも、回り道でもかまいません）" },
       // 3/3 (2026-09-26): 「選択肢を見たら動かし始める」と 3 秒の予告は実際に運ぶ場面で言う。文は 4 行以内 = 説明ボックスが運ぶ先の箱を隠しすぎない
-      { part: "hands",  focus: "action",   act: "real", hands: "real", labels: true, op: "実際にスタートから運んでみましょう", txt: "スタートに指を置くと<b>2つの選択肢</b>の内容が出ます。<br>選択肢を見たら、選ぶほうへ<b>指を離さずに運び</b>、ボックスの中で離します。<br>（選択肢が出てから3秒以上動かさないと、注意が出ます）" },
+      { part: "hands",  focus: "action",   act: "real", hands: "real", labels: true, op: "実際にスタートから運んでみましょう", txt: "スタートに指を置くと<b>2つの選択肢</b>の内容が出ます。<br>選択肢を見たら、選ぶほうへ<b>指を離さずに運び</b>、ボックスの中で離します。<br>（スタートの上で3秒以上止まると、注意が出ます）" },
     ];
     function build() {
       if (built) return;
@@ -2439,18 +2454,15 @@
     // 実演の「指」= 人差し指を立てた手のシルエット (2026-09-26。旧: 黄色い丸)。指先が (x, y) に来る。絵文字は headless/機種で描画が揃わないのでベクタで描く
     function finger(x, y, a) {
       const u = Math.max(1, Math.min(surface.clientWidth, surface.clientHeight) / 375);   // 375px 基準の倍率 (大きい画面では少し大きく)
-      g.save(); g.globalAlpha = a; g.translate(x, y); g.scale(u, u);
-      g.fillStyle = "#f3d3b0"; g.strokeStyle = "#7a4a22"; g.lineWidth = 1.6; g.lineJoin = "round";
-      g.shadowColor = "rgba(0,0,0,.18)"; g.shadowBlur = 4; g.shadowOffsetY = 2;
-      // 拳 (手のひら側): 少し右下に。折った 3 本の指のふくらみ付き
-      g.beginPath(); g.moveTo(-11, 26); g.lineTo(19, 26); g.arcTo(31, 26, 31, 38, 12); g.lineTo(31, 52); g.arcTo(31, 66, 17, 66, 14); g.lineTo(-1, 66); g.arcTo(-13, 66, -13, 54, 12); g.closePath(); g.fill(); g.stroke();
-      g.shadowColor = "transparent";
-      for (const [bx, by] of [[9, 26], [18, 29], [26, 33]]) { g.beginPath(); g.arc(bx, by, 6, Math.PI, 0); g.stroke(); }   // 折った指
-      // 親指 (左側に添える)
-      g.beginPath(); g.moveTo(-11, 34); g.quadraticCurveTo(-24, 30, -20, 44); g.quadraticCurveTo(-16, 54, -8, 52); g.closePath(); g.fill(); g.stroke();
-      // 人差し指 (立てる): 指先が原点
-      g.beginPath(); g.moveTo(-8, 8); g.arc(0, 8, 8, Math.PI, 0); g.lineTo(8, 32); g.lineTo(-8, 32); g.closePath(); g.fill(); g.stroke();
-      g.beginPath(); g.moveTo(-3, 17); g.lineTo(3, 17); g.stroke();   // 関節
+      // ピクトグラム風の一筆書きシルエット (Material の touch_app と同型の輪郭)。座標は 64×80 の枠で指先 = (22, 2) → 原点へ平行移動
+      g.save(); g.globalAlpha = a; g.translate(x, y); g.scale(0.95 * u, 0.95 * u); g.translate(-22, -2);
+      g.fillStyle = "#f4d7b8"; g.strokeStyle = "#5b3a1e"; g.lineWidth = 1.8; g.lineJoin = "round"; g.lineCap = "round";
+      g.shadowColor = "rgba(0,0,0,.22)"; g.shadowBlur = 5; g.shadowOffsetY = 2;
+      const hand = new Path2D("M22 2 c-4 0 -7 3 -7 7 v30 c-3 -2.5 -8.5 -3 -11.5 0 c-3 3 -1.5 7.5 1.5 10.5 l9 12 c4.5 7.5 10.5 11.5 20 11.5 h11 c8.5 0 15 -6.5 15 -15 v-18 c0 -3 -2.2 -5 -5 -5 c-2 0 -3.4 1 -4.2 2.6 c-0.4 -3.2 -2.4 -5.6 -5.3 -5.6 c-2 0 -3.4 1 -4.2 2.6 c-0.4 -3.2 -2.4 -5.6 -5.3 -5.6 c-1.6 0 -3 0.7 -4 1.9 V9 c0 -4 -3 -7 -7 -7 z");
+      g.fill(hand); g.shadowColor = "transparent"; g.stroke(hand);
+      // 指の付け根の 3 本の線 (折った指の境目) と人差し指の関節
+      g.lineWidth = 1.3;
+      for (const [px1, py1, px2, py2] of [[33.5, 44.5, 33.5, 52], [43, 45, 43, 52], [52.5, 47.5, 52.5, 54], [18, 22, 26, 22]]) { g.beginPath(); g.moveTo(px1, py1); g.lineTo(px2, py2); g.stroke(); }
       g.restore();
     }
     function ring(x, y, r, a, col) { g.save(); g.globalAlpha = a; g.strokeStyle = col || "rgba(184,83,26,.9)"; g.lineWidth = 3; g.beginPath(); g.arc(x, y, r, 0, 7); g.stroke(); g.restore(); }
@@ -2932,7 +2944,7 @@
     { key: "rating_meaning", q: "「自信」と「迷い」の違いは分かりやすかったですか", scale: ["分かりにくかった", "分かりやすかった"] },
     { key: "discomfort", q: "不快に感じた場面はありましたか", opts: [["none", "なかった"], ["some", "少しあった"], ["much", "かなりあった"]] },
     // 自己報告の単一項目 (Meade & Craig 2012 の "use my data" 型。2026-09-26): 謝礼に影響しないと明記して正直な自己申告を取る。不注意ラベルの材料の 1 つ (analysis-plan §4.7)
-    { key: "data_use", q: "正直なところ、あなたの今回の回答を研究の分析に使ってよいと思いますか（どちらを選んでも謝礼には影響しません）", opts: [["yes", "はい、使ってよい"], ["no", "いいえ、使わないでほしい"]], v: true },
+    { key: "data_use", q: "正直なところ、今回のあなたの回答は「集中して取り組んだ回答」として研究のデータに含めてよいと思いますか（どちらを選んでも謝礼には影響しません）", opts: [["yes", "はい、含めてよい"], ["no", "いいえ、集中できていなかった"]], v: true },
   ];
   const POST_KEYS = POST_ITEMS.filter((it) => it.key).map((it) => it.key);
   // ページ割り (2026-09-26 後刻): スクロールせずに収まる 2〜3 問ずつ。ここに挙げた項目で新しいページを始める (先頭の fatigue_pre は自動)。
@@ -3007,7 +3019,7 @@
     postPageIdx = Math.max(0, Math.min(i, postPages.length - 1));
     postPages.forEach((p, k) => { if (k === postPageIdx) { p.el.classList.add("on"); if (p.part) p.el.dataset.part = String(p.part); } else if (p.el !== postPages[postPageIdx].el) p.el.classList.remove("on"); });
     $("postStep").textContent = `${postPageIdx + 1} / ${postPages.length}`;
-    $("postLead").style.display = (POST_ON && postPages[postPageIdx].id === POST_KEYS[0]) ? "" : "none";   // 導入文は拡充分の 1 問目だけ
+    $("postLead").style.display = "none";   // 導入文は持ち方のページに統合 (2026-09-27)
     $("postPrev").style.visibility = postPageIdx === 0 ? "hidden" : "";
     const last = postPageIdx === postPages.length - 1;
     $("postNext").style.display = last ? "none" : "";
@@ -3072,21 +3084,19 @@
     }
     if (ATTN_ON) {   // 強IMC (欺瞞) のデブリーフィング (§6-5・IRB 申請に記載)
       $("debrief").innerHTML =
-        '<p style="color:#9cf;font-size:13px;border:1px solid #467;border-radius:8px;padding:10px;margin:10px 0;">' +
-        '【種明かし】本調査には、回答に集中していただけているかを確認する質問（「左を選んでください」等の指示や、一見答えにくい質問）が含まれていました。' +
-        'これは回答の質を確かめる一般的な方法で、あなた個人を評価するものではありません。ご協力ありがとうございました。</p>';
+        '<p class="debrief"><b>確認の質問について</b><br>この調査には、回答に集中していただけているかを確認する質問（「左を選んでください」という指示や、一見答えにくい質問）が含まれていました。' +
+        'これは回答の質を確かめる一般的な方法で、あなた個人を評価するものではありません。</p>';   // 倫理申請に記載の事後説明 (IMC は欺瞞を含むため必須)。明るい背景で読める配色に (2026-09-27)
       $("debrief").style.display = "";
     }
     const main = records.filter((r) => r.phase === "main");
     const totalAborts = records.reduce((s, r) => s + (r.aborts || 0), 0);
     const hzs = main.map((r) => r.dispHz).filter((h) => h != null);
     const avgHz = hzs.length ? (hzs.reduce((a, b) => a + b, 0) / hzs.length).toFixed(1) : "–";
+    // 完了画面には集中して参加できたかの記録だけを出す (2026-09-27。旧: 試行数・実効レート・リトライ数などの技術情報は撤去。debug=1 のときだけ残す)
+    const visCount = main.reduce((a, r) => a + ((r.vis || {}).count || 0), 0), visMs = main.reduce((a, r) => a + ((r.vis || {}).totalMs || 0), 0);
     $("summary").innerHTML =
-      `参加者: ${device.participantId || "(未入力)"} (${device.block})<br>` +
-      `本番試行: ${main.length} / ${BLOCK.summaryExtra(main)}<br>` +
-      `平均実効レート: ${avgHz} Hz / 推定リフレッシュ: ${device.refreshHz || "?"} Hz<br>` +
-      `無効リトライ計: ${totalAborts}<br>` +
-      `端末: ${device.screenW}×${device.screenH}@${device.dpr}x`;
+      `画面の切り替え・離脱: ${visCount} 回（合計 ${Math.round(visMs / 1000)} 秒）／ 中断からの再開: ${(device.resumes || []).length} 回` +
+      (debugMode ? `<br>参加者: ${device.participantId || "(未入力)"} (${device.block}) / 本番試行: ${main.length} / ${BLOCK.summaryExtra(main)} / 実効 ${avgHz} Hz / リトライ ${totalAborts} / 端末 ${device.screenW}×${device.screenH}@${device.dpr}x` : "");
     // 共有 (Web Share API Level 2) 対応端末なら共有ボタンを出す
     try {
       const probe = new File(["x"], "x.json", { type: "application/json" });
@@ -3323,16 +3333,24 @@
     const scr = (document.querySelector(".screen.active") || {}).id;
     bar.classList.toggle("on", n > 0 && (scr === "welcome" || scr === "intro" || scr === "done"));
   }
-  function postPayload(payload) {   // 1件送信 (タイムアウト付き)。成功時のみ resolve
-    const ctl = ("AbortController" in window) ? new AbortController() : null;
-    const timer = ctl ? setTimeout(() => ctl.abort(), POST_TIMEOUT_MS) : null;
+  function postPayload(payload, onProgress) {   // 1件送信 (タイムアウト付き)。成功時のみ resolve。onProgress(0..1) = 送信の進み具合 (XHR の upload.progress。2026-09-27)
     // GAS Web アプリは CORS preflight (OPTIONS) に応答しないため text/plain で simple request にする
-    return fetch(CONFIG.uploadUrl, {
-      method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify(payload), signal: ctl ? ctl.signal : undefined,
-    }).then((res) => res.ok ? res.json() : Promise.reject(new Error("HTTP " + res.status)))
-      .then((j) => { if (!j || !j.ok) throw new Error((j && j.error) || "server error"); return j; })
-      .finally(() => { if (timer) clearTimeout(timer); });
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", CONFIG.uploadUrl, true);
+      xhr.timeout = POST_TIMEOUT_MS;
+      xhr.setRequestHeader("Content-Type", "text/plain;charset=utf-8");
+      if (xhr.upload && onProgress) xhr.upload.onprogress = (ev) => { if (ev.lengthComputable) onProgress(Math.min(1, ev.loaded / ev.total)); };
+      xhr.onload = () => {
+        if (xhr.status < 200 || xhr.status >= 300) { reject(new Error("HTTP " + xhr.status)); return; }
+        let j = null; try { j = JSON.parse(xhr.responseText); } catch (_) {}
+        if (!j || !j.ok) reject(new Error((j && j.error) || "server error")); else { if (onProgress) onProgress(1); resolve(j); }
+      };
+      xhr.onerror = () => reject(new Error("network"));
+      xhr.ontimeout = () => reject(new Error("timeout"));
+      xhr.onabort = () => reject(new Error("abort"));
+      xhr.send(JSON.stringify(payload));
+    });
   }
   let outboxBusy = false;
   function outboxFlush(onDone) {   // 先頭から順に送る。1件でも失敗したら中断 (回線が無い状態で叩き続けない)
@@ -3353,23 +3371,40 @@
     step(0);
   }
 
+  // 送信中の画面 (2026-09-27): スピナー + 進み具合のバー + 「閉じない・更新しない」。結果が出るまで完了コードとお礼は隠す
+  function sendUiStart(attempt) {
+    $("doneTitle").textContent = "データを送信しています";
+    $("sendBox").style.display = "";
+    $("sendMsg").textContent = attempt > 1 ? `送信を再試行しています（${attempt} / 3 回目）。しばらくお待ちください。` : "データを送信しています。しばらくお待ちください。";
+    $("sendFill").style.width = "0%";
+    for (const id of ["doneMsg", "ccodeBox", "debrief", "summary"]) $(id).classList.add("hidden-until-sent");
+  }
+  function sendUiEnd(ok) {
+    $("doneTitle").textContent = "完了しました";
+    $("sendBox").style.display = "none";
+    for (const id of ["doneMsg", "ccodeBox", "debrief", "summary"]) $(id).classList.remove("hidden-until-sent");
+    if (ok) $("sendFill").style.width = "100%";
+  }
   function uploadJson(attempt) {
     attempt = attempt || 1;
-    $("uploadStatus").textContent = attempt > 1 ? `送信中… (再試行 ${attempt}/3)` : "送信中…";
-    postPayload(buildPayload())
+    sendUiStart(attempt);
+    $("uploadStatus").textContent = "";
+    postPayload(buildPayload(), (f) => { $("sendFill").style.width = Math.round(f * 100) + "%"; })
       .then(() => {
-        $("uploadStatus").textContent = "✅ 送信完了。このまま閉じて大丈夫です。";
-        $("doneMsg").textContent = "ご協力ありがとうございました。データは自動送信されました。";
+        sendUiEnd(true);
+        $("uploadStatus").textContent = "✅ 送信が完了しました。このまま閉じて大丈夫です。";
+        $("doneMsg").textContent = "ご協力ありがとうございました。データは送信されました。";
         clearBackup();
         showNextParticipant();
         outboxFlush();   // 回線が復活したので、貯まっていた過去分もついでに送る
       })
       .catch(() => {
         if (attempt < 3) { setTimeout(() => uploadJson(attempt + 1), 1500 * attempt); return; }
+        sendUiEnd(false);
         // 3回失敗 = 回線が無い/不安定。端末に貯めて次回起動時・オンライン復帰時に自動送信する
         if (outboxPush(buildPayload())) {
           $("uploadStatus").textContent =
-            "📥 この端末に保存しました。電波のあるところでこの画面をもう一度開くと、自動で送信されます。";
+            "📥 電波が届かないため、この端末に保存しました。電波のあるところでこの画面をもう一度開くと、自動で送信されます。";
           clearBackup();   // outbox 側が保持しているのでチェックポイントは不要
         } else {
           $("uploadStatus").textContent =
@@ -3472,7 +3507,7 @@
     { h: "ご参加ありがとうございます",
       b: '<p>短い場面を読んで、<b>2つの選択肢から あなたの考えに近いほう</b>を選んでいきます。</p>' +
          '<ul><li><b>正解・不正解はありません。</b>思ったとおりで大丈夫です。</li>' +
-         '<li>選んだあとに「自信」と「迷い」を5段階でふりかえります。</li>' +
+         '<li>選んだあとに「迷い」と「自信」を5段階でふりかえります。</li>' +
          '<li>分からないときは、<b>近くの係の者に声をかけてください。</b></li></ul>' },
     { h: "進め方", mic: true,
       b: '<p>はじめに<b>操作の説明</b>と<b>練習</b>があります。</p>' +
@@ -3484,9 +3519,9 @@
     { h: "ご参加ありがとうございます",
       b: '<p>この調査では、<b>短い問題文</b>を読んで、<b>2つの選択肢から あなたの考えに近いほう</b>を選んでいきます。</p>' +
          '<ul><li><b>正解・不正解はありません。</b>あなたの素直な判断で構いません。</li>' +
-         '<li>選んだあとに「自信」と「迷い」を5段階でふりかえります。</li></ul>' },
+         '<li>選んだあとに「迷い」と「自信」を5段階でふりかえります。</li></ul>' },
     { h: "所要時間と進め方",
-      b: '<p>全体で <b>15〜25分</b>ほどです。</p>' +
+      b: '<p>全体で <b>40分ほど</b>（35〜50分）かかります。時間に余裕があるときに始めてください。</p>' +
          '<ul><li>はじめに <b>読む速さの確認</b>（短い文章4本）→ <b>操作の説明</b> → <b>練習</b>と進みます。説明は何度でも見直せます。</li>' +
          '<li>急ぐ必要はありません。<b>自分のペース</b>で進めてください。</li>' +
          '<li>途中に休憩をはさみます。<b>最後まで通して</b>行ってください。</li></ul>' },
@@ -3499,7 +3534,8 @@
     { h: "進めるうえでのお願い", mic: true,
       b: '<ul><li><b>途中で他のアプリや別の画面に切り替えないでください。</b>切り替えた回数と時間は記録されます。切り替えの多い回答は、有効なデータとして扱えないことがあります。</li>' +
          '<li><b>ページの更新（再読み込み）や「戻る」の操作はしないでください。</b>万一とちゅうで画面が消えても、同じURLを開き直せば<b>続きから再開</b>できます。</li>' +
-         '<li>着信などでやむを得ず中断したときは、戻ってからそのまま続けてください。</li></ul>' },
+         '<li>着信などでやむを得ず中断したときは、戻ってからそのまま続けてください。</li>' +
+         '<li>この調査は<b>1回だけ</b>参加できます。集中して取り組めていない回答には、謝礼をお渡しできないことがあります。</li></ul>' },
   ];
   const WELCOME = KIOSK ? WELCOME_KIOSK : WELCOME_DEFAULT;
   let wcIdx = 0, wcCueTimer = null;
