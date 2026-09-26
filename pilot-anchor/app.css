@@ -467,3 +467,21 @@
   /* 未回答の案内: タップで移動できる見た目 + 移動先を 3 秒だけ赤枠で示す */
   #postMissing { cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
   .field.miss, .miss { outline: 2px solid var(--err); outline-offset: 5px; border-radius: 10px; transition: outline-color .3s; }
+
+  /* ===== 機種ガード (2026-09-26): フルスクリーン iPhone 限定。見た目は zoomGuard と同じ ===== */
+  #devGuard { position: fixed; inset: 0; z-index: 102; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+    background: var(--bg); padding: 24px; text-align: center; }
+  #devGuard.show { display: flex; }
+  #devGuard .icon { font-size: calc(48px * var(--ui-scale)); }
+  #devGuard p { font-size: calc(16px * var(--ui-scale)); color: var(--ink); line-height: 1.6; }
+  #devGuard p.how { font-size: calc(14px * var(--ui-scale)); color: var(--ink-2); max-width: 420px; }
+  #devGuard p.now { font-size: calc(18px * var(--ui-scale)); color: var(--err); font-weight: 700; }
+
+  /* ===== 最後のアンケート: 1 項目 1 画面 (2026-09-26)。スクロールせず「戻る / 次へ」で進む ===== */
+  #postq .postpage { display: none; }
+  #postq .postpage.on { display: block; }
+  #postq .postpage .eyebrow { margin: 0 0 4px; }
+  #postq #postStep { text-align: center; margin: 0 0 8px; }
+  #postq #postNav { margin: 18px auto 0; }
+  #postq #postNav .btn.ghost { flex: 0 0 32%; }
+  #postq #postNav .btn.primary { flex: 1 1 auto; }
