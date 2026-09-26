@@ -159,7 +159,7 @@
   <div class="pad">
     <h1>前回の続きから再開できます</h1>
     <p id="resumeInfo"></p>
-    <p id="resumeHow">「続きから再開する」を押すと、マイクの確認のあと、次の問題から続きます。</p>
+    <p id="resumeHow">「続きから再開する」を押すと、次の問題から続きます。</p>
     <p class="opt-note">「最初からやり直す」を選ぶと、前回のご回答は端末から削除されます。</p>
     <div class="vgap"></div>
     <button class="btn primary advance" id="resumeGo">続きから再開する</button>
@@ -377,9 +377,11 @@
 
     <!-- 事後アンケート (UI/負担。②③=評定ブロックのみ表示。G4 負担の主観版裏付け + 改善材料。pilot2-design-notes) -->
     <div id="surveyBlock" style="display:none">
-      <div class="postpage" data-page="problems">
+      <div class="postpage" data-page="problems" id="surveyProblemsPage">
+      <!-- 10 項目は 1 画面に収まらない (Safari ツールバーありで 180px 超過) ので 5+5 の 2 画面に分ける (data-part。2026-09-26 後刻) -->
       <h2>使いにくかった点・改善してほしい点</h2>
-      <p class="opt-note">当てはまるものをすべてお選びください（複数選択可）。無ければ「特に困らなかった」を選んでください。</p>
+      <p class="opt-note part1">当てはまるものをすべてお選びください（複数選択可）。次の画面にも続きがあります。</p>
+      <p class="opt-note part2">続きです。当てはまるものがなければ「特に困らなかった」を選んでください。</p>
       <div class="checks" id="surveyProblems">
         <button type="button" class="chk" data-val="rating_burden">評定の回答が多くて負担だった</button>
         <button type="button" class="chk" data-val="trial_fatigue">試行数が多くて疲れた・長く感じた</button>
@@ -427,7 +429,7 @@
     <div id="ccodeBox" style="display:none">
       <p>あなたの<b>完了コード</b>:</p>
       <div class="ccode" id="ccode"></div>
-      <p class="opt-note">募集サイトの回答欄 (作業完了の報告欄) にこのコードを入力してください。</p>
+      <p class="opt-note">このコードを研究者にお伝えください（謝礼の手続きに使います）。</p>
     </div>
     <div id="debrief" style="display:none"></div>
     <div class="mono" id="summary"></div>
@@ -761,7 +763,7 @@
       coachDrag: '選択肢を見たら|そのまま<b>指を離さずに</b>、|考えながら|<b>あなたが選ぶ方</b>まで運び、|ボックスの<b>中で</b>|<b>指を離します</b>',
       introHtml:
         '<h1>道徳的な判断の2択課題 (パイロット)</h1>' +
-        '<p>スタートボタンに指を置くと、上に短い場面と2つの選択肢が出ます。<b>指を離さずに、あなたが選ぶ方のボックスへドラッグ</b>して、そこで指を離してください。</p>' +
+        '<p>問題文を読んでからスタートボタンに指を置くと、2つの選択肢が出ます。<b>指を離さずに、あなたが選ぶ方のボックスへドラッグ</b>して、そこで指を離してください。</p>' +
         '<ul><li><b>正解・不正解はありません。</b>あなたの素直な判断で構いません。</li>' +
         '<li>気持ちが揺れる場面が含まれます。答えたくないと感じたら、いつでも中断してかまいません。</li>' +
         '<li>選んだあとに、「自信」と「迷い」の2つを5段階でふりかえります。答え方は練習で説明します。</li>' +
@@ -2434,12 +2436,22 @@
       g.setTransform(dpr, 0, 0, dpr, 0, 0); return g;
     }
     function clr() { g.clearRect(0, 0, surface.clientWidth, surface.clientHeight); }
+    // 実演の「指」= 人差し指を立てた手のシルエット (2026-09-26。旧: 黄色い丸)。指先が (x, y) に来る。絵文字は headless/機種で描画が揃わないのでベクタで描く
     function finger(x, y, a) {
-      g.save(); g.globalAlpha = a;
-      const grd = g.createRadialGradient(x - 4, y - 5, 2, x, y, 17);
-      grd.addColorStop(0, "rgba(255,255,255,.95)"); grd.addColorStop(.42, "rgba(184,83,26,.85)");
-      grd.addColorStop(.72, "rgba(184,83,26,.30)"); grd.addColorStop(1, "rgba(184,83,26,0)");
-      g.fillStyle = grd; g.beginPath(); g.arc(x, y, 17, 0, 7); g.fill(); g.restore();
+      const u = Math.max(1, Math.min(surface.clientWidth, surface.clientHeight) / 375);   // 375px 基準の倍率 (大きい画面では少し大きく)
+      g.save(); g.globalAlpha = a; g.translate(x, y); g.scale(u, u);
+      g.fillStyle = "#f3d3b0"; g.strokeStyle = "#7a4a22"; g.lineWidth = 1.6; g.lineJoin = "round";
+      g.shadowColor = "rgba(0,0,0,.18)"; g.shadowBlur = 4; g.shadowOffsetY = 2;
+      // 拳 (手のひら側): 少し右下に。折った 3 本の指のふくらみ付き
+      g.beginPath(); g.moveTo(-11, 26); g.lineTo(19, 26); g.arcTo(31, 26, 31, 38, 12); g.lineTo(31, 52); g.arcTo(31, 66, 17, 66, 14); g.lineTo(-1, 66); g.arcTo(-13, 66, -13, 54, 12); g.closePath(); g.fill(); g.stroke();
+      g.shadowColor = "transparent";
+      for (const [bx, by] of [[9, 26], [18, 29], [26, 33]]) { g.beginPath(); g.arc(bx, by, 6, Math.PI, 0); g.stroke(); }   // 折った指
+      // 親指 (左側に添える)
+      g.beginPath(); g.moveTo(-11, 34); g.quadraticCurveTo(-24, 30, -20, 44); g.quadraticCurveTo(-16, 54, -8, 52); g.closePath(); g.fill(); g.stroke();
+      // 人差し指 (立てる): 指先が原点
+      g.beginPath(); g.moveTo(-8, 8); g.arc(0, 8, 8, Math.PI, 0); g.lineTo(8, 32); g.lineTo(-8, 32); g.closePath(); g.fill(); g.stroke();
+      g.beginPath(); g.moveTo(-3, 17); g.lineTo(3, 17); g.stroke();   // 関節
+      g.restore();
     }
     function ring(x, y, r, a, col) { g.save(); g.globalAlpha = a; g.strokeStyle = col || "rgba(184,83,26,.9)"; g.lineWidth = 3; g.beginPath(); g.arc(x, y, r, 0, 7); g.stroke(); g.restore(); }
     function roundRect(x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
@@ -2923,17 +2935,23 @@
     { key: "data_use", q: "正直なところ、あなたの今回の回答を研究の分析に使ってよいと思いますか（どちらを選んでも謝礼には影響しません）", opts: [["yes", "はい、使ってよい"], ["no", "いいえ、使わないでほしい"]], v: true },
   ];
   const POST_KEYS = POST_ITEMS.filter((it) => it.key).map((it) => it.key);
+  // ページ割り (2026-09-26 後刻): スクロールせずに収まる 2〜3 問ずつ。ここに挙げた項目で新しいページを始める (先頭の fatigue_pre は自動)。
+  // 目安 = Safari のツールバーあり (高さ 759px) で「タイトル + 2〜3 問 + 戻る/次へ」が収まる量。拡充分 7 ページ + 持ち方 + 使いにくかった点 + 操作のしやすさ = 10 ページ
+  const POST_PAGE_STARTS = ["sleep_hours", "location", "others_present", "usage_years", "moral_familiar", "rating_meaning"];
   const post = {};
   let postShownAt = null, postBuilt = false;
   function postBuild() {   // POST_ITEMS から DOM を組む (1回だけ)。scale = 1–5 ボタン1行 + 端点ラベル / opts = 単一選択 (v=縦並び)
     if (postBuilt) return; postBuilt = true;
     const host = $("postBlock");
-    let sec = "";
+    let sec = "", page = null, shownSec = null;
     for (const it of POST_ITEMS) {
-      if (it.sec) { sec = it.sec; continue; }   // 節の見出しは各ページの小見出し (eyebrow) に (1 項目 1 画面。2026-09-26)
-      const page = document.createElement("div"); page.className = "postpage"; page.id = "pp-" + it.key; page.dataset.page = it.key;
-      const eb = document.createElement("p"); eb.className = "opt-note eyebrow"; eb.textContent = sec; page.appendChild(eb);
-      host.appendChild(page);
+      if (it.sec) { sec = it.sec; continue; }   // 節の見出しは各ページの小見出し (eyebrow) に
+      if (!page || POST_PAGE_STARTS.includes(it.key)) {   // スクロールしない分量で 2〜3 問ずつ 1 ページに (2026-09-26 後刻。ページ id = 先頭の項目)
+        page = document.createElement("div"); page.className = "postpage"; page.id = "pp-" + it.key; page.dataset.page = it.key; page.dataset.keys = "";
+        host.appendChild(page); shownSec = null;
+      }
+      page.dataset.keys += (page.dataset.keys ? "," : "") + it.key;
+      if (sec !== shownSec) { const eb = document.createElement("p"); eb.className = "opt-note eyebrow"; eb.textContent = sec; page.appendChild(eb); shownSec = sec; }
       const f = document.createElement("div"); f.className = "field"; page.appendChild(f);
       const lab = document.createElement("label"); lab.textContent = it.q; f.appendChild(lab);
       const seg = document.createElement("div"); seg.id = "post-" + it.key;
@@ -2973,16 +2991,21 @@
   const otherOk = () => !survey.problems.includes("other") || survey.free.trim().length > 0;   // その他は自由記述で具体化
   function postPageList() {
     const out = [{ id: "grip", label: "持ち方", el: document.querySelector('#postq .postpage[data-page="grip"]'), ok: () => !!device.grip }];
-    if (POST_ON) for (const it of POST_ITEMS) if (it.key) out.push({ id: it.key, label: it.q, el: $("pp-" + it.key), ok: () => post[it.key] != null });
+    if (POST_ON) for (const el of $("postBlock").querySelectorAll(".postpage")) {   // 2〜3 問ずつのページ。全部答えたら次へ
+      const keys = el.dataset.keys.split(",");
+      out.push({ id: el.dataset.page, label: `質問 ${keys.length} 件`, el, ok: () => keys.every((k) => post[k] != null) });
+    }
     if (HAS_RATING_BLOCK) {   // 評定ブロックを含むセッションは事後アンケートも必須 (「特に困らなかった」中立を用意済み)
-      out.push({ id: "problems", label: "使いにくかった点", el: document.querySelector('#postq .postpage[data-page="problems"]'), ok: () => survey.problems.length > 0 && otherOk() });
+      const pp = $("surveyProblemsPage");   // 10 項目を 5+5 の 2 画面に (part 1 は任意で通過可、part 2 で「1 つ以上 (+その他の記述)」を要求)
+      out.push({ id: "problems", label: "使いにくかった点", el: pp, part: 1, ok: () => true });
+      out.push({ id: "problems2", label: "使いにくかった点", el: pp, part: 2, ok: () => survey.problems.length > 0 && otherOk() });
       out.push({ id: "ease", label: "操作のしやすさ", el: document.querySelector('#postq .postpage[data-page="ease"]'), ok: () => !!survey.ease });
     }
     return out;
   }
   function postGoto(i) {
     postPageIdx = Math.max(0, Math.min(i, postPages.length - 1));
-    postPages.forEach((p, k) => p.el.classList.toggle("on", k === postPageIdx));
+    postPages.forEach((p, k) => { if (k === postPageIdx) { p.el.classList.add("on"); if (p.part) p.el.dataset.part = String(p.part); } else if (p.el !== postPages[postPageIdx].el) p.el.classList.remove("on"); });
     $("postStep").textContent = `${postPageIdx + 1} / ${postPages.length}`;
     $("postLead").style.display = (POST_ON && postPages[postPageIdx].id === POST_KEYS[0]) ? "" : "none";   // 導入文は拡充分の 1 問目だけ
     $("postPrev").style.visibility = postPageIdx === 0 ? "hidden" : "";
@@ -3173,7 +3196,7 @@
       : `前回は <b>${done} / ${b.resume.totalMain} 問</b>まで進んでいました。`;
     $("resumeHow").textContent = resumeAtSurvey(b)
       ? "「続きから再開する」を押すと、最後のアンケートから続きます。"
-      : "「続きから再開する」を押すと、マイクの確認のあと、次の問題から続きます。";
+      : (MIC.mode === "off" ? "「続きから再開する」を押すと、次の問題から続きます。" : "「続きから再開する」を押すと、マイクの確認のあと、次の問題から続きます。");   // マイクは既定 OFF (2026-09-26)
     show("resume");
     $("resume").querySelector(".pad").scrollTop = 0;
   }
@@ -3505,7 +3528,7 @@
   // 1画面に (スクロール解消)。全体像は welcome 1枚目、操作方法はチュートリアル (実演+ハンズオン) が
   // 担う = 同じ内容を3箇所で繰り返さない。BLOCK.introHtml は blockintro (パート切替) で引き続き使用
   $("introInstructions").innerHTML = "";   // 2026-09-06: パート数の予告も出さない (入力画面は入力だけ)
-  document.title = "パイロット: " + (SEQ.length > 1 ? "価値・選好 と 道徳判断" : BLOCK.title);
+  document.title = "調査: " + (SEQ.length > 1 ? "価値・選好 と 道徳判断" : BLOCK.title);   // 2026-09-26: 本実験なので「パイロット」を外す
 
   // 事前アンケート (特性): 性別・利き手。選択で開始ボタンの有効/無効を再評価
   wireSeg("ageBandSeg", (v) => { device.ageBand = v; refreshIntro(); });   // 年代タップ (?ageband=1 / kiosk)

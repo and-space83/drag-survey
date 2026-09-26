@@ -485,3 +485,6 @@
   #postq #postNav { margin: 18px auto 0; }
   #postq #postNav .btn.ghost { flex: 0 0 32%; }
   #postq #postNav .btn.primary { flex: 1 1 auto; }
+  /* 使いにくかった点 10 項目は 5+5 の 2 画面 (data-part。2026-09-26 後刻) */
+  #surveyProblemsPage[data-part="1"] .checks .chk:nth-child(n+6), #surveyProblemsPage[data-part="1"] #surveyFreeField, #surveyProblemsPage[data-part="1"] .part2 { display: none !important; }
+  #surveyProblemsPage[data-part="2"] .checks .chk:nth-child(-n+5), #surveyProblemsPage[data-part="2"] .part1 { display: none !important; }
