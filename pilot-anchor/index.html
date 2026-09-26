@@ -2458,15 +2458,15 @@
       g.save(); g.globalAlpha = a; g.translate(x, y); g.scale(0.95 * u, 0.95 * u); g.translate(-22, -2);
       g.fillStyle = "#f4d7b8"; g.strokeStyle = "#5b3a1e"; g.lineWidth = 1.8; g.lineJoin = "round"; g.lineCap = "round";
       g.shadowColor = "rgba(0,0,0,.22)"; g.shadowBlur = 5; g.shadowOffsetY = 2;
-      // 人差し指は長め・やや細め (幅 12・長さ 50)、先端に爪、関節のしわ 2 本 (2026-09-27: 「細くて短くリアル感が乏しい」への対応)
-      const hand = new Path2D("M22 2 c-3.3 0 -6 2.7 -6 6 v42 c-3 -2.5 -8.5 -3 -11.5 0 c-3 3 -1.5 7.5 1.5 10.5 l9 12 c4.5 7.5 10.5 11.5 20 11.5 h7 c8.5 0 15 -6.5 15 -15 v-18 c0 -3 -2.2 -5 -5 -5 c-2 0 -3.4 1 -4.2 2.6 c-0.4 -3.2 -2.4 -5.6 -5.3 -5.6 c-2 0 -3.4 1 -4.2 2.6 c-0.4 -3.2 -2.4 -5.6 -5.3 -5.6 c-1.6 0 -3 0.7 -4 1.9 V8 c0 -3.3 -2.7 -6 -6 -6 z");
+      // 人差し指は元の長さ (38)・やや細め (幅 12)、先端に爪。関節のしわは無し (2026-09-27 後刻: 長い指は不自然との FB)
+      const hand = new Path2D("M22 2 c-3.3 0 -6 2.7 -6 6 v30 c-3 -2.5 -8.5 -3 -11.5 0 c-3 3 -1.5 7.5 1.5 10.5 l9 12 c4.5 7.5 10.5 11.5 20 11.5 h7 c8.5 0 15 -6.5 15 -15 v-18 c0 -3 -2.2 -5 -5 -5 c-2 0 -3.4 1 -4.2 2.6 c-0.4 -3.2 -2.4 -5.6 -5.3 -5.6 c-2 0 -3.4 1 -4.2 2.6 c-0.4 -3.2 -2.4 -5.6 -5.3 -5.6 c-1.6 0 -3 0.7 -4 1.9 V8 c0 -3.3 -2.7 -6 -6 -6 z");
       g.fill(hand); g.shadowColor = "transparent"; g.stroke(hand);
       // 爪 (指先の少し下に縦長の楕円。明るめ)
       g.fillStyle = "#fbece0"; g.lineWidth = 1.2;
       g.beginPath(); g.ellipse(22, 9.5, 3.6, 5.2, 0, 0, Math.PI * 2); g.fill(); g.stroke();
-      // 関節のしわ 2 本 (第 1・第 2 関節) と、折った 3 本の指の境目
+      // 折った 3 本の指の境目
       g.lineWidth = 1.3;
-      for (const [px1, py1, px2, py2] of [[17.5, 21, 26.5, 21], [17, 36, 27, 36], [29.5, 56.5, 29.5, 64], [39, 57, 39, 64], [48.5, 59.5, 48.5, 66]]) { g.beginPath(); g.moveTo(px1, py1); g.lineTo(px2, py2); g.stroke(); }
+      for (const [px1, py1, px2, py2] of [[29.5, 44.5, 29.5, 52], [39, 45, 39, 52], [48.5, 47.5, 48.5, 54]]) { g.beginPath(); g.moveTo(px1, py1); g.lineTo(px2, py2); g.stroke(); }
       g.restore();
     }
     function ring(x, y, r, a, col) { g.save(); g.globalAlpha = a; g.strokeStyle = col || "rgba(184,83,26,.9)"; g.lineWidth = 3; g.beginPath(); g.arc(x, y, r, 0, 7); g.stroke(); g.restore(); }
