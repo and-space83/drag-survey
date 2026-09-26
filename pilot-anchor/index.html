@@ -31,12 +31,12 @@
                {fatigue_pre, fatigue_post, sleepiness, sleep_hours, condition,        //   5段階は 1–5 の整数・選択式は英語スラッグ・未回答は null)
                 location, posture, others_present, noise_self, interruptions,
                 usage_years, usage_hours, native_ja, moral_familiar,
-                seriousness, attention_lapse, rating_meaning, discomfort},
+                seriousness, attention_lapse, rating_meaning, discomfort, data_use},   // data_use = 自己報告「回答を分析に使ってよいか」yes/no (2026-09-26)
              postMs,                           // 事後アンケート画面の滞在時間 ms (表示〜完了。負担の指標)
              practiceEarlyPress,               // 練習で読み切る前にスタートを押して止められた回数 (2026-09-13)
              practiceSummary:                  // 練習の行動ゲート達成記録 (理解確認の証跡 + 品質共変量)
                {gateStreak, gateCorrect, trials, aborts, skipped},
-             mic:                              // 環境音モニタ (2026-07-21 §6-6 項10。マイク必須・音量レベルのみ・生音声は取得しない)
+             mic:                              // 環境音モニタ (2026-07-21 §6-6 項10。**2026-09-26 から既定 OFF = mode=off** で以下は null。?mic=1/mock で有効時のみ音量レベルを記録)
                {mode('real'|'mock'|'off'), threshold(dBFS), checkMs, quietMs, gateMinOverMs,
                 ambientDb, ambientRetries, drops,    // 事前チェックの実測/再計測回数・課題中の切断回数
                 muteCount, mutedMs},                 // トラックのミュート回数/合計ms (iOS はバックグラウンド・着信で音声が止まる。無音として集計しない)
@@ -49,9 +49,9 @@
              tutorialLog: [{kind('drag'|'rating'), step|page, ms} | {kind, event('replay'|'again'|'back')}],
              uiScale,                          // 説明・評定・アンケート画面の文字倍率 (2026-09-08 §6-6 項18。短辺≥700px で 1.6、?fs= で上書き。課題画面は対象外)
              ratingTutorial: {changed, completed, pages},   // 振り返りの説明 (2026-09-12 後刻から 3 ページ = 導入・迷い・自信。2026-09-08〜 は 2)
-             startMode('dynamic'),             // 開始手続き (2026-09-09。'dynamic' = 場面文先出し・枠から出たら選択肢。旧データは無し = 静的)
+             startMode('press'|'dynamic'),   // 開始手続き: 'press' = 場面文先出し・押下で選択肢・初動締切 3 秒 (2026-09-26〜) / 'dynamic' = 枠から出たら選択肢 (2026-09-09〜25) / 無し = 静的 (それ以前)
              instructed: {n, itemIds, text},   // 教示誘導ブロックの構成 (クラウド配布のみ。kiosk/stop では null)
-             stopNotices: [{afterTrial, kind('stop'|'early'), ms}]},   // 案内画面の表示記録 (何問目の後に・種類・滞在 ms。§6-6 項19)
+             stopNotices: [{afterTrial, kind('early'|'late'|'stop'), ms}]},   // 案内画面の表示記録 (stop は 2026-09-25 まで) (何問目の後に・種類・滞在 ms。§6-6 項19)
                                                // チュートリアルの各説明ページの滞在時間と「もう一度」「↻ 説明」の回数 (2026-09-07。対面での教示の評価用)
     trials: [ {
       index, phase('main'|'practice'|'instructed'), stimulusType('numeric-size'|'text-choice'),
@@ -72,13 +72,15 @@
       post_resume(true=中断→再開の直後の本試行。§6-6 項17。間隔が空いた分を感度分析で除外可能に),
       // --- 共通 ---
       choiceSide, correct,   // correct: anchor=正誤 / value=規範(高価値/高EV)整合 / moral=規範(明確のみ)。規範なしは null
-      // --- 動的スタート (2026-09-09 §6-6 項19): 場面文は最初から表示 →スタートに指を置く → 枠から出た瞬間に選択肢が出る ---
+      // --- 開始手続き (§6-6 項19。2026-09-26 押下で出現): 場面文は最初から表示 → スタートに指を置いた瞬間に選択肢が出る → 3 秒以内に動き出す ---
+      //     (device.startMode='dynamic' の旧データ [2026-09-09〜25] は revealT = 枠から出た時刻、stopsAfterReveal = 出現後の停止、stopNotice に 'stop' あり)
       stimulusOnsetT(場面文の表示時刻), startPressT(スタート押下), preStartMs(表示〜押下 = 読解+熟考),
-      revealT(選択肢の出現 = 枠から出た時刻), revealXY(出現時の指位置。surface 相対 CSS px),
-      stopsAfterReveal:{n, ms, maxMs}(出現後の停止 = 6px 以内に 500ms 以上とどまった区間), stopFlag(maxMs>=3000。2026-09-12 に 1000 から変更),
-      stopNotice('stop'|'early'|false = この試行の直前に見た案内の種類。案内は評定送信後・次の場面文を出す前の独立画面 = 次問の読解時間に混ぜない),
-      stemChars, earlyStart(true=表示〜枠から出るまでが 文字数÷25字/秒 より短い = 読み切る前に指を出した。品質共変量),
-      initiationT(=枠から出た時刻), responseT, rt_proxy_ms(押下〜枠から出るまで = 押さえていた時間), mt_proxy_ms(出現〜離す), total_ms(押下〜離す),
+      revealT(選択肢の出現 = 押下時刻), revealXY(押下時の指位置。surface 相対 CSS px),
+      initiationT(枠から出た時刻 = 動き出し), rt_ms(出現〜動き出し = 反応時間。rt_proxy_ms は同値の旧名), lateStart(true = rt_ms > 3000。評定送信後に案内。品質共変量),
+      stopsAfterInit:{n, ms, maxMs}(動き出した後の停止 = 6px 以内に 500ms 以上とどまった区間), stopFlag(maxMs>=3000。記録のみ・案内はしない = 感度分析用),
+      stopNotice('early'|'late'|false = この試行の直前に見た案内の種類。案内は評定送信後・次の場面文を出す前の独立画面 = 次問の読解時間に混ぜない),
+      stemChars, earlyStart(true=表示〜枠から出るまでが 文字数÷25字/秒 より短い = 読み切る前に動き出した。品質共変量),
+      responseT, mt_proxy_ms(動き出し〜離す), total_ms(押下〜離す),
       dispHz, nDispatched, nCoalesced, aborts,
       ratings: {confidence:{value,rt_ms}, hesitation:{...}} (2026-07-15 2項目化。第二パイロット以前のデータは difficulty あり。
                 2026-09-08 から言葉付き 5 択・1 項目 1 画面 = 迷い → 自信。rt_ms はその項目の画面が出てから押すまで), ratingSubmitMs, ratingBacks (自信の画面から「戻る」を押した回数),
@@ -356,7 +358,7 @@
       </div>
     </div>
 
-    <!-- 事後アンケート 拡充分 (2026-09-06 §6-6 項8): 状態・環境・習熟・ふりかえりの 18 項目。POST_ITEMS から描画。
+    <!-- 事後アンケート 拡充分 (2026-09-06 §6-6 項8): 状態・環境・習熟・ふりかえり+自己報告の 19 項目 (2026-09-26 に data_use 追加)。POST_ITEMS から描画。
          評定ブロックを含むクラウド配布のみ (対面 kiosk/stop では出さない = 時間枠・実施者不在。操作の質問だけに留める) -->
     <p class="opt-note" id="postLead" style="display:none;margin-top:14px">続けて、いくつか質問にお答えください（約2分）。分析用で、個人の特定はしません。</p>
     <div id="postBlock" style="display:none"></div>
@@ -473,7 +475,7 @@
   //   つぎの人へボタン / 注意チェック・完了コードの省略 / 対面向けウェルカム文言。
   const KIOSK = QS.get("kiosk") === "1";
   // 確認モード ?go= (開発専用。2026-09-06): 該当画面だけを実機で確認する。**配布 URL には付けない**。
-  //   tut (操作説明→例の1問→評定の説明→練習) / rtut (評定の説明だけ) / rating (評定画面) / post (最後のアンケート) /
+  //   tut (操作説明→例の1問→評定の説明→練習) / rtut (評定の説明だけ) / rating (評定画面) / post (最後のアンケート) / notice (遅い初動の案内) /
   //   done (完了画面) / break (休憩) / micgate (環境音チェック)。事前アンケートはダミー・読速は省略・マイクは micgate 以外
   //   省略・送信は常に無効・block 未指定なら moral。右下に「確認モード」の印を出す (配布と取り違えない)
   const GO = (QS.get("go") || "").replace(/[^a-z]/g, "") || null;
@@ -634,7 +636,7 @@
       practiceFeedback: "neutral",  // 主観選択なので正誤フィードバックはしない
       gateStreak: 2,         // 行動ゲート: 有効ドラッグ2連続で本番解錠 (2026-07-07。主観課題なので正誤は問わない)
       gateCorrect: false,
-      coachDrag: 'そのまま|<b>指を離さずに</b>、|できるだけ<b>止めないで</b>|考えながら、|<b>あなたが選ぶ方</b>まで運び、|ボックスの<b>中で</b>|<b>指を離します</b>',
+      coachDrag: '選択肢を見たら|そのまま<b>指を離さずに</b>、|考えながら|<b>あなたが選ぶ方</b>まで運び、|ボックスの<b>中で</b>|<b>指を離します</b>',
       introHtml:
         '<h1>価値・選好の2択課題 (パイロット)</h1>' +
         '<p>スタートボタンに指を置くと、上に2つの選択肢が出ます。<b>指を離さずに、あなたが選ぶ方のボックスへドラッグ</b>して、そこで指を離してください。</p>' +
@@ -736,7 +738,7 @@
       practiceFeedback: "neutral",  // 主観判断なので正誤フィードバックはしない
       gateStreak: 2,         // 行動ゲート: 有効ドラッグ2連続で本番解錠 (主観課題なので正誤は問わない)
       gateCorrect: false,
-      coachDrag: 'そのまま|<b>指を離さずに</b>、|できるだけ<b>止めないで</b>|考えながら、|<b>あなたが選ぶ方</b>まで運び、|ボックスの<b>中で</b>|<b>指を離します</b>',
+      coachDrag: '選択肢を見たら|そのまま<b>指を離さずに</b>、|考えながら|<b>あなたが選ぶ方</b>まで運び、|ボックスの<b>中で</b>|<b>指を離します</b>',
       introHtml:
         '<h1>道徳的な判断の2択課題 (パイロット)</h1>' +
         '<p>スタートボタンに指を置くと、上に短い場面と2つの選択肢が出ます。<b>指を離さずに、あなたが選ぶ方のボックスへドラッグ</b>して、そこで指を離してください。</p>' +
@@ -872,19 +874,23 @@
   const INSTR_N = 8;
   const INSTR_TEXT = "ここからの 8 問は、問題文をよく読まずに、できるだけ速く、どちらか一方を選んでください。内容や正解、迷いは気にしなくて構いません。";
   let instructedDone = false, pendingInstructedStart = false, instrIndex = 0;
-  // 動的スタートの停止 (§6-6 項19): 6px 以内に STOP_MIN_MS 以上とどまれば停止。STOP_NOTICE_MS 以上なら評定送信後に独立画面で案内
-  const STOP_MIN_MS = 500, STOP_NOTICE_MS = 3000, STOP_EPS_PX = 6;   // 案内は 3 秒 (2026-09-12: 1 秒は「1 秒以内に動かさねば」の意識を生み、自然な小停止=迷いの信号まで抑えるため)
-  const STOP_NOTICE_MAX = 3;   // 案内は種類ごとに 1 セッション 3 回まで (2026-09-12 夜)。4 回目以降は記録 (stopFlag/earlyStart) だけ残し画面には出さない = 「出すぎる」の保険
-  const STOP_NOTICE_TEXT = "前の問題では指が3秒以上止まりました。できるだけ指を止めないで考えながら運んでください。";
+  // 開始手続き (§6-6 項19。2026-09-26 改訂 = 押下で出現): 場面文を読む → スタートに指を置いた瞬間に選択肢が出る →
+  // 出現後 LATE_START_MS 以内に動き出す (超えた試行は評定送信後に案内)。動き出した後の停止は記録するだけで案内しない
+  // (止まる人は止まり、迷いながら動かす人は動かす = 自然なデータを取る。旧 2026-09-09〜25 の「枠から出た瞬間に出現・3 秒停止で案内」は廃止)
+  const STOP_MIN_MS = 500, STOP_NOTICE_MS = 3000, STOP_EPS_PX = 6;   // 停止 = 6px 以内に 500ms 以上。stopFlag = 動き出し後の最長停止 ≥ 3 秒 (記録のみ・感度分析用)
+  const LATE_START_MS = 3000;   // 初動の締切: 出現 (押下) から動き出しまでがこれを超えたら「遅い初動」= 評定送信後に案内 (暫定 3 秒。本実験配布時に固定)
+  const STOP_NOTICE_MAX = 3;   // 案内は種類ごとに 1 セッション 3 回まで (2026-09-12 夜)。4 回目以降は記録 (lateStart/earlyStart) だけ残し画面には出さない = 「出すぎる」の保険
   // 早出し (2026-09-09): 表示〜枠から出るまでが「文字数 ÷ EARLY_CPS」より短ければ読み切る前に指を出したとみなす (品質共変量。除外基準ではない)。
-  // 案内は 1 画面 1 つの理由: 早出しがあれば読解の案内、無ければ停止の案内 (両方なら早出し = 原因のほう)
+  // 案内は 1 画面 1 つの理由: 早出し (読解) > 遅い初動 (両方なら早出し = 原因のほう)
   const EARLY_CPS = 25;
   const READGATE_ON = QS.get("readgate") !== "0";   // 練習の読了ゲート (2026-09-13)。validate/開発用に無効化可
-  const EARLY_NOTICE_TEXT = "前の問題では、問題文を読み終える前に指がスタートから出ました。問題文を読み終えてからスタートに指を置き、指を出してください。";
-  const NOTICE_TEXTS = { stop: STOP_NOTICE_TEXT, early: EARLY_NOTICE_TEXT };
+  const EARLY_NOTICE_TEXT = "前の問題では、問題文を読み終える前に指が動き出しました。問題文を読み終えてからスタートに指を置き、選択肢を見てから運んでください。";
+  const LATE_NOTICE_TEXT = "前の問題では、選択肢が出てから指が動き出すまでに3秒以上かかりました。問題文を読み終えてからスタートに指を置き、選択肢を見たら動かし始めてください。";
+  const STOP_NOTICE_TEXT = LATE_NOTICE_TEXT;   // 旧名 (validate.js の互換用)
+  const NOTICE_TEXTS = { early: EARLY_NOTICE_TEXT, late: LATE_NOTICE_TEXT };
   // 表示用 (伝えたい行動を太字に。textContent は上の平文と一致)
-  const NOTICE_HTML = { stop: "前の問題では指が3秒以上止まりました。<br><b>できるだけ指を止めないで考えながら運んでください。</b>",
-                        early: "前の問題では、問題文を読み終える前に指がスタートから出ました。<br><b>問題文を読み終えてからスタートに指を置き、指を出してください。</b>" };
+  const NOTICE_HTML = { early: "前の問題では、問題文を読み終える前に指が動き出しました。<br><b>問題文を読み終えてからスタートに指を置き、選択肢を見てから運んでください。</b>",
+                        late: "前の問題では、選択肢が出てから指が動き出すまでに3秒以上かかりました。<br><b>問題文を読み終えてからスタートに指を置き、選択肢を見たら動かし始めてください。</b>" };
   let pendingNotice = null, stopNoticeShown = false, stemShownT = 0;
   let seqIndex = 0;
   let pendingMainStart = false;   // 練習クリア画面 (blockintro 流用) から「続ける」で本番へ (2026-07-15 自己ペース化)
@@ -1011,7 +1017,7 @@
     // 事後アンケート UI/負担 (②③=評定ブロックのみ)。使いにくかった点[複数選択]/操作しやすさ/自由記述(その他選択時のみ表示・必須)。
     //   時間ゲートを廃し離脱率で判定する G4 の「負担の主観版」裏付け + UI/チュートリアル改善材料 (pilot2-design-notes)。
     survey: null,
-    post: null,               // 事後アンケート 拡充分 (2026-09-06 §6-6 項8。POST_ITEMS の 18 項目。評定ブロックを含むクラウド配布のみ、未回答は null)
+    post: null,               // 事後アンケート 拡充分 (2026-09-06 §6-6 項8。POST_ITEMS の 19 項目 (2026-09-26 data_use 追加)。評定ブロックを含むクラウド配布のみ、未回答は null)
     postMs: null,             // 事後アンケート画面の滞在時間 (表示〜完了。負担の指標)
     mic: null,   // 環境音モニタの実測記録 {mode, threshold, …, ambientDb, ambientRetries, drops} (finishSession で確定。§6-6 項10)
     wakeLock: null,        // Screen Wake Lock の取得可否 (§6-6 項11。iOS 16.4+ / 非対応端末は false)
@@ -1039,7 +1045,7 @@
     resumes: [],              // 中断→再開の記録 {at, afterTrial, gapMs} (§6-6 項17。再読込/タブ破棄の後に同じ URL で続きから再開)
     tutorialLog: [],          // チュートリアルの各説明ページの滞在 ms とやり直し {kind:'drag'|'rating', step|page, ms} / {kind, event:'replay'|'again'|'back'} (2026-09-07)
     uiScale: UI_SCALE,        // 説明・評定・アンケート画面の文字倍率 (§6-6 項18)
-    startMode: "dynamic",     // 動的スタート (§6-6 項19。2026-09-09)
+    startMode: "press",       // 開始手続き (§6-6 項19): 'press' = 場面文先出し・押下で選択肢・初動締切 3 秒 (2026-09-26)。'dynamic' = 枠から出たら出現 (2026-09-09〜25)。無し = 静的 (それ以前)
     instructed: null,         // 教示誘導ブロック {n, itemIds, text} (careless GT 候補 A。§6-6 項19)
     stopNotices: [],          // 停止の案内画面の表示記録 {afterTrial, kind, ms} (§6-6 項19)
     stopNoticesSuppressed: 0, // 上限 (種類ごと 3 回) で出さなかった案内の数 (2026-09-12 夜)
@@ -1092,16 +1098,16 @@
   })();
 
   // ===== 環境音モニタリング (2026-07-21、experiment-design §6-6 項10 / decisions-log) =====
-  // マイクは必須 (許可拒否・切断中は先へ進めない = 有償募集の実施条件)。取得は音量レベル (RMS dBFS) のみで、
-  // 音声波形はその場で捨てる — 保存も送信もしない (同意文言・倫理申請の「内容非記録」と対応)。
-  // ?mic=0 で無効 (開発・headless 検証)、?mic=mock は検証用 (getUserMedia せず __pilot.setMicLevel で駆動)。
-  // ⚠️ threshold は iPhone 実機較正で確定するまで暫定値 = 較正・decisions-log 追記前の配布は不可 (pilot-plan §8)。
+  // 環境音モニタは **既定 OFF** (2026-09-26 廃止決定、decisions-log 同日): iOS は一度「許可しない」を押すと設定アプリを
+  // 変えるまで再プロンプトが出ず遠隔で復旧できない + AGC でレベル差が潰れ (2026-07-22 電車内が静か判定) 測度として信用しにくい。
+  // 実施環境は画面離脱 (vis) と最後のアンケートの自己報告で見る。実装は残し ?mic=1 (実物) / ?mic=mock (検証) で有効化できる。
+  // 有効時の取得は音量レベル (RMS dBFS) のみで音声波形はその場で捨てる (保存も送信もしない)。
   const MIC = (function () {
     const q = new URLSearchParams(location.search);
     const p = (k, d) => { const v = q.get(k); const n = v == null ? NaN : parseFloat(v); return isNaN(n) ? d : n; };
-    const m = (GO && GO !== "micgate" && q.get("mic") == null) ? "0" : q.get("mic");   // 確認モードは micgate 以外マイク省略
+    const m = (GO === "micgate" && q.get("mic") == null) ? "1" : q.get("mic");   // 確認モード go=micgate は実物のマイクで見る
     return {
-      mode: m === "0" ? "off" : m === "mock" ? "mock" : "real",
+      mode: m === "mock" ? "mock" : (m === "1" || m === "real") ? "real" : "off",
       cal: q.get("miccal") === "1",  // 較正モード (開発専用): 現在レベルを数値表示して閾値決定の実測に使う
       threshold: p("micth", -35),    // dBFS 閾値 (超過=騒音)。⚠️ 暫定 — 2026-07-22 実機で「電車内が静か判定」= 緩すぎ疑い。?micth=/?miccal= で較正中
       checkMs: p("micchk", 5000),    // 事前チェックの計測時間
@@ -1512,13 +1518,13 @@
     numA.textContent = cell.leftLabel; numB.textContent = cell.rightLabel;
     numA.className = "txt"; numB.className = "txt"; stemEl.innerHTML = stemHtml(cell.stem);   // 文節ブロック改行 (2026-07-22)
   }
-  function insertDqs(q) {   // ②③本番キューの 1/3・2/3 に弱DQSを挿入 (指示側CB)。DQS直後を post_check に
+  function insertDqs(q) {   // 本番キューの 1/5・2/5・3/5・4/5 に弱DQS 4 問を挿入 (指示側は左右 2:2 をシャッフル)。DQS直後を post_check に
+    // 2026-09-26: 2 問 (1/3・2/3) → 4 問。自然発生の不注意者の人単位ラベルを 4 項目で作るため (decisions-log 同日)。
+    // 挿入後の総数 N = n+4 の k/5 の位置 (49 問なら N=53 → 10・21・31・42 問目)。休憩 (16・32 問目の後) の直後には当たらない
     const n = q.length;
-    if (n < 3) return q;
-    const cs = Math.random() < 0.5 ? [makeDqsCell("left"), makeDqsCell("right")]
-                                   : [makeDqsCell("right"), makeDqsCell("left")];
-    q.splice(Math.floor(2 * n / 3), 0, cs[1]);   // 後ろから挿入してインデックスずれ回避
-    q.splice(Math.floor(n / 3), 0, cs[0]);
+    if (n < 5) return q;
+    const cs = shuffle([makeDqsCell("left"), makeDqsCell("left"), makeDqsCell("right"), makeDqsCell("right")]);
+    for (let k = 1; k <= 4; k++) q.splice(Math.floor((n + 4) * k / 5) - 1, 0, cs[k - 1]);   // 前から挿入 (各位置は前の挿入より後ろなのでずれない)
     for (let i = 1; i < q.length; i++) if (q[i - 1].isCheck === "dqs") q[i].postCheck = true;
     return q;
   }
@@ -1670,7 +1676,7 @@
   // 停止の案内画面 (§6-6 項19): 表示〜「次へ」の滞在を device.stopNotices に記録し、直後の試行に stopNotice=true を付ける
   let noticeShownAt = null, noticeKind = null;
   function showStopNotice(kind) {
-    noticeKind = kind; $("noticeText").innerHTML = NOTICE_HTML[kind] || NOTICE_HTML.stop;   // 文言は内部定数のみ
+    noticeKind = kind; $("noticeText").innerHTML = NOTICE_HTML[kind] || NOTICE_HTML.late;   // 文言は内部定数のみ
     noticeShownAt = performance.now();
     show("notice");
     $("notice").querySelector(".pad").scrollTop = 0;
@@ -1723,8 +1729,8 @@
       coachHide();
       setCoach(null);
     }
-    // 刺激内容はブロック別に描画 (注意チェックは汎用描画)。動的スタート (2026-09-09): 場面文は最初から見せ、
-    // 選択肢は指がスタートの枠から出た瞬間に出す (pointermove 側)。stimulus onset = 場面文の表示時刻
+    // 刺激内容はブロック別に描画 (注意チェックは汎用描画)。開始手続き (2026-09-26 押下で出現): 場面文は最初から見せ、
+    // 選択肢はスタートに指を置いた瞬間に出す (pointerdown 側)。stimulus onset = 場面文の表示時刻
     if (cell.isCheck) renderCheck(cell); else BLOCK.renderStimulus(cell);
     numA.style.visibility = "hidden";
     numB.style.visibility = "hidden";
@@ -1794,11 +1800,12 @@
       post_check: cell.postCheck === true,   // 弱DQS直後の本試行 (警戒モード汚染を感度分析で除外可能に。§6-2)
       post_resume: resumePending === true,   // 中断→再開の直後の本試行 (§6-6 項17。間隔が空いた分を感度分析で除外可能に)
       choiceSide: null, correct: null,
-      // 動的スタート (§6-6 項19): onset = 場面文の表示、startPressT = 押下、revealT = 枠から出て選択肢が出た時刻
+      // 開始手続き (§6-6 項19。2026-09-26 押下で出現): onset = 場面文の表示、startPressT = 押下 = revealT (選択肢の出現)、initiationT = 枠から出た時刻
       stimulusOnsetT: stemShownT, startPressT: e.timeStamp, preStartMs: +(e.timeStamp - stemShownT).toFixed(1),
-      revealT: null, revealXY: null, stopsAfterReveal: null, stopFlag: false, stopNotice: stopNoticeShown,
+      revealT: e.timeStamp, revealXY: { x: +(e.clientX - sRect.left).toFixed(2), y: +(e.clientY - sRect.top).toFixed(2) },
+      stopsAfterInit: null, stopFlag: false, lateStart: false, stopNotice: stopNoticeShown,
       initiationT: null, responseT: null,
-      rt_proxy_ms: null, mt_proxy_ms: null, total_ms: null,
+      rt_ms: null, rt_proxy_ms: null, mt_proxy_ms: null, total_ms: null,
       dispHz: null, nDispatched: 0, nCoalesced: 0, aborts: 0,
       ratings: { confidence: null, hesitation: null },
       geom: {
@@ -1812,8 +1819,9 @@
       events: [],
     };
     pushEvent(e, "down");
+    trial.events.push({ seq: trial.events.length, t: e.timeStamp, x: trial.revealXY.x, y: trial.revealXY.y, type: "reveal" });
     stopNoticeShown = false;   // 案内の効果は直後の 1 試行だけに印を付ける
-    startBtn.classList.add("armed"); startBtn.textContent = "→";   // 押下では選択肢を出さない (枠から出た瞬間に出す)
+    revealStimulus();   // 押下で選択肢を出す (2026-09-26。旧: 枠から出た瞬間)。指を置いた瞬間に画面が反応する = 何をすればよいか分かる
     // 練習中はステップ2: ボックスを出現+発光させ「離さず運んで中で離す」(文言はブロック別。経路の形は指示しない)
     if (phase === "practice" && !dragTutState.done) { coachMsg(nb(BLOCK.coachDrag), "mid"); setCoach("drag"); }
     // チュートリアル後の練習: 上部の案内 (スタート誘導) は問題文に被るのでスタートを押した時点で消す。
@@ -1832,15 +1840,11 @@
       for (const c of e.getCoalescedEvents()) pushEvent(c, "coalesced");
     }
     pushEvent(e, "dispatched");
-    // 枠から出た最初の dispatched イベント = 選択肢の出現 (動的スタート) + initiation。境界のちらつき防止に 4px の遊び
+    // 枠から出た最初の dispatched イベント = 動き出し (initiation)。選択肢は押下で出ている (2026-09-26)。境界のちらつき防止に 4px の遊び
     const sr = trial._stRect;
     if (!leftStart && (e.clientX < sr.left - 4 || e.clientX > sr.right + 4 || e.clientY < sr.top - 4 || e.clientY > sr.bottom + 4)) {
       leftStart = true;
       trial.initiationT = e.timeStamp;
-      trial.revealT = e.timeStamp;
-      trial.revealXY = { x: +(e.clientX - trial._sRect.left).toFixed(2), y: +(e.clientY - trial._sRect.top).toFixed(2) };
-      trial.events.push({ seq: trial.events.length, t: e.timeStamp, x: trial.revealXY.x, y: trial.revealXY.y, type: "reveal" });
-      revealStimulus();
       // 練習: 動き出したらコーチパネルをフェードし、軌跡の帯を空ける (教示は押下中に読み終えている)。
       // チュートリアル後は完全に消す (「選択肢のボックスの中で…」はスタートを出た時点で役目を終える)
       if (phase === "practice" && !dragTutState.done) coachEl.classList.add("dim"); else coachHide();   // 本番のやり直し案内もスタートを出た時点で消す (2026-09-15)
@@ -1932,16 +1936,19 @@
       return;
     }
 
-    // タイミング (proxy。正式な RT/MT は peak-velocity 5% 基準で後処理)。動的スタート (2026-09-09):
-    //   rt_proxy = 押下〜枠から出る (押さえていた時間) / mt_proxy = 出現〜離す / total = 押下〜離す。読解+熟考は preStartMs
+    // タイミング (正式な RT/MT は peak-velocity 5% 基準で後処理)。押下で出現 (2026-09-26):
+    //   rt = 出現 (=押下) 〜枠から出る = 古典的な反応時間 (選択肢を見てから動き出すまで) / mt_proxy = 動き出し〜離す / total = 押下〜離す。読解+熟考は preStartMs。
+    //   rt_proxy_ms は旧名 (2026-09-09〜25 は「押さえ時間」の意味) で、同じ値を互換のため残す
     const upT = trial.events[trial.events.length - 1].t;
     trial.responseT = upT;
     if (trial.initiationT == null) trial.initiationT = upT;
-    trial.rt_proxy_ms = +(trial.initiationT - trial.startPressT).toFixed(2);
+    trial.rt_ms = +(trial.initiationT - trial.revealT).toFixed(2);
+    trial.rt_proxy_ms = trial.rt_ms;
     trial.mt_proxy_ms = +(upT - trial.initiationT).toFixed(2);
     trial.total_ms = +(upT - trial.startPressT).toFixed(2);
-    trial.stopsAfterReveal = computeStops(trial.events, trial.revealT);
-    trial.stopFlag = trial.stopsAfterReveal.maxMs >= STOP_NOTICE_MS;
+    trial.stopsAfterInit = computeStops(trial.events, trial.initiationT);   // 動き出した後の停止 (記録のみ・案内しない)
+    trial.stopFlag = trial.stopsAfterInit.maxMs >= STOP_NOTICE_MS;
+    trial.lateStart = trial.rt_ms > LATE_START_MS;   // 遅い初動: 選択肢が出てから 3 秒を超えて動かなかった (評定送信後に案内。品質共変量)
     // 早出し: 表示〜枠から出るまで (preStart + 押さえ) が読み切れる最短時間より短い (場面文のないブロックは判定しない)
     trial.stemChars = cell.stem ? stemRecord(cell.stem).length : 0;
     trial.earlyStart = trial.stemChars > 0 && (trial.initiationT - trial.stimulusOnsetT) < (trial.stemChars / EARLY_CPS) * 1000;
@@ -1959,7 +1966,7 @@
                                  : BLOCK.decideOutcome(cell, choiceSide); // anchor: 正誤 / value/moral: 規範整合 (拮抗は null)
 
     stampMonitors(trial);   // 環境音要約 (評定ONの試行は submitRating で評定込み窓に上書き)
-    pendingNotice = trial.earlyStart ? "early" : (trial.stopFlag ? "stop" : null);   // 案内 (評定の後・次の場面文の前の独立画面。§6-6 項19)
+    pendingNotice = trial.earlyStart ? "early" : (trial.lateStart ? "late" : null);   // 案内 (評定の後・次の場面文の前の独立画面。§6-6 項19)。動き出した後の停止は案内しない (2026-09-26)
     if (phase === "practice") {
       records.push(trial);
       showPracticeFeedback();
@@ -2362,20 +2369,20 @@
     const STEPS = [
       // 二部構成 (2026-09-09): part 'screen' = 画面の説明 (触らない・読むだけ) / part 'hands' = 操作の練習 (実際に指で運ぶ)。見出し・点は部ごと
       // 三部構成 (2026-09-12 夜): 「はじめに」(やることを文字で 1 枚) → 「画面の説明 1–4」(導入・問題文・スタート・選択肢 = 実際の流れの順) → 「操作の練習 1–3」
-      { part: "about",  focus: "orient",   act: "next", sample: true, reveal: 0, op: "読んだら「次へ」", txt: "これから<b>問題文</b>を読んで、<b>2つの選択肢</b>から あなたの考えに近いほうを選んでもらいます。<br>選ぶときは<b>スタート</b>に指を置き、<b>指を離さずに</b>選択肢のボックスまで運びます。この操作をくり返します。<br>読んだら、画面の下の緑の<b>「次へ」</b>ボタンで進みます。" },
+      { part: "about",  focus: "orient",   act: "next", sample: true, reveal: 0, op: "読んだら「次へ」", txt: "これから<b>問題文</b>を読んで、<b>2つの選択肢</b>から あなたの考えに近いほうを選んでもらいます。<br>問題文を読んだら<b>スタート</b>に指を置きます。すると選択肢が出るので、<b>指を離さずに</b>選ぶほうのボックスまで運びます。この操作をくり返します。<br>読んだら、画面の下の緑の<b>「次へ」</b>ボタンで進みます。" },
       { part: "screen", focus: "orient",   act: "next", sample: true, reveal: 0, op: "読んだら「次へ」", txt: "まず<b>画面の説明</b>です。<br>ここでは<b>画面の操作はせず</b>、読むだけです。<br>実際の流れの順に、<b>問題文 → スタートボタン → 選択肢</b>と説明していきます。" },
       // 2/4: まず問題文の位置に説明だけを置いて読ませ、その後 BOX が下へスライドして問題文が現れる
       { part: "screen", focus: "stem",     act: "next", sample: true, reveal: 1, revealDelay: 1000, op: "読んだら「次へ」", txt: "まず、画面の<b>上</b>に出る<b>問題文</b>を読みます。" },   // 遅延 1.8 → 1.0 秒 (2026-09-14: 実機で待ちが長い)
       // 3/4:スタート。問題文と選択肢 (枠だけ・中身なし) は薄くしてスタートに目を向ける。選択肢が出る話は 4/4 にまとめる (2026-09-14: 重複を解消)
-      { part: "screen", focus: "start",    act: "next", reveal: 2, blank: true, dimStem: true, dimChoices: true, op: "読んだら「次へ」", txt: "画面の<b>下</b>に<b>スタート</b>ボタンがあります。<br>問題文を<b>読み終えてから</b>、このスタートに指を置きます。" },
-      // 4/4: 選択肢。枠だけ見せて中身は出さない (本番もスタートから指が出るまで中身は出ない)。問題文とスタートは薄く。簡潔に (3 秒の予告は操作の練習 3/3 へ。2026-09-13)
-      { part: "screen", focus: "choices2", act: "next", reveal: 2, blank: true, dimStem: true, dimStart: true, op: "読んだら「次へ」", txt: "指がスタートボタンから出ると、ここに<b>選択肢の内容</b>が表示されます。<br>選ぶほうへ、できるだけ<b>指を止めないで考えながら運び</b>、ボックスの中で指を離します。" },
+      { part: "screen", focus: "start",    act: "next", reveal: 2, blank: true, dimStem: true, dimChoices: true, op: "読んだら「次へ」", txt: "画面の<b>下</b>に<b>スタート</b>ボタンがあります。<br>問題文を<b>読み終えてから</b>、このスタートに指を置きます。<br>指を置くと、選択肢の内容が表示されます。" },
+      // 4/4: 選択肢。枠だけ見せて中身は出さない (本番もスタートに指を置くまで中身は出ない。2026-09-26: 押下で出現)。問題文とスタートは薄く。簡潔に (3 秒の予告は操作の練習 3/3 へ。2026-09-13)
+      { part: "screen", focus: "choices2", act: "next", reveal: 2, blank: true, dimStem: true, dimStart: true, op: "読んだら「次へ」", txt: "スタートに指を置くと、ここに<b>選択肢の内容</b>が表示されます。<br>選択肢を見たら、選ぶほうへ<b>指を離さずに運び</b>、ボックスの中で指を離します。" },
       // ---- ここから操作の練習 (触る段階であることを見出しと切り替え画面で明示。2026-09-09 対面 1 日目「説明中に押してしまう」への対応) ----
       { part: "hands",  focus: "orient",   act: "next", sample: true, reveal: 0, op: "読んだら「次へ」", txt: "ここからは、<b>実際に指で操作</b>します。<br>次の画面でスタートに指を置いて、離さずに運んでみましょう。" },
       // 2/3・3/3 はハンズオン: 実演を見せたあと自分で運んでもらい、成功したら進めるようにする
-      { part: "hands",  focus: "sandbox",  act: "concept", hands: "sandbox", op: "実際にスタートから運んでみましょう", txt: "スタートに指を置いて、<b>離さずに</b>運びます。<br>指がスタートボタンから出ると<b>「選択肢」</b>と表示されます。<b>道すじは自由</b>です。（まっすぐでも、回り道でもかまいません）" },
-      // 3/3 (2026-09-12): 「止めないで運ぶ」と 3 秒の予告は実際に運ぶ場面で言う (2026-09-13: 4/4 から移動)。文は 4 行以内 = 説明ボックスが運ぶ先の箱を隠しすぎない
-      { part: "hands",  focus: "action",   act: "real", hands: "real", labels: true, op: "実際にスタートから運んでみましょう", txt: "<b>2つの選択肢</b>のどちらかへ運びます。指がスタートボタンから出ると<b>選択肢の内容</b>が出ます。<br>できるだけ<b>指を止めないで考えながら運び</b>、ボックスの中で離します。<br>（3秒以上指が止まると、注意が出ます）" },
+      { part: "hands",  focus: "sandbox",  act: "concept", hands: "sandbox", op: "実際にスタートから運んでみましょう", txt: "スタートに指を置くと<b>「選択肢」</b>と表示されます。<br>そのまま<b>指を離さずに</b>運びます。<b>道すじは自由</b>です。（まっすぐでも、回り道でもかまいません）" },
+      // 3/3 (2026-09-26): 「選択肢を見たら動かし始める」と 3 秒の予告は実際に運ぶ場面で言う。文は 4 行以内 = 説明ボックスが運ぶ先の箱を隠しすぎない
+      { part: "hands",  focus: "action",   act: "real", hands: "real", labels: true, op: "実際にスタートから運んでみましょう", txt: "スタートに指を置くと<b>2つの選択肢</b>の内容が出ます。<br>選択肢を見たら、選ぶほうへ<b>指を離さずに運び</b>、ボックスの中で離します。<br>（選択肢が出てから3秒以上動かさないと、注意が出ます）" },
     ];
     function build() {
       if (built) return;
@@ -2705,16 +2712,16 @@
       hTracking = true; hPid = e.pointerId; hLeft = false; startBtn.classList.add("armed");
       inkSize(); inkStart(e.clientX, e.clientY);   // 軌跡を描き始める (触れている実感)
       setHint("");   // 運んでいる最中は案内を出さない (軌跡と実演に集中してもらう)
+      // 指を置いた瞬間に選択肢が現れる (本番と同じ仕組み。2026-09-26: 旧「スタートから出た瞬間」)
+      sbxRevealed = true;
+      if (handsMode === "sandbox") { clr(); drawSbx(sbxT()); }
+      else { numA.style.visibility = "visible"; numB.style.visibility = "visible"; }
     }, { passive: true });
     let hLeft = false;
     surface.addEventListener("pointermove", (e) => {
       if (!hTracking || e.pointerId !== hPid) return;
       inkTo(e.clientX, e.clientY);
-      if (!hLeft && !hInRect(startBtn, e.clientX, e.clientY)) {   // 指がスタートから出た → 選択肢が現れる (本番と同じ仕組み)
-        hLeft = true; sbxRevealed = true;
-        if (handsMode === "sandbox") { clr(); drawSbx(sbxT()); }
-        else { numA.style.visibility = "visible"; numB.style.visibility = "visible"; }
-      }
+      if (!hLeft && !hInRect(startBtn, e.clientX, e.clientY)) hLeft = true;   // 動き出し (記録なし)
     }, { passive: true });
     surface.addEventListener("pointerup", (e) => {
       if (!hTracking || e.pointerId !== hPid) return;
@@ -2862,7 +2869,7 @@
   const survey = { problems: [], ease: null, free: "" };  // free=「その他」選択時のみ表示・必須の自由記述
 
   // ===== 事後アンケート 拡充分 (2026-09-06、experiment-design §6-6 項8 / decisions-log 2026-09-06) =====
-  // 課題の後に 18 項目 (状態・環境・習熟・ふりかえり)。5段階は評定と同じ 1–5 ボタン (尺度を揃える。10段階スライダーは
+  // 課題の後に 19 項目 (状態・環境・習熟・ふりかえり・自己報告 data_use)。5段階は評定と同じ 1–5 ボタン (尺度を揃える。10段階スライダーは
   // 端末で精度が落ち・既定位置に引かれ・ドラッグが課題操作と紛れるため不採用)。選択式は英語スラッグで記録。
   // 表示は POST_ON (評定ブロックを含むクラウド配布) のみ。途中終了 (partial) では必須にしない。用途は品質共変量・探索
   // (analysis-plan §3.6)。項目の文言・選定理由の正本は experiment-design §6-6 項8 / decisions-log、候補の経緯は post-survey-candidates。
@@ -2891,6 +2898,8 @@
     { key: "attention_lapse", q: "回答中に、注意がそれたり他のことをしていた時間はありましたか", opts: [["none", "なかった"], ["some", "少しあった"], ["much", "かなりあった"]] },
     { key: "rating_meaning", q: "「自信」と「迷い」の違いは分かりやすかったですか", scale: ["分かりにくかった", "分かりやすかった"] },
     { key: "discomfort", q: "不快に感じた場面はありましたか", opts: [["none", "なかった"], ["some", "少しあった"], ["much", "かなりあった"]] },
+    // 自己報告の単一項目 (Meade & Craig 2012 の "use my data" 型。2026-09-26): 謝礼に影響しないと明記して正直な自己申告を取る。不注意ラベルの材料の 1 つ (analysis-plan §4.7)
+    { key: "data_use", q: "正直なところ、あなたの今回の回答を研究の分析に使ってよいと思いますか（どちらを選んでも謝礼には影響しません）", opts: [["yes", "はい、使ってよい"], ["no", "いいえ、使わないでほしい"]], v: true },
   ];
   const POST_KEYS = POST_ITEMS.filter((it) => it.key).map((it) => it.key);
   const post = {};
@@ -2945,7 +2954,7 @@
       const otherOk = !survey.problems.includes("other") || survey.free.trim().length > 0;  // その他は自由記述で具体化
       ok = ok && hasProblem && otherOk && !!survey.ease;
     }
-    if (POST_ON) ok = ok && postMissing() === 0;   // 拡充分 18 項目も必須 (1タップずつ。途中終了は上で免除済み)
+    if (POST_ON) ok = ok && postMissing() === 0;   // 拡充分 19 項目も必須 (1タップずつ。途中終了は上で免除済み)
     $("postSubmit").disabled = !ok;
     // 未回答の案内 (2026-09-06 実機確認: 必須項目すべてを列挙し、タップで最初の未回答へ移動。1つも答えていない初期状態では出さない)
     const anyAnswered = !!device.grip || (POST_ON && postMissing() < POST_KEYS.length) || survey.problems.length > 0 || !!survey.ease;
@@ -3417,7 +3426,7 @@
          '<li>選んだあとに「自信」と「迷い」を5段階でふりかえります。</li></ul>' },
     { h: "所要時間と進め方",
       b: '<p>全体で <b>15〜25分</b>ほどです。</p>' +
-         '<ul><li>はじめに <b>読む速さの確認</b>（短い文章3本）→ <b>操作の説明</b> → <b>練習</b>と進みます。説明は何度でも見直せます。</li>' +
+         '<ul><li>はじめに <b>読む速さの確認</b>（短い文章4本）→ <b>操作の説明</b> → <b>練習</b>と進みます。説明は何度でも見直せます。</li>' +
          '<li>急ぐ必要はありません。<b>自分のペース</b>で進めてください。</li>' +
          '<li>途中に休憩をはさみます。<b>最後まで通して</b>行ってください。</li></ul>' },
     { h: "実施する環境について",
@@ -3714,11 +3723,13 @@
       break: () => { dragTutState.done = true; ratingTutorialDone = true; phase = "main";
         queue = BLOCK.buildMain(); totalMain = queue.length; trialIndex = CONFIG.breakEvery || 16; cell = queue.shift(); sizeCanvas(); showBreak(); },
       micgate: () => showMicGate("precheck"),           // 環境音チェック (マイクは実物)
+      notice: () => { dragTutState.done = true; ratingTutorialDone = true; phase = "main";   // 案内画面 (遅い初動)。「次へ」で本番の課題画面へ (2026-09-26)
+        queue = BLOCK.buildMain(); totalMain = queue.length; trialIndex = 3; cell = queue.shift(); sizeCanvas(); showStopNotice("late"); },
     };
     if (BLOCK.stimulusType !== "text-choice" && GO !== "micgate" && GO !== "done") {
       badge.textContent += " (block=moral/value で使う)";
     } else if (jump[GO]) jump[GO]();
-    else badge.textContent += " (不明。tut / rtut / rating / post / done / break / micgate)";
+    else badge.textContent += " (不明。tut / rtut / rating / post / done / break / micgate / notice)";
   }
 
   // 本番中のうっかり更新・離脱への確認ダイアログ (PC ブラウザ向け。iOS Safari は表示しないが害はない。§6-6 項17)。
