@@ -870,9 +870,9 @@
       id: "attn", stimulusType: "text-choice", title: "確認の質問",
       ratings: false, breakEvery: 0, repsPerCell: 1, practiceTrials: 0,
       gateStreak: 0, gateCorrect: false, coachDrag: "",
-      introHtml:
-        '<h1>最後に確認です</h1>' +
-        '<p>最後に、短い質問にいくつかお答えください。これまでと同じく、スタートから選ぶ方のボックスへドラッグしてお答えください。</p>',
+      introHtml:   // 「確認」と言わない (注意チェックの予告になる)。「最後」でもない (この後に追加 10 問とアンケート)。2026-09-30
+        '<h1>続けて、短い質問が2問あります</h1>' +
+        '<p>答え方はこれまでと同じです（スタートに指を置き、選ぶほうのボックスへ運びます）。この2問には振り返りはありません。</p>',
       csvHead: "isCheck,checkAnswerSide",
       csvRow: (r) => `${r.isCheck},${r.checkAnswerSide}`,
       buildMain() { return shuffle([makeCheckCell("infreq"), makeCheckCell("imc")]); },
@@ -908,7 +908,8 @@
     if (KIOSK) return false;   // 対面の短時間セッションでは careless 検出が目的でない (実験者が同席・試行数も足りない)
     return SEQ.some((id) => BLOCKS[id] && BLOCKS[id].ratings);   // 評定を取るブロック (value/moral) を含めば ON
   })();
-  if (ATTN_ON && SEQ[SEQ.length - 1] !== "attn") SEQ.push("attn");
+  // 2026-09-30: infrequency + 強 IMC は別ブロックにせず、本番の最後の 2 問として出す (導入画面なし・振り返りあり = 見た目は本番と同じ)。
+  // 解析では isCheck で除外する (block は moral のまま)。末尾に置く理由 (欺瞞への気づきが後続の本試行を汚さない) は不変
   const REAL_BLOCKS = SEQ.filter((b) => b !== "attn");   // device.block/combo 判定は attn を除いた実ブロックで
   const UNIFIED = REAL_BLOCKS.length > 1;   // 統合セッション: 練習を冒頭に統合しブロック別練習は廃止 (2026-07-15、§6-2)
   const HAS_RATING_BLOCK = REAL_BLOCKS.some((id) => BLOCKS[id] && BLOCKS[id].ratings);  // 事後アンケートは「評定ブロックを含むセッション」で出す (最後が attn でも出す)
@@ -919,7 +920,7 @@
   // クラウド配布 (評定ブロックあり・kiosk/stop でない) のみ。?instr=0 で無効 (開発用)
   const INSTR_ON = (function () { const v = QS.get("instr"); if (v != null) return v !== "0"; return HAS_RATING_BLOCK && !KIOSK && !STOP_ON; })();
   const INSTR_N = 10;
-  const INSTR_TEXT = "ここからの 10 問は、問題文をよく読まずに、できるだけ速く、どちらか一方を選んでください。内容や正解、迷いは気にしなくて構いません。";
+  const INSTR_TEXT = "ここからの 10 問は、これまでとは逆に、問題文を読まずに、深く考えず、できるだけ速く、思いついたほうを選んでください。どちらを選んでも構いません。";   // 2026-09-30 文言改訂 (「ランダムに」は言わない = 意図的なランダム化は別の行動)
   let instructedDone = false, pendingInstructedStart = false, instrIndex = 0;
   // 開始手続き (§6-6 項19。2026-09-26 改訂 = 押下で出現): 場面文を読む → スタートに指を置いた瞬間に選択肢が出る →
   // 出現後 LATE_START_MS 以内に動き出す (超えた試行は評定送信後に案内)。動き出した後の停止は記録するだけで案内しない
@@ -1099,7 +1100,7 @@
     stopNotices: [],          // 停止の案内画面の表示記録 {afterTrial, kind, ms} (§6-6 項19)
     stopNoticesSuppressed: 0, // 上限 (種類ごと 3 回) で出さなかった案内の数 (2026-09-12 夜)
     pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
-    appVersion: "2026-09-30",   // アプリの版 (文言・UI の改善履歴を解析で追えるように。設計・記録に触れない改修でも上げる。2026-09-27)
+    appVersion: "2026-09-30c",   // アプリの版 (文言・UI の改善履歴を解析で追えるように。設計・記録に触れない改修でも上げる。2026-09-27)
     welcomeAgree: null,       // はじめに 4/4 の同意チェック {items, ms} (2026-09-29)
     devGuard: null,           // 機種ガード {on, minH, w, h, shown} (2026-09-26。本実験はフルスクリーン iPhone 限定)
     exportedAt: null,
@@ -1681,9 +1682,10 @@
   function showInstructedIntro() {
     pendingInstructedStart = true;
     $("blockintroBody").innerHTML =
-      '<h1>最後に、短い追加の 10 問です</h1>' +
+      '<h1>追加の 10 問（やり方が変わります）</h1>' +
       '<p>' + INSTR_TEXT + '</p>' +
-      '<p>操作はこれまでと同じです（スタートから指を出して、選ぶほうへ運びます）。<br>このあと最後のアンケートがあります。</p>';
+      '<p>集中して答えたときと、読まずに速く答えたときとで、<b>指の動きがどう違うか</b>を調べるための問題です。すでに答えた問題が出ますが、前の答えを思い出す必要はありません。</p>' +
+      '<p>操作はこれまでと同じです（スタートに指を置き、選ぶほうへ運びます）。振り返りはありません。このあと実施後のアンケートがあります。</p>';   // 2026-09-30: 何をするか・なぜかを一言ずつ (意図は「指の動きの違い」までに留める = 過剰に演じる要求特性を避ける)
     show("blockintro");
     $("blockintro").querySelector(".pad").scrollTop = 0;
   }
@@ -2941,6 +2943,7 @@
     queue = BLOCK.buildMain();
     if (NMAIN && BLOCK.id !== "attn") queue = queue.slice(0, NMAIN);   // 開発専用 ?nmain=N (検証の短縮)
     if (ATTN_ON && BLOCK.ratings && BLOCK.id !== "attn") queue = insertDqs(queue);  // ②③に弱DQSを1/3・2/3で埋め込む (§6-5)
+    if (ATTN_ON && BLOCK.ratings && BLOCK.id !== "attn") queue = queue.concat(shuffle([makeCheckCell("infreq"), makeCheckCell("imc")]));   // 本番の最後の 2 問 = infrequency + 強 IMC (2026-09-30。旧: 末尾の attn ブロック)
     totalMain = queue.length;
     sizeCanvas();
     nextTrial();
@@ -3133,8 +3136,7 @@
     }
     if (ATTN_ON) {   // 強IMC (欺瞞) のデブリーフィング (§6-5・IRB 申請に記載)
       $("debrief").innerHTML =
-        '<p class="debrief"><b>確認の質問について</b><br>この調査には、回答に集中していただけているかを確認する質問（「左を選んでください」という指示や、一見答えにくい質問）が含まれていました。' +
-        'これは回答の質を確かめる一般的な方法で、あなた個人を評価するものではありません。</p>';   // 倫理申請に記載の事後説明 (IMC は欺瞞を含むため必須)。明るい背景で読める配色に (2026-09-27)
+        '<p class="debrief"><b>確認の質問について</b><br>この調査には、集中して回答できているかを確かめる質問（「左を選んでください」など）が含まれていました。回答の質を確かめる一般的な方法で、あなた個人を評価するものではありません。</p>';   // 倫理申請に記載の事後説明 (IMC は欺瞞を含むため必須)。明るい背景で読める配色に (2026-09-27)
       $("debrief").style.display = "";
     }
     const main = records.filter((r) => r.phase === "main");
@@ -3434,8 +3436,8 @@
     postPayload(buildPayload())
       .then(() => {
         sendUiEnd(true);
-        $("uploadStatus").textContent = "✅ 送信が完了しました。このまま閉じて大丈夫です。";
-        $("doneMsg").textContent = "ご協力ありがとうございました。データは送信されました。";
+        $("uploadStatus").textContent = "✅ データは送信されました。このまま閉じて大丈夫です。";
+        $("doneMsg").textContent = "ご協力ありがとうございました。";
         clearBackup();
         showNextParticipant();
         outboxFlush();   // 回線が復活したので、貯まっていた過去分もついでに送る
@@ -3577,12 +3579,17 @@
     // 2026-09-06: 画面切替・再読込の注意 (§6-6 項17)。画面切替の回数・時間の記録は倫理申請 (実施計画書 §3D) に記載済。
     // 報酬の承認条件 (非承認の基準) はアプリでなく募集文に書く (身内配布では報酬がないため、ここでは「有効な回答として扱えない」に留める)
     // 4/4 は同意のチェック (2026-09-29): 全部にチェックを入れないと「はじめる」が押せない。記録 device.welcomeAgree
+    // 2026-09-30: 5 項目は 1 画面に入らない (mini + ツールバーで 154px 超過) ので 3 + 2 の 2 ページに
     { h: "進めるうえでの<br>お願い", mic: true,
       b: '<p>次の項目を確認して、<b>すべてにチェック</b>を入れてください。</p>',
       agree: [
         '<b>途中で他のアプリや別の画面に切り替えません。</b>切り替えた回数と時間は記録されます。',
         '<b>ページの更新（再読み込み）や「戻る」の操作はしません。</b>万一途中で画面が消えても、同じURLを開き直せば続きから再開できます。',
         '着信などでやむを得ず中断したときは、戻ってからそのまま続けます。',
+      ] },
+    { h: "参加の条件",
+      b: '<p>次の項目を確認して、<b>すべてにチェック</b>を入れてください。</p>',
+      agree: [
         'この調査は<b>1回だけ</b>参加できます。',
         'データを分析して<b>集中して取り組めていない</b>と判定した回答（例: 問題文を読まずに答えている、適当に答えている）には、謝礼をお渡しできないことがあります。',
       ] },
@@ -3596,7 +3603,7 @@
       (p.agree ? '<div class="checks" id="wcAgree">' + p.agree.map((t, i) => `<button type="button" class="chk" data-val="${i}">${t}</button>`).join("") + '</div>' : "") +
       (p.mic && MIC.mode !== "off" ? '<p class="opt-note" style="margin-top:12px">※ 次の画面でマイクの許可をお願いします（測るのは周囲の<b>音量レベルだけ</b>で、会話の内容は記録しません）。</p>' : "") +
       (wcIdx === WELCOME.length - 1 ? '<p class="opt-note" style="margin-top:10px">※ 中断からの再開のために、回答の途中経過をこの端末に一時保存します（個人を特定する情報は含みません）。</p>' : "");
-    if (p.agree) {   // 同意のチェック: 全部にチェックが入るまで「はじめる」は無効
+    if (p.agree) {   // 同意のチェック: 全部にチェックが入るまで「次へ / はじめる」は無効
       wcAgreeShownAt = performance.now();
       wireChecks("wcAgree", (vals) => { $("wcNext").disabled = vals.length < p.agree.length; });
       $("wcNext").disabled = true;
@@ -3608,11 +3615,12 @@
     wcCueTimer = setTimeout(() => { if (wcIdx === page) $("wcNext").classList.add("cue"); }, readCueDelay(p.b));
     $("welcome").querySelector(".pad").scrollTop = 0;
   }
-  let wcAgreeShownAt = null;
+  let wcAgreeShownAt = null, wcAgreeMs = 0;
   $("wcNext").addEventListener("click", () => {
     if ($("wcNext").disabled) return;
+    if (WELCOME[wcIdx].agree && wcAgreeShownAt != null) { wcAgreeMs += Math.round(performance.now() - wcAgreeShownAt); wcAgreeShownAt = null; }   // 同意ページの滞在を合算
     if (wcIdx < WELCOME.length - 1) { wcIdx++; wcRender(); return; }
-    if (WELCOME[wcIdx].agree) device.welcomeAgree = { items: WELCOME[wcIdx].agree.length, ms: wcAgreeShownAt != null ? +(performance.now() - wcAgreeShownAt).toFixed(0) : null };   // 同意のチェック (2026-09-29)
+    device.welcomeAgree = { items: WELCOME.reduce((n, p) => n + (p.agree ? p.agree.length : 0), 0), pages: WELCOME.filter((p) => p.agree).length, ms: wcAgreeMs };   // 同意のチェック (2026-09-29。2026-09-30 から 2 ページ合計)
     gotoIntro();
   }, { passive: true });
   wcRender();

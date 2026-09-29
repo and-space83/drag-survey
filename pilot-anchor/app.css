@@ -517,3 +517,13 @@
   #postq .postpage .eyebrow { font-size: calc(12.5px * var(--ui-scale)); font-weight: 700; color: var(--go); letter-spacing: .04em; margin: 0 0 6px; }
   /* 最後の自由記述 (任意。2026-09-29) */
   #postq textarea { width: 100%; max-width: 100%; box-sizing: border-box; padding: 12px; font-size: calc(16px * var(--ui-scale)); line-height: 1.5; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); color: var(--ink); font-family: inherit; resize: none; }
+  /* はじめに (同意チェック)・実施後のアンケート・完了画面を mini + ツールバー (375×700) に収める (2026-09-30) */
+  #welcome .checks .chk { padding: 10px 10px 10px 38px; font-size: calc(14.5px * var(--ui-scale)); line-height: 1.5; }
+  #welcome .checks { gap: 6px; }
+  #postq .seg.seg-v button { padding: 11px 12px; }
+  #postq .field { margin: 8px 0; }
+  #done .pad h1 { margin-bottom: 4px; }
+  #done .debrief, #debrief .debrief { font-size: calc(13px * var(--ui-scale)); padding: 8px 12px; margin: 8px 0; line-height: 1.5; }
+  #done #ccodeBox { padding: 10px 14px; }
+  #done #ccodeBox p { margin: 4px 0; }
+  #done #summary { font-size: calc(12.5px * var(--ui-scale)); }
