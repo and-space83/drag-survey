@@ -73,6 +73,7 @@
 | `?minread=0` | ON | 説明ページの最小読了時間 (速すぎる「次へ」は進めず注意。2026-09-12) を無効化 = **開発専用・配布URL禁止** |
 | `?upload=0` | — | 自動送信を無効化 (デモ・検証で Drive にゴミを送らない) |
 | `?debug=1` | — | `window.__pilot` 露出 + 軌道CSVボタン表示 (自動テスト用) |
+| `CONFIG.contactEmail` | 空 | index.html の設定。入れると完了画面に「メールで送る」(mailto に完了コードと名前) が出る (2026-09-29) |
 | `?study=` / `?cohort=` | — | Drive の保存先サブフォルダ `pilot-anchor-data/<study または cohort>/`。本実験は `study=main` |
 | `?devguard=0` / `?devmin=N` | ON / 812 | **機種ガード** (2026-09-26): 画面の高さ < N CSS px または幅 < 375 の端末 (SE 系・8・8 Plus) を最初の画面で止める (本実験はフルスクリーン iPhone 限定)。`devguard=0` で無効 (検証用)、`devmin=844` で 12/13 mini も除外 |
 | `?go=` | — | **確認モード (開発専用・配布URL禁止)**: `tut` (操作説明から) / `rtut` (評定の説明だけ) / `rating` (評定画面) / `post` (最後のアンケート) / `done` (完了画面) / `break` (休憩 → 続けるで本番の課題画面) / `notice` (遅い初動の案内) / `micgate` (旧・環境音チェック) へ直行。事前アンケートはダミー・送信は無効・右下に印。block 未指定なら moral |

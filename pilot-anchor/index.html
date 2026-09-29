@@ -283,6 +283,7 @@
   <div class="pad">
     <h1>お願い</h1>
     <p id="noticeText"></p>
+    <button type="button" class="btn ghost" id="noticeTut" style="margin:6px auto 14px;display:block">操作の説明を見る</button>
     <div class="vgap"></div>
     <button class="btn primary advance" id="noticeGo">次へ</button>
   </div>
@@ -331,8 +332,8 @@
 <!-- ===== READING (読速ベースライン: 中立短文3本を「読み終えたらタップ」で計測。moral 含むセッションで実施 §6-6 項13) ===== -->
 <section id="reading" class="screen">
   <div class="pad">
-    <h1>文章を読む速さの確認</h1>
-    <p id="readIntro">まず、文章を読む速さを確認します（短い文章を4本）。<br>表示された文章を<b>ふだんどおりの速さ</b>で読み、読み終えたら<b>すぐ</b>下のボタンを押してください。<br><b>読むだけで、選びません。</b>このあとの問題文と同じような文です。内容についての質問はありません。覚える必要もありません。</p>
+    <h1>文章を読む速さの計測</h1>
+    <p id="readIntro">まず、文章を読む速さを計測します（短い文章を4本）。<br>表示された文章を<b>普段通りの速さ</b>で読み、読み終えたら<b>すぐ</b>下のボタンを押してください。<br>本番の問題文と同じような文です。内容を覚える必要はありません。</p>
     <p class="opt-note" id="readCounter"></p>
     <div class="rtext" id="readText" style="display:none"></div>
     <div class="vgap"></div>
@@ -384,12 +385,13 @@
       <p class="opt-note part1">当てはまるものをすべてお選びください（複数選択可）。次の画面にも続きがあります。</p>
       <p class="opt-note part2">続きです。当てはまるものがなければ「特に困らなかった」を選んでください。</p>
       <div class="checks" id="surveyProblems">
-        <button type="button" class="chk" data-val="rating_burden">評定の回答が多くて負担だった</button>
+        <button type="button" class="chk" data-val="rating_burden">振り返りの回答が多くて負担だった</button>
         <button type="button" class="chk" data-val="trial_fatigue">試行数が多くて疲れた・長く感じた</button>
         <button type="button" class="chk" data-val="drag_hard">ドラッグして選ぶ操作がやりにくかった</button>
         <button type="button" class="chk" data-val="ui_hard">文字・ボタン・画面が見づらい／押しにくかった</button>
         <button type="button" class="chk" data-val="tutorial_unclear">チュートリアル・練習の説明がわかりにくかった</button>
-        <button type="button" class="chk" data-val="stem_unclear">設問文がわかりにくかった</button>
+        <button type="button" class="chk" data-val="stem_unclear">問題文がわかりにくかった</button>
+        <button type="button" class="chk" data-val="choice_unclear">選択肢がわかりにくかった</button>
         <button type="button" class="chk" data-val="choice_hard">2択のどちらも選びにくいことがあった</button>
         <button type="button" class="chk" data-val="device_slow">スマホの動作が重い・反応しなかった</button>
         <button type="button" class="chk" data-val="none">特に困らなかった</button>
@@ -415,8 +417,8 @@
     <div class="rat-btnrow with-back" id="postNav">
       <button type="button" class="btn ghost" id="postPrev">戻る</button>
       <button type="button" class="btn primary" id="postNext" disabled>次へ</button>
+      <button type="button" class="btn primary" id="postSubmit" disabled style="display:none">完了する</button>
     </div>
-    <button class="btn primary advance" id="postSubmit" disabled style="display:none">完了する</button>
     <p class="opt-note" id="postMissing" style="text-align:center;margin-top:6px;color:var(--err);font-weight:700"></p>
   </div>
 </section>
@@ -437,7 +439,11 @@
     <div id="ccodeBox" style="display:none">
       <p>あなたの<b>完了コード</b>:</p>
       <div class="ccode" id="ccode"></div>
-      <p class="opt-note">このコードを研究者にお伝えください（謝礼の手続きに使います）。</p>
+      <div class="btnrow" style="justify-content:center;gap:8px;margin:8px 0">
+        <button type="button" class="btn" id="ccodeCopy">コードをコピー</button>
+        <a class="btn primary" id="ccodeMail" style="display:none;text-decoration:none">メールで送る</a>
+      </div>
+      <p class="opt-note" id="ccodeNote">このコードを研究者にお伝えください（謝礼の手続きに使います）。</p>
     </div>
     <div id="debrief" style="display:none"></div>
     <div class="mono" id="summary"></div>
@@ -474,6 +480,7 @@
   const CONFIG = {
     block: "anchor",         // 実行ブロック ("anchor" | "value")。?block= で上書き
     minPoints: 3,            // dispatched 点数の下限。下回ったら無効試行として再呈示
+    contactEmail: "",        // 完了コードの送り先 (空なら「メールで送る」を出さない。2026-09-29)。例 "xxx@example.ac.jp"
     uploadUrl: "https://script.google.com/macros/s/AKfycbxbnJbVZJQXkB4_Sn0amRW2kHXydOMWVzf-jT8IH2TlPafZR43rfRVrROguE0r8O1oY/exec",
                               // GAS Web アプリ (gas-collector.gs / DEPLOY.md)。完了時に text/plain で JSON を
                               //   自動 POST (GAS は preflight 非対応のため application/json は不可)。
@@ -915,13 +922,15 @@
   // 案内は 1 画面 1 つの理由: 早出し (読解) > 遅い初動 (両方なら早出し = 原因のほう)
   const EARLY_CPS = 25;
   const READGATE_ON = QS.get("readgate") !== "0";   // 練習の読了ゲート (2026-09-13)。validate/開発用に無効化可
-  const EARLY_NOTICE_TEXT = "前の問題では、問題文を読み終える前に指が動き出しました。問題文を読み終えてからスタートに指を置き、選択肢を見てから運んでください。";
-  const LATE_NOTICE_TEXT = "前の問題では、選択肢が出てから3秒以上、指がスタートの上で止まっていました。迷っている間も、ゆっくりでよいので指を動かしながら考えてください。";
+  const EARLY_NOTICE_TEXT = "前の問題では、問題文を読み終える前に指がスタートに置かれました。問題文を読み終えてからスタートに指を置き、選択肢を見てから運んでください。";
+  const LATE_NOTICE_TEXT = "前の問題では、指をスタートに置いてから（選択肢が出てから）3秒以上、指が止まっていました。選択肢を読んだら、迷っていてもゆっくりでよいので、指を動かしながら選ぶほうへ運んでください。";
+  const NOTICE_MAX = { early: 5, late: 3 };   // 案内の上限 (種類ごと・1 セッション)。早出しは読解に関わるので多め (2026-09-29。旧 3/3)
+  const NOTICE_TUT_STEP = { early: 3, late: 7 };   // 案内画面の「操作の説明を見る」で開くステップ (画面の説明 3/4 = 読み終えてからスタート / 操作の練習 3/3 = 選択肢を見たら運ぶ)
   const STOP_NOTICE_TEXT = LATE_NOTICE_TEXT;   // 旧名 (validate.js の互換用)
   const NOTICE_TEXTS = { early: EARLY_NOTICE_TEXT, late: LATE_NOTICE_TEXT };
   // 表示用 (伝えたい行動を太字に。textContent は上の平文と一致)
-  const NOTICE_HTML = { early: "前の問題では、問題文を読み終える前に指が動き出しました。<br><b>問題文を読み終えてからスタートに指を置き、選択肢を見てから運んでください。</b>",
-                        late: "前の問題では、選択肢が出てから3秒以上、指がスタートの上で止まっていました。<br><b>迷っている間も、ゆっくりでよいので指を動かしながら考えてください。</b>" };
+  const NOTICE_HTML = { early: "前の問題では、<b class=\"why\">問題文を読み終える前に</b>指がスタートに置かれました。<br><b>問題文を読み終えてからスタートに指を置き、選択肢を見てから運んでください。</b>",
+                        late: "前の問題では、指をスタートに置いてから（選択肢が出てから）<b class=\"why\">3秒以上、指が止まっていました</b>。<br><b>選択肢を読んだら、迷っていてもゆっくりでよいので、指を動かしながら選ぶほうへ運んでください。</b>" };
   let pendingNotice = null, stopNoticeShown = false, stemShownT = 0;
   let seqIndex = 0;
   let pendingMainStart = false;   // 練習クリア画面 (blockintro 流用) から「続ける」で本番へ (2026-07-15 自己ペース化)
@@ -1081,7 +1090,8 @@
     stopNotices: [],          // 停止の案内画面の表示記録 {afterTrial, kind, ms} (§6-6 項19)
     stopNoticesSuppressed: 0, // 上限 (種類ごと 3 回) で出さなかった案内の数 (2026-09-12 夜)
     pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
-    appVersion: "2026-09-29",   // アプリの版 (文言・UI の改善履歴を解析で追えるように。設計・記録に触れない改修でも上げる。2026-09-27)
+    appVersion: "2026-09-29b",   // アプリの版 (文言・UI の改善履歴を解析で追えるように。設計・記録に触れない改修でも上げる。2026-09-27)
+    welcomeAgree: null,       // はじめに 4/4 の同意チェック {items, ms} (2026-09-29)
     devGuard: null,           // 機種ガード {on, minH, w, h, shown} (2026-09-26。本実験はフルスクリーン iPhone 限定)
     exportedAt: null,
   };
@@ -1719,6 +1729,12 @@
     show("notice");
     $("notice").querySelector(".pad").scrollTop = 0;
   }
+  $("noticeTut").addEventListener("click", () => {   // 案内の理由に合った説明だけを見直す (2026-09-29)。閉じたら案内画面に戻る
+    if (!noticeKind || dragTutState.active) return;
+    device.tutorialLog.push({ kind: "drag", event: "again", phase: "notice", reason: noticeKind });
+    const k = noticeKind;
+    DragTut.run(() => { show("notice"); }, { replay: true, start: NOTICE_TUT_STEP[k] });
+  }, { passive: true });
   $("noticeGo").addEventListener("click", () => {
     if (noticeShownAt == null) return;
     device.stopNotices.push({ afterTrial: phase === "main" ? trialIndex : null, kind: noticeKind, ms: +(performance.now() - noticeShownAt).toFixed(0) });
@@ -1732,7 +1748,7 @@
     // (次の問題の画面に出すと案内を読む時間が次問の読解時間 preStartMs に混ざる。2026-09-09 ユーザー指摘)。教示誘導ブロックでは出さない
     if (pendingNotice && phase !== "instructed") {
       const k = pendingNotice; pendingNotice = null;
-      if (device.stopNotices.filter((n) => n.kind === k).length >= STOP_NOTICE_MAX) device.stopNoticesSuppressed++;   // 上限に達した: 出さない (記録は trial 側に残る)
+      if (device.stopNotices.filter((n) => n.kind === k).length >= (NOTICE_MAX[k] || STOP_NOTICE_MAX)) device.stopNoticesSuppressed++;   // 上限に達した: 出さない (記録は trial 側に残る)
       else { showStopNotice(k); return; }
     }
     pendingNotice = null;
@@ -1990,7 +2006,7 @@
     trial.lateStart = trial.rt_ms > LATE_START_MS;   // 遅い初動: 選択肢が出てから 3 秒を超えて動かなかった (評定送信後に案内。品質共変量)
     // 早出し: 表示〜枠から出るまで (preStart + 押さえ) が読み切れる最短時間より短い (場面文のないブロックは判定しない)
     trial.stemChars = cell.stem ? stemRecord(cell.stem).length : 0;
-    trial.earlyStart = trial.stemChars > 0 && (trial.initiationT - trial.stimulusOnsetT) < (trial.stemChars / EARLY_CPS) * 1000;
+    trial.earlyStart = trial.stemChars > 0 && trial.preStartMs < (trial.stemChars / EARLY_CPS) * 1000;   // 2026-09-29: 押下ベース (表示〜スタート押下 < 文字数÷25字/秒 = 読み終える前に指を置いた。旧: 枠から出るまで)
 
     // 実効 dispatch レート (dt>0 ガード)
     let span = 0, n = 0;
@@ -2429,12 +2445,12 @@
       cap = document.createElement("div"); cap.id = "tutCap"; surface.appendChild(cap);
       spot = document.createElement("div"); spot.id = "tutSpot"; spot.className = "tut-spot hidden"; document.body.appendChild(spot);
       pop = document.createElement("div"); pop.id = "tutPop"; pop.className = "tut-pop hidden";
-      pop.innerHTML = '<div class="s" id="tutPopStep"></div><div class="t" id="tutPopTxt"></div>' +
+      pop.innerHTML = '<button type="button" class="x hidden" id="tutClose" aria-label="閉じる">×</button><div class="s" id="tutPopStep"></div><div class="t" id="tutPopTxt"></div>' +
         '<div class="g hidden" id="tutPopOp"></div>' +
         '<div class="dots" id="tutPopDots"></div>';
       document.body.appendChild(pop);
       btnRow = document.createElement("div"); btnRow.id = "tutBtnRow"; btnRow.className = "tut-btnrow hidden";
-      btnRow.innerHTML = '<button class="rp hidden" id="tutReplay">↻ もう一度</button><button class="rp hidden" id="tutClose">× 閉じる</button><button class="nx" id="tutPopNext">次へ</button>';
+      btnRow.innerHTML = '<button class="rp hidden" id="tutReplay">↻ もう一度</button><button class="nx" id="tutPopNext">次へ</button>';
       document.body.appendChild(btnRow);
       hint = document.createElement("div"); hint.id = "tutHint"; hint.className = "hidden"; document.body.appendChild(hint);
       ink = document.createElement("canvas"); ink.id = "tutInk"; surface.appendChild(ink); ig = ink.getContext("2d");
@@ -2828,6 +2844,7 @@
       build(); onDone = cb; demo.style.display = ""; dragTutState.active = true;
       replayMode = !!(opts && opts.replay);
       $("tutClose").classList.toggle("hidden", !replayMode);
+      const start = opts && Number.isInteger(opts.start) ? Math.max(0, Math.min(STEPS.length - 1, opts.start)) : 0;   // 案内画面からは該当ステップだけ (2026-09-29)
       if (typeof coachHide === "function") coachHide();
       if (typeof setCoach === "function") setCoach(null);
       numA.style.visibility = "hidden"; numB.style.visibility = "hidden"; stemEl.style.visibility = "hidden";
@@ -2836,7 +2853,7 @@
       $("phaseLabel").textContent = "画面の説明"; $("counter").textContent = "";   // 練習 0/0 を出さない (段階名は render が部ごとに更新)
       resizeBound = () => { if (idx >= 0) place(STEPS[idx]); };
       addEventListener("resize", resizeBound, { passive: true });
-      idx = 0; render();
+      idx = start; render();
     }
     return { run, abort };
   })();
@@ -3030,7 +3047,8 @@
     postPages.forEach((p, k) => { if (k === postPageIdx) { p.el.classList.add("on"); if (p.part) p.el.dataset.part = String(p.part); } else if (p.el !== postPages[postPageIdx].el) p.el.classList.remove("on"); });
     $("postStep").textContent = `${postPageIdx + 1} / ${postPages.length}`;
     $("postLead").style.display = "none";   // 導入文は持ち方のページに統合 (2026-09-27)
-    $("postPrev").style.visibility = postPageIdx === 0 ? "hidden" : "";
+    $("postPrev").style.display = postPageIdx === 0 ? "none" : "";   // 1 ページ目は「次へ」を中央に (2026-09-29)
+    $("postNav").classList.toggle("first", postPageIdx === 0);
     const last = postPageIdx === postPages.length - 1;
     $("postNext").style.display = last ? "none" : "";
     $("postSubmit").style.display = last ? "" : "none";
@@ -3091,6 +3109,11 @@
     if (new URLSearchParams(location.search).get("ccode") !== "0" && !KIOSK) {   // 対面では申請コード不要
       $("ccode").textContent = device.completionCode;
       $("ccodeBox").style.display = "";
+      if (CONFIG.contactEmail) {   // タップでメールアプリを開き、本文にコードを入れて送れる (2026-09-29)
+        const m = $("ccodeMail"); m.style.display = "";
+        m.href = "mailto:" + CONFIG.contactEmail + "?subject=" + encodeURIComponent("調査の完了コード") + "&body=" + encodeURIComponent("完了コード: " + device.completionCode + "\n名前: " + (device.participantId || ""));
+        $("ccodeNote").textContent = "「メールで送る」を押すか、コードをコピーして " + CONFIG.contactEmail + " へ送ってください（謝礼の手続きに使います）。";
+      }
     }
     if (ATTN_ON) {   // 強IMC (欺瞞) のデブリーフィング (§6-5・IRB 申請に記載)
       $("debrief").innerHTML =
@@ -3318,7 +3341,7 @@
   // 実験者が同席しない対面運用 (複数日・複数会場・ネットに不慣れな実施者) では「失敗→手動保存して
   // LINE で送る」が回らず、しかも次の参加者が本番を始めると旧チェックポイントが消えてデータが失われる。
   const OUTBOX_KEY = "pilotAnchorOutbox_v1";
-  const POST_TIMEOUT_MS = 15000;   // 会場の弱い回線でハングしないよう1回の送信に上限を設ける
+  const POST_TIMEOUT_MS = 60000;   // 1 回の送信の上限。JSON は約 3 MB (53 問の軌跡) なので弱い回線でも送り切れる長さに (2026-09-29: 旧 15 秒)
   function outboxLoad() {
     try { const a = JSON.parse(localStorage.getItem(OUTBOX_KEY) || "[]"); return Array.isArray(a) ? a : []; }
     catch (_) { return []; }
@@ -3343,24 +3366,17 @@
     const scr = (document.querySelector(".screen.active") || {}).id;
     bar.classList.toggle("on", n > 0 && (scr === "welcome" || scr === "intro" || scr === "done"));
   }
-  function postPayload(payload, onProgress) {   // 1件送信 (タイムアウト付き)。成功時のみ resolve。onProgress(0..1) = 送信の進み具合 (XHR の upload.progress。2026-09-27)
-    // GAS Web アプリは CORS preflight (OPTIONS) に応答しないため text/plain で simple request にする
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open("POST", CONFIG.uploadUrl, true);
-      xhr.timeout = POST_TIMEOUT_MS;
-      xhr.setRequestHeader("Content-Type", "text/plain;charset=utf-8");
-      if (xhr.upload && onProgress) xhr.upload.onprogress = (ev) => { if (ev.lengthComputable) onProgress(Math.min(1, ev.loaded / ev.total)); };
-      xhr.onload = () => {
-        if (xhr.status < 200 || xhr.status >= 300) { reject(new Error("HTTP " + xhr.status)); return; }
-        let j = null; try { j = JSON.parse(xhr.responseText); } catch (_) {}
-        if (!j || !j.ok) reject(new Error((j && j.error) || "server error")); else { if (onProgress) onProgress(1); resolve(j); }
-      };
-      xhr.onerror = () => reject(new Error("network"));
-      xhr.ontimeout = () => reject(new Error("timeout"));
-      xhr.onabort = () => reject(new Error("abort"));
-      xhr.send(JSON.stringify(payload));
-    });
+  function postPayload(payload) {   // 1件送信 (タイムアウト付き)。成功時のみ resolve
+    // GAS Web アプリは CORS preflight (OPTIONS) に応答しないため text/plain で simple request にする。
+    // ⚠️ XMLHttpRequest の upload.onprogress を付けると仕様上 preflight が必要になり即失敗する (2026-09-29 実機で 3 回とも一瞬で失敗) → fetch に戻し、進み具合は不定表示
+    const ctl = ("AbortController" in window) ? new AbortController() : null;
+    const timer = ctl ? setTimeout(() => ctl.abort(), POST_TIMEOUT_MS) : null;
+    return fetch(CONFIG.uploadUrl, {
+      method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(payload), signal: ctl ? ctl.signal : undefined,
+    }).then((res) => res.ok ? res.json() : Promise.reject(new Error("HTTP " + res.status)))
+      .then((j) => { if (!j || !j.ok) throw new Error((j && j.error) || "server error"); return j; })
+      .finally(() => { if (timer) clearTimeout(timer); });
   }
   let outboxBusy = false;
   function outboxFlush(onDone) {   // 先頭から順に送る。1件でも失敗したら中断 (回線が無い状態で叩き続けない)
@@ -3386,20 +3402,20 @@
     $("doneTitle").textContent = "データを送信しています";
     $("sendBox").style.display = "";
     $("sendMsg").textContent = attempt > 1 ? `送信を再試行しています（${attempt} / 3 回目）。しばらくお待ちください。` : "データを送信しています。しばらくお待ちください。";
-    $("sendFill").style.width = "0%";
+    $("sendFill").style.width = "0%"; $("sendFill").classList.add("indet");   // 進み具合は取れない (preflight 回避のため) ので流れるバー
     for (const id of ["doneMsg", "ccodeBox", "debrief", "summary"]) $(id).classList.add("hidden-until-sent");
   }
   function sendUiEnd(ok) {
     $("doneTitle").textContent = "完了しました";
     $("sendBox").style.display = "none";
     for (const id of ["doneMsg", "ccodeBox", "debrief", "summary"]) $(id).classList.remove("hidden-until-sent");
-    if (ok) $("sendFill").style.width = "100%";
+    $("sendFill").classList.remove("indet"); if (ok) $("sendFill").style.width = "100%";
   }
   function uploadJson(attempt) {
     attempt = attempt || 1;
     sendUiStart(attempt);
     $("uploadStatus").textContent = "";
-    postPayload(buildPayload(), (f) => { $("sendFill").style.width = Math.round(f * 100) + "%"; })
+    postPayload(buildPayload())
       .then(() => {
         sendUiEnd(true);
         $("uploadStatus").textContent = "✅ 送信が完了しました。このまま閉じて大丈夫です。";
@@ -3433,9 +3449,11 @@
   // 回転でレイアウト(vmin基準)と geom が変わるため、ドラッグ中なら無効試行にして再呈示。
   const rotateGuardOn = navigator.maxTouchPoints > 0 &&
     new URLSearchParams(location.search).get("rotate") !== "0";
+  const typing = () => { const a = document.activeElement; return !!(a && (a.tagName === "INPUT" || a.tagName === "TEXTAREA")); };   // キーボードが開くと innerHeight が縮む → 横向き/拡大と誤判定するので、入力中は判定しない (2026-09-29: アンケートの自由記述で入力できなかった)
   function checkOrientation() {
     if (!rotateGuardOn) return;
-    const landscape = window.innerWidth > window.innerHeight;
+    if (typing()) { $("rotateGuard").classList.remove("show"); return; }
+    const landscape = (screen.width && screen.height) ? screen.width > screen.height : window.innerWidth > window.innerHeight;
     $("rotateGuard").classList.toggle("show", landscape);
     if (landscape && recording) { recording = false; activePointerId = null; retryTrial("画面が回転しました"); }
   }
@@ -3458,7 +3476,7 @@
     if (bad) { $("dgNow").textContent = `お使いの画面: 幅 ${w} × 高さ ${h}（対象: 高さ ${DEVMIN_H} 以上）`; $("devGuard").classList.add("show"); }
   })();
   function measureZoom() {
-    const portrait = innerHeight >= innerWidth;
+    const portrait = (screen.width && screen.height) ? screen.width <= screen.height : innerHeight >= innerWidth;   // 向きは screen の寸法で (キーボードで innerHeight が縮んでも誤判定しない。2026-09-29)
     const sw = portrait ? Math.min(screen.width, screen.height) : Math.max(screen.width, screen.height);
     const pageZoom = sw > 0 && innerWidth > 0 ? +(sw / innerWidth).toFixed(3) : 1;
     const a = $("zpA").getBoundingClientRect().width, b = $("zpB").getBoundingClientRect().width;
@@ -3467,6 +3485,7 @@
   }
   let zoomGuardWasOn = false;
   function checkZoom() {
+    if (typing()) { $("zoomGuard").classList.remove("show"); return false; }   // 入力中 (キーボード表示) は判定しない (2026-09-29)
     const z = measureZoom(); device.pageZoom = z.pageZoom; device.textZoom = z.textZoom;
     const off = ZOOM_GUARD_ON && (Math.abs(z.pageZoom - 1) > 0.03 || Math.abs(z.textZoom - 1) > 0.03);
     if (off && !zoomGuardWasOn) device.zoomGuardShown++;
@@ -3532,20 +3551,25 @@
          '<li>選んだあとに「迷い」と「自信」を5段階でふりかえります。</li></ul>' },
     { h: "所要時間と進め方",
       b: '<p>全体で <b>40分ほど</b>（35〜50分）かかります。時間に余裕があるときに始めてください。</p>' +
-         '<ul><li>はじめに <b>読む速さの確認</b>（短い文章4本）→ <b>操作の説明</b> → <b>練習</b>と進みます。説明は何度でも見直せます。</li>' +
+         '<ul><li><b>読む速さの計測</b> → <b>画面構成と操作方法の説明</b> → <b>練習</b> → <b>本番</b> → <b>実施後のアンケート</b>と進みます。説明は何度でも見直せます。</li>' +
          '<li>急ぐ必要はありません。<b>自分のペース</b>で進めてください。</li>' +
-         '<li>途中に休憩をはさみます。<b>最後まで通して</b>行ってください。</li></ul>' },
+         '<li>本番では <b>20問ごとに休憩</b>があります。いろいろな箇所で時間を計測しているので、<b>休憩以外では中断せず</b>に続けてください。</li></ul>' },
     { h: "実施する環境について",
       b: '<p><b>静かな場所</b>で、落ち着いて取り組める時に始めてください。</p>' +
          '<ul><li>スマートフォンを<b>手で持って</b>操作します（机に置いたままにしないでください）。</li>' +
          '<li>通知で中断されないよう、<b>おやすみモード</b>などにしておくと安心です。</li></ul>' },
     // 2026-09-06: 画面切替・再読込の注意 (§6-6 項17)。画面切替の回数・時間の記録は倫理申請 (実施計画書 §3D) に記載済。
     // 報酬の承認条件 (非承認の基準) はアプリでなく募集文に書く (身内配布では報酬がないため、ここでは「有効な回答として扱えない」に留める)
-    { h: "進めるうえでのお願い", mic: true,
-      b: '<ul><li><b>途中で他のアプリや別の画面に切り替えないでください。</b>切り替えた回数と時間は記録されます。切り替えの多い回答は、有効なデータとして扱えないことがあります。</li>' +
-         '<li><b>ページの更新（再読み込み）や「戻る」の操作はしないでください。</b>万一とちゅうで画面が消えても、同じURLを開き直せば<b>続きから再開</b>できます。</li>' +
-         '<li>着信などでやむを得ず中断したときは、戻ってからそのまま続けてください。</li>' +
-         '<li>この調査は<b>1回だけ</b>参加できます。集中して取り組めていない回答には、謝礼をお渡しできないことがあります。</li></ul>' },
+    // 4/4 は同意のチェック (2026-09-29): 全部にチェックを入れないと「はじめる」が押せない。記録 device.welcomeAgree
+    { h: "進めるうえでの<br>お願い", mic: true,
+      b: '<p>次の項目を確認して、<b>すべてにチェック</b>を入れてください。</p>',
+      agree: [
+        '<b>途中で他のアプリや別の画面に切り替えません。</b>切り替えた回数と時間は記録されます。',
+        '<b>ページの更新（再読み込み）や「戻る」の操作はしません。</b>万一途中で画面が消えても、同じURLを開き直せば続きから再開できます。',
+        '着信などでやむを得ず中断したときは、戻ってからそのまま続けます。',
+        'この調査は<b>1回だけ</b>参加できます。',
+        'データを分析して<b>集中して取り組めていない</b>と判定した回答（例: 問題文を読まずに答えている、適当に答えている）には、謝礼をお渡しできないことがあります。',
+      ] },
   ];
   const WELCOME = KIOSK ? WELCOME_KIOSK : WELCOME_DEFAULT;
   let wcIdx = 0, wcCueTimer = null;
@@ -3553,8 +3577,14 @@
     const p = WELCOME[wcIdx];
     $("wcStep").textContent = `${wcIdx + 1} / ${WELCOME.length}`;
     $("wcBody").innerHTML = `<h1>${p.h}</h1>` + p.b +
+      (p.agree ? '<div class="checks" id="wcAgree">' + p.agree.map((t, i) => `<button type="button" class="chk" data-val="${i}">${t}</button>`).join("") + '</div>' : "") +
       (p.mic && MIC.mode !== "off" ? '<p class="opt-note" style="margin-top:12px">※ 次の画面でマイクの許可をお願いします（測るのは周囲の<b>音量レベルだけ</b>で、会話の内容は記録しません）。</p>' : "") +
-      (wcIdx === WELCOME.length - 1 ? '<p class="opt-note" style="margin-top:10px">※ 重複参加の確認のため、端末にランダムな目印（個人を特定しない記号）を保存します。</p>' : "");
+      (wcIdx === WELCOME.length - 1 ? '<p class="opt-note" style="margin-top:10px">※ 中断からの再開のために、回答の途中経過をこの端末に一時保存します（個人を特定する情報は含みません）。</p>' : "");
+    if (p.agree) {   // 同意のチェック: 全部にチェックが入るまで「はじめる」は無効
+      wcAgreeShownAt = performance.now();
+      wireChecks("wcAgree", (vals) => { $("wcNext").disabled = vals.length < p.agree.length; });
+      $("wcNext").disabled = true;
+    } else $("wcNext").disabled = false;
     $("wcNext").textContent = wcIdx === WELCOME.length - 1 ? "はじめる" : "次へ";
     $("wcNext").classList.remove("cue");
     if (wcCueTimer) clearTimeout(wcCueTimer);
@@ -3562,8 +3592,11 @@
     wcCueTimer = setTimeout(() => { if (wcIdx === page) $("wcNext").classList.add("cue"); }, readCueDelay(p.b));
     $("welcome").querySelector(".pad").scrollTop = 0;
   }
+  let wcAgreeShownAt = null;
   $("wcNext").addEventListener("click", () => {
+    if ($("wcNext").disabled) return;
     if (wcIdx < WELCOME.length - 1) { wcIdx++; wcRender(); return; }
+    if (WELCOME[wcIdx].agree) device.welcomeAgree = { items: WELCOME[wcIdx].agree.length, ms: wcAgreeShownAt != null ? +(performance.now() - wcAgreeShownAt).toFixed(0) : null };   // 同意のチェック (2026-09-29)
     gotoIntro();
   }, { passive: true });
   wcRender();
@@ -3744,6 +3777,13 @@
     if (from.screen === "task") { presentStimulus(); return; }
     if (from.screen === "rating" && trial) trial.stopPause = pause;
     show(from.screen);
+  }, { passive: true });
+  $("ccodeCopy").addEventListener("click", () => {   // ワンタップでコピー (失敗時は選択状態にする)
+    const code = device.completionCode || ""; const b = $("ccodeCopy");
+    const done = () => { b.textContent = "コピーしました"; setTimeout(() => { b.textContent = "コードをコピー"; }, 1800); };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(code).then(done).catch(() => { selectCode(); });
+    else selectCode();
+    function selectCode() { const r = document.createRange(); r.selectNodeContents($("ccode")); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); try { document.execCommand("copy"); done(); } catch (_) {} }
   }, { passive: true });
   $("postSubmit").addEventListener("click", () => {
     if ($("postSubmit").disabled) return;   // 未完了 (grip / 事後アンケート必須) なら無視

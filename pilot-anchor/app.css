@@ -446,6 +446,19 @@
   #tutAgain { pointer-events: auto; touch-action: manipulation; background: var(--panel); border: 1px solid var(--line); color: var(--ink-2);
     font: inherit; font-size: calc(11px * var(--ui-scale)); font-weight: 600; padding: 3px 9px; border-radius: 999px; cursor: pointer; }
   #tutAgain.hidden { display: none; }
+  /* 見直しのときだけ説明ボックス右上に × (2026-09-29)。ボックスは pointer-events:none なので × だけ有効にする */
+  .tut-pop .x { position: absolute; top: 4px; right: 6px; width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line); background: var(--panel); color: var(--ink-2); font-size: 22px; line-height: 1; pointer-events: auto; touch-action: manipulation; }
+  .tut-pop .x.hidden { display: none; }
+  /* 案内画面の理由 (太字+色) */
+  #noticeText .why { color: var(--warn); }
+  /* 実施後のアンケート: 1 ページ目は次へを中央に、最後のページは完了を戻るの隣に */
+  #postq #postNav.first { justify-content: center; }
+  #postq #postNav.first .btn.primary { flex: 0 1 min(72%, var(--nav-maxw)); }
+  #postq #postNav #postSubmit { flex: 1 1 auto; }
+  /* 送信中: 進み具合が取れないときの流れるバー */
+  #sendBox #sendFill.indet { width: 40% !important; animation: indet 1.2s ease-in-out infinite; }
+  @keyframes indet { 0% { margin-left: -40%; } 100% { margin-left: 100%; } }
+  @media (prefers-reduced-motion: reduce) { #sendBox #sendFill.indet { animation: none; width: 100% !important; opacity: .5; } }
 
   /* ---- 事後アンケート 拡充分 (2026-09-06 §6-6 項8): 5段階は 1–5 ボタンを1行に (評定と同じ尺度)、端点ラベルを下に ---- */
   .seg.scale { flex-wrap: nowrap; }
