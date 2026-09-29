@@ -2434,11 +2434,12 @@
         '<div class="dots" id="tutPopDots"></div>';
       document.body.appendChild(pop);
       btnRow = document.createElement("div"); btnRow.id = "tutBtnRow"; btnRow.className = "tut-btnrow hidden";
-      btnRow.innerHTML = '<button class="rp hidden" id="tutReplay">↻ もう一度</button><button class="nx" id="tutPopNext">次へ</button>';
+      btnRow.innerHTML = '<button class="rp hidden" id="tutReplay">↻ もう一度</button><button class="rp hidden" id="tutClose">× 閉じる</button><button class="nx" id="tutPopNext">次へ</button>';
       document.body.appendChild(btnRow);
       hint = document.createElement("div"); hint.id = "tutHint"; hint.className = "hidden"; document.body.appendChild(hint);
       ink = document.createElement("canvas"); ink.id = "tutInk"; surface.appendChild(ink); ig = ink.getContext("2d");
       $("tutPopNext").addEventListener("click", advance, { passive: true });
+      $("tutClose").addEventListener("click", () => { if (idx < 0 || !replayMode) return; device.tutorialLog.push({ kind: "drag", event: "close", step: idx + 1 }); finish(); }, { passive: true });   // 見直し (2 回目) は途中で閉じられる (2026-09-29)
       $("tutReplay").addEventListener("click", () => { if (idx < 0) return; device.tutorialLog.push({ kind: "drag", event: "replay" }); idx = 0; render(); }, { passive: true });   // 分からなかった人向け=最初から
       built = true;
     }
@@ -2642,7 +2643,7 @@
       // 進行ボタンの状態リセット (ハンズオン中は解錠待ち / cueDelay 後に強調)
       if (cueTimer) { clearTimeout(cueTimer); cueTimer = null; }
       handsMode = null; handsDone = false; hTracking = false; setHint("");
-      btnRow.classList.toggle("pending", !!step.hands || !!step.revealDelay);   // 遅延開示の待機中も押せない (対象を見てから進む)
+      btnRow.classList.toggle("pending", !replayMode && (!!step.hands || !!step.revealDelay));   // 遅延開示の待機中も押せない (対象を見てから進む)。見直しでは常に押せる (2026-09-29)
       $("tutPopNext").classList.remove("cue");
       // 説明ページは「読み終わる頃」に「次へ」を強調 (読むのが遅い人でも押し時が分かる)。
       // revealDelay があるページは対象が現れてから読み始めるので、その分あとにずらす
@@ -2651,7 +2652,7 @@
         cueTimer = setTimeout(() => { if (idx >= 0 && STEPS[idx] === step) $("tutPopNext").classList.add("cue"); }, d);
       }
       // 最小読了時間 (2026-09-12): 読み終わる前の「次へ」は受け付けず注意を出す。速い読み手の下限 (minReadMs) に合わせる。?minread=0 で無効
-      lockUntil = step.hands ? 0 : performance.now() + minReadMs(step.txt) + (step.revealDelay || 0);
+      lockUntil = (step.hands || replayMode) ? 0 : performance.now() + minReadMs(step.txt) + (step.revealDelay || 0);   // 見直し (replayMode) は待たずに次へ (2026-09-29)
       if (lockTimer) { clearTimeout(lockTimer); lockTimer = null; }
       $("tutPopNext").classList.toggle("wait", lockUntil > performance.now());
       if (lockUntil > performance.now()) lockTimer = setTimeout(() => { if (idx >= 0 && STEPS[idx] === step) $("tutPopNext").classList.remove("wait"); }, lockUntil - performance.now());
@@ -2710,7 +2711,7 @@
     }
     function startHands(mode) {   // mode: 'sandbox' (中央の例の箱) | 'real' (本番の2箱)。実演と並行して受け付ける
       handsMode = mode; handsDone = false;
-      btnRow.classList.add("pending"); $("tutPopNext").classList.remove("cue");
+      if (!replayMode) btnRow.classList.add("pending"); $("tutPopNext").classList.remove("cue");   // 見直しでは運ばなくても次へ進める (2026-09-29)
       setHint("");   // 開始時の案内は出さない (説明BOXの緑文字で足りる)
     }
     function endHands(ok) {
@@ -2806,6 +2807,7 @@
       if (lockTimer) { clearTimeout(lockTimer); lockTimer = null; } lockUntil = 0; $("tutPopNext").classList.remove("wait");
       if (flashTimer) { clearTimeout(flashTimer); flashTimer = null; } $("tutPopNext").classList.remove("warn"); $("tutPopNext").textContent = "次へ";
       handsMode = null; handsDone = false; hTracking = false; setHint(""); inkClear(); $("tutPopNext").classList.remove("cue");
+      replayMode = false; $("tutClose").classList.add("hidden");
       ctx(); setCap(""); demo.style.display = "none"; clearSample();
       document.querySelectorAll(".choice").forEach((e) => e.classList.remove("tut-sbxhide", "tut-rcv", "tut-dim"));
       startBtn.classList.remove("tut-dim"); stemEl.classList.remove("tut-dim");
@@ -2821,8 +2823,11 @@
       if (idx < 0 && !dragTutState.active) return;
       teardown(); dragTutState.done = false; onDone = null;
     }
-    function run(cb) {
+    let replayMode = false;   // 2 回目の見直し (右上「↻ 操作の説明」): 最小読了時間なし・運ばなくても次へ・× 閉じる (2026-09-29)
+    function run(cb, opts) {
       build(); onDone = cb; demo.style.display = ""; dragTutState.active = true;
+      replayMode = !!(opts && opts.replay);
+      $("tutClose").classList.toggle("hidden", !replayMode);
       if (typeof coachHide === "function") coachHide();
       if (typeof setCoach === "function") setCoach(null);
       numA.style.visibility = "hidden"; numB.style.visibility = "hidden"; stemEl.style.visibility = "hidden";
@@ -3709,7 +3714,7 @@
     if (recording || uiLocked || dragTutState.active) return;
     device.tutorialLog.push({ kind: "drag", event: "again", phase, trial: phase === "main" ? trialIndex + 1 : (phase === "instructed" ? instrIndex + 1 : null) });   // 説明を見直した回数 (どの段階・何問目で)
     $("tutAgain").classList.add("hidden");
-    DragTut.run(() => { presentStimulus(); });   // 見直し後は同じ試行を出し直す (RT に説明時間を混ぜない)
+    DragTut.run(() => { presentStimulus(); }, { replay: true });   // 見直し後は同じ試行を出し直す (RT に説明時間を混ぜない)。2 回目なので待ち時間なし・途中で閉じられる
   }, { passive: true });
   $("ratingSubmit").addEventListener("click", submitRating, { passive: true });
   $("breakContinue").addEventListener("click", () => {
@@ -3850,7 +3855,8 @@
   // タスク画面は Pointer Events のみで click 合成に依存しないため、touchend の既定動作
   // (ダブルタップ拡大 + click 合成) を丸ごと抑止できる。他画面のボタンは CSS touch-action:manipulation 側で対処。
   document.getElementById("task").addEventListener("touchend",
-    (e) => { if (e.cancelable) e.preventDefault(); }, { passive: false });
+    (e) => { if (e.target && e.target.closest && e.target.closest("button")) return;   // 右上「↻ 操作の説明」など課題画面内のボタンは click 合成を止めない (2026-09-29: iPhone で押せなかった)
+      if (e.cancelable) e.preventDefault(); }, { passive: false });
 })();
 </script>
 </body>
