@@ -247,7 +247,7 @@
 <!-- ===== TASK ===== -->
 <section id="task" class="screen">
   <div id="topbar"><span id="phaseLabel">練習</span><span id="counter">0 / 0</span><span id="calDb" style="display:none"></span><span id="hud" style="display:none"></span>
-    <button type="button" id="tutAgain" class="hidden">↻ 説明</button></div>
+    <button type="button" id="tutAgain" class="hidden">↻ 操作の説明</button></div>
   <!-- 本番の進捗バー (2026-09-15): 「本番 n / N」の下。済んだ分を「次へ」と同じ緑で。練習・例の 1 問では出さない -->
   <div id="progress"><div id="progressFill"></div></div>
   <div id="surface">
@@ -1081,7 +1081,7 @@
     stopNotices: [],          // 停止の案内画面の表示記録 {afterTrial, kind, ms} (§6-6 項19)
     stopNoticesSuppressed: 0, // 上限 (種類ごと 3 回) で出さなかった案内の数 (2026-09-12 夜)
     pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
-    appVersion: "2026-09-27",   // アプリの版 (文言・UI の改善履歴を解析で追えるように。設計・記録に触れない改修でも上げる。2026-09-27)
+    appVersion: "2026-09-29",   // アプリの版 (文言・UI の改善履歴を解析で追えるように。設計・記録に触れない改修でも上げる。2026-09-27)
     devGuard: null,           // 機種ガード {on, minH, w, h, shown} (2026-09-26。本実験はフルスクリーン iPhone 限定)
     exportedAt: null,
   };
@@ -1777,8 +1777,9 @@
     startBtn.classList.remove("armed");
     startBtn.textContent = "スタート";
     $("phaseLabel").textContent = cell.isTutorial ? "" : (phase === "practice" ? "練習" : (phase === "instructed" ? "追加" : "本番"));   // 例の 1 問は段階名なし (2026-09-15 ユーザー指示。旧「おためし」)   // おためし = 例の 1 問 (2026-09-12。旧「チュートリアル」)
-    // 練習中のみ「↻ 説明」= 分からなくなったらチュートリアルを見直せる (本番では出さない)
-    $("tutAgain").classList.toggle("hidden", !(phase === "practice" && dragTutState.done && DRAG_TUT_ON));
+    // 「↻ 操作の説明」= 分からなくなったらチュートリアルを見直せる (練習・本番・追加。注意チェックの問題では出さない)
+    // 練習だけでなく本番・追加でも「操作の説明」を見直せる (2026-09-29 ユーザー要望)。押せるのはスタートに指を置く前だけ (押下後は hidden にしないが recording 中は無視)
+    $("tutAgain").classList.toggle("hidden", !((phase === "practice" || phase === "main" || phase === "instructed") && dragTutState.done && DRAG_TUT_ON && !cell.isCheck));
     $("counter").textContent = counterText(); updateProgress();
     recording = false;
     uiLocked = false;
@@ -3706,7 +3707,7 @@
   // 練習中に説明を見直す (ドラッグ導入チュートリアルを再生。終わると練習の同じ試行へ戻る)
   $("tutAgain").addEventListener("click", () => {
     if (recording || uiLocked || dragTutState.active) return;
-    device.tutorialLog.push({ kind: "drag", event: "again" });   // 練習中に説明を見直した回数
+    device.tutorialLog.push({ kind: "drag", event: "again", phase, trial: phase === "main" ? trialIndex + 1 : (phase === "instructed" ? instrIndex + 1 : null) });   // 説明を見直した回数 (どの段階・何問目で)
     $("tutAgain").classList.add("hidden");
     DragTut.run(() => { presentStimulus(); });   // 見直し後は同じ試行を出し直す (RT に説明時間を混ぜない)
   }, { passive: true });
