@@ -26,7 +26,7 @@
              age, sex, handedness,            // 事前アンケート (特性。必須。性別は na=回答しない可)
              grip,                             // 事後アンケート (持ち方+操作を1問に。課題後に回顧で取得)
              survey:                           // 事後アンケート UI/負担 (②③=評定ブロックのみ。anchor は null)
-               {problems:[slug…], ease('easy'|'ok'|'hard'), free},  // free=その他選択時のみ表示・必須の自由記述
+               {problems:[slug…], ease('easy'|'ok'|'hard'), free, comment},  // free=その他選択時のみ表示・必須の自由記述 / comment=最後の任意の自由記述 (2026-09-29)
              post:                             // 事後アンケート 拡充分 (2026-09-06 §6-6 項8。評定ブロックを含むクラウド配布のみ = 対面 kiosk/stop では null。
                {fatigue_pre, fatigue_post, sleepiness, sleep_hours, condition,        //   5段階は 1–5 の整数・選択式は英語スラッグ・未回答は null)
                 location, posture, others_present, noise_self, interruptions,
@@ -410,6 +410,14 @@
           <button type="button" data-val="ok">普通</button>
           <button type="button" data-val="hard">しにくい</button>
         </div>
+      </div>
+      </div>
+      <!-- 自由記述 (任意。2026-09-29): 使いづらかった点・分かりづらかった点・気づいた点を最後に聞く (複数選択の「その他」だけでは拾えない) -->
+      <div class="postpage" data-page="comment">
+      <h2>気づいた点があればお書きください（任意）</h2>
+      <p class="opt-note">使いづらかった点、分かりづらかった説明や問題文、その他気づいたことがあれば自由にお書きください。無ければそのまま「完了する」を押してください。</p>
+      <div class="field">
+        <textarea id="surveyComment" rows="5" maxlength="1000" placeholder="例: 〇〇の説明が分かりにくかった、〇〇の操作がしづらかった"></textarea>
       </div>
       </div>
     </div>
@@ -1090,7 +1098,7 @@
     stopNotices: [],          // 停止の案内画面の表示記録 {afterTrial, kind, ms} (§6-6 項19)
     stopNoticesSuppressed: 0, // 上限 (種類ごと 3 回) で出さなかった案内の数 (2026-09-12 夜)
     pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
-    appVersion: "2026-09-29b",   // アプリの版 (文言・UI の改善履歴を解析で追えるように。設計・記録に触れない改修でも上げる。2026-09-27)
+    appVersion: "2026-09-29c",   // アプリの版 (文言・UI の改善履歴を解析で追えるように。設計・記録に触れない改修でも上げる。2026-09-27)
     welcomeAgree: null,       // はじめに 4/4 の同意チェック {items, ms} (2026-09-29)
     devGuard: null,           // 機種ガード {on, minH, w, h, shown} (2026-09-26。本実験はフルスクリーン iPhone 限定)
     exportedAt: null,
@@ -2938,7 +2946,7 @@
   }
 
   // ===== 事後アンケート (持ち方 grip は両ブロック / 使いにくさ survey は②③=評定ブロックのみ) =====
-  const survey = { problems: [], ease: null, free: "" };  // free=「その他」選択時のみ表示・必須の自由記述
+  const survey = { problems: [], ease: null, free: "", comment: "" };  // free=「その他」選択時のみ表示・必須の自由記述 / comment=最後の任意の自由記述 (2026-09-29)
 
   // ===== 事後アンケート 拡充分 (2026-09-06、experiment-design §6-6 項8 / decisions-log 2026-09-06) =====
   // 課題の後に 19 項目 (状態・環境・習熟・ふりかえり・自己報告 data_use)。5段階は評定と同じ 1–5 ボタン (尺度を揃える。10段階スライダーは
@@ -3019,7 +3027,7 @@
     if (!show) { survey.free = ""; $("surveyFree").value = ""; }
   }
   function surveyReset() {
-    survey.problems = []; survey.ease = null; survey.free = "";
+    survey.problems = []; survey.ease = null; survey.free = ""; survey.comment = ""; $("surveyComment").value = "";
     $("surveyFree").value = "";
     showSurveyFree(false);
     for (const b of $("surveyProblems").children) b.classList.remove("sel");
@@ -3039,6 +3047,7 @@
       out.push({ id: "problems", label: "使いにくかった点", el: pp, part: 1, ok: () => true });
       out.push({ id: "problems2", label: "使いにくかった点", el: pp, part: 2, ok: () => survey.problems.length > 0 && otherOk() });
       out.push({ id: "ease", label: "操作のしやすさ", el: document.querySelector('#postq .postpage[data-page="ease"]'), ok: () => !!survey.ease });
+      out.push({ id: "comment", label: "自由記述", el: document.querySelector('#postq .postpage[data-page="comment"]'), ok: () => true });   // 任意 (2026-09-29)
     }
     return out;
   }
@@ -3623,6 +3632,7 @@
   });
   wireSeg("surveyEaseSeg", (v) => { survey.ease = v; postReady(); });
   $("surveyFree").addEventListener("input", () => { survey.free = $("surveyFree").value; postReady(); }, { passive: true });
+  $("surveyComment").addEventListener("input", () => { survey.comment = $("surveyComment").value; }, { passive: true });
   // テキスト/数値入力でも再評価
   for (const id of ["pid", "age", "devModel"]) {
     $(id).addEventListener("input", refreshIntro, { passive: true });
@@ -3788,7 +3798,7 @@
   $("postSubmit").addEventListener("click", () => {
     if ($("postSubmit").disabled) return;   // 未完了 (grip / 事後アンケート必須) なら無視
     if (HAS_RATING_BLOCK) {
-      device.survey = { problems: survey.problems.slice(), ease: survey.ease, free: survey.free.trim() };
+      device.survey = { problems: survey.problems.slice(), ease: survey.ease, free: survey.free.trim(), comment: survey.comment.trim() };
     }
     if (POST_ON) { device.post = {}; for (const k of POST_KEYS) device.post[k] = post[k] == null ? null : post[k]; }
     device.postMs = postShownAt != null ? +(performance.now() - postShownAt).toFixed(0) : null;

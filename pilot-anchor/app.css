@@ -515,3 +515,5 @@
   #debrief .debrief { font-size: calc(14px * var(--ui-scale)); color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; margin: 12px 0; line-height: 1.6; }
   /* 実施後のアンケート: 節名 (「課題の前後の状態」など) は小さな見出しに (2026-09-27) */
   #postq .postpage .eyebrow { font-size: calc(12.5px * var(--ui-scale)); font-weight: 700; color: var(--go); letter-spacing: .04em; margin: 0 0 6px; }
+  /* 最後の自由記述 (任意。2026-09-29) */
+  #postq textarea { width: 100%; max-width: 100%; box-sizing: border-box; padding: 12px; font-size: calc(16px * var(--ui-scale)); line-height: 1.5; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); color: var(--ink); font-family: inherit; resize: none; }
