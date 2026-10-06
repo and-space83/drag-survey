@@ -436,21 +436,28 @@
 <section id="done" class="screen">
   <div class="pad">
     <h1 id="doneTitle">完了しました</h1>
-    <!-- 送信中の案内 (2026-09-27): 参加者に操作させず、進み具合と「閉じない・更新しない」を見せる。完了コードは送信の結果が出てから出す -->
+    <!-- 送信中はスピナーを表示。送信量の割合は取得できないためバーは出さず、完了コードは送信結果が出てから出す -->
     <div id="sendBox" style="display:none">
       <div class="spin" aria-hidden="true"></div>
       <p id="sendMsg">データを送信しています。しばらくお待ちください。</p>
-      <div class="sendbar"><div id="sendFill"></div></div>
       <p class="opt-note">送信中は、画面を閉じたり更新（再読み込み）したりしないでください。</p>
     </div>
     <p id="doneMsg">ご協力ありがとうございました。</p>
     <!-- 完了コード (§6-6 項12): 1人1コードをデータにも記録し「申請コード↔実データ」を機械照合。?ccode=0 で非表示 -->
     <div id="ccodeBox" style="display:none">
       <p>あなたの<b>完了コード</b>:</p>
-      <div class="ccode" id="ccode"></div>
+      <div class="ccode-row">
+        <div class="ccode" id="ccode"></div>
+        <button type="button" id="ccodeCopy" aria-label="完了コードをコピー" title="完了コードをコピー">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <rect x="8" y="8" width="12" height="13" rx="2"></rect>
+            <path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"></path>
+          </svg>
+        </button>
+      </div>
+      <p id="ccodeCopyStatus" role="status" aria-live="polite" aria-atomic="true"></p>
       <div class="btnrow" style="justify-content:center;gap:8px;margin:8px 0">
-        <button type="button" class="btn" id="ccodeCopy">コードをコピー</button>
-        <a class="btn primary" id="ccodeMail" style="display:none;text-decoration:none">メールで送る</a>
+        <a class="btn primary" id="ccodeMail" style="display:none;text-decoration:none">メールで送信する</a>
       </div>
       <p class="opt-note" id="ccodeNote">このコードを研究者にお伝えください（謝礼の手続きに使います）。</p>
     </div>
@@ -1100,7 +1107,7 @@
     stopNotices: [],          // 停止の案内画面の表示記録 {afterTrial, kind, ms} (§6-6 項19)
     stopNoticesSuppressed: 0, // 上限 (種類ごと 3 回) で出さなかった案内の数 (2026-09-12 夜)
     pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
-    appVersion: "2026-09-30d",   // アプリの版 (文言・UI の改善履歴を解析で追えるように。設計・記録に触れない改修でも上げる。2026-09-27)
+    appVersion: "2026-10-07a",   // アプリの版 (文言・UI の改善履歴を解析で追えるように。設計・記録に触れない改修でも上げる。2026-09-27)
     welcomeAgree: null,       // はじめに 4/4 の同意チェック {items, ms} (2026-09-29)
     devGuard: null,           // 機種ガード {on, minH, w, h, shown} (2026-09-26。本実験はフルスクリーン iPhone 限定)
     exportedAt: null,
@@ -2063,7 +2070,7 @@
     return `${total - queue.length} / ${total}`;
   }
   function updateProgress() {   // 本番 (と末尾の追加 10 問) の進捗バー: 済んだ試行の割合 (2026-09-15)
-    const on = !(cell && cell.isTutorial) && (phase === "main" || phase === "instructed");
+    const on = !dragTutState.active && !(cell && cell.isTutorial) && (phase === "main" || phase === "instructed");
     $("progress").classList.toggle("on", on);
     if (on) { const done = phase === "main" ? trialIndex : instrIndex, total = phase === "main" ? totalMain : INSTR_N;
       $("progressFill").style.width = (total > 0 ? Math.max(0, Math.min(100, done / total * 100)) : 0) + "%"; }
@@ -2456,10 +2463,14 @@
       cap = document.createElement("div"); cap.id = "tutCap"; surface.appendChild(cap);
       spot = document.createElement("div"); spot.id = "tutSpot"; spot.className = "tut-spot hidden"; document.body.appendChild(spot);
       pop = document.createElement("div"); pop.id = "tutPop"; pop.className = "tut-pop hidden";
-      pop.innerHTML = '<button type="button" class="x hidden" id="tutClose" aria-label="閉じる">×</button><div class="s" id="tutPopStep"></div><div class="t" id="tutPopTxt"></div>' +
+      pop.innerHTML = '<div class="s" id="tutPopStep"></div><div class="t" id="tutPopTxt"></div>' +
         '<div class="g hidden" id="tutPopOp"></div>' +
         '<div class="dots" id="tutPopDots"></div>';
       document.body.appendChild(pop);
+      const close = document.createElement("button");
+      close.id = "tutClose"; close.type = "button"; close.className = "hidden";
+      close.textContent = "× 閉じる"; close.setAttribute("aria-label", "操作の説明を閉じる");
+      document.body.appendChild(close);
       btnRow = document.createElement("div"); btnRow.id = "tutBtnRow"; btnRow.className = "tut-btnrow hidden";
       btnRow.innerHTML = '<button class="rp hidden" id="tutReplay">↻ もう一度</button><button class="nx" id="tutPopNext">次へ</button>';
       document.body.appendChild(btnRow);
@@ -2587,6 +2598,7 @@
     }
     function place(step) {
       const GAP = 14, vw = innerWidth, vh = innerHeight, tr = $("task").getBoundingClientRect(), sr = startBtn.getBoundingClientRect();
+      const top = replayMode ? Math.max(tr.top + 8, $("tutClose").getBoundingClientRect().bottom + 8) : tr.top + 8;
       const demoStep = step.act === "concept" || step.act === "real";
       if (step.focus !== "orient") {   // スポットライト (orient は非表示)
         const r = targetRect(step.focus);
@@ -2608,7 +2620,7 @@
         const surf0 = surface.getBoundingClientRect(), T0 = sbxT();
         const natTop = (step.hands === "sandbox" ? (surf0.top + T0.y - T0.bh / 2) : Math.min(choiceA.getBoundingClientRect().top, choiceB.getBoundingClientRect().top)) - tutShift;
         const natBottom = (step.hands === "sandbox" ? (surf0.top + T0.y + T0.bh / 2) : Math.max(choiceA.getBoundingClientRect().bottom, choiceB.getBoundingClientRect().bottom)) - tutShift;
-        const need = (tr.top + 8 + pop.offsetHeight + GAP) - natTop, cap = (sr.top - 40) - natBottom;
+        const need = (top + pop.offsetHeight + GAP) - natTop, cap = (sr.top - 40) - natBottom;
         tutShift = Math.max(0, Math.min(need, cap));
       } else tutShift = 0;
       $("task").style.setProperty("--tut-shift", tutShift + "px");
@@ -2619,7 +2631,7 @@
           const surf = surface.getBoundingClientRect(), T = sbxT();
           const targetTop = step.hands === "sandbox" ? (surf.top + T.y - T.bh / 2) : Math.min(choiceA.getBoundingClientRect().top, choiceB.getBoundingClientRect().top);
           demoBelow = (step.hands === "sandbox" ? (surf.top + T.y + T.bh / 2) : Math.max(choiceA.getBoundingClientRect().bottom, choiceB.getBoundingClientRect().bottom)) + GAP;
-          return targetTop - GAP - (tr.top + 8);
+          return targetTop - GAP - top;
         }
         if (step.focus === "choices2") { const r = targetRect(step.focus); return Math.max(r.top - PAD - GAP - 8, btnTop - GAP - (r.bottom + PAD + GAP)); }
         if (step.focus === "start") return sr.top - PAD - GAP - 8;
@@ -2631,7 +2643,7 @@
       let ptop, pcx = tr.left + tr.width / 2;
       if (step.focus === "orient") ptop = tr.top + tr.height * 0.12;
       else if (step.revealDelay && !revealedNow) ptop = stemEl.getBoundingClientRect().top;   // 待機中: 対象が出る位置に説明だけ置く
-      else if (demoStep) { popBelow = ph > allowed && demoBelow != null; ptop = popBelow ? demoBelow : tr.top + 8; }   // 実演は最上部。入らなければ対象の下 (2026-09-13)
+      else if (demoStep) { popBelow = ph > allowed && demoBelow != null; ptop = popBelow ? demoBelow : top; }   // 実演は最上部。見直し中は「閉じる」の下に収める
       else {
         const r = targetRect(step.focus); pcx = r.left + r.width / 2;
         //スタート・選択肢 (3/6) = 対象のすぐ上 (上から読む順で、対象に接して置く。2026-09-06) / 問題文 = 対象の直下
@@ -2641,7 +2653,7 @@
           ptop = (below + ph <= btnTop - GAP) ? below : 8;
         }
       }
-      ptop = Math.max(8, Math.min(ptop, btnTop - GAP - ph, vh - ph - 8));   // ボタン列に被らせない
+      ptop = Math.max(replayMode ? top : 8, Math.min(ptop, btnTop - GAP - ph, vh - ph - 8));   // 閉じる・進行ボタンに被らせない
       pop.style.top = ptop + "px";
       pop.style.left = Math.max(12, Math.min(pcx - pw / 2, vw - pw - 12)) + "px";
     }
@@ -2835,6 +2847,7 @@
       if (flashTimer) { clearTimeout(flashTimer); flashTimer = null; } $("tutPopNext").classList.remove("warn"); $("tutPopNext").textContent = "次へ";
       handsMode = null; handsDone = false; hTracking = false; setHint(""); inkClear(); $("tutPopNext").classList.remove("cue");
       replayMode = false; $("tutClose").classList.add("hidden");
+      document.body.classList.remove("tut-review");
       ctx(); setCap(""); demo.style.display = "none"; clearSample();
       document.querySelectorAll(".choice").forEach((e) => e.classList.remove("tut-sbxhide", "tut-rcv", "tut-dim"));
       startBtn.classList.remove("tut-dim"); stemEl.classList.remove("tut-dim");
@@ -2855,6 +2868,9 @@
       build(); onDone = cb; demo.style.display = ""; dragTutState.active = true;
       replayMode = !!(opts && opts.replay);
       $("tutClose").classList.toggle("hidden", !replayMode);
+      document.body.classList.toggle("tut-review", replayMode);
+      $("tutAgain").classList.add("hidden");
+      updateProgress();
       const start = opts && Number.isInteger(opts.start) ? Math.max(0, Math.min(STEPS.length - 1, opts.start)) : 0;   // 案内画面からは該当ステップだけ (2026-09-29)
       if (typeof coachHide === "function") coachHide();
       if (typeof setCoach === "function") setCoach(null);
@@ -3131,7 +3147,7 @@
       if (CONFIG.contactEmail) {   // タップでメールアプリを開き、本文にコードを入れて送れる (2026-09-29)
         const m = $("ccodeMail"); m.style.display = "";
         m.href = "mailto:" + CONFIG.contactEmail + "?subject=" + encodeURIComponent("調査の完了コード") + "&body=" + encodeURIComponent("完了コード: " + device.completionCode + "\n名前: " + (device.participantId || ""));
-        $("ccodeNote").textContent = "「メールで送る」を押すか、コードをコピーして " + CONFIG.contactEmail + " へ送ってください（謝礼の手続きに使います）。";
+        $("ccodeNote").textContent = "「メールで送信する」を押すか、コードをコピーして " + CONFIG.contactEmail + " へ送ってください（謝礼の手続きに使います）。";
       }
     }
     if (ATTN_ON) {   // 強IMC (欺瞞) のデブリーフィング (§6-5・IRB 申請に記載)
@@ -3386,7 +3402,7 @@
   }
   function postPayload(payload) {   // 1件送信 (タイムアウト付き)。成功時のみ resolve
     // GAS Web アプリは CORS preflight (OPTIONS) に応答しないため text/plain で simple request にする。
-    // ⚠️ XMLHttpRequest の upload.onprogress を付けると仕様上 preflight が必要になり即失敗する (2026-09-29 実機で 3 回とも一瞬で失敗) → fetch に戻し、進み具合は不定表示
+    // XMLHttpRequest の upload.onprogress は preflight を発生させる (2026-09-29 実機で失敗)。fetch を維持し、送信量の割合は表示しない
     const ctl = ("AbortController" in window) ? new AbortController() : null;
     const timer = ctl ? setTimeout(() => ctl.abort(), POST_TIMEOUT_MS) : null;
     return fetch(CONFIG.uploadUrl, {
@@ -3415,19 +3431,17 @@
     step(0);
   }
 
-  // 送信中の画面 (2026-09-27): スピナー + 進み具合のバー + 「閉じない・更新しない」。結果が出るまで完了コードとお礼は隠す
+  // 送信中はスピナー + 「閉じない・更新しない」。結果が出るまで完了コードとお礼は隠す
   function sendUiStart(attempt) {
     $("doneTitle").textContent = "データを送信しています";
     $("sendBox").style.display = "";
     $("sendMsg").textContent = attempt > 1 ? `送信を再試行しています（${attempt} / 3 回目）。しばらくお待ちください。` : "データを送信しています。しばらくお待ちください。";
-    $("sendFill").style.width = "0%"; $("sendFill").classList.add("indet");   // 進み具合は取れない (preflight 回避のため) ので流れるバー
     for (const id of ["doneMsg", "ccodeBox", "debrief", "summary"]) $(id).classList.add("hidden-until-sent");
   }
-  function sendUiEnd(ok) {
+  function sendUiEnd() {
     $("doneTitle").textContent = "完了しました";
     $("sendBox").style.display = "none";
     for (const id of ["doneMsg", "ccodeBox", "debrief", "summary"]) $(id).classList.remove("hidden-until-sent");
-    $("sendFill").classList.remove("indet"); if (ok) $("sendFill").style.width = "100%";
   }
   function uploadJson(attempt) {
     attempt = attempt || 1;
@@ -3435,7 +3449,7 @@
     $("uploadStatus").textContent = "";
     postPayload(buildPayload())
       .then(() => {
-        sendUiEnd(true);
+        sendUiEnd();
         $("uploadStatus").textContent = "✅ データは送信されました。このまま閉じて大丈夫です。";
         $("doneMsg").textContent = "ご協力ありがとうございました。";
         clearBackup();
@@ -3444,7 +3458,7 @@
       })
       .catch(() => {
         if (attempt < 3) { setTimeout(() => uploadJson(attempt + 1), 1500 * attempt); return; }
-        sendUiEnd(false);
+        sendUiEnd();
         // 3回失敗 = 回線が無い/不安定。端末に貯めて次回起動時・オンライン復帰時に自動送信する
         if (outboxPush(buildPayload())) {
           $("uploadStatus").textContent =
@@ -3771,7 +3785,6 @@
   $("tutAgain").addEventListener("click", () => {
     if (recording || uiLocked || dragTutState.active) return;
     device.tutorialLog.push({ kind: "drag", event: "again", phase, trial: phase === "main" ? trialIndex + 1 : (phase === "instructed" ? instrIndex + 1 : null) });   // 説明を見直した回数 (どの段階・何問目で)
-    $("tutAgain").classList.add("hidden");
     DragTut.run(() => { presentStimulus(); }, { replay: true });   // 見直し後は同じ試行を出し直す (RT に説明時間を混ぜない)。2 回目なので待ち時間なし・途中で閉じられる
   }, { passive: true });
   $("ratingSubmit").addEventListener("click", submitRating, { passive: true });
@@ -3803,12 +3816,24 @@
     if (from.screen === "rating" && trial) trial.stopPause = pause;
     show(from.screen);
   }, { passive: true });
-  $("ccodeCopy").addEventListener("click", () => {   // ワンタップでコピー (失敗時は選択状態にする)
-    const code = device.completionCode || ""; const b = $("ccodeCopy");
-    const done = () => { b.textContent = "コピーしました"; setTimeout(() => { b.textContent = "コードをコピー"; }, 1800); };
-    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(code).then(done).catch(() => { selectCode(); });
-    else selectCode();
-    function selectCode() { const r = document.createRange(); r.selectNodeContents($("ccode")); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); try { document.execCommand("copy"); done(); } catch (_) {} }
+  let copyStatusTimer = null;
+  $("ccodeCopy").addEventListener("click", async () => {
+    const code = device.completionCode || ""; if (!code) return;
+    const status = $("ccodeCopyStatus");
+    if (copyStatusTimer) clearTimeout(copyStatusTimer);
+    status.textContent = "";
+    let copied = false;
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) { await navigator.clipboard.writeText(code); copied = true; }
+    } catch (_) {}   // Clipboard API が使えない場合は選択してコピー
+    if (!copied) {
+      const r = document.createRange(); r.selectNodeContents($("ccode"));
+      const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      try { copied = document.execCommand("copy"); } catch (_) {}
+      if (copied) sel.removeAllRanges();
+    }
+    status.textContent = copied ? "コピーしました" : "コードを長押ししてコピーしてください";
+    if (copied) copyStatusTimer = setTimeout(() => { status.textContent = ""; copyStatusTimer = null; }, 2200);
   }, { passive: true });
   $("postSubmit").addEventListener("click", () => {
     if ($("postSubmit").disabled) return;   // 未完了 (grip / 事後アンケート必須) なら無視
@@ -3897,7 +3922,7 @@
       micgate: () => showMicGate("precheck"),           // 環境音チェック (マイクは実物)
       notice: () => { dragTutState.done = true; ratingTutorialDone = true; phase = "main";   // 案内画面 (遅い初動)。「次へ」で本番の課題画面へ (2026-09-26)
         queue = ATTN_ON ? insertDqs(BLOCK.buildMain()) : BLOCK.buildMain(); totalMain = queue.length; trialIndex = 3; cell = queue.shift(); sizeCanvas(); showStopNotice("late"); },
-      sending: () => { phase = "main"; finishSession(); sendUiStart(1); $("sendFill").style.width = "45%"; $("exportRow").style.display = "none"; $("uploadStatus").textContent = ""; },   // 送信中の画面 (見た目の確認用。送信はしない。本番と同じく保存ボタンは出さない)
+      sending: () => { phase = "main"; finishSession(); sendUiStart(1); $("exportRow").style.display = "none"; $("uploadStatus").textContent = ""; },   // 送信中の画面 (見た目の確認用。送信はしない。本番と同じく保存ボタンは出さない)
     };
     if (BLOCK.stimulusType !== "text-choice" && GO !== "micgate" && GO !== "done") {
       badge.textContent += " (block=moral/value で使う)";
@@ -3914,7 +3939,7 @@
 
   // 課題面のプルリフレッシュ/スクロール抑止 (intro/done の .pad スクロールは妨げない)
   surface.addEventListener("touchmove", (e) => { if (e.cancelable) e.preventDefault(); }, { passive: false });
-  document.addEventListener("contextmenu", (e) => e.preventDefault());
+  document.addEventListener("contextmenu", (e) => { if (!e.target.closest("#ccode")) e.preventDefault(); });   // コピー失敗時はコードを長押しして選択できる
   document.addEventListener("gesturestart", (e) => e.preventDefault());
   // iOS のダブルタップ拡大対策:スタート連打で拡大→復帰不能の実機報告 (2026-07-11)。
   // タスク画面は Pointer Events のみで click 合成に依存しないため、touchend の既定動作
