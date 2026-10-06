@@ -450,8 +450,10 @@
   /* ハンズオン中の自分の軌跡 (実演レイヤーの上・pointer-events:none。本番 #trace とは別レイヤー) */
   #tutInk { position: absolute; inset: 0; z-index: 6; pointer-events: none; }
   /* 練習中の「↻ 説明」(分からなくなったらチュートリアルへ戻る。topbar は pointer-events:none なので自前で有効化) */
-  #tutAgain { pointer-events: auto; touch-action: manipulation; background: var(--panel); border: 1px solid var(--line); color: var(--ink-2);
+  #tutAgain { position: relative; pointer-events: auto; touch-action: manipulation; background: var(--panel); border: 1px solid var(--line); color: var(--ink-2);
     font: inherit; font-size: calc(11px * var(--ui-scale)); font-weight: 600; padding: 3px 9px; border-radius: 999px; cursor: pointer; }
+  /* 見た目と課題の座標を保ち、上部入口の透明なタップ領域だけを広げる。 */
+  #tutAgain::before { content: ""; position: absolute; top: -12px; bottom: -20px; left: -8px; right: -8px; }
   #tutAgain.hidden { display: none; }
   /* 開き直した説明は、全ページで画面右上から閉じられる。説明ボックスとは独立 */
   #tutClose { position: fixed; z-index: 44; top: max(8px, env(safe-area-inset-top)); right: max(12px, env(safe-area-inset-right));
@@ -502,6 +504,8 @@
   #postq .postpage .eyebrow { margin: 0 0 4px; }
   #postq #postStep { text-align: center; margin: 0 0 8px; }
   #postq #postNav { margin: 18px auto 0; }
+  #postq .pad { scroll-padding-bottom: calc(var(--nav-minh) + 30px); }
+  #postq #postNav { position: sticky; bottom: 0; z-index: 4; flex-shrink: 0; background: var(--bg); box-shadow: 0 10px 0 10px var(--bg); }
   #postq #postNav .btn.ghost { flex: 0 0 32%; }
   #postq #postNav .btn.primary { flex: 1 1 auto; }
   /* 使いにくかった点 10 項目は 5+5 の 2 画面 (data-part。2026-09-26 後刻) */
