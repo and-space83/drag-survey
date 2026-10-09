@@ -29,7 +29,7 @@
              age, sex, handedness,            // 事前アンケート (特性。必須。性別は na=回答しない可)
              grip,                             // 事後アンケート (持ち方+操作を1問に。課題後に回顧で取得)
              survey:                           // 事後アンケート UI/負担 (②③=評定ブロックのみ。anchor は null)
-               {problems:[slug…], ease('easy'|'ok'|'hard'), free, comment},  // free=その他選択時のみ表示・必須の自由記述 / comment=最後の任意の自由記述 (2026-09-29)
+               {problems:[slug…], problemPages:[null|[slug…],null|[slug…]], ease('easy'|'ok'|'hard'), free, comment},  // problemPages: 未回答nullと明示noneを区別。freeはその他選択時のみ送信
              post:                             // 事後アンケート 拡充分 (2026-09-06 §6-6 項8。評定ブロックを含むクラウド配布のみ = 対面 kiosk/stop では null。
                {fatigue_pre, fatigue_post, sleepiness, sleep_hours, condition,        //   5段階は 1–5 の整数・選択式は英語スラッグ・未回答は null)
                 time_pressure, physical_load, irritation,                              //   課題の感じ方 (2026-09-30 追加。5段階)
@@ -129,11 +129,11 @@
 <div id="zoomProbe" aria-hidden="true"><span id="zpA">あいうえお0123456789</span><span id="zpB">あいうえお0123456789</span></div>
 <!-- ===== 機種ガード (2026-09-26): 本実験は大きめのフルスクリーン iPhone (画面の高さ 812 CSS px 以上・幅 375 以上 = ホームボタンなし) に限定する。
      SE 系 (667) や 8/8 Plus (667/736) は課題画面の幾何が小さくなるため対象外。?devguard=0 で無効 (validate/shots 用)、?devmin=844 で高さの閾値を変更 (mini を外すなら 844) -->
-<div id="devGuard">
+<div id="devGuard" role="alertdialog" aria-modal="true" aria-labelledby="dgMessage" tabindex="-1">
   <div class="icon">📵</div>
-  <p><b>この調査の対象機種ではありません。</b><br>対象は、ホームボタンのない大きめの iPhone です。</p>
+  <p id="dgMessage"><b>この調査の対象端末ではありません。</b><br>対象は、指定の画面サイズを満たす iPhone です。</p>
   <p class="now" id="dgNow"></p>
-  <p class="how">お手数ですが、対象の機種でこの URL を開き直してください。分からないときは研究者にご連絡ください。</p>
+  <p class="how">ご協力ありがとうございます。この端末ではご参加いただけません。この画面を閉じて終了してください。</p>
 </div>
 
 <!-- ===== 未送信データのバー (2026-09-05)。送信できずに端末へ貯まっているセッション数を実験者に見せる。
@@ -193,7 +193,7 @@
     <!-- ブロック別の説明 (数値サイズ一致性 / 価値・選好)。起動時に BLOCK.introHtml で差し込む -->
     <div id="introInstructions"></div>
     <h1 style="margin-bottom:4px">はじめに、あなたについて</h1>
-    <p class="opt-note" id="introLead" style="margin:0 0 2px">すべてご記入ください（分析用で、個人の特定はしません）。</p>
+    <p class="opt-note" id="introLead" style="margin:0 0 2px">すべてご記入ください。</p>
     <div class="field">
       <label for="pid">名前</label>
       <input id="pid" type="text" autocomplete="off" placeholder="例: 山田 太郎">
@@ -215,7 +215,7 @@
     </div>
     <div class="field">
       <label for="devModel">お使いの機種名<span class="opt-note" style="font-weight:400"> （分かる範囲で）</span></label>
-      <input id="devModel" type="text" inputmode="latin" autocomplete="off" placeholder="例: iPhone 14 / Pixel 7">
+      <input id="devModel" type="text" inputmode="latin" autocomplete="off" placeholder="例: iPhone 14">
     </div>
     <div class="field">
       <label>性別</label>
@@ -383,7 +383,7 @@
 
     <!-- 事後アンケート 拡充分 (2026-09-06 §6-6 項8): 状態・課題の感じ方・環境・習熟・ふりかえり+自己報告の 22 項目 (2026-09-26 に data_use、2026-09-30 に課題の感じ方 3 問を追加)。POST_ITEMS から描画。
          評定ブロックを含むクラウド配布のみ (対面 kiosk/stop では出さない = 時間枠・実施者不在。操作の質問だけに留める) -->
-    <p class="opt-note" id="postLead" style="display:none;margin-top:14px">続けて、いくつか質問にお答えください（約2分）。分析用で、個人の特定はしません。</p>
+    <p class="opt-note" id="postLead" style="display:none;margin-top:14px">続けて、いくつか質問にお答えください（約2分）。</p>
     <div id="postBlock" style="display:none"></div>
 
     <!-- 事後アンケート (UI/負担。②③=評定ブロックのみ表示。G4 負担の主観版裏付け + 改善材料。pilot2-design-notes) -->
@@ -392,19 +392,20 @@
       <!-- 10 項目は 1 画面に収まらない (Safari ツールバーありで 180px 超過) ので 5+5 の 2 画面に分ける (data-part。2026-09-26 後刻) -->
       <h2 id="surveyProblemsLabel">使いにくかった点・改善してほしい点</h2>
       <p class="opt-note part1">当てはまるものをすべてお選びください（複数選択可）。次の画面にも続きがあります。</p>
-      <p class="opt-note part2">続きです。当てはまるものがなければ「特に困らなかった」を選んでください。</p>
+      <p class="opt-note part2">続きです。当てはまるものをすべてお選びください（複数選択可）。</p>
       <div class="checks" id="surveyProblems" aria-labelledby="surveyProblemsLabel">
-        <button type="button" class="chk" data-val="rating_burden">振り返りの回答が多くて負担だった</button>
-        <button type="button" class="chk" data-val="trial_fatigue">試行数が多くて疲れた・長く感じた</button>
-        <button type="button" class="chk" data-val="drag_hard">ドラッグして選ぶ操作がやりにくかった</button>
-        <button type="button" class="chk" data-val="ui_hard">文字・ボタン・画面が見づらい／押しにくかった</button>
-        <button type="button" class="chk" data-val="tutorial_unclear">チュートリアル・練習の説明がわかりにくかった</button>
-        <button type="button" class="chk" data-val="stem_unclear">問題文がわかりにくかった</button>
-        <button type="button" class="chk" data-val="choice_unclear">選択肢がわかりにくかった</button>
-        <button type="button" class="chk" data-val="choice_hard">2択のどちらも選びにくいことがあった</button>
-        <button type="button" class="chk" data-val="device_slow">スマホの動作が重い・反応しなかった</button>
-        <button type="button" class="chk" data-val="none">特に困らなかった</button>
-        <button type="button" class="chk" data-val="other">その他</button>
+        <button type="button" class="chk" data-part="1" data-val="rating_burden">振り返りの回答が多くて負担だった</button>
+        <button type="button" class="chk" data-part="1" data-val="trial_fatigue">試行数が多くて疲れた・長く感じた</button>
+        <button type="button" class="chk" data-part="1" data-val="drag_hard">ドラッグして選ぶ操作がやりにくかった</button>
+        <button type="button" class="chk" data-part="1" data-val="ui_hard">文字・ボタン・画面が見づらい／押しにくかった</button>
+        <button type="button" class="chk" data-part="1" data-val="tutorial_unclear">チュートリアル・練習の説明がわかりにくかった</button>
+        <button type="button" class="chk" data-part="1" data-val="none1" data-none="1">このページでは該当なし</button>
+        <button type="button" class="chk" data-part="2" data-val="stem_unclear">問題文がわかりにくかった</button>
+        <button type="button" class="chk" data-part="2" data-val="choice_unclear">選択肢がわかりにくかった</button>
+        <button type="button" class="chk" data-part="2" data-val="choice_hard">2択のどちらも選びにくいことがあった</button>
+        <button type="button" class="chk" data-part="2" data-val="device_slow">スマホの動作が重い・反応しなかった</button>
+        <button type="button" class="chk" data-part="2" data-val="other">その他</button>
+        <button type="button" class="chk" data-part="2" data-val="none2" data-none="1">このページでは該当なし</button>
       </div>
       <div class="field" id="surveyFreeField" style="display:none">
         <label for="surveyFree">「その他」の内容（必須）</label>
@@ -1116,19 +1117,19 @@
       }, { passive: true });
     }
   }
-  // 複数選択チェック (事後アンケート 設問1)。中立(特に困らなかった)と問題は排他、選択集合を onChange に渡す。
+  // 複数選択チェック。data-part がある場合は、そのページ内だけ「該当なし」と排他にする。
   function wireChecks(containerId, onChange) {
     const c = $(containerId);
     initChoiceGroup(c, true);
     for (const b of c.querySelectorAll("button")) {
       b.addEventListener("click", () => {
-        if (b.dataset.val === "none") {          // 中立: 単独選択 (選ぶと他を全解除)
+        const peers = [...c.querySelectorAll("button")].filter(o => o.dataset.part === b.dataset.part);
+        if (b.dataset.none === "1") {
           const willSel = !b.classList.contains("sel");
-          for (const o of c.children) o.classList.toggle("sel", o === b && willSel);
+          for (const o of peers) o.classList.toggle("sel", o === b && willSel);
         } else {                                  // 問題: トグル + 中立を外す
           b.classList.toggle("sel");
-          const nb = c.querySelector('button[data-val="none"]');
-          if (nb) nb.classList.remove("sel");
+          for (const o of peers) if (o.dataset.none === "1") o.classList.remove("sel");
         }
         syncChoiceState(c);
         onChange([...c.querySelectorAll("button.sel")].map((o) => o.dataset.val));
@@ -1146,7 +1147,7 @@
     fontPx: (() => { try { return parseFloat(getComputedStyle(document.documentElement).fontSize) || null; } catch (_) { return null; } })(),   // 実効の基準文字サイズ px (OS/ブラウザの文字サイズ設定の検出用。2026-09-12)
     vvScale: (window.visualViewport && window.visualViewport.scale) || 1,   // ピンチ/ページ拡大の倍率 (2026-09-12)
     refreshHz: null,
-    participantId: "",        // ニックネーム (ローマ字、必須)
+    participantId: "",        // 入力された氏名（対面の自動採番時は実施用ID）
     clientId: getOrCreateClientId(),  // 匿名 first-party マーカー (重複参加の事後検出用。消去/別ブラウザで変わる)
     deviceModel: "",          // 自己申告の機種名 (iOS は UA でモデル判別不可のため必須)
     // 事前アンケート (特性=安定属性。聞いても今回の操作は変わらないので事前で可。必須)
@@ -1191,9 +1192,9 @@
     stopNotices: [],          // 停止の案内画面の表示記録 {afterTrial, kind, ms} (§6-6 項19)
     stopNoticesSuppressed: 0, // 上限 (種類ごと 3 回) で出さなかった案内の数 (2026-09-12 夜)
     pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
-    appVersion: "2026-10-07b",   // 保存・再開・収集の修正を識別する版
-    welcomeAgree: null,       // はじめに 4/4 の同意チェック {items, ms} (2026-09-29)
-    devGuard: null,           // 機種ガード {on, minH, w, h, shown} (2026-09-26。本実験はフルスクリーン iPhone 限定)
+    appVersion: "2026-10-09a",   // 採用済みの端末条件・氏名説明・ページ別該当なしを識別する版
+    welcomeAgree: null,       // はじめに 5/6・6/6 の同意チェック {items, pages, ms}
+    devGuard: null,           // 機種ガード {on,minH,w,h,shown,isIPhone,isIPad,ipadLink,platformOk,sizeOk}
     exportedAt: null,
   };
   $("devline").textContent = `${device.screenW}×${device.screenH} @${device.dpr}x`;
@@ -2523,7 +2524,7 @@
     const field = $("age");
     return field.value.trim() !== "" && Number.isInteger(field.valueAsNumber) && field.validity.valid;
   }
-  // 事前アンケート (ニックネーム・年齢・機種名) を取り込む。性別/利き手は wireSeg が随時 device に格納済み。
+  // 事前アンケート (氏名・年齢・機種名) を取り込む。性別/利き手は wireSeg が随時 device に格納済み。
   function captureIntro() {
     device.participantId = $("pid").value.trim();
     device.deviceModel = $("devModel").value.trim();
@@ -3096,7 +3097,29 @@
   }
 
   // ===== 事後アンケート (持ち方 grip は両ブロック / 使いにくさ survey は②③=評定ブロックのみ) =====
-  const survey = { problems: [], ease: null, free: "", comment: "" };  // free=「その他」選択時のみ表示・必須の自由記述 / comment=最後の任意の自由記述 (2026-09-29)
+  const survey = { problems: [], problemPages: [null, null], ease: null, free: "", comment: "" };  // ページ別の未回答(null)と明示的該当なし(["none"])を区別
+  const problemParts = [1, 2].map(part => [...$("surveyProblems").querySelectorAll(`button[data-part="${part}"]:not([data-none])`)].map(b => b.dataset.val));
+  function syncSurveyProblems() {
+    const answered = survey.problemPages.filter(Array.isArray);
+    const problems = answered.flat().filter(value => value !== "none");
+    survey.problems = problems.length ? problems : answered.length === 2 && answered.every(page => page.includes("none")) ? ["none"] : [];
+  }
+  function restoreProblemPages(saved) {
+    if (Array.isArray(saved.problemPages) && saved.problemPages.length === 2) {
+      survey.problemPages = saved.problemPages.map((page, i) => {
+        if (!Array.isArray(page)) return null;
+        const choices = page.filter(value => problemParts[i].includes(value));
+        return choices.length ? choices : page.includes("none") ? ["none"] : null;
+      });
+    } else { // 旧版の全体noneは両ページnone。他の空ページは未回答として再確認する。
+      const old = Array.isArray(saved.problems) ? saved.problems : [];
+      survey.problemPages = problemParts.map(values => {
+        const selected = old.filter(value => values.includes(value));
+        return selected.length ? selected : old.includes("none") ? ["none"] : null;
+      });
+    }
+    syncSurveyProblems();
+  }
 
   // ===== 事後アンケート 拡充分 (2026-09-06、experiment-design §6-6 項8 / decisions-log 2026-09-06) =====
   // 課題の後に 22 項目 (状態・課題の感じ方・環境・習熟・ふりかえり・自己報告 data_use)。5段階は評定と同じ 1–5 ボタン (尺度を揃える。10段階スライダーは
@@ -3185,12 +3208,12 @@
   function showSurveyFree(show) {   // 「その他」にチェック時だけ、その下に必須の自由記述欄を出す
     const wasShown = $("surveyFreeField").style.display !== "none";
     $("surveyFreeField").style.display = show ? "" : "none";
-    if (!show) { survey.free = ""; $("surveyFree").value = ""; }
+    // 選択を外しても下書きは残す。送信時には「その他」が選ばれている場合だけ含める。
     if (show && !wasShown && $("postq").classList.contains("active"))
       $("surveyFreeField").scrollIntoView({ block: "nearest", behavior: "instant" });
   }
   function surveyReset() {
-    survey.problems = []; survey.ease = null; survey.free = ""; survey.comment = ""; $("surveyComment").value = "";
+    survey.problems = []; survey.problemPages = [null, null]; survey.ease = null; survey.free = ""; survey.comment = ""; $("surveyComment").value = "";
     $("surveyFree").value = "";
     showSurveyFree(false);
     for (const b of $("surveyProblems").children) b.classList.remove("sel");
@@ -3206,10 +3229,10 @@
       const keys = el.dataset.keys.split(",");
       out.push({ id: el.dataset.page, label: `質問 ${keys.length} 件`, el, ok: () => keys.every((k) => post[k] != null) });
     }
-    if (HAS_RATING_BLOCK) {   // 評定ブロックを含むセッションは事後アンケートも必須 (「特に困らなかった」中立を用意済み)
-      const pp = $("surveyProblemsPage");   // 10 項目を 5+5 の 2 画面に (part 1 は任意で通過可、part 2 で「1 つ以上 (+その他の記述)」を要求)
-      out.push({ id: "problems", label: "使いにくかった点", el: pp, part: 1, ok: () => true });
-      out.push({ id: "problems2", label: "使いにくかった点", el: pp, part: 2, ok: () => survey.problems.length > 0 && otherOk() });
+    if (HAS_RATING_BLOCK) {   // 各ページで問題または「このページでは該当なし」の明示回答を必須にする。
+      const pp = $("surveyProblemsPage");
+      out.push({ id: "problems", label: "使いにくかった点（1）", el: pp, part: 1, ok: () => Array.isArray(survey.problemPages[0]) && survey.problemPages[0].length > 0 });
+      out.push({ id: "problems2", label: "使いにくかった点（2）", el: pp, part: 2, ok: () => Array.isArray(survey.problemPages[1]) && survey.problemPages[1].length > 0 && otherOk() });
       out.push({ id: "ease", label: "操作のしやすさ", el: document.querySelector('#postq .postpage[data-page="ease"]'), ok: () => !!survey.ease });
       out.push({ id: "comment", label: "自由記述", el: document.querySelector('#postq .postpage[data-page="comment"]'), ok: () => true });   // 任意 (2026-09-29)
     }
@@ -3242,7 +3265,7 @@
     if (resumeStage === "postq") scheduleCheckpoint();
   }
   function postMissingList() {   // 必須で未回答のページ (並び順)
-    return postPages.map((p, k) => ({ ...p, idx: k })).filter((p) => !p.ok()).map((p) => ({ label: p.id === "problems" && survey.problems.length > 0 ? "「その他」の内容" : (p.label.length > 12 ? `質問 ${p.idx}` : p.label), idx: p.idx }));
+    return postPages.map((p, k) => ({ ...p, idx: k })).filter((p) => !p.ok()).map((p) => ({ label: p.id === "problems2" && !otherOk() ? "「その他」の内容" : p.label, idx: p.idx }));
   }
   $("postMissing").addEventListener("click", () => {   // 最初の未回答のページへ
     const list = postMissingList();
@@ -3260,13 +3283,14 @@
     if (restored) {
       Object.assign(post, restored.answers || {});
       Object.assign(survey, restored.survey || {});
+      restoreProblemPages(restored.survey || {});
       const setChoices = (container, values) => {
         for (const b of container.querySelectorAll("button[data-val]")) b.classList.toggle("sel", values.includes(b.dataset.val));
         syncChoiceState(container);
       };
       for (const k of POST_KEYS) if ($("post-" + k)) setChoices($("post-" + k), post[k] == null ? [] : [String(post[k])]);
       setChoices($("gripSeg"), device.grip ? [device.grip] : []);
-      setChoices($("surveyProblems"), survey.problems);
+      setChoices($("surveyProblems"), survey.problemPages.flatMap((page, i) => (page || []).map(value => value === "none" ? `none${i + 1}` : value)));
       setChoices($("surveyEaseSeg"), survey.ease ? [String(survey.ease)] : []);
       showSurveyFree(survey.problems.includes("other"));
       $("surveyFree").value = survey.free || ""; $("surveyComment").value = survey.comment || "";
@@ -3793,15 +3817,27 @@
   // textZoom = 文字だけの拡大 (見本 B / 見本 A の幅)。どちらも 100%±3% を外れたら止めて戻し方を出す。解析はスタート→箱の直線に正規化するので
   // 機種差と同じ種類の差だが、説明ボックスの収まり (shots.js で 100% 前提で検証) が崩れるため固定する。値は device.pageZoom / textZoom に記録
   const ZOOM_GUARD_ON = navigator.maxTouchPoints > 0 && QS.get("zoomguard") !== "0";
-  // 機種ガード (2026-09-26、decisions-log 同日): 本実験はフルスクリーン iPhone (screen の高さ ≥ DEVMIN_H・幅 ≥ 375 CSS px) に限定。
+  // 本実験は UA で判定した iPhone + 既定の画面寸法。自己申告モデルは判定に使わない。
   // SE 系 (375×667)・8 (375×667)・8 Plus (414×736) を除く。12/13 mini (375×812) は既定では通る (?devmin=844 で外せる)。?devguard=0 で無効 (validate/shots 用)
-  const DEVGUARD_ON = QS.get("devguard") !== "0";
+  const DEVGUARD_ON = !GO && QS.get("devguard") !== "0";
   const DEVMIN_H = (function () { const v = parseInt(QS.get("devmin"), 10); return isFinite(v) && v > 0 ? v : 812; })();
   (function devGuardCheck() {
     const w = Math.min(screen.width, screen.height), h = Math.max(screen.width, screen.height);
-    const bad = DEVGUARD_ON && (h < DEVMIN_H || w < 375);
-    device.devGuard = { on: DEVGUARD_ON, minH: DEVMIN_H, w, h, shown: bad };
-    if (bad) { $("dgNow").textContent = `お使いの画面: 幅 ${w} × 高さ ${h}（対象: 高さ ${DEVMIN_H} 以上）`; $("devGuard").classList.add("show"); }
+    const isIPad = /iPad/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    const isIPhone = /iPhone/i.test(navigator.userAgent) && !isIPad;
+    const ipadLink = KIOSK && COHORT === "elderly-inperson-ipad" && !STUDY;
+    const platformOk = ipadLink ? isIPad : isIPhone;
+    const sizeOk = h >= DEVMIN_H && w >= 375;
+    const bad = DEVGUARD_ON && (!platformOk || !sizeOk);
+    device.isIPhone = isIPhone; device.isIPad = isIPad;
+    device.devGuard = { on: DEVGUARD_ON, minH: DEVMIN_H, w, h, shown: bad, isIPhone, isIPad, ipadLink, platformOk, sizeOk };
+    if (bad) {
+      if (ipadLink) $("dgMessage").innerHTML = "<b>この調査の対象端末ではありません。</b><br>このリンクは、対面調査の iPad 専用です。";
+      $("dgNow").textContent = platformOk ? `お使いの画面: 幅 ${w} × 高さ ${h}（対象: 幅 375・高さ ${DEVMIN_H} 以上）` : "この端末は、対象の端末として確認できませんでした。";
+      $("devGuard").classList.add("show");
+      for (const el of document.body.children) if (el !== $("devGuard") && !["SCRIPT", "STYLE"].includes(el.tagName)) el.inert = true;
+      $("devGuard").focus({ preventScroll: true });
+    }
   })();
   function measureZoom() {
     const portrait = (screen.width && screen.height) ? screen.width <= screen.height : innerHeight >= innerWidth;   // 向きは screen の寸法で (キーボードで innerHeight が縮んでも誤判定しない。2026-09-29)
@@ -3943,10 +3979,13 @@
       b: '<p><b>静かな場所</b>で、落ち着いて取り組める時に始めてください。</p>' +
          '<ul><li>スマートフォンを<b>手で持って</b>操作します（机に置いたままにしないでください）。</li>' +
          '<li>通知で中断されないよう、<b>おやすみモード</b>などにしておくと安心です。</li></ul>' },
+    { h: "氏名とデータの<br>取り扱い",
+      b: '<p>氏名は、参加確認と謝礼のお支払いに関する照合に使用します。</p>' +
+         '<p>研究の分析には、氏名を研究用IDに置き換えたデータを使用します。</p>' +
+         '<p>研究成果に氏名を掲載することはありません。</p>' },
     // 2026-09-06: 画面切替・再読込の注意 (§6-6 項17)。画面切替の回数・時間の記録は倫理申請 (実施計画書 §3D) に記載済。
     // 報酬の承認条件 (非承認の基準) はアプリでなく募集文に書く (身内配布では報酬がないため、ここでは「有効な回答として扱えない」に留める)
-    // 4/4 は同意のチェック (2026-09-29): 全部にチェックを入れないと「はじめる」が押せない。記録 device.welcomeAgree
-    // 2026-09-30: 5 項目は 1 画面に入らない (mini + ツールバーで 154px 超過) ので 3 + 2 の 2 ページに
+    // 同意チェックは5/6・6/6。5項目を3+2の2ページに分け、全てにチェックしてから開始する。
     { h: "進めるうえでの<br>お願い", mic: true,
       b: '<p>次の項目を確認して、<b>すべてにチェック</b>を入れてください。</p>',
       agree: [
@@ -3969,7 +4008,7 @@
     $("wcBody").innerHTML = `<h1 id="wcHeading">${p.h}</h1>` + p.b +
       (p.agree ? '<div class="checks" id="wcAgree" aria-labelledby="wcHeading">' + p.agree.map((t, i) => `<button type="button" class="chk" data-val="${i}">${t}</button>`).join("") + '</div>' : "") +
       (p.mic && MIC.mode !== "off" ? '<p class="opt-note" style="margin-top:12px">※ 次の画面でマイクの許可をお願いします（測るのは周囲の<b>音量レベルだけ</b>で、会話の内容は記録しません）。</p>' : "") +
-      (wcIdx === WELCOME.length - 1 ? '<p class="opt-note" style="margin-top:10px">※ 中断からの再開のために、回答の途中経過をこの端末に一時保存します（個人を特定する情報は含みません）。</p>' : "");
+      (wcIdx === WELCOME.length - 1 ? '<p class="opt-note" style="margin-top:10px">※ 中断からの再開のために、入力した情報と回答の途中経過をこの端末に一時保存します。</p>' : "");
     if (p.agree) {   // 同意のチェック: 全部にチェックが入るまで「次へ / はじめる」は無効
       wcAgreeShownAt = performance.now();
       wireChecks("wcAgree", (vals) => { $("wcNext").disabled = vals.length < p.agree.length; });
@@ -4009,7 +4048,11 @@
   wireSeg("gripSeg", (v) => { device.grip = v; postReady(); });
   // 事後アンケート (UI/負担。②③=評定ブロックのみ): 使いにくさ複数選択 / その他自由記述 / 操作しやすさ / 自由記述
   wireChecks("surveyProblems", (vals) => {
-    survey.problems = vals;
+    survey.problemPages = problemParts.map((values, i) => {
+      const selected = vals.filter(value => values.includes(value));
+      return selected.length ? selected : vals.includes(`none${i + 1}`) ? ["none"] : null;
+    });
+    syncSurveyProblems();
     showSurveyFree(vals.includes("other"));   // その他にチェック時だけ下に必須の自由記述欄を表示
     postReady();
   });
@@ -4196,7 +4239,7 @@
   $("postSubmit").addEventListener("click", () => {
     if ($("postSubmit").disabled) return;   // 未完了 (grip / 事後アンケート必須) なら無視
     if (HAS_RATING_BLOCK) {
-      device.survey = { problems: survey.problems.slice(), ease: survey.ease, free: survey.free.trim(), comment: survey.comment.trim() };
+      device.survey = { problems: survey.problems.slice(), problemPages: survey.problemPages.map(page => page ? page.slice() : null), ease: survey.ease, free: survey.problems.includes("other") ? survey.free.trim() : "", comment: survey.comment.trim() };
     }
     if (POST_ON) { device.post = {}; for (const k of POST_KEYS) device.post[k] = post[k] == null ? null : post[k]; }
     device.postMs = postShownAt != null ? +(performance.now() - postShownAt).toFixed(0) : null;
