@@ -102,6 +102,13 @@
   .btn:active { filter: brightness(0.92); }
   .btn:disabled { opacity: 0.4; }
   .btnrow { display: flex; gap: 10px; flex-wrap: wrap; }
+  .explain-nav { display: flex; gap: 8px; align-self: center; width: min(92%, calc(var(--nav-maxw) + 120px)); margin-top: 22px; }
+  .explain-nav .btn { margin: 0; min-height: var(--nav-minh); padding: var(--nav-pad); font-size: var(--nav-fs); }
+  .explain-nav .btn.primary { flex: 1; width: auto; }
+  .explain-nav .btn.ghost { flex: 0 0 32%; white-space: nowrap; padding-left: 8px; padding-right: 8px; }
+  .explain-nav:has(> [hidden]) { width: min(72%, var(--nav-maxw)); }
+  #wcPrev[hidden], #ratingTutPrev[hidden] { display: none; }
+  #postq .post-scope { font-size: calc(13px * var(--ui-scale)); margin: -2px 0 6px; color: var(--ink-2); }
 
   /* ---- 課題画面 ---- (レイアウトは片手操作に合わせ CSS 変数で調整可能) */
   :root {
@@ -246,6 +253,7 @@
   #rating.tut-front .btn:disabled { pointer-events: none; }
   /* 説明BOXの高さぶん評定行を下げる (全ページ同じ量 = 行の位置は動かない。BOXが自信行に被る対策) */
   #rating.tut-front .qwrap { padding-top: var(--ratReserve, 0px); }
+  #rating.tut-front #ratingHead { visibility: hidden; }
   /* 低い画面 (iPhone SE の Safari ≈ 548px・mini/14 の Safari ≈ 700–730px) では評定画面の倍率を下げ、振り返りの説明の
      ボックス分だけ下がっても 5 段のボタンと「次へ」が 1 画面に収まるようにする (2026-09-13: スクロールは誰もしない前提) */
   @media (max-height: 640px) { #rating { --ui-scale: .78; } #rating .qitem { margin-bottom: 6px; } #rating .likert { gap: 4px; } #rating .likert button { padding: 7px 12px; } #rating .rating-answer { margin-bottom: 4px; } #rating .qi-text { margin-bottom: 4px; } #rating .qwrap { padding-bottom: 6px; } }
@@ -340,7 +348,7 @@
   #ccodeCopy { flex: 0 0 44px; width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center;
     padding: 0; border: 1px solid var(--line); border-radius: 9px; background: var(--panel); color: var(--go); cursor: pointer; touch-action: manipulation; }
   #ccodeCopy:active { background: rgba(18,133,90,0.14); }
-  #ccodeCopy:focus-visible, #tutClose:focus-visible { outline: 3px solid var(--go); outline-offset: 2px; }
+  #ccodeCopy:focus-visible, #tutClose:focus-visible, #ratingHelp:focus-visible, #ratingTutClose:focus-visible { outline: 3px solid var(--go); outline-offset: 2px; }
   #done #ccodeCopyStatus { min-height: 1.5em; font-size: calc(12px * var(--ui-scale)); line-height: 1.5; color: var(--go); text-align: center; }
 
   /* ---- ドラッグ導入チュートリアル (スポットライト方式・§6-6 項14 / decisions-log 2026-09-02) ----
@@ -353,7 +361,7 @@
   /* ハンズオン成功後: 消さずに暗くする (終わったことは伝えつつ場所は見えたままにする) */
   /* 中断の確認画面の間は body 直下の説明・帯を隠す (2026-09-12: 説明の吹き出しが確認画面の上に残った) */
   body.stop-open .tut-pop, body.stop-open .tut-spot, body.stop-open .tut-btnrow, body.stop-open #tutHint,
-  body.stop-open .phase-banner, body.stop-open #tutClose { display: none !important; }
+  body.stop-open .phase-banner, body.stop-open #tutClose, body.stop-open #ratingTutClose { display: none !important; }
   .choice.tut-dim, #start.tut-dim, #stem.tut-dim { opacity: .18; transition: opacity .35s; }   /* #stem: 画面の説明 4/4 (START) で問題文も薄く (2026-09-12) */
   @keyframes tutRcv { 0%,100% { box-shadow: 0 0 0 0 rgba(18,133,90,0); }
     50% { box-shadow: 0 0 0 6px rgba(18,133,90,.35); } }
@@ -407,6 +415,8 @@
   .tut-btnrow .nx { flex: 1; background: var(--go); color: var(--go-ink); font-size: var(--nav-fs); padding: var(--nav-pad); min-height: var(--nav-minh); box-sizing: border-box; box-shadow: 0 6px 16px -8px rgba(20,26,34,.35); }
   .tut-btnrow .rp { flex: 0 0 40%; background: var(--panel); border: 1px solid var(--line); color: var(--ink-2); font-size: calc(12.5px * var(--ui-scale)); font-weight: 600; padding: 11px 8px; }
   .tut-btnrow .rp.hidden { display: none; }
+  .tut-btnrow .pv { flex: 0 0 32%; background: var(--panel); border: 1px solid var(--line); color: var(--ink-2); font-size: var(--nav-fs); padding: 11px 8px; white-space: nowrap; }
+  .tut-btnrow .pv.hidden { display: none; }
   /* 評定のボタン行: [↻ もう一度 (控えめ)] [次へ/確定 (緑)] を横並び (ドラッグ導入と同じ形) */
   .rat-btnrow { display: flex; align-items: stretch; gap: 8px; align-self: center;
     width: min(72%, var(--nav-maxw)); margin-top: 4px; margin-bottom: auto; }   /* 幅・高さ・文字を説明の「次へ」と同じに (2026-09-15) */
@@ -414,7 +424,7 @@
   .rat-btnrow > * { margin-top: 0 !important; margin-bottom: 0 !important; }
   .rat-btnrow #ratingNext, .rat-btnrow #ratingSubmit { flex: 1; min-width: 0 !important; }
   /* 自信のページ (戻る + 次へ が横並び) だけ別設定: 戻る 32% : 次へ 68% の比を固定し、どの画面サイズでもバランスを揃える (練習・本番共通。2026-09-15) */
-  .rat-btnrow #ratingBack { flex: 0 0 32%; min-width: 0 !important; white-space: nowrap; padding-left: 8px; padding-right: 8px; }
+  .rat-btnrow #ratingBack, .rat-btnrow #ratingTutPrev { flex: 0 0 32%; min-width: 0 !important; white-space: nowrap; padding-left: 8px; padding-right: 8px; }
   .rat-btnrow.with-back { width: min(92%, calc(var(--nav-maxw) + 120px)); }   /* 「戻る」がある画面は行を広げ、「次へ」の幅を他の画面と同じ程度に保つ (2026-09-15) */
   .rat-replay { flex: 0 0 40%; background: transparent;
     border: 1px solid var(--line); color: var(--ink-2); font: inherit; font-size: calc(12.5px * var(--ui-scale)); font-weight: 600;
@@ -450,16 +460,17 @@
   /* ハンズオン中の自分の軌跡 (実演レイヤーの上・pointer-events:none。本番 #trace とは別レイヤー) */
   #tutInk { position: absolute; inset: 0; z-index: 6; pointer-events: none; }
   /* 練習中の「↻ 説明」(分からなくなったらチュートリアルへ戻る。topbar は pointer-events:none なので自前で有効化) */
-  #tutAgain { position: relative; pointer-events: auto; touch-action: manipulation; background: var(--panel); border: 1px solid var(--line); color: var(--ink-2);
+  #tutAgain, #ratingHelp { position: relative; pointer-events: auto; touch-action: manipulation; background: var(--panel); border: 1px solid var(--line); color: var(--ink-2);
     font: inherit; font-size: calc(11px * var(--ui-scale)); font-weight: 600; padding: 3px 9px; border-radius: 999px; cursor: pointer; }
   /* 見た目と課題の座標を保ち、上部入口の透明なタップ領域だけを広げる。 */
-  #tutAgain::before { content: ""; position: absolute; top: -12px; bottom: -20px; left: -8px; right: -8px; }
-  #tutAgain.hidden { display: none; }
+  #tutAgain::before, #ratingHelp::before { content: ""; position: absolute; top: -12px; bottom: -20px; left: -8px; right: -8px; }
+  #ratingHelp { position: absolute; z-index: 10; top: max(9px, env(safe-area-inset-top)); left: 50%; transform: translateX(-50%); white-space: nowrap; }
+  #tutAgain.hidden, #ratingHelp.hidden { display: none; }
   /* 開き直した説明は、全ページで画面右上から閉じられる。説明ボックスとは独立 */
-  #tutClose { position: fixed; z-index: 44; top: max(8px, env(safe-area-inset-top)); right: max(12px, env(safe-area-inset-right));
+  #tutClose, #ratingTutClose { position: fixed; z-index: 44; top: max(8px, env(safe-area-inset-top)); right: max(12px, env(safe-area-inset-right));
     min-width: 88px; min-height: 44px; padding: 8px 12px; border-radius: 999px; border: 1px solid var(--line);
     background: var(--panel); color: var(--ink); font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; touch-action: manipulation; }
-  #tutClose.hidden { display: none; }
+  #tutClose.hidden, #ratingTutClose.hidden { display: none; }
   body.tut-review #stopBtn { top: max(8px, env(safe-area-inset-top)); right: auto; left: max(12px, env(safe-area-inset-left)); }
   /* 案内画面の理由 (太字+色) */
   #noticeText .why { color: var(--warn); }
