@@ -29,7 +29,7 @@
              age, sex, handedness,            // 事前アンケート (特性。必須。性別は na=回答しない可)
              grip,                             // 事後アンケート (持ち方+操作を1問に。課題後に回顧で取得)
              survey:                           // 事後アンケート UI/負担 (②③=評定ブロックのみ。anchor は null)
-               {problems:[slug…], problemPages:[null|[slug…],null|[slug…]], ease('easy'|'ok'|'hard'), free, comment},  // problemPages: 未回答nullと明示noneを区別。freeはその他選択時のみ送信
+               {problems:[slug…], problemPages:[null|[slug…],…], ease('easy'|'ok'|'hard'), free, comment},  // problemPages: 未回答nullと明示noneを区別。2026-10-09eから3ページ、旧版にない3ページ目は未測定。freeはその他選択時のみ送信
              post:                             // 事後アンケート 拡充分 (2026-09-06 §6-6 項8。評定ブロックを含むクラウド配布のみ = 対面 kiosk/stop では null。
                {fatigue_pre, fatigue_post, sleepiness, sleep_hours, condition,        //   5段階は 1–5 の整数・選択式は英語スラッグ・未回答は null)
                 time_pressure, physical_load, irritation,                              //   課題の感じ方 (2026-09-30 追加。5段階)
@@ -37,7 +37,7 @@
                 usage_years, usage_hours, native_ja, moral_familiar,
                 seriousness, attention_lapse, rating_meaning, discomfort, data_use},   // data_use = 自己報告「回答を分析に使ってよいか」yes/no (2026-09-26)
              postMs,                           // 事後アンケート画面の滞在時間 ms (表示〜完了。負担の指標)
-             practiceEarlyPress,               // 練習で読み切る前にスタートを押して止められた回数 (2026-09-13)
+             practiceEarlyPress,               // 練習で固定読了時間より早いスタート押下を受け付けなかった回数
              practiceSummary:                  // 練習の行動ゲート達成記録 (理解確認の証跡 + 品質共変量)
                {gateStreak, gateCorrect, trials, aborts, skipped},
              mic:                              // 環境音モニタ (2026-07-21 §6-6 項10。**2026-09-26 から既定 OFF = mode=off** で以下は null。?mic=1/mock で有効時のみ音量レベルを記録)
@@ -84,7 +84,7 @@
       initiationT(枠から出た時刻 = 動き出し), rt_ms(出現〜動き出し = 反応時間。rt_proxy_ms は同値の旧名), lateStart(true = rt_ms > 3000。評定送信後に案内。品質共変量),
       stopsAfterInit:{n, ms, maxMs}(動き出した後の停止 = 6px 以内に 500ms 以上とどまった区間), stopFlag(maxMs>=3000。記録のみ・案内はしない = 感度分析用),
       stopNotice('early'|'late'|false = この試行の直前に見た案内の種類。案内は評定送信後・次の場面文を出す前の独立画面 = 次問の読解時間に混ぜない),
-      stemChars, earlyStart(true=表示〜枠から出るまでが 文字数÷25字/秒 より短い = 読み切る前に動き出した。品質共変量),
+      stemChars, earlyStart(true=問題文表示〜スタート押下が文字数÷25字/秒より短い。読了の有無を直接測らない品質共変量),
       responseT, mt_proxy_ms(動き出し〜離す), total_ms(押下〜離す),
       dispHz, nDispatched, nCoalesced, aborts,
       ratings: {confidence:{value,rt_ms}, hesitation:{...}} (2026-07-15 2項目化。第二パイロット以前のデータは difficulty あり。
@@ -396,7 +396,7 @@
     <!-- 事後アンケート (UI/負担。②③=評定ブロックのみ表示。G4 負担の主観版裏付け + 改善材料。pilot2-design-notes) -->
     <div id="surveyBlock" style="display:none">
       <div class="postpage" data-page="problems" id="surveyProblemsPage">
-      <!-- 10 項目は 1 画面に収まらない (Safari ツールバーありで 180px 超過) ので 5+5 の 2 画面に分ける (data-part。2026-09-26 後刻) -->
+      <!-- 既存10項目の5+5を保ち、案内・待機に関する追加2項目を3ページ目に分ける。各ページに該当なしを設ける -->
       <h2 id="surveyProblemsLabel">使いにくかった点・改善してほしい点</h2>
       <p class="opt-note part1">当てはまるものをすべてお選びください（複数選択可）。次の画面にも続きがあります。</p>
       <p class="opt-note part2">続きです。当てはまるものをすべてお選びください（複数選択可）。</p>
@@ -413,6 +413,9 @@
         <button type="button" class="chk" data-part="2" data-val="device_slow">スマホの動作が重い・反応しなかった</button>
         <button type="button" class="chk" data-part="2" data-val="other">その他</button>
         <button type="button" class="chk" data-part="2" data-val="none2" data-none="1">このページでは該当なし</button>
+        <button type="button" class="chk" data-part="3" data-val="read_notice_after_reading">問題文を読み終えていたのに、「読んでから」という案内が出た</button>
+        <button type="button" class="chk" data-part="3" data-val="explanation_wait_after_reading">説明を読み終えていたのに、「次へ」を押しても進めなかった</button>
+        <button type="button" class="chk" data-part="3" data-val="none3" data-none="1">このページでは該当なし</button>
       </div>
       <div class="field" id="surveyFreeField" style="display:none">
         <label for="surveyFree">「その他」の内容（必須）</label>
@@ -974,11 +977,11 @@
   const STOP_MIN_MS = 500, STOP_NOTICE_MS = 3000, STOP_EPS_PX = 6;   // 停止 = 6px 以内に 500ms 以上。stopFlag = 動き出し後の最長停止 ≥ 3 秒 (記録のみ・感度分析用)
   const LATE_START_MS = 3000;   // 初動の締切: 出現 (押下) から動き出しまでがこれを超えたら「遅い初動」= 評定送信後に案内 (暫定 3 秒。本実験配布時に固定)
   const STOP_NOTICE_MAX = 5;   // 案内は種類ごとに1セッション5回まで。6回目以降も試行の記録は残す
-  // 早出し (2026-09-09): 表示〜枠から出るまでが「文字数 ÷ EARLY_CPS」より短ければ読み切る前に指を出したとみなす (品質共変量。除外基準ではない)。
-  // 案内は 1 画面 1 つの理由: 早出し (読解) > 遅い初動 (両方なら早出し = 原因のほう)
+  // 早出し: 問題文表示〜スタート押下が「文字数 ÷ EARLY_CPS」より短い試行。読了の有無は断定しない (品質共変量。除外基準ではない)。
+  // 案内は1画面に1つ。両方の時間条件を満たした場合は早出しの案内を優先する。
   const EARLY_CPS = 25;
   const READGATE_ON = QS.get("readgate") !== "0";   // 練習の読了ゲート (2026-09-13)。validate/開発用に無効化可
-  const EARLY_NOTICE_TEXT = "前の問題では、問題文を読み終える前に指がスタートに置かれました。問題文を読み終えてからスタートに指を置き、選択肢を見てから運んでください。";
+  const EARLY_NOTICE_TEXT = "前の問題では、問題文の表示から短い時間でスタートに指が置かれました。問題文を最後まで読んでから、スタートに指を置いてください。";
   const MAIN_MOVEMENT_HTML = "スタートに指を置いて選択肢を確認したら、迷っていても<b>指を離さずに運び始めてください。</b><br>ゆっくりでよいので、<b>動かしながら選ぶほうを決めてください。</b>";
   const LATE_NOTICE_TEXT = "前の問題では、スタートに指を置いてから3秒以上、スタートの枠の外へ動き出していませんでした。" + MAIN_MOVEMENT_HTML.replace(/<[^>]*>/g, "");
   const NOTICE_MAX = { early: 5, late: 5 };   // 案内の上限 (種類ごと・1セッション)。2026-10-09採用: 遅い初動も5回まで
@@ -986,7 +989,7 @@
   const STOP_NOTICE_TEXT = LATE_NOTICE_TEXT;   // 旧名 (validate.js の互換用)
   const NOTICE_TEXTS = { early: EARLY_NOTICE_TEXT, late: LATE_NOTICE_TEXT };
   // 表示用 (伝えたい行動を太字に。textContent は上の平文と一致)
-  const NOTICE_HTML = { early: "前の問題では、<b class=\"why\">問題文を読み終える前に</b>指がスタートに置かれました。<br><b>問題文を読み終えてからスタートに指を置き、選択肢を見てから運んでください。</b>",
+  const NOTICE_HTML = { early: "前の問題では、<b class=\"why\">問題文の表示から短い時間で</b>スタートに指が置かれました。<br><b>問題文を最後まで読んでから、スタートに指を置いてください。</b>",
                         late: "前の問題では、スタートに指を置いてから<b class=\"why\">3秒以上、スタートの枠の外へ動き出していませんでした</b>。<br>" + MAIN_MOVEMENT_HTML };
   let pendingNotice = null, stopNoticeShown = false, stemShownT = 0;
   let seqIndex = 0;
@@ -1177,7 +1180,7 @@
     seq: SEQ.slice(),         // ブロック提示順 (被験者間CB の割付記録。単体は1要素)
     config: CONFIG,
     practiceSummary: null,    // 行動ゲートの達成記録 (startMain で設定。§6-2。統合では最後のブロック分=単体互換)
-    practiceEarlyPress: 0,    // 練習で「読み切る前にスタートを押した」回数 (読了ゲートで止めた数。2026-09-13)
+    practiceEarlyPress: 0,    // 練習で固定読了時間より早い押下を受け付けなかった回数
     practiceSummaryByBlock: {}, // ブロック別の達成記録 (統合セッション用)
     breaks: [],               // 休憩の滞在時間ログ {block, atTrial, dwellMs} (breakEvery>0 のブロック。負担の行動指標。2026-08-23)
     ageBand: null,            // 年代タップ (?ageband=1 / kiosk) で取った場合の年代。数値 age は null のまま
@@ -1200,7 +1203,7 @@
     stopNotices: [],          // 停止の案内画面の表示記録 {afterTrial, kind, ms} (§6-6 項19)
     stopNoticesSuppressed: 0, // 上限（種類ごと5回）で出さなかった案内の数
     pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
-    appVersion: "2026-10-09d",   // 動き始め方の2文を採用し、遅い初動の案内も5回までへ
+    appVersion: "2026-10-09e",   // 早出し案内を観測事実の表現へ変更し、案内・待機の困りごと2項目を追加
     welcomeAgree: null,       // はじめに 5/6・6/6 の同意チェック {items, pages, ms}
     devGuard: null,           // 機種ガード {on,minH,w,h,shown,isIPhone,isIPad,ipadLink,platformOk,sizeOk}
     exportedAt: null,
@@ -1973,7 +1976,7 @@
       return;
     }
     e.preventDefault();
-    // 練習の読了ゲート (2026-09-13): 問題文の理論読了時間 (文字数 ÷ EARLY_CPS) より早いスタート押下は受け付けず、「読んでから」の案内を出す。
+    // 練習の読了ゲート: 固定読了時間 (文字数 ÷ EARLY_CPS) より早いスタート押下は受け付けず、「読んでから」の案内を出す。実際の読了の有無は測定していない。
     // 本番では止めない (早出しは earlyStart フラグ+評定後の案内)。おためしの 1 問は対象外。?readgate=0 で無効 (validate 用)
     if (READGATE_ON && phase === "practice" && !cell.isTutorial && cell.stem) {
       const minMs = (stemRecord(cell.stem).length / EARLY_CPS) * 1000;
@@ -2150,9 +2153,9 @@
     trial.stopsAfterInit = computeStops(trial.events, trial.initiationT);   // 動き出した後の停止 (記録のみ・案内しない)
     trial.stopFlag = trial.stopsAfterInit.maxMs >= STOP_NOTICE_MS;
     trial.lateStart = trial.rt_ms > LATE_START_MS;   // 遅い初動: 選択肢が出てから 3 秒を超えて動かなかった (評定送信後に案内。品質共変量)
-    // 早出し: 表示〜枠から出るまで (preStart + 押さえ) が読み切れる最短時間より短い (場面文のないブロックは判定しない)
+    // 早出し: 問題文表示〜スタート押下が固定読了時間より短い（問題文のないブロックは判定しない）
     trial.stemChars = cell.stem ? stemRecord(cell.stem).length : 0;
-    trial.earlyStart = trial.stemChars > 0 && trial.preStartMs < (trial.stemChars / EARLY_CPS) * 1000;   // 2026-09-29: 押下ベース (表示〜スタート押下 < 文字数÷25字/秒 = 読み終える前に指を置いた。旧: 枠から出るまで)
+    trial.earlyStart = trial.stemChars > 0 && trial.preStartMs < (trial.stemChars / EARLY_CPS) * 1000;   // 問題文表示〜スタート押下 < 文字数÷25字/秒。読了の有無ではなく時間に基づくフラグ
 
     // 実効 dispatch レート (dt>0 ガード)
     let span = 0, n = 0;
@@ -2427,10 +2430,10 @@
     const ans = $("ratingAnswer"), extra = ans && !ans.hidden ? ans.offsetHeight + 10 : 0;   // 「あなたの回答」の分も上に空ける (説明ボックスはその上に置く。2026-09-13)
     $("rating").style.setProperty("--ratReserve", (maxH + 10 + extra) + "px");
   }
-  // 説明文の長さから「読み終わる頃」を見積もる (遅い読み手基準 ≈ 8字/秒 + 下限1.8s・上限6s)。
-  // 読速ベースライン (device.readingBaseline.charsPerSec) があればそれを優先し、その 0.6 倍の速度で見積もる
-  // 最小読了時間 (2026-09-12): 速い読み手でもこれより早くは読み終えない下限 (22 字/秒 + 0.5 s、1.2–7 s)。
-  // これより早い「次へ」は進めずに注意を出す (読まずに押す人を止める。遅い人は影響なし)。?minread=0 で無効 (validate/開発用)
+  // 説明文の長さからボタンを強調する合図の時刻を見積もる（固定待機時間とは別）。
+  // ボタンの合図は読速ベースラインがあればその0.45倍（下限3字/秒）、なければ5字/秒で見積もる。
+  // 最小読了時間は説明表示から設ける固定の待機時間で、実際に読み終えたかの判定ではない。
+  // これより早い「次へ」は進めずに案内を出す。?minread=0で無効 (validate/開発用)
   const MINREAD_ON = QS.get("minread") !== "0";
   function minReadMs(text) {
     if (!MINREAD_ON) return 0;
@@ -3184,25 +3187,26 @@
   }
 
   // ===== 事後アンケート (持ち方 grip は両ブロック / 使いにくさ survey は②③=評定ブロックのみ) =====
-  const survey = { problems: [], problemPages: [null, null], ease: null, free: "", comment: "" };  // ページ別の未回答(null)と明示的該当なし(["none"])を区別
-  const problemParts = [1, 2].map(part => [...$("surveyProblems").querySelectorAll(`button[data-part="${part}"]:not([data-none])`)].map(b => b.dataset.val));
+  const problemParts = [1, 2, 3].map(part => [...$("surveyProblems").querySelectorAll(`button[data-part="${part}"]:not([data-none])`)].map(b => b.dataset.val));
+  const survey = { problems: [], problemPages: problemParts.map(() => null), ease: null, free: "", comment: "" };  // 未回答(null)と明示的該当なし(["none"])を区別
   function syncSurveyProblems() {
     const answered = survey.problemPages.filter(Array.isArray);
     const problems = answered.flat().filter(value => value !== "none");
-    survey.problems = problems.length ? problems : answered.length === 2 && answered.every(page => page.includes("none")) ? ["none"] : [];
+    survey.problems = problems.length ? problems : answered.length === problemParts.length && answered.every(page => page.includes("none")) ? ["none"] : [];
   }
   function restoreProblemPages(saved) {
-    if (Array.isArray(saved.problemPages) && saved.problemPages.length === 2) {
-      survey.problemPages = saved.problemPages.map((page, i) => {
+    if (Array.isArray(saved.problemPages)) {
+      survey.problemPages = problemParts.map((values, i) => {
+        const page = saved.problemPages[i];
         if (!Array.isArray(page)) return null;
-        const choices = page.filter(value => problemParts[i].includes(value));
+        const choices = page.filter(value => values.includes(value));
         return choices.length ? choices : page.includes("none") ? ["none"] : null;
       });
-    } else { // 旧版の全体noneは両ページnone。他の空ページは未回答として再確認する。
+    } else { // 旧版の全体noneは当時の2ページだけに適用。追加ページに無かった項目を否定扱いしない。
       const old = Array.isArray(saved.problems) ? saved.problems : [];
-      survey.problemPages = problemParts.map(values => {
+      survey.problemPages = problemParts.map((values, i) => {
         const selected = old.filter(value => values.includes(value));
-        return selected.length ? selected : old.includes("none") ? ["none"] : null;
+        return selected.length ? selected : i < 2 && old.includes("none") ? ["none"] : null;
       });
     }
     syncSurveyProblems();
@@ -3314,7 +3318,7 @@
       $("surveyFreeField").scrollIntoView({ block: "nearest", behavior: "instant" });
   }
   function surveyReset() {
-    survey.problems = []; survey.problemPages = [null, null]; survey.ease = null; survey.free = ""; survey.comment = ""; $("surveyComment").value = "";
+    survey.problems = []; survey.problemPages = problemParts.map(() => null); survey.ease = null; survey.free = ""; survey.comment = ""; $("surveyComment").value = "";
     $("surveyFree").value = "";
     showSurveyFree(false);
     for (const b of $("surveyProblems").children) b.classList.remove("sel");
@@ -3334,6 +3338,7 @@
       const pp = $("surveyProblemsPage");
       out.push({ id: "problems", label: "使いにくかった点（1）", el: pp, part: 1, ok: () => Array.isArray(survey.problemPages[0]) && survey.problemPages[0].length > 0 });
       out.push({ id: "problems2", label: "使いにくかった点（2）", el: pp, part: 2, ok: () => Array.isArray(survey.problemPages[1]) && survey.problemPages[1].length > 0 && otherOk() });
+      out.push({ id: "problems3", label: "使いにくかった点（3）", el: pp, part: 3, ok: () => Array.isArray(survey.problemPages[2]) && survey.problemPages[2].length > 0 });
       out.push({ id: "ease", label: "操作のしやすさ", el: document.querySelector('#postq .postpage[data-page="ease"]'), ok: () => !!survey.ease });
       out.push({ id: "comment", label: "自由記述", el: document.querySelector('#postq .postpage[data-page="comment"]'), ok: () => true });   // 任意 (2026-09-29)
     }
@@ -3400,7 +3405,15 @@
     postShownAt = performance.now() - (restored && restored.elapsedMs || 0);
     show("postq");
     resumeStage = "postq";
-    postGoto(restored ? restored.page : 0);
+    let returnPage = restored ? restored.page : 0;
+    if (restored && restored.pageId) {
+      const byId = postPages.findIndex(p => p.id === restored.pageId);
+      if (byId >= 0) returnPage = byId;
+    } else if (restored && (!Array.isArray(restored.survey && restored.survey.problemPages) || restored.survey.problemPages.length < problemParts.length)) {
+      const inserted = postPages.findIndex(p => p.id === "problems3");
+      if (inserted >= 0 && returnPage >= inserted) returnPage++;   // 旧版の操作のしやすさ・自由記述の戻り先を保つ
+    }
+    postGoto(returnPage);
     saveBackup();
   }
 
@@ -3584,7 +3597,7 @@
       currentCell: ["task", "break", "notice"].includes(resumeStage) ? cell : null,
       trialRecordIndex: resumeStage === "rating" ? records.indexOf(trial) : null,
       rating: resumeStage === "rating" ? { page: ratPage, elapsedMs: now - ratingOnset, pageElapsedMs: now - ratPageAt } : null,
-      post: resumeStage === "postq" ? { answers: { ...post }, survey: { ...survey, problems: survey.problems.slice() }, page: postPageIdx, elapsedMs: now - postShownAt } : null,
+      post: resumeStage === "postq" ? { answers: { ...post }, survey: { ...survey, problems: survey.problems.slice() }, page: postPageIdx, pageId: postPages[postPageIdx] ? postPages[postPageIdx].id : null, elapsedMs: now - postShownAt } : null,
       pendingInstructedStart, pendingMainStart, pendingNotice, stopNoticeShown, noticeKind,
       noticeElapsedMs: noticeShownAt == null ? 0 : now - noticeShownAt,
       breakElapsedMs: breakShownAt == null ? 0 : now - breakShownAt, breakAtTrial,

@@ -520,11 +520,15 @@
   #postq #postNav { position: sticky; bottom: 0; z-index: 4; flex-shrink: 0; background: var(--bg); box-shadow: 0 10px 0 10px var(--bg); }
   #postq #postNav .btn.ghost { flex: 0 0 32%; }
   #postq #postNav .btn.primary { flex: 1 1 auto; }
-  /* 使いにくかった点 10 項目は 5+5 の 2 画面 (data-part。2026-09-26 後刻) */
+  /* 使いにくかった点は既存5+5と追加2項目の3画面。各画面に「このページでは該当なし」 */
   #surveyProblems { gap: 6px; }
   #surveyProblems .chk { padding-top: 10px; padding-bottom: 10px; min-height: 44px; }
-  #surveyProblemsPage[data-part="1"] .checks .chk[data-part="2"], #surveyProblemsPage[data-part="1"] #surveyFreeField, #surveyProblemsPage[data-part="1"] .part2 { display: none !important; }
-  #surveyProblemsPage[data-part="2"] .checks .chk[data-part="1"], #surveyProblemsPage[data-part="2"] .part1 { display: none !important; }
+  #surveyProblemsPage:not([data-part="1"]) .checks .chk[data-part="1"],
+  #surveyProblemsPage:not([data-part="2"]) .checks .chk[data-part="2"],
+  #surveyProblemsPage:not([data-part="3"]) .checks .chk[data-part="3"],
+  #surveyProblemsPage:not([data-part="2"]) #surveyFreeField,
+  #surveyProblemsPage[data-part="1"] .part2,
+  #surveyProblemsPage:not([data-part="1"]) .part1 { display: none !important; }
 
   /* ===== 送信中の画面: スピナー + 「閉じない・更新しない」 ===== */
   #sendBox { display: flex; flex-direction: column; align-items: center; gap: 12px; margin: 8px 0 16px; }
