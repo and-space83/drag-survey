@@ -973,20 +973,21 @@
   // (止まる人は止まり、迷いながら動かす人は動かす = 自然なデータを取る。旧 2026-09-09〜25 の「枠から出た瞬間に出現・3 秒停止で案内」は廃止)
   const STOP_MIN_MS = 500, STOP_NOTICE_MS = 3000, STOP_EPS_PX = 6;   // 停止 = 6px 以内に 500ms 以上。stopFlag = 動き出し後の最長停止 ≥ 3 秒 (記録のみ・感度分析用)
   const LATE_START_MS = 3000;   // 初動の締切: 出現 (押下) から動き出しまでがこれを超えたら「遅い初動」= 評定送信後に案内 (暫定 3 秒。本実験配布時に固定)
-  const STOP_NOTICE_MAX = 3;   // 案内は種類ごとに 1 セッション 3 回まで (2026-09-12 夜)。4 回目以降は記録 (lateStart/earlyStart) だけ残し画面には出さない = 「出すぎる」の保険
+  const STOP_NOTICE_MAX = 5;   // 案内は種類ごとに1セッション5回まで。6回目以降も試行の記録は残す
   // 早出し (2026-09-09): 表示〜枠から出るまでが「文字数 ÷ EARLY_CPS」より短ければ読み切る前に指を出したとみなす (品質共変量。除外基準ではない)。
   // 案内は 1 画面 1 つの理由: 早出し (読解) > 遅い初動 (両方なら早出し = 原因のほう)
   const EARLY_CPS = 25;
   const READGATE_ON = QS.get("readgate") !== "0";   // 練習の読了ゲート (2026-09-13)。validate/開発用に無効化可
   const EARLY_NOTICE_TEXT = "前の問題では、問題文を読み終える前に指がスタートに置かれました。問題文を読み終えてからスタートに指を置き、選択肢を見てから運んでください。";
-  const LATE_NOTICE_TEXT = "前の問題では、スタートに指を置いてから3秒以上、スタートの枠の外へ動き出していませんでした。選択肢を読んだら、迷っていてもゆっくりでよいので、指を動かしながら選ぶほうへ運んでください。";
-  const NOTICE_MAX = { early: 5, late: 3 };   // 案内の上限 (種類ごと・1 セッション)。早出しは読解に関わるので多め (2026-09-29。旧 3/3)
+  const MAIN_MOVEMENT_HTML = "スタートに指を置いて選択肢を確認したら、迷っていても<b>指を離さずに運び始めてください。</b><br>ゆっくりでよいので、<b>動かしながら選ぶほうを決めてください。</b>";
+  const LATE_NOTICE_TEXT = "前の問題では、スタートに指を置いてから3秒以上、スタートの枠の外へ動き出していませんでした。" + MAIN_MOVEMENT_HTML.replace(/<[^>]*>/g, "");
+  const NOTICE_MAX = { early: 5, late: 5 };   // 案内の上限 (種類ごと・1セッション)。2026-10-09採用: 遅い初動も5回まで
   const NOTICE_TUT_STEP = { early: 3, late: 7 };   // 案内画面の「操作の説明を見る」で開くステップ (画面の説明 3/4 = 読み終えてからスタート / 操作の練習 3/3 = 選択肢を見たら運ぶ)
   const STOP_NOTICE_TEXT = LATE_NOTICE_TEXT;   // 旧名 (validate.js の互換用)
   const NOTICE_TEXTS = { early: EARLY_NOTICE_TEXT, late: LATE_NOTICE_TEXT };
   // 表示用 (伝えたい行動を太字に。textContent は上の平文と一致)
   const NOTICE_HTML = { early: "前の問題では、<b class=\"why\">問題文を読み終える前に</b>指がスタートに置かれました。<br><b>問題文を読み終えてからスタートに指を置き、選択肢を見てから運んでください。</b>",
-                        late: "前の問題では、スタートに指を置いてから<b class=\"why\">3秒以上、スタートの枠の外へ動き出していませんでした</b>。<br><b>選択肢を読んだら、迷っていてもゆっくりでよいので、指を動かしながら選ぶほうへ運んでください。</b>" };
+                        late: "前の問題では、スタートに指を置いてから<b class=\"why\">3秒以上、スタートの枠の外へ動き出していませんでした</b>。<br>" + MAIN_MOVEMENT_HTML };
   let pendingNotice = null, stopNoticeShown = false, stemShownT = 0;
   let seqIndex = 0;
   let pendingMainStart = false;   // 練習クリア画面 (blockintro 流用) から「続ける」で本番へ (2026-07-15 自己ペース化)
@@ -1197,9 +1198,9 @@
     startMode: "press",       // 開始手続き (§6-6 項19): 'press' = 場面文先出し・押下で選択肢・初動締切 3 秒 (2026-09-26)。'dynamic' = 枠から出たら出現 (2026-09-09〜25)。無し = 静的 (それ以前)
     instructed: null,         // 教示誘導ブロック {n, itemIds, text} (careless GT 候補 A。§6-6 項19)
     stopNotices: [],          // 停止の案内画面の表示記録 {afterTrial, kind, ms} (§6-6 項19)
-    stopNoticesSuppressed: 0, // 上限 (種類ごと 3 回) で出さなかった案内の数 (2026-09-12 夜)
+    stopNoticesSuppressed: 0, // 上限（種類ごと5回）で出さなかった案内の数
     pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
-    appVersion: "2026-10-09c",   // 説明の前へ・評定の見直し・追加問題専用の説明と採用文言
+    appVersion: "2026-10-09d",   // 動き始め方の2文を採用し、遅い初動の案内も5回までへ
     welcomeAgree: null,       // はじめに 5/6・6/6 の同意チェック {items, pages, ms}
     devGuard: null,           // 機種ガード {on,minH,w,h,shown,isIPhone,isIPad,ipadLink,platformOk,sizeOk}
     exportedAt: null,
@@ -2653,8 +2654,8 @@
       { part: "hands",  focus: "orient",   act: "next", sample: true, reveal: 0, op: "読んだら「次へ」", txt: "ここからは、<b>実際に指で操作</b>します。<br>次の画面でスタートに指を置いて、離さずに運んでみましょう。" },
       // 2/3・3/3 はハンズオン: 実演を見せたあと自分で運んでもらい、成功したら進めるようにする
       { part: "hands",  focus: "sandbox",  act: "concept", hands: "sandbox", op: "実際にスタートから運んでみましょう", txt: "スタートに指を置いて、そのまま<b>指を離さずに</b>ボックスまで運びます。<br><b>道すじは自由</b>です。（まっすぐでも、回り道でもかまいません）" },
-      // 3/3 (2026-09-26): 「選択肢を見たら動かし始める」と 3 秒の予告は実際に運ぶ場面で言う。文は 4 行以内 = 説明ボックスが運ぶ先の箱を隠しすぎない
-      { part: "hands",  focus: "action",   act: "real", hands: "real", labels: true, op: "実際にスタートから運んでみましょう", txt: "スタートに指を置くと<b>2つの選択肢</b>の内容が出ます。<br>選択肢を見たら、選ぶほうへ<b>指を離さずに運び</b>、ボックスの中で離します。<br>（スタートの枠の外へ3秒以上動き出さないと、案内が出ます）" },
+      // 動き始め方を実際に運ぶ場面で伝える。再閲覧と遅い初動の案内も同じ2文を使う。
+      { part: "hands",  focus: "action",   act: "real", hands: "real", labels: true, op: "実際にスタートから運んでみましょう", txt: MAIN_MOVEMENT_HTML + "<br>選んだボックスの中で指を離します。<br>（スタートの枠の外へ3秒以上動き出さないと、案内が出ます）" },
     ];
     const INSTRUCTED_STEPS = [
       { part: "extra", focus: "orient", act: "next", sample: true, reveal: 0, op: "確認したら「次へ」", txt: "追加の10問では、<b>問題文も選択肢も読まずに</b>、<b>適当に指を運んでください</b>。<br>どちらのボックスでも構いません。前の答えを思い出す必要もありません。<br>この10問は、指示どおり読まずに答える問題なので、<b>謝礼には影響しません。</b>" },
