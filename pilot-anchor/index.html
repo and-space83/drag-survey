@@ -1192,7 +1192,7 @@
     stopNotices: [],          // 停止の案内画面の表示記録 {afterTrial, kind, ms} (§6-6 項19)
     stopNoticesSuppressed: 0, // 上限 (種類ごと 3 回) で出さなかった案内の数 (2026-09-12 夜)
     pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
-    appVersion: "2026-10-09a",   // 採用済みの端末条件・氏名説明・ページ別該当なしを識別する版
+    appVersion: "2026-10-09b",   // 事後アンケートの区間ラベルを以上・未満へ明確化（保存用コードは維持）
     welcomeAgree: null,       // はじめに 5/6・6/6 の同意チェック {items, pages, ms}
     devGuard: null,           // 機種ガード {on,minH,w,h,shown,isIPhone,isIPad,ipadLink,platformOk,sizeOk}
     exportedAt: null,
@@ -3127,13 +3127,15 @@
   // 表示は POST_ON (評定ブロックを含むクラウド配布) のみ。途中終了 (partial) では必須にしない。用途は品質共変量・探索
   // (analysis-plan §3.6)。項目の文言・選定理由の正本は experiment-design §6-6 項8 / decisions-log、候補の経緯は post-survey-candidates。
   const POST_ITEMS = [
+    // 区間の中間選択肢は下限以上・上限未満（2026-10-09b）。保存用コードは互換を保つ。
+    // 旧版の「〜」で回答された境界値は、このラベル変更を根拠に推測・再分類しない。
     { sec: "課題の前後の状態" },
     // 配置 (2026-09-06 実機幅 375px で確認): 短い選択肢 4〜5 個は 2 列グリッド (grid2)、文になる選択肢は縦並び (v)。
     //   横 1 行に詰めると「4時間未 / 満」のように単語の途中で折れるため。端点ラベルは 1 行に収まる長さに
     { key: "fatigue_pre", q: "課題を始める前、どれくらい疲れていましたか", scale: ["疲れていなかった", "とても疲れていた"] },
     { key: "fatigue_post", q: "いま、どれくらい疲れていますか", scale: ["疲れていない", "とても疲れている"] },
     { key: "sleepiness", q: "いま、どれくらい眠いですか", scale: ["目が覚めている", "とても眠い"] },
-    { key: "sleep_hours", q: "昨夜の睡眠時間はどれくらいでしたか", grid2: true, opts: [["lt4", "4時間未満"], ["4-6", "4〜6時間"], ["6-8", "6〜8時間"], ["ge8", "8時間以上"]] },
+    { key: "sleep_hours", q: "昨夜の睡眠時間はどれくらいでしたか", grid2: true, interval: true, opts: [["lt4", "4時間未満"], ["4-6", "4時間以上6時間未満"], ["6-8", "6時間以上8時間未満"], ["ge8", "8時間以上"]] },
     { key: "condition", q: "今日の体調はどうですか", scale: ["悪い", "良い"] },
     // 課題の感じ方 (2026-09-30。同研究室の他研究 [NASA-TLX 簡易版] との比較で追加): 時間圧 (初動締切 3 秒と案内が時間圧を生んでいないかの設計チェック・迷い評定を汚す要因)、
     // 操作の身体的負担 (fatigue_post は全身の疲労なので別に)、いらだち・焦り (情動は運動に乗る = 軌跡の共変量)
@@ -3148,8 +3150,8 @@
     { key: "noise_self", q: "周囲はどれくらい静かでしたか", scale: ["とても静か", "とてもうるさい"] },
     { key: "interruptions", q: "途中で中断（着信・呼びかけ・別のアプリ）はありましたか", opts: [["none", "なかった"], ["once", "1回"], ["twice_plus", "2回以上"]] },
     { sec: "あなたについて" },
-    { key: "usage_years", q: "スマートフォンを使い始めて何年くらいですか", grid2: true, opts: [["lt1", "1年未満"], ["1-3", "1〜3年"], ["3-5", "3〜5年"], ["5-10", "5〜10年"], ["ge10", "10年以上"]] },
-    { key: "usage_hours", q: "1日にスマートフォンを使う時間はどれくらいですか", grid2: true, opts: [["lt1", "1時間未満"], ["1-3", "1〜3時間"], ["3-5", "3〜5時間"], ["ge5", "5時間以上"]] },
+    { key: "usage_years", q: "スマートフォンを使い始めて何年くらいですか", grid2: true, interval: true, opts: [["lt1", "1年未満"], ["1-3", "1年以上3年未満"], ["3-5", "3年以上5年未満"], ["5-10", "5年以上10年未満"], ["ge10", "10年以上"]] },
+    { key: "usage_hours", q: "1日にスマートフォンを使う時間はどれくらいですか", grid2: true, interval: true, opts: [["lt1", "1時間未満"], ["1-3", "1時間以上3時間未満"], ["3-5", "3時間以上5時間未満"], ["ge5", "5時間以上"]] },
     { key: "native_ja", q: "日本語は母語ですか", opts: [["yes", "はい"], ["no", "いいえ"]] },
     { key: "moral_familiar", q: "「トロッコ問題」のような、どちらを選ぶか迷う道徳的な問題を、以前に見たり考えたりしたことがありますか", opts: [["often", "よくある"], ["some", "少しある"], ["never", "ない"]] },
     { sec: "回答のふりかえり" },
@@ -3186,7 +3188,15 @@
       seg.className = "seg" + (it.scale ? " scale" : (it.v ? " seg-v" : (it.grid2 ? " grid2" : "")));
       const opts = it.scale ? [1, 2, 3, 4, 5].map((v) => [String(v), String(v)]) : it.opts;
       for (const [val, label] of opts) {
-        const b = document.createElement("button"); b.type = "button"; b.dataset.val = val; b.textContent = label; seg.appendChild(b);
+        const b = document.createElement("button"); b.type = "button"; b.dataset.val = val;
+        const bounds = it.interval && label.match(/^(.+以上)(.+未満)$/);
+        if (bounds) {   // 小画面では上下限の間で折り返し、「未 / 満」のような分断を避ける
+          bounds.slice(1).forEach((text, i) => {
+            if (i) b.appendChild(document.createElement("wbr"));
+            const span = document.createElement("span"); span.className = "interval-bound"; span.textContent = text; b.appendChild(span);
+          });
+        } else b.textContent = label;
+        seg.appendChild(b);
       }
       f.appendChild(seg);
       if (it.scale) {

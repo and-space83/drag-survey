@@ -483,6 +483,7 @@
     background: rgba(184,83,26,.92); color: #fff; pointer-events: none; }
   /* 2026-09-06 実機幅 375px で確認して追加: 短い選択肢 4〜5 個は 2 列グリッド (横 1 行に詰めると単語の途中で折れる) */
   .seg.grid2 button { flex: 1 1 42%; min-width: 42%; }
+  .seg .interval-bound { display: inline-block; white-space: nowrap; }
   .seg-anchors { font-size: calc(11.5px * var(--ui-scale)); }
   .seg-anchors span { max-width: 50%; }
   /* 未回答の案内: タップで移動できる見た目 + 移動先を 3 秒だけ赤枠で示す */
