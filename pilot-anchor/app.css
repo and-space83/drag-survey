@@ -32,6 +32,8 @@
 
   .screen { position: absolute; inset: 0; display: none; flex-direction: column; }
   .screen.active { display: flex; }
+  /* 読み上げ用に自動フォーカスする見出しは操作部品ではないため、枠を表示しない。 */
+  .screen :is(h1, h2)[tabindex="-1"]:focus { outline: none; }
 
   /* ---- 共通 (intro / done / message) ---- */
   .pad { flex: 1; min-height: 0; padding: 24px; overflow-y: auto; overscroll-behavior: contain;
@@ -258,7 +260,8 @@
      ボックス分だけ下がっても 5 段のボタンと「次へ」が 1 画面に収まるようにする (2026-09-13: スクロールは誰もしない前提) */
   @media (max-height: 640px) { #rating { --ui-scale: .78; } #rating .qitem { margin-bottom: 6px; } #rating .likert { gap: 4px; } #rating .likert button { padding: 7px 12px; } #rating .rating-answer { margin-bottom: 4px; } #rating .qi-text { margin-bottom: 4px; } #rating .qwrap { padding-bottom: 6px; } }
   @media (min-height: 641px) and (max-height: 760px) { #rating { --ui-scale: .92; } #rating .qitem { margin-bottom: 12px; } #rating .likert { gap: 6px; } #rating .likert button { padding: 9px 13px; } }
-  #rating.rat-intro .qitem, #rating.rat-intro #ratingAnswer { visibility: hidden; }   /* 振り返りの説明の導入ページは白紙 (位置は保つ = 次のページで行が動かない。2026-09-12 夜) */
+  /* 導入では評定の部品を隠し、レイアウト領域と「次へ」の位置は後続ページと揃える。 */
+  #rating.rat-intro .qitem, #rating.rat-intro #ratingAnswer { visibility: hidden; }
   .qitem.tfocus .qi-text { color: var(--warn); font-weight: 700; } /* 評定チュートリアル: 対象項目を強調 */
   /* ---- 評定チュートリアル v2 (2026-07-22): 枠付き説明ボックス+ステップ表示 (説明 n/6)。
      強調 (b) は色+ややサイズ大で一色べた書きを避ける。ボックスは対象評定の直上に挿入され、
@@ -345,11 +348,19 @@
   #ccodeBox { margin: 14px 0; padding: 12px; border: 1px solid var(--go);
     border-radius: 10px; background: rgba(18,133,90,0.07); }
   .ccode-row { display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .ccode-copy-anchor { position: relative; display: inline-flex; flex: 0 0 44px; }
   #ccodeCopy { flex: 0 0 44px; width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center;
     padding: 0; border: 1px solid var(--line); border-radius: 9px; background: var(--panel); color: var(--go); cursor: pointer; touch-action: manipulation; }
   #ccodeCopy:active { background: rgba(18,133,90,0.14); }
   #ccodeCopy:focus-visible, #tutClose:focus-visible, #ratingHelp:focus-visible, #ratingTutClose:focus-visible { outline: 3px solid var(--go); outline-offset: 2px; }
-  #done #ccodeCopyStatus { min-height: 1.5em; font-size: calc(12px * var(--ui-scale)); line-height: 1.5; color: var(--go); text-align: center; }
+  #done #ccodeCopyStatus { position: absolute; z-index: 1; right: 0; bottom: calc(100% + 8px); width: max-content;
+    max-width: min(250px, 70vw); padding: 6px 10px; border-radius: 7px; background: var(--go); color: var(--go-ink);
+    font-size: calc(12px * var(--ui-scale)); line-height: 1.5; text-align: center; pointer-events: none;
+    box-shadow: 0 3px 10px rgba(20,26,34,.16); }
+  #done #ccodeCopyStatus:empty { opacity: 0; }
+  #done #ccodeCopyStatus:not(:empty)::after { content: ""; position: absolute; top: 100%; right: 16px;
+    border: 6px solid transparent; border-bottom: 0; border-top-color: var(--go); }
+  #ccodeMail { margin-top: 0; }
 
   /* ---- ドラッグ導入チュートリアル (スポットライト方式・§6-6 項14 / decisions-log 2026-09-02) ----
      実演レイヤーは pointer-events:none の装飾。実要素(start/choiceA/choiceB)の geom・当たり判定に不干渉。
