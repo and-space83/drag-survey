@@ -60,7 +60,11 @@
              instructed: {n, itemIds, text},   // 教示誘導ブロックの構成 (クラウド配布のみ。kiosk/stop では null)
              stopNotices: [{afterTrial, kind('early'|'late'|'stop'), ms}]},   // 案内画面の表示記録 (stop は 2026-09-25 まで) (何問目の後に・種類・滞在 ms。§6-6 項19)
                                                // チュートリアルの各説明ページの滞在時間と「もう一度」「↻ 説明」の回数 (2026-09-07。対面での教示の評価用)
+    invalidAttempts: [ { /* trialsと同じ刺激・座標・時刻＋status:'invalid', invalidReason,
+                           trialOrdinal, attemptNumber, timeOrigin, attemptEndT, lastEventT。
+                           正常な回答・評定とは分離。未取得の点や不明な終了時刻は補間しない。 */ } ],
     trials: [ {
+      trialOrdinal, attemptNumber, timeOrigin, // セッション内の回答通番・同じ問題での操作回数・イベント時計の原点
       index, phase('main'|'practice'|'instructed'), stimulusType('numeric-size'|'text-choice'),
       isInstructed(true=末尾の教示誘導ブロック 10 問 (2026-09-26。旧 8)。careless GT 候補 A。評定なし。迷い予測の解析から除外。2026-09-09 §6-6 項19),
       // --- ① anchor (numeric-size) のメタ ---
@@ -166,19 +170,16 @@
   </div>
 </section>
 
-<!-- ===== RESUME (中断からの再開。2026-09-06 §6-6 項17) =====
-     同じ URL を 3 時間以内に開き直し、本番の途中データが残っていれば「続きから」か「最初から」を選ぶ。
-     続き = マイクの再取得 (環境音チェック) → 次の試行。データは従来どおり完走時にまとめて送信 (途中データは送らない)。 -->
+<!-- ===== RESUME (中断からの再開。experiment-design §6-6 項17) =====
+     入力完了後に同じ URL を 3 時間以内に開き直したら保存した画面から続ける。
+     オンライン参加には、保存回答を削除して最初から解き直す操作を用意しない。 -->
 <section id="resume" class="screen">
   <div class="pad">
     <h1>前回の続きから再開できます</h1>
     <p id="resumeInfo"></p>
     <p id="resumeHow">「続きから再開する」を押すと、次の問題から続きます。</p>
-    <p class="opt-note">「最初からやり直す」を選ぶと、前回のご回答は端末から削除されます。</p>
     <div class="vgap"></div>
     <button class="btn primary advance" id="resumeGo">続きから再開する</button>
-    <div class="vgap"></div>
-    <button class="btn ghost advance" id="resumeRestart">最初からやり直す</button>
   </div>
 </section>
 
@@ -576,7 +577,7 @@
     return `${hex.slice(0,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}-${hex.slice(16,20)}-${hex.slice(20)}`;
   }
   const CLIENT_ID_KEY = "pilotAnchorClientId_v1"; // 重複参加の事後検出用 匿名 first-party マーカー
-  const RESUME_WINDOW_MS = 3 * 60 * 60 * 1000;    // 中断から 3 時間以内なら「続きから再開」を提示 (超過は最初から。§6-6 項17)
+  const RESUME_WINDOW_MS = 3 * 60 * 60 * 1000;    // 中断から3時間以内。超過時のオンライン参加は保存を残して終了案内。
   // URL クエリで上書き可 (例: ?block=value で価値・選好ブロック / ?reps=2&practice=0&break=0&ratings=0 で短縮テスト。
   //   ?rotate=0 で横向きガード無効 / ?upload=0 で自動送信無効 / ?debug=1 で検証フック+CSV+常時ボタン)
   // 環境音モニタ (§6-6 項10): ?mic=0 で無効 (開発・headless)・?mic=mock は検証用。?micth=/-micchk=/micquiet=/micover=
@@ -1105,6 +1106,7 @@
     target.focus({ preventScroll: true });
   }
   function show(name) {
+    if (name !== "task") { hideBanner(); clearIdleCoach(); if (coachEl.classList.contains("ok")) coachHide(); }
     if (consentTiming && !sessionFinished) consentTiming.change(document.hidden ? "background" : name);
     for (const k in screens) screens[k].classList.toggle("active", k === name);
     document.body.classList.toggle("stop-open", name === "stopconfirm");   // 確認画面の間は body 直下の説明 (tutPop/ratPop/tutHint/帯) を隠す (2026-09-12)
@@ -1232,7 +1234,7 @@
     stopNotices: [],          // 停止の案内画面の表示記録 {afterTrial, kind, ms} (§6-6 項19)
     stopNoticesSuppressed: 0, // 上限（種類ごと5回）で出さなかった案内の数
     pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
-    appVersion: "2026-10-10b",   // 画面の配置・コピー通知・追加10問の確認リンク
+    appVersion: "2026-10-11b",   // 無効ドラッグを別記録で保持・同意＋AとBを別ファイルで保存
     welcomeAgree: null,       // はじめに 5/6・6/6 の同意チェック {items, pages, ms}
     devGuard: null,           // 機種ガード {on,minH,w,h,shown,isIPhone,isIPad,ipadLink,platformOk,sizeOk}
     exportedAt: null,
@@ -1396,7 +1398,7 @@
   function micLost() {   // 切断: ドラッグ中なら無効試行に。以降は次の試行境界 (micCheckpoint) で再取得を要求
     if (!MIC.acquired) return;
     MIC.acquired = false; MIC.lost = true; MIC.drops++;
-    if (recording) { recording = false; activePointerId = null; retryTrial("マイクが切断されました"); }
+    if (recording) { recording = false; activePointerId = null; retryTrial("マイクが切断されました", null, "microphone_disconnected"); }
   }
 
   // ---- micgate 画面 (precheck=開始前の環境音チェック / reacquire=切断後の再取得) ----
@@ -1549,16 +1551,28 @@
     if (KIOSK) return false;   // 対面 (kiosk) は主分析に入れないので読速を省き、限られた時間を問題に回す (2026-09-07。?read=1 で強制ON)
     return REAL_BLOCKS.includes("moral");
   })();
-  let readIdx = -1, readShownAt = 0;
-  function showReading() {
-    readIdx = -1;
-    device.readingBaseline = { trials: [], charsPerSec: null };
+  let readIdx = -1, readShownAt = 0, readResumed = false;
+  function showReading(restored) {
+    readIdx = restored ? restored.index : -1;
+    readResumed = !!restored && readIdx >= 0;
+    if (!restored || !device.readingBaseline) device.readingBaseline = { trials: [], charsPerSec: null };
+    if (readResumed) device.readingBaseline.resumed = true;
     $("readCounter").textContent = "";
     $("readText").style.display = "none";
     $("readIntro").style.display = "";
     $("readDone").textContent = "はじめる";
     show("reading");
     $("reading").querySelector(".pad").scrollTop = 0;
+    if (readIdx >= 0) renderReading(restored.elapsedMs);
+    resumeStage = "reading"; saveBackup();
+  }
+  function renderReading(elapsedMs = 0) {
+    $("readIntro").style.display = "none";
+    $("readCounter").textContent = `${readIdx + 1} / ${READ_SENTENCES.length}`;
+    $("readText").innerHTML = nbText(READ_SENTENCES[readIdx]);
+    $("readText").style.display = "";
+    $("readDone").textContent = "読み終えた";
+    readShownAt = performance.now() - elapsedMs;
   }
   function readAdvance() {
     // 連打ガード (レビューWF 2026-07-22): iOS はダブルタップが2連 click で届き、readDone は3文の間
@@ -1567,7 +1581,7 @@
     if (readIdx >= 0 && performance.now() - readShownAt < 400) return;
     if (readIdx >= 0) {   // 直前の文の計測を記録 (表示〜タップ)
       const chars = READ_SENTENCES[readIdx].replace(/\|/g, "").length;
-      device.readingBaseline.trials.push({ chars, ms: +(performance.now() - readShownAt).toFixed(0) });
+      device.readingBaseline.trials.push({ chars, ms: +(performance.now() - readShownAt).toFixed(0), ...(readResumed ? { resumed: true } : {}) });
     }
     readIdx++;
     if (readIdx >= READ_SENTENCES.length) {   // 完了: 読速を集計して練習へ
@@ -1578,12 +1592,9 @@
       startPractice();
       return;
     }
-    $("readIntro").style.display = "none";   // 教示の読み時間を1問目に混ぜない (はじめるボタンで区切る)
-    $("readCounter").textContent = `${readIdx + 1} / ${READ_SENTENCES.length}`;
-    $("readText").innerHTML = nbText(READ_SENTENCES[readIdx]);
-    $("readText").style.display = "";
-    $("readDone").textContent = "読み終えた";
-    readShownAt = performance.now();
+    readResumed = false;
+    renderReading();   // 教示の読み時間を1問目に混ぜない
+    resumeStage = "reading"; saveBackup();
   }
   function showIntroScreen() { show("intro"); $("intro").querySelector(".pad").scrollTop = 0; }
   function gotoIntro() {   // 入力画面へ。対面 (MIC_FIRST) はその前にマイクの許可 (2026-09-15: 研究者が許可を済ませて入力画面で渡す)
@@ -1660,6 +1671,20 @@
   let trial = null;       // 現在試行の記録オブジェクト
   let cell = null;        // 現在の cell
   const records = [];     // 完了試行の記録 (本番のみ最終的にエクスポート対象に含める。練習も保持)
+  const invalidAttempts = []; // 同じ問題のやり直し。回答数・評定・解析用trialsとは分離する。
+  function publicTrial(r) {
+    const { _sRect, _stRect, ...rest } = r; return rest;
+  }
+  function invalidAttempt(r, reason, endT) {
+    return { ...publicTrial(r), status: "invalid", invalidReason: reason,
+      attemptEndT: endT, lastEventT: r.events.length ? r.events[r.events.length - 1].t : null,
+      nDispatched: r.events.filter(p => p.type === "dispatched").length,
+      nCoalesced: r.events.filter(p => p.type === "coalesced").length };
+  }
+  function restoreInvalidAttempts(p) {
+    invalidAttempts.length = 0;
+    if (Array.isArray(p.invalidAttempts)) invalidAttempts.push(...p.invalidAttempts);
+  }
 
   // ドラッグ記録用
   let recording = false;
@@ -1695,6 +1720,7 @@
     choiceB.style.visibility = boxVis;
   }
   function coachMsg(html, pos, kind, ng) {   // pos: 'top' (押下前・エラー) | 'mid' (ドラッグ中・フィードバック) | 'gap' (選択肢とスタートの間)。kind='start' =スタート案内 (押下で消す)
+    hideBanner();   // 新しい案内を出す時点で、段階切替の帯とその後続案内は役目を終える。
     coachEl.className = (pos === "mid" ? "pos-mid" : (pos === "gap" ? "pos-gap" : "pos-top")) + (ng ? " " + (ng === true ? "ng" : ng) : "");   // "ng"=赤・箱なし / "ok"=緑・箱あり (操作の練習の合図と同じ)   // ng = 操作の練習の合図と同じ見た目 (赤・箱なし。2026-09-15)
     coachEl.dataset.kind = kind || "";
     coachEl.innerHTML = html;
@@ -1712,7 +1738,7 @@
     clearIdleCoach();
     if (!(phase === "practice" && dragTutState.done)) return;
     // 動的スタートでは場面文を読んでから押すので、無操作の猶予を 8 秒に (旧 4 秒)。位置は問題文に被らない gap (2026-09-09)
-    idleTimer = setTimeout(() => { if (!recording && !uiLocked && phase === "practice") { coachMsg("問題文を読み終えたら<br>スタートに指を置いて<br>そのまま離さずに運びます", "gap", "start", "ok"); } }, 8000);   // 例の 1 問と同じ文言・見た目 (2026-09-15)
+    idleTimer = setTimeout(() => { if (screens.task.classList.contains("active") && !dragTutState.active && !recording && !uiLocked && phase === "practice") { coachMsg("問題文を読み終えたら<br>スタートに指を置いて<br>そのまま離さずに運びます", "gap", "start", "ok"); } }, 8000);   // 例の 1 問と同じ文言・見た目 (2026-09-15)
   }
   function clearIdleCoach() { if (idleTimer) { clearTimeout(idleTimer); idleTimer = null; } }
 
@@ -1796,6 +1822,7 @@
   let endedFrom = null;   // 中断ボタンで終了したときに居た画面 {screen, at} (「課題に戻る」で戻る先。2026-09-07)
   let discarding = false;  // 「はじめから」で消去中 (beforeunload の確認を出さない)
   async function restartFresh() {   // 回答を消して最初の画面へ (2026-09-12)。バックアップを消してから再読込
+    if (!KIOSK && !STOP_ON) return;   // 研究者用の対面操作に限定。オンライン参加の回答を消して再出題しない。
     // (kiosk は起動時にバックアップを partial として未送信キューへ退避するので、消さずに再読込すると捨てたはずの回答が残る)
     discarding = true;
     if (dragTutState.active) DragTut.abort();
@@ -1883,18 +1910,27 @@
   }
 
   // 段階の切り替えを1回だけ短く知らせる帯 (チュートリアル完了→練習)。触れず・記録に入らない
-  let pendingBanner = null, bannerTimer = null;
+  let pendingBanner = null, bannerTimer = null, bannerToken = 0;
+  function hideBanner() {
+    bannerToken++;   // 予約済みの配置・後続表示も古い帯から引き継がない。
+    clearTimeout(bannerTimer); bannerTimer = null;
+    clearTimeout(tutCoachTimer); tutCoachTimer = null;
+    const el = $("phaseBanner"); if (el) el.classList.add("hidden");
+  }
   function showBanner(text, onHidden) {   // onHidden: 帯が消えた直後に呼ぶ (帯の後に案内を出す順序制御用)
+    hideBanner();
+    clearIdleCoach();
+    if (coachEl.classList.contains("ok")) coachHide();
+    const token = bannerToken;
     let el = $("phaseBanner");
     if (!el) { el = document.createElement("div"); el.id = "phaseBanner"; el.className = "phase-banner hidden"; document.body.appendChild(el); }
     el.textContent = text; el.classList.remove("hidden");
     // 選択肢の下端とスタートの上端の中間 (問題文にもスタートにも被らない)。呼び出し時点では課題画面が
     // まだ表示切替前のことがある (評定→課題) ので、描画後に座標を読む
-    const placeIt = () => { const cb = choiceA.getBoundingClientRect().bottom, st = startBtn.getBoundingClientRect().top;
+    const placeIt = () => { if (token !== bannerToken) return true; const cb = choiceA.getBoundingClientRect().bottom, st = startBtn.getBoundingClientRect().top;
       if (st > cb) el.style.top = ((cb + st) / 2) + "px"; else el.style.top = ""; return st > cb; };
     if (!placeIt()) requestAnimationFrame(() => { if (!placeIt()) setTimeout(placeIt, 60); });
-    if (bannerTimer) clearTimeout(bannerTimer);
-    bannerTimer = setTimeout(() => { el.classList.add("hidden"); if (onHidden) onHidden(); }, 2200);
+    bannerTimer = setTimeout(() => { if (token !== bannerToken) return; hideBanner(); if (onHidden) onHidden(); }, 2200);
   }
   // 停止の案内画面 (§6-6 項19): 表示〜「次へ」の滞在を device.stopNotices に記録し、直後の試行に stopNotice=true を付ける
   let noticeShownAt = null, noticeKind = null;
@@ -1919,6 +1955,7 @@
     presentStimulus();   // ここから場面文の表示 = 次の試行の stimulusOnsetT
   }, { passive: true });
   function presentStimulus(restored) {
+    hideBanner();
     // 練習中はコーチング表示 (ステップ1: ボックスを隠し、上部の大きな説明でスタートへ誘導)。
     // 本番は一切出さない
     // 前問の停止の案内 (動的スタート): 評定送信後・次の場面文を出す前に案内だけの画面を挟む
@@ -1937,7 +1974,7 @@
       showBanner("では、1問やってみましょう", () => {   // この1問だけ (直後に評定チュートリアル) なので「ここからは」と言わない
         tutCoachTimer = setTimeout(() => {
           tutCoachTimer = null;
-          if (cell !== myCell || phase !== "practice" || recording || uiLocked || trial) return;   // もう押している/進んだなら出さない
+          if (cell !== myCell || !screens.task.classList.contains("active") || dragTutState.active || phase !== "practice" || recording || uiLocked || trial) return;   // もう押している/進んだなら出さない
           coachMsg("問題文を読み終えたら<br>スタートに指を置いて<br>そのまま離さずに運びます", "gap", "start", "ok");   // 操作の練習の合図と同じ見た目 (緑・箱あり)。2026-09-15: 旧「まずは下のスタートを…実演ではなく自分で操作します」   // 問題文は最初から出ているので上部には置かない (2026-09-09)
         }, 500);
       });
@@ -2016,6 +2053,7 @@
         return;
       }
     }
+    hideBanner();   // スタートの操作を受け付けたら、段階切替の帯を残さない。
     $("taskMsg").textContent = "";   // 停止の案内・注意は押下で消す
     activePointerId = e.pointerId;
     try { surface.setPointerCapture(e.pointerId); } catch (_) {}
@@ -2027,6 +2065,8 @@
     const sc = center(stRect), ac = center(aRect), bc = center(bRect);
     trial = {
       index: phase === "main" ? trialIndex + 1 : (phase === "instructed" ? instrIndex + 1 : null),
+      trialOrdinal: records.length + 1, attemptNumber: aborts + 1,
+      timeOrigin: performance.timeOrigin,
       isInstructed: phase === "instructed" ? true : undefined,
       // phase 'tutorial' = 導入の例を操作した1回 (練習にも解析にも数えない)。block: 統合セッションで value/moral を分離するため per-trial に記録
       phase: cell.isTutorial ? "tutorial" : phase, block: CONFIG.block, stimulusType: BLOCK.stimulusType,
@@ -2103,11 +2143,13 @@
 
   surface.addEventListener("pointercancel", (e) => {
     if (!recording || e.pointerId !== activePointerId) return;
+    pushEvent(e, "cancel");
     recording = false;
-    retryTrial("中断されました");
+    retryTrial("中断されました", null, "pointer_cancel", e.timeStamp);
   }, { passive: false });
 
-  function retryTrial(msg, coachHtml) {
+  function retryTrial(msg, coachHtml, reason = "interrupted", endT = performance.now()) {
+    if (trial && !records.includes(trial)) invalidAttempts.push(invalidAttempt(trial, reason, endT));
     aborts++;
     if (phase === "practice") {
       // 練習中: 無効試行は連続成功をリセットし、原因別のコーチングを出して同一刺激からやり直し
@@ -2133,6 +2175,7 @@
     startBtn.classList.remove("armed");
     startBtn.textContent = "スタート";
     recording = false; activePointerId = null; leftStart = false; trial = null;
+    saveBackup(); // やり直しが成功する前でも、失敗した軌跡を端末へ残す。
   }
 
   // 出現後の停止 (動的スタート §6-6 項19): 出現以降の down/dispatched/up 点列で、基準点から STOP_EPS_PX 以内に
@@ -2166,7 +2209,8 @@
         : (choiceSide === null
           ? nb('指が<b>途中で離れました</b>') + '<span class="sub">' + nb('ボックスの中まで|指をつけたまま動かし、|中で離します') + '</span>'
           : nb('指を離すのが|<b>早すぎました</b>') + '<span class="sub">' + nb('ボックスの中まで|運んでから離します') + '</span>');
-      retryTrial(choiceSide === null ? "選択肢のボックスの中で|指を離してください" : "指を離すのが|早すぎました", coach);
+      retryTrial(choiceSide === null ? "選択肢のボックスの中で|指を離してください" : "指を離すのが|早すぎました", coach,
+        choiceSide === null ? "outside_choice" : "insufficient_points", e.timeStamp);
       return;
     }
 
@@ -2273,6 +2317,7 @@
     const left = queue.length;
     const next = left > 0 ? `<span class="sub">練習はあと${left}問です</span>` : "";
     coachMsg(head + next, "mid");
+    resumeStage = "practiceNext"; saveBackup();
     setTimeout(() => { practiceDone() ? endPractice() : nextTrial(); }, pass ? 1100 : 1800);
   }
 
@@ -2284,7 +2329,10 @@
     // ヘッダは2行以内に抑える (SE の実効 viewport で送信ボタンが fold 下に落ちないため)
     if (phase === "practice" && RTUT_ON && !ratingTutorialDone) {
       // 評定チュートリアル v2 (2026-07-22): 説明はヘッダでなく tutBox (対象評定の直上) に出す
-      tutIdx = 0; tutIntroDone = false; ratingSeenPages.clear();
+      tutIdx = restored && restored.tutorial ? restored.tutorial.index : 0;
+      tutIntroDone = restored && restored.tutorial ? !!restored.tutorial.introDone : false;
+      ratingSeenPages.clear();
+      for (const page of restored && restored.tutorial && restored.tutorial.seen || []) ratingSeenPages.add(page);
       $("ratingHead").className = "practice";
       $("ratingHead").textContent = "";
     } else if (phase === "practice") {
@@ -2895,7 +2943,8 @@
       // 説明BOX: orient=上部中央 / 問題文・選択肢=対象の直下 /スタート=対象の直上 / 実演=最上部ピン (上から下)
       const ph = pop.offsetHeight, pw = pop.offsetWidth;
       let ptop, pcx = tr.left + tr.width / 2;
-      if (step.focus === "orient") ptop = tr.top + tr.height * 0.12;
+      if (step.part === "extra") ptop = top + (btnTop - GAP - top - ph) / 2;   // 追加問題の説明だけを、閉じると進行ボタンの間で中央に置く。ボタン位置は保つ。
+      else if (step.focus === "orient") ptop = tr.top + tr.height * 0.12;
       else if (step.revealDelay && !revealedNow) ptop = stemEl.getBoundingClientRect().top;   // 待機中: 対象が出る位置に説明だけ置く
       else if (demoStep) { popBelow = ph > allowed && demoBelow != null; ptop = popBelow ? demoBelow : top; }   // 実演は最上部。見直し中は「閉じる」の下に収める
       else {
@@ -2992,10 +3041,13 @@
       startBtn.style.visibility = (step.focus === "orient" || step.focus === "stem") ? "hidden" : "visible";   // 2026-09-12 夜: 選択肢の説明 (4/4) はスタートの後なのでスタートを出したまま
       if (step.act === "concept") setTimeout(() => { if (my === tok) playSandbox(my); }, 350);
       else if (step.act === "real") setTimeout(() => { if (my === tok) playReal(my); }, 300);
+      if (!replayMode) { resumeStage = "dragTutorial"; saveBackup(); }
     }
     // ---- ハンズオン (チュートリアル内で実際に運んでもらう。記録はしない=練習/本番の trial とは無関係) ----
     // ヒントはスタートと箱の中間 (経路帯の中央) に固定表示 =スタートに被らない・視線移動が最小
+    let hintTimer = null;
     function setHint(text, ng) {
+      clearTimeout(hintTimer); hintTimer = null;
       if (!text) { hint.classList.add("hidden"); return; }
       hint.innerHTML = text; hint.classList.toggle("ng", !!ng); hint.classList.remove("hidden");   // 文言は内部定数のみ (<br> 可)
       const tr = $("task").getBoundingClientRect(), sr = startBtn.getBoundingClientRect();
@@ -3014,10 +3066,11 @@
       if (!ok) return;
       handsDone = true;
       completedHands.add(idx);
+      if (!replayMode) saveBackup();
       spot.classList.remove("on"); spot.classList.add("hidden");   // 操作が済んだら枠線も消す (暗転と足並みを揃える)
       btnRow.classList.remove("pending"); $("tutPopNext").classList.add("cue");
       setHint("この操作のくり返しです");   // 成功時 (緑)。位置はスタート↔箱の中間
-      setTimeout(() => { if (handsDone) setHint(""); }, 2600);
+      hintTimer = setTimeout(() => { if (handsDone) setHint(""); }, 2600);
       setTimeout(() => inkClear(), 900);   // 自分の軌跡は残さない (次の人の手本にしない)
       handsMode = null;
     }
@@ -3128,11 +3181,16 @@
       replayMode = !!(opts && opts.replay);
       steps = opts && opts.instructed ? INSTRUCTED_STEPS : STEPS;
       seenSteps.clear(); completedHands.clear();
+      const restored = opts && opts.restored;
+      for (const page of restored && restored.seen || []) seenSteps.add(page);
+      for (const page of restored && restored.completed || []) completedHands.add(page);
       $("tutClose").classList.toggle("hidden", !replayMode);
       document.body.classList.toggle("tut-review", replayMode);
       $("tutAgain").classList.add("hidden");
       updateProgress();
-      const start = opts && Number.isInteger(opts.start) ? Math.max(0, Math.min(steps.length - 1, opts.start)) : 0;
+      const wanted = restored ? restored.index : opts && opts.start;
+      const start = Number.isInteger(wanted) ? Math.max(0, Math.min(steps.length - 1, wanted)) : 0;
+      hideBanner(); clearIdleCoach();
       if (typeof coachHide === "function") coachHide();
       if (typeof setCoach === "function") setCoach(null);
       numA.style.visibility = "hidden"; numB.style.visibility = "hidden"; stemEl.style.visibility = "hidden";
@@ -3143,7 +3201,7 @@
       addEventListener("resize", resizeBound, { passive: true });
       idx = start; render();
     }
-    return { run, abort, state: () => ({ index: idx, review: replayMode, instructed: steps === INSTRUCTED_STEPS, lockRemainingMs: Math.max(0, lockUntil - performance.now()), handsDone, pending: !!btnRow && btnRow.classList.contains("pending") }) };
+    return { run, abort, snapshot: () => ({ index: idx, seen: [...seenSteps], completed: [...completedHands] }), state: () => ({ index: idx, review: replayMode, instructed: steps === INSTRUCTED_STEPS, lockRemainingMs: Math.max(0, lockUntil - performance.now()), handsDone, pending: !!btnRow && btnRow.classList.contains("pending") }) };
   })();
 
   function startPractice() {
@@ -3152,9 +3210,8 @@
       DragTut.run(startPractice);   // 完了後に再入 → チュートリアル試行 (例の操作+評定チュートリアル) → 練習5問
       return;
     }
-    if (seqIndex === 0 && !device.consent) clearBackup();  // 同意取得後の原記録は保持する
     requestWakeLock();   // ユーザー操作起点で取得 (§6-6 項11)
-    captureIntro();
+    if (!device.introCompletedAt && !device.consent) captureIntro();
     phase = "practice";
     streak = 0;
     if (UNIFIED && seqIndex === 0) {
@@ -3197,11 +3254,11 @@
       '<p>準備ができたら「続ける」を押してください。</p>';
     show("blockintro");
     $("blockintro").querySelector(".pad").scrollTop = 0;
+    resumeStage = "practiceComplete"; saveBackup();
   }
   function startMain() {
     if (CONFIG.block !== SEQ[seqIndex]) loadBlock(SEQ[seqIndex]);  // 統合練習の最後が別タイプだった場合に現ブロックへ復帰
-    if (seqIndex === 0 && !device.consent) clearBackup();  // 同意と開始前のチェックポイントは保持する
-                                        // なので消さない (消すと次の試行完了までの間に再読込すると再開できずデータも失う)
+    // 同一セッションの入力・練習・同意のチェックポイントは、本番第1問の保存で更新する。
     if (!device.participantId) captureIntro();
     // 練習サマリ (行動ゲートの達成記録。理解確認の証跡 + データ品質共変量。§6-2)
     const prac = records.filter((r) => r.phase === "practice" && r.block === CONFIG.block);  // 統合では現ブロック分のみ
@@ -3290,8 +3347,8 @@
     { key: "attention_lapse", q: "回答中に、注意がそれたり他のことをしていた時間はありましたか", note: "最後の追加10問は除きます", opts: [["none", "なかった"], ["some", "少しあった"], ["much", "かなりあった"]] },
     { key: "rating_meaning", q: "「自信」と「迷い」の違いは分かりやすかったですか", scale: ["分かりにくかった", "分かりやすかった"] },
     { key: "discomfort", q: "不快に感じた場面はありましたか", opts: [["none", "なかった"], ["some", "少しあった"], ["much", "かなりあった"]] },
-    // 自己報告の単一項目 (Meade & Craig 2012 の "use my data" 型。2026-09-26): 謝礼に影響しないと明記して正直な自己申告を取る。不注意ラベルの材料の 1 つ (analysis-plan §4.7)
-    { key: "data_use", q: "正直なところ、今回のあなたの回答は「集中して取り組んだ回答」として研究のデータに含めてよいと思いますか（どちらを選んでも謝礼には影響しません）", note: "最後の追加10問は除きます", opts: [["yes", "はい、含めてよい"], ["no", "いいえ、集中できていなかった"]], v: true },
+    // 自己報告の単一項目 (Meade & Craig 2012 の "use my data" 型。2026-09-26): この回答だけで謝礼の有無を決めないと明記して正直な自己申告を取る。不注意ラベルの材料の 1 つ (analysis-plan §4.7)
+    { key: "data_use", q: "正直なところ、今回のあなたの回答は「集中して取り組んだ回答」として研究のデータに含めてよいと思いますか", note: "最後の追加10問は除きます", paymentNote: "この質問への回答だけを理由に、謝礼の有無が変わることはありません。", opts: [["yes", "はい、含めてよい"], ["no", "いいえ、集中できていなかった"]], v: true },
   ];
   const POST_KEYS = POST_ITEMS.filter((it) => it.key).map((it) => it.key);
   device.collectionPlan = { postKeys: POST_ON ? POST_KEYS.slice() : [], instructedEnabled: INSTR_ON, attentionEnabled: ATTN_ON };
@@ -3316,8 +3373,9 @@
       const lab = document.createElement("label"); lab.id = "post-label-" + it.key; lab.textContent = it.q; f.appendChild(lab);
       const seg = document.createElement("div"); seg.id = "post-" + it.key;
       seg.setAttribute("aria-labelledby", lab.id);
-      if (it.note && INSTR_ON) {
-        const note = document.createElement("p"); note.id = "post-note-" + it.key; note.className = "opt-note post-scope"; note.textContent = it.note; f.appendChild(note);
+      const noteText = [(INSTR_ON && it.note) ? it.note : "", it.paymentNote || ""].filter(Boolean).join("。");
+      if (noteText) {
+        const note = document.createElement("p"); note.id = "post-note-" + it.key; note.className = "opt-note post-scope"; note.textContent = noteText; f.appendChild(note);
         seg.setAttribute("aria-describedby", note.id);
       }
       seg.className = "seg" + (it.scale ? " scale" : (it.v ? " seg-v" : (it.grid2 ? " grid2" : "")));
@@ -3466,7 +3524,7 @@
     else device.tasksEndedAt = new Date().toISOString();
     device.partial = false;
     saveBackup();
-    const snapshot = old || { kind: "tasks", protocol: 2, ...PilotDurable.clone(buildPayload()) };
+    const snapshot = old || { kind: "tasks", protocol: 3, ...PilotDurable.clone(buildPayload()) };
     staged.start(device.sessionId, snapshot).catch(storageProblem);
   }
 
@@ -3581,11 +3639,8 @@
   function buildPayload() {
     if (consentTiming && !sessionFinished) device.consentTiming = consentTiming.snapshot();
     // 内部用フィールド (_sRect 等) を除去
-    const trials = records.map((r) => {
-      const { _sRect, _stRect, ...rest } = r;
-      return rest;
-    });
-    return { device, trials };
+    const trials = records.map(publicTrial);
+    return { device, trials, invalidAttempts: invalidAttempts.slice() };
   }
 
   // ===== 中断対策チェックポイント (Worker内のIndexedDBへ。取得中のgzipは行わない) =====
@@ -3593,7 +3648,7 @@
   let sessionFinished = false;   // finishSession 到達後は resume を付けない (未回収分の手動保存は従来どおり)
   function saveBackup() {
     if (GO || !storeReady) return false;
-    if (!records.length && phase === "practice" && !device.partial && !sessionFinished && !device.consent) return true;
+    if (!records.length && !invalidAttempts.length && phase === "practice" && !device.partial && !sessionFinished && !device.consent && !device.introCompletedAt) return true;
     try {
       const p = finishedPayload || buildPayload();
       if (!sessionFinished) { p.interruptedAt = new Date().toISOString(); p.resume = resumeState(); }
@@ -3625,7 +3680,7 @@
     $("storageProblemText").textContent = String(err && (err.code || err.message)).includes("LOCK") || String(err && err.message).includes("BUSY")
       ? "この回答を別のタブで開いている場合は、そちらを閉じてからもう一度試してください。保存機能が利用できないブラウザでは続けられません。"
       : "この端末に回答を保存できませんでした。この画面を閉じずに、回答データを保存してください。空き容量を確保した後、保存をもう一度試せます。";
-    $("storageDownload").hidden = !records.length && !finishedPayload && !device.consent;
+    $("storageDownload").hidden = !records.length && !invalidAttempts.length && !finishedPayload && !device.consent;
     $("storageLegacy").replaceChildren();
     for (const [key, label] of [[BACKUP_KEY, "以前の途中保存を回収する"], [OUTBOX_KEY, "以前の未送信データを回収する"]]) {
       try {
@@ -3640,11 +3695,11 @@
   }
 
   // ===== 中断からの再開 (2026-09-06、experiment-design §6-6 項17) =====
-  // iOS Safari はバックグラウンドのタブを破棄して戻ると再読込になる・誤って更新/戻る、で本番の途中から最初の画面に
-  // 戻される事故への対策。チェックポイント (試行完了ごと) に進行状態 (残りキュー・ブロック順・経過時間) を添え、
+  // iOS Safari のタブ破棄や再読込で、入力や回答をやり直させないための対策。
+  // 入力完了、説明のページ移動、問題呈示、評定・アンケート操作のチェックポイントに進行状態を添え、
   // 同じ URL (クエリ一致) を 3 時間以内に開き直したら「続きから再開」を提示する。再開後は環境音チェック (マイクの
-  // 再取得) を通して次の試行へ。データは従来どおり完走時にまとめて送信し、途中データは送らない (説明資料の記載どおり)。
-  // 記録: device.resumes[]={at, afterTrial, gapMs}・再開直後の本試行に post_resume=true (感度分析で除外可能)。
+  // 再取得) を通して保存画面へ。送信の段階・受領確認は送信処理の既存方針を維持する。
+  // 本番開始後はdevice.resumesと直後のpost_resume、本番前はdevice.preMainResumesへ分けて記録する。
   // 対面 kiosk (共用端末) では再開を提示せず、前の人の途中データを partial として未送信キューへ退避する (salvageBackup)。
   let resumePending = false;   // 再開直後の本試行に post_resume を立てる
   let resumeOffered = false;   // 起動時に再開画面を出したか (検証用)
@@ -3654,10 +3709,17 @@
     return {
       v: 2, search: location.search, seq: SEQ.slice(), seqIndex, block: CONFIG.block,
       stage: resumeStage, phase, queue, totalMain, trialIndex, instrIndex, instructedDone,
-      currentCell: ["task", "break", "notice"].includes(resumeStage) ? cell : null,
+      currentCell: ["task", "rating", "break", "notice"].includes(resumeStage) ? cell : null,
       trialRecordIndex: resumeStage === "rating" ? records.indexOf(trial) : null,
-      rating: resumeStage === "rating" ? { page: ratPage, elapsedMs: now - ratingOnset, pageElapsedMs: now - ratPageAt } : null,
+      rating: resumeStage === "rating" ? { page: ratPage, elapsedMs: now - ratingOnset, pageElapsedMs: now - ratPageAt,
+        tutorial: tutActive() && !ratingReview ? { index: tutIdx, introDone: tutIntroDone, seen: [...ratingSeenPages] } : null } : null,
+      preMain: mainStartedAt == null ? {
+        dragDone: dragTutState.done, ratingDone: ratingTutorialDone, streak,
+        reading: resumeStage === "reading" ? { index: readIdx, elapsedMs: readIdx < 0 ? 0 : Math.max(0, now - readShownAt) } : null,
+        drag: resumeStage === "dragTutorial" ? DragTut.snapshot() : null,
+      } : null,
       post: resumeStage === "postq" ? { answers: { ...post }, survey: { ...survey, problems: survey.problems.slice() }, page: postPageIdx, pageId: postPages[postPageIdx] ? postPages[postPageIdx].id : null, elapsedMs: now - postShownAt } : null,
+      activeAttempt: recording && trial ? publicTrial(trial) : null,
       pendingInstructedStart, pendingMainStart, pendingNotice, stopNoticeShown, noticeKind,
       noticeElapsedMs: noticeShownAt == null ? 0 : now - noticeShownAt,
       breakElapsedMs: breakShownAt == null ? 0 : now - breakShownAt, breakAtTrial,
@@ -3668,7 +3730,11 @@
   }
   function normalizedResume(b) { // v1 は当時保存された範囲で復元。未送信の評定を先に戻す
     const r = b.resume;
-    if (r.v === 2) return r;
+    if (r.v === 2) {
+      // 旧版は練習完了画面でも直前のratingを保存した。提出済み評定を再度提出させない。
+      if (!r.mainStarted && r.pendingMainStart) return { ...r, stage: "practiceComplete" };
+      return r;
+    }
     const main = b.trials.filter((t) => t.phase === "main" && t.block === r.block);
     const last = main[main.length - 1];
     const pendingRating = last && ["moral", "value"].includes(last.block) && last.ratings && last.ratingSubmitMs == null;
@@ -3678,29 +3744,53 @@
       rating: pendingRating ? { page: last.ratings.hesitation ? 1 : 0, elapsedMs: 0, pageElapsedMs: 0 } : null,
       mainStarted: true, mainElapsedAtEnd: null };
   }
-  function canResume(b) {   // 同じ構成 (URL クエリ) の本番途中データが 3 時間以内に残っているか
+  function canResume(b) {   // 入力完了以降。同じ構成 (URL クエリ)・中断から3時間以内。
     if (!b || !b.resume || ![1, 2].includes(b.resume.v) || b.resume.search !== location.search) return false;
-    if (b.device && b.device.partial) return false;
+    if (!b.device || typeof b.device !== "object" || b.device.partial) return false;
     if (!Array.isArray(b.trials) || !Array.isArray(b.resume.queue) || !Array.isArray(b.resume.seq)) return false;
     const r = normalizedResume(b);
-    if (!r.mainStarted || !r.seq.length || !BLOCKS[r.block] || r.seq.some((id) => !BLOCKS[id])) return false;
+    if (!r.seq.length || !BLOCKS[r.block] || r.seq.some((id) => !BLOCKS[id])) return false;
     if (!Number.isInteger(r.seqIndex) || r.seqIndex < 0 || r.seqIndex >= r.seq.length) return false;
-    if (!["task", "rating", "break", "notice", "instructedIntro", "blockintro", "postq", "next"].includes(r.stage)) return false;
+    const beforeMain = !r.mainStarted && b.device && (b.device.introCompletedAt || b.device.consent ||
+      (b.device.participantId && b.trials.some(t => t.phase === "practice" || t.phase === "tutorial")));
+    if (!r.mainStarted && !beforeMain) return false;
+    const stages = ["task", "rating", "break", "notice", "instructedIntro", "blockintro", "postq", "next"];
+    if (beforeMain) stages.push("entry", "consent", "reading", "dragTutorial", "practiceComplete", "practiceNext");
+    if (!stages.includes(r.stage)) return false;
     if (["task", "break", "notice"].includes(r.stage) && !r.currentCell) return false;
     if (r.stage === "rating" && (!b.trials[r.trialRecordIndex] || !r.rating)) return false;
+    if (r.stage === "reading" && (!r.preMain || !r.preMain.reading || !Number.isInteger(r.preMain.reading.index) ||
+        r.preMain.reading.index < -1 || r.preMain.reading.index >= READ_SENTENCES.length ||
+        !Number.isFinite(r.preMain.reading.elapsedMs) || r.preMain.reading.elapsedMs < 0 ||
+        !b.device.readingBaseline || !Array.isArray(b.device.readingBaseline.trials) ||
+        b.device.readingBaseline.trials.length !== Math.max(0, r.preMain.reading.index))) return false;
+    if (r.stage === "dragTutorial" && (!r.preMain || !r.preMain.drag)) return false;
     const gap = Date.now() - Date.parse(b.interruptedAt);
     return gap >= 0 && gap <= RESUME_WINDOW_MS;
   }
   function resumeAtSurvey(b) { return normalizedResume(b).stage === "postq"; }
   function showResume(b) {
     const r = normalizedResume(b);
-    const where = r.stage === "postq" ? "最後のアンケート" : (r.stage === "rating" ? "回答のふりかえり" : (r.phase === "instructed" || r.stage === "instructedIntro" ? "追加の問題" : "本番"));
-    const progress = r.stage === "postq" ? "" : r.phase === "instructed" || r.stage === "instructedIntro"
+    const where = !r.mainStarted ? ({ entry: "開始前の準備", consent: "説明・同意の確認", reading: "文章を読む練習", dragTutorial: "操作の説明", practiceComplete: "練習を終えたところ", rating: "練習の振り返り" }[r.stage] || "練習")
+      : r.stage === "postq" ? "最後のアンケート" : (r.stage === "rating" ? "回答のふりかえり" : (r.phase === "instructed" || r.stage === "instructedIntro" ? "追加の問題" : "本番"));
+    const progress = !r.mainStarted || r.stage === "postq" ? "" : r.phase === "instructed" || r.stage === "instructedIntro"
       ? `（${r.instrIndex || 0} / ${INSTR_N} 問まで）` : `（${r.trialIndex} / ${r.totalMain} 問まで）`;
+    $("resume").querySelector("h1").textContent = "前回の続きから再開できます";
+    $("resumeGo").hidden = false; $("resumeGo").style.removeProperty("display");
     $("resumeInfo").textContent = `前回は${where}の途中でした${progress}。保存された回答を引き継ぎます。`;
     $("resumeHow").textContent = `「続きから再開する」を押すと、${MIC.mode !== "off" && r.stage !== "postq" ? "マイクの確認のあと、" : ""}中断したところから続きます。`;
     show("resume");
     $("resume").querySelector(".pad").scrollTop = 0;
+  }
+  function showRecoveryUnavailable(b) {
+    resumeOffered = true;
+    $("resume").querySelector("h1").textContent = "前回の参加データが残っています";
+    $("resumeInfo").textContent = b.resume && b.resume.search !== location.search
+      ? "前回とは異なるリンクで開かれています。参加時に使ったリンクを、同じ端末・ブラウザで開いてください。"
+      : "続きから再開できる時間が過ぎたか、保存された進行状況を確認できませんでした。";
+    $("resumeHow").textContent = "前回のデータは削除されていません。この画面から最初からやり直すことはできません。研究者へご連絡ください。";
+    $("resumeGo").hidden = true; $("resumeGo").style.display = "none"; $("resumeGo").onclick = null;
+    show("resume");
   }
   async function doResume(b) {
     // device を復元 (事前アンケート・読速・練習サマリ・評定チュートリアル・休憩ログ・ブロック順)。端末情報は同一端末・
@@ -3723,10 +3813,14 @@
     Object.assign(device, b.device);
     if (device.consent) consentTiming = PilotConsent.timeline(device.consentTiming);
     device.config = CONFIG;
+    // 開始後は入力フォームを再提示しない。旧版の入口でcaptureIntroが呼ばれる場合にも値を保つ。
+    $("pid").value = device.participantId || ""; $("age").value = device.age == null ? "" : device.age;
+    $("devModel").value = device.deviceModel || "";
     device.exportedAt = null;
     device.resumes = Array.isArray(device.resumes) ? device.resumes : [];
     records.length = 0;
     for (const t of b.trials) records.push(t);
+    restoreInvalidAttempts(b);
     SEQ.length = 0; for (const id of r.seq) SEQ.push(id);   // combo のランダム順は前回のものを引き継ぐ
     seqIndex = r.seqIndex;
     loadBlock(r.block);
@@ -3737,18 +3831,32 @@
     pendingInstructedStart = !!r.pendingInstructedStart; pendingMainStart = !!r.pendingMainStart;
     pendingNotice = r.pendingNotice || null; stopNoticeShown = r.stopNoticeShown || false;
     noticeKind = r.noticeKind || null; aborts = r.aborts || 0; resumeStage = r.stage;
-    device.resumes.push({ at: new Date().toISOString(), afterTrial: trialIndex, phase, stage: r.stage, gapMs });
-    mainStartedAt = performance.now() - (r.mainElapsedMs || 0);   // 中断中の時間は本番時間 (maxmin / mainMs) に含めない
+    if (r.stage === "task" && r.activeAttempt) {
+      // 再読込前のチェックポイントに残った部分軌跡。終了時刻や未取得の点は推定しない。
+      invalidAttempts.push(invalidAttempt(r.activeAttempt, "reload_interrupted", null));
+      aborts++;
+    }
+    const resumeLog = r.mainStarted ? device.resumes : (device.preMainResumes = Array.isArray(device.preMainResumes) ? device.preMainResumes : []);
+    resumeLog.push({ at: new Date().toISOString(), afterTrial: trialIndex, phase, stage: r.stage, gapMs });
+    mainStartedAt = r.mainStarted ? performance.now() - (r.mainElapsedMs || 0) : null;   // 本番前の再開は本番時計を開始しない
     mainElapsedAtEnd = r.mainElapsedAtEnd == null ? null : r.mainElapsedAtEnd;
     trialShownAt = null; lastTrialMs = null;
-    ratingTutorialDone = true; tutIdx = -1; tutChanged = !!r.tutChanged;
-    dragTutState.done = true;
-    resumePending = true;
+    const pre = r.preMain || {};
+    ratingTutorialDone = r.mainStarted || !!pre.ratingDone || !!(device.ratingTutorial && device.ratingTutorial.completed);
+    tutIdx = -1; tutChanged = !!r.tutChanged;
+    dragTutState.done = r.mainStarted || !!pre.dragDone || (!r.preMain && (b.trials.length > 0 || ["task", "rating"].includes(r.stage)));
+    streak = pre.streak || 0;
+    resumePending = !!r.mainStarted;
     uiLocked = false; recording = false; activePointerId = null;
     requestWakeLock();   // ユーザー操作 (再開ボタン) 起点
     const go = () => {
       sizeCanvas();
-      if (r.stage === "postq") { resumePending = false; showPostQuestions(r.post); }
+      if (r.stage === "reading") showReading(pre.reading);
+      else if (r.stage === "dragTutorial") DragTut.run(startPractice, { restored: pre.drag });
+      else if (r.stage === "practiceComplete") endPractice();
+      else if (r.stage === "practiceNext") { practiceDone() ? endPractice() : nextTrial(); }
+      else if (r.stage === "entry" || r.stage === "consent") enterSession();
+      else if (r.stage === "postq") { resumePending = false; showPostQuestions(r.post); }
       else if (r.stage === "rating") {
         trial = records[r.trialRecordIndex];
         trial.ratingResumes = (trial.ratingResumes || 0) + 1;
@@ -3760,12 +3868,15 @@
       else if (r.stage === "blockintro") showBlockIntro();
       else nextTrial();
     };
+    // 電子同意のローカル記録だけでは受領済み扱いにしない。保存成功確認前は測定を再開しない。
+    if (!r.mainStarted && requiresConsent() && !device.consentReceivedAt) { showConsent(); return; }
     if (r.stage === "postq") { go(); return; }
     if (MIC.mode !== "off") showMicGate("precheck", go); else go();   // マイクは再取得+環境音チェックをやり直してから続きへ
   }
   function salvageBackup(b) {   // kiosk: 前の参加者の途中データ (再読込等で finishSession を通らなかった分) を未送信キューへ退避
     try {
-      const p = { device: b.device, trials: b.trials, interruptedAt: b.interruptedAt };
+      const p = { device: b.device, trials: b.trials, invalidAttempts: b.invalidAttempts || [], interruptedAt: b.interruptedAt };
+      if (b.resume && b.resume.activeAttempt) p.invalidAttempts = [...p.invalidAttempts, invalidAttempt(b.resume.activeAttempt, "reload_interrupted", null)];
       p.device.partial = true;
       p.device.endedBy = p.device.endedBy || "reload";
       p.device.endedPhase = p.device.endedPhase || "main";
@@ -3884,7 +3995,7 @@
       .then((j) => {
         if (!j || !j.ok) { const err = new Error((j && j.error) || "server error"); err.retryable = !j || j.retryable !== false; err.code = j && j.code; throw err; }
         if (j.sessionId && j.sessionId !== payload.device.sessionId) throw new Error("receipt session mismatch");
-        if (payload.kind === "consent" && (j.protocol !== 2 || j.sessionId !== payload.device.sessionId || !["consented", "tasks_received", "completed", "partial"].includes(j.state))) throw new Error("consent receipt unavailable; update collector");
+        if (payload.kind === "consent" && (j.protocol !== payload.protocol || j.sessionId !== payload.device.sessionId || !["consented", "tasks_received", "completed", "partial"].includes(j.state))) throw new Error("consent receipt unavailable; update collector");
         return j;
       })
       .finally(() => { if (timer) clearTimeout(timer); });
@@ -4010,7 +4121,7 @@
     if (typing()) { $("rotateGuard").classList.remove("show"); return; }
     const landscape = (screen.width && screen.height) ? screen.width > screen.height : window.innerWidth > window.innerHeight;
     $("rotateGuard").classList.toggle("show", landscape);
-    if (landscape && recording) { recording = false; activePointerId = null; retryTrial("画面が回転しました"); }
+    if (landscape && recording) { recording = false; activePointerId = null; retryTrial("画面が回転しました", null, "orientation_changed"); }
   }
   window.addEventListener("resize", checkOrientation);
   window.addEventListener("orientationchange", checkOrientation);
@@ -4070,8 +4181,8 @@
 
   // ===== 中断データの扱い (起動時に前回チェックポイントがあれば) =====
   //   kiosk (対面・共用端末): 途中データ (partial でないもの=再読込で途切れた分) を未送信キューへ退避し、次の人は最初から
-  //   クラウド配布: 3 時間以内・同じ URL の本番途中データなら「続きから再開」を提示 (§6-6 項17)
-  //   それ以外 (別構成・3時間超・本番完了後の未回収分): 従来の手動保存/破棄 UI を intro に出す
+  //   クラウド配布: 入力完了以降、3時間以内・同じURLなら「続きから再開」。完了済みなら完了画面へ。
+  //   別構成・3時間超等: オンラインは保存を残して終了案内。対面の研究者用回収/破棄は維持する。
   async function initRecovery() {
     if (GO) { storeReady = true; recoveryBooted = true; return; }
     try {
@@ -4115,7 +4226,7 @@
         if (!await lockRecoveryEntry()) return await initRecovery();
         if (device.sessionId !== entry.id) await sessionStore.unlock(device.sessionId, tabOwner);
         Object.assign(device, backup ? backup.device : entry.receipt);
-        records.length = 0; if (backup) records.push(...backup.trials);
+        records.length = 0; if (backup) { records.push(...backup.trials); restoreInvalidAttempts(backup); }
         sessionFinished = true; finishedPayload = backup || null;
         if (entry.state === "blocked") {
           showCompletion(true); sendUiEnd(false);
@@ -4124,41 +4235,23 @@
         } else showCompletion(entry.state === "sent");
         return;
       }
-      if (backup && !KIOSK && entry.state === "active" && entry.search === location.search && backup.device.consent &&
-          !backup.device.exportedAt && backup.resume && !backup.resume.mainStarted &&
-          Date.now() - Date.parse(backup.interruptedAt) >= 0 && Date.now() - Date.parse(backup.interruptedAt) <= RESUME_WINDOW_MS) {
-        if (!await lockRecoveryEntry()) return await initRecovery();
-        if (device.sessionId !== entry.id) await sessionStore.unlock(device.sessionId, tabOwner);
-        Object.assign(device, backup.device); device.config = CONFIG;
-        records.length = 0; for (const r of backup.trials) records.push(r);
-        $("pid").value = device.consent.name; $("age").value = device.age == null ? "" : device.age;
-        $("devModel").value = device.deviceModel || "";
-        consentTiming = PilotConsent.timeline(device.consentTiming);
-        resumeOffered = true; showConsent();
-        return;
-      }
       if (backup && KIOSK && entry.search === location.search && backup.device.kiosk && entry.state === "active" && !backup.device.partial) {
         if (!await lockRecoveryEntry()) return await initRecovery();
         if (!salvageBackup(backup)) return;
         await sessionStore.unlock(entry.id, tabOwner);
-      } else if (backup && !KIOSK && canResume(backup)) {
+      } else if (backup && !KIOSK && entry.state === "active" && canResume(backup)) {
       resumeOffered = true;
       showResume(backup);
       $("resumeGo").onclick = () => doResume(backup);
-      $("resumeRestart").onclick = async () => {
-        if (!await sessionStore.lock(entry.id, tabOwner)) { storageProblem(new Error("SESSION_BUSY")); return; }
-        if (!clearBackup(entry.id)) return;
-        await sessionStore.flush();
-        await sessionStore.unlock(entry.id, tabOwner);
-        recoveryId = null; wcIdx = 0; wcRender(); show("welcome");
-      };
     } else if (backup) {
+      if (!KIOSK && !STOP_ON) { showRecoveryUnavailable(backup); return; }
       $("recovery").classList.add("show");
       $("recoverDl").onclick = () => {
         const pid = ((backup.device && backup.device.participantId) || "anon").replace(/[^\w-]/g, "");
         download(`pilot_${pid}_interrupted.json`, JSON.stringify(backup), "application/json");
       };
       $("recoverDrop").onclick = async () => {
+        if (!KIOSK && !STOP_ON) return;
         if (!await sessionStore.lock(entry.id, tabOwner)) { storageProblem(new Error("SESSION_BUSY")); return; }
         if (!clearBackup(entry.id)) return;
         await sessionStore.flush();
@@ -4175,7 +4268,7 @@
   // ===== 電子同意: 氏名確認後、測定開始前に保存する =====
   function requiresConsent() { return !KIOSK && !GO && REAL_BLOCKS.includes("moral") && (!debugMode || QS.get("consent") === "1"); }
   function consentPayload() {
-    return { kind: "consent", device: { sessionId: device.sessionId, participantId: device.consent.name,
+    return { kind: "consent", protocol: 3, device: { sessionId: device.sessionId, participantId: device.consent.name,
       study: device.study, cohort: device.cohort, block: device.block, appVersion: device.appVersion, consent: device.consent }, trials: [] };
   }
   function consentScrollCheck() {
@@ -4202,6 +4295,7 @@
     $("consentGo").textContent = device.consent ? "保存を確認して実験に進む" : "同意して実験に進む";
     $("consentStatus").textContent = device.consent ? "同意日時：" + new Date(device.consent.consentedAt).toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" }) : "枠の中を最後までスクロールしてお読みください。";
     resumeStage = "consent";
+    saveBackup();
     show("consent"); $("consentDocument").scrollTop = 0;
     requestAnimationFrame(consentScrollCheck);
   }
@@ -4466,9 +4560,16 @@
 
   // 開始前に環境音チェックを挟む (マイク必須。?mic=0 のみ素通し。§6-6 項10)。通過後は enterSession
   // (読速ベースライン → 練習。§6-6 項13) へ
-  $("goPractice").addEventListener("click", () => {
+  $("goPractice").addEventListener("click", async () => {
     if ((!storeReady || !recoveryBooted) && !GO) return;
-    if (requiresConsent()) { captureIntro(); showConsent(); return; }
+    captureIntro();
+    device.introCompletedAt = device.introCompletedAt || new Date().toISOString();
+    resumeStage = "entry";
+    if (!GO) {
+      if (!saveBackup()) return;
+      try { await sessionStore.flush(); } catch (err) { storageProblem(err); return; }
+    }
+    if (requiresConsent()) { showConsent(); return; }
     if (MIC.mode !== "off" && !MIC.acquired) { showMicGate("precheck"); return; }
     enterSession();
   }, { passive: true });
@@ -4677,7 +4778,7 @@
     if (!pending && (!["main", "instructed"].includes(phase) || device.exportedAt)) return;
     e.preventDefault(); e.returnValue = "";
   });
-  document.addEventListener("visibilitychange", () => { if (document.hidden && !discarding && mainStartedAt != null && !sessionFinished) saveBackup(); });
+  document.addEventListener("visibilitychange", () => { if (document.hidden && !discarding && (mainStartedAt != null || device.introCompletedAt || device.consent) && !sessionFinished) saveBackup(); });
   window.addEventListener("pagehide", () => {
     if (storeReady && !discarding) saveBackup();
     try { suspendedRevision = sessionStore.read(device.sessionId)?.revision || null; } catch (_) {}

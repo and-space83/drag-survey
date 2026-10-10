@@ -12,8 +12,11 @@
     const key = id + ":" + stage;
     if (!wire.has(key)) wire.set(key, await encode(payload));
     const encoded = wire.get(key), result = await send(payload, encoded);
-    const expected = stage === "tasks" ? result.tasksDigest : result.finalDigest;
-    if (result.protocol !== 2 || result.sessionId !== id || expected !== encoded.digest ||
+    const expected = result && (stage === "tasks" ? result.tasksDigest : result.finalDigest);
+    if (!result || result.protocol == null || !result.sessionId || !result.state || typeof expected !== "string") {
+      const error = new Error("collector did not return a complete save receipt"); error.code = "incomplete_receipt"; error.retryable = true; throw error;
+    }
+    if (result.protocol !== payload.protocol || result.sessionId !== id || expected !== encoded.digest ||
         !(stage === "tasks" ? ["tasks_received", "completed", "partial"] : ["completed", "partial"]).includes(result.state)) {
       const error = new Error("collector receipt does not match the saved stage"); error.code = "receipt_mismatch"; error.retryable = false; throw error;
     }
@@ -36,7 +39,7 @@
       entry = store.read(id);
       if (entry.state !== "queued") { notify(id, "waiting_for_survey"); return; }
       if (!entry.delivery.finalRequest) {
-        const payload = { kind: "finalize", protocol: 2, device: entry.payload.device, trials: [], tasksDigest: entry.delivery.tasksReceipt.tasksDigest };
+        const payload = { kind: "finalize", protocol: entry.delivery.tasks.protocol, device: entry.payload.device, trials: [], tasksDigest: entry.delivery.tasksReceipt.tasksDigest };
         store.stage(id, d => ({ ...d, finalRequest: payload })); await store.flush();
       }
       entry = store.read(id); notify(id, "finalize");
