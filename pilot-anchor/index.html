@@ -58,7 +58,7 @@
              ratingTutorial: {changed, completed, pages},   // 振り返りの説明 (2026-09-12 後刻から 3 ページ = 導入・迷い・自信。2026-09-08〜 は 2)
              startMode('press'|'dynamic'),   // 開始手続き: 'press' = 場面文先出し・押下で選択肢・初動締切 3 秒 (2026-09-26〜) / 'dynamic' = 枠から出たら選択肢 (2026-09-09〜25) / 無し = 静的 (それ以前)
              instructed: {n, itemIds, text},   // 教示誘導ブロックの構成 (クラウド配布のみ。kiosk/stop では null)
-             stopNotices: [{afterTrial, kind('early'|'late'|'stop'), ms}]},   // 案内画面の表示記録 (stop は 2026-09-25 まで) (何問目の後に・種類・滞在 ms。§6-6 項19)
+             stopNotices: [{afterTrial, kind('early'|'late'|'early_late'|'stop'), ms}]},   // 案内画面の表示記録 (stop は 2026-09-25 まで) (何問目の後に・種類・滞在 ms。§6-6 項19)
                                                // チュートリアルの各説明ページの滞在時間と「もう一度」「↻ 説明」の回数 (2026-09-07。対面での教示の評価用)
     invalidAttempts: [ { /* trialsと同じ刺激・座標・時刻＋status:'invalid', invalidReason,
                            trialOrdinal, attemptNumber, timeOrigin, attemptEndT, lastEventT。
@@ -90,7 +90,7 @@
       revealT(選択肢の出現 = 押下時刻), revealXY(押下時の指位置。surface 相対 CSS px),
       initiationT(枠から出た時刻 = 動き出し), rt_ms(出現〜動き出し = 反応時間。rt_proxy_ms は同値の旧名), lateStart(true = rt_ms > 3000。評定送信後に案内。品質共変量),
       stopsAfterInit:{n, ms, maxMs}(動き出した後の停止 = 6px 以内に 500ms 以上とどまった区間), stopFlag(maxMs>=3000。記録のみ・案内はしない = 感度分析用),
-      stopNotice('early'|'late'|false = この試行の直前に見た案内の種類。案内は評定送信後・次の場面文を出す前の独立画面 = 次問の読解時間に混ぜない),
+      stopNotice('early'|'late'|'early_late'|false = この試行の直前に見た案内の種類。案内は評定送信後・次の場面文を出す前の独立画面 = 次問の読解時間に混ぜない),
       stemChars, earlyStart(true=問題文表示〜スタート押下が文字数÷25字/秒より短い。読了の有無を直接測らない品質共変量),
       responseT, mt_proxy_ms(動き出し〜離す), total_ms(押下〜離す),
       dispHz, nDispatched, nCoalesced, aborts,
@@ -290,7 +290,7 @@
 <!-- ===== TASK ===== -->
 <section id="task" class="screen">
   <div id="topbar"><span id="phaseLabel">練習</span><span id="counter">0 / 0</span><span id="calDb" style="display:none"></span><span id="hud" style="display:none"></span>
-    <button type="button" id="tutAgain" class="hidden">↻ 操作の説明</button></div>
+    <button type="button" id="tutAgain" class="hidden">↻ 操作方法</button></div>
   <!-- 本番の進捗バー (2026-09-15): 「本番 n / N」の下。済んだ分を「次へ」と同じ緑で。練習・例の 1 問では出さない -->
   <div id="progress"><div id="progressFill"></div></div>
   <div id="surface">
@@ -329,9 +329,9 @@
   <div class="pad">
     <h1>お願い</h1>
     <p id="noticeText"></p>
-    <button type="button" class="btn ghost" id="noticeTut" style="margin:6px auto 14px;display:block">操作の説明を見る</button>
+    <button type="button" class="btn ghost" id="noticeTut" style="margin:6px auto 14px;display:block">操作方法を見る</button>
     <div class="vgap"></div>
-    <button class="btn primary advance" id="noticeGo">次へ</button>
+    <button class="btn primary advance" id="noticeGo">問題に戻る</button>
   </div>
 </section>
 
@@ -1017,19 +1017,33 @@
   const LATE_START_MS = 3000;   // 初動の締切: 出現 (押下) から動き出しまでがこれを超えたら「遅い初動」= 評定送信後に案内 (暫定 3 秒。本実験配布時に固定)
   const STOP_NOTICE_MAX = 5;   // 案内は種類ごとに1セッション5回まで。6回目以降も試行の記録は残す
   // 早出し: 問題文表示〜スタート押下が「文字数 ÷ EARLY_CPS」より短い試行。読了の有無は断定しない (品質共変量。除外基準ではない)。
-  // 案内は1画面に1つ。両方の時間条件を満たした場合は早出しの案内を優先する。
+  // 両方の時間条件を満たした場合は1画面にまとめる。種類ごとの上限は独立に適用する。
   const EARLY_CPS = 25;
   const READGATE_ON = QS.get("readgate") !== "0";   // 練習の読了ゲート (2026-09-13)。validate/開発用に無効化可
   const EARLY_NOTICE_TEXT = "前の問題では、問題文の表示から短い時間でスタートに指が置かれました。問題文を最後まで読んでから、スタートに指を置いてください。";
   const MAIN_MOVEMENT_HTML = "スタートに指を置いて選択肢を確認したら、迷っていても<b>指を離さずに運び始めてください。</b><br>ゆっくりでよいので、<b>動かしながら選ぶほうを決めてください。</b>";
   const LATE_NOTICE_TEXT = "前の問題では、スタートに指を置いてから3秒以上、スタートの枠の外へ動き出していませんでした。" + MAIN_MOVEMENT_HTML.replace(/<[^>]*>/g, "");
   const NOTICE_MAX = { early: 5, late: 5 };   // 案内の上限 (種類ごと・1セッション)。2026-10-09採用: 遅い初動も5回まで
-  const NOTICE_TUT_STEP = { early: 3, late: 7 };   // 案内画面の「操作の説明を見る」で開くステップ (画面の説明 3/4 = 読み終えてからスタート / 操作の練習 3/3 = 選択肢を見たら運ぶ)
+  const NOTICE_TUT_STEP = { early: 3, late: 7, early_late: 3 };   // 案内画面の「操作方法を見る」で開くステップ (画面の見方 3/4 = 読み終えてからスタート / 操作の練習 3/3 = 選択肢を見たら運ぶ)
   const STOP_NOTICE_TEXT = LATE_NOTICE_TEXT;   // 旧名 (validate.js の互換用)
   const NOTICE_TEXTS = { early: EARLY_NOTICE_TEXT, late: LATE_NOTICE_TEXT };
   // 表示用 (伝えたい行動を太字に。textContent は上の平文と一致)
   const NOTICE_HTML = { early: "前の問題では、<b class=\"why\">問題文の表示から短い時間で</b>スタートに指が置かれました。<br><b>問題文を最後まで読んでから、スタートに指を置いてください。</b>",
                         late: "前の問題では、スタートに指を置いてから<b class=\"why\">3秒以上、スタートの枠の外へ動き出していませんでした</b>。<br>" + MAIN_MOVEMENT_HTML };
+  NOTICE_HTML.early_late = "前の問題では、次の2点が見られました。<br><br>" +
+    "<b class='why'>問題文の表示から短い時間でスタートに指が置かれました。</b><br>問題文を最後まで読んでから、スタートに指を置いてください。<br><br>" +
+    "<b class='why'>指を置いてから3秒以上、スタートの枠の外へ動き出していませんでした。</b><br>選択肢を確認したら、指を離さずに運び始めてください。ゆっくりでよいので、動かしながら選ぶほうを決めてください。";
+  NOTICE_TEXTS.early_late = NOTICE_HTML.early_late.replace(/<[^>]*>/g, "");
+  const noticeKinds = (kind) => kind === "early_late" ? ["early", "late"] : kind === "early" || kind === "late" ? [kind] : [];
+  function eligibleNotice(kind) {
+    const eligible = noticeKinds(kind).filter((k) => {
+      const shown = device.stopNotices.filter((n) => noticeKinds(n.kind).includes(k)).length;
+      if (shown < NOTICE_MAX[k]) return true;
+      device.stopNoticesSuppressed++; // 上限に達して非表示にした理由の数（両方なら2）。
+      return false;
+    });
+    return eligible.length === 2 ? "early_late" : eligible[0] || null;
+  }
   let pendingNotice = null, stopNoticeShown = false, stemShownT = 0;
   let seqIndex = 0;
   let pendingMainStart = false;   // 練習クリア画面 (blockintro 流用) から「続ける」で本番へ (2026-07-15 自己ペース化)
@@ -1242,9 +1256,9 @@
     startMode: "press",       // 開始手続き (§6-6 項19): 'press' = 場面文先出し・押下で選択肢・初動締切 3 秒 (2026-09-26)。'dynamic' = 枠から出たら出現 (2026-09-09〜25)。無し = 静的 (それ以前)
     instructed: null,         // 教示誘導ブロック {n, itemIds, text} (careless GT 候補 A。§6-6 項19)
     stopNotices: [],          // 停止の案内画面の表示記録 {afterTrial, kind, ms} (§6-6 項19)
-    stopNoticesSuppressed: 0, // 上限（種類ごと5回）で出さなかった案内の数
+    stopNoticesSuppressed: 0, // 上限（種類ごと5回）で非表示にした理由数。両方の抑止なら2
     pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
-    appVersion: "2026-10-11c",   // 同意保存中の専用待機画面。無効軌跡・同意＋A/B別保存は維持
+    appVersion: "2026-10-11-ui2",   // 操作方法の見直しと注意の独立上限・同時表示
     welcomeAgree: null,       // はじめに 5/6・6/6 の同意チェック {items, pages, ms}
     devGuard: null,           // 機種ガード {on,minH,w,h,shown,isIPhone,isIPad,ipadLink,platformOk,sizeOk}
     exportedAt: null,
@@ -1824,7 +1838,7 @@
     const r = stopReturn; stopReturn = null;
     const pause = { screen: r.screen, durationMs: +(performance.now() - r.at).toFixed(0) };
     device.stopPauses.push(pause);
-    if (r.screen === "task" && dragTutState.active) { show("task"); return; }   // 画面の説明・操作の練習の途中: 説明をそのまま再表示 (2026-09-12。旧: presentStimulus で説明が壊れて戻れなかった)
+    if (r.screen === "task" && dragTutState.active) { show("task"); return; }   // 画面の見方・操作の練習の途中: 説明をそのまま再表示 (2026-09-12。旧: presentStimulus で説明が壊れて戻れなかった)
     if (r.screen === "task") { presentStimulus(); return; }   // 同じ試行を出し直す (RT に確認画面の滞在を混ぜない)
     if (r.screen === "rating" && trial) trial.stopPause = pause;   // 評定時間は汚染するので該当試行に印を残す
     show(r.screen);
@@ -1945,6 +1959,7 @@
   // 停止の案内画面 (§6-6 項19): 表示〜「次へ」の滞在を device.stopNotices に記録し、直後の試行に stopNotice=true を付ける
   let noticeShownAt = null, noticeKind = null;
   function showStopNotice(kind) {
+    $("notice").dataset.kind = kind;
     noticeKind = kind; $("noticeText").innerHTML = NOTICE_HTML[kind] || NOTICE_HTML.late;   // 文言は内部定数のみ
     noticeShownAt = performance.now();
     show("notice");
@@ -1956,7 +1971,7 @@
     device.tutorialLog.push({ kind: "drag", event: "again", phase: "notice", reason: noticeKind });
     const k = noticeKind;
     replayResumeState = JSON.parse(JSON.stringify(resumeState()));
-    DragTut.run(() => { replayResumeState = null; show("notice"); saveBackup(); }, { replay: true, start: NOTICE_TUT_STEP[k] });
+    DragTut.run(() => { replayResumeState = null; show("notice"); saveBackup(); }, { replay: true, start: NOTICE_TUT_STEP[k], returnLabel: "注意に戻る" });
   }, { passive: true });
   $("noticeGo").addEventListener("click", () => {
     if (noticeShownAt == null) return;
@@ -1971,9 +1986,8 @@
     // 前問の停止の案内 (動的スタート): 評定送信後・次の場面文を出す前に案内だけの画面を挟む
     // (次の問題の画面に出すと案内を読む時間が次問の読解時間 preStartMs に混ざる。2026-09-09 ユーザー指摘)。教示誘導ブロックでは出さない
     if (pendingNotice && phase !== "instructed") {
-      const k = pendingNotice; pendingNotice = null;
-      if (device.stopNotices.filter((n) => n.kind === k).length >= (NOTICE_MAX[k] || STOP_NOTICE_MAX)) device.stopNoticesSuppressed++;   // 上限に達した: 出さない (記録は trial 側に残る)
-      else { showStopNotice(k); return; }
+      const k = eligibleNotice(pendingNotice); pendingNotice = null;
+      if (k) { showStopNotice(k); return; }
     }
     pendingNotice = null;
     $("taskMsg").textContent = "";
@@ -2018,8 +2032,8 @@
     startBtn.classList.remove("armed");
     startBtn.textContent = "スタート";
     $("phaseLabel").textContent = cell.isTutorial ? "" : (phase === "practice" ? "練習" : (phase === "instructed" ? "追加" : "本番"));   // 例の 1 問は段階名なし (2026-09-15 ユーザー指示。旧「おためし」)   // おためし = 例の 1 問 (2026-09-12。旧「チュートリアル」)
-    // 「↻ 操作の説明」= 分からなくなったらチュートリアルを見直せる (練習・本番・追加。注意チェックの問題では出さない)
-    // 練習だけでなく本番・追加でも「操作の説明」を見直せる (2026-09-29 ユーザー要望)。押せるのはスタートに指を置く前だけ (押下後は hidden にしないが recording 中は無視)
+    // 「↻ 操作方法」= 分からなくなったらチュートリアルを見直せる (練習・本番・追加。注意チェックの問題では出さない)
+    // 練習だけでなく本番・追加でも「操作方法」を見直せる (2026-09-29 ユーザー要望)。押せるのはスタートに指を置く前だけ (押下後は hidden にしないが recording 中は無視)
     $("tutAgain").classList.toggle("hidden", !((phase === "practice" || phase === "main" || phase === "instructed") && dragTutState.done && DRAG_TUT_ON && !cell.isCheck));
     $("counter").textContent = counterText(); updateProgress();
     recording = false;
@@ -2255,7 +2269,7 @@
                                  : BLOCK.decideOutcome(cell, choiceSide); // anchor: 正誤 / value/moral: 規範整合 (拮抗は null)
 
     stampMonitors(trial);   // 環境音要約 (評定ONの試行は submitRating で評定込み窓に上書き)
-    pendingNotice = trial.earlyStart ? "early" : (trial.lateStart ? "late" : null);   // 案内 (評定の後・次の場面文の前の独立画面。§6-6 項19)。動き出した後の停止は案内しない (2026-09-26)
+    pendingNotice = trial.earlyStart && trial.lateStart ? "early_late" : trial.earlyStart ? "early" : trial.lateStart ? "late" : null;   // 案内 (評定の後・次の場面文の前の独立画面。§6-6 項19)。動き出した後の停止は案内しない (2026-09-26)
     if (phase === "practice") {
       records.push(trial);
       showPracticeFeedback();
@@ -2741,16 +2755,16 @@
     const rnd = (a, b) => a + Math.random() * (b - a);
     const PAD = 10;
     const STEPS = [
-      // 二部構成 (2026-09-09): part 'screen' = 画面の説明 (触らない・読むだけ) / part 'hands' = 操作の練習 (実際に指で運ぶ)。見出し・点は部ごと
-      // 三部構成 (2026-09-12 夜): 「はじめに」(やることを文字で 1 枚) → 「画面の説明 1–4」(導入・問題文・スタート・選択肢 = 実際の流れの順) → 「操作の練習 1–3」
+      // 二部構成 (2026-09-09): part 'screen' = 画面の見方 (触らない・読むだけ) / part 'hands' = 操作の練習 (実際に指で運ぶ)。見出し・点は部ごと
+      // 三部構成 (2026-09-12 夜): 「はじめに」(やることを文字で 1 枚) → 「画面の見方 1–4」(導入・問題文・スタート・選択肢 = 実際の流れの順) → 「操作の練習 1–3」
       { part: "about",  focus: "orient",   act: "next", sample: true, reveal: 0, op: "読んだら「次へ」", txt: "これから<b>問題文</b>を読んで、<b>2つの選択肢</b>から あなたの考えに近いほうを選んでもらいます。<br>問題文を読んだら<b>スタート</b>に指を置きます。すると選択肢が出るので、<b>指を離さずに</b>選ぶほうのボックスまで運びます。この操作をくり返します。<br>読んだら、画面の下の緑の<b>「次へ」</b>ボタンで進みます。" },
-      { part: "screen", focus: "orient",   act: "next", sample: true, reveal: 0, op: "読んだら「次へ」", txt: "まず<b>画面の説明</b>です。<br>ここでは<b>画面の操作はせず</b>、読むだけです。<br>実際の流れの順に、<b>問題文 → スタートボタン → 選択肢</b>と説明していきます。" },
+      { part: "screen", focus: "orient",   act: "next", sample: true, reveal: 0, op: "読んだら「次へ」", txt: "まず<b>画面の見方</b>です。<br>ここでは<b>画面の操作はせず</b>、読むだけです。<br>実際の流れの順に、<b>問題文 → スタートボタン → 選択肢</b>と説明していきます。" },
       // 2/4: まず問題文の位置に説明だけを置いて読ませ、その後 BOX が下へスライドして問題文が現れる
       { part: "screen", focus: "stem",     act: "next", sample: true, reveal: 1, revealDelay: 1000, op: "読んだら「次へ」", txt: "まず、画面の<b>上</b>に出る<b>問題文</b>を読みます。" },   // 遅延 1.8 → 1.0 秒 (2026-09-14: 実機で待ちが長い)
       // 3/4:スタート。問題文と選択肢 (枠だけ・中身なし) は薄くしてスタートに目を向ける。選択肢が出る話は 4/4 にまとめる (2026-09-14: 重複を解消)
       { part: "screen", focus: "start",    act: "next", reveal: 2, blank: true, dimStem: true, dimChoices: true, op: "読んだら「次へ」", txt: "画面の<b>下</b>に<b>スタート</b>ボタンがあります。<br>問題文を<b>読み終えてから</b>、このスタートに指を置きます。<br>指を置くと、選択肢の内容が表示されます。" },
-      // 4/4: 選択肢。枠だけ見せて中身は出さない (本番もスタートに指を置くまで中身は出ない。2026-09-26: 押下で出現)。問題文とスタートは薄く。簡潔に (3 秒の予告は操作の練習 3/3 へ。2026-09-13)
-      { part: "screen", focus: "choices2", act: "next", reveal: 2, blank: true, dimStem: true, dimStart: true, op: "読んだら「次へ」", txt: "ここに<b>2つの選択肢</b>が出ます。<br>選択肢を見たら、選ぶほうへ<b>指を離さずに運び</b>、ボックスの中で指を離します。" },
+      // 4/4: 選択肢の表示例を見せる。実課題での押下まで非表示という規則は維持。
+      { part: "screen", focus: "choices2", act: "next", reveal: 2, labelsVisible: true, dimStem: true, dimStart: true, op: "読んだら「次へ」", txt: "ここに<b>2つの選択肢</b>が出ます。<br>選択肢を見たら、選ぶほうへ<b>指を離さずに運び</b>、ボックスの中で指を離します。" },
       // ---- ここから操作の練習 (触る段階であることを見出しと切り替え画面で明示。2026-09-09 対面 1 日目「説明中に押してしまう」への対応) ----
       { part: "hands",  focus: "orient",   act: "next", sample: true, reveal: 0, op: "読んだら「次へ」", txt: "ここからは、<b>実際に指で操作</b>します。<br>次の画面でスタートに指を置いて、離さずに運んでみましょう。" },
       // 2/3・3/3 はハンズオン: 実演を見せたあと自分で運んでもらい、成功したら進めるようにする
@@ -2776,7 +2790,7 @@
       document.body.appendChild(pop);
       const close = document.createElement("button");
       close.id = "tutClose"; close.type = "button"; close.className = "hidden";
-      close.textContent = "× 閉じる"; close.setAttribute("aria-label", "操作の説明を閉じる");
+      close.textContent = "× 閉じる"; close.setAttribute("aria-label", "操作方法を閉じる");
       document.body.appendChild(close);
       btnRow = document.createElement("div"); btnRow.id = "tutBtnRow"; btnRow.className = "tut-btnrow hidden";
       btnRow.innerHTML = '<button class="rp hidden" id="tutReplay">↻ もう一度</button><button type="button" class="pv hidden" id="tutPrev">← 前へ</button><button class="nx" id="tutPopNext">次へ</button>';
@@ -2848,6 +2862,7 @@
     async function playSandbox(my) {   // ② 別ステージ・変化大
       ctx();
       startHands("sandbox");                  // 動きを減らす設定でも、操作自体は受け付ける
+      if (handsDone) { clr(); drawSbx(sbxT()); return; }
       if (reduce()) { const T = sbxT(), s = lc(startBtn); drawSbx(T); finger(s.x, s.y, 1); ring(s.x, s.y, 20, .9); finger(T.x, T.y, .9); ring(T.x, T.y, 22, .8, "rgba(18,133,90,.9)"); setCap(""); return; }
       const s = lc(startBtn), T = sbxT();
       setCap("");
@@ -2983,14 +2998,15 @@
       logStepEnd(); stepShownIdx = idx; stepShownAt = performance.now();
       revealedNow = false;
       const inPart = steps.filter((s) => s.part === step.part), pi = inPart.indexOf(step);
-      const PART_NAME = { about: "はじめに", screen: "画面の説明", hands: "操作の練習", extra: "追加10問の操作" };
+      const PART_NAME = { about: "はじめに", screen: "画面の見方", hands: "操作の練習", extra: "追加10問の操作" };
       $("tutPopStep").textContent = step.part === "about" ? PART_NAME.about : PART_NAME[step.part] + " " + (pi + 1) + " / " + inPart.length;   // 「はじめに」は 1 枚なので番号なし
       $("tutPopTxt").innerHTML = step.txt;
-      $("tutPopOp").textContent = step.op || "";                          // 操作方法 (緑)
+      $("tutPopOp").textContent = step.hands && completedHands.has(idx)
+        ? `この操作は完了しています。「${nextLabel()}」で進めます。`
+        : step.hands && replayMode ? `操作を試すか、「${nextLabel()}」で進めます。` : step.op || "";                          // 操作方法 (緑)
       $("tutPopOp").classList.toggle("hidden", !step.op);
       $("phaseLabel").textContent = PART_NAME[step.part];   // 上部の段階名も部ごと (2026-09-12。旧「チュートリアル」)
-      const last = idx === steps.length - 1;
-      $("tutPopNext").textContent = last && steps === INSTRUCTED_STEPS ? "問題に戻る" : "次へ"; btnRow.classList.remove("hidden");
+      $("tutPopNext").textContent = nextLabel(); btnRow.classList.remove("hidden");
       if (flashTimer) { clearTimeout(flashTimer); flashTimer = null; } $("tutPopNext").classList.remove("warn");
       $("tutReplay").classList.add("hidden");
       $("tutPrev").classList.toggle("hidden", idx === 0);
@@ -3000,7 +3016,7 @@
       const delayed = !!step.revealDelay && !seen && !replayMode;
       revealedNow = !delayed;
       btnRow.classList.toggle("pending", !replayMode && ((!!step.hands && !handsDone) || delayed));
-      $("tutPopNext").classList.remove("cue");
+      $("tutPopNext").classList.toggle("cue", !!step.hands && (handsDone || replayMode));
       // 説明ページは「読み終わる頃」に「次へ」を強調 (読むのが遅い人でも押し時が分かる)。
       // revealDelay があるページは対象が現れてから読み始めるので、その分あとにずらす
       if (!step.hands) {
@@ -3025,9 +3041,9 @@
       tok++; const my = tok; ctx(); setCap(""); inkClear();
       // revealDelay: 最初は説明だけを対象の位置に置いて読ませ、n ミリ秒後に BOX が下へ動いて対象が現れる
       showSample(delayed ? 0 : (step.reveal || 0));                      // 上から順に開示 (問題文→選択肢→スタート)
-      if (step.labels) {   // 操作の練習 3/3: 「選択肢1/2」を用意し、指がスタートから出た瞬間に現す (本番と同じ出現の仕組みに慣れる。2026-09-09)
+      if (step.labels || step.labelsVisible) {   // 操作の練習 3/3: 「選択肢1/2」を用意し、指がスタートから出た瞬間に現す (本番と同じ出現の仕組みに慣れる。2026-09-09)
         numA.textContent = "選択肢1"; numB.textContent = "選択肢2";
-        numA.className = "txt"; numB.className = "txt"; numA.style.visibility = "hidden"; numB.style.visibility = "hidden";
+        numA.className = "txt"; numB.className = "txt"; numA.style.visibility = step.labelsVisible ? "visible" : "hidden"; numB.style.visibility = numA.style.visibility;
       }
       sbxRevealed = false; demoLeft = false;
       if (delayed) {
@@ -3069,13 +3085,15 @@
     }
     function startHands(mode) {   // mode: 'sandbox' (中央の例の箱) | 'real' (本番の2箱)。実演と並行して受け付ける
       handsMode = mode; handsDone = completedHands.has(idx);
-      if (!replayMode && !handsDone) btnRow.classList.add("pending"); $("tutPopNext").classList.remove("cue");
+      btnRow.classList.toggle("pending", !replayMode && !handsDone);
+      $("tutPopNext").classList.toggle("cue", handsDone || replayMode);
       setHint("");   // 開始時の案内は出さない (説明BOXの緑文字で足りる)
     }
     function endHands(ok) {
       if (!ok) return;
       handsDone = true;
       completedHands.add(idx);
+      $("tutPopOp").textContent = `この操作は完了しています。「${nextLabel()}」で進めます。`;
       if (!replayMode) saveBackup();
       spot.classList.remove("on"); spot.classList.add("hidden");   // 操作が済んだら枠線も消す (暗転と足並みを揃える)
       btnRow.classList.remove("pending"); $("tutPopNext").classList.add("cue");
@@ -3104,6 +3122,7 @@
       const lx = x - sr.left, ly = y - sr.top;
       return Math.abs(lx - T.x) <= T.bw / 2 && Math.abs(ly - T.y) <= T.bh / 2;
     }
+    function nextLabel() { return idx === steps.length - 1 && replayMode ? returnLabel : "次へ"; }
     let flashTimer = null;
     function btnFlash(text, maxUntil) {   // 「次へ」ボタン自体に短い注意を出す (押した場所・見ている場所に出る = 気づく。2026-09-12 後刻)。maxUntil: ロックが切れたら消す
       const b = $("tutPopNext"), now = performance.now();
@@ -3111,7 +3130,7 @@
       if (flashTimer) clearTimeout(flashTimer);
       let end = now + FLASH_MS; if (maxUntil) end = Math.min(end, maxUntil);
       b.textContent = text; b.classList.add("warn");
-      flashTimer = setTimeout(() => { b.textContent = "次へ"; b.classList.remove("warn"); flashTimer = null; }, Math.max(150, end - now));
+      flashTimer = setTimeout(() => { b.textContent = nextLabel(); b.classList.remove("warn"); flashTimer = null; }, Math.max(150, end - now));
     }
     function strayTap() {   // 説明ページ中にスタートや選択肢を押した人への案内 (2026-09-08: 対面で「触っても進まない」が多発)。注意はボタン自体に (2026-09-12 夜: ボックス内の赤い行は廃止、緑の操作行はそのまま)
       btnFlash("この「次へ」で進みます");
@@ -3185,10 +3204,12 @@
       if (idx < 0 && !dragTutState.active) return;
       teardown(); dragTutState.done = false; onDone = null;
     }
-    let replayMode = false;   // 2 回目の見直し (右上「↻ 操作の説明」): 最小読了時間なし・運ばなくても次へ・× 閉じる (2026-09-29)
+    let returnLabel = "問題に戻る";
+    let replayMode = false;   // 2 回目の見直し (右上「↻ 操作方法」): 最小読了時間なし・運ばなくても次へ・× 閉じる (2026-09-29)
     function run(cb, opts) {
       build(); onDone = cb; demo.style.display = ""; dragTutState.active = true;
       replayMode = !!(opts && opts.replay);
+      returnLabel = opts && opts.returnLabel || "問題に戻る";
       steps = opts && opts.instructed ? INSTRUCTED_STEPS : STEPS;
       seenSteps.clear(); completedHands.clear();
       const restored = opts && opts.restored;
@@ -3206,7 +3227,7 @@
       numA.style.visibility = "hidden"; numB.style.visibility = "hidden"; stemEl.style.visibility = "hidden";
       startBtn.classList.remove("armed"); startBtn.textContent = "スタート";
       show("task"); if (typeof sizeCanvas === "function") sizeCanvas();
-      $("phaseLabel").textContent = "画面の説明"; $("counter").textContent = "";   // 練習 0/0 を出さない (段階名は render が部ごとに更新)
+      $("phaseLabel").textContent = "画面の見方"; $("counter").textContent = "";   // 練習 0/0 を出さない (段階名は render が部ごとに更新)
       resizeBound = () => { if (idx >= 0) place(steps[idx]); };
       addEventListener("resize", resizeBound, { passive: true });
       idx = start; render();
@@ -3781,7 +3802,7 @@
   function resumeAtSurvey(b) { return normalizedResume(b).stage === "postq"; }
   function showResume(b) {
     const r = normalizedResume(b);
-    const where = !r.mainStarted ? ({ entry: "開始前の準備", consent: "説明・同意の確認", reading: "文章を読む練習", dragTutorial: "操作の説明", practiceComplete: "練習を終えたところ", rating: "練習の振り返り" }[r.stage] || "練習")
+    const where = !r.mainStarted ? ({ entry: "開始前の準備", consent: "説明・同意の確認", reading: "文章を読む練習", dragTutorial: "操作方法", practiceComplete: "練習を終えたところ", rating: "練習の振り返り" }[r.stage] || "練習")
       : r.stage === "postq" ? "最後のアンケート" : (r.stage === "rating" ? "回答のふりかえり" : (r.phase === "instructed" || r.stage === "instructedIntro" ? "追加の問題" : "本番"));
     const progress = !r.mainStarted || r.stage === "postq" ? "" : r.phase === "instructed" || r.stage === "instructedIntro"
       ? `（${r.instrIndex || 0} / ${INSTR_N} 問まで）` : `（${r.trialIndex} / ${r.totalMain} 問まで）`;
@@ -3840,6 +3861,8 @@
     trialIndex = r.trialIndex; instrIndex = r.instrIndex || 0; instructedDone = !!r.instructedDone;
     pendingInstructedStart = !!r.pendingInstructedStart; pendingMainStart = !!r.pendingMainStart;
     pendingNotice = r.pendingNotice || null; stopNoticeShown = r.stopNoticeShown || false;
+    // 旧版は両条件でもearlyだけを保存していた。未表示の注意のみ、保持済みの観測フラグから候補を復元する。
+    if (pendingNotice === "early" && ["rating", "next"].includes(r.stage) && records.at(-1)?.earlyStart && records.at(-1)?.lateStart) pendingNotice = "early_late";
     noticeKind = r.noticeKind || null; aborts = r.aborts || 0; resumeStage = r.stage;
     if (r.stage === "task" && r.activeAttempt) {
       // 再読込前のチェックポイントに残った部分軌跡。終了時刻や未取得の点は推定しない。
@@ -4359,7 +4382,7 @@
          '<li>選んだあとに「迷い」と「自信」を5段階でふりかえります。</li>' +
          '<li>分からないときは、<b>近くの係の者に声をかけてください。</b></li></ul>' },
     { h: "進め方", mic: true,
-      b: '<p>はじめに<b>操作の説明</b>と<b>練習</b>があります。</p>' +
+      b: '<p>はじめに<b>操作方法</b>と<b>練習</b>があります。</p>' +
          '<ul><li>' + (MAX_MIN != null ? '<b>時間が来たら自動で終わります。</b>' : '') + '最後まで解ききる必要はありません。</li>' +
          '<li>やめたいときは、画面右上の<b>「終了」</b>を押してください。<b>いつやめても大丈夫</b>です。</li>' +
          '<li>スマートフォンを<b>手で持って</b>操作します。</li></ul>' },
@@ -4633,7 +4656,7 @@
     const pause = { screen: "postq", from: from.screen, durationMs: +(performance.now() - from.at).toFixed(0) };
     device.stopPauses.push(pause);
     uiLocked = false;
-    if (from.screen === "tutorial") { startPractice(); return; }               // 画面の説明・操作の練習の途中で終了していた → 説明の最初から (2026-09-12)
+    if (from.screen === "tutorial") { startPractice(); return; }               // 画面の見方・操作の練習の途中で終了していた → 説明の最初から (2026-09-12)
     if (from.screen === "ratingTut" && trial) { beginRating(); return; }       // 振り返りの説明の途中 → 説明の 1 ページ目から
     if (from.screen === "task") { presentStimulus(from.resume); return; }
     if (from.screen === "rating" && trial) {
@@ -4758,6 +4781,9 @@
     };
     const jump = {
       tut: () => startPractice(),                       // 操作説明 → 例の1問 → 評定の説明 → 練習 (→ 本番へ続く)
+      task: () => { dragTutState.done = true; ratingTutorialDone = true; phase = "main";
+        queue = ATTN_ON ? insertDqs(BLOCK.buildMain()) : BLOCK.buildMain(); totalMain = queue.length; trialIndex = 0;
+        mainStartedAt = performance.now(); cell = queue.shift(); sizeCanvas(); presentStimulus(); },
       rtut: () => ratingAt(true),                       // 評定の説明 (2ページ) だけ
       rating: () => ratingAt(false),                    // 通常の評定画面
       instructed: () => {
@@ -4773,13 +4799,13 @@
         queue = ATTN_ON ? insertDqs(BLOCK.buildMain()) : BLOCK.buildMain(); totalMain = queue.length; trialIndex = CONFIG.breakEvery || 20; cell = queue.shift(); sizeCanvas(); showBreak(); },   // 本番と同じ 53 問 (DQS 込み。2026-09-27)
       micgate: () => showMicGate("precheck"),           // 環境音チェック (マイクは実物)
       notice: () => { dragTutState.done = true; ratingTutorialDone = true; phase = "main";   // 案内画面 (遅い初動)。「次へ」で本番の課題画面へ (2026-09-26)
-        queue = ATTN_ON ? insertDqs(BLOCK.buildMain()) : BLOCK.buildMain(); totalMain = queue.length; trialIndex = 3; cell = queue.shift(); sizeCanvas(); showStopNotice("late"); },
+        queue = ATTN_ON ? insertDqs(BLOCK.buildMain()) : BLOCK.buildMain(); totalMain = queue.length; trialIndex = 3; cell = queue.shift(); sizeCanvas(); showStopNotice(["early", "late", "early_late"].includes(QS.get("notice")) ? QS.get("notice") : "late"); },
       sending: () => { phase = "main"; finishSession(); sendUiStart(1); $("exportRow").style.display = "none"; $("uploadStatus").textContent = ""; },   // 送信中の画面 (見た目の確認用。送信はしない。本番と同じく保存ボタンは出さない)
     };
     if (BLOCK.stimulusType !== "text-choice" && GO !== "micgate" && GO !== "done") {
       badge.textContent += " (block=moral/value で使う)";
     } else if (jump[GO]) jump[GO]();
-    else badge.textContent += " (不明。tut / rtut / rating / instructed / post / done / break / micgate / notice / sending)";
+    else badge.textContent += " (不明。tut / task / rtut / rating / instructed / post / done / break / micgate / notice / sending)";
   }
 
   // 本番中のうっかり更新・離脱への確認ダイアログ (PC ブラウザ向け。iOS Safari は表示しないが害はない。§6-6 項17)。
@@ -4818,7 +4844,7 @@
   // タスク画面は Pointer Events のみで click 合成に依存しないため、touchend の既定動作
   // (ダブルタップ拡大 + click 合成) を丸ごと抑止できる。他画面のボタンは CSS touch-action:manipulation 側で対処。
   document.getElementById("task").addEventListener("touchend",
-    (e) => { if (e.target && e.target.closest && e.target.closest("button")) return;   // 右上「↻ 操作の説明」など課題画面内のボタンは click 合成を止めない (2026-09-29: iPhone で押せなかった)
+    (e) => { if (e.target && e.target.closest && e.target.closest("button")) return;   // 右上「↻ 操作方法」など課題画面内のボタンは click 合成を止めない (2026-09-29: iPhone で押せなかった)
       if (e.cancelable) e.preventDefault(); }, { passive: false });
 })();
 </script>

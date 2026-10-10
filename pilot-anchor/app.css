@@ -235,6 +235,7 @@
   /* 停止・早出しの案内画面 (2026-09-09): 大きめの文字、伝えたい行動は太字 */
   #noticeText { font-size: calc(20px * var(--ui-scale)); line-height: 1.7; }
   #noticeText b { color: var(--warn); }
+  #notice[data-kind="early_late"] #noticeText { font-size: calc(18px * var(--ui-scale)); line-height: 1.55; }
   .anchors { display: flex; justify-content: space-between; margin-top: 6px;
     font-size: calc(14px * var(--ui-scale)); color: var(--ink-2); }  /* 2026-07-15 高齢者配慮: 端点の意味が読める大きさ・明度に */
   .anchors span { max-width: 44%; }
