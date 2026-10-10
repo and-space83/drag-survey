@@ -14,7 +14,7 @@
   両ブロックで共有。ブロック固有 (刺激描画・設問ステム・試行メタ・評定ON/OFF・試行生成) は
   下記 BLOCKS レジストリに分離 (BLOCKS.anchor / BLOCKS.value / BLOCKS.moral / BLOCKS.attn)。
 
-  === ファイル構成 (配布 = この4ファイルをそろえて drag-survey/pilot-anchor/ へ) ===
+  === ファイル構成 (配布対象の一覧は README.md / DEPLOY.md) ===
     index.html  … マークアップ + エンジン (設定/クエリ・BLOCKS・課題・評定・チュートリアル・環境音・回収・再開)
     app.css     … スタイル (旧 <style> をそのまま分離)
     bank.js     … 刺激バンク (②value / ③moral の bank・practiceBank・読速ベースライン4文)。window.PILOT_BANK
@@ -25,6 +25,9 @@
   { device: {ua, screenW, screenH, dpr, fontPx(基準文字サイズ px), vvScale(ピンチ拡大率), pageZoom(screen.width/innerWidth)・textZoom(文字だけの拡大比)・zoomGuardShown(ガード表示回数), devGuard{on,minH,w,h,shown}(機種ガード 2026-09-26), refreshHz, exportedAt, participantId, clientId, deviceModel,
              block('anchor'|'value'|'moral'|'combo'), config,
              sessionId, appVersion,            // sessionId=開始時発行のUUID。再開/再送でも固定し、GASは同ID・同payloadを重複保存しない。旧形式移行時は安定したUUIDを付与
+             consent,                         // schemaVersion/documentVersion/title/description/statement/name/studyDate(JST)/consentedAt/method/accepted/scrolledToEnd。同意時の全文を固定
+             consentReceivedAt, endedAt,       // 同意のサーバ受領日時と端末側終了日時。サーバ原本のcollectionは受信日時・受領段階を別記
+             consentTiming,                   // byScreen/unobservedMs/elapsedMs/accountedMs/differenceMs。重ならない画面滞在と再開までの未観測時間。既存mainMs等へ加算しない
              collectionPlan: {postKeys, instructedEnabled, attentionEnabled}, // そのセッションで収集を予定した事後項目と追加/注意チェックの有効状態。旧データでは省略あり
              age, sex, handedness,            // 事前アンケート (特性。必須。性別は na=回答しない可)
              grip,                             // 事後アンケート (持ち方+操作を1問に。課題後に回顧で取得)
@@ -111,6 +114,7 @@
   受け口の実装とデプロイ手順は gas-collector.gs / DEPLOY.md を参照。
 -->
 <link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="consent.css">
 </head>
 <body>
 
@@ -200,7 +204,7 @@
     <p class="opt-note" id="introLead" style="margin:0 0 2px">すべてご記入ください。</p>
     <div class="field">
       <label for="pid">名前</label>
-      <input id="pid" type="text" autocomplete="off" placeholder="例: 山田 太郎">
+      <input id="pid" type="text" maxlength="200" autocomplete="off" placeholder="例: 山田 太郎">
     </div>
     <div class="field">
       <label for="age">年齢</label>
@@ -254,6 +258,21 @@
       <button class="btn primary advance" id="goPractice">はじめる</button>
     </div>
     <p class="opt-note" id="introMissing" style="text-align:center;margin-top:6px"></p>
+  </div>
+</section>
+
+<section id="consent" class="screen">
+  <div class="pad">
+    <h1>研究への参加について</h1>
+    <p id="consentIdentity"></p>
+    <div id="consentDocument" role="region" aria-label="研究の説明と協力承諾書" tabindex="0"></div>
+    <p id="consentStatus" role="status" aria-live="polite">枠の中を最後までスクロールしてお読みください。</p>
+    <label id="consentChoice"><input id="consentCheck" type="checkbox" disabled><span>説明を理解し、研究への参加に同意します</span></label>
+    <button id="consentGo" type="button" class="btn primary" disabled>同意して実験に進む</button>
+    <div class="consent-actions">
+      <button id="consentBack" type="button" class="btn ghost">名前を確認・修正する</button>
+      <button id="consentDecline" type="button" class="btn ghost">参加をやめる</button>
+    </div>
   </div>
 </section>
 
@@ -506,11 +525,16 @@
 </section>
 
 <script src="bank.js"></script>
+<script src="vendor/pako.min.js"></script>
+<script src="data-codec.js"></script>
+<script src="consent.js"></script>
 <script src="session-store.js"></script>
+<script src="durable-storage.js"></script>
+<script src="staged-delivery.js"></script>
 <script>
 (function () {
   "use strict";
-  if (!window.PILOT_BANK || !window.createSessionStore) {
+  if (!window.PILOT_BANK || !window.createSessionStore || !window.PilotConsent || !window.PilotCodec || !window.pako || !window.PilotDurable || !window.createStagedDelivery) {
     const body = document.getElementById("wcBody");
     body.innerHTML = '<h1>読み込みが完了していません</h1><p>通信を確認して、もう一度読み込んでください。</p>';
     const next = document.getElementById("wcNext");
@@ -533,13 +557,15 @@
     repsPerCell: null, practiceTrials: null, breakEvery: null, ratings: null,
   };
   const BACKUP_KEY = "pilotAnchorBackup_v1"; // 旧版からの移行元
-  const sessionStore = createSessionStore({
+  const legacyStorage = {
     get length() { return localStorage.length; }, key: (i) => localStorage.key(i),
-    getItem: (k) => localStorage.getItem(k), setItem: (k, v) => localStorage.setItem(k, v),
+    getItem: (k) => PilotCodec.decodeStorage(localStorage.getItem(k)), setItem: (k, v) => localStorage.setItem(k, PilotCodec.encodeStorage(v)),
     removeItem: (k) => localStorage.removeItem(k),
-  }, { locks: navigator.locks });
+  };
+  let sessionStore = createSessionStore(legacyStorage, { locks: navigator.locks }), durable = null, staged = null;
   const tabOwner = newSessionId();
   let storeReady = false, recoveryBooted = false, finishedPayload = null, recoveryId = null, suspendedRevision = null;
+  let consentTiming = null, consentBusy = false;
   function newSessionId() {
     if (crypto.randomUUID) return crypto.randomUUID();
     const bytes = crypto.getRandomValues(new Uint8Array(16));
@@ -1059,7 +1085,7 @@
   ];
 
   const $ = (id) => document.getElementById(id);
-  const screens = { welcome: $("welcome"), intro: $("intro"), task: $("task"), rating: $("rating"),
+  const screens = { welcome: $("welcome"), intro: $("intro"), consent: $("consent"), task: $("task"), rating: $("rating"),
     break: $("break"), blockintro: $("blockintro"), postq: $("postq"), done: $("done"),
     micgate: $("micgate"), noisegate: $("noisegate"), reading: $("reading"),
     stopconfirm: $("stopconfirm"), resume: $("resume"), notice: $("notice") };
@@ -1077,6 +1103,7 @@
     target.focus({ preventScroll: true });
   }
   function show(name) {
+    if (consentTiming && !sessionFinished) consentTiming.change(document.hidden ? "background" : name);
     for (const k in screens) screens[k].classList.toggle("active", k === name);
     document.body.classList.toggle("stop-open", name === "stopconfirm");   // 確認画面の間は body 直下の説明 (tutPop/ratPop/tutHint/帯) を隠す (2026-09-12)
     if (typeof checkZoom === "function") checkZoom();   // 画面が切り替わるたびに文字サイズ・拡大を再確認 (2026-09-12 夜)
@@ -1203,7 +1230,7 @@
     stopNotices: [],          // 停止の案内画面の表示記録 {afterTrial, kind, ms} (§6-6 項19)
     stopNoticesSuppressed: 0, // 上限（種類ごと5回）で出さなかった案内の数
     pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
-    appVersion: "2026-10-09e",   // 早出し案内を観測事実の表現へ変更し、案内・待機の困りごと2項目を追加
+    appVersion: "2026-10-10a",   // 同意・課題・アンケートの3段階保存、Worker + IndexedDB
     welcomeAgree: null,       // はじめに 5/6・6/6 の同意チェック {items, pages, ms}
     devGuard: null,           // 機種ガード {on,minH,w,h,shown,isIPhone,isIPad,ipadLink,platformOk,sizeOk}
     exportedAt: null,
@@ -1766,11 +1793,12 @@
   }
   let endedFrom = null;   // 中断ボタンで終了したときに居た画面 {screen, at} (「課題に戻る」で戻る先。2026-09-07)
   let discarding = false;  // 「はじめから」で消去中 (beforeunload の確認を出さない)
-  function restartFresh() {   // 回答を消して最初の画面へ (2026-09-12)。バックアップを消してから再読込
+  async function restartFresh() {   // 回答を消して最初の画面へ (2026-09-12)。バックアップを消してから再読込
     // (kiosk は起動時にバックアップを partial として未送信キューへ退避するので、消さずに再読込すると捨てたはずの回答が残る)
     discarding = true;
     if (dragTutState.active) DragTut.abort();
-    clearBackup();
+    if (!clearBackup()) { discarding = false; return; }
+    try { await sessionStore.flush(); } catch (err) { discarding = false; storageProblem(err); return; }
     location.reload();
   }
   function endEarly(reason) {   // reason: "operator" (中断ボタン) | "timebox" (時間上限)
@@ -2598,7 +2626,7 @@
   }
   // 事前アンケート (氏名・年齢・機種名) を取り込む。性別/利き手は wireSeg が随時 device に格納済み。
   function captureIntro() {
-    device.participantId = $("pid").value.trim();
+    device.participantId = device.consent ? device.consent.name : $("pid").value.trim();
     device.deviceModel = $("devModel").value.trim();
     device.age = validAge() ? $("age").valueAsNumber : null;
   }
@@ -3112,7 +3140,7 @@
       DragTut.run(startPractice);   // 完了後に再入 → チュートリアル試行 (例の操作+評定チュートリアル) → 練習5問
       return;
     }
-    if (seqIndex === 0) clearBackup();  // 復旧チャンスは intro 画面まで (統合の2ブロック目では前ブロック分を消さない)
+    if (seqIndex === 0 && !device.consent) clearBackup();  // 同意取得後の原記録は保持する
     requestWakeLock();   // ユーザー操作起点で取得 (§6-6 項11)
     captureIntro();
     phase = "practice";
@@ -3160,7 +3188,7 @@
   }
   function startMain() {
     if (CONFIG.block !== SEQ[seqIndex]) loadBlock(SEQ[seqIndex]);  // 統合練習の最後が別タイプだった場合に現ブロックへ復帰
-    if (seqIndex === 0) clearBackup();  // 最初のブロックのみ前回セッションの残骸を破棄。2ブロック目以降 (attn/combo) は今セッションのチェックポイント
+    if (seqIndex === 0 && !device.consent) clearBackup();  // 同意と開始前のチェックポイントは保持する
                                         // なので消さない (消すと次の試行完了までの間に再読込すると再開できずデータも失う)
     if (!device.participantId) captureIntro();
     // 練習サマリ (行動ゲートの達成記録。理解確認の証跡 + データ品質共変量。§6-2)
@@ -3415,11 +3443,28 @@
     }
     postGoto(returnPage);
     saveBackup();
+    beginTaskDelivery();
+  }
+
+  function beginTaskDelivery() {
+    // The operator's reversible early-stop/kiosk paths keep their explicit final submission.
+    if (!staged || !CONFIG.uploadUrl || GO || KIOSK || !device.consent || device.partial || !records.length) return;
+    const old = sessionStore.read(device.sessionId)?.delivery?.tasks;
+    if (old) device.tasksEndedAt = old.device.tasksEndedAt;
+    else device.tasksEndedAt = new Date().toISOString();
+    device.partial = false;
+    saveBackup();
+    const snapshot = old || { kind: "tasks", protocol: 2, ...PilotDurable.clone(buildPayload()) };
+    staged.start(device.sessionId, snapshot).catch(storageProblem);
   }
 
   function finishSession() {
     if (sessionFinished) return;
     device.exportedAt = new Date().toISOString();
+    if (device.consent) {
+      device.endedAt = device.exportedAt;
+      if (consentTiming) device.consentTiming = consentTiming.finish();
+    }
     // セッションの終わり方 (§6-6 項15)。完走なら partial=false・endedBy="complete"
     device.endedBy = device.endedBy || "complete";
     device.mainCompleted = records.filter((r) => r.phase === "main").length;
@@ -3435,7 +3480,7 @@
     // 全員共通コードの横流し (未実施申請) に耐性。紛らわしい文字 (0/O/1/I/L) は除外
     device.completionCode = device.completionCode || makeCompletionCode();
     sessionFinished = true;
-    finishedPayload = JSON.parse(JSON.stringify(buildPayload()));
+    finishedPayload = PilotDurable.clone(buildPayload());
     saveBackup();
     showCompletion();
   }
@@ -3503,8 +3548,9 @@
     $("nextParticipant").textContent = "送信して次の人へ";
     $("nextParticipant").style.display = heldId ? "" : "none";
   }
-  function discardHeld() {   // 保留中のこの人のデータを消して最初から
+  async function discardHeld() {   // 保留中のこの人のデータを消して最初から
     if (!clearBackup(heldId || device.sessionId)) return;
+    try { await sessionStore.flush(); } catch (err) { storageProblem(err); return; }
     discarding = true;
     heldId = null; location.reload();
   }
@@ -3521,6 +3567,7 @@
 
   // ===== エクスポート =====
   function buildPayload() {
+    if (consentTiming && !sessionFinished) device.consentTiming = consentTiming.snapshot();
     // 内部用フィールド (_sRect 等) を除去
     const trials = records.map((r) => {
       const { _sRect, _stRect, ...rest } = r;
@@ -3529,12 +3576,12 @@
     return { device, trials };
   }
 
-  // ===== 中断対策チェックポイント (試行完了ごとに localStorage へ) =====
+  // ===== 中断対策チェックポイント (Worker内のIndexedDBへ。取得中のgzipは行わない) =====
   // セッションごとに1コピーを保持。保存失敗は進行を止め、手動保存と再試行を提示する。
   let sessionFinished = false;   // finishSession 到達後は resume を付けない (未回収分の手動保存は従来どおり)
   function saveBackup() {
     if (GO || !storeReady) return false;
-    if (!records.length && phase === "practice" && !device.partial && !sessionFinished) return true;
+    if (!records.length && phase === "practice" && !device.partial && !sessionFinished && !device.consent) return true;
     try {
       const p = finishedPayload || buildPayload();
       if (!sessionFinished) { p.interruptedAt = new Date().toISOString(); p.resume = resumeState(); }
@@ -3558,14 +3605,15 @@
           if (!storeReady || (recoveryId && recoveryId !== device.sessionId)) { el.hidden = true; await initRecovery(); return; }
           if (!await sessionStore.lock(device.sessionId, tabOwner)) throw new Error("SESSION_BUSY");
           storeReady = true;
-          if (saveBackup()) { el.hidden = true; if (sessionFinished) showCompletion(); }
+          if (durable) await durable.retry();
+          if (saveBackup()) { await sessionStore.flush(); el.hidden = true; if (sessionFinished) showCompletion(); }
         } catch (e) { storageProblem(e); }
       };
     }
     $("storageProblemText").textContent = String(err && (err.code || err.message)).includes("LOCK") || String(err && err.message).includes("BUSY")
       ? "この回答を別のタブで開いている場合は、そちらを閉じてからもう一度試してください。保存機能が利用できないブラウザでは続けられません。"
       : "この端末に回答を保存できませんでした。この画面を閉じずに、回答データを保存してください。空き容量を確保した後、保存をもう一度試せます。";
-    $("storageDownload").hidden = !records.length && !finishedPayload;
+    $("storageDownload").hidden = !records.length && !finishedPayload && !device.consent;
     $("storageLegacy").replaceChildren();
     for (const [key, label] of [[BACKUP_KEY, "以前の途中保存を回収する"], [OUTBOX_KEY, "以前の未送信データを回収する"]]) {
       try {
@@ -3661,6 +3709,7 @@
     const r = normalizedResume(b);
     const gapMs = Math.max(0, Date.now() - Date.parse(b.interruptedAt));
     Object.assign(device, b.device);
+    if (device.consent) consentTiming = PilotConsent.timeline(device.consentTiming);
     device.config = CONFIG;
     device.exportedAt = null;
     device.resumes = Array.isArray(device.resumes) ? device.resumes : [];
@@ -3766,7 +3815,6 @@
   // 実験者が同席しない対面運用 (複数日・複数会場・ネットに不慣れな実施者) では「失敗→手動保存して
   // LINE で送る」が回らず、しかも次の参加者が本番を始めると旧チェックポイントが消えてデータが失われる。
   const OUTBOX_KEY = "pilotAnchorOutbox_v1";
-  const POST_TIMEOUT_MS = 60000;   // 1 回の送信の上限。JSON は約 3 MB (53 問の軌跡) なので弱い回線でも送り切れる長さに (2026-09-29: 旧 15 秒)
   function outboxLoad() {
     try { return sessionStore.all().filter((e) => ["held", "queued", "blocked"].includes(e.state)); }
     catch (err) { storageProblem(err); return []; }
@@ -3809,18 +3857,22 @@
       details.appendChild(row);
     }
   }
-  function postPayload(payload) {   // 1件送信 (タイムアウト付き)。成功時のみ resolve
+  async function postPayload(payload, encoded) {   // 保存済みの同じ本文を再送。成功時のみ resolve
     // GAS Web アプリは CORS preflight (OPTIONS) に応答しないため text/plain で simple request にする。
     // XMLHttpRequest の upload.onprogress は preflight を発生させる (2026-09-29 実機で失敗)。fetch を維持し、送信量の割合は表示しない
     const ctl = ("AbortController" in window) ? new AbortController() : null;
-    const timer = ctl ? setTimeout(() => ctl.abort(), POST_TIMEOUT_MS) : null;
+    const body = encoded ? encoded.body : durable ? (await durable.wire(payload)).body : PilotCodec.wire(JSON.stringify(payload));
+    const timeout = payload.kind === "consent" ? 30000 : payload.kind === "finalize" ? 120000 :
+      Math.max(180000, Math.min(900000, Math.ceil(new TextEncoder().encode(body).length * 8 / 100 + 60000)));
+    const timer = ctl ? setTimeout(() => ctl.abort(), timeout) : null;
     return fetch(CONFIG.uploadUrl, {
       method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify(payload), signal: ctl ? ctl.signal : undefined,
+      body, signal: ctl ? ctl.signal : undefined,
     }).then((res) => res.ok ? res.json() : Promise.reject(new Error("HTTP " + res.status)))
       .then((j) => {
         if (!j || !j.ok) { const err = new Error((j && j.error) || "server error"); err.retryable = !j || j.retryable !== false; err.code = j && j.code; throw err; }
         if (j.sessionId && j.sessionId !== payload.device.sessionId) throw new Error("receipt session mismatch");
+        if (payload.kind === "consent" && (j.protocol !== 2 || j.sessionId !== payload.device.sessionId || !["consented", "tasks_received", "completed", "partial"].includes(j.state))) throw new Error("consent receipt unavailable; update collector");
         return j;
       })
       .finally(() => { if (timer) clearTimeout(timer); });
@@ -3838,13 +3890,15 @@
         try {
           const current = sessionStore.read(item.id);
           if (!current || current.state !== "queued") continue;
+          if (current.delivery?.tasks) { await staged.kick(item.id); if (sessionStore.read(item.id)?.state === "sent") sent++; continue; }
+          await sessionStore.flush();
           const result = await postPayload(current.payload);
-          sessionStore.sent(item.id, result); sent++;
+          sessionStore.sent(item.id, result); await sessionStore.flush(); sent++;
           if (item.id === device.sessionId && sessionFinished) showSent();
         } catch (err) {
           if (err.retryable === false) { sessionStore.blocked(item.id, err.code || "invalid_payload"); continue; }
           break;
-        } finally { if (item.id !== device.sessionId) sessionStore.unlock(item.id, tabOwner); }
+        } finally { if (item.id !== device.sessionId && !sessionStore.read(item.id)?.delivery?.tasks) sessionStore.unlock(item.id, tabOwner); }
       }
     } catch (err) { storageProblem(err); }
     finally { outboxBusy = false; outboxRender(); if (onDone) onDone(sent, outboxLoad().length); }
@@ -3854,19 +3908,25 @@
   function sendUiStart(attempt) {
     $("doneTitle").textContent = "データを送信しています";
     $("sendBox").style.display = "";
-    $("sendMsg").textContent = attempt > 1 ? `送信を再試行しています（${attempt} / 3 回目）。しばらくお待ちください。` : "データを送信しています。しばらくお待ちください。";
+    $("sendMsg").textContent = attempt > 1 ? "通信を確認しながら、送信を再試行しています。この画面のままお待ちください。" : "データを送信しています。通信状況により1分以上かかることがあります。この画面のままお待ちください。";
     for (const id of ["doneMsg", "ccodeBox", "debrief", "summary"]) $(id).classList.add("hidden-until-sent");
   }
   function sendUiEnd(success) {
     $("doneTitle").textContent = success ? "完了しました" : "送信はまだ完了していません";
     $("sendBox").style.display = "none";
     for (const id of ["doneMsg", "ccodeBox", "debrief", "summary"]) $(id).classList.remove("hidden-until-sent");
+    if (!success) $("ccodeBox").classList.add("hidden-until-sent");
   }
-  function uploadJson(attempt) {
+  async function uploadJson(attempt) {
     attempt = attempt || 1;
     const payload = finishedPayload || JSON.parse(JSON.stringify(buildPayload()));
     finishedPayload = payload;
     if (attempt === 1 && !outboxPush(payload)) { sendUiEnd(false); $("exportRow").style.display = ""; return; }
+    if (sessionStore.read(device.sessionId)?.delivery?.tasks) {
+      sendUiStart(1);
+      try { await sessionStore.flush(); await staged.kick(device.sessionId); } catch (err) { storageProblem(err); }
+      return;
+    }
     // 再開URLや呼び出し元にかかわらず、送信が許可された状態だけを外部へ送る。
     // held/blocked/sent は enqueue が返しても queued へ変わらない。
     try {
@@ -3880,9 +3940,11 @@
     uploadInFlight = true;
     sendUiStart(attempt);
     $("uploadStatus").textContent = "";
+    try { await sessionStore.flush(); } catch (err) { uploadInFlight = false; storageProblem(err); return; }
     postPayload(payload)
-      .then((result) => {
+      .then(async (result) => {
         sessionStore.sent(device.sessionId, result);
+        await sessionStore.flush();
         uploadInFlight = false; showSent();
         outboxFlush();   // 回線が復活したので、貯まっていた過去分もついでに送る
       })
@@ -3905,6 +3967,21 @@
     $("outboxStatus").textContent = "";
     if (!debugMode) $("exportRow").style.display = "none";
     showNextParticipant(); outboxRender();
+  }
+  function deliveryState(id, update) {
+    // No spinner, status message or live-region announcement while answering the survey.
+    if (id !== device.sessionId || !sessionFinished) return;
+    if (update.state === "sent") { showSent(); return; }
+    if (update.state === "blocked") {
+      sendUiEnd(false); $("exportRow").style.display = "";
+      $("uploadStatus").textContent = "保存の確認が必要です。この画面を閉じずに、回答データを保存して研究者へ連絡してください。";
+      return;
+    }
+    sendUiStart(update.attempt);
+    if (["offline", "retry"].includes(update.state)) {
+      $("sendMsg").textContent = update.state === "offline" ? "通信の復旧を待っています。接続が戻ると自動で再送します。この画面を開いたままお待ちください。" : "保存を確認できなかったため、間隔を空けて再送しています。この画面のままお待ちください。";
+      $("exportRow").style.display = "";
+    }
   }
   function showNextParticipant() {   // 連続実施: データの行き先が確定してから (送信済 or 端末保存) 次の人へ
     if (KIOSK) $("nextParticipant").style.display = "";
@@ -3986,6 +4063,12 @@
   async function initRecovery() {
     if (GO) { storeReady = true; recoveryBooted = true; return; }
     try {
+      if (!durable) {
+        durable = await PilotDurable.open(storageProblem);
+        sessionStore = createSessionStore(legacyStorage, { locks: navigator.locks, backend: durable });
+        staged = createStagedDelivery({ store: sessionStore, encode: p => durable.wire(p), send: postPayload, onState: deliveryState });
+      }
+      await sessionStore.migrateV2(tabOwner);
       const migration = await sessionStore.migrateLegacy({ owner: tabOwner, search: location.search });
       if (migration.busy) throw new Error("SESSION_BUSY");
       if (migration.retained.length) throw new Error(migration.retained[0].code || "legacy storage migration failed");
@@ -4029,6 +4112,19 @@
         } else showCompletion(entry.state === "sent");
         return;
       }
+      if (backup && !KIOSK && entry.state === "active" && entry.search === location.search && backup.device.consent &&
+          !backup.device.exportedAt && backup.resume && !backup.resume.mainStarted &&
+          Date.now() - Date.parse(backup.interruptedAt) >= 0 && Date.now() - Date.parse(backup.interruptedAt) <= RESUME_WINDOW_MS) {
+        if (!await lockRecoveryEntry()) return await initRecovery();
+        if (device.sessionId !== entry.id) await sessionStore.unlock(device.sessionId, tabOwner);
+        Object.assign(device, backup.device); device.config = CONFIG;
+        records.length = 0; for (const r of backup.trials) records.push(r);
+        $("pid").value = device.consent.name; $("age").value = device.age == null ? "" : device.age;
+        $("devModel").value = device.deviceModel || "";
+        consentTiming = PilotConsent.timeline(device.consentTiming);
+        resumeOffered = true; showConsent();
+        return;
+      }
       if (backup && KIOSK && entry.search === location.search && backup.device.kiosk && entry.state === "active" && !backup.device.partial) {
         if (!await lockRecoveryEntry()) return await initRecovery();
         if (!salvageBackup(backup)) return;
@@ -4040,6 +4136,7 @@
       $("resumeRestart").onclick = async () => {
         if (!await sessionStore.lock(entry.id, tabOwner)) { storageProblem(new Error("SESSION_BUSY")); return; }
         if (!clearBackup(entry.id)) return;
+        await sessionStore.flush();
         await sessionStore.unlock(entry.id, tabOwner);
         recoveryId = null; wcIdx = 0; wcRender(); show("welcome");
       };
@@ -4052,6 +4149,7 @@
       $("recoverDrop").onclick = async () => {
         if (!await sessionStore.lock(entry.id, tabOwner)) { storageProblem(new Error("SESSION_BUSY")); return; }
         if (!clearBackup(entry.id)) return;
+        await sessionStore.flush();
         await sessionStore.unlock(entry.id, tabOwner);
         recoveryId = null;
         $("recovery").classList.remove("show");
@@ -4061,6 +4159,75 @@
     } catch (err) { storageProblem(err); }
     finally { recoveryBooted = true; }
   }
+
+  // ===== 電子同意: 氏名確認後、測定開始前に保存する =====
+  function requiresConsent() { return !KIOSK && !GO && REAL_BLOCKS.includes("moral") && (!debugMode || QS.get("consent") === "1"); }
+  function consentPayload() {
+    return { kind: "consent", device: { sessionId: device.sessionId, participantId: device.consent.name,
+      study: device.study, cohort: device.cohort, block: device.block, appVersion: device.appVersion, consent: device.consent }, trials: [] };
+  }
+  function consentScrollCheck() {
+    if (consentBusy) return;
+    const box = $("consentDocument");
+    if (box.scrollTop + box.clientHeight >= box.scrollHeight - 3) {
+      $("consentCheck").disabled = false;
+      if (!device.consent) $("consentStatus").textContent = "内容を確認して、同意する場合はチェックを入れてください。";
+    }
+  }
+  function showConsent() {
+    const doc = device.consent || PilotConsent;
+    $("consentDocument").replaceChildren();
+    const add = (tag, text) => { const e = document.createElement(tag); e.textContent = text; $("consentDocument").appendChild(e); };
+    add("h2", "研究課題"); add("p", doc.title);
+    for (const part of doc.description) { add("h2", part.heading); add("p", part.text); }
+    add("h2", "研究協力承諾書"); add("p", doc.statement);
+    add("p", "説明文の版：" + doc.documentVersion);
+    $("consentIdentity").textContent = "氏名：" + (device.consent ? device.consent.name : device.participantId);
+    $("consentCheck").checked = !!device.consent;
+    $("consentCheck").disabled = !device.consent;
+    $("consentBack").hidden = !!device.consent;
+    $("consentGo").disabled = !device.consent;
+    $("consentGo").textContent = device.consent ? "保存を確認して実験に進む" : "同意して実験に進む";
+    $("consentStatus").textContent = device.consent ? "同意日時：" + new Date(device.consent.consentedAt).toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" }) : "枠の中を最後までスクロールしてお読みください。";
+    resumeStage = "consent";
+    show("consent"); $("consentDocument").scrollTop = 0;
+    requestAnimationFrame(consentScrollCheck);
+  }
+  $("consentDocument").addEventListener("scroll", consentScrollCheck, { passive: true });
+  $("consentCheck").addEventListener("change", () => { $("consentGo").disabled = !$("consentCheck").checked; });
+  $("consentBack").onclick = () => { if (!consentBusy && !device.consent) gotoIntro(); };
+  $("consentDecline").onclick = () => {
+    if (consentBusy) return;
+    const end = document.createElement("div"); end.id = "consentDeclined"; end.setAttribute("role", "status");
+    end.textContent = "参加は終了しました。この画面を閉じてください。";
+    document.body.appendChild(end);
+  };
+  $("consentGo").onclick = async () => {
+    if (consentBusy || !$("consentCheck").checked || $("consentCheck").disabled) return;
+    if (!CONFIG.uploadUrl) { $("consentStatus").textContent = "確認用の画面です。同意は送信されません。実際の参加には研究者から案内されたリンクを使ってください。"; return; }
+    if (!device.consent) { device.consent = PilotConsent.create(device.participantId); consentTiming = PilotConsent.timeline(); }
+    consentBusy = true; $("consentGo").disabled = true; $("consentCheck").disabled = true;
+    $("consentBack").hidden = true; $("consentDecline").disabled = true;
+    $("consentStatus").textContent = "同意を保存しています。そのままお待ちください。";
+    try {
+      if (!saveBackup()) throw new Error("local consent save failed");
+      await sessionStore.flush();
+      const receipt = await postPayload(consentPayload());
+      if (receipt.state !== "consented") throw new Error("this session has already ended");
+      device.consentReceivedAt = receipt.consentReceivedAt;
+      if (!saveBackup()) throw new Error("local consent receipt save failed");
+      await sessionStore.flush();
+      if (MIC.mode !== "off" && !MIC.acquired) showMicGate("precheck"); else enterSession();
+    } catch (err) {
+      $("consentStatus").textContent = err.retryable === false ? "同意の保存を確認できません。研究者へ連絡してください。" : "保存を確認できませんでした。通信を確認して、もう一度押してください。同意日時は保持されています。";
+      $("consentGo").textContent = "同意の保存をもう一度試す";
+    } finally { consentBusy = false; $("consentGo").disabled = false; $("consentCheck").disabled = false; $("consentDecline").disabled = false; }
+  };
+  document.addEventListener("visibilitychange", () => {
+    if (!consentTiming || sessionFinished) return;
+    consentTiming.change(document.hidden ? "background" : (Object.keys(screens).find(k => screens[k].classList.contains("active")) || "other"));
+    if (document.hidden) saveBackup();
+  });
 
   // ===== ウェルカム (入力の前に説明を1枚ずつ。2026-09-05) =====
   // 小さい注記を intro に並べても読まれないため、参加を決める材料 (内容・所要時間・環境と記録) を
@@ -4222,7 +4389,11 @@
 
   // 未送信キュー: 起動時に自動再送 + オンライン復帰で再送 + 「いま送る」ボタン (2026-09-05)
   outboxRender();
-  window.addEventListener("online", () => { if (storeReady) outboxFlush(); });
+  window.addEventListener("online", () => {
+    if (!storeReady) return;
+    if (sessionStore.read(device.sessionId)?.delivery?.tasks) staged.kick(device.sessionId).catch(storageProblem);
+    outboxFlush();
+  });
   $("outboxSend").addEventListener("click", () => {
     $("outboxStatus").textContent = "送信中…";
     outboxFlush((sent, left) => {
@@ -4279,11 +4450,13 @@
   }
 
   refreshIntro();   // 初期は未記入なので開始ボタンを無効化
+  if (requiresConsent()) $("goPractice").textContent = "説明・同意の確認へ";
 
   // 開始前に環境音チェックを挟む (マイク必須。?mic=0 のみ素通し。§6-6 項10)。通過後は enterSession
   // (読速ベースライン → 練習。§6-6 項13) へ
   $("goPractice").addEventListener("click", () => {
     if ((!storeReady || !recoveryBooted) && !GO) return;
+    if (requiresConsent()) { captureIntro(); showConsent(); return; }
     if (MIC.mode !== "off" && !MIC.acquired) { showMicGate("precheck"); return; }
     enterSession();
   }, { passive: true });
@@ -4480,7 +4653,9 @@
   // 本番中のうっかり更新・離脱への確認ダイアログ (PC ブラウザ向け。iOS Safari は表示しないが害はない。§6-6 項17)。
   // 完了後 (exportedAt あり) と練習中は出さない。kiosk の「つぎの人にわたす」は完了後なので出ない
   window.addEventListener("beforeunload", (e) => {
-    if (!["main", "instructed"].includes(phase) || device.exportedAt || discarding) return;
+    if (discarding) return;
+    const pending = storeReady && sessionStore.read(device.sessionId)?.state === "queued";
+    if (!pending && (!["main", "instructed"].includes(phase) || device.exportedAt)) return;
     e.preventDefault(); e.returnValue = "";
   });
   document.addEventListener("visibilitychange", () => { if (document.hidden && !discarding && mainStartedAt != null && !sessionFinished) saveBackup(); });
@@ -4488,7 +4663,8 @@
     if (storeReady && !discarding) saveBackup();
     try { suspendedRevision = sessionStore.read(device.sessionId)?.revision || null; } catch (_) {}
     storeReady = false;
-    sessionStore.unlock(device.sessionId, tabOwner);
+    // Keep the Web Lock until document destruction (or bfcache resume). Releasing it
+    // while the Worker still commits a checkpoint would permit a stale second writer.
   });
   window.addEventListener("pageshow", async (e) => {
     if (!e.persisted || GO) return;

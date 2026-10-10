@@ -10,24 +10,26 @@
   const locks = Object.prototype.hasOwnProperty.call(options, "locks") ? options.locks : (typeof navigator !== "undefined" && navigator.locks);
   const crypt = Object.prototype.hasOwnProperty.call(options, "crypto") ? options.crypto : (typeof crypto !== "undefined" && crypto);
   const heldLocks = new Map(), pendingLocks = new Map();
-  const clone = (v) => JSON.parse(JSON.stringify(v));
+  const backend = options.backend;
+  const clone = backend ? backend.clone : (v) => JSON.parse(JSON.stringify(v));
   function failure(code, message) { const err = new Error(message); err.code = code; return err; }
   function checkId(id) { if (typeof id !== "string" || !id) throw failure("INVALID_SESSION", "sessionId is required"); }
   function requireLock(id) {
     checkId(id);
     if (!heldLocks.has(id)) throw failure("LOCK_REQUIRED", "Acquire the session Web Lock before changing stored data");
   }
-  function read(id) { const raw = storage.getItem(PREFIX + id); return raw ? JSON.parse(raw) : null; }
+  function read(id) { if (backend) return backend.read(id); const raw = storage.getItem(PREFIX + id); return raw ? JSON.parse(raw) : null; }
   function write(entry) {
     requireLock(entry.id);
     const previous = read(entry.id);
     // Wall-clock timestamps can repeat within a millisecond. The lock serializes this counter.
     entry.revision = (previous && Number.isSafeInteger(previous.revision) && previous.revision >= 0 ? previous.revision : 0) + 1;
     entry.updatedAt = new Date().toISOString();
-    storage.setItem(PREFIX + entry.id, JSON.stringify(entry));
+    if (backend) backend.write(entry); else storage.setItem(PREFIX + entry.id, JSON.stringify(entry));
     return entry;
   }
   function all() {
+    if (backend) return backend.all();
     const keys = [];
     for (let i = 0; i < storage.length; i++) { const k = storage.key(i); if (k && k.startsWith(PREFIX)) keys.push(k); }
     return keys.map((k) => JSON.parse(storage.getItem(k))).filter(Boolean);
@@ -35,12 +37,12 @@
   function checkpoint(payload, search) {
     const id = payload.device.sessionId; requireLock(id); const old = read(id);
     if (old && old.state !== "active") return old; // A queued request is immutable, even on later UI events.
-    return write({ id, state: "active", search, payload: clone(payload), ...(old && old.legacy ? { legacy: old.legacy } : {}) });
+    return write({ ...old, id, state: "active", search, payload: clone(payload) });
   }
   function enqueue(payload, search, held) {
     const id = payload.device.sessionId; requireLock(id); const old = read(id);
     if (old && old.state !== "active") return old;
-    return write({ id, state: held ? "held" : "queued", search, payload: clone(payload), ...(old && old.legacy ? { legacy: old.legacy } : {}) });
+    return write({ ...old, id, state: held ? "held" : "queued", search, payload: clone(payload) });
   }
   function release(id) {
     requireLock(id);
@@ -57,13 +59,15 @@
     if (e.state !== "queued") throw failure("INVALID_STATE", "Only explicitly queued data may become sent");
     const d = e.payload.device;
     // Atomic replacement: the receipt survives reload before the large payload is removed.
-    return write({ id, state: "sent", search: e.search, ...(e.legacy ? { legacy: e.legacy } : {}), receipt: {
+    return write({ id, state: "sent", search: e.search, ...(e.legacy ? { legacy: e.legacy } : {}), ...(e.migratedV2 ? { migratedV2: e.migratedV2 } : {}), receipt: {
       sessionId: id, completionCode: d.completionCode, participantId: d.participantId,
       exportedAt: d.exportedAt, partial: d.partial, kiosk: d.kiosk,
       file: response && response.file, receivedAt: new Date().toISOString(),
     } });
   }
-  function remove(id) { requireLock(id); storage.removeItem(PREFIX + id); }
+  function remove(id) { requireLock(id); if (backend) backend.remove(id); else storage.removeItem(PREFIX + id); }
+  function stage(id, change) { requireLock(id); const entry = read(id); if (!entry || entry.state === "sent") return entry; entry.delivery = change(clone(entry.delivery || {})); return write(entry); }
+  async function flush() { if (backend) await backend.flush(); }
   function owns(id, owner) { const held = heldLocks.get(id); return !!held && held.owner === owner; }
   // Compatibility aliases: a synchronous localStorage lease cannot acquire cross-tab exclusivity.
   // claim only confirms a previously acquired real lock; unclaim releases it.
@@ -83,6 +87,7 @@
     try {
       request = locks.request(LOCK_PREFIX + id, { mode: "exclusive", ifAvailable: true }, async (granted) => {
         if (!granted) { resolveReady(false); return; }
+        if (backend) await backend.refresh(id);
         let releaseLock;
         const released = new Promise((resolve) => { releaseLock = resolve; });
         const held = { owner, releaseLock, done: null };
@@ -133,11 +138,12 @@
         if (old) {
           if (!old.payload || JSON.stringify(old.payload) !== JSON.stringify(migratedPayload)) throw failure("MIGRATION_CONFLICT", "Existing session differs; original legacy data retained");
           if (old.state === "active" && kind === "outbox") old.state = state;
-          old.legacy = (old.legacy || []).concat(fingerprint); write(old); return id;
+          old.legacy = (old.legacy || []).concat(fingerprint); write(old); await flush(); return id;
         }
         // Legacy kiosk outbox had no durable 'approved to send' bit. Preserve it as held until explicit release.
         const entry = { id, state, search: fallbackSearch, payload: migratedPayload, legacy: [fingerprint] };
         write(entry);
+        await flush();
         // Verify persisted content before removing the source; failed/quota writes leave the old key untouched.
         const saved = read(id);
         if (!saved || !saved.legacy || !saved.legacy.includes(fingerprint)) throw failure("MIGRATION_VERIFY", "Could not verify migrated data");
@@ -176,5 +182,25 @@
     finally { await unlock(migrationLock, owner); }
     return result;
   }
-  return { all, read, checkpoint, enqueue, release, blocked, sent, remove, claim, unclaim, owns, lock, unlock, migrateLegacy };
+  async function migrateV2(owner) {
+    if (!backend) return;
+    const keys = []; for (let i = 0; i < storage.length; i++) { const key = storage.key(i); if (key && key.startsWith(PREFIX)) keys.push(key); }
+    for (const key of keys) {
+      const id = key.slice(PREFIX.length);
+      if (!await lock(id, owner)) throw failure("SESSION_BUSY", "legacy session is open in another tab");
+      try {
+        const raw = storage.getItem(key); if (!raw) continue;
+        const old = JSON.parse(raw), current = read(id);
+        if (!old || old.id !== id || !["active", "held", "queued", "blocked", "sent"].includes(old.state) ||
+            (old.state === "sent" ? old.receipt?.sessionId !== id : old.payload?.device?.sessionId !== id)) throw failure("LEGACY_INVALID", "legacy session identity mismatch");
+        const hash = await digest(raw);
+        if (current && current.migratedV2 !== hash) throw failure("MIGRATION_CONFLICT", "different IndexedDB session; original retained");
+        if (!current) { backend.write({ ...old, migratedV2: hash }); await flush(); }
+        // IndexedDB wins after an interrupted migration; do not roll it back to the older copy.
+        if (storage.getItem(key) !== raw) throw failure("LEGACY_CHANGED", "legacy session changed");
+        storage.removeItem(key);
+      } finally { await unlock(id, owner); }
+    }
+  }
+  return { all, read, checkpoint, enqueue, release, blocked, sent, remove, claim, unclaim, owns, lock, unlock, migrateLegacy, migrateV2, stage, flush };
 });
