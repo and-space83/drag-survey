@@ -467,14 +467,16 @@
       <p>あなたの<b>完了コード</b>:</p>
       <div class="ccode-row">
         <div class="ccode" id="ccode"></div>
+        <span class="ccode-copy-anchor">
         <button type="button" id="ccodeCopy" aria-label="完了コードをコピー" title="完了コードをコピー">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
             <rect x="8" y="8" width="12" height="13" rx="2"></rect>
             <path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"></path>
           </svg>
         </button>
+        <span id="ccodeCopyStatus" role="status" aria-live="polite" aria-atomic="true"></span>
+        </span>
       </div>
-      <p id="ccodeCopyStatus" role="status" aria-live="polite" aria-atomic="true"></p>
       <div class="btnrow" style="justify-content:center;gap:8px;margin:8px 0">
         <a class="btn primary" id="ccodeMail" style="display:none;text-decoration:none">メールで送信する</a>
       </div>
@@ -571,7 +573,7 @@
   const KIOSK = QS.get("kiosk") === "1";
   // 確認モード ?go= (開発専用。2026-09-06): 該当画面だけを実機で確認する。**配布 URL には付けない**。
   //   tut (操作説明→例の1問→評定の説明→練習) / rtut (評定の説明だけ) / rating (評定画面) / post (最後のアンケート) / notice (遅い初動の案内) /
-  //   done (完了画面) / break (休憩) / micgate (環境音チェック)。事前アンケートはダミー・読速は省略・マイクは micgate 以外
+  //   instructed (追加10問の説明→10問) / done (完了画面) / break (休憩) / micgate (環境音チェック)。事前アンケートはダミー・読速は省略・マイクは micgate 以外
   //   省略・送信は常に無効・block 未指定なら moral。右下に「確認モード」の印を出す (配布と取り違えない)
   const GO = (QS.get("go") || "").replace(/[^a-z]/g, "") || null;
   const WELCOME_OFF = QS.get("welcome") === "0";   // 説明画面 (ウェルカム) を飛ばして入力画面から (研究者が同席して口頭で説明する対面用。2026-09-07)
@@ -1203,7 +1205,7 @@
     stopNotices: [],          // 停止の案内画面の表示記録 {afterTrial, kind, ms} (§6-6 項19)
     stopNoticesSuppressed: 0, // 上限（種類ごと5回）で出さなかった案内の数
     pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
-    appVersion: "2026-10-09e",   // 早出し案内を観測事実の表現へ変更し、案内・待機の困りごと2項目を追加
+    appVersion: "2026-10-10-ui1",   // 公開e版への画面修正。3段階保存は未導入
     welcomeAgree: null,       // はじめに 5/6・6/6 の同意チェック {items, pages, ms}
     devGuard: null,           // 機種ガード {on,minH,w,h,shown,isIPhone,isIPad,ipadLink,platformOk,sizeOk}
     exportedAt: null,
@@ -2474,6 +2476,24 @@
     const a = $("ratingAnswer"), ar = a && !a.hidden ? a.getBoundingClientRect() : null;   // 「あなたの回答」が出ていればその上に置く (2026-09-13: 自信ページで隠れていた)
     return ar && ar.top < q.top ? { top: ar.top, left: q.left, width: q.width, height: q.bottom - ar.top, bottom: q.bottom } : q;
   }
+  function placeRatingTutorial() {
+    if (!tutActive() || !ratPop || !screens.rating.classList.contains("active")) return;
+    const p = TUT_PAGES[tutIdx], r = ratRect(p);
+    ratPop.classList.add("on");
+    const ph = ratPop.offsetHeight, pw = ratPop.offsetWidth, vw = innerWidth;
+    const top = ratingReview ? $("ratingTutClose").getBoundingClientRect().bottom + 8 : 8;
+    if (p.act === "intro") {
+      // 「次へ」は他のページと同じ位置に保ち、その上の空間で説明だけを中央に置く。
+      const buttons = $("ratBtnRow").getBoundingClientRect();
+      const bottom = buttons.top - 24;
+      ratPop.style.top = Math.max(top, top + (bottom - top - ph) / 2) + "px";
+      ratPop.style.left = Math.max(12, (vw - pw) / 2) + "px";
+    } else {
+      ratPop.style.top = Math.max(top, r.top - 20 - ph) + "px";
+      ratPop.style.left = Math.max(12, Math.min(r.left + r.width / 2 - pw / 2, vw - pw - 12)) + "px";
+    }
+  }
+  window.addEventListener("resize", () => requestAnimationFrame(placeRatingTutorial), { passive: true });
   let ratPageShownAt = null, ratPageShownIdx = -1;   // 説明ページの滞在時間の記録用 (device.tutorialLog)
   function tutRender() {
     const qc = $("qitem-confidence"), qh = $("qitem-hesitation");
@@ -2539,15 +2559,7 @@
     // 黄色い枠線で対象の場所を示す (2026-09-05: 暗幕での強調は廃止・枠線のみ)
     // 枠線 (ratSpot) は出さない: 1 項目 1 画面で対象は一目で分かる (2026-09-09 ユーザー指示)。吹き出しだけ
     ratSpot.classList.remove("strong", "on"); ratSpot.classList.add("hidden"); ratPop.classList.remove("hidden");
-    const PAD = 10;
-    requestAnimationFrame(() => {
-      const r = ratRect(p);
-      ratPop.classList.add("on");
-      const ph = ratPop.offsetHeight, pw = ratPop.offsetWidth, vw = innerWidth;
-      const top = ratingReview ? $("ratingTutClose").getBoundingClientRect().bottom + 8 : 8;
-      ratPop.style.top = Math.max(top, r.top - PAD - 10 - ph) + "px";
-      ratPop.style.left = Math.max(12, Math.min(r.left + r.width / 2 - pw / 2, vw - pw - 12)) + "px";
-    });
+    requestAnimationFrame(placeRatingTutorial);
     tutRenderedAt = performance.now();   // 連打デバウンスの基準時刻
     ratLockUntil = (ratingReview || seen) ? 0 : tutRenderedAt + minReadMs(p.text);
   }
@@ -2658,7 +2670,7 @@
       // 2/3・3/3 はハンズオン: 実演を見せたあと自分で運んでもらい、成功したら進めるようにする
       { part: "hands",  focus: "sandbox",  act: "concept", hands: "sandbox", op: "実際にスタートから運んでみましょう", txt: "スタートに指を置いて、そのまま<b>指を離さずに</b>ボックスまで運びます。<br><b>道すじは自由</b>です。（まっすぐでも、回り道でもかまいません）" },
       // 動き始め方を実際に運ぶ場面で伝える。再閲覧と遅い初動の案内も同じ2文を使う。
-      { part: "hands",  focus: "action",   act: "real", hands: "real", labels: true, op: "実際にスタートから運んでみましょう", txt: MAIN_MOVEMENT_HTML + "<br>選んだボックスの中で指を離します。<br>（スタートの枠の外へ3秒以上動き出さないと、案内が出ます）" },
+      { part: "hands",  focus: "action",   act: "real", hands: "real", labels: true, op: "実際にスタートから運んでみましょう", txt: MAIN_MOVEMENT_HTML + "<br>選んだボックスの中で指を離します。<br>スタートに指を置いてから3秒以内に枠の外へ動き出さないと、振り返りの後に注意が出ます。" },
     ];
     const INSTRUCTED_STEPS = [
       { part: "extra", focus: "orient", act: "next", sample: true, reveal: 0, op: "確認したら「次へ」", txt: "追加の10問では、<b>問題文も選択肢も読まずに</b>、<b>適当に指を運んでください</b>。<br>どちらのボックスでも構いません。前の答えを思い出す必要もありません。<br>この10問は、指示どおり読まずに答える問題なので、<b>謝礼には影響しません。</b>" },
@@ -4093,14 +4105,14 @@
       b: '<p><b>静かな場所</b>で、落ち着いて取り組める時に始めてください。</p>' +
          '<ul><li>スマートフォンを<b>手で持って</b>操作します（机に置いたままにしないでください）。</li>' +
          '<li>通知で中断されないよう、<b>おやすみモード</b>などにしておくと安心です。</li></ul>' },
-    { h: "氏名とデータの<br>取り扱い",
+    { h: "氏名とデータの取り扱い",
       b: '<p>氏名は、参加確認と謝礼のお支払いに関する照合に使用します。</p>' +
          '<p>研究の分析には、氏名を研究用IDに置き換えたデータを使用します。</p>' +
          '<p>研究成果に氏名を掲載することはありません。</p>' },
     // 2026-09-06: 画面切替・再読込の注意 (§6-6 項17)。画面切替の回数・時間の記録は倫理申請 (実施計画書 §3D) に記載済。
     // 報酬の承認条件 (非承認の基準) はアプリでなく募集文に書く (身内配布では報酬がないため、ここでは「有効な回答として扱えない」に留める)
     // 同意チェックは5/6・6/6。5項目を3+2の2ページに分け、全てにチェックしてから開始する。
-    { h: "進めるうえでの<br>お願い", mic: true,
+    { h: "進めるうえでのお願い", mic: true,
       b: '<p>次の項目を確認して、<b>すべてにチェック</b>を入れてください。</p>',
       agree: [
         '<b>途中で他のアプリや別の画面に切り替えません。</b>切り替えた回数と時間は記録されます。',
@@ -4462,6 +4474,13 @@
       tut: () => startPractice(),                       // 操作説明 → 例の1問 → 評定の説明 → 練習 (→ 本番へ続く)
       rtut: () => ratingAt(true),                       // 評定の説明 (2ページ) だけ
       rating: () => ratingAt(false),                    // 通常の評定画面
+      instructed: () => {
+        if (CONFIG.block !== "moral") loadBlock("moral");
+        // この確認専用入口では本番を省略する。通常の水準別選出に必要な項目情報だけを用意する。
+        for (const previewCell of BLOCK.buildMain()) records.push({ phase: "main", block: "moral", previewOnly: true, ...BLOCK.trialMeta(previewCell) });
+        dragTutState.done = true; ratingTutorialDone = true; phase = "main";
+        showInstructedIntro();
+      },
       post: () => { phase = "main"; showPostQuestions(); },   // 最後のアンケート (完了で完了画面へ)
       done: () => { phase = "main"; finishSession(); },       // 完了画面 (完了コード・保存ボタン)
       break: () => { dragTutState.done = true; ratingTutorialDone = true; phase = "main";
@@ -4474,7 +4493,7 @@
     if (BLOCK.stimulusType !== "text-choice" && GO !== "micgate" && GO !== "done") {
       badge.textContent += " (block=moral/value で使う)";
     } else if (jump[GO]) jump[GO]();
-    else badge.textContent += " (不明。tut / rtut / rating / post / done / break / micgate / notice / sending)";
+    else badge.textContent += " (不明。tut / rtut / rating / instructed / post / done / break / micgate / notice / sending)";
   }
 
   // 本番中のうっかり更新・離脱への確認ダイアログ (PC ブラウザ向け。iOS Safari は表示しないが害はない。§6-6 項17)。
