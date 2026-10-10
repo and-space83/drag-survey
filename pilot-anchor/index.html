@@ -1258,7 +1258,7 @@
     stopNotices: [],          // 停止の案内画面の表示記録 {afterTrial, kind, ms} (§6-6 項19)
     stopNoticesSuppressed: 0, // 上限（種類ごと5回）で非表示にした理由数。両方の抑止なら2
     pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
-    appVersion: "2026-10-11-ui2",   // 操作方法の見直しと注意の独立上限・同時表示
+    appVersion: "2026-10-11-ui3",   // 通常の送信・完了画面で未送信キューの重複警告を抑制
     welcomeAgree: null,       // はじめに 5/6・6/6 の同意チェック {items, pages, ms}
     devGuard: null,           // 機種ガード {on,minH,w,h,shown,isIPhone,isIPad,ipadLink,platformOk,sizeOk}
     exportedAt: null,
@@ -3987,7 +3987,9 @@
     if (!bar) return;
     $("outboxCount").textContent = n;
     const scr = (document.querySelector(".screen.active") || {}).id;
-    bar.classList.toggle("on", n > 0 && (scr === "welcome" || scr === "intro" || scr === "done"));
+    // 通常の送信・完了画面は中央で今回分の状態と保存手段を案内する。queued は正常送信中にもなるため、黄色の重複警告を出さない。
+    // 過去分は消さず、自動再送と開始画面の回収導線を維持。対面の研究者用画面では従来の一覧を残す。
+    bar.classList.toggle("on", n > 0 && (scr === "welcome" || scr === "intro" || (scr === "done" && (KIOSK || STOP_ON))));
     let details = $("outboxFiles");
     if (!details) { details = document.createElement("details"); details.id = "outboxFiles"; bar.appendChild(details); }
     details.replaceChildren();
