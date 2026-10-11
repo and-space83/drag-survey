@@ -333,13 +333,23 @@
   <div class="pad">
     <h1>お願い</h1>
     <p id="noticeText"></p>
-    <button type="button" class="btn ghost" id="noticeTut" style="margin:6px auto 14px;display:block">操作方法を見る</button>
+    <button type="button" class="btn primary" id="noticeTut">この操作の説明を見る</button>
     <div class="vgap"></div>
-    <button class="btn primary advance" id="noticeGo">問題に戻る</button>
+    <button class="btn ghost advance" id="noticeGo">問題に戻る</button>
   </div>
 </section>
 
 <!-- ===== BREAK ===== -->
+<section id="practicecheck" class="screen">
+  <div class="pad">
+    <h1>次の問題で確認すること</h1>
+    <p>今の練習で確認が必要だった操作です。<b>一つずつ読んで、チェックしてください。</b></p>
+    <div id="practiceCheckItems" class="rule-checks"></div>
+    <div class="vgap"></div>
+    <button type="button" id="practiceCheckGo" class="btn primary advance" disabled>確認して次へ</button>
+  </div>
+</section>
+
 <section id="break" class="screen">
   <div class="pad">
     <h1>休憩</h1>
@@ -646,7 +656,7 @@
   // 開発専用 (2026-09-10): 本番の問題数を先頭 N 問に絞る (validate.js の再開・環境音セッションの短縮用)。**配布 URL には付けない**
   const NMAIN = (function () { const v = parseInt(QS.get("nmain"), 10); return isFinite(v) && v > 0 ? v : null; })();
   const HIDE_INTRO_FILLED = QS.get("intro") === "0" || KIOSK;   // 埋まった入力欄を隠す
-  const STOPPABLE = { task: 1, rating: 1, break: 1, blockintro: 1, reading: 1, notice: 1 };   // 中断ボタンを出す画面
+  const STOPPABLE = { task: 1, rating: 1, break: 1, blockintro: 1, reading: 1, notice: 1, practicecheck: 1 };   // 中断ボタンを出す画面
 
   // 場面文・説明文の改行制御 (2026-07-22 ブロック方式へ改訂): 文字列中の "|" は文節の区切り。
   // 表示時は文節ごとに inline-block (.nb) へ包み、ブロックの途中では折り返さない (改行はブロック単位)。
@@ -1119,7 +1129,7 @@
   const screens = { welcome: $("welcome"), intro: $("intro"), consent: $("consent"), "consent-save": $("consent-save"), task: $("task"), rating: $("rating"),
     break: $("break"), blockintro: $("blockintro"), postq: $("postq"), done: $("done"),
     micgate: $("micgate"), noisegate: $("noisegate"), reading: $("reading"),
-    stopconfirm: $("stopconfirm"), resume: $("resume"), notice: $("notice") };
+    stopconfirm: $("stopconfirm"), resume: $("resume"), notice: $("notice"), practicecheck: $("practicecheck") };
   // 通常画面のページ送りを読み上げ・キーボードでも追えるようにする。
   // 課題と読速の計測画面には焦点を移さず、表示時刻・操作対象を変えない。
   function focusScreenHeading(name) {
@@ -1264,7 +1274,8 @@
     stopNotices: [],          // 停止の案内画面の表示記録 {afterTrial, kind, ms} (§6-6 項19)
     stopNoticesSuppressed: 0, // 上限（種類ごと5回）で非表示にした理由数。両方の抑止なら2
     pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
-    appVersion: "2026-10-11-ui8",   // 初期参加者の報告を受けた手順の理由・時間制限の説明修正
+    practiceChecks: [], noticeReviews: [], // 確認操作の履歴。読了・理解や除外の判定には用いない
+    appVersion: "2026-10-11-ui9",   // 練習の確認・本番初回の説明見直しと追加10問の教示
     welcomeAgree: null,       // はじめに 5/6・6/6 の同意チェック {items, pages, ms}
     devGuard: null,           // 機種ガード {on,minH,w,h,shown,isIPhone,isIPad,ipadLink,platformOk,sizeOk}
     exportedAt: null,
@@ -1273,7 +1284,7 @@
 
   // appVersionは開始時の版を維持するため、教示の表示版は実行中のコードから記録する。
   // 未記録の旧画面を推測で埋めず、表示イベントを読了・理解とみなさない。
-  const INSTRUCTION_VERSION = "2026-10-11-ui8";
+  const INSTRUCTION_VERSION = "2026-10-11-ui9";
   function logInstructionExposure(screen, detail = {}) {
     device.instructionExposure.push({ version: INSTRUCTION_VERSION, at: new Date().toISOString(),
       screen, ...detail, phase, block: CONFIG.block, afterTrial: trialIndex });
@@ -1820,6 +1831,7 @@
     cell = queue.shift();
     trial = null;
     aborts = 0;
+    practiceRuleFlags = [];
     // 休憩: breakEvery の倍数地点。ただし休憩後に始まるセグメント (この cell + 残り = queue.length+1) が
     //   breakEvery の半分未満なら省く = 末尾に細切れの塊 (数問だけ) を作らない (2026-08-23、DQS 混在込みで判定。
     //   2026-09-27: 20 問ごと・53 問で 40 問目の後 (残り 13) も休憩するよう「未満」の基準を breakEvery → breakEvery/2 に)。
@@ -1910,12 +1922,13 @@
     pendingInstructedStart = true;
     $("blockintroBody").innerHTML =
       '<h1>追加の 10 問（やり方が変わります）</h1>' +
-      '<p>ここからの 10 問は、これまでとは逆に、<b>問題文も選択肢も読む必要はありません</b>。<b>適当に指を運んでください</b>。どちらのボックスでも構いません。</p>' +
+      '<p class="instruction-key"><b>問題文も選択肢も、読まずに進めてください。</b><br>内容を考えて答えを選ぶ必要はありません。<b>適当に指を運んでください。</b>どちらのボックスでも構いません。</p>' +
       '<p>この10問は、指示どおり読まずに答える問題なので、<b>謝礼には影響しません。</b></p>' +
       '<p>集中して答えたときと、読まずに適当に運んだときとで、<b>指の動きがどう違うか</b>を調べるための問題です。すでに答えた問題が出ますが、前の答えを思い出す必要はありません。</p>' +
       '<p>操作はこれまでと同じです（スタートに指を置き、選ぶほうへ運びます）。振り返りはありません。このあと実施後のアンケートがあります。</p>';   // 2026-09-30: 何をするか・なぜかを一言ずつ (意図は「指の動きの違い」までに留める = 過剰に演じる要求特性を避ける)
     show("blockintro");
     $("blockintro").querySelector(".pad").scrollTop = 0;
+    logInstructionExposure("instructedIntro");
     resumeStage = "instructedIntro"; saveBackup();
   }
   function startInstructed() {
@@ -1973,9 +1986,19 @@
   }
   // 停止の案内画面 (§6-6 項19): 表示〜「次へ」の滞在を device.stopNotices に記録し、直後の試行に stopNotice=true を付ける
   let noticeShownAt = null, noticeKind = null;
+  function requiredNoticeRules() {
+    return phase === "main" ? noticeKinds(noticeKind).filter(rule => !device.noticeReviews.some(r => r.rule === rule && r.phase === "main")) : [];
+  }
+  function updateNoticeButtons() {
+    const required = requiredNoticeRules(), target = required.length === 1 ? required[0] : noticeKind;
+    $("noticeGo").disabled = required.length > 0;
+    $("noticeGo").textContent = required.length ? "説明の確認が必要です" : "問題に戻る";
+    $("noticeTut").textContent = ({ early: "▶ 読むタイミングの説明を見る", late: "▶ 動き始める操作の説明を見る", early_late: "▶ 2つの操作の説明を見る" })[target] || "▶ この操作の説明を見る";
+  }
   function showStopNotice(kind) {
     $("notice").dataset.kind = kind;
     noticeKind = kind; $("noticeText").innerHTML = NOTICE_HTML[kind] || NOTICE_HTML.late;   // 文言は内部定数のみ
+    updateNoticeButtons();
     noticeShownAt = performance.now();
     show("notice");
     logInstructionExposure("notice", { kind });
@@ -1986,11 +2009,15 @@
     if (!noticeKind || dragTutState.active) return;
     device.tutorialLog.push({ kind: "drag", event: "again", phase: "notice", reason: noticeKind });
     const k = noticeKind;
+    const required = requiredNoticeRules();
     replayResumeState = JSON.parse(JSON.stringify(resumeState()));
-    DragTut.run(() => { replayResumeState = null; show("notice"); saveBackup(); }, { replay: true, start: NOTICE_TUT_STEP[k], returnLabel: "注意に戻る" });
+    DragTut.run(() => {
+      for (const rule of required) device.noticeReviews.push({ version: INSTRUCTION_VERSION, rule, phase, afterTrial: trialIndex, at: new Date().toISOString() });
+      replayResumeState = null; updateNoticeButtons(); show("notice"); saveBackup();
+    }, { replay: true, start: NOTICE_TUT_STEP[required[0] || k], requiredSteps: required.length ? required.map(rule => NOTICE_TUT_STEP[rule]) : null, returnLabel: "確認して案内に戻る" });
   }, { passive: true });
   $("noticeGo").addEventListener("click", () => {
-    if (noticeShownAt == null) return;
+    if (noticeShownAt == null || requiredNoticeRules().length) return;
     device.stopNotices.push({ afterTrial: phase === "main" ? trialIndex : null, kind: noticeKind, ms: +(performance.now() - noticeShownAt).toFixed(0) });
     noticeShownAt = null; stopNoticeShown = noticeKind; noticeKind = null;
     presentStimulus();   // ここから場面文の表示 = 次の試行の stimulusOnsetT
@@ -2089,6 +2116,7 @@
       const minMs = (stemRecord(cell.stem).length / EARLY_CPS) * 1000;
       if (e.timeStamp - stemShownT < minMs) {
         device.practiceEarlyPress++;
+        markPracticeRule("early");
         coachMsg(nb('問題文を<b>最後まで読み</b>、|<b>状況が分かったら</b>スタート'), "gap", "start");
         return;
       }
@@ -2189,6 +2217,7 @@
   }, { passive: false });
 
   function retryTrial(msg, coachHtml, reason = "interrupted", endT = performance.now()) {
+    if (["outside_choice", "insufficient_points"].includes(reason)) markPracticeRule("release");
     if (trial && !records.includes(trial)) invalidAttempts.push(invalidAttempt(trial, reason, endT));
     aborts++;
     if (phase === "practice") {
@@ -2359,8 +2388,59 @@
     const next = left > 0 ? `<span class="sub">練習はあと${left}問です</span>` : "";
     coachMsg(head + next, "mid");
     resumeStage = "practiceNext"; saveBackup();
-    setTimeout(() => { practiceDone() ? endPractice() : nextTrial(); }, pass ? 1100 : 1800);
+    setTimeout(completePracticeTrial, pass ? 1100 : 1800);
   }
+
+  let practiceRuleFlags = [], practiceCheckState = null, practiceCheckShownAt = null;
+  const PRACTICE_RULES = {
+    early: { title: "問題文を読んでからスタート", html: START_CRITERION_HTML },
+    late: { title: "3秒以内に枠の外へ動き始める", html: "スタートに指を置いたら、<b>3秒以内に枠の外へ動き始めてください。</b><br><b>答えを決める制限時間ではありません。</b>迷っていても、指を離さず、動かしながら選んでください。" },
+    release: { title: "指を離さずに運ぶ", html: "スタートを押すだけでは選べません。<b>指を離さず</b>選択肢のボックスまで運び、<b>ボックスの中で離してください。</b>" },
+  };
+  function markPracticeRule(key) {
+    if (phase === "practice" && BLOCK.id === "moral" && cell && !cell.isTutorial && !practiceRuleFlags.includes(key)) { practiceRuleFlags.push(key); scheduleCheckpoint(); }
+  }
+  function completePracticeTrial() {
+    if (phase === "practice" && BLOCK.id === "moral" && trial && trial.phase !== "tutorial") {
+      if (READGATE_ON && trial.earlyStart) markPracticeRule("early");
+      if (trial.lateStart) markPracticeRule("late");
+      if (practiceRuleFlags.length) {
+        pendingNotice = null; // この問題は練習専用の確認で扱い、本番用の注意と重複させない。
+        showPracticeCheck({ keys: ["early", "late", "release"].filter(k => practiceRuleFlags.includes(k)), checked: [], recordIndex: records.indexOf(trial), elapsedMs: 0 });
+        return;
+      }
+    }
+    practiceDone() ? endPractice() : nextTrial();
+  }
+  function showPracticeCheck(state) {
+    practiceCheckState = state;
+    practiceCheckShownAt = performance.now() - (state.elapsedMs || 0);
+    uiLocked = true; coachHide(); setCoach(null);
+    $("practiceCheckItems").replaceChildren();
+    for (const key of state.keys) {
+      const rule = PRACTICE_RULES[key], label = document.createElement("label");
+      label.className = "rule-check";
+      const input = document.createElement("input"); input.type = "checkbox"; input.dataset.rule = key; input.checked = state.checked.includes(key);
+      const text = document.createElement("span"); text.innerHTML = '<b class="rule-title">' + rule.title + '</b><span>' + rule.html + '</span>';
+      label.append(input, text); $("practiceCheckItems").appendChild(label);
+      input.addEventListener("change", () => {
+        state.checked = [...$("practiceCheckItems").querySelectorAll("input:checked")].map(e => e.dataset.rule);
+        $("practiceCheckGo").disabled = !state.keys.every(k => state.checked.includes(k)); saveBackup();
+      });
+    }
+    $("practiceCheckGo").disabled = !state.keys.every(k => state.checked.includes(k));
+    show("practicecheck"); $("practicecheck").querySelector(".pad").scrollTop = 0;
+    logInstructionExposure("practiceCheck", { rules: state.keys.slice() });
+    resumeStage = "practiceCheck"; saveBackup();
+  }
+  $("practiceCheckGo").addEventListener("click", () => {
+    const state = practiceCheckState;
+    if (!state || !state.keys.every(k => state.checked.includes(k))) return;
+    device.practiceChecks.push({ version: INSTRUCTION_VERSION, recordIndex: state.recordIndex, rules: state.keys.slice(), at: new Date().toISOString(), ms: Math.round(performance.now() - practiceCheckShownAt) });
+    practiceCheckState = null; practiceCheckShownAt = null; practiceRuleFlags = [];
+    resumeStage = "practiceNext"; saveBackup();
+    practiceDone() ? endPractice() : nextTrial();
+  });
 
   // ===== 評定 (2項目を1画面に提示。2026-07-15 2項目化+チュートリアル) =====
   let ratingOnset = 0;
@@ -2716,7 +2796,7 @@
       // 練習 (評定リハーサル後): 行動ゲート判定 (streak は showPracticeFeedback で更新済み)。
       // 2026-09-05: チュートリアル後は練習キュー (practiceTrials 問) を必ず完走してから本番へ。
       // ゲート未達なら nextTrial が補充するので、実質「5問やって、かつ操作を理解できたら本番」になる
-      practiceDone() ? endPractice() : nextTrial();
+      completePracticeTrial();
     }
   }
 
@@ -2818,9 +2898,11 @@
       $("tutPrev").addEventListener("click", () => {
         if (idx <= 0) return;
         device.tutorialLog.push({ kind: "drag", event: "back", step: idx + 1 });
-        idx--; render();
+        if (requiredReviewSteps) { const at = requiredReviewSteps.indexOf(idx); if (at <= 0) return; idx = requiredReviewSteps[at - 1]; }
+        else idx--;
+        render();
       }, { passive: true });
-      $("tutClose").addEventListener("click", () => { if (idx < 0 || !replayMode) return; device.tutorialLog.push({ kind: "drag", event: "close", step: idx + 1 }); finish(); }, { passive: true });   // 見直し (2 回目) は途中で閉じられる (2026-09-29)
+      $("tutClose").addEventListener("click", () => { if (idx < 0 || !replayMode || requiredReviewSteps) return; device.tutorialLog.push({ kind: "drag", event: "close", step: idx + 1 }); finish(); }, { passive: true });   // 任意の見直しは途中で閉じられる。
       $("tutReplay").addEventListener("click", () => { if (idx < 0) return; device.tutorialLog.push({ kind: "drag", event: "replay" }); idx = 0; render(); }, { passive: true });   // 分からなかった人向け=最初から
       built = true;
     }
@@ -3011,11 +3093,11 @@
       const seen = seenSteps.has(idx); seenSteps.add(idx);
       logStepEnd(); stepShownIdx = idx; stepShownAt = performance.now();
       revealedNow = false;
-      const inPart = steps.filter((s) => s.part === step.part), pi = inPart.indexOf(step);
+      const inPart = requiredReviewSteps ? requiredReviewSteps.map(i => steps[i]) : steps.filter((s) => s.part === step.part), pi = inPart.indexOf(step);
       const PART_NAME = { about: "はじめに", screen: "画面の見方", hands: "操作の練習", extra: "追加10問の操作" };
-      $("tutPopStep").textContent = step.part === "about" ? PART_NAME.about : PART_NAME[step.part] + " " + (pi + 1) + " / " + inPart.length;   // 「はじめに」は 1 枚なので番号なし
+      $("tutPopStep").textContent = requiredReviewSteps ? "操作の確認 " + (pi + 1) + " / " + inPart.length : step.part === "about" ? PART_NAME.about : PART_NAME[step.part] + " " + (pi + 1) + " / " + inPart.length;
       $("tutPopTxt").innerHTML = step.txt;
-      if (steps === STEPS) logInstructionExposure("dragTutorial", { step: idx + 1 });
+      logInstructionExposure(steps === STEPS ? "dragTutorial" : "instructedTutorial", { step: idx + 1 });
       $("tutPopOp").textContent = step.hands && completedHands.has(idx)
         ? `この操作は完了しています。「${nextLabel()}」で進めます。`
         : step.hands && replayMode ? `操作を試すか、「${nextLabel()}」で進めます。` : step.op || "";                          // 操作方法 (緑)
@@ -3024,7 +3106,7 @@
       $("tutPopNext").textContent = nextLabel(); btnRow.classList.remove("hidden");
       if (flashTimer) { clearTimeout(flashTimer); flashTimer = null; } $("tutPopNext").classList.remove("warn");
       $("tutReplay").classList.add("hidden");
-      $("tutPrev").classList.toggle("hidden", idx === 0);
+      $("tutPrev").classList.toggle("hidden", requiredReviewSteps ? idx === requiredReviewSteps[0] : idx === 0);
       // 進行ボタンの状態リセット (ハンズオン中は解錠待ち / cueDelay 後に強調)
       if (cueTimer) { clearTimeout(cueTimer); cueTimer = null; }
       handsMode = null; handsDone = completedHands.has(idx); hTracking = false; setHint("");
@@ -3039,7 +3121,7 @@
         cueTimer = setTimeout(() => { if (idx >= 0 && steps[idx] === step) $("tutPopNext").classList.add("cue"); }, d);
       }
       // 最小読了時間 (2026-09-12): 読み終わる前の「次へ」は受け付けず注意を出す。速い読み手の下限 (minReadMs) に合わせる。?minread=0 で無効
-      lockUntil = (step.hands || replayMode || seen) ? 0 : performance.now() + minReadMs(step.txt) + (delayed ? step.revealDelay : 0);
+      lockUntil = requiredReviewSteps ? performance.now() + minReadMs(step.txt) : (step.hands || replayMode || seen) ? 0 : performance.now() + minReadMs(step.txt) + (delayed ? step.revealDelay : 0);
       if (lockTimer) { clearTimeout(lockTimer); lockTimer = null; }
       $("tutPopNext").classList.toggle("wait", lockUntil > performance.now());
       if (lockUntil > performance.now()) lockTimer = setTimeout(() => { if (idx >= 0 && steps[idx] === step) $("tutPopNext").classList.remove("wait"); }, lockUntil - performance.now());
@@ -3150,7 +3232,7 @@
       const lx = x - sr.left, ly = y - sr.top;
       return Math.abs(lx - T.x) <= T.bw / 2 && Math.abs(ly - T.y) <= T.bh / 2;
     }
-    function nextLabel() { return idx === steps.length - 1 && replayMode ? returnLabel : "次へ"; }
+    function nextLabel() { return (requiredReviewSteps ? idx === requiredReviewSteps.at(-1) : idx === steps.length - 1) && replayMode ? returnLabel : "次へ"; }
     let flashTimer = null;
     function btnFlash(text, maxUntil) {   // 「次へ」ボタン自体に短い注意を出す (押した場所・見ている場所に出る = 気づく。2026-09-12 後刻)。maxUntil: ロックが切れたら消す
       const b = $("tutPopNext"), now = performance.now();
@@ -3209,7 +3291,10 @@
         device.tutorialLog.push({ kind: "drag", step: idx + 1, event: "early" });
         btnFlash("読んでから押してください", lockUntil); return;
       }
-      if (idx < steps.length - 1) { idx++; render(); } else finish();
+      if (requiredReviewSteps) {
+        const at = requiredReviewSteps.indexOf(idx);
+        if (at < requiredReviewSteps.length - 1) { idx = requiredReviewSteps[at + 1]; render(); } else finish();
+      } else if (idx < steps.length - 1) { idx++; render(); } else finish();
     }
     function teardown() {   // 表示をすべて畳む (完了・中断の共通部。2026-09-12 に finish から分離)
       logStepEnd();
@@ -3222,7 +3307,7 @@
       if (lockTimer) { clearTimeout(lockTimer); lockTimer = null; } lockUntil = 0; $("tutPopNext").classList.remove("wait");
       if (flashTimer) { clearTimeout(flashTimer); flashTimer = null; } $("tutPopNext").classList.remove("warn"); $("tutPopNext").textContent = "次へ";
       handsMode = null; handsDone = false; hTracking = false; setHint(""); inkClear(); $("tutPopNext").classList.remove("cue");
-      replayMode = false; $("tutClose").classList.add("hidden");
+      replayMode = false; requiredReviewSteps = null; $("tutClose").classList.add("hidden");
       document.body.classList.remove("tut-review");
       ctx(); setCap(""); demo.style.display = "none"; clearSample();
       document.querySelectorAll(".choice").forEach((e) => e.classList.remove("tut-sbxhide", "tut-rcv", "tut-dim"));
@@ -3241,16 +3326,18 @@
     }
     let returnLabel = "問題に戻る";
     let replayMode = false;   // 2 回目の見直し (右上「↻ 操作方法」): 最小読了時間なし・運ばなくても次へ・× 閉じる (2026-09-29)
+    let requiredReviewSteps = null; // 本番で各種類の初回注意だけ、該当する説明ページを確認する。
     function run(cb, opts) {
       build(); onDone = cb; demo.style.display = ""; dragTutState.active = true;
       replayMode = !!(opts && opts.replay);
+      requiredReviewSteps = opts && Array.isArray(opts.requiredSteps) && opts.requiredSteps.length ? opts.requiredSteps.slice() : null;
       returnLabel = opts && opts.returnLabel || "問題に戻る";
       steps = opts && opts.instructed ? INSTRUCTED_STEPS : STEPS;
       seenSteps.clear(); completedHands.clear();
       const restored = opts && opts.restored;
       for (const page of restored && restored.seen || []) seenSteps.add(page);
       for (const page of restored && restored.completed || []) completedHands.add(page);
-      $("tutClose").classList.toggle("hidden", !replayMode);
+      $("tutClose").classList.toggle("hidden", !replayMode || !!requiredReviewSteps);
       document.body.classList.toggle("tut-review", replayMode);
       $("tutAgain").classList.add("hidden");
       updateProgress();
@@ -3318,6 +3405,7 @@
       '<h1>練習完了です！</h1>' +
       '<p>ここからが<b>本番</b>です。やり方は練習と同じです。</p>' +
       '<p><b>回答を急いで終える必要はありません。</b></p>' +
+      '<p>操作を忘れたときは、<b>問題画面の上にある「↻ 操作方法」</b>から説明を見直せます。<br><b>スタートに指を置く前</b>に押してください。</p>' +
       '<p>準備ができたら「続ける」を押してください。</p>';
     show("blockintro");
     logInstructionExposure("practiceComplete");
@@ -3800,7 +3888,7 @@
     return {
       v: 2, search: location.search, seq: SEQ.slice(), seqIndex, block: CONFIG.block,
       stage: resumeStage, phase, queue, totalMain, trialIndex, instrIndex, instructedDone,
-      currentCell: ["task", "rating", "break", "notice"].includes(resumeStage) ? cell : null,
+      currentCell: ["task", "rating", "break", "notice", "practiceCheck"].includes(resumeStage) ? cell : null,
       trialRecordIndex: resumeStage === "rating" ? records.indexOf(trial) : null,
       rating: resumeStage === "rating" ? { page: ratPage, elapsedMs: now - ratingOnset, pageElapsedMs: now - ratPageAt,
         tutorial: tutActive() && !ratingReview ? { index: tutIdx, introDone: tutIntroDone, seen: [...ratingSeenPages] } : null } : null,
@@ -3812,6 +3900,8 @@
       post: resumeStage === "postq" ? { answers: { ...post }, survey: { ...survey, problems: survey.problems.slice() }, page: postPageIdx, pageId: postPages[postPageIdx] ? postPages[postPageIdx].id : null, elapsedMs: now - postShownAt } : null,
       activeAttempt: recording && trial ? publicTrial(trial) : null,
       pendingInstructedStart, pendingMainStart, pendingNotice, stopNoticeShown, noticeKind,
+      practiceRuleFlags: practiceRuleFlags.slice(),
+      practiceCheck: practiceCheckState ? { ...practiceCheckState, checked: practiceCheckState.checked.slice(), elapsedMs: performance.now() - practiceCheckShownAt } : null,
       noticeElapsedMs: noticeShownAt == null ? 0 : now - noticeShownAt,
       breakElapsedMs: breakShownAt == null ? 0 : now - breakShownAt, breakAtTrial,
       stemElapsedMs: resumeStage === "task" ? Math.max(0, now - stemShownT) : 0,
@@ -3846,7 +3936,7 @@
       (b.device.participantId && b.trials.some(t => t.phase === "practice" || t.phase === "tutorial")));
     if (!r.mainStarted && !beforeMain) return false;
     const stages = ["task", "rating", "break", "notice", "instructedIntro", "blockintro", "postq", "next"];
-    if (beforeMain) stages.push("entry", "consent", "reading", "dragTutorial", "practiceComplete", "practiceNext");
+    if (beforeMain) stages.push("entry", "consent", "reading", "dragTutorial", "practiceComplete", "practiceNext", "practiceCheck");
     if (!stages.includes(r.stage)) return false;
     if (["task", "break", "notice"].includes(r.stage) && !r.currentCell) return false;
     if (r.stage === "rating" && (!b.trials[r.trialRecordIndex] || !r.rating)) return false;
@@ -3856,6 +3946,8 @@
         !b.device.readingBaseline || !Array.isArray(b.device.readingBaseline.trials) ||
         b.device.readingBaseline.trials.length !== Math.max(0, r.preMain.reading.index))) return false;
     if (r.stage === "dragTutorial" && (!r.preMain || !r.preMain.drag)) return false;
+    if (r.stage === "practiceCheck" && (!r.practiceCheck || !Array.isArray(r.practiceCheck.keys) || !r.practiceCheck.keys.length ||
+        r.practiceCheck.keys.some(k => !PRACTICE_RULES[k]) || !Array.isArray(r.practiceCheck.checked) || !b.trials[r.practiceCheck.recordIndex])) return false;
     const gap = Date.now() - Date.parse(b.interruptedAt);
     return gap >= 0 && gap <= RESUME_WINDOW_MS;
   }
@@ -3904,6 +3996,8 @@
     Object.assign(device, b.device);
     // 再開案内の裏で初期化された新規画面を引き継がず、保存済みの表示履歴だけを復元する。
     device.instructionExposure = Array.isArray(b.device.instructionExposure) ? b.device.instructionExposure.slice() : [];
+    device.practiceChecks = Array.isArray(b.device.practiceChecks) ? b.device.practiceChecks.slice() : [];
+    device.noticeReviews = Array.isArray(b.device.noticeReviews) ? b.device.noticeReviews.slice() : [];
     device.postPresentedKeys = Array.isArray(b.device.postPresentedKeys) ? b.device.postPresentedKeys.slice() : [];
     device.postQuestionMeta = b.device.postQuestionMeta && typeof b.device.postQuestionMeta === "object" ? { ...b.device.postQuestionMeta } : {};
     const previousPostKeys = b.device.collectionPlan?.postKeys;
@@ -3931,6 +4025,8 @@
     // 旧版は両条件でもearlyだけを保存していた。未表示の注意のみ、保持済みの観測フラグから候補を復元する。
     if (pendingNotice === "early" && ["rating", "next"].includes(r.stage) && records.at(-1)?.earlyStart && records.at(-1)?.lateStart) pendingNotice = "early_late";
     noticeKind = r.noticeKind || null; aborts = r.aborts || 0; resumeStage = r.stage;
+    practiceRuleFlags = Array.isArray(r.practiceRuleFlags) ? r.practiceRuleFlags.filter(k => PRACTICE_RULES[k]) : [];
+    practiceCheckState = r.practiceCheck || null;
     if (r.stage === "task" && r.activeAttempt) {
       // 再読込前のチェックポイントに残った部分軌跡。終了時刻や未取得の点は推定しない。
       invalidAttempts.push(invalidAttempt(r.activeAttempt, "reload_interrupted", null));
@@ -3954,6 +4050,7 @@
       if (r.stage === "reading") showReading(pre.reading);
       else if (r.stage === "dragTutorial") DragTut.run(startPractice, { restored: pre.drag });
       else if (r.stage === "practiceComplete") endPractice();
+      else if (r.stage === "practiceCheck") { trial = records[r.practiceCheck.recordIndex]; showPracticeCheck(r.practiceCheck); }
       else if (r.stage === "practiceNext") { practiceDone() ? endPractice() : nextTrial(); }
       else if (r.stage === "entry" || r.stage === "consent") enterSession();
       else if (r.stage === "postq") { resumePending = false; showPostQuestions(r.post); }
@@ -4737,6 +4834,7 @@
     if (from.screen === "notice" && from.resume) {
       showStopNotice(from.resume.noticeKind); noticeShownAt -= from.resume.noticeElapsedMs || 0; saveBackup(); return;
     }
+    if (from.screen === "practicecheck" && from.resume?.practiceCheck) { showPracticeCheck(from.resume.practiceCheck); return; }
     if (from.resume) resumeStage = from.resume.stage;
     show(from.screen);
     saveBackup();
@@ -4856,6 +4954,13 @@
         mainStartedAt = performance.now(); cell = queue.shift(); sizeCanvas(); presentStimulus(); },
       rtut: () => ratingAt(true),                       // 評定の説明 (2ページ) だけ
       rating: () => ratingAt(false),                    // 通常の評定画面
+      practicecheck: () => {
+        dragTutState.done = true; ratingTutorialDone = true; phase = "practice";
+        queue = BLOCK.buildPractice(CONFIG.practiceTrials); cell = queue.shift();
+        trial = { phase: "practice", block: CONFIG.block, previewOnly: true, ...BLOCK.trialMeta(cell), ratings: { hesitation: { value: 3 }, confidence: { value: 3 } }, events: [] };
+        records.push(trial);
+        showPracticeCheck({ keys: ["early", "late", "release"], checked: [], recordIndex: records.length - 1, elapsedMs: 0 });
+      },
       instructed: () => {
         if (CONFIG.block !== "moral") loadBlock("moral");
         // この確認専用入口では本番を省略する。通常の水準別選出に必要な項目情報だけを用意する。
