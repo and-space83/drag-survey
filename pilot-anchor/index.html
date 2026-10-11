@@ -80,7 +80,7 @@
       // --- ⑤ 注意チェック (isCheck 付き。experiment-design §6-5。主解析からは除外) ---
       isCheck('dqs'|'infreq'|'imc'), checkAnswerSide('left'|'right'), leftLabel, rightLabel, stem,
       post_check(true=弱DQS直後の本試行。警戒モード汚染を感度分析で除外可能に),
-      post_resume(true=中断→再開の直後の本試行。§6-6 項17。間隔が空いた分を感度分析で除外可能に),
+      post_resume(true=本番開始後の再開に続く最初の有効回答。本番・追加課題共通。無効操作では消費しない。§6-6 項17),
       // --- 共通 ---
       choiceSide, correct,   // correct: anchor=正誤 / value=規範(高価値/高EV)整合 / moral=規範(明確のみ)。規範なしは null
       pointerType('touch'|'pen'|'mouse'|'unknown'), // 試行開始時のPointerEvent由来。旧データでは省略あり
@@ -1259,7 +1259,7 @@
     stopNotices: [],          // 停止の案内画面の表示記録 {afterTrial, kind, ms} (§6-6 項19)
     stopNoticesSuppressed: 0, // 上限（種類ごと5回）で非表示にした理由数。両方の抑止なら2
     pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
-    appVersion: "2026-10-11-ui5",   // 同意保存・最終送信中に、更新や戻るを使わず待つ案内を表示
+    appVersion: "2026-10-11-ui6",   // 追加課題でも post_resume を再開直後の有効回答だけに限定
     welcomeAgree: null,       // はじめに 5/6・6/6 の同意チェック {items, pages, ms}
     devGuard: null,           // 機種ガード {on,minH,w,h,shown,isIPhone,isIPad,ipadLink,platformOk,sizeOk}
     exportedAt: null,
@@ -2276,6 +2276,7 @@
       showPracticeFeedback();
     } else if (phase === "instructed") {   // 追加問題も残りキューと完了数を保存する
       records.push(trial);
+      resumePending = false;   // 無効なやり直しでは消費せず、再開後最初の有効回答だけに付ける
       instrIndex++;
       resumeStage = "next"; saveBackup();
       $("counter").textContent = counterText();
