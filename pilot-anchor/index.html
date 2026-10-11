@@ -1258,7 +1258,7 @@
     stopNotices: [],          // 停止の案内画面の表示記録 {afterTrial, kind, ms} (§6-6 項19)
     stopNoticesSuppressed: 0, // 上限（種類ごと5回）で非表示にした理由数。両方の抑止なら2
     pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
-    appVersion: "2026-10-11-ui3",   // 通常の送信・完了画面で未送信キューの重複警告を抑制
+    appVersion: "2026-10-11-ui4",   // 完了済み操作練習の減光と、再訪時も進行ボタンへ案内
     welcomeAgree: null,       // はじめに 5/6・6/6 の同意チェック {items, pages, ms}
     devGuard: null,           // 機種ガード {on,minH,w,h,shown,isIPhone,isIPad,ipadLink,platformOk,sizeOk}
     exportedAt: null,
@@ -2862,7 +2862,7 @@
     async function playSandbox(my) {   // ② 別ステージ・変化大
       ctx();
       startHands("sandbox");                  // 動きを減らす設定でも、操作自体は受け付ける
-      if (handsDone) { clr(); drawSbx(sbxT()); return; }
+      if (handsDone) { showHandsComplete("sandbox"); return; }
       if (reduce()) { const T = sbxT(), s = lc(startBtn); drawSbx(T); finger(s.x, s.y, 1); ring(s.x, s.y, 20, .9); finger(T.x, T.y, .9); ring(T.x, T.y, 22, .8, "rgba(18,133,90,.9)"); setCap(""); return; }
       const s = lc(startBtn), T = sbxT();
       setCap("");
@@ -2875,7 +2875,7 @@
         await sleep(500);
       }
       // 成功後: 実演(指)は消し、例の箱は暗く残す。スタートも暗転 (枠線は endHands が消す)
-      if (my === tok) { clr(); g.save(); g.globalAlpha = .18; drawSbx(T); g.restore(); setCap(""); startBtn.classList.add("tut-dim"); }
+      if (my === tok) showHandsComplete("sandbox");
     }
     function sbxCarry(my, s0, T) {
       const sx = s0.x + (Math.random() - .5) * 30, sy = s0.y + (Math.random() - .5) * 10;
@@ -2908,11 +2908,7 @@
         await sleep(500);
         side = side === "B" ? "A" : "B";
       }
-      if (my === tok) {   // 成功後: 実演を消し、箱とスタートを暗くする =「あとは次へ進むだけ」
-        clr(); setCap("");
-        document.querySelectorAll(".choice").forEach((e) => e.classList.add("tut-dim"));
-        startBtn.classList.add("tut-dim");
-      }
+      if (my === tok) showHandsComplete("real");
     }
     function unionRect(els) { const rs = els.map((e) => e.getBoundingClientRect()); const left = Math.min(...rs.map((r) => r.left)), top = Math.min(...rs.map((r) => r.top)), right = Math.max(...rs.map((r) => r.right)), bottom = Math.max(...rs.map((r) => r.bottom)); return { left, top, right, bottom, width: right - left, height: bottom - top }; }
     function targetRect(focus) {
@@ -2984,6 +2980,7 @@
       ptop = Math.max(replayMode ? top : 8, Math.min(ptop, btnTop - GAP - ph, vh - ph - 8));   // 閉じる・進行ボタンに被らせない
       pop.style.top = ptop + "px";
       pop.style.left = Math.max(12, Math.min(pcx - pw / 2, vw - pw - 12)) + "px";
+      if (step.hands && handsDone) showHandsComplete(step.hands);   // 再配置・画面サイズ変更後も箱の位置と減光を揃える
     }
     let revealedNow = false;   // 遅延開示 (revealDelay) の対象が現れたか
     let popBelow = false;      // 実演の説明ボックスを対象の下に置いているか (合図 tutHint の置き場所を変える。2026-09-13)
@@ -3065,7 +3062,8 @@
       if (step.blank) { numA.style.visibility = "hidden"; numB.style.visibility = "hidden"; }   // 枠だけ見せて中身は出さない (2026-09-12)
       //スタートも段階開示: 問題文/選択肢を説明している間は隠す (1/6で見える問題の解消)。start ステップで現す
       startBtn.style.visibility = (step.focus === "orient" || step.focus === "stem") ? "hidden" : "visible";   // 2026-09-12 夜: 選択肢の説明 (4/4) はスタートの後なのでスタートを出したまま
-      if (step.act === "concept") setTimeout(() => { if (my === tok) playSandbox(my); }, 350);
+      if (step.hands && handsDone) showHandsComplete(step.hands);
+      else if (step.act === "concept") setTimeout(() => { if (my === tok) playSandbox(my); }, 350);
       else if (step.act === "real") setTimeout(() => { if (my === tok) playReal(my); }, 300);
       if (!replayMode) { resumeStage = "dragTutorial"; saveBackup(); }
     }
@@ -3089,6 +3087,17 @@
       $("tutPopNext").classList.toggle("cue", handsDone || replayMode);
       setHint("");   // 開始時の案内は出さない (説明BOXの緑文字で足りる)
     }
+    function showHandsComplete(mode) {   // 完了直後・前へでの再訪・保存からの再開で同じ表示にする
+      handsMode = null;
+      ctx(); setCap("");
+      if (mode === "sandbox") { g.save(); g.globalAlpha = .18; drawSbx(sbxT()); g.restore(); }
+      document.querySelectorAll(".choice").forEach((e) => {
+        e.classList.remove("tut-rcv", "tut-fadein");   // 実演・登場時のアニメーションで薄さが戻らないようにする
+        if (mode === "real") e.classList.add("tut-dim");
+      });
+      startBtn.classList.remove("tut-fadein");
+      startBtn.classList.add("tut-dim");
+    }
     function endHands(ok) {
       if (!ok) return;
       handsDone = true;
@@ -3100,7 +3109,8 @@
       setHint("この操作のくり返しです");   // 成功時 (緑)。位置はスタート↔箱の中間
       hintTimer = setTimeout(() => { if (handsDone) setHint(""); }, 2600);
       setTimeout(() => inkClear(), 900);   // 自分の軌跡は残さない (次の人の手本にしない)
-      handsMode = null;
+      tok++;   // 操作完了後に残った実演が、減光した箱や指を描き直さないようにする
+      place(steps[idx]);   // 完了案内で説明の高さが変わっても、薄い箱を説明の外へ配置する
     }
     // 自分の軌跡 (触れている実感のために描く。装飾レイヤー=記録には一切入らない)
     function inkSize() {   // DPR 対応 (本番の #trace と同じ描き方に揃える)
@@ -3130,14 +3140,21 @@
       if (flashTimer) clearTimeout(flashTimer);
       let end = now + FLASH_MS; if (maxUntil) end = Math.min(end, maxUntil);
       b.textContent = text; b.classList.add("warn");
-      flashTimer = setTimeout(() => { b.textContent = nextLabel(); b.classList.remove("warn"); flashTimer = null; }, Math.max(150, end - now));
+      place(steps[idx]);   // 案内文が折り返す小画面でも、ボタン全体を画面内に収める
+      flashTimer = setTimeout(() => { b.textContent = nextLabel(); b.classList.remove("warn"); flashTimer = null; if (idx >= 0) place(steps[idx]); }, Math.max(150, end - now));
     }
     function strayTap() {   // 説明ページ中にスタートや選択肢を押した人への案内 (2026-09-08: 対面で「触っても進まない」が多発)。注意はボタン自体に (2026-09-12 夜: ボックス内の赤い行は廃止、緑の操作行はそのまま)
-      btnFlash("この「次へ」で進みます");
+      btnFlash(`この「${nextLabel()}」で進みます`);
       if (!btnRow.classList.contains("pending")) $("tutPopNext").classList.add("cue");
     }
+    document.addEventListener("pointerdown", (e) => {
+      if (idx < 0 || !handsDone || !screens.task.classList.contains("active")) return;
+      if (e.target.closest("button, a, input, select, textarea")) return;   // 前へ・次へ・閉じる・終了はそのまま操作できる
+      strayTap();   // 完了後はスタート・箱・説明・余白のどこを触っても進行ボタンへ案内
+    }, { passive: true });
     surface.addEventListener("pointerdown", (e) => {
-      if (!handsMode || handsDone) { if (idx >= 0 && !handsMode) strayTap(); return; }
+      if (idx < 0 || handsDone) return;   // 完了後の案内は上の共通ハンドラで一度だけ出す
+      if (!handsMode) { strayTap(); return; }
       if (!hInRect(startBtn, e.clientX, e.clientY)) { setHint("スタートに指を置いて<br>そのまま離さずに運びます", true); return; }   // 文言 2026-09-12
       hTracking = true; hPid = e.pointerId; hLeft = false; startBtn.classList.add("armed");
       inkSize(); inkStart(e.clientX, e.clientY);   // 軌跡を描き始める (触れている実感)
