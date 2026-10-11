@@ -1259,7 +1259,7 @@
     stopNotices: [],          // 停止の案内画面の表示記録 {afterTrial, kind, ms} (§6-6 項19)
     stopNoticesSuppressed: 0, // 上限（種類ごと5回）で非表示にした理由数。両方の抑止なら2
     pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
-    appVersion: "2026-10-11-ui6",   // 追加課題でも post_resume を再開直後の有効回答だけに限定
+    appVersion: "2026-10-11-ui7",   // ダブルタップ拡大防止を本文・余白・動的パネルを含む全画面へ適用
     welcomeAgree: null,       // はじめに 5/6・6/6 の同意チェック {items, pages, ms}
     devGuard: null,           // 機種ガード {on,minH,w,h,shown,isIPhone,isIPad,ipadLink,platformOk,sizeOk}
     exportedAt: null,
@@ -4863,7 +4863,7 @@
   document.addEventListener("gesturestart", (e) => e.preventDefault());
   // iOS のダブルタップ拡大対策:スタート連打で拡大→復帰不能の実機報告 (2026-07-11)。
   // タスク画面は Pointer Events のみで click 合成に依存しないため、touchend の既定動作
-  // (ダブルタップ拡大 + click 合成) を丸ごと抑止できる。他画面のボタンは CSS touch-action:manipulation 側で対処。
+  // (ダブルタップ拡大 + click 合成) を丸ごと抑止できる。全画面の拡大防止は CSS touch-action:manipulation 側で対処。
   document.getElementById("task").addEventListener("touchend",
     (e) => { if (e.target && e.target.closest && e.target.closest("button")) return;   // 右上「↻ 操作方法」など課題画面内のボタンは click 合成を止めない (2026-09-29: iPhone で押せなかった)
       if (e.cancelable) e.preventDefault(); }, { passive: false });
