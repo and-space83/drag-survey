@@ -282,7 +282,8 @@
     <h1 id="consentSaveTitle">同意情報を保存しています</h1>
     <div id="consentSaveStatus" role="status" aria-live="polite" aria-atomic="true">
       <div class="spin" aria-hidden="true"></div>
-      <p>保存が完了すると自動で次の画面に進みます。この画面のままお待ちください。</p>
+      <p>保存が完了すると自動で次の画面に進みます。</p>
+      <p id="consentSaveNote">通信環境によっては時間がかかる場合があります。ブラウザの更新（再読み込み）や「戻る」は使わず、画面を閉じずにそのままお待ちください。</p>
     </div>
   </div>
 </section>
@@ -488,8 +489,8 @@
     <!-- 送信中はスピナーを表示。送信量の割合は取得できないためバーは出さず、完了コードは送信結果が出てから出す -->
     <div id="sendBox" style="display:none">
       <div class="spin" aria-hidden="true"></div>
-      <p id="sendMsg" role="status" aria-live="polite" aria-atomic="true">データを送信しています。しばらくお待ちください。</p>
-      <p class="opt-note">送信中は、画面を閉じたり更新（再読み込み）したりしないでください。</p>
+      <p id="sendMsg" role="status" aria-live="polite" aria-atomic="true">データを送信しています。</p>
+      <p class="opt-note" id="sendWaitNote">通信環境によっては時間がかかる場合があります。ブラウザの更新（再読み込み）や「戻る」は使わず、画面を閉じずにそのままお待ちください。</p>
     </div>
     <p id="doneMsg">ご協力ありがとうございました。</p>
     <!-- 完了コード (§6-6 項12): 1人1コードをデータにも記録し「申請コード↔実データ」を機械照合。?ccode=0 で非表示 -->
@@ -1258,7 +1259,7 @@
     stopNotices: [],          // 停止の案内画面の表示記録 {afterTrial, kind, ms} (§6-6 項19)
     stopNoticesSuppressed: 0, // 上限（種類ごと5回）で非表示にした理由数。両方の抑止なら2
     pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
-    appVersion: "2026-10-11-ui4",   // 完了済み操作練習の減光と、再訪時も進行ボタンへ案内
+    appVersion: "2026-10-11-ui5",   // 同意保存・最終送信中に、更新や戻るを使わず待つ案内を表示
     welcomeAgree: null,       // はじめに 5/6・6/6 の同意チェック {items, pages, ms}
     devGuard: null,           // 機種ガード {on,minH,w,h,shown,isIPhone,isIPad,ipadLink,platformOk,sizeOk}
     exportedAt: null,
@@ -4083,7 +4084,7 @@
   function sendUiStart(attempt) {
     $("doneTitle").textContent = "データを送信しています";
     $("sendBox").style.display = "";
-    $("sendMsg").textContent = attempt > 1 ? "通信を確認しながら、送信を再試行しています。この画面のままお待ちください。" : "データを送信しています。通信状況により1分以上かかることがあります。この画面のままお待ちください。";
+    $("sendMsg").textContent = attempt > 1 ? "通信を確認しながら、送信を再試行しています。この画面のままお待ちください。" : "データを送信しています。";
     for (const id of ["doneMsg", "ccodeBox", "debrief", "summary"]) $(id).classList.add("hidden-until-sent");
   }
   function sendUiEnd(success) {
