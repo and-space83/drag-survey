@@ -28,7 +28,9 @@
              consent,                         // schemaVersion/documentVersion/title/description/statement/name/studyDate(JST)/consentedAt/method/accepted/scrolledToEnd。同意時の全文を固定
              consentReceivedAt, endedAt,       // 同意のサーバ受領日時と端末側終了日時。サーバ原本のcollectionは受信日時・受領段階を別記
              consentTiming,                   // byScreen/unobservedMs/elapsedMs/accountedMs/differenceMs。重ならない画面滞在と再開までの未観測時間。既存mainMs等へ加算しない
-             collectionPlan: {postKeys, instructedEnabled, attentionEnabled}, // そのセッションで収集を予定した事後項目と追加/注意チェックの有効状態。旧データでは省略あり
+             collectionPlan: {postKeys, originalPostKeys?, instructedEnabled, attentionEnabled}, // 現在収集予定の事後項目。未完了の旧版再開で項目が変わる場合は元のpostKeysも保持
+             postPresentedKeys: [key], // ui8以降のコードで実際に表示した事後項目。旧履歴は補完しない
+             postQuestionMeta: {[key]: {version, scope}}, // 変更した4項目の質問版・範囲。task-v1/whole_taskは旧回答を旧文言で保持、main-v1/main_before_additionalは通常本番を対象
              age, sex, handedness,            // 事前アンケート (特性。必須。性別は na=回答しない可)
              grip,                             // 事後アンケート (持ち方+操作を1問に。課題後に回顧で取得)
              survey:                           // 事後アンケート UI/負担 (②③=評定ブロックのみ。anchor は null)
@@ -54,6 +56,7 @@
              study,                            // 実験名 (?study=。2026-09-07。GAS の保存先サブフォルダ = study || cohort)
              resumes: [{at, afterTrial, phase, stage, gapMs}], // 中断→再開の記録 (旧形式ではphase/stage省略あり。同じURLで保存状態から再開。空=再開なし)
              tutorialLog: [{kind('drag'|'rating'), step|page, ms} | {kind, event('replay'|'again'|'back'|'close')}],
+             instructionExposure: [{version, at, screen, page|step|kind, phase, block, afterTrial}], // ui8以降の教示表示履歴。読了・理解の証明ではない。旧データの欠如は未測定
              uiScale,                          // 説明・評定・アンケート画面の文字倍率 (2026-09-08 §6-6 項18。短辺≥700px で 1.6、?fs= で上書き。課題画面は対象外)
              ratingTutorial: {changed, completed, pages},   // 振り返りの説明 (2026-09-12 後刻から 3 ページ = 導入・迷い・自信。2026-09-08〜 は 2)
              startMode('press'|'dynamic'),   // 開始手続き: 'press' = 場面文先出し・押下で選択肢・初動締切 3 秒 (2026-09-26〜) / 'dynamic' = 枠から出たら選択肢 (2026-09-09〜25) / 無し = 静的 (それ以前)
@@ -380,7 +383,7 @@
 <section id="reading" class="screen">
   <div class="pad">
     <h1>文章を読む速さの計測</h1>
-    <p id="readIntro">まず、文章を読む速さを計測します（短い文章を4本）。<br>表示された文章を<b>普段通りの速さ</b>で読み、読み終えたら<b>すぐ</b>下のボタンを押してください。<br>本番の問題文と同じような文です。内容を覚える必要はありません。</p>
+    <p id="readIntro">まず、普段の読む速さを知るため、短い文章を4本読んでもらいます。<br><b>速く読む必要はありません。</b>普段通りの速さで読み、読み終えたらすぐ下のボタンを押してください。<br>本番の問題文と同じような文です。内容を覚える必要はありません。</p>
     <p class="opt-note" id="readCounter"></p>
     <div class="rtext" id="readText" style="display:none"></div>
     <div class="vgap"></div>
@@ -401,7 +404,7 @@
 <section id="postq" class="screen">
   <div class="pad">
     <h1>実施後のアンケート</h1>
-    <!-- 1 項目 1 画面 (2026-09-26): 課題と同じくスクロールせず「戻る / 次へ」で進む。ページ = 持ち方 → 拡充分 19 項目 → 使いにくかった点 → 操作のしやすさ -->
+    <!-- 課題と同じくスクロールせず「戻る / 次へ」で進む。持ち方 → 拡充分 → 使いにくかった点 → 操作のしやすさ → 自由記述 -->
     <p class="opt-note" id="postStep"></p>
     <!-- 対面 (中断ボタンあり): 「ここで終了する」まで押してしまったときの取り消し (課題に戻る)。時間上限で終わった場合は出さない (2026-09-07) -->
     <button class="btn ghost" id="postBack" style="display:none;margin:0 0 12px">← 課題に戻る（終了を取り消す）</button>
@@ -419,7 +422,7 @@
     </div>
     </div>
 
-    <!-- 事後アンケート 拡充分 (2026-09-06 §6-6 項8): 状態・課題の感じ方・環境・習熟・ふりかえり+自己報告の 22 項目 (2026-09-26 に data_use、2026-09-30 に課題の感じ方 3 問を追加)。POST_ITEMS から描画。
+    <!-- 事後アンケート拡充分: POST_ITEMSから24項目を描画（ui8で本番の開始基準・3秒の理解を追加）。
          評定ブロックを含むクラウド配布のみ (対面 kiosk/stop では出さない = 時間枠・実施者不在。操作の質問だけに留める) -->
     <p class="opt-note" id="postLead" style="display:none;margin-top:14px">続けて、いくつか質問にお答えください（約2分）。</p>
     <div id="postBlock" style="display:none"></div>
@@ -877,7 +880,7 @@
       coachDrag: '選択肢を見たら|そのまま<b>指を離さずに</b>、|考えながら|<b>あなたが選ぶ方</b>まで運び、|ボックスの<b>中で</b>|<b>指を離します</b>',
       introHtml:
         '<h1>道徳的な判断の2択課題 (パイロット)</h1>' +
-        '<p>問題文を読んでからスタートボタンに指を置くと、2つの選択肢が出ます。<b>指を離さずに、あなたが選ぶ方のボックスへドラッグ</b>して、そこで指を離してください。</p>' +
+        '<p>問題文を最後まで読み、状況が分かったらスタートに指を置いてください。答えを決め終えている必要はありません。指を置くと2つの選択肢が出ます。<b>指を離さずに、あなたが選ぶ方のボックスへドラッグ</b>して、そこで指を離してください。</p>' +
         '<ul><li><b>正解・不正解はありません。</b>あなたの素直な判断で構いません。</li>' +
         '<li>気持ちが揺れる場面が含まれます。答えたくないと感じたら、いつでも中断してかまいません。</li>' +
         '<li>選んだあとに、「自信」と「迷い」の2つを5段階でふりかえります。答え方は練習で説明します。</li>' +
@@ -1021,19 +1024,19 @@
   // 両方の時間条件を満たした場合は1画面にまとめる。種類ごとの上限は独立に適用する。
   const EARLY_CPS = 25;
   const READGATE_ON = QS.get("readgate") !== "0";   // 練習の読了ゲート (2026-09-13)。validate/開発用に無効化可
-  const EARLY_NOTICE_TEXT = "前の問題では、問題文の表示から短い時間でスタートに指が置かれました。問題文を最後まで読んでから、スタートに指を置いてください。";
-  const MAIN_MOVEMENT_HTML = "スタートに指を置いて選択肢を確認したら、迷っていても<b>指を離さずに運び始めてください。</b><br>ゆっくりでよいので、<b>動かしながら選ぶほうを決めてください。</b>";
+  const START_CRITERION_HTML = "問題文を最後まで読み、<b>書かれている状況が分かったら</b>、スタートに指を置いてください。<br>答えを決め終えている必要はありません。";
+  const EARLY_NOTICE_TEXT = "前の問題では、問題文の表示から短い時間でスタートに指が置かれました。" + START_CRITERION_HTML.replace(/<[^>]*>/g, "");
+  const MAIN_MOVEMENT_HTML = "スタートに指を置いたら、<b>3秒以内に枠の外へ動き始めてください。</b><br><b>3秒は答えを決める制限時間ではありません。</b><br>迷っていても、指を離さず、ゆっくりでよいので、<b>動かしながら選ぶほうを決めてください。</b>";
   const LATE_NOTICE_TEXT = "前の問題では、スタートに指を置いてから3秒以上、スタートの枠の外へ動き出していませんでした。" + MAIN_MOVEMENT_HTML.replace(/<[^>]*>/g, "");
   const NOTICE_MAX = { early: 5, late: 5 };   // 案内の上限 (種類ごと・1セッション)。2026-10-09採用: 遅い初動も5回まで
   const NOTICE_TUT_STEP = { early: 3, late: 7, early_late: 3 };   // 案内画面の「操作方法を見る」で開くステップ (画面の見方 3/4 = 読み終えてからスタート / 操作の練習 3/3 = 選択肢を見たら運ぶ)
   const STOP_NOTICE_TEXT = LATE_NOTICE_TEXT;   // 旧名 (validate.js の互換用)
   const NOTICE_TEXTS = { early: EARLY_NOTICE_TEXT, late: LATE_NOTICE_TEXT };
   // 表示用 (伝えたい行動を太字に。textContent は上の平文と一致)
-  const NOTICE_HTML = { early: "前の問題では、<b class=\"why\">問題文の表示から短い時間で</b>スタートに指が置かれました。<br><b>問題文を最後まで読んでから、スタートに指を置いてください。</b>",
+  const NOTICE_HTML = { early: "前の問題では、<b class=\"why\">問題文の表示から短い時間で</b>スタートに指が置かれました。<br>" + START_CRITERION_HTML,
                         late: "前の問題では、スタートに指を置いてから<b class=\"why\">3秒以上、スタートの枠の外へ動き出していませんでした</b>。<br>" + MAIN_MOVEMENT_HTML };
-  NOTICE_HTML.early_late = "前の問題では、次の2点が見られました。<br><br>" +
-    "<b class='why'>問題文の表示から短い時間でスタートに指が置かれました。</b><br>問題文を最後まで読んでから、スタートに指を置いてください。<br><br>" +
-    "<b class='why'>指を置いてから3秒以上、スタートの枠の外へ動き出していませんでした。</b><br>選択肢を確認したら、指を離さずに運び始めてください。ゆっくりでよいので、動かしながら選ぶほうを決めてください。";
+  NOTICE_HTML.early_late = "前の問題では、<b class='why'>問題文の表示から短い時間でスタートに指が置かれ</b>、<b class='why'>その後3秒以上、枠の外へ動き出していませんでした</b>。<br>" +
+    START_CRITERION_HTML + "<br>" + MAIN_MOVEMENT_HTML;
   NOTICE_TEXTS.early_late = NOTICE_HTML.early_late.replace(/<[^>]*>/g, "");
   const noticeKinds = (kind) => kind === "early_late" ? ["early", "late"] : kind === "early" || kind === "late" ? [kind] : [];
   function eligibleNotice(kind) {
@@ -1226,7 +1229,8 @@
     // 事後アンケート UI/負担 (②③=評定ブロックのみ)。使いにくかった点[複数選択]/操作しやすさ/自由記述(その他選択時のみ表示・必須)。
     //   時間ゲートを廃し離脱率で判定する G4 の「負担の主観版」裏付け + UI/チュートリアル改善材料 (pilot2-design-notes)。
     survey: null,
-    post: null,               // 事後アンケート 拡充分 (2026-09-06 §6-6 項8。POST_ITEMS の 22 項目 (2026-09-26 data_use、2026-09-30 課題の感じ方 3 問を追加)。評定ブロックを含むクラウド配布のみ、未回答は null)
+    post: null,               // 事後アンケート拡充分。POST_ITEMSの24項目（ui8で本番の開始基準・3秒の理解を追加）。評定ブロックを含むクラウド配布のみ、未回答はnull
+    postPresentedKeys: [], postQuestionMeta: {}, // ui8以降の実表示項目と、変更した質問の版・対象範囲
     postMs: null,             // 事後アンケート画面の滞在時間 (表示〜完了。負担の指標)
     mic: null,   // 環境音モニタの実測記録 {mode, threshold, …, ambientDb, ambientRetries, drops} (finishSession で確定。§6-6 項10)
     wakeLock: null,        // Screen Wake Lock の取得可否 (§6-6 項11。iOS 16.4+ / 非対応端末は false)
@@ -1253,18 +1257,27 @@
     stopPauses: [],           // 中断確認画面に入って戻った記録 {screen, durationMs} (該当試行の時間指標の汚染検出用)
     resumes: [],              // 中断→再開の記録 {at, afterTrial, gapMs} (§6-6 項17。再読込/タブ破棄の後に同じ URL で続きから再開)
     tutorialLog: [],          // チュートリアルの各説明ページの滞在 ms とやり直し {kind:'drag'|'rating', step|page, ms} / {kind, event:'replay'|'again'|'back'} (2026-09-07)
+    instructionExposure: [], // 現行の教示が実際に表示された履歴。開始時のappVersionとは別に、旧版からの再開・見直しを区別する
     uiScale: UI_SCALE,        // 説明・評定・アンケート画面の文字倍率 (§6-6 項18)
     startMode: "press",       // 開始手続き (§6-6 項19): 'press' = 場面文先出し・押下で選択肢・初動締切 3 秒 (2026-09-26)。'dynamic' = 枠から出たら出現 (2026-09-09〜25)。無し = 静的 (それ以前)
     instructed: null,         // 教示誘導ブロック {n, itemIds, text} (careless GT 候補 A。§6-6 項19)
     stopNotices: [],          // 停止の案内画面の表示記録 {afterTrial, kind, ms} (§6-6 項19)
     stopNoticesSuppressed: 0, // 上限（種類ごと5回）で非表示にした理由数。両方の抑止なら2
     pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
-    appVersion: "2026-10-11-ui7",   // ダブルタップ拡大防止を本文・余白・動的パネルを含む全画面へ適用
+    appVersion: "2026-10-11-ui8",   // 初期参加者の報告を受けた手順の理由・時間制限の説明修正
     welcomeAgree: null,       // はじめに 5/6・6/6 の同意チェック {items, pages, ms}
     devGuard: null,           // 機種ガード {on,minH,w,h,shown,isIPhone,isIPad,ipadLink,platformOk,sizeOk}
     exportedAt: null,
   };
   $("devline").textContent = `${device.screenW}×${device.screenH} @${device.dpr}x`;
+
+  // appVersionは開始時の版を維持するため、教示の表示版は実行中のコードから記録する。
+  // 未記録の旧画面を推測で埋めず、表示イベントを読了・理解とみなさない。
+  const INSTRUCTION_VERSION = "2026-10-11-ui8";
+  function logInstructionExposure(screen, detail = {}) {
+    device.instructionExposure.push({ version: INSTRUCTION_VERSION, at: new Date().toISOString(),
+      screen, ...detail, phase, block: CONFIG.block, afterTrial: trialIndex });
+  }
 
   // 匿名 first-party マーカー: 重複参加を事後 (解析時) に検出するための消去可能な目印。
   // localStorage に残る間は不変 → 同端末・同ブラウザの再参加は同一 ID。消去/別ブラウザ/別端末/
@@ -1589,6 +1602,7 @@
     show("reading");
     $("reading").querySelector(".pad").scrollTop = 0;
     if (readIdx >= 0) renderReading(restored.elapsedMs);
+    else logInstructionExposure("reading");
     resumeStage = "reading"; saveBackup();
   }
   function renderReading(elapsedMs = 0) {
@@ -1964,6 +1978,7 @@
     noticeKind = kind; $("noticeText").innerHTML = NOTICE_HTML[kind] || NOTICE_HTML.late;   // 文言は内部定数のみ
     noticeShownAt = performance.now();
     show("notice");
+    logInstructionExposure("notice", { kind });
     $("notice").querySelector(".pad").scrollTop = 0;
     resumeStage = "notice"; saveBackup();
   }
@@ -2074,7 +2089,7 @@
       const minMs = (stemRecord(cell.stem).length / EARLY_CPS) * 1000;
       if (e.timeStamp - stemShownT < minMs) {
         device.practiceEarlyPress++;
-        coachMsg(nb('問題文を<b>読んでから</b>、|スタートを押してください'), "gap", "start");
+        coachMsg(nb('問題文を<b>最後まで読み</b>、|<b>状況が分かったら</b>スタート'), "gap", "start");
         return;
       }
     }
@@ -2759,20 +2774,20 @@
     const STEPS = [
       // 二部構成 (2026-09-09): part 'screen' = 画面の見方 (触らない・読むだけ) / part 'hands' = 操作の練習 (実際に指で運ぶ)。見出し・点は部ごと
       // 三部構成 (2026-09-12 夜): 「はじめに」(やることを文字で 1 枚) → 「画面の見方 1–4」(導入・問題文・スタート・選択肢 = 実際の流れの順) → 「操作の練習 1–3」
-      { part: "about",  focus: "orient",   act: "next", sample: true, reveal: 0, op: "読んだら「次へ」", txt: "これから<b>問題文</b>を読んで、<b>2つの選択肢</b>から あなたの考えに近いほうを選んでもらいます。<br>問題文を読んだら<b>スタート</b>に指を置きます。すると選択肢が出るので、<b>指を離さずに</b>選ぶほうのボックスまで運びます。この操作をくり返します。<br>読んだら、画面の下の緑の<b>「次へ」</b>ボタンで進みます。" },
+      { part: "about",  focus: "orient",   act: "next", sample: true, reveal: 0, op: "読んだら「次へ」", txt: "これから<b>問題文</b>を読んで、<b>2つの選択肢</b>から あなたの考えに近いほうを選んでもらいます。<br>問題文を最後まで読み、場面が分かったら<b>スタート</b>に指を置きます。すると選択肢が出るので、<b>指を離さずに</b>選ぶほうのボックスまで運びます。この操作をくり返します。<br>読んだら、画面の下の緑の<b>「次へ」</b>ボタンで進みます。" },
       { part: "screen", focus: "orient",   act: "next", sample: true, reveal: 0, op: "読んだら「次へ」", txt: "まず<b>画面の見方</b>です。<br>ここでは<b>画面の操作はせず</b>、読むだけです。<br>実際の流れの順に、<b>問題文 → スタートボタン → 選択肢</b>と説明していきます。" },
       // 2/4: まず問題文の位置に説明だけを置いて読ませ、その後 BOX が下へスライドして問題文が現れる
-      { part: "screen", focus: "stem",     act: "next", sample: true, reveal: 1, revealDelay: 1000, op: "読んだら「次へ」", txt: "まず、画面の<b>上</b>に出る<b>問題文</b>を読みます。" },   // 遅延 1.8 → 1.0 秒 (2026-09-14: 実機で待ちが長い)
+      { part: "screen", focus: "stem",     act: "next", sample: true, reveal: 1, revealDelay: 1000, op: "読んだら「次へ」", txt: "まず、画面の<b>上</b>に出る<b>問題文</b>を読みます。<br>問題文を読む時間と、選択肢が出てから答えを選ぶ時間を<b>分けて記録します。</b>" },   // 遅延 1.8 → 1.0 秒 (2026-09-14: 実機で待ちが長い)
       // 3/4:スタート。問題文と選択肢 (枠だけ・中身なし) は薄くしてスタートに目を向ける。選択肢が出る話は 4/4 にまとめる (2026-09-14: 重複を解消)
-      { part: "screen", focus: "start",    act: "next", reveal: 2, blank: true, dimStem: true, dimChoices: true, op: "読んだら「次へ」", txt: "画面の<b>下</b>に<b>スタート</b>ボタンがあります。<br>問題文を<b>読み終えてから</b>、このスタートに指を置きます。<br>指を置くと、選択肢の内容が表示されます。" },
+      { part: "screen", focus: "start",    act: "next", reveal: 2, blank: true, dimStem: true, dimChoices: true, op: "読んだら「次へ」", txt: START_CRITERION_HTML + "<br>指を置くと、選択肢が表示されます。" },
       // 4/4: 選択肢の表示例を見せる。実課題での押下まで非表示という規則は維持。
-      { part: "screen", focus: "choices2", act: "next", reveal: 2, labelsVisible: true, dimStem: true, dimStart: true, op: "読んだら「次へ」", txt: "ここに<b>2つの選択肢</b>が出ます。<br>選択肢を見たら、選ぶほうへ<b>指を離さずに運び</b>、ボックスの中で指を離します。" },
+      { part: "screen", focus: "choices2", act: "next", reveal: 2, labelsVisible: true, dimStem: true, dimStart: true, op: "読んだら「次へ」", txt: "ここに<b>2つの選択肢</b>が出ます。<br>選択肢を見てから答えを選ぶまでの動きを記録するため、<b>答えが決まるのを待たずに</b>指を動かし始めます。<br>指を離さずに運び、選んだボックスの中で指を離します。" },
       // ---- ここから操作の練習 (触る段階であることを見出しと切り替え画面で明示。2026-09-09 対面 1 日目「説明中に押してしまう」への対応) ----
       { part: "hands",  focus: "orient",   act: "next", sample: true, reveal: 0, op: "読んだら「次へ」", txt: "ここからは、<b>実際に指で操作</b>します。<br>次の画面でスタートに指を置いて、離さずに運んでみましょう。" },
       // 2/3・3/3 はハンズオン: 実演を見せたあと自分で運んでもらい、成功したら進めるようにする
       { part: "hands",  focus: "sandbox",  act: "concept", hands: "sandbox", op: "実際にスタートから運んでみましょう", txt: "スタートに指を置いて、そのまま<b>指を離さずに</b>ボックスまで運びます。<br><b>道すじは自由</b>です。（まっすぐでも、回り道でもかまいません）" },
-      // 動き始め方を実際に運ぶ場面で伝える。再閲覧と遅い初動の案内も同じ2文を使う。
-      { part: "hands",  focus: "action",   act: "real", hands: "real", labels: true, op: "実際にスタートから運んでみましょう", txt: MAIN_MOVEMENT_HTML + "<br>選んだボックスの中で指を離します。<br>スタートに指を置いてから3秒以内に枠の外へ動き出さないと、振り返りの後に注意が出ます。" },
+      // 初動の期限と回答の期限を区別する。再閲覧と遅い初動の案内も同じ説明を使う。
+      { part: "hands",  focus: "action",   act: "real", hands: "real", labels: true, op: "実際にスタートから運んでみましょう", txt: MAIN_MOVEMENT_HTML + "<br>選んだボックスの中で指を離します。" },
     ];
     const INSTRUCTED_STEPS = [
       { part: "extra", focus: "orient", act: "next", sample: true, reveal: 0, op: "確認したら「次へ」", txt: "追加の10問では、<b>問題文も選択肢も読まずに</b>、<b>適当に指を運んでください</b>。<br>どちらのボックスでも構いません。前の答えを思い出す必要もありません。<br>この10問は、指示どおり読まずに答える問題なので、<b>謝礼には影響しません。</b>" },
@@ -3000,6 +3015,7 @@
       const PART_NAME = { about: "はじめに", screen: "画面の見方", hands: "操作の練習", extra: "追加10問の操作" };
       $("tutPopStep").textContent = step.part === "about" ? PART_NAME.about : PART_NAME[step.part] + " " + (pi + 1) + " / " + inPart.length;   // 「はじめに」は 1 枚なので番号なし
       $("tutPopTxt").innerHTML = step.txt;
+      if (steps === STEPS) logInstructionExposure("dragTutorial", { step: idx + 1 });
       $("tutPopOp").textContent = step.hands && completedHands.has(idx)
         ? `この操作は完了しています。「${nextLabel()}」で進めます。`
         : step.hands && replayMode ? `操作を試すか、「${nextLabel()}」で進めます。` : step.op || "";                          // 操作方法 (緑)
@@ -3301,8 +3317,10 @@
     $("blockintroBody").innerHTML =
       '<h1>練習完了です！</h1>' +
       '<p>ここからが<b>本番</b>です。やり方は練習と同じです。</p>' +
+      '<p><b>回答を急いで終える必要はありません。</b></p>' +
       '<p>準備ができたら「続ける」を押してください。</p>';
     show("blockintro");
+    logInstructionExposure("practiceComplete");
     $("blockintro").querySelector(".pad").scrollTop = 0;
     resumeStage = "practiceComplete"; saveBackup();
   }
@@ -3360,7 +3378,7 @@
   }
 
   // ===== 事後アンケート 拡充分 (2026-09-06、experiment-design §6-6 項8 / decisions-log 2026-09-06) =====
-  // 課題の後に 22 項目 (状態・課題の感じ方・環境・習熟・ふりかえり・自己報告 data_use)。5段階は評定と同じ 1–5 ボタン (尺度を揃える。10段階スライダーは
+  // 課題の後に24項目（ui8で本番の開始基準・3秒の理解を追加）。5段階は評定と同じ1–5ボタン（尺度を揃える。10段階スライダーは
   // 端末で精度が落ち・既定位置に引かれ・ドラッグが課題操作と紛れるため不採用)。選択式は英語スラッグで記録。
   // 表示は POST_ON (評定ブロックを含むクラウド配布) のみ。途中終了 (partial) では必須にしない。用途は品質共変量・探索
   // (analysis-plan §3.6)。項目の文言・選定理由の正本は experiment-design §6-6 項8 / decisions-log、候補の経緯は post-survey-candidates。
@@ -3378,9 +3396,9 @@
     // 課題の感じ方 (2026-09-30。同研究室の他研究 [NASA-TLX 簡易版] との比較で追加): 時間圧 (初動締切 3 秒と案内が時間圧を生んでいないかの設計チェック・迷い評定を汚す要因)、
     // 操作の身体的負担 (fatigue_post は全身の疲労なので別に)、いらだち・焦り (情動は運動に乗る = 軌跡の共変量)
     { sec: "課題の感じ方" },
-    { key: "time_pressure", q: "課題中、「急がなければ」と感じましたか", scale: ["まったく感じなかった", "強く感じた"] },
+    { key: "time_pressure", q: "本番中、「急がなければ」と感じましたか", note: "最後の追加10問は除きます", scale: ["まったく感じなかった", "強く感じた"] },
     { key: "physical_load", q: "課題中、指や腕はどのくらい疲れましたか", scale: ["疲れなかった", "とても疲れた"] },
-    { key: "irritation", q: "課題中、いらだちや焦りをどのくらい感じましたか", scale: ["まったく感じなかった", "強く感じた"] },
+    { key: "irritation", q: "本番中、いらだちや焦りをどのくらい感じましたか", note: "最後の追加10問は除きます", scale: ["まったく感じなかった", "強く感じた"] },
     { sec: "回答した環境" },
     { key: "location", q: "どこで回答しましたか", v: true, opts: [["home", "自宅"], ["work_school", "職場・学校"], ["transit", "電車・バスなど移動中"], ["outdoor", "屋外・店など"], ["other", "その他"]] },
     { key: "posture", q: "回答中の姿勢はどれに近いですか", grid2: true, opts: [["sitting", "座って"], ["standing", "立って"], ["lying", "横になって"], ["walking", "歩きながら"]] },
@@ -3399,19 +3417,32 @@
     { key: "discomfort", q: "不快に感じた場面はありましたか", opts: [["none", "なかった"], ["some", "少しあった"], ["much", "かなりあった"]] },
     // 自己報告の単一項目 (Meade & Craig 2012 の "use my data" 型。2026-09-26): この回答だけで謝礼の有無を決めないと明記して正直な自己申告を取る。不注意ラベルの材料の 1 つ (analysis-plan §4.7)
     { key: "data_use", q: "正直なところ、今回のあなたの回答は「集中して取り組んだ回答」として研究のデータに含めてよいと思いますか", note: "最後の追加10問は除きます", paymentNote: "この質問への回答だけを理由に、謝礼の有無が変わることはありません。", opts: [["yes", "はい、含めてよい"], ["no", "いいえ、集中できていなかった"]], v: true },
+    { sec: "本番での進め方" },
+    { key: "main_start_basis", q: "本番では、主に何を目安にスタートに指を置いていましたか。最も近いものを選んでください。", note: "最後の追加10問より前の本番についてお答えください", v: true,
+      opts: [["read_end", "問題文を読み終えること"], ["situation_understood", "場面の内容が分かったと思うこと"], ["answer_decided", "自分ならどうするか、考えがまとまること"], ["no_basis", "特に目安はなかった"], ["varies", "問題によって違い、一つに決められない"], ["dont_remember", "覚えていない"]] },
+    { key: "main_three_second_meaning", q: "本番中、説明にあった「3秒以内」は、何をするまでの時間だと思っていましたか。", note: "最後の追加10問より前の本番についてお答えください", v: true,
+      opts: [["start_exit", "スタートに指を置いてから、枠の外へ動き始めるまで"], ["decide", "スタートに指を置いてから、答えを決めるまで"], ["release", "スタートに指を置いてから、選んだボックスで指を離すまで"], ["unsure", "分からなかった／覚えていない"]] },
   ];
   const POST_KEYS = POST_ITEMS.filter((it) => it.key).map((it) => it.key);
   device.collectionPlan = { postKeys: POST_ON ? POST_KEYS.slice() : [], instructedEnabled: INSTR_ON, attentionEnabled: ATTN_ON };
   // ページ割り (2026-09-26 後刻): スクロールせずに収まる 2〜3 問ずつ。ここに挙げた項目で新しいページを始める (先頭の fatigue_pre は自動)。
-  // 目安 = Safari のツールバーあり (高さ 759px) で「タイトル + 2〜3 問 + 戻る/次へ」が収まる量。拡充分 7 ページ + 持ち方 + 使いにくかった点 + 操作のしやすさ = 10 ページ
-  const POST_PAGE_STARTS = ["sleep_hours", "time_pressure", "location", "others_present", "usage_years", "moral_familiar", "rating_meaning"];   // 2026-09-30: 課題の感じ方 3 問を 1 ページ追加
+  // 目安 = Safariのツールバーありでも「タイトル + 質問 + 戻る/次へ」が収まる量。選択肢が長い手順2問は1問ずつ。
+  const POST_PAGE_STARTS = ["sleep_hours", "time_pressure", "location", "others_present", "usage_years", "moral_familiar", "rating_meaning", "main_start_basis", "main_three_second_meaning"]; // ui8の手順2問はそれぞれ1ページ
+  const SCOPED_POST_KEYS = ["time_pressure", "irritation", "main_start_basis", "main_three_second_meaning"];
+  const LEGACY_POST_QUESTIONS = { time_pressure: "課題中、「急がなければ」と感じましたか", irritation: "課題中、いらだちや焦りをどのくらい感じましたか" };
   const post = {};
   let postShownAt = null, postBuilt = false;
-  function postBuild() {   // POST_ITEMS から DOM を組む (1回だけ)。scale = 1–5 ボタン1行 + 端点ラベル / opts = 単一選択 (v=縦並び)
+  function postBuild(restored) {   // POST_ITEMSからDOMを組む。旧範囲の回答があれば、その項目だけ旧文言を維持する
     if (postBuilt) return; postBuilt = true;
     const host = $("postBlock");
     let sec = "", page = null, shownSec = null;
-    for (const it of POST_ITEMS) {
+    for (const source of POST_ITEMS) {
+      let it = source;
+      if (LEGACY_POST_QUESTIONS[it.key] && (device.postQuestionMeta[it.key]?.version === "task-v1" ||
+          (!device.postQuestionMeta[it.key] && restored?.answers?.[it.key] != null))) {
+        it = { ...it, q: LEGACY_POST_QUESTIONS[it.key], note: null };
+        device.postQuestionMeta[it.key] = { version: "task-v1", scope: "whole_task" };
+      }
       if (it.sec) { sec = it.sec; continue; }   // 節の見出しは各ページの小見出し (eyebrow) に
       if (!page || POST_PAGE_STARTS.includes(it.key)) {   // スクロールしない分量で 2〜3 問ずつ 1 ページに (2026-09-26 後刻。ページ id = 先頭の項目)
         page = document.createElement("div"); page.className = "postpage"; page.id = "pp-" + it.key; page.dataset.page = it.key; page.dataset.keys = "";
@@ -3473,7 +3504,7 @@
     for (const b of $("surveyEaseSeg").children) b.classList.remove("sel");
     syncChoiceState($("surveyProblems")); syncChoiceState($("surveyEaseSeg"));
   }
-  // ---- 1 項目 1 画面 (2026-09-26): ページ = 持ち方 → (拡充分 19 項目) → (使いにくかった点 → 操作のしやすさ)。課題と同じくスクロールなし・「戻る / 次へ」 ----
+  // ---- ページ = 持ち方 → 拡充分 → 使いにくかった点 → 操作のしやすさ → 自由記述。スクロールなし・「戻る / 次へ」 ----
   let postPages = [], postPageIdx = 0;
   const otherOk = () => !survey.problems.includes("other") || survey.free.trim().length > 0;   // その他は自由記述で具体化
   function postPageList() {
@@ -3495,6 +3526,10 @@
   function postGoto(i) {
     postPageIdx = Math.max(0, Math.min(i, postPages.length - 1));
     postPages.forEach((p, k) => { if (k === postPageIdx) { p.el.classList.add("on"); if (p.part) p.el.dataset.part = String(p.part); } else if (p.el !== postPages[postPageIdx].el) p.el.classList.remove("on"); });
+    for (const key of (postPages[postPageIdx].el.dataset.keys || "").split(",").filter(Boolean)) {
+      if (!device.postPresentedKeys.includes(key)) device.postPresentedKeys.push(key);
+      if (SCOPED_POST_KEYS.includes(key) && !device.postQuestionMeta[key]) device.postQuestionMeta[key] = { version: "main-v1", scope: "main_before_additional" };
+    }
     $("postStep").textContent = `${postPageIdx + 1} / ${postPages.length}`;
     $("postLead").style.display = "none";   // 導入文は持ち方のページに統合 (2026-09-27)
     $("postPrev").style.display = postPageIdx === 0 ? "none" : "";   // 1 ページ目は「次へ」を中央に (2026-09-29)
@@ -3533,7 +3568,7 @@
     if (hasSurvey) surveyReset();
     $("postBack").style.display = (device.partial && device.endedBy === "operator" && endedFrom) ? "" : "none";   // 終了の取り消し
     $("postBlock").style.display = POST_ON ? "" : "none";
-    if (POST_ON) { postBuild(); postReset(); }
+    if (POST_ON) { postBuild(restored); postReset(); }
     if (restored) {
       Object.assign(post, restored.answers || {});
       Object.assign(survey, restored.survey || {});
@@ -3557,9 +3592,15 @@
     if (restored && restored.pageId) {
       const byId = postPages.findIndex(p => p.id === restored.pageId);
       if (byId >= 0) returnPage = byId;
-    } else if (restored && (!Array.isArray(restored.survey && restored.survey.problemPages) || restored.survey.problemPages.length < problemParts.length)) {
-      const inserted = postPages.findIndex(p => p.id === "problems3");
-      if (inserted >= 0 && returnPage >= inserted) returnPage++;   // 旧版の操作のしやすさ・自由記述の戻り先を保つ
+    } else if (restored) {
+      // pageIdのない旧保存は当時のページ列で数値を解釈する。追加質問/問題ページで戻り先をずらさない。
+      const priorPages = postPages.filter(p => {
+        if (["main_start_basis", "main_three_second_meaning"].includes(p.id)) return Object.prototype.hasOwnProperty.call(restored.answers || {}, p.id);
+        if (p.id === "problems3") return Array.isArray(restored.survey?.problemPages) && restored.survey.problemPages.length >= problemParts.length;
+        return true;
+      });
+      const prior = priorPages[returnPage];
+      if (prior) returnPage = postPages.findIndex(p => p.id === prior.id);
     }
     postGoto(returnPage);
     saveBackup();
@@ -3861,6 +3902,13 @@
     const r = normalizedResume(b);
     const gapMs = Math.max(0, Date.now() - Date.parse(b.interruptedAt));
     Object.assign(device, b.device);
+    // 再開案内の裏で初期化された新規画面を引き継がず、保存済みの表示履歴だけを復元する。
+    device.instructionExposure = Array.isArray(b.device.instructionExposure) ? b.device.instructionExposure.slice() : [];
+    device.postPresentedKeys = Array.isArray(b.device.postPresentedKeys) ? b.device.postPresentedKeys.slice() : [];
+    device.postQuestionMeta = b.device.postQuestionMeta && typeof b.device.postQuestionMeta === "object" ? { ...b.device.postQuestionMeta } : {};
+    const previousPostKeys = b.device.collectionPlan?.postKeys;
+    device.collectionPlan = { ...device.collectionPlan, postKeys: POST_ON ? POST_KEYS.slice() : [] };
+    if (Array.isArray(previousPostKeys) && JSON.stringify(previousPostKeys) !== JSON.stringify(device.collectionPlan.postKeys) && !device.collectionPlan.originalPostKeys) device.collectionPlan.originalPostKeys = previousPostKeys.slice();
     if (device.consent) consentTiming = PilotConsent.timeline(device.consentTiming);
     device.config = CONFIG;
     // 開始後は入力フォームを再提示しない。旧版の入口でcaptureIntroが呼ばれる場合にも値を保つ。
@@ -4416,8 +4464,8 @@
     { h: "所要時間と進め方",
       b: '<p>全体で <b>40分ほど</b>（35〜50分）かかります。時間に余裕があるときに始めてください。</p>' +
          '<ul><li><b>読む速さの計測</b> → <b>画面構成と操作方法の説明</b> → <b>練習</b> → <b>本番</b> → <b>実施後のアンケート</b>と進みます。説明は何度でも見直せます。</li>' +
-         '<li>急ぐ必要はありません。<b>自分のペース</b>で進めてください。</li>' +
-         '<li>本番では <b>20問ごとに休憩</b>があります。いろいろな箇所で時間を計測しているので、<b>休憩以外では中断せず</b>に続けてください。</li></ul>' },
+         '<li><b>回答を急いで終える必要はありません。</b>時間は記録しますが、速さを競う課題ではありません。読むことや考えることに、必要な時間を使ってください。</li>' +
+         '<li>本番では <b>20問ごとに休憩</b>があります。休憩以外は、別の作業を挟まずに続けてください。</li></ul>' },
     { h: "実施する環境について",
       b: '<p><b>静かな場所</b>で、落ち着いて取り組める時に始めてください。</p>' +
          '<ul><li>スマートフォンを<b>手で持って</b>操作します（机に置いたままにしないでください）。</li>' +
@@ -4467,6 +4515,7 @@
     wcCueTimer = setTimeout(() => { if (wcIdx === page) $("wcNext").classList.add("cue"); }, readCueDelay(p.b));
     $("welcome").querySelector(".pad").scrollTop = 0;
     focusScreenHeading("welcome");
+    if (!KIOSK && wcIdx === 1 && screens.welcome.classList.contains("active")) logInstructionExposure("welcome", { page: 2 });
   }
   let wcAgreeShownAt = null, wcAgreeMs = 0;
   function finishWelcomeDwell() {
