@@ -286,7 +286,7 @@
     <div id="consentSaveStatus" role="status" aria-live="polite" aria-atomic="true">
       <div class="spin" aria-hidden="true"></div>
       <p>保存が完了すると自動で次の画面に進みます。</p>
-      <p id="consentSaveNote">通信環境によっては時間がかかる場合があります。ブラウザの更新（再読み込み）や「戻る」は使わず、画面を閉じずにそのままお待ちください。</p>
+      <p id="consentSaveNote">通信環境によっては時間がかかる場合があります。<br><strong>ブラウザの更新（再読み込み）や「戻る」は使わず、画面を閉じずにそのままお待ちください。</strong></p>
     </div>
   </div>
 </section>
@@ -503,7 +503,7 @@
     <div id="sendBox" style="display:none">
       <div class="spin" aria-hidden="true"></div>
       <p id="sendMsg" role="status" aria-live="polite" aria-atomic="true">データを送信しています。</p>
-      <p class="opt-note" id="sendWaitNote">通信環境によっては時間がかかる場合があります。ブラウザの更新（再読み込み）や「戻る」は使わず、画面を閉じずにそのままお待ちください。</p>
+      <p class="opt-note" id="sendWaitNote">通信環境によっては時間がかかる場合があります。<br><strong>ブラウザの更新（再読み込み）や「戻る」は使わず、画面を閉じずにそのままお待ちください。</strong></p>
     </div>
     <p id="doneMsg">ご協力ありがとうございました。</p>
     <!-- 完了コード (§6-6 項12): 1人1コードをデータにも記録し「申請コード↔実データ」を機械照合。?ccode=0 で非表示 -->
@@ -1035,6 +1035,7 @@
   const EARLY_CPS = 25;
   const READGATE_ON = QS.get("readgate") !== "0";   // 練習の読了ゲート (2026-09-13)。validate/開発用に無効化可
   const START_CRITERION_HTML = "<b>問題文を最後まで読み、書かれている状況が分かったら</b>、スタートボタンに指を置いてください。<br>答えを決め終えている必要はありません。";
+  const HELP_INTRO_HTML = "<b>問題文を読み状況が分かったら</b>スタートボタンに指を置きます。すると選択肢が出るので、指を離さずに選ぶほうの選択肢のボックスまで運びます。この操作をくり返します。";
   const EARLY_NOTICE_TEXT = "前の問題では、問題文の表示から短い時間でスタートボタンに指が置かれました。" + START_CRITERION_HTML.replace(/<[^>]*>/g, "");
   const MOVEMENT_REASON_HTML = "答えを選んでいる間の指の動きを調べるため、<b>答えが決まるのを待たずに指を動かし始めてください。</b><br>迷っているときも、<b>ゆっくりでよいので、指を動かしながら考えてください。</b>";
   const RELEASE_AREA_HTML = "<b>ボックスの内側なら、文字の上でなくても、どこで指を離しても選べます。</b>";
@@ -1045,10 +1046,12 @@
   const STOP_NOTICE_TEXT = LATE_NOTICE_TEXT;   // 旧名 (validate.js の互換用)
   const NOTICE_TEXTS = { early: EARLY_NOTICE_TEXT, late: LATE_NOTICE_TEXT };
   // 表示用 (伝えたい行動を太字に。textContent は上の平文と一致)
-  const NOTICE_HTML = { early: "前の問題では、<b class=\"why\">問題文の表示から短い時間で</b>スタートボタンに指が置かれました。<br>" + START_CRITERION_HTML,
-                        late: "前の問題では、スタートボタンに指を置いてから<b class=\"why\">3秒以上、指がスタートボタンの外へ出ていませんでした</b>。<br>" + MAIN_MOVEMENT_HTML };
-  NOTICE_HTML.early_late = "前の問題では、<b class='why'>問題文の表示から短い時間でスタートボタンに指が置かれ</b>、<b class='why'>その後3秒以上、指がスタートボタンの外へ出ていませんでした</b>。<br>" +
-    START_CRITERION_HTML + "<br>" + MAIN_MOVEMENT_HTML;
+  const noticeRule = (title, body) => '<h2 class="notice-rule-title">' + title + '</h2><p class="notice-rule-body">' + body + '</p>';
+  const NOTICE_HTML = { early: '<p class="notice-observation">前の問題では、<b class="why">問題文の表示から短い時間で</b>スタートボタンに指が置かれました。</p>' + noticeRule("スタートのタイミング", START_CRITERION_HTML),
+                        late: '<p class="notice-observation">前の問題では、スタートボタンに指を置いてから<b class="why">3秒以上、指がスタートボタンの外へ出ていませんでした</b>。</p>' + noticeRule("指を動かし始めるタイミング", MAIN_MOVEMENT_HTML) };
+  NOTICE_HTML.early_late = '<p class="notice-observation">前の問題では、<b class="why">問題文の表示から短い時間でスタートボタンに指が置かれ</b>、<b class="why">その後3秒以上、指がスタートボタンの外へ出ていませんでした</b>。</p>' +
+    noticeRule("スタートのタイミング", START_CRITERION_HTML) + noticeRule("指を動かし始めるタイミング", MAIN_MOVEMENT_HTML);
+  for (const kind of ["early", "late"]) NOTICE_TEXTS[kind] = NOTICE_HTML[kind].replace(/<[^>]*>/g, "");
   NOTICE_TEXTS.early_late = NOTICE_HTML.early_late.replace(/<[^>]*>/g, "");
   const noticeKinds = (kind) => kind === "early_late" ? ["early", "late"] : kind === "early" || kind === "late" ? [kind] : [];
   function eligibleNotice(kind) {
@@ -1277,7 +1280,7 @@
     stopNoticesSuppressed: 0, // 上限（種類ごと5回）で非表示にした理由数。両方の抑止なら2
     pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
     practiceChecks: [], noticeReviews: [], // 確認操作の履歴。読了・理解や除外の判定には用いない
-    appVersion: "2026-10-12-ui12",  // 動かしながら考える教示・離す領域・事後の認識を明示
+    appVersion: "2026-10-12-ui13",  // 承認済み説明の強調・短縮、課題中の受け止め、注意本文の階層を整理
     welcomeAgree: null,       // はじめに 5/6・6/6 の同意チェック {items, pages, ms}
     devGuard: null,           // 機種ガード {on,minH,w,h,shown,isIPhone,isIPad,ipadLink,platformOk,sizeOk}
     exportedAt: null,
@@ -1286,7 +1289,7 @@
 
   // appVersionは開始時の版を維持するため、教示の表示版は実行中のコードから記録する。
   // 未記録の旧画面を推測で埋めず、表示イベントを読了・理解とみなさない。
-  const INSTRUCTION_VERSION = "2026-10-12-ui12";
+  const INSTRUCTION_VERSION = "2026-10-12-ui13";
   function logInstructionExposure(screen, detail = {}) {
     device.instructionExposure.push({ version: INSTRUCTION_VERSION, at: new Date().toISOString(),
       screen, ...detail, phase, block: CONFIG.block, afterTrial: trialIndex });
@@ -1927,11 +1930,10 @@
   function showInstructedIntro() {
     pendingInstructedStart = true;
     $("blockintroBody").innerHTML =
-      '<h1>追加の 10 問（やり方が変わります）</h1>' +
-      '<p class="instruction-key"><b>問題文も選択肢も、読まずに進めてください。</b><br>内容を考えて答えを選ぶ必要はありません。<b>適当に指を運んでください。</b>どちらの選択肢でも構いません。</p>' +
+      '<h1>追加の 10 問<br><span class="instructed-subtitle">（やり方が変わります）</span></h1>' +
+      '<p class="instruction-key"><b>問題文も選択肢も、読まずに進めてください。</b><br>内容を考えて答えを選ばず、<b>適当に指を運んでください。</b>どちらの選択肢でも構いません。</p>' +
       '<p>この10問は、指示どおり読まずに答える問題なので、<b>謝礼には影響しません。</b></p>' +
-      '<p>集中して答えたときと、読まずに適当に運んだときとで、<b>指の動きがどう違うか</b>を調べるための問題です。すでに答えた問題が出ますが、前の答えを思い出す必要はありません。</p>' +
-      '<p>操作はこれまでと同じです（スタートボタンに指を置き、選ぶほうへ運びます）。振り返りはありません。このあと実施後のアンケートがあります。</p>';   // 2026-09-30: 何をするか・なぜかを一言ずつ (意図は「指の動きの違い」までに留める = 過剰に演じる要求特性を避ける)
+      '<p>操作はこれまでと同じです。振り返りはありません。このあと最後に実施後のアンケートがあります。</p>';   // ui13: 読まずに運ぶ指示と、操作・振り返り・最後の質問の順を短く示す
     show("blockintro");
     $("blockintro").querySelector(".pad").scrollTop = 0;
     logInstructionExposure("instructedIntro");
@@ -2008,7 +2010,7 @@
     noticeShownAt = performance.now();
     show("notice");
     logInstructionExposure("notice", { kind });
-    $("notice").querySelector(".pad").scrollTop = 0;
+    $("notice").querySelector(".pad").scrollTop = 0; $("noticeText").scrollTop = 0;
     resumeStage = "notice"; saveBackup();
   }
   $("noticeTut").addEventListener("click", () => {   // 案内の理由に合った説明だけを見直す (2026-09-29)。閉じたら案内画面に戻る
@@ -2401,7 +2403,7 @@
   const PRACTICE_RULES = {
     early: { title: "問題文を読んでからスタート", html: START_CRITERION_HTML },
     late: { title: "3秒以内に指をスタートボタンの外へ動かす", html: "スタートボタンに指を置いてからの3秒です。<br><b>答えを決めたり回答を終えたりする制限時間ではありません。</b><br>" + MOVEMENT_REASON_HTML },
-    release: { title: "指を離さずに運ぶ", html: "スタートボタンを押すだけでは選べません。<b>指を離さず</b>選択肢のボックスまで運び、<b>選択肢のボックスの中で離してください。</b><br>" + RELEASE_AREA_HTML },
+    release: { title: "指を離さずに運ぶ", html: "スタートボタンを押したら<b>指を離さず</b>選択肢のボックスまで運び、<b>ボックスの中で離してください。</b><br>ボックスの内側ならどこで指を離しても大丈夫です。" },
   };
   function markPracticeRule(key) {
     if (phase === "practice" && BLOCK.id === "moral" && cell && !cell.isTutorial && !practiceRuleFlags.includes(key)) { practiceRuleFlags.push(key); scheduleCheckpoint(); }
@@ -2860,7 +2862,7 @@
     const STEPS = [
       // 二部構成 (2026-09-09): part 'screen' = 画面の見方 (触らない・読むだけ) / part 'hands' = 操作の練習 (実際に指で運ぶ)。見出し・点は部ごと
       // 三部構成 (2026-09-12 夜): 「はじめに」(やることを文字で 1 枚) → 「画面の見方 1–4」(導入・問題文・スタート・選択肢 = 実際の流れの順) → 「操作の練習 1–3」
-      { part: "about",  focus: "orient",   act: "next", sample: true, reveal: 0, op: "読んだら「次へ」", txt: "これから<b>問題文</b>を読んで、<b>2つの選択肢</b>から あなたの考えに近いほうを選んでもらいます。<br><b>問題文を最後まで読み</b>、書かれている状況が分かったらスタートボタンに指を置きます。すると選択肢が出るので、<b>指を離さずに</b>選ぶほうの選択肢のボックスまで運びます。この操作をくり返します。<br>読んだら、画面の下の緑の<b>「次へ」</b>ボタンで進みます。" },
+      { part: "about",  focus: "orient",   act: "next", sample: true, reveal: 0, op: "読んだら「次へ」", txt: "これから<b>問題文</b>を読んで、<b>2つの選択肢</b>から あなたの考えに近いほうを選んでもらいます。<br><b>問題文を最後まで読み</b>、<b>書かれている状況が分かったら</b>スタートボタンに指を置きます。すると選択肢が出るので、<b>指を離さずに</b>選ぶほうの選択肢のボックスまで運びます。この操作をくり返します。<br>読んだら、画面の下の緑の<b>「次へ」</b>ボタンで進みます。" },
       { part: "screen", focus: "orient",   act: "next", sample: true, reveal: 0, op: "読んだら「次へ」", txt: "まず<b>画面の見方</b>です。<br>ここでは<b>画面の操作はせず</b>、読むだけです。<br>実際の流れの順に、<b>問題文 → スタートボタン → 選択肢</b>と説明していきます。" },
       // 2/4: まず問題文の位置に説明だけを置いて読ませ、その後 BOX が下へスライドして問題文が現れる
       { part: "screen", focus: "stem",     act: "next", sample: true, reveal: 1, revealDelay: 1000, op: "読んだら「次へ」", txt: "まず、画面の<b>上</b>に出る<b>問題文</b>を読みます。" },   // 遅延 1.8 → 1.0 秒 (2026-09-14: 実機で待ちが長い)
@@ -3102,7 +3104,7 @@
       const inPart = requiredReviewSteps ? requiredReviewSteps.map(i => steps[i]) : steps.filter((s) => s.part === step.part), pi = inPart.indexOf(step);
       const PART_NAME = { about: "はじめに", screen: "画面の見方", hands: "操作の練習", extra: "追加10問の操作" };
       $("tutPopStep").textContent = requiredReviewSteps ? "操作の確認 " + (pi + 1) + " / " + inPart.length : step.part === "about" ? PART_NAME.about : PART_NAME[step.part] + " " + (pi + 1) + " / " + inPart.length;
-      $("tutPopTxt").innerHTML = step.txt;
+      $("tutPopTxt").innerHTML = replayMode && step.part === "about" ? HELP_INTRO_HTML : step.txt;
       logInstructionExposure(steps === STEPS ? "dragTutorial" : "instructedTutorial", { step: idx + 1 });
       $("tutPopOp").textContent = step.hands && completedHands.has(idx)
         ? `この操作は完了しています。「${nextLabel()}」で進めます。`
@@ -3410,8 +3412,8 @@
     $("blockintroBody").innerHTML =
       '<h1>練習完了です！</h1>' +
       '<p>ここからが<b>本番</b>です。やり方は練習と同じです。</p>' +
-      '<p><b>回答を急ぐ必要はありません。</b>自分のペースで進めてください。</p>' +
-      '<p>操作を忘れたときは、<b>問題画面の上にある「↻ 操作方法」</b>から説明を見直せます。<br><b>スタートボタンに指を置く前</b>に押してください。</p>' +
+      '<p><b>回答を急ぐ必要はありません。</b><b>自分のペースで進めてください。</b></p>' +
+      '<p>操作を忘れたときは、<b>問題画面の上にある「↻ 操作方法」</b>から説明を見直せます。</p>' +
       '<p>準備ができたら「続ける」を押してください。</p>';
     show("blockintro");
     logInstructionExposure("practiceComplete");
@@ -3597,6 +3599,62 @@
     ]
   }
 };
+  const UI12_POST_ITEMS = {
+  "time_pressure": {
+    "key": "time_pressure",
+    "q": "本番中、「急がなければ」と感じましたか",
+    "scale": [
+      "まったく感じなかった",
+      "強く感じた"
+    ]
+  },
+  "irritation": {
+    "key": "irritation",
+    "q": "本番中、いらだちや焦りをどのくらい感じましたか",
+    "scale": [
+      "まったく感じなかった",
+      "強く感じた"
+    ]
+  },
+  "main_three_second_meaning": {
+    "key": "main_three_second_meaning",
+    "q": "本番で「3秒以内に指をスタートボタンの外へ動かしてください」と言われたとき、どのように進める必要があると感じていましたか。",
+    "v": true,
+    "opts": [
+      [
+        "exit_without_decision",
+        "答えが未定でも、指を外へ動かせばよい"
+      ],
+      [
+        "decide_before_exit",
+        "指を外へ出す前に、答えを決める"
+      ],
+      [
+        "finish_in_three",
+        "3秒以内に回答を終える"
+      ],
+      [
+        "hurry_after_exit",
+        "出た後も、できるだけ速く動かす"
+      ],
+      [
+        "no_attention",
+        "特に意識していなかった"
+      ],
+      [
+        "dont_remember",
+        "覚えていない"
+      ]
+    ],
+    "note": "当時の受け止めとして、あてはまるものをすべて選んでください。",
+    "multiple": true,
+    "exclusive": [
+      "no_attention",
+      "dont_remember"
+    ]
+  }
+};
+  const UI12_POST_VERSIONS = { time_pressure: ["main-v2", "main"], irritation: ["main-v2", "main"], main_three_second_meaning: ["perception-v2", "main"] };
   const POST_ITEMS = [
   {
     "sec": "課題の前後の状態"
@@ -3662,7 +3720,7 @@
   },
   {
     "key": "time_pressure",
-    "q": "本番中、「急がなければ」と感じましたか",
+    "q": "課題中、「急がなければ」と感じましたか",
     "scale": [
       "まったく感じなかった",
       "強く感じた"
@@ -3678,7 +3736,7 @@
   },
   {
     "key": "irritation",
-    "q": "本番中、いらだちや焦りをどのくらい感じましたか",
+    "q": "課題中、いらだちや焦りをどのくらい感じましたか",
     "scale": [
       "まったく感じなかった",
       "強く感じた"
@@ -3976,7 +4034,7 @@
   },
   {
     "key": "main_three_second_meaning",
-    "q": "本番で「3秒以内に指をスタートボタンの外へ動かしてください」と言われたとき、どのように進める必要があると感じていましたか。",
+    "q": "本番で、3秒以内に指をスタートボタンの外へ動かす指示を、どのように理解していましたか。",
     "v": true,
     "opts": [
       [
@@ -4103,9 +4161,9 @@
   const POST_PAGE_STARTS = ["sleep_hours", "time_pressure", "location", "others_present", "usage_years", "moral_familiar", "rating_meaning", "main_start_basis", "main_three_second_meaning", "main_release_area", "main_decision_at_move", "additional_reading"]; // 操作認識の各項目は1問1ページ
   const SCOPED_POST_KEYS = ["time_pressure","irritation","seriousness","attention_lapse","data_use","main_start_basis","main_three_second_meaning","main_release_area","main_decision_at_move","additional_reading"];
   const POST_VERSIONS = {
-    time_pressure: ["main-v2", "main"], irritation: ["main-v2", "main"], main_start_basis: ["main-v2", "main"],
+    time_pressure: ["task-v2", "whole_task"], irritation: ["task-v2", "whole_task"], main_start_basis: ["main-v2", "main"],
     seriousness: ["whole-task-v2", "whole_task"], attention_lapse: ["whole-task-v2", "whole_task"], data_use: ["whole-task-v2", "whole_task"],
-    main_three_second_meaning: ["perception-v2", "main"], main_release_area: ["procedure-v1", "main"],
+    main_three_second_meaning: ["perception-v3", "main"], main_release_area: ["procedure-v1", "main"],
     main_decision_at_move: ["procedure-v1", "main"], additional_reading: ["additional-v1", "instructed"]
   };
   const postDefinitions = {};
@@ -4119,6 +4177,11 @@
       return { ...source, q: LEGACY_POST_QUESTIONS[key], note: null };
     }
     const previouslyShown = device.postPresentedKeys.includes(key) || restored?.answers?.[key] != null;
+    if (UI12_POST_ITEMS[key] && (meta?.version === UI12_POST_VERSIONS[key][0] ||
+        (previouslyShown && /ui12$/.test(device.appVersion)))) {
+      if (!meta) { const [version, scope] = UI12_POST_VERSIONS[key]; device.postQuestionMeta[key] = { version, scope }; }
+      return { ...UI12_POST_ITEMS[key] };
+    }
     if (LEGACY_POST_ITEMS[key] && (meta?.version === "main-v1" ||
         (previouslyShown && /ui(?:6|7|8|9|10|11)$/.test(device.appVersion)))) {
       if (!meta) device.postQuestionMeta[key] = ["seriousness", "attention_lapse", "data_use"].includes(key)
@@ -5174,7 +5237,7 @@
     { h: "所要時間と進め方",
       b: '<p>全体で <b>40分ほど</b>（35〜50分）かかります。時間に余裕があるときに始めてください。</p>' +
          '<ul><li><b>読む速さの計測</b> → <b>画面構成と操作方法の説明</b> → <b>練習</b> → <b>本番</b> → <b>実施後のアンケート</b>と進みます。説明は何度でも見直せます。</li>' +
-         '<li><b>回答を急ぐ必要はありません。</b>読むことや考えることに十分な時間を使って自分のペースで進めてください。</li>' +
+         '<li><b>回答を急ぐ必要はありません。</b>読むことや考えることに十分な時間を使って<b>自分のペースで進めてください。</b></li>' +
          '<li>本番では <b>20問ごとに休憩</b>があります。休憩以外は、別の作業を挟まずに続けてください。</li></ul>' },
     { h: "実施する環境について",
       b: '<p><b>静かな場所</b>で、落ち着いて取り組める時に始めてください。</p>' +

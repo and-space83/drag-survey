@@ -252,10 +252,14 @@
   .rating-answer { text-align: center; font-size: calc(16px * var(--ui-scale)); color: var(--ink-2); margin-bottom: 14px; line-height: 1.5; }
   .rating-answer b { color: var(--go); font-size: calc(18px * var(--ui-scale)); }
   .rating-answer[hidden] { display: none; }
-  /* 停止・早出しの案内画面 (2026-09-09): 大きめの文字、伝えたい行動は太字 */
-  #noticeText { font-size: calc(20px * var(--ui-scale)); line-height: 1.7; }
-  #noticeText b { color: var(--warn); }
-  #notice[data-kind="early_late"] #noticeText { font-size: calc(18px * var(--ui-scale)); line-height: 1.55; }
+  /* 注意の見出し、観測した操作、必要な手順に文字の強弱をつける。 */
+  #noticeText { font-size: calc(16px * var(--ui-scale)); line-height: 1.55; }
+  #noticeText p { margin: 0 0 10px; }
+  #noticeText .notice-observation { font-size: calc(14px * var(--ui-scale)); color: var(--ink-2); }
+  #noticeText .notice-rule-title { font-size: calc(17px * var(--ui-scale)); color: var(--go); margin: 12px 0 5px; line-height: 1.4; }
+  #noticeText b { color: var(--ink); }
+  #noticeText .notice-rule-body:last-child { margin-bottom: 2px; }
+  .instructed-subtitle { font-size: calc(20px * var(--ui-scale)); }
   .anchors { display: flex; justify-content: space-between; margin-top: 6px;
     font-size: calc(14px * var(--ui-scale)); color: var(--ink-2); }  /* 2026-07-15 高齢者配慮: 端点の意味が読める大きさ・明度に */
   .anchors span { max-width: 44%; }
