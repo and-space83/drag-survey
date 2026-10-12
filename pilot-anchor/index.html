@@ -447,7 +447,7 @@
       <div class="checks" id="surveyProblems" aria-labelledby="surveyProblemsLabel">
         <button type="button" class="chk" data-part="1" data-val="rating_burden">1問ごとの回答の振り返りが負担だった</button>
         <button type="button" class="chk" data-part="1" data-val="trial_fatigue">問題数が多くて疲れた・長く感じた</button>
-        <button type="button" class="chk" data-part="1" data-val="drag_hard">ドラッグして選ぶ操作がやりにくかった</button>
+        <button type="button" class="chk" data-part="1" data-val="drag_hard">指を離さずに運んで選ぶ操作がやりにくかった</button>
         <button type="button" class="chk" data-part="1" data-val="ui_hard">文字・ボタン・画面が見づらい／押しにくかった</button>
         <button type="button" class="chk" data-part="1" data-val="tutorial_unclear">チュートリアル・練習の説明がわかりにくかった</button>
         <button type="button" class="chk" data-part="1" data-val="none1" data-none="1">このページでは該当なし</button>
@@ -467,7 +467,7 @@
       </div>
       </div>
       <div class="postpage" data-page="ease">
-      <h2 id="surveyEaseLabel">ドラッグで選ぶ操作はしやすかったですか</h2>
+      <h2 id="surveyEaseLabel">指を離さずに運んで選ぶ操作はしやすかったですか</h2>
       <div class="field">
         <div class="seg" id="surveyEaseSeg" aria-labelledby="surveyEaseLabel">
           <button type="button" data-val="easy">しやすい</button>
@@ -1280,7 +1280,7 @@
     stopNoticesSuppressed: 0, // 上限（種類ごと5回）で非表示にした理由数。両方の抑止なら2
     pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
     practiceChecks: [], noticeReviews: [], noticeAcknowledgements: [], // 旧別画面見直しと新注意内確認を分ける。読了・理解や除外の判定には用いない
-    appVersion: "2026-10-12-ui16",  // 最後のアンケートの所要時間を「目安：約8分」に修正
+    appVersion: "2026-10-12-ui17",  // 参加者向け操作用語・同意説明と例題の開始案内を平易化
     welcomeAgree: null,       // はじめに 5/6・6/6 の同意チェック {items, pages, ms}
     devGuard: null,           // 機種ガード {on,minH,w,h,shown,isIPhone,isIPad,ipadLink,platformOk,sizeOk}
     exportedAt: null,
@@ -1289,7 +1289,7 @@
 
   // appVersionは開始時の版を維持するため、教示の表示版は実行中のコードから記録する。
   // 未記録の旧画面を推測で埋めず、表示イベントを読了・理解とみなさない。
-  const INSTRUCTION_VERSION = "2026-10-12-ui16";
+  const INSTRUCTION_VERSION = "2026-10-12-ui17";
   function logInstructionExposure(screen, detail = {}) {
     device.instructionExposure.push({ version: INSTRUCTION_VERSION, at: new Date().toISOString(),
       screen, ...detail, phase, block: CONFIG.block, afterTrial: trialIndex });
@@ -2031,7 +2031,7 @@
         tutCoachTimer = setTimeout(() => {
           tutCoachTimer = null;
           if (cell !== myCell || !screens.task.classList.contains("active") || dragTutState.active || phase !== "practice" || recording || uiLocked || trial) return;   // もう押している/進んだなら出さない
-          coachMsg("問題文を読み終えたら<br>スタートボタンに指を置いて<br>そのまま離さずに運びます", "gap", "start", "ok");   // 操作の練習の合図と同じ見た目 (緑・箱あり)。2026-09-15: 旧「まずは下のスタートを…実演ではなく自分で操作します」   // 問題文は最初から出ているので上部には置かない (2026-09-09)
+          coachMsg("問題文を読み、状況が分かったら<br>スタートボタンに指を置いて<br>そのまま離さずに運びます", "gap", "start", "ok");   // 操作の練習の合図と同じ見た目 (緑・箱あり)。2026-09-15: 旧「まずは下のスタートを…実演ではなく自分で操作します」   // 問題文は最初から出ているので上部には置かない (2026-09-09)
         }, 500);
       });
       pendingBanner = `ここから練習です（${CONFIG.practiceTrials}問）`;
@@ -3430,13 +3430,13 @@
 
   // ===== 事後アンケート (持ち方 grip は両ブロック / 使いにくさ survey は②③=評定ブロックのみ) =====
   const CURRENT_SURVEY_PROBLEM_DEFINITION = {
-    version: "usability-v2", title: $("surveyProblemsLabel").textContent,
+    version: "usability-v3", title: $("surveyProblemsLabel").textContent, easeQuestion: $("surveyEaseLabel").textContent,
     choices: [...$("surveyProblems").querySelectorAll("button[data-val]")].map(b => ({ value: b.dataset.val, label: b.textContent, part: +b.dataset.part }))
   };
   const LEGACY_SURVEY_PROBLEM_DEFINITION = {
     version: "usability-v1", title: "使いにくかった点・改善してほしい点",
     choices: CURRENT_SURVEY_PROBLEM_DEFINITION.choices.map(c => ({ ...c,
-      label: ({ rating_burden: "振り返りの回答が多くて負担だった", trial_fatigue: "試行数が多くて疲れた・長く感じた" })[c.value] || c.label,
+      label: ({ drag_hard: "ドラッグして選ぶ操作がやりにくかった", rating_burden: "振り返りの回答が多くて負担だった", trial_fatigue: "試行数が多くて疲れた・長く感じた" })[c.value] || c.label,
       part: c.value === "other" ? 2 : c.part
     })).sort((a, b) => a.part - b.part || +a.value.startsWith("none") - +b.value.startsWith("none"))
   };
@@ -3447,6 +3447,8 @@
     device.surveyProblemDefinition = JSON.parse(JSON.stringify(definition));
     const buttons = new Map([...$("surveyProblems").querySelectorAll("button[data-val]")].map(b => [b.dataset.val, b]));
     $("surveyProblemsLabel").textContent = definition.title;
+    $("surveyEaseLabel").textContent = definition.easeQuestion || (["usability-v1", "usability-v2"].includes(definition.version)
+      ? "ドラッグで選ぶ操作はしやすかったですか" : CURRENT_SURVEY_PROBLEM_DEFINITION.easeQuestion);
     for (const choice of definition.choices) {
       const b = buttons.get(choice.value);
       if (!b || ![1, 2, 3].includes(choice.part)) continue;
@@ -3974,7 +3976,7 @@
   },
   {
     "key": "native_ja",
-    "q": "日本語は母語ですか",
+    "q": "日本語は母国語ですか",
     "opts": [
       [
         "yes",
@@ -4242,12 +4244,13 @@
   // ページ割り (2026-09-26 後刻): スクロールせずに収まる 2〜3 問ずつ。ここに挙げた項目で新しいページを始める (先頭の fatigue_pre は自動)。
   // 目安 = Safariのツールバーありでも「タイトル + 質問 + 戻る/次へ」が収まる量。選択肢が長い手順2問は1問ずつ。
   const POST_PAGE_STARTS = ["sleep_hours", "time_pressure", "location", "others_present", "usage_years", "moral_familiar", "rating_meaning", "main_start_basis", "main_three_second_meaning", "main_release_area", "main_decision_at_move", "additional_reading"]; // 操作認識の各項目は1問1ページ
-  const SCOPED_POST_KEYS = ["time_pressure","irritation","seriousness","attention_lapse","data_use","main_start_basis","main_three_second_meaning","main_release_area","main_decision_at_move","additional_reading"];
+  const SCOPED_POST_KEYS = ["time_pressure","irritation","seriousness","attention_lapse","data_use","native_ja","main_start_basis","main_three_second_meaning","main_release_area","main_decision_at_move","additional_reading"];
   const POST_VERSIONS = {
     time_pressure: ["task-v2", "whole_task"], irritation: ["task-v2", "whole_task"], main_start_basis: ["main-v3", "main"],
     seriousness: ["whole-task-v2", "whole_task"], attention_lapse: ["whole-task-v2", "whole_task"], data_use: ["whole-task-v2", "whole_task"],
     main_three_second_meaning: ["perception-v4", "main"], main_release_area: ["procedure-v1", "main"],
-    main_decision_at_move: ["procedure-v1", "main"], additional_reading: ["additional-v1", "instructed"]
+    main_decision_at_move: ["procedure-v1", "main"], additional_reading: ["additional-v1", "instructed"],
+    native_ja: ["mother-country-v2", "attributes"]
   };
   const postDefinitions = {};
   const postAnswered = key => Array.isArray(post[key]) ? post[key].length > 0 : post[key] != null;
@@ -4260,6 +4263,13 @@
       return { ...source, q: LEGACY_POST_QUESTIONS[key], note: null };
     }
     const previouslyShown = device.postPresentedKeys.includes(key) || restored?.answers?.[key] != null;
+    if (key === "native_ja") {
+      const initialUi = Number(device.appVersion?.match(/ui(\d+)$/)?.[1]);
+      if (meta?.version === "mother-tongue-v1" || ((!meta || meta.version === "base-v1") && previouslyShown && (!Number.isFinite(initialUi) || initialUi < 17))) {
+        device.postQuestionMeta[key] = { version: "mother-tongue-v1", scope: "attributes" };
+        return { ...source, q: "日本語は母語ですか" };
+      }
+    }
     if (UI13_POST_ITEMS[key] && (meta?.version === UI13_POST_VERSIONS[key][0] ||
         (previouslyShown && (/ui13$/.test(device.appVersion) || key === "main_start_basis" && /ui12$/.test(device.appVersion))))) {
       if (!meta) { const [version, scope] = UI13_POST_VERSIONS[key]; device.postQuestionMeta[key] = { version, scope }; }
