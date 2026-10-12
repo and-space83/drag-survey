@@ -54,6 +54,12 @@
   .pad .instruction-key { padding: 12px 14px; margin: 8px 0 12px; border: 2px solid #926015; border-radius: 10px; background: #fff7e8; }
   .instruction-key b { color: #714608; }
   #notice .pad { padding-top: 18px; padding-bottom: 18px; }
+  #notice .pad, #practicecheck .pad { display: flex; flex-direction: column; overflow: hidden; }
+  #notice .pad > h1, #practicecheck .pad > h1, #practicecheck .pad > p { flex-shrink: 0; }
+  #noticeText, #practiceCheckItems { min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
+  #noticeText { flex: 1 1 auto; }
+  #practiceCheckItems { flex: 1 1 auto; padding-bottom: 2px; }
+  #noticeGo, #practiceCheckGo { flex-shrink: 0; }
   #noticeTut { display: block; flex-shrink: 0; width: 100%; max-width: var(--nav-maxw); min-height: var(--nav-minh); margin: 12px auto 0; padding: 12px; }
   #practicecheck .pad { padding: 18px; }
   .rule-checks { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
@@ -90,6 +96,8 @@
   .opt-note { font-size: calc(13px * var(--ui-scale)); color: var(--ink-3); margin-top: 2px; }
   /* 事後アンケートの複数選択チェック (②③ = 評定ブロックのみ表示。seg は単一選択なので別クラス) */
   .checks { display: flex; flex-direction: column; gap: 8px; }
+  #postq .post-multiple { gap: 7px; }
+  #postq .post-multiple .chk { padding-top: 12px; padding-bottom: 12px; }
   .checks .chk { position: relative; width: 100%; text-align: left; padding: 13px 12px 13px 40px;
     font-size: calc(15px * var(--ui-scale)); border-radius: 10px; border: 2px solid var(--line); color: var(--ink); background: var(--panel); }
   .checks .chk::before { content: ""; position: absolute; left: 12px; top: 50%; margin-top: -9px;
