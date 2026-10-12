@@ -491,7 +491,7 @@
       <button type="button" class="btn primary" id="postNext" disabled>次へ</button>
       <button type="button" class="btn primary" id="postSubmit" disabled style="display:none">完了する</button>
     </div>
-    <p class="opt-note" id="postMissing" style="text-align:center;margin-top:6px;color:var(--err);font-weight:700"></p>
+    <p class="opt-note" id="postMissing" data-tap-action style="text-align:center;margin-top:6px;color:var(--err);font-weight:700"></p>
   </div>
 </section>
 
@@ -1275,7 +1275,7 @@
     stopNoticesSuppressed: 0, // 上限（種類ごと5回）で非表示にした理由数。両方の抑止なら2
     pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
     practiceChecks: [], noticeReviews: [], // 確認操作の履歴。読了・理解や除外の判定には用いない
-    appVersion: "2026-10-11-ui9",   // 練習の確認・本番初回の説明見直しと追加10問の教示
+    appVersion: "2026-10-12-ui10",  // Safariの本文・余白・無効ボタンにもタップ拡大防止を補完。教示はui9と同じ
     welcomeAgree: null,       // はじめに 5/6・6/6 の同意チェック {items, pages, ms}
     devGuard: null,           // 機種ガード {on,minH,w,h,shown,isIPhone,isIPad,ipadLink,platformOk,sizeOk}
     exportedAt: null,
@@ -5015,9 +5015,41 @@
   surface.addEventListener("touchmove", (e) => { if (e.cancelable) e.preventDefault(); }, { passive: false });
   document.addEventListener("contextmenu", (e) => { if (!e.target.closest("#ccode")) e.preventDefault(); });   // コピー失敗時はコードを長押しして選択できる
   document.addEventListener("gesturestart", (e) => e.preventDefault());
+  // Safariはクリック対象でない本文・余白・disabledボタンでtouch-actionだけでは
+  // ダブルタップ拡大を防げない場合がある。操作を持たない領域の単指タップだけを
+  // touchendで取り消す。初回から取り消すため、2回目のイベント欠落にも依存しない。
+  // 有効なフォーム部品/ラベルはネイティブclickに任せ、clickの手動再送はしない。
+  // スワイプ・複数指・キャンセルは除外し、.padの縦スクロールと慣性を維持する。
+  (() => {
+    let tap = null;
+    const options = { capture: true, passive: true };
+    document.addEventListener("touchstart", e => {
+      const t = e.touches.length === 1 && e.touches[0];
+      tap = t ? { id: t.identifier, x: t.clientX, y: t.clientY, moved: false } : null;
+    }, options);
+    document.addEventListener("touchmove", e => {
+      if (!tap) return;
+      const t = [...e.touches].find(t => t.identifier === tap.id);
+      if (!t || e.touches.length !== 1) { tap = null; return; }
+      if (Math.hypot(t.clientX - tap.x, t.clientY - tap.y) > 10) tap.moved = true;
+    }, options);
+    document.addEventListener("touchcancel", () => { tap = null; }, options);
+    document.addEventListener("touchend", e => {
+      const ended = tap; tap = null;
+      const t = e.changedTouches.length === 1 && e.changedTouches[0];
+      if (!ended || ended.moved || !t || t.identifier !== ended.id || e.touches.length ||
+          Math.hypot(t.clientX - ended.x, t.clientY - ended.y) > 10 || !e.cancelable) return;
+      const target = e.target instanceof Element ? e.target : e.target?.parentElement;
+      if (!target || target.closest("#task")) return; // 課題面は下の既存処理を維持
+      const control = target.closest('button, input, select, textarea, a[href], label, [role="button"], [role="link"], [contenteditable="true"], [data-tap-action]');
+      const action = control?.tagName === "LABEL" ? control.control : control;
+      if (action && !action.matches(':disabled, [aria-disabled="true"]')) return;
+      e.preventDefault();
+    }, { capture: true, passive: false });
+  })();
   // iOS のダブルタップ拡大対策:スタート連打で拡大→復帰不能の実機報告 (2026-07-11)。
   // タスク画面は Pointer Events のみで click 合成に依存しないため、touchend の既定動作
-  // (ダブルタップ拡大 + click 合成) を丸ごと抑止できる。全画面の拡大防止は CSS touch-action:manipulation 側で対処。
+  // (ダブルタップ拡大 + click 合成) を丸ごと抑止できる。他画面はCSSと上の補助処理で対処。
   document.getElementById("task").addEventListener("touchend",
     (e) => { if (e.target && e.target.closest && e.target.closest("button")) return;   // 右上「↻ 操作方法」など課題画面内のボタンは click 合成を止めない (2026-09-29: iPhone で押せなかった)
       if (e.cancelable) e.preventDefault(); }, { passive: false });
