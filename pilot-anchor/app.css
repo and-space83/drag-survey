@@ -53,6 +53,7 @@
   .pad p, .pad li { font-size: calc(15px * var(--ui-scale)); color: var(--ink); }
   .pad .instruction-key { padding: 12px 14px; margin: 8px 0 12px; border: 2px solid #926015; border-radius: 10px; background: #fff7e8; }
   .instruction-key b { color: #714608; }
+  #notice .pad { padding-top: 18px; padding-bottom: 18px; }
   #noticeTut { display: block; flex-shrink: 0; width: 100%; max-width: var(--nav-maxw); min-height: var(--nav-minh); margin: 12px auto 0; padding: 12px; }
   #practicecheck .pad { padding: 18px; }
   .rule-checks { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
