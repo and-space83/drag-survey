@@ -419,7 +419,7 @@
     <!-- 対面 (中断ボタンあり): 「ここで終了する」まで押してしまったときの取り消し (課題に戻る)。時間上限で終わった場合は出さない (2026-09-07) -->
     <button class="btn ghost" id="postBack" style="display:none;margin:0 0 12px">← 課題に戻る（終了を取り消す）</button>
     <div class="postpage" data-page="grip">
-    <p>最後に、<b>2分ほど</b>で終わるアンケートにお答えください。</p>
+    <p>最後に、アンケートにお答えください（<b>目安：約8分</b>）。</p>
     <p id="gripQuestion">さきほどの課題では、スマートフォンをどのように持って操作していましたか？<br>最も近いものを 1 つお選びください。</p>
     <div class="field">
       <div class="seg seg-v" id="gripSeg" aria-labelledby="gripQuestion">
@@ -434,7 +434,7 @@
 
     <!-- 事後アンケート拡充分: POST_ITEMSから通常27項目を描画（追加10問OFFでは対応質問を除いて26項目）。
          評定ブロックを含むクラウド配布のみ (対面 kiosk/stop では出さない = 時間枠・実施者不在。操作の質問だけに留める) -->
-    <p class="opt-note" id="postLead" style="display:none;margin-top:14px">続けて、いくつか質問にお答えください（約2分）。</p>
+    <p class="opt-note" id="postLead" style="display:none;margin-top:14px">続けて、いくつか質問にお答えください（目安：約8分）。</p>
     <div id="postBlock" style="display:none"></div>
 
     <!-- 事後アンケート (UI/負担。②③=評定ブロックのみ表示。G4 負担の主観版裏付け + 改善材料。pilot2-design-notes) -->
@@ -1280,7 +1280,7 @@
     stopNoticesSuppressed: 0, // 上限（種類ごと5回）で非表示にした理由数。両方の抑止なら2
     pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
     practiceChecks: [], noticeReviews: [], noticeAcknowledgements: [], // 旧別画面見直しと新注意内確認を分ける。読了・理解や除外の判定には用いない
-    appVersion: "2026-10-12-ui15",  // 困りごとの文言・その他の配置、画面の見方の実例選択肢を整理
+    appVersion: "2026-10-12-ui16",  // 最後のアンケートの所要時間を「目安：約8分」に修正
     welcomeAgree: null,       // はじめに 5/6・6/6 の同意チェック {items, pages, ms}
     devGuard: null,           // 機種ガード {on,minH,w,h,shown,isIPhone,isIPad,ipadLink,platformOk,sizeOk}
     exportedAt: null,
@@ -1289,7 +1289,7 @@
 
   // appVersionは開始時の版を維持するため、教示の表示版は実行中のコードから記録する。
   // 未記録の旧画面を推測で埋めず、表示イベントを読了・理解とみなさない。
-  const INSTRUCTION_VERSION = "2026-10-12-ui15";
+  const INSTRUCTION_VERSION = "2026-10-12-ui16";
   function logInstructionExposure(screen, detail = {}) {
     device.instructionExposure.push({ version: INSTRUCTION_VERSION, at: new Date().toISOString(),
       screen, ...detail, phase, block: CONFIG.block, afterTrial: trialIndex });
