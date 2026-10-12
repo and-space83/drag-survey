@@ -31,6 +31,7 @@
              collectionPlan: {postKeys, originalPostKeys?, instructedEnabled, attentionEnabled}, // 現在収集予定の事後項目。未完了の旧版再開で項目が変わる場合は元のpostKeysも保持
              postPresentedKeys: [key], // ui8以降のコードで実際に表示した事後項目。旧履歴は補完しない
              postQuestionMeta: {[key]: {version, scope, definition}}, // 実表示時の質問版・範囲・本文・選択肢・選択形式。旧単一回答と旧範囲を復元時にも保持
+             surveyProblemDefinition: {version, title, choices:[{value,label,part}]} | null, // ui15以降の困りごとの固定定義。旧postq途中は旧文言・所属を保持。閲覧完了の指標ではない
              age, sex, handedness,            // 事前アンケート (特性。必須。性別は na=回答しない可)
              grip,                             // 事後アンケート (持ち方+操作を1問に。課題後に回顧で取得)
              survey:                           // 事後アンケート UI/負担 (②③=評定ブロックのみ。anchor は null)
@@ -438,14 +439,14 @@
 
     <!-- 事後アンケート (UI/負担。②③=評定ブロックのみ表示。G4 負担の主観版裏付け + 改善材料。pilot2-design-notes) -->
     <div id="surveyBlock" style="display:none">
-      <div class="postpage" data-page="problems" id="surveyProblemsPage">
-      <!-- 既存10項目の5+5を保ち、案内・待機に関する追加2項目を3ページ目に分ける。各ページに該当なしを設ける -->
-      <h2 id="surveyProblemsLabel">使いにくかった点・改善してほしい点</h2>
+      <div class="postpage" data-page="problems" data-other-part="3" id="surveyProblemsPage">
+      <!-- 5+4+3項目の3ページ。その他は最後に置き、各ページに該当なしを設ける -->
+      <h2 id="surveyProblemsLabel">使いにくかった点・改善した方がいい点</h2>
       <p class="opt-note part1">当てはまるものをすべてお選びください（複数選択可）。次の画面にも続きがあります。</p>
       <p class="opt-note part2">続きです。当てはまるものをすべてお選びください（複数選択可）。</p>
       <div class="checks" id="surveyProblems" aria-labelledby="surveyProblemsLabel">
-        <button type="button" class="chk" data-part="1" data-val="rating_burden">振り返りの回答が多くて負担だった</button>
-        <button type="button" class="chk" data-part="1" data-val="trial_fatigue">試行数が多くて疲れた・長く感じた</button>
+        <button type="button" class="chk" data-part="1" data-val="rating_burden">1問ごとの回答の振り返りが負担だった</button>
+        <button type="button" class="chk" data-part="1" data-val="trial_fatigue">問題数が多くて疲れた・長く感じた</button>
         <button type="button" class="chk" data-part="1" data-val="drag_hard">ドラッグして選ぶ操作がやりにくかった</button>
         <button type="button" class="chk" data-part="1" data-val="ui_hard">文字・ボタン・画面が見づらい／押しにくかった</button>
         <button type="button" class="chk" data-part="1" data-val="tutorial_unclear">チュートリアル・練習の説明がわかりにくかった</button>
@@ -454,10 +455,10 @@
         <button type="button" class="chk" data-part="2" data-val="choice_unclear">選択肢がわかりにくかった</button>
         <button type="button" class="chk" data-part="2" data-val="choice_hard">2択のどちらも選びにくいことがあった</button>
         <button type="button" class="chk" data-part="2" data-val="device_slow">スマホの動作が重い・反応しなかった</button>
-        <button type="button" class="chk" data-part="2" data-val="other">その他</button>
         <button type="button" class="chk" data-part="2" data-val="none2" data-none="1">このページでは該当なし</button>
         <button type="button" class="chk" data-part="3" data-val="read_notice_after_reading">問題文を読み終えていたのに、「読んでから」という案内が出た</button>
         <button type="button" class="chk" data-part="3" data-val="explanation_wait_after_reading">説明を読み終えていたのに、「次へ」を押しても進めなかった</button>
+        <button type="button" class="chk" data-part="3" data-val="other">その他</button>
         <button type="button" class="chk" data-part="3" data-val="none3" data-none="1">このページでは該当なし</button>
       </div>
       <div class="field" id="surveyFreeField" style="display:none">
@@ -1244,6 +1245,7 @@
     survey: null,
     post: null,               // 事後アンケート拡充分。POST_ITEMSの24項目（ui8で本番の開始基準・3秒の理解を追加）。評定ブロックを含むクラウド配布のみ、未回答はnull
     postPresentedKeys: [], postQuestionMeta: {}, // 実表示項目と質問版・範囲・提示定義
+    surveyProblemDefinition: null, // 困りごとの文言とページ所属の固定情報。閲覧・理解の記録ではない
     postMs: null,             // 事後アンケート画面の滞在時間 (表示〜完了。負担の指標)
     mic: null,   // 環境音モニタの実測記録 {mode, threshold, …, ambientDb, ambientRetries, drops} (finishSession で確定。§6-6 項10)
     wakeLock: null,        // Screen Wake Lock の取得可否 (§6-6 項11。iOS 16.4+ / 非対応端末は false)
@@ -1278,7 +1280,7 @@
     stopNoticesSuppressed: 0, // 上限（種類ごと5回）で非表示にした理由数。両方の抑止なら2
     pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
     practiceChecks: [], noticeReviews: [], noticeAcknowledgements: [], // 旧別画面見直しと新注意内確認を分ける。読了・理解や除外の判定には用いない
-    appVersion: "2026-10-12-ui14",  // 判断前の開始を明示、注意内確認へ統合、開始目安を複数選択に
+    appVersion: "2026-10-12-ui15",  // 困りごとの文言・その他の配置、画面の見方の実例選択肢を整理
     welcomeAgree: null,       // はじめに 5/6・6/6 の同意チェック {items, pages, ms}
     devGuard: null,           // 機種ガード {on,minH,w,h,shown,isIPhone,isIPad,ipadLink,platformOk,sizeOk}
     exportedAt: null,
@@ -1287,7 +1289,7 @@
 
   // appVersionは開始時の版を維持するため、教示の表示版は実行中のコードから記録する。
   // 未記録の旧画面を推測で埋めず、表示イベントを読了・理解とみなさない。
-  const INSTRUCTION_VERSION = "2026-10-12-ui14";
+  const INSTRUCTION_VERSION = "2026-10-12-ui15";
   function logInstructionExposure(screen, detail = {}) {
     device.instructionExposure.push({ version: INSTRUCTION_VERSION, at: new Date().toISOString(),
       screen, ...detail, phase, block: CONFIG.block, afterTrial: trialIndex });
@@ -3126,7 +3128,7 @@
       // revealDelay: 最初は説明だけを対象の位置に置いて読ませ、n ミリ秒後に BOX が下へ動いて対象が現れる
       showSample(delayed ? 0 : (step.reveal || 0));                      // 上から順に開示 (問題文→選択肢→スタート)
       if (step.labels || step.labelsVisible) {   // 操作の練習 3/3: 「選択肢1/2」を用意し、指がスタートから出た瞬間に現す (本番と同じ出現の仕組みに慣れる。2026-09-09)
-        numA.textContent = "選択肢1"; numB.textContent = "選択肢2";
+        if (step.labels) { numA.textContent = "選択肢1"; numB.textContent = "選択肢2"; }
         numA.className = "txt"; numB.className = "txt"; numA.style.visibility = step.labelsVisible ? "visible" : "hidden"; numB.style.visibility = numA.style.visibility;
       }
       sbxRevealed = false; demoLeft = false;
@@ -3427,7 +3429,32 @@
   }
 
   // ===== 事後アンケート (持ち方 grip は両ブロック / 使いにくさ survey は②③=評定ブロックのみ) =====
-  const problemParts = [1, 2, 3].map(part => [...$("surveyProblems").querySelectorAll(`button[data-part="${part}"]:not([data-none])`)].map(b => b.dataset.val));
+  const CURRENT_SURVEY_PROBLEM_DEFINITION = {
+    version: "usability-v2", title: $("surveyProblemsLabel").textContent,
+    choices: [...$("surveyProblems").querySelectorAll("button[data-val]")].map(b => ({ value: b.dataset.val, label: b.textContent, part: +b.dataset.part }))
+  };
+  const LEGACY_SURVEY_PROBLEM_DEFINITION = {
+    version: "usability-v1", title: "使いにくかった点・改善してほしい点",
+    choices: CURRENT_SURVEY_PROBLEM_DEFINITION.choices.map(c => ({ ...c,
+      label: ({ rating_burden: "振り返りの回答が多くて負担だった", trial_fatigue: "試行数が多くて疲れた・長く感じた" })[c.value] || c.label,
+      part: c.value === "other" ? 2 : c.part
+    })).sort((a, b) => a.part - b.part || +a.value.startsWith("none") - +b.value.startsWith("none"))
+  };
+  let problemParts = [1, 2, 3].map(part => CURRENT_SURVEY_PROBLEM_DEFINITION.choices.filter(c => c.part === part && !c.value.startsWith("none")).map(c => c.value));
+  function bindSurveyProblemDefinition(restored) {
+    // 定義のない旧版postq保存は旧3ページのまま再開する。未到達の旧セッションは初回表示時に新版を適用。
+    const definition = device.surveyProblemDefinition || (restored ? LEGACY_SURVEY_PROBLEM_DEFINITION : CURRENT_SURVEY_PROBLEM_DEFINITION);
+    device.surveyProblemDefinition = JSON.parse(JSON.stringify(definition));
+    const buttons = new Map([...$("surveyProblems").querySelectorAll("button[data-val]")].map(b => [b.dataset.val, b]));
+    $("surveyProblemsLabel").textContent = definition.title;
+    for (const choice of definition.choices) {
+      const b = buttons.get(choice.value);
+      if (!b || ![1, 2, 3].includes(choice.part)) continue;
+      b.textContent = choice.label; b.dataset.part = String(choice.part); $("surveyProblems").appendChild(b);
+    }
+    problemParts = [1, 2, 3].map(part => [...$("surveyProblems").querySelectorAll(`button[data-part="${part}"]:not([data-none])`)].map(b => b.dataset.val));
+    $("surveyProblemsPage").dataset.otherPart = $("surveyProblems").querySelector('[data-val="other"]').dataset.part;
+  }
   const survey = { problems: [], problemPages: problemParts.map(() => null), ease: null, free: "", comment: "" };  // 未回答(null)と明示的該当なし(["none"])を区別
   function syncSurveyProblems() {
     const answered = survey.problemPages.filter(Array.isArray);
@@ -4336,9 +4363,10 @@
     }
     if (HAS_RATING_BLOCK) {   // 各ページで問題または「このページでは該当なし」の明示回答を必須にする。
       const pp = $("surveyProblemsPage");
-      out.push({ id: "problems", label: "使いにくかった点（1）", el: pp, part: 1, ok: () => Array.isArray(survey.problemPages[0]) && survey.problemPages[0].length > 0 });
-      out.push({ id: "problems2", label: "使いにくかった点（2）", el: pp, part: 2, ok: () => Array.isArray(survey.problemPages[1]) && survey.problemPages[1].length > 0 && otherOk() });
-      out.push({ id: "problems3", label: "使いにくかった点（3）", el: pp, part: 3, ok: () => Array.isArray(survey.problemPages[2]) && survey.problemPages[2].length > 0 });
+      for (let i = 0; i < problemParts.length; i++) out.push({
+        id: i === 0 ? "problems" : "problems" + (i + 1), label: "使いにくかった点（" + (i + 1) + "）", el: pp, part: i + 1,
+        ok: () => Array.isArray(survey.problemPages[i]) && survey.problemPages[i].length > 0 && (!problemParts[i].includes("other") || otherOk())
+      });
       out.push({ id: "ease", label: "操作のしやすさ", el: document.querySelector('#postq .postpage[data-page="ease"]'), ok: () => !!survey.ease });
       out.push({ id: "comment", label: "自由記述", el: document.querySelector('#postq .postpage[data-page="comment"]'), ok: () => true });   // 任意 (2026-09-29)
     }
@@ -4379,7 +4407,7 @@
     if (resumeStage === "postq") scheduleCheckpoint();
   }
   function postMissingList() {   // 必須で未回答のページ (並び順)
-    return postPages.map((p, k) => ({ ...p, idx: k })).filter((p) => !p.ok()).map((p) => ({ label: p.id === "problems2" && !otherOk() ? "「その他」の内容" : p.label, idx: p.idx }));
+    return postPages.map((p, k) => ({ ...p, idx: k })).filter((p) => !p.ok()).map((p) => ({ label: p.part && problemParts[p.part - 1].includes("other") && !otherOk() ? "「その他」の内容" : p.label, idx: p.idx }));
   }
   $("postMissing").addEventListener("click", () => {   // 最初の未回答のページへ
     const list = postMissingList();
@@ -4390,6 +4418,7 @@
   function showPostQuestions(restored) {
     const hasSurvey = HAS_RATING_BLOCK;
     $("surveyBlock").style.display = hasSurvey ? "" : "none";
+    if (hasSurvey) bindSurveyProblemDefinition(restored);
     if (hasSurvey) surveyReset();
     $("postBack").style.display = (device.partial && device.endedBy === "operator" && endedFrom) ? "" : "none";   // 終了の取り消し
     $("postBlock").style.display = POST_ON ? "" : "none";
@@ -4738,6 +4767,7 @@
     device.noticeAcknowledgements = Array.isArray(b.device.noticeAcknowledgements) ? b.device.noticeAcknowledgements.slice() : [];
     device.postPresentedKeys = Array.isArray(b.device.postPresentedKeys) ? b.device.postPresentedKeys.slice() : [];
     device.postQuestionMeta = b.device.postQuestionMeta && typeof b.device.postQuestionMeta === "object" ? { ...b.device.postQuestionMeta } : {};
+    device.surveyProblemDefinition = b.device.surveyProblemDefinition ? JSON.parse(JSON.stringify(b.device.surveyProblemDefinition)) : null;
     const previousPostKeys = b.device.collectionPlan?.postKeys;
     device.collectionPlan = { ...device.collectionPlan, postKeys: POST_ON ? POST_KEYS.slice() : [] };
     if (Array.isArray(previousPostKeys) && JSON.stringify(previousPostKeys) !== JSON.stringify(device.collectionPlan.postKeys) && !device.collectionPlan.originalPostKeys) device.collectionPlan.originalPostKeys = previousPostKeys.slice();

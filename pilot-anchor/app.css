@@ -555,13 +555,14 @@
   #postq #postNav { position: sticky; bottom: 0; z-index: 4; flex-shrink: 0; background: var(--bg); box-shadow: 0 10px 0 10px var(--bg); }
   #postq #postNav .btn.ghost { flex: 0 0 32%; }
   #postq #postNav .btn.primary { flex: 1 1 auto; }
-  /* 使いにくかった点は既存5+5と追加2項目の3画面。各画面に「このページでは該当なし」 */
+  /* 使いにくかった点は3画面。旧保存のその他2ページ目と新版3ページ目を区別する */
   #surveyProblems { gap: 6px; }
   #surveyProblems .chk { padding-top: 10px; padding-bottom: 10px; min-height: 44px; }
   #surveyProblemsPage:not([data-part="1"]) .checks .chk[data-part="1"],
   #surveyProblemsPage:not([data-part="2"]) .checks .chk[data-part="2"],
   #surveyProblemsPage:not([data-part="3"]) .checks .chk[data-part="3"],
-  #surveyProblemsPage:not([data-part="2"]) #surveyFreeField,
+  #surveyProblemsPage[data-other-part="2"]:not([data-part="2"]) #surveyFreeField,
+  #surveyProblemsPage[data-other-part="3"]:not([data-part="3"]) #surveyFreeField,
   #surveyProblemsPage[data-part="1"] .part2,
   #surveyProblemsPage:not([data-part="1"]) .part1 { display: none !important; }
 
