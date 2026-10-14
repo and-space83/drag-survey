@@ -107,12 +107,23 @@ window.PILOT_BANK = {
       { id: "privacy-conflict-3", mtype: "privacy", level: "conflict", stem: "隣の家から毎晩、|幼い子の泣き声と|怒鳴り声が聞こえる。|警察も児童相談所も|「証拠がなく動けない」と言う。|今、カーテンの隙間から|虐待が見えている。", a: { label: "撮影する" }, b: { label: "撮影しない" }, better: null, tags: { weight: "重", escape: "封鎖", split: "偏る" } },
       { id: "privacy-conflict-4", mtype: "privacy", level: "conflict", stem: "同居する大学生の弟が|夜中に出歩き、|部屋に鍵をかけ始めた。|警察から弟に連絡も来た。|尋ねても答えない。|扉を壊して入れば|事情が分かるかもしれない。", a: { label: "扉を壊して入る" }, b: { label: "入らずにおく" }, better: null, tags: { weight: "重", escape: "封鎖", split: "割れる" } },
     ],
+    // 例題・練習の採用原文と分類: experiment-design §6-6 項19。既存の本番49問・読速4本は変えない。
+    // 開始後はこの定義をdeviceへ保存し、更新をまたぐ再開でも同じ例題・練習を使う。
+    practiceVersion: "moral-practice-v2-20261015",
+    example: { mtype: "autonomy", level: "clear", id: "tutorial-autonomy-M1-clear-20261015", stem: "「禁煙中だから|吸おうとしたら止めて」と|頼んできた友人が、|飲み会の帰りに|「1本だけ」と|たばこを買おうとしている。", a: { label: "止める" }, b: { label: "見逃す" }, better: null },
     practiceBank: [
-      // 練習5問ぶんを別々の項目で (2026-09-06: 2問の使い回しをやめる)。価値・選好 (旧②) バンクの中立な項目から採用 =
-      // 道徳的な重さがなく本番49問と非重複。1問目=明確 (操作の習得)、以降=トレードオフ (評定リハーサルで尺度の両側を使う)
-      // 2026-09-15: 評定が動く練習に (旧: 価値・選好の易問ばかりで自信 5・迷い 1 に固定された。くじ「はずれなし+50%」と「値段が同じ」の矛盾も解消)。
-      // 1 問目だけ明確 (操作の習得 + 「迷わない」側の目盛り)、2〜5 問目は日常のトレードオフ (お金/時間・今/後・確実/賭け・楽しみ/健康)。
-      // 道徳 7 類型とは重ねない (本番 49 問と非重複)。場面文は本番並みの長さ (50 字前後。読了ゲート用)
+      // 固定順=中間・拮抗・明確・中間・拮抗。各問の左右は従来どおりランダム。
+      // 水準は今回の研究者判断。選択・迷い・自信の値を操作の合否に使わない。
+      { mtype: "honesty", level: "mid", id: "practice-honesty-K3-mid-20261015", stem: "兄は競馬の借金を|妻に隠し、|返済に追われている。|借金を打ち明けられたのは|あなただけだ。|兄の妻から|「夫の様子が最近おかしい」と|相談された。", a: { label: "借金のことを話す" }, b: { label: "黙っておく" }, better: null },
+      { mtype: "loyalty", level: "conflict", id: "draft-20261015-b2", stem: "親友の身代わりに、|無実の人が|処刑されようとしている。|親友の犯行を証言すれば|その人は助かるが、|今度は親友が|処刑される。", a: { label: "証言する" }, b: { label: "黙っている" }, better: null },
+      { mtype: "promise", level: "clear", id: "promise-C2", stem: "友人たちとの飲み会で|話題が途切れた。|親友から|「誰にも言うな」と|打ち明けられた失恋話を|明かせば、|場は盛り上がる。", a: { label: "秘密を守る" }, b: { label: "飲み会で話す" }, better: "a" },
+      { mtype: "promise", level: "mid", id: "promise-M3", stem: "年老いた母に|「父さんの墓は必ず守る」と|約束した。|墓は遠方で|通うだけで一日がかり。|家族は|墓じまいを勧めてくる。", a: { label: "墓を守る" }, b: { label: "墓じまいする" }, better: null },
+      { mtype: "care", level: "conflict", id: "practice-care-K-new-20261014", stem: "洪水で屋上に|高齢者と子どもがいる。|最後の救助ヘリの空きは|1人分。|先に助けを求めたのは|高齢者だ。|あなたが乗せなかった人は|助からない。", a: { label: "高齢者を乗せる" }, b: { label: "子どもを乗せる" }, better: null },
+    ],
+    // UI17以前に例題・練習を開始済みの保存データ専用。新規参加には使わない。
+    legacyPracticeVersion: "moral-practice-v1",
+    legacyExample: { mtype: "tutorial", domain: "tutorial", id: "tutorial", stem: "（例）休日は、どちらで過ごしたいですか？", a: { label: "海でのんびり" }, b: { label: "山でハイキング" }, better: null },
+    legacyPracticeBank: [
       { mtype: "practice", id: "practice-1", stem: "アンケートに|答えたお礼に、|係の人から|好きなほうを|1つ選んでよいと|言われた。|どちらが欲しいですか？", a: { label: "1万円札1枚" }, b: { label: "10円玉1枚" }, better: "a" },
       { mtype: "practice", id: "practice-2", stem: "週末に実家へ|帰ることにした。|交通費は自分で払う。|着く時刻に|決まりはない。|どちらで帰りますか？", a: { label: "安いが6時間の夜行バス" }, b: { label: "高いが2時間の新幹線" }, better: null },
       { mtype: "practice", id: "practice-3", stem: "思いがけず|3万円の臨時収入が|あった。|使い道は自由で、|誰にも相談しなくてよい。|どうしますか？", a: { label: "今すぐ欲しい物を買う" }, b: { label: "来年の旅行に貯める" }, better: null },

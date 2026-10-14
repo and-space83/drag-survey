@@ -551,7 +551,7 @@
   </div>
 </section>
 
-<script src="bank.js"></script>
+<script src="bank.js?v=2026-10-15-ui18"></script>
 <script src="vendor/pako.min.js"></script>
 <script src="data-codec.js"></script>
 <script src="consent.js"></script>
@@ -905,7 +905,7 @@
       defaultStem: "あなたならどうしますか？",
       // 項目バンク (bank.js に分離 2026-09-06。設計正本は §6-5「③49問バンク確定表」)。各 = 1セル。id 省略時の itemId は makeCell が生成
       bank: PILOT_BANK.moral.bank,
-      practiceBank: PILOT_BANK.moral.practiceBank,   // 練習5問 (bank.js)
+      practiceBank: PILOT_BANK.moral.practiceBank,   // 新規参加の練習5問 (bank.js)。再開時は開始済み定義を使う
       makeCell(item, aSide) {
         const leftIsA = aSide === "left";
         const left = leftIsA ? item.a : item.b;
@@ -938,8 +938,9 @@
       },
       buildPractice(n) {
         const out = [];
+        const items = moralPracticeDefinition().practiceBank;
         for (let i = 0; i < n; i++) {
-          const item = this.practiceBank[i % this.practiceBank.length];
+          const item = items[i % items.length];
           out.push(this.makeCell(item, Math.random() < 0.5 ? "left" : "right"));
         }
         return out;
@@ -1280,7 +1281,8 @@
     stopNoticesSuppressed: 0, // 上限（種類ごと5回）で非表示にした理由数。両方の抑止なら2
     pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
     practiceChecks: [], noticeReviews: [], noticeAcknowledgements: [], // 旧別画面見直しと新注意内確認を分ける。読了・理解や除外の判定には用いない
-    appVersion: "2026-10-12-ui17",  // 参加者向け操作用語・同意説明と例題の開始案内を平易化
+    appVersion: "2026-10-15-ui18",  // 道徳課題の例題1問・練習5問を採用済みの場面へ変更
+    moralPracticeDefinition: null, // 最初の操作説明・練習開始時に固定する刺激の版と全文。表示・理解の証跡ではない
     welcomeAgree: null,       // はじめに 5/6・6/6 の同意チェック {items, pages, ms}
     devGuard: null,           // 機種ガード {on,minH,w,h,shown,isIPhone,isIPad,ipadLink,platformOk,sizeOk}
     exportedAt: null,
@@ -1289,7 +1291,36 @@
 
   // appVersionは開始時の版を維持するため、教示の表示版は実行中のコードから記録する。
   // 未記録の旧画面を推測で埋めず、表示イベントを読了・理解とみなさない。
-  const INSTRUCTION_VERSION = "2026-10-12-ui17";
+  const INSTRUCTION_VERSION = "2026-10-15-ui18";
+  function moralPracticeDefinition(legacy = false) {
+    if (!device.moralPracticeDefinition) {
+      const source = PILOT_BANK.moral;
+      device.moralPracticeDefinition = JSON.parse(JSON.stringify({
+        version: legacy ? source.legacyPracticeVersion : source.practiceVersion,
+        example: legacy ? source.legacyExample : source.example,
+        practiceBank: legacy ? source.legacyPracticeBank : source.practiceBank,
+      }));
+    }
+    return device.moralPracticeDefinition;
+  }
+  function tutorialExample(block = BLOCK) {
+    // 旧value/anchor経路の例題はそのまま。道徳の例題は再開で保持した定義から取る。
+    return block.id === "moral" ? moralPracticeDefinition().example : PILOT_BANK.moral.legacyExample;
+  }
+  function makeTutorialCell(block = BLOCK) {
+    const tc = block.makeCell(tutorialExample(block), "left");
+    tc.isTutorial = true;
+    return tc;
+  }
+  function restoreMoralPracticeDefinition(b, r) {
+    device.moralPracticeDefinition = b.device.moralPracticeDefinition ? JSON.parse(JSON.stringify(b.device.moralPracticeDefinition)) : null;
+    // UI17以前は定義を保存していない。操作説明・練習へ入ったセッションだけ旧定義を保持する。
+    // 保存済みqueue/currentCell/trialsは原文のまま復元し、新しい刺激へ置き換えない。
+    if (!device.moralPracticeDefinition && r.seq.includes("moral") &&
+        (r.mainStarted || r.stage === "dragTutorial" || r.preMain?.dragDone || b.trials.some(t => ["tutorial", "practice"].includes(t.phase)))) {
+      moralPracticeDefinition(true);
+    }
+  }
   function logInstructionExposure(screen, detail = {}) {
     device.instructionExposure.push({ version: INSTRUCTION_VERSION, at: new Date().toISOString(),
       screen, ...detail, phase, block: CONFIG.block, afterTrial: trialIndex });
@@ -2937,9 +2968,10 @@
     // 段階開示: level 0=何も出さない / 1=問題文 / 2=問題文+選択肢 (上から下へ一つずつ現す)
     function showSample(level) {
       const s1 = level >= 1, s2 = level >= 2;
-      stemEl.textContent = s1 ? "（例）休日は、どちらで過ごしたいですか？" : "";
+      const example = tutorialExample();
+      stemEl.innerHTML = s1 ? stemHtml(example.stem) : "";
       stemEl.style.visibility = s1 ? "visible" : "hidden";
-      numA.textContent = s2 ? "海でのんびり" : ""; numB.textContent = s2 ? "山でハイキング" : "";
+      numA.textContent = s2 ? example.a.label : ""; numB.textContent = s2 ? example.b.label : "";
       numA.className = s2 ? "txt" : "num"; numB.className = s2 ? "txt" : "num";
       numA.style.visibility = s2 ? "visible" : "hidden"; numB.style.visibility = s2 ? "visible" : "hidden";
     }
@@ -3317,6 +3349,8 @@
     let replayMode = false;   // 2 回目の見直し (右上「↻ 操作方法」): 最小読了時間なし・運ばなくても次へ・× 閉じる (2026-09-29)
     let requiredReviewSteps = null; // 本番で各種類の初回注意だけ、該当する説明ページを確認する。
     function run(cb, opts) {
+      // comboで最初がvalueでも、これから作る道徳練習の定義を同じ時点で固定する。
+      if (REAL_BLOCKS.includes("moral")) moralPracticeDefinition();
       build(); onDone = cb; demo.style.display = ""; dragTutState.active = true;
       replayMode = !!(opts && opts.replay);
       requiredReviewSteps = opts && Array.isArray(opts.requiredSteps) && opts.requiredSteps.length ? opts.requiredSteps.slice() : null;
@@ -3370,13 +3404,12 @@
     } else {
       queue = BLOCK.buildPractice(CONFIG.practiceTrials);
     }
-    // チュートリアル試行 (2026-09-06): ドラッグ導入で見た例 (休日は…海/山) をそのまま1回操作し、その直後の評定で
+    // チュートリアル試行: ドラッグ導入で見た例をそのまま1回操作し、その直後の評定で
     // 評定チュートリアルを行う。練習5問には数えない (phase:'tutorial' で記録・ゲートにも数えない)。導入が走ったときだけ
     if (seqIndex === 0 && dragTutState.done && queue.length > 0) {
       const tb = UNIFIED ? BLOCKS[REAL_BLOCKS[0]] : BLOCK;
-      const tc = tb.makeCell({ mtype: "tutorial", domain: "tutorial", id: "tutorial",
-        stem: "（例）休日は、どちらで過ごしたいですか？", a: { label: "海でのんびり" }, b: { label: "山でハイキング" }, better: null }, "left");
-      tc.isTutorial = true; if (UNIFIED) tc._pblock = REAL_BLOCKS[0];
+      const tc = makeTutorialCell(tb);
+      if (UNIFIED) tc._pblock = REAL_BLOCKS[0];
       queue.unshift(tc);
     }
     sizeCanvas();
@@ -4778,6 +4811,7 @@
     device.postPresentedKeys = Array.isArray(b.device.postPresentedKeys) ? b.device.postPresentedKeys.slice() : [];
     device.postQuestionMeta = b.device.postQuestionMeta && typeof b.device.postQuestionMeta === "object" ? { ...b.device.postQuestionMeta } : {};
     device.surveyProblemDefinition = b.device.surveyProblemDefinition ? JSON.parse(JSON.stringify(b.device.surveyProblemDefinition)) : null;
+    restoreMoralPracticeDefinition(b, r);
     const previousPostKeys = b.device.collectionPlan?.postKeys;
     device.collectionPlan = { ...device.collectionPlan, postKeys: POST_ON ? POST_KEYS.slice() : [] };
     if (Array.isArray(previousPostKeys) && JSON.stringify(previousPostKeys) !== JSON.stringify(device.collectionPlan.postKeys) && !device.collectionPlan.originalPostKeys) device.collectionPlan.originalPostKeys = previousPostKeys.slice();
@@ -4792,6 +4826,7 @@
     for (const t of b.trials) records.push(t);
     restoreInvalidAttempts(b);
     SEQ.length = 0; for (const id of r.seq) SEQ.push(id);   // combo のランダム順は前回のものを引き継ぐ
+    REAL_BLOCKS.splice(0, REAL_BLOCKS.length, ...SEQ.filter(id => id !== "attn")); // これから組む練習も保存済みのブロック順にそろえる
     seqIndex = r.seqIndex;
     loadBlock(r.block);
     phase = r.phase || "main";
@@ -5712,11 +5747,7 @@
     captureIntro();
     const badge = document.createElement("div"); badge.id = "goBadge";
     badge.textContent = "確認モード（送信しません）: " + GO; document.body.appendChild(badge);
-    const tutorialCell = () => {   // 例の1問 (startPractice と同じ内容)
-      const tc = BLOCK.makeCell({ mtype: "tutorial", domain: "tutorial", id: "tutorial",
-        stem: "（例）休日は、どちらで過ごしたいですか？", a: { label: "海でのんびり" }, b: { label: "山でハイキング" }, better: null }, "left");
-      tc.isTutorial = true; return tc;
-    };
+    const tutorialCell = () => makeTutorialCell(); // 例の1問 (startPractice と同じ内容)
     const ratingAt = (withTutorial) => {   // 例の1問を答えた直後の評定画面を作る
       dragTutState.done = true; ratingTutorialDone = !withTutorial; phase = "practice"; streak = 0;
       queue = BLOCK.buildPractice(CONFIG.practiceTrials);
