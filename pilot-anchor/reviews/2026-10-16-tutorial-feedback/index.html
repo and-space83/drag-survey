@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ja">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>チュートリアルと振り返りの調整 — ui21</title>
+<style>
+:root{color-scheme:light;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Meiryo,sans-serif;color:#203b30;background:#fbfbfc}*{box-sizing:border-box}body{max-width:1160px;margin:auto;padding:32px 20px 64px;line-height:1.8}h1{font-size:clamp(24px,4vw,34px);line-height:1.4}h2{font-size:22px;margin-top:40px}a{color:#096b48}p{max-width:85ch}.status{background:#fff5df;border:1px solid #ddc598;border-radius:12px;padding:16px}.changes{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:580px;background:white}th,td{padding:12px 15px;border:1px solid #dce8df;text-align:left;vertical-align:top}th:first-child{width:24%}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}button{font:inherit;background:white;color:#203b30;border:1px solid #a9bfb1;border-radius:10px;padding:9px 15px;cursor:pointer}button[aria-pressed=true]{background:#12855a;color:white;border-color:#12855a}.shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:24px}figure{margin:0;background:white;border:1px solid #dce8df;border-radius:16px;padding:14px}figcaption{font-weight:700;margin-bottom:12px}figure img{display:block;width:100%;max-width:402px;height:auto;margin:auto;border:1px solid #e7ece9}small{display:block;color:#577062}nav{display:flex;gap:14px;flex-wrap:wrap}.note{color:#577062}
+</style>
+<h1>チュートリアルと振り返りの調整</h1>
+<p>2026年10月16日の実機所見に対応した <b>2026-10-16-ui21</b>。今回のご提案はすべて反映しました。</p>
+<p class="status"><b>実装・自動検証・公開反映済み。公開URLの配布21ファイルが正本と一致。</b> <a href="publication.json">公開照合記録</a><br>画像はChromeのタッチ端末エミュレーションです。本人のiPhone Safariでの操作感は未確認です。</p>
+<p>公開URLからのブラウザ確認も35項目成功。接触円72px、実演の待機、復習の誤答と位置、振り返りの説明見直しを、送信を止めて確認しました。<a href="public-browser-results.json">公開ブラウザの確認結果</a></p>
+<nav><a href="../2026-10-12-session-explanations/index.html">固定の説明確認ページ</a><a href="../../screen-gallery/index.html">参加画面の一覧</a><a href="results.json">今回の検証結果</a></nav>
+<h2>変更した箇所と理由</h2>
+<div class="changes"><table>
+<tr><th>箇所</th><th>変更</th><th>理由</th></tr>
+<tr><th>枠内で離す実演</th><td>実際の選択肢からの拡大率を指にも適用。「見本を見る・選択肢の拡大図」の表示を削除。</td><td>指と枠の大きさの関係を保ち、説明の重複を減らします。</td></tr>
+<tr><th>最背面の背景</th><td>課題・説明・振り返りを共通の薄い背景色に統一。</td><td>画面移動時の不要な色の変化を減らします。</td></tr>
+<tr><th>3秒の実演</th><td>「この間が3秒以内」を図の下へ移動。スタート表示から触れるまで、毎回1秒待機。</td><td>接触前の状態と、計時される区間を見分けやすくします。</td></tr>
+<tr><th>押下後の右矢印</th><td>実演・操作練習・本番とも「スタート」を維持。押下中は従来どおり色で表示。</td><td>右へ動かす指示と受け取られうる記号を避けます。</td></tr>
+<tr><th>ルールの復習の位置</th><td>7問の問題文・正誤解説に必要な空間を先に確保。解説表示と問題切替でカード上端と進行ボタンの位置を固定。</td><td>回答するたびに読む場所や押す場所が動く負担を減らします。極端に低い画面ではカード内でスクロールできます。</td></tr>
+<tr><th>復習の誤答</th><td>未選択と誤答の案内を分離。誤答後は「もう一度選びなおしてください」。薄赤背景・赤枠・×を表示。</td><td>選択済みなのに未選択と案内される矛盾を解消。色だけに頼らず状態を示します。</td></tr>
+<tr><th>振り返りの丸印と本文</th><td>全ページの丸印を右端へ。2・4ページを含め、本文はカードの内側いっぱいに折り返す表示へ。</td><td>配置をそろえ、不自然に短い行を減らします。</td></tr>
+<tr><th>途中で開く振り返りの説明</th><td>操作できない回答と尺度の選択肢を非表示に。閉じたら元の回答・ページ・計測へ復帰。</td><td>読んで進む画面の中に、押せそうな部品を残さないためです。</td></tr>
+<tr><th>説明中の別領域へのタッチ</th><td>初回と再確認の両方で「このボタンで進みます」と表示し、進行ボタンを揺らす。</td><td>他の操作説明と同じ誘導にそろえます。端末の「動きを減らす」が有効な場合は、揺れを枠の強調に置き換えます。</td></tr>
+</table></div>
+<h2>変更後の画面</h2>
+<div class="toolbar" role="group" aria-label="画面サイズ">
+<button type="button" data-size="375x700" aria-pressed="false">mini相当</button><button type="button" data-size="402x759" aria-pressed="true">iPhone 17相当</button><button type="button" data-size="440x841" aria-pressed="false">Pro Max相当</button>
+</div>
+<div class="shots">
+<figure><figcaption>選択肢と指の拡大率</figcaption><img data-shot="release-range" src="402x759/release-range.png" alt="拡大した選択肢と、同じ倍率に合わせた指"></figure>
+<figure><figcaption>3秒の説明を下へ</figcaption><img data-shot="three-seconds" src="402x759/three-seconds.png" alt="アニメーション下に置いた3秒以内の説明"></figure>
+<figure><figcaption>誤答時の表示と位置</figcaption><img data-shot="quiz-wrong" src="402x759/quiz-wrong.png" alt="薄い赤背景と赤枠、選びなおしの案内"></figure>
+<figure><figcaption>振り返り 2ページ目</figcaption><img data-shot="rating-2" src="402x759/rating-2.png" alt="カード幅に折り返す本文と右端の進行の丸印"></figure>
+<figure><figcaption>振り返り 4ページ目</figcaption><img data-shot="rating-4" src="402x759/rating-4.png" alt="強制改行を除いた本文と右端の丸印"></figure>
+<figure><figcaption>本番から開く説明</figcaption><img data-shot="rating-review" src="402x759/rating-review.png" alt="回答や選択肢を隠し、進行ボタンへ誘導する説明"></figure>
+</div>
+<p class="note">さらに低い画面の確認：<a href="375x548/quiz-wrong.png">375×548の誤答表示</a>。確認モードのオレンジ色の表示は参加者画面には出ません。</p>
+<h2>ローカルで操作を確認</h2>
+<nav><a href="../../index.html?block=moral&amp;go=tut&amp;gstep=motor-range&amp;upload=0&amp;devguard=0">枠内で離す</a><a href="../../index.html?block=moral&amp;go=tut&amp;gstep=time-rule&amp;upload=0&amp;devguard=0">3秒の実演</a><a href="../../index.html?block=moral&amp;go=tut&amp;gstep=rule-check-intro&amp;upload=0&amp;devguard=0">ルールの復習</a><a href="../../index.html?block=moral&amp;go=rtut&amp;upload=0&amp;devguard=0">振り返りの説明</a></nav>
+<p class="note">確認モードでは参加者データを送信しません。再生成方法と検証範囲は<a href="README.md">検証記録</a>を参照。</p>
+<script>
+for(const button of document.querySelectorAll('[data-size]'))button.addEventListener('click',()=>{for(const other of document.querySelectorAll('[data-size]'))other.setAttribute('aria-pressed',String(other===button));for(const img of document.querySelectorAll('[data-shot]'))img.src=button.dataset.size+'/'+img.dataset.shot+'.png';});
+</script>
+</html>

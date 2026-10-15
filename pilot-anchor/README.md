@@ -12,7 +12,9 @@
 **公開URL**: ① <https://and-space83.github.io/drag-survey/pilot-anchor/> / ② <https://and-space83.github.io/drag-survey/pilot-anchor/?block=value> / ②③統合 <https://and-space83.github.io/drag-survey/pilot-anchor/?block=combo>
 リポ全体のアプリ一覧は [../README.md](../README.md) を参照。
 
-## 現行版の教示・保存・再開 (`2026-10-15-ui20`)
+## 現行版の教示・保存・再開 (`2026-10-16-ui21`)
+
+- ui21で実演の指の倍率・接触前の1秒待機、復習カードの位置と誤答表示、振り返りの本文・進行表示・説明見直しの誘導を調整した。青い接触円は直径72px。到達と回答確定は従来どおり中心の接触座標で判定する。[今回の修正と確認画像](reviews/2026-10-16-tutorial-feedback/)と[公開照合記録](reviews/2026-10-16-tutorial-feedback/publication.json)を参照。
 
 - 説明を「画面の見方→見る実演→自分の操作→5つのルール→7問の復習→例題→振り返り→練習5問」へ分割。スタートが見える説明では進行ボタンを下端、それ以外では従来の押しやすい高さへ置く。図のないルールの説明箱は上端をそろえる。
 - 参加者自身の軌跡の線は表示せず、現在の接触位置と押下・枠内到達の色で操作を示す。座標イベントと時刻・無効操作の記録は維持する。純操作の赤い注意の上限4秒は新仕様。

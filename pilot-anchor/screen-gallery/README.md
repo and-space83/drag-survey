@@ -4,6 +4,8 @@
 
 問題文の角丸と操作注意の位置の調整は [表示調整の確認ページ](../reviews/2026-10-15-stem-and-hints/index.html) を参照する。
 
+チュートリアルの指・3秒の見本・復習の位置と誤答案内・回答の振り返りの表示調整は [2026-10-16の確認ページ](../reviews/2026-10-16-tutorial-feedback/index.html) を参照する。
+
 `index.html` を開くか、リポジトリのルートで次を実行する。
 
 ```powershell

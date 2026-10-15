@@ -1,14 +1,18 @@
 diff --git a/tools/pilot-anchor/app.css b/tools/pilot-anchor/app.css
-index ec3b990..59ebeed 100644
+index ec3b990..9164ad6 100644
 --- a/tools/pilot-anchor/app.css
 +++ b/tools/pilot-anchor/app.css
-@@ -28,5 +27,0 @@
+@@ -20 +20,2 @@
+-    --task-bg: #f4f6f9;     /* 課題画面の地 */
++    --task-bg: var(--bg);   /* 説明・課題・振り返りの最背面を統一 */
++    --contact-diameter: 72px; /* 指の外側から現在位置を見つけられる円。判定は中心座標を使う */
+@@ -28,5 +28,0 @@
 -  /* iOS のダブルタップ拡大対策 (連打で拡大→復帰不能の実機報告 2026-07-11)。
 -     manipulation = パン/ピンチのみ許可でダブルタップ拡大を無効化 (click 応答は保つ)。
 -     タスク画面 (#task) は touch-action:none + touchend 抑止 (JS 側) で全面的に無効。 */
 -  button, input, .btn { touch-action: manipulation; }
 -
-@@ -51,0 +47,15 @@
+@@ -51,0 +48,15 @@
 +  .pad .instruction-key { padding: 12px 14px; margin: 8px 0 12px; border: 2px solid #926015; border-radius: 10px; background: #fff7e8; }
 +  .instruction-key b { color: #714608; }
 +  #notice .pad { padding-top: 18px; padding-bottom: 18px; }
@@ -24,21 +28,21 @@ index ec3b990..59ebeed 100644
 +  .pad .rule-check:has(input:checked) { border-color: var(--go); background: #eff9f3; }
 +  .pad .rule-check input[type="checkbox"] { flex: 0 0 22px; width: 22px; height: 22px; margin: 2px 0 0; padding: 0; accent-color: var(--go); }
 +  .rule-title { display: block; margin-bottom: 4px; color: var(--accent); }
-@@ -80,0 +91,2 @@
+@@ -80,0 +92,2 @@
 +  #postq .post-multiple { gap: 7px; }
 +  #postq .post-multiple .chk { padding-top: 12px; padding-bottom: 12px; }
-@@ -135 +147 @@
+@@ -135 +148 @@
 -  #progress { position: absolute; top: 5%; left: 22%; right: 22%; height: clamp(4px, 1.1vmin, 8px); margin-top: 2px;
 +  #progress, #ratingProgress { position: absolute; top: 5%; left: 22%; right: 22%; height: clamp(4px, 1.1vmin, 8px); margin-top: 2px;
-@@ -137,2 +149,4 @@
+@@ -137,2 +150,4 @@
 -  #progress.on { display: block; }
 -  #progressFill { height: 100%; width: 0; background: var(--go); border-radius: 999px; transition: width .3s ease; }
 +  #progress.on, #ratingProgress.on { display: block; }
 +  #progressFill, #ratingProgressFill { height: 100%; width: 0; background: var(--go); border-radius: 999px; transition: width .3s ease; }
 +  /* 同じ位置を基本とし、低い画面では上部の振り返りヘルプに重ならない高さを確保する。 */
 +  #ratingProgress { top: max(5%, calc(max(9px, env(safe-area-inset-top)) + max(24px, calc(24px * var(--ui-scale))))); }
-@@ -140,0 +155,12 @@
-+  #dragPosition { position: absolute; width: 48px; height: 48px; border: 3px solid #1668c4;
+@@ -140,0 +156,12 @@
++  #dragPosition { position: absolute; width: var(--contact-diameter); height: var(--contact-diameter); border: 3px solid #1668c4;
 +    border-radius: 50%; background: rgba(22,104,196,.12); transform: translate(-50%,-50%);
 +    pointer-events: none; z-index: 5; }
 +  #dragPosition[hidden] { display: none; }
@@ -50,9 +54,9 @@ index ec3b990..59ebeed 100644
 +  .guided-intro-card .guided-intro-op { color: var(--go); font-weight: 700; margin-bottom: 0; }
 +  #guidedIntroGo { position: absolute; left: 16px; right: 16px; top: calc(88% - 8vmin - 28px); }
 +  #guidedIntroGo.flash { animation: btnNudge .5s ease-in-out; }
-@@ -144,0 +171 @@
+@@ -144,0 +172 @@
 +    border-radius: 14px;
-@@ -235,4 +262,8 @@
+@@ -235,4 +263,8 @@
 -  /* 停止・早出しの案内画面 (2026-09-09): 大きめの文字、伝えたい行動は太字 */
 -  #noticeText { font-size: calc(20px * var(--ui-scale)); line-height: 1.7; }
 -  #noticeText b { color: var(--warn); }
@@ -65,7 +69,7 @@ index ec3b990..59ebeed 100644
 +  #noticeText b { color: var(--ink); }
 +  #noticeText .notice-rule-body:last-child { margin-bottom: 2px; }
 +  .instructed-subtitle { font-size: calc(20px * var(--ui-scale)); }
-@@ -488,0 +520,56 @@
+@@ -488,0 +521,58 @@
 +  /* 回答の振り返りの説明だけをカード化。通常の本番・練習評定の倍率や配置は変更しない。 */
 +  #rating.tut-front { --ui-scale: 1; }
 +  #rating.tut-front .qwrap { padding: 20px 18px 20px; }
@@ -76,10 +80,10 @@ index ec3b990..59ebeed 100644
 +    border-radius: 18px; background: #fff; box-shadow: 0 8px 35px -24px #284431; transition: none; }
 +  #rating.tut-front #tutStepLabel { color: #667d6e; font-size: 12px; line-height: 1.5; letter-spacing: 0; margin-bottom: 6px; }
 +  #rating.tut-front #ratTutTitle { color: #203b30; font-size: 23px; line-height: 1.35; margin: 0 0 8px; }
-+  #rating.tut-front #ratTutText { color: #40584c; font-size: 16px; line-height: 1.5; white-space: pre-line; text-wrap: pretty; }
++  #rating.tut-front #ratTutText { color: #40584c; font-size: 16px; line-height: 1.5; white-space: normal; text-wrap: wrap; width: 100%; }
 +  #rating.tut-front .rat-card-meta { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 9px; }
 +  #rating.tut-front #ratPopOp { margin: 0; color: #237450; font-size: 12px; line-height: 1.5; }
-+  #rating.tut-front #ratPopDots { display: flex; flex-shrink: 0; gap: 5px; }
++  #rating.tut-front #ratPopDots { display: flex; flex-shrink: 0; gap: 5px; margin-left: auto; margin-right: 0; }
 +  #rating.tut-front #ratPopDots i.a { background: var(--go); }
 +  #rating.tut-front .qitem { margin-bottom: 10px; }
 +  #rating.tut-front .qi-text { font-size: 16px; line-height: 1.4; margin-bottom: 8px; }
@@ -101,6 +105,7 @@ index ec3b990..59ebeed 100644
 +  #rating.tut-front.rat-static #ratTutText { line-height: 1.65; }
 +  #rating.tut-front.rat-static #ratTutTitle { margin-bottom: 14px; }
 +  #rating.tut-front #ratingNext.cue, #rating.tut-front #ratingSubmit.cue { animation: ratBtnCue 1.2s ease-in-out infinite; }
++  #rating.tut-front #ratBtnRow .btn.warn { animation: btnNudge .5s ease-in-out; }
 +  @keyframes ratingTutorialGlow { 0%,100% { box-shadow: 0 0 0 0 rgba(18,133,90,0); } 50% { box-shadow: 0 0 0 3px rgba(18,133,90,.18); } }
 +  @media (max-height: 640px) {
 +    #rating.tut-front .qwrap { padding: 14px 18px 12px; }
@@ -121,15 +126,16 @@ index ec3b990..59ebeed 100644
 +  }
 +  @media (prefers-reduced-motion: reduce) {
 +    #rating.tut-front .likert.tut-cue button, #rating.tut-front #ratingNext.cue, #rating.tut-front #ratingSubmit.cue { animation: none; }
++    #rating.tut-front #ratBtnRow .btn.warn { animation: none; outline: 3px solid var(--go); outline-offset: 3px; }
 +  }
-@@ -535 +622 @@
+@@ -535 +625 @@
 -  /* 使いにくかった点は既存5+5と追加2項目の3画面。各画面に「このページでは該当なし」 */
 +  /* 使いにくかった点は3画面。旧保存のその他2ページ目と新版3ページ目を区別する */
-@@ -541 +628,2 @@
+@@ -541 +631,2 @@
 -  #surveyProblemsPage:not([data-part="2"]) #surveyFreeField,
 +  #surveyProblemsPage[data-other-part="2"]:not([data-part="2"]) #surveyFreeField,
 +  #surveyProblemsPage[data-other-part="3"]:not([data-part="3"]) #surveyFreeField,
-@@ -562,0 +651,5 @@
+@@ -562,0 +654,5 @@
 +  /* 長い区間ラベルを含む利用年数のページも、小さいiPhoneで下部ナビに重ねない。文字サイズは維持。 */
 +  @media (max-width: 440px) {
 +    #postq #pp-usage_years .field { margin: 6px 0; }
@@ -178,12 +184,25 @@ index b835227..9f8f0ad 100644
 +    { heading: "研究の目的", text: "スマートフォンで2つの選択肢から1つをドラッグして回答するときに指を動かした道すじや回答にかかった時間を用いて、回答時の迷いを推定できるか、また、十分に注意を払わずに行われた回答を検出できるかを調べます。各回答の後にご自身で振り返って答えていただく迷いと自信の程度は、推定結果を比較・検証するために用います。" },
 +    { heading: "実施することと所要時間", text: "事前の質問、短い文章を読む時間の計測、画面と操作の説明、練習の後に、道徳的な判断を含む仮想的な場面について2つの選択肢から回答していただきます。場面への回答の後には、迷いと自信を5段階で振り返ります。問題文や指示を確認しているかを確かめる項目もあります。その後、画面の指示に従って操作する追加の課題を行い、最後に事後アンケートと研究の説明を行います。全体で40分ほど（35〜50分）を見込んでいます。途中に休憩もあります。" },
 +    { heading: "記録する情報", text: "入力した氏名・年齢・性別・利き手・機種名、画面に触れた指の位置と時刻、その道すじ、選択結果、迷いと自信への回答、回答をやり直したときの操作、画面の切り替えと中断・再開、文章を読む時間、説明・課題・振り返り・休憩等にかかった時間、端末・ブラウザと画面表示に関する情報、参加や実施を区別する識別番号、事後アンケートの回答を記録します。性別は「回答しない」を選べます。" },
+diff --git a/tools/pilot-anchor/css/runtime-guards.css b/tools/pilot-anchor/css/runtime-guards.css
+new file mode 100644
+index 0000000..52d0b88
+--- /dev/null
++++ b/tools/pilot-anchor/css/runtime-guards.css
+@@ -0,0 +1,7 @@
++  /* 全要素にダブルタップ拡大防止を指定する (manipulation は通常のtap/clickを保つ)。
++     Safariの非操作領域ではCSSだけで効かない場合があるため、本文・余白・無効ボタンは
++     js/runtime-guards.js のtouchend処理でも補完する。動的要素も同じ対象になる。
++     app.css の .pad / #rating .qwrap の pan-y と #task / #surface の none は優先され、
++     必要な縦スクロールとドラッグ中のブラウザ操作抑止を維持する。 */
++  * { touch-action: manipulation; }
++
 diff --git a/tools/pilot-anchor/guided-tutorial.css b/tools/pilot-anchor/guided-tutorial.css
 new file mode 100644
-index 0000000..b2c8339
+index 0000000..a82b4ba
 --- /dev/null
 +++ b/tools/pilot-anchor/guided-tutorial.css
-@@ -0,0 +1,67 @@
+@@ -0,0 +1,71 @@
 +/* 説明だけを新しくする。課題の問題文・選択肢・スタートの寸法はapp.cssを使う。 */
 +#tutBackdrop,#tutGraphic,#tutSingleTarget,#tutPosition{display:none}
 +body.guided-tutorial #tutBackdrop{position:fixed;inset:0;z-index:30;background:var(--bg);pointer-events:none;display:none}
@@ -210,8 +229,8 @@ index 0000000..b2c8339
 +body.guided-tutorial #tutSingleTarget{position:absolute;left:32%;width:36%;height:12%;top:34%;border:2px solid var(--go);border-radius:14px;background:rgba(18,133,90,.07);font-size:4.1vmin;font-weight:600;color:var(--ink);align-items:center;justify-content:center;box-sizing:border-box;pointer-events:none}
 +body.guided-tutorial.guided-motor #tutSingleTarget{display:flex}
 +body.guided-tutorial #tutSingleTarget.arrived{background:rgba(18,133,90,.2);box-shadow:0 0 0 4px rgba(18,133,90,.2)}
-+body.guided-tutorial #tutPosition{position:absolute;width:48px;height:48px;border:3px solid var(--accent);background:rgba(22,104,196,.04);border-radius:50%;transform:translate(-50%,-50%);z-index:7;box-sizing:border-box;pointer-events:none}
-+body.guided-tutorial #tutPosition::after{content:'';position:absolute;width:4px;height:4px;left:19px;top:19px;border-radius:50%;background:var(--accent)}
++body.guided-tutorial #tutPosition{position:absolute;width:var(--contact-diameter);height:var(--contact-diameter);border:3px solid var(--accent);background:rgba(22,104,196,.04);border-radius:50%;transform:translate(-50%,-50%);z-index:7;box-sizing:border-box;pointer-events:none}
++body.guided-tutorial #tutPosition::after{content:'';position:absolute;width:4px;height:4px;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%;background:var(--accent)}
 +body.guided-tutorial #tutDemo{z-index:5;pointer-events:none}
 +body.guided-tutorial #tutInk{display:none}
 +body.guided-tutorial .guided-dim{opacity:.2}
@@ -219,25 +238,29 @@ index 0000000..b2c8339
 +@keyframes guidedRoleGlow{0%,100%{box-shadow:0 0 0 4px rgba(18,133,90,.17)}50%{box-shadow:0 0 0 9px rgba(18,133,90,.32)}}
 +body.guided-tutorial #tutGraphic{position:fixed;z-index:41;left:7%;width:86%;pointer-events:none}
 +body.guided-tutorial #tutGraphic[hidden]{display:none!important}
-+body.guided-tutorial #tutRangeFigure{position:relative;width:100%;height:calc(var(--range-target-height,39vmin) + 88px)}
++body.guided-tutorial #tutRangeFigure{position:relative;width:100%;height:calc(var(--range-target-height,39vmin) + var(--range-entry-space,88px))}
 +body.guided-tutorial #tutRangeTarget{position:absolute;left:50%;transform:translateX(-50%);top:0;width:var(--range-target-width,60vmin);height:var(--range-target-height,39vmin);border:3px solid #12855a;border-radius:21px;background:rgba(18,133,90,.16);display:flex;align-items:center;justify-content:center;font-size:6.3vmin;font-weight:700;box-sizing:border-box}
 +body.guided-tutorial #tutRangeTarget.arrived{box-shadow:0 0 0 5px rgba(18,133,90,.18);background:rgba(18,133,90,.23)}
 +body.guided-tutorial #tutRangeEntry{position:absolute;top:calc(var(--range-target-height,39vmin) + 8px);left:calc(50% - 4px);width:8px;height:8px;opacity:0}
 +body.guided-tutorial #tutRangeInk{position:absolute;inset:0;pointer-events:none}
-+body.guided-tutorial .guided-range-caption{font-size:13px;line-height:1.5;color:#237450;text-align:center;font-weight:700;margin:0 0 8px}
 +body.guided-tutorial #tutQuiz{display:flex;flex-direction:column;gap:10px;margin-top:16px;pointer-events:auto}
 +body.guided-tutorial #tutQuiz:empty{display:none}
-+body.guided-tutorial #tutQuiz button{font-family:inherit;text-align:left;padding:12px 14px;border:1px solid #cedcd2;border-radius:14px;background:#fff;font-size:15px;line-height:1.5;color:#314e3d;min-height:52px;cursor:pointer;white-space:pre-line}
++body.guided-tutorial #tutQuiz button{position:relative;font-family:inherit;text-align:left;padding:12px 36px 12px 14px;border:1px solid #cedcd2;border-radius:14px;background:#fff;font-size:15px;line-height:1.5;color:#314e3d;min-height:52px;cursor:pointer;white-space:pre-line}
 +body.guided-tutorial #tutQuiz button.selected{border-color:#12855a;background:#eaf4ed}
++body.guided-tutorial #tutQuiz button.selected::after{content:'✓';position:absolute;right:12px;top:50%;transform:translateY(-50%);font-weight:700;color:#12855a}
++body.guided-tutorial #tutQuiz button.selected.wrong{border-color:#bd4b4b;background:#fff0f0;color:#863636}
++body.guided-tutorial #tutQuiz button.selected.wrong::after{content:'×';color:#ad3838;font-size:20px}
 +body.guided-tutorial #tutQuizFeedback{font-size:14px;line-height:1.5;color:#237450;white-space:pre-line;margin:13px 0 0}
 +body.guided-tutorial #tutQuizFeedback.wrong{color:#94482a}
 +body.guided-tutorial #tutQuizFeedback:empty{display:none}
++body.guided-tutorial.guided-quiz #tutPop{height:var(--quiz-card-height,auto);overflow-y:auto;overscroll-behavior:contain;pointer-events:auto;scrollbar-width:thin}
++body.guided-tutorial.guided-quiz #tutQuizFeedback{display:block;min-height:var(--quiz-feedback-height,0px)}
 +body.stop-open #tutBackdrop,body.stop-open #tutGraphic,body.stop-open #tutPosition{display:none!important}
-+@media(max-height:640px){body.guided-tutorial #tutPop{padding:12px 15px}body.guided-tutorial #tutPopTitle{font-size:21px;line-height:1.3;margin-bottom:9px}body.guided-tutorial #tutPopStep{margin-bottom:7px}body.guided-tutorial #tutPopTxt{font-size:15px;line-height:1.5}body.guided-tutorial .guided-meta{margin-top:9px}body.guided-tutorial #tutExtra{font-size:14px}body.guided-tutorial #tutQuiz{gap:8px;margin-top:12px}body.guided-tutorial #tutQuiz button{font-size:14px;padding:9px 11px;min-height:46px}body.guided-tutorial #tutQuizFeedback{font-size:13px;margin-top:10px}}
++@media(max-height:640px){body.guided-tutorial #tutPop{padding:12px 15px}body.guided-tutorial #tutPopTitle{font-size:21px;line-height:1.3;margin-bottom:9px}body.guided-tutorial #tutPopStep{margin-bottom:7px}body.guided-tutorial #tutPopTxt{font-size:15px;line-height:1.5}body.guided-tutorial .guided-meta{margin-top:9px}body.guided-tutorial #tutExtra{font-size:14px}body.guided-tutorial #tutQuiz{gap:8px;margin-top:12px}body.guided-tutorial #tutQuiz button{font-size:14px;padding:9px 32px 9px 11px;min-height:46px}body.guided-tutorial #tutQuizFeedback{font-size:13px;margin-top:10px}}
 +@media(prefers-reduced-motion:reduce){body.guided-tutorial .guided-focus{animation:none}}
 +
 +/* 初動説明の図だけに適用。本番のスタートボタンの寸法・座標は扱わない。 */
-+.start-exit-demo{width:100%;max-width:360px;aspect-ratio:200/180;max-height:var(--time-demo-max-height,none);margin:0 auto;line-height:1}
++.start-exit-demo{width:100%;max-width:360px;aspect-ratio:200/208;max-height:var(--time-demo-max-height,none);margin:0 auto;line-height:1}
 +.start-exit-demo .start-exit-svg{display:block;width:100%;height:100%;overflow:visible;font-family:'Segoe UI','Meiryo UI',Meiryo,sans-serif;pointer-events:none}
 +.start-exit-demo .start-exit-interval{fill:#237450;font-size:15px;font-weight:700}
 +.start-exit-demo .start-exit-button{fill:rgba(184,83,26,.07);stroke:#b8531a;stroke-width:2}
@@ -4970,847 +4993,9 @@ index b02688a..21bb1cf 100644
 -</script>
 +<script src="js/trial-recorder.js?v=2026-10-16-refactor1"></script>
 +<script src="js/app.js?v=2026-10-16-refactor1" onerror="document.getElementById('wcBody').innerHTML='&lt;h1&gt;読み込みが完了していません&lt;/h1&gt;&lt;p&gt;通信を確認して、もう一度読み込んでください。&lt;/p&gt;'; const next=document.getElementById('wcNext'); next.textContent='再読み込み'; next.disabled=false; next.onclick=function(){location.reload()}"></script>
-diff --git a/tools/pilot-anchor/css/runtime-guards.css b/tools/pilot-anchor/css/runtime-guards.css
-new file mode 100644
---- /dev/null
-+++ b/tools/pilot-anchor/css/runtime-guards.css
-@@ -0,0 +1,7 @@
-+  /* 全要素にダブルタップ拡大防止を指定する (manipulation は通常のtap/clickを保つ)。
-+     Safariの非操作領域ではCSSだけで効かない場合があるため、本文・余白・無効ボタンは
-+     js/runtime-guards.js のtouchend処理でも補完する。動的要素も同じ対象になる。
-+     app.css の .pad / #rating .qwrap の pan-y と #task / #surface の none は優先され、
-+     必要な縦スクロールとドラッグ中のブラウザ操作抑止を維持する。 */
-+  * { touch-action: manipulation; }
-+
-diff --git a/tools/pilot-anchor/js/runtime-guards.js b/tools/pilot-anchor/js/runtime-guards.js
-new file mode 100644
---- /dev/null
-+++ b/tools/pilot-anchor/js/runtime-guards.js
-@@ -0,0 +1,142 @@
-+/*
-+ * 端末・向き・拡大・タッチ操作の共通ガード。
-+ * チュートリアルの見た目から独立させ、index.html の元の初期化位置で接続する。
-+ * getDevice / isRecording はアプリ側の現在値を読み、試行の中断処理は呼び出し側へ委譲する。
-+ */
-+(function (global) {
-+  "use strict";
-+
-+  function create(env) {
-+    const { $, query: QS, preview: GO, kiosk: KIOSK, cohort: COHORT, study: STUDY } = env;
-+    // ===== 横向きガード =====
-+    // タッチ端末のみ (PC/headless 検証は対象外)。?rotate=0 で無効化 (デバッグ用)。
-+    // 回転でレイアウト(vmin基準)と geom が変わるため、ドラッグ中なら無効試行にして再呈示。
-+    const rotateGuardOn = navigator.maxTouchPoints > 0 &&
-+      new URLSearchParams(location.search).get("rotate") !== "0";
-+    const typing = () => { const a = document.activeElement; return !!(a && (a.tagName === "INPUT" || a.tagName === "TEXTAREA")); };   // キーボードによる高さの変化は、物理的な向きやページ拡大と区別する。
-+    function landscapeOrientation() {
-+      // Safariでは回転後もscreenの幅・高さが縦向きの値のままになる。物理的な向きを優先し、キーボードによる高さの変化とは分ける。
-+      const type = screen.orientation && screen.orientation.type;
-+      if (/^landscape-/.test(type)) return true;
-+      if (/^portrait-/.test(type)) return false;
-+      if (typeof window.orientation === "number" && Number.isFinite(window.orientation)) return Math.abs(window.orientation) % 180 === 90;
-+      if (screen.width && screen.height) return screen.width > screen.height;
-+      return !typing() && window.innerWidth > window.innerHeight;
-+    }
-+    function checkOrientation() {
-+      if (!rotateGuardOn) return;
-+      const landscape = landscapeOrientation();
-+      $("rotateGuard").classList.toggle("show", landscape);
-+      if (landscape) $("zoomGuard").classList.remove("show");
-+      if (landscape && env.isRecording()) env.onOrientationInterrupted();
-+    }
-+    window.addEventListener("resize", checkOrientation);
-+    const orientationChanged = () => { checkOrientation(); checkZoom(); };
-+    window.addEventListener("orientationchange", orientationChanged);
-+    if (screen.orientation && screen.orientation.addEventListener) screen.orientation.addEventListener("change", orientationChanged);
-+    checkOrientation();
-+    // ===== 文字サイズ・ページ拡大のガード (2026-09-12 夜) =====
-+    // pageZoom = screen.width / innerWidth: Safari「ぁあ」・Chrome「ズーム」はページの CSS px 幅を縮める (= 小さい機種と同じ効果) ので、縦向きで 1 から外れる。
-+    // textZoom = 文字だけの拡大 (見本 B / 見本 A の幅)。どちらも 100%±3% を外れたら止めて戻し方を出す。解析はスタート→箱の直線に正規化するので
-+    // 機種差と同じ種類の差だが、説明ボックスの収まり (shots.js で 100% 前提で検証) が崩れるため固定する。値は env.getDevice().pageZoom / textZoom に記録
-+    const ZOOM_GUARD_ON = navigator.maxTouchPoints > 0 && QS.get("zoomguard") !== "0";
-+    // 本実験は UA で判定した iPhone + 既定の画面寸法。自己申告モデルは判定に使わない。
-+    // SE 系 (375×667)・8 (375×667)・8 Plus (414×736) を除く。12/13 mini (375×812) は既定では通る (?devmin=844 で外せる)。?devguard=0 で無効 (validate/shots 用)
-+    const DEVGUARD_ON = !GO && QS.get("devguard") !== "0";
-+    const DEVMIN_H = (function () { const v = parseInt(QS.get("devmin"), 10); return isFinite(v) && v > 0 ? v : 812; })();
-+    (function devGuardCheck() {
-+      const w = Math.min(screen.width, screen.height), h = Math.max(screen.width, screen.height);
-+      const isIPad = /iPad/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-+      const isIPhone = /iPhone/i.test(navigator.userAgent) && !isIPad;
-+      const ipadLink = KIOSK && COHORT === "elderly-inperson-ipad" && !STUDY;
-+      const platformOk = ipadLink ? isIPad : isIPhone;
-+      const sizeOk = h >= DEVMIN_H && w >= 375;
-+      const bad = DEVGUARD_ON && (!platformOk || !sizeOk);
-+      env.getDevice().isIPhone = isIPhone; env.getDevice().isIPad = isIPad;
-+      env.getDevice().devGuard = { on: DEVGUARD_ON, minH: DEVMIN_H, w, h, shown: bad, isIPhone, isIPad, ipadLink, platformOk, sizeOk };
-+      if (bad) {
-+        if (ipadLink) $("dgMessage").innerHTML = "<b>この調査の対象端末ではありません。</b><br>このリンクは、対面調査の iPad 専用です。";
-+        $("dgNow").textContent = platformOk ? `お使いの画面: 幅 ${w} × 高さ ${h}（対象: 幅 375・高さ ${DEVMIN_H} 以上）` : "この端末は、対象の端末として確認できませんでした。";
-+        $("devGuard").classList.add("show");
-+        for (const el of document.body.children) if (el !== $("devGuard") && !["SCRIPT", "STYLE"].includes(el.tagName)) el.inert = true;
-+        $("devGuard").focus({ preventScroll: true });
-+      }
-+    })();
-+    function measureZoom() {
-+      const portrait = !landscapeOrientation();
-+      const sw = portrait ? Math.min(screen.width, screen.height) : Math.max(screen.width, screen.height);
-+      const pageZoom = sw > 0 && innerWidth > 0 ? +(sw / innerWidth).toFixed(3) : 1;
-+      const a = $("zpA").getBoundingClientRect().width, b = $("zpB").getBoundingClientRect().width;
-+      const textZoom = a > 0 ? +(b / a).toFixed(3) : 1;
-+      return { pageZoom, textZoom };
-+    }
-+    let zoomGuardWasOn = false;
-+    function checkZoom() {
-+      if (rotateGuardOn && landscapeOrientation()) { $("zoomGuard").classList.remove("show"); return false; }
-+      if (typing()) { $("zoomGuard").classList.remove("show"); return false; }   // 入力中 (キーボード表示) は判定しない (2026-09-29)
-+      const z = measureZoom(); env.getDevice().pageZoom = z.pageZoom; env.getDevice().textZoom = z.textZoom;
-+      const off = ZOOM_GUARD_ON && (Math.abs(z.pageZoom - 1) > 0.03 || Math.abs(z.textZoom - 1) > 0.03);
-+      if (off && !zoomGuardWasOn) env.getDevice().zoomGuardShown++;
-+      zoomGuardWasOn = off;
-+      if (off) {   // いまの設定を割合と向きで示す (2026-09-13: 大きめか小さめか分からないと戻せない)
-+        const zz = Math.abs(z.pageZoom - 1) > 0.03 ? z.pageZoom : z.textZoom;
-+        $("zgNow").textContent = "いまの設定: 約 " + Math.round(zz * 100) + "%（" + (zz > 1 ? "大きめ" : "小さめ") + "）";
-+      }
-+      $("zoomGuard").classList.toggle("show", off);
-+      return off;
-+    }
-+    window.addEventListener("resize", checkZoom);
-+    if (window.visualViewport) window.visualViewport.addEventListener("resize", checkZoom);
-+    checkZoom();
-+
-+    return { checkZoom, measureZoom };
-+  }
-+
-+  // 既存の起動処理と回復処理が接続された後、index.html の末尾で一度だけ呼ぶ。
-+  function installTouchGuards({ surface }) {
-+    // 課題面のプルリフレッシュ/スクロール抑止 (intro/done の .pad スクロールは妨げない)
-+    surface.addEventListener("touchmove", (e) => { if (e.cancelable) e.preventDefault(); }, { passive: false });
-+    document.addEventListener("contextmenu", (e) => { if (!e.target.closest("#ccode")) e.preventDefault(); });   // コピー失敗時はコードを長押しして選択できる
-+    document.addEventListener("gesturestart", (e) => e.preventDefault());
-+    // Safariはクリック対象でない本文・余白・disabledボタンでtouch-actionだけでは
-+    // ダブルタップ拡大を防げない場合がある。操作を持たない領域の単指タップだけを
-+    // touchendで取り消す。初回から取り消すため、2回目のイベント欠落にも依存しない。
-+    // 有効なフォーム部品/ラベルはネイティブclickに任せ、clickの手動再送はしない。
-+    // スワイプ・複数指・キャンセルは除外し、.padの縦スクロールと慣性を維持する。
-+    (() => {
-+      let tap = null;
-+      const options = { capture: true, passive: true };
-+      document.addEventListener("touchstart", e => {
-+        const t = e.touches.length === 1 && e.touches[0];
-+        tap = t ? { id: t.identifier, x: t.clientX, y: t.clientY, moved: false } : null;
-+      }, options);
-+      document.addEventListener("touchmove", e => {
-+        if (!tap) return;
-+        const t = [...e.touches].find(t => t.identifier === tap.id);
-+        if (!t || e.touches.length !== 1) { tap = null; return; }
-+        if (Math.hypot(t.clientX - tap.x, t.clientY - tap.y) > 10) tap.moved = true;
-+      }, options);
-+      document.addEventListener("touchcancel", () => { tap = null; }, options);
-+      document.addEventListener("touchend", e => {
-+        const ended = tap; tap = null;
-+        const t = e.changedTouches.length === 1 && e.changedTouches[0];
-+        if (!ended || ended.moved || !t || t.identifier !== ended.id || e.touches.length ||
-+            Math.hypot(t.clientX - ended.x, t.clientY - ended.y) > 10 || !e.cancelable) return;
-+        const target = e.target instanceof Element ? e.target : e.target?.parentElement;
-+        if (!target || target.closest("#task")) return; // 課題面は下の既存処理を維持
-+        const control = target.closest('button, input, select, textarea, a[href], label, [role="button"], [role="link"], [contenteditable="true"], [data-tap-action]');
-+        const action = control?.tagName === "LABEL" ? control.control : control;
-+        if (action && !action.matches(':disabled, [aria-disabled="true"]')) return;
-+        e.preventDefault();
-+      }, { capture: true, passive: false });
-+    })();
-+    // iOS のダブルタップ拡大対策:スタート連打で拡大→復帰不能の実機報告 (2026-07-11)。
-+    // タスク画面は Pointer Events のみで click 合成に依存しないため、touchend の既定動作
-+    // (ダブルタップ拡大 + click 合成) を丸ごと抑止できる。他画面はCSSと上の補助処理で対処。
-+    document.getElementById("task").addEventListener("touchend",
-+      (e) => { if (e.target && e.target.closest && e.target.closest("button")) return;   // 右上「↻ 操作方法」など課題画面内のボタンは click 合成を止めない (2026-09-29: iPhone で押せなかった)
-+        if (e.cancelable) e.preventDefault(); }, { passive: false });
-+  }
-+
-+  global.PilotRuntimeGuards = { create, installTouchGuards };
-+})(window);
-diff --git a/tools/pilot-anchor/js/tutorial-visuals.js b/tools/pilot-anchor/js/tutorial-visuals.js
-new file mode 100644
---- /dev/null
-+++ b/tools/pilot-anchor/js/tutorial-visuals.js
-@@ -0,0 +1,158 @@
-+'use strict';
-+// 独立試作の実演。座標は描画用のみ。経路の線は描かず、現在の指を動かす。
-+window.PILOT_GUIDED_TUTORIAL.createDemo=function({canvas,start,target,onReady,onChange,fingerScale}){
-+ const g=canvas.getContext('2d'),seen=new Set(),durations={press:350,move:1300,release:500,wait:600};
-+ let frame=0,lastTime=0,s=null,extraReady=null,changed=null;
-+ const lerp=(a,b,t)=>a+(b-a)*t,random=(a,b)=>a+Math.random()*(b-a),clamp=(a,b,x)=>Math.min(b,Math.max(a,x));
-+ const bezier=(a,b,c,d,t)=>{const u=1-t;return u*u*u*a+3*u*u*t*b+3*u*t*t*c+t*t*t*d;};
-+ function center(el){const r=el.getBoundingClientRect(),p=canvas.parentElement.getBoundingClientRect();return{x:r.x+r.width/2-p.x,y:r.y+r.height/2-p.y,w:r.width,h:r.height};}
-+ function size(){const dpr=devicePixelRatio||1,r=canvas.parentElement.getBoundingClientRect();canvas.width=Math.round(r.width*dpr);canvas.height=Math.round(r.height*dpr);canvas.style.width=r.width+'px';canvas.style.height=r.height+'px';g.setTransform(dpr,0,0,dpr,0,0);}
-+ function clear(){g.save();g.setTransform(1,0,0,1,0,0);g.clearRect(0,0,canvas.width,canvas.height);g.restore();}
-+ function ring(x,y,r,alpha,color){g.save();g.globalAlpha=alpha;g.strokeStyle=color;g.lineWidth=3;g.beginPath();g.arc(x,y,r,0,Math.PI*2);g.stroke();g.restore();}
-+ function finger(x,y,alpha){
-+  const scale=fingerScale??Math.min(canvas.parentElement.clientWidth,canvas.parentElement.clientHeight)/375*.82;
-+  g.save();g.globalAlpha=alpha;g.translate(x,y);g.scale(scale,scale);g.translate(-22,-2);g.fillStyle='#f4d7b8';g.strokeStyle='#5b3a1e';g.lineWidth=1.8;g.lineJoin='round';g.lineCap='round';
-+  const shape=new Path2D('M22 2 c-3.3 0 -6 2.7 -6 6 v30 c-3 -2.5 -8.5 -3 -11.5 0 c-3 3 -1.5 7.5 1.5 10.5 l9 12 c4.5 7.5 10.5 11.5 20 11.5 h7 c8.5 0 15 -6.5 15 -15 v-18 c0 -3 -2.2 -5 -5 -5 c-2 0 -3.4 1 -4.2 2.6 c-0.4 -3.2 -2.4 -5.6 -5.3 -5.6 c-2 0 -3.4 1 -4.2 2.6 c-0.4 -3.2 -2.4 -5.6 -5.3 -5.6 c-1.6 0 -3 0.7 -4 1.9 V8 c0 -3.3 -2.7 -6 -6 -6 z');
-+  g.fill(shape);g.stroke(shape);g.fillStyle='#fbece0';g.lineWidth=1.2;g.beginPath();g.ellipse(22,9.5,3.6,5.2,0,0,Math.PI*2);g.fill();g.stroke();g.restore();
-+ }
-+ function freshPath(){
-+  const a=center(start),b=center(target);let ex,ey;
-+  if(s.kind==='range'){
-+   const points=[[-.29,-.22],[.28,.23],[-.27,.2],[.3,-.2]];const p=points[s.cycles%points.length];ex=b.x+p[0]*b.w;ey=b.y+p[1]*b.h;
-+  }else{ex=b.x+random(-.28,.28)*b.w;ey=b.y+random(-.23,.23)*b.h;}
-+  const sx=a.x+random(-.1,.1)*a.w,sy=a.y+random(-.09,.09)*a.h,dx=ex-sx,dy=ey-sy,L=Math.hypot(dx,dy),nx=-dy/L,ny=dx/L;
-+  // 最初は左右の違いが明確な曲線。その後もゼロに近い曲がりを避ける。
-+  const sign=s.cycles<2?s.firstSign*(s.cycles===0?1:-1):(Math.random()<.5?-1:1);
-+  const opposite=s.cycles>=2&&Math.random()<.35;
-+  const o1=sign*random(.22,.31)*L,o2=(opposite?-sign:sign)*random(.24,.32)*L;
-+  const c1={x:sx+dx*.3+nx*o1,y:sy+dy*.3+ny*o1},c2={x:sx+dx*.72+nx*o2,y:sy+dy*.72+ny*o2};
-+  const W=canvas.parentElement.clientWidth;c1.x=clamp(36,W-36,c1.x);c2.x=clamp(36,W-36,c2.x);
-+  s.path={start:{x:sx,y:sy},c1,c2,end:{x:ex,y:ey}};s.pathType=opposite?'s-curve':sign<0?'left-curve':'right-curve';
-+ }
-+ function ready(){if(!s.captionVisible){s.captionVisible=true;seen.add(s.key);}extraReady?.(true);onReady?.(true);}
-+ function draw(){
-+  if(!s)return;clear();const p=s.path,t=s.elapsed/durations[s.phase];
-+  start.classList.toggle('armed',s.phase==='press'||s.phase==='move');start.textContent=s.phase==='press'||s.phase==='move'?'→':'スタート';target.classList.toggle('arrived',s.phase==='release'||s.phase==='wait');
-+  if(s.reduced){const a=center(start),b=center(target);ring(a.x,a.y,18,.9,'#b8531a');ring(b.x-b.w*.29,b.y-b.h*.22,17,.9,'#12855a');ring(b.x+b.w*.28,b.y+b.h*.23,17,.9,'#12855a');return;}
-+  if(s.phase==='press'){finger(p.start.x,p.start.y,1);ring(p.start.x,p.start.y,17+4*t,.8,'#b8531a');}
-+  else if(s.phase==='move'){const e=t*t*(3-2*t),x=bezier(p.start.x,p.c1.x,p.c2.x,p.end.x,e),y=bezier(p.start.y,p.c1.y,p.c2.y,p.end.y,e);finger(x,y,1);ring(x,y,19,.8,'#b8531a');}
-+  else if(s.phase==='release'){finger(p.end.x,p.end.y,1-t);ring(p.end.x,p.end.y,19+24*t,1-t,'#12855a');}
-+ }
-+ function tick(now){
-+  frame=0;if(!s||!s.running)return;
-+  if(!s.paused&&!s.reduced){s.elapsed+=Math.min(80,Math.max(0,now-lastTime));while(s.elapsed>=durations[s.phase]){s.elapsed-=durations[s.phase];if(s.phase==='press')s.phase='move';else if(s.phase==='move')s.phase='release';else if(s.phase==='release'){s.cycles++;s.phase='wait';if(s.cycles>=2)ready();}else{s.phase='press';freshPath();}}draw();}
-+  lastTime=now;frame=requestAnimationFrame(tick);
-+ }
-+ function stop(){if(frame)cancelAnimationFrame(frame);frame=0;if(s)s.running=false;s=null;clear();canvas.hidden=true;start.classList.remove('armed');start.textContent='スタート';target.classList.remove('arrived');}
-+ function begin(options){
-+  stop();size();extraReady=options.onReady;changed=options.onChange;
-+  s={key:options.key,kind:options.kind,cycles:0,captionVisible:!!options.captionInitially||seen.has(options.key),paused:false,running:true,reduced:matchMedia('(prefers-reduced-motion: reduce)').matches,phase:'press',elapsed:0,firstSign:options.capture?-1:Math.random()<.5?-1:1,pathType:null,path:null};
-+  canvas.hidden=false;freshPath();extraReady?.(s.captionVisible);onReady?.(s.captionVisible);
-+  if(options.capture){sample(options.phase||'after');return;}
-+  if(s.reduced){s.paused=true;ready();draw();changed?.(s);onChange?.(s);return;}
-+  lastTime=performance.now();draw();frame=requestAnimationFrame(tick);changed?.(s);onChange?.(s);
-+ }
-+ function pause(){if(!s)return;s.paused=!s.paused;lastTime=performance.now();changed?.(s);onChange?.(s);}
-+ function replay(){if(!s)return;const keep=s.captionVisible;s.cycles=0;s.elapsed=0;s.phase='press';s.paused=s.reduced;s.captionVisible=keep;freshPath();lastTime=performance.now();draw();changed?.(s);onChange?.(s);}
-+ function sample(phase,cycles){if(!s)return;if(frame)cancelAnimationFrame(frame);frame=0;s.paused=true;s.cycles=Number.isInteger(cycles)?Math.max(0,cycles):phase==='before'?0:2;s.phase=['press','release'].includes(phase)?phase:'move';s.elapsed=durations[s.phase]*.6;freshPath();if(s.captionVisible)seen.add(s.key);extraReady?.(s.captionVisible);onReady?.(s.captionVisible);draw();changed?.(s);}
-+ return{begin,stop,pause,replay,sample,state:()=>s?JSON.parse(JSON.stringify(s)):null};
-+};
-+
-+'use strict';
-+// 独立試作の初動説明。回答先を描かず、触れてから枠を出る区間だけを見せる。
-+window.PILOT_GUIDED_TUTORIAL.createTimeDemo=function({container}){
-+ const durations={idle:300,press:650,move:1200,exit:1100,reset:650};
-+ const bounds={x:102,y:88,width:126,height:56},from={x:160,y:109},to={x:205,y:64};
-+ let frame=0,lastTime=0,s=null,svg=null,finger=null,ghost=null,button=null,buttonText=null,ring=null,touchLabel=null,exitLabel=null,borderGlow=null;
-+ const hand='M22 2 c-3.3 0 -6 2.7 -6 6 v30 c-3 -2.5 -8.5 -3 -11.5 0 c-3 3 -1.5 7.5 1.5 10.5 l9 12 c4.5 7.5 10.5 11.5 20 11.5 h7 c8.5 0 15 -6.5 15 -15 v-18 c0 -3 -2.2 -5 -5 -5 c-2 0 -3.4 1 -4.2 2.6 c-0.4 -3.2 -2.4 -5.6 -5.3 -5.6 c-2 0 -3.4 1 -4.2 2.6 c-0.4 -3.2 -2.4 -5.6 -5.3 -5.6 c-1.6 0 -3 0.7 -4 1.9 V8 c0 -3.3 -2.7 -6 -6 -6 z';
-+ const eased=t=>t*t*(3-2*t);
-+ const bezier=(a,b,c,d,t)=>{const u=1-t;return u*u*u*a+3*u*u*t*b+3*u*t*t*c+t*t*t*d;};
-+ function setHand(el,p,alpha=1){el.setAttribute('transform',`translate(${p.x} ${p.y}) scale(.52) translate(-22 -2)`);el.setAttribute('opacity',String(alpha));}
-+ function mount(){
-+  container.classList.add('start-exit-demo');
-+  container.innerHTML=`<svg class="start-exit-svg" viewBox="70 0 200 180" preserveAspectRatio="xMidYMid meet" role="img" aria-label="スタートボタンに指を置き、指を離さず、3秒以内にボタンの枠の外へ動かします。回答先はこの図には表示していません。">
-+   <text class="start-exit-interval" x="165" y="19" text-anchor="middle">この間が3秒以内</text>
-+   <rect class="start-exit-border-glow" x="99" y="85" width="132" height="62" rx="17" />
-+   <rect class="start-exit-button" x="102" y="88" width="126" height="56" rx="14" />
-+   <text class="start-exit-button-text" x="165" y="122" text-anchor="middle">スタート</text>
-+   <g class="start-exit-ghost" aria-hidden="true"><path d="${hand}" /></g>
-+   <circle class="start-exit-ring" r="14" />
-+   <g class="start-exit-finger" aria-hidden="true"><path d="${hand}" /><ellipse class="start-exit-nail" cx="22" cy="9.5" rx="3.6" ry="5.2" /></g>
-+   <text class="start-exit-touch-label" x="165" y="168" text-anchor="middle">触れる</text>
-+   <text class="start-exit-label" x="165" y="48" text-anchor="middle">枠の外へ出る</text>
-+  </svg>`;
-+  svg=container.querySelector('svg');finger=svg.querySelector('.start-exit-finger');ghost=svg.querySelector('.start-exit-ghost');button=svg.querySelector('.start-exit-button');buttonText=svg.querySelector('.start-exit-button-text');ring=svg.querySelector('.start-exit-ring');touchLabel=svg.querySelector('.start-exit-touch-label');exitLabel=svg.querySelector('.start-exit-label');borderGlow=svg.querySelector('.start-exit-border-glow');
-+ }
-+ function draw(){
-+  if(!s)return;
-+  const t=Math.max(0,Math.min(1,s.elapsed/durations[s.phase]));
-+  let p={...from},alpha=s.phase==='idle'?0:1;
-+  if(s.phase==='move'){
-+   const e=eased(t);p={x:bezier(from.x,184,200,to.x,e),y:bezier(from.y,106,78,to.y,e)};
-+  }else if(s.phase==='exit'||s.phase==='reset'){
-+   p={...to};if(s.phase==='reset')alpha=1-t;
-+  }
-+  if(s.reduced)p={...to};
-+  const contacted=s.phase!=='idle'||s.reduced,exited=contacted&&p.y<bounds.y;
-+  s.finger=p;s.exited=exited;s.contacted=contacted;
-+  setHand(finger,p,alpha);setHand(ghost,from,s.reduced ? .42 : 0);
-+  button.classList.toggle('armed',contacted);
-+  buttonText.classList.toggle('armed',contacted);
-+  buttonText.textContent=s.phase==='idle'&&!s.reduced?'スタート':'→';
-+  ring.setAttribute('cx',String(p.x));ring.setAttribute('cy',String(p.y));
-+  ring.setAttribute('r',String(exited?14+(!s.reduced&&s.phase==='exit'?2*Math.sin(t*Math.PI):0):12));
-+  ring.setAttribute('opacity',String(!contacted?0:exited?alpha:.45));
-+  ring.classList.toggle('outside',exited);
-+  borderGlow.style.opacity=String(exited ? .45*alpha : 0);
-+  touchLabel.style.opacity=String(contacted?1:0);
-+  exitLabel.style.opacity=String(exited?1:0);
-+ }
-+ function tick(now){
-+  frame=0;if(!s||!s.running)return;
-+  s.elapsed+=Math.min(80,Math.max(0,now-lastTime));
-+  while(s.elapsed>=durations[s.phase]){
-+   s.elapsed-=durations[s.phase];
-+   if(s.phase==='idle')s.phase='press';
-+   else if(s.phase==='press')s.phase='move';
-+   else if(s.phase==='move')s.phase='exit';
-+   else if(s.phase==='exit')s.phase='reset';
-+   else{s.phase='idle';s.cycles++;}
-+  }
-+  lastTime=now;draw();frame=requestAnimationFrame(tick);
-+ }
-+ function stop(){
-+  if(frame)cancelAnimationFrame(frame);frame=0;
-+  if(s)s.running=false;s=null;
-+  container.replaceChildren();container.classList.remove('start-exit-demo');
-+ }
-+ function sample(phase='exit'){
-+  if(!s)return;if(frame)cancelAnimationFrame(frame);frame=0;
-+  s.captured=true;s.phase=durations[phase]?phase:'exit';s.elapsed=durations[s.phase]*(s.phase==='move'?.7:.35);draw();
-+ }
-+ function begin(options={}){
-+  stop();mount();
-+  s={phase:'idle',elapsed:0,cycles:0,running:true,reduced:matchMedia('(prefers-reduced-motion: reduce)').matches,captured:false,finger:{...from},exited:false,startBounds:{...bounds}};
-+  const captured=options.capture??(new URLSearchParams(location.search).get('capture')==='1');
-+  if(captured){sample(options.phase||'exit');return;}
-+  if(s.reduced){s.phase='exit';draw();return;}
-+  lastTime=performance.now();draw();frame=requestAnimationFrame(tick);
-+ }
-+ return{begin,stop,sample,state:()=>s?JSON.parse(JSON.stringify(s)):null};
-+};
-+
-+'use strict';
-+// 説明箱だけを前の位置から次の位置へつなぐ。本番の操作パーツは動かさない。
-+window.PILOT_GUIDED_TUTORIAL.createCardMotion=function({getCard,disabled}){
-+ let animation=null,version=0,current={running:false,from:null,to:null};
-+ function snapshot(){const el=getCard();if(!el)return null;const r=el.getBoundingClientRect();return r.width&&r.height?{x:r.x,y:r.y,width:r.width,height:r.height}:null;}
-+ function finish(){version++;if(animation){animation.finish();animation=null;}current.running=false;}
-+ function run(from){
-+  version++;if(animation){animation.cancel();animation=null;}current={running:false,from,to:snapshot()};
-+  const card=getCard();if(!card||disabled())return;
-+  const to=current.to;if(!to)return;const ticket=version;
-+  const frames=from?[{transform:'translate('+(from.x-to.x)+'px,'+(from.y-to.y)+'px)',opacity:.78},{transform:'translate(0,0)',opacity:1}]:[{opacity:.35},{opacity:1}];
-+  current.running=true;animation=card.animate(frames,{duration:from?320:180,easing:'cubic-bezier(.22,.7,.2,1)'});
-+  animation.finished.then(()=>{if(version===ticket){animation=null;current.running=false;}}).catch(()=>{});
-+ }
-+ return{snapshot,run,finish,state:()=>JSON.parse(JSON.stringify(current))};
-+};
-diff --git a/tools/pilot-anchor/js/tutorial-view.js b/tools/pilot-anchor/js/tutorial-view.js
-new file mode 100644
---- /dev/null
-+++ b/tools/pilot-anchor/js/tutorial-view.js
-@@ -0,0 +1,245 @@
-+'use strict';
-+
-+// DOM・配置・実演の表示を担当する。進行・合格・保存状態はcontrollerの読取getterと
-+// callbackを介して扱い、view内に別の進行状態を持たない。
-+window.PILOT_GUIDED_TUTORIAL.createView = function (env, model, events) {
-+  const config = window.PILOT_GUIDED_TUTORIAL;
-+  const { $, surface, startBtn, stemEl, choiceA, choiceB, numA, numB } = env;
-+  const current = model.current, reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
-+  const activeTask = () => env.screens.task.classList.contains('active');
-+  let built = false;
-+  let pop, row, hint, graphic, target, position, demo, backdrop, demoPlayer, rangePlayer = null, timePlayer, motion;
-+  let held = null, hintTimer = null, hintToken = 0, flashTimer = null, flashLabel = '', flashHeight = '';
-+
-+  function resetFlash() {
-+    clearTimeout(flashTimer); flashTimer = null;
-+    if (built && flashLabel) { $('tutPopNext').textContent = flashLabel; $('tutPopNext').style.height = flashHeight; $('tutPopNext').classList.remove('warn'); }
-+    flashLabel = ''; flashHeight = '';
-+  }
-+  function flash(text, maxUntil) {
-+    const button = $('tutPopNext'), now = performance.now();
-+    if (flashTimer && button.textContent === text) return;
-+    resetFlash(); flashLabel = button.textContent; flashHeight = button.style.height;
-+    button.style.height = button.getBoundingClientRect().height + 'px'; button.textContent = text; button.classList.add('warn');
-+    flashTimer = setTimeout(resetFlash, Math.max(150, Math.min(1200, maxUntil ? maxUntil - now : 1200)));
-+  }
-+  function clearHint() { clearTimeout(hintTimer); hintTimer = null; hintToken++; if (!built) return; hint.classList.add('hidden'); hint.textContent = ''; }
-+  function setHint(text) {
-+    clearHint(); hint.textContent = text; hint.className = 'ng'; const token = hintToken;
-+    placeMotorHint();
-+    hintTimer = setTimeout(() => { if (hintToken === token) clearHint(); }, 4000);
-+  }
-+  function placeMotorHint() {
-+    if (!built || model.index() < 0 || current()?.id !== 'motor' || hint.classList.contains('hidden')) return;
-+    const choiceBottom = target.getBoundingClientRect().bottom, startTop = startBtn.getBoundingClientRect().top;
-+    hint.style.top = (choiceBottom + startTop) / 2 + 'px';
-+  }
-+  function hidePosition() { position.style.display = 'none'; target.classList.remove('arrived'); }
-+  function pointerPosition(e) {
-+    const r = surface.getBoundingClientRect(); position.style.display = 'block'; position.style.left = (e.clientX - r.left) + 'px'; position.style.top = (e.clientY - r.top) + 'px';
-+    const t = target.getBoundingClientRect(), hit = e.clientX >= t.left && e.clientX <= t.right && e.clientY >= t.top && e.clientY <= t.bottom;
-+    target.classList.toggle('arrived', hit); return hit;
-+  }
-+  function meta(step) {
-+    $('tutPopStep').textContent = model.label(step);
-+    $('tutPopOp').textContent = step.action || (step.kind === 'motor' ? '下のスタートから運んでみてください' : '読んだら「' + model.nextLabel() + '」');
-+    $('tutPopOp').classList.remove('hidden');
-+    const dots = $('tutPopDots'), p = model.pageInfo(step); dots.replaceChildren();
-+    for (let i = 1; i <= p.total; i++) { const dot = document.createElement('i'); if (i === p.index) dot.className = 'a'; dots.append(dot); }
-+  }
-+  function build() {
-+    if (built) return;
-+    backdrop = document.createElement('div'); backdrop.id = 'tutBackdrop'; document.body.append(backdrop);
-+    graphic = document.createElement('div'); graphic.id = 'tutGraphic'; graphic.hidden = true; document.body.append(graphic);
-+    demo = document.createElement('canvas'); demo.id = 'tutDemo'; surface.append(demo);
-+    const ink = document.createElement('canvas'); ink.id = 'tutInk'; surface.append(ink);
-+    target = document.createElement('div'); target.id = 'tutSingleTarget'; target.textContent = '選択肢'; surface.append(target);
-+    position = document.createElement('div'); position.id = 'tutPosition'; surface.append(position);
-+    const spot = document.createElement('div'); spot.id = 'tutSpot'; spot.className = 'tut-spot hidden'; document.body.append(spot);
-+    const cap = document.createElement('div'); cap.id = 'tutCap'; cap.hidden = true; surface.append(cap);
-+    pop = document.createElement('div'); pop.id = 'tutPop'; pop.className = 'tut-pop hidden'; pop.setAttribute('role', 'region'); pop.setAttribute('aria-label', '操作の説明');
-+    pop.innerHTML = '<div class="s" id="tutPopStep"></div><h2 id="tutPopTitle"></h2><div class="t" id="tutPopTxt"></div><p id="tutExtra" hidden></p><div id="tutQuiz"></div><p id="tutQuizFeedback" aria-live="polite"></p><div class="guided-meta"><div class="g" id="tutPopOp"></div><div class="dots" id="tutPopDots"></div></div>';
-+    document.body.append(pop);
-+    const close = document.createElement('button'); close.id = 'tutClose'; close.type = 'button'; close.className = 'hidden'; close.textContent = '× 閉じる'; close.setAttribute('aria-label', '操作方法を閉じる'); document.body.append(close);
-+    row = document.createElement('div'); row.id = 'tutBtnRow'; row.className = 'tut-btnrow hidden';
-+    row.innerHTML = '<button class="rp hidden" id="tutReplay">↻ もう一度</button><button type="button" class="pv" id="tutPrev">戻る</button><button type="button" class="nx" id="tutPopNext">次へ</button>';
-+    document.body.append(row);
-+    hint = document.createElement('div'); hint.id = 'tutHint'; hint.className = 'hidden'; hint.setAttribute('role', 'status'); document.body.append(hint);
-+    demoPlayer = config.createDemo({ canvas: demo, start: startBtn, target }); timePlayer = config.createTimeDemo({ container: graphic });
-+    motion = config.createCardMotion({ getCard: () => !pop.classList.contains('hidden') ? pop : null, disabled: reduced });
-+    $('tutPopNext').addEventListener('click', events.advance); row.addEventListener('pointerdown', e => { if (model.nextDisabled() && !e.target.closest('#tutPrev')) flash(current()?.kind === 'quiz' ? (model.quizSelection() == null ? '答えを1つ選んでください' : '正しい答えを選んでください') : '操作してから進みます'); });
-+    $('tutPrev').addEventListener('click', events.back); close.addEventListener('click', events.close);
-+    $('tutReplay').addEventListener('click', events.replay);
-+    surface.addEventListener('pointerdown', e => {
-+      if (model.index() < 0 || !activeTask()) return;
-+      if (current().kind !== 'motor' || model.motorDone()) return;
-+      if (held) return;
-+      const r = startBtn.getBoundingClientRect();
-+      if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) { setHint('スタートボタンに指を置いて\nそのまま離さずに運びます'); events.log('stray_motor'); return; }
-+      motion.finish(); clearHint(); e.preventDefault(); held = e.pointerId;
-+      try { surface.setPointerCapture(e.pointerId); } catch (_) {}
-+      startBtn.classList.add('armed'); startBtn.textContent = '→'; row.classList.add('hidden'); pointerPosition(e);
-+    }, { passive: false });
-+    surface.addEventListener('pointermove', e => { if (held === e.pointerId) { e.preventDefault(); pointerPosition(e); } }, { passive: false });
-+    surface.addEventListener('pointerup', e => {
-+      if (held !== e.pointerId) return;
-+      e.preventDefault(); const ok = pointerPosition(e); held = null; hidePosition(); startBtn.classList.remove('armed'); startBtn.textContent = 'スタート';
-+      if (ok) { clearHint(); events.motorComplete(); }
-+      else { row.classList.remove('hidden'); setHint('選択肢のボックスの中で指を離してください\nスタートボタンからもう一度'); events.log('motor_release_outside'); place(); }
-+    }, { passive: false });
-+    surface.addEventListener('pointercancel', cancelPointer, { passive: true }); surface.addEventListener('lostpointercapture', e => { if (held === e.pointerId) cancelPointer(); }, { passive: true });
-+    document.addEventListener('pointerdown', e => {
-+      if (model.index() < 0 || !activeTask() || held || document.body.classList.contains('stop-open')) return;
-+      if (e.target.closest('button,a,input,select,textarea')) return;
-+      if (current().kind === 'motor' && !model.motorDone()) return;
-+      if (e.target.closest('#tutQuiz')) return;
-+      events.log('stray'); flash(model.nextDisabled() ? '答えを1つ選んでください' : 'このボタンで進みます');
-+    }, { passive: true });
-+    window.addEventListener('resize', () => { if (model.index() >= 0) { motion.finish(); cancelPointer(); place(); if (current()?.id === 'motor-route') demoPlayer.begin({ key: 'motor-route', kind: 'route', captionInitially: true }); else if (current()?.id === 'motor-range') rangePlayer?.begin({ key: 'motor-range', kind: 'range', captionInitially: true }); } });
-+    built = true;
-+  }
-+  function cancelPointer() { if (!held) { clearHint(); return; } held = null; clearHint(); hidePosition(); startBtn.classList.remove('armed'); startBtn.textContent = 'スタート'; if (model.index() >= 0) { row.classList.remove('hidden'); place(); events.log('motor_cancel'); } }
-+  function stopGraphics() { demoPlayer.stop(); rangePlayer?.stop(); rangePlayer = null; timePlayer.stop(); graphic.hidden = true; graphic.replaceChildren(); }
-+  function clearParts() {
-+    for (const el of [stemEl, choiceA, choiceB, startBtn]) { el.classList.remove('guided-dim', 'guided-focus', 'tut-dim', 'tut-sbxhide'); el.style.visibility = 'hidden'; }
-+    startBtn.classList.remove('armed'); startBtn.textContent = 'スタート'; stemEl.textContent = ''; numA.textContent = ''; numB.textContent = ''; target.style.top = ''; hidePosition();
-+  }
-+  function setContent(step) {
-+    $('tutPopTitle').textContent = step.title;
-+    if (step.html) $('tutPopTxt').innerHTML = step.copy; else $('tutPopTxt').textContent = step.copy;
-+    $('tutExtra').hidden = !step.extraCopy; $('tutExtra').textContent = step.extraCopy || '';
-+    $('tutQuiz').replaceChildren(); $('tutQuizFeedback').textContent = ''; meta(step);
-+  }
-+  function prepareRender() { clearHint(); held = null; stopGraphics(); resetFlash(); }
-+  function showStep(step) {
-+    document.body.classList.remove('guided-instruction', 'guided-range', 'guided-time', 'guided-quiz', 'guided-motor');
-+    clearParts(); setContent(step); pop.classList.remove('hidden'); pop.classList.add('on'); row.classList.remove('hidden'); row.classList.remove('pending');
-+    $('tutPopNext').textContent = model.nextLabel(); $('tutPopNext').disabled = false; $('tutPopNext').classList.remove('cue');
-+    $('tutPrev').classList.toggle('hidden', model.isFirstStep());
-+    $('phaseLabel').textContent = model.isStandard() ? step.chapter.replace(/^\d\s/, '') : '追加10問の操作';
-+  }
-+  function showStage(step) {
-+    const key = step.id;
-+    if (step.kind === 'orientation') {
-+      stemEl.textContent = 'ここに問題文が表示されます'; stemEl.style.visibility = 'visible';
-+      if (step.focus !== 'stem') { stemEl.classList.add('guided-dim'); startBtn.style.visibility = 'visible'; }
-+      if (step.focus === 'choices') { startBtn.classList.add('guided-dim'); for (const [box, text] of [[choiceA, numA], [choiceB, numB]]) { box.style.visibility = 'visible'; box.classList.add('guided-focus'); text.className = 'txt'; text.textContent = '選択肢'; text.style.visibility = 'visible'; } }
-+      else (step.focus === 'stem' ? stemEl : startBtn).classList.add('guided-focus');
-+    } else if (key === 'motor-route' || key === 'motor') {
-+      document.body.classList.add('guided-motor'); startBtn.style.visibility = 'visible';
-+      if (key === 'motor' && model.motorDone()) {
-+        $('tutPopTitle').textContent = '操作できました'; $('tutPopTxt').textContent = '次は、実際に問題に回答するときのルールを確認します。'; $('tutPopOp').textContent = '読んだら「ルールを確認する」へ'; $('tutPopNext').textContent = 'ルールを確認する'; startBtn.classList.add('guided-dim'); target.style.display = 'none';
-+      } else { target.style.display = ''; target.style.opacity = ''; if (model.nextDisabled()) { row.classList.add('pending'); $('tutPopNext').disabled = true; } }
-+    } else if (key === 'motor-range') {
-+      document.body.classList.add('guided-range'); graphic.hidden = false; graphic.style.display = 'block';
-+      graphic.innerHTML = '<p class="guided-range-caption">見本を見る・選択肢の拡大図</p><div id="tutRangeFigure"><div id="tutRangeTarget">選択肢</div><div id="tutRangeEntry"></div><canvas id="tutRangeInk"></canvas></div>';
-+    } else if (key === 'time-rule') { document.body.classList.add('guided-time'); graphic.hidden = false; graphic.style.display = 'block'; }
-+    else { document.body.classList.add(step.kind === 'quiz' ? 'guided-quiz' : 'guided-instruction'); }
-+  }
-+  function playGraphics(key) {
-+    if (key === 'motor-route') demoPlayer.begin({ key, kind: 'route', captionInitially: true });
-+    if (key === 'motor-range') { rangePlayer = config.createDemo({ canvas: $('tutRangeInk'), start: $('tutRangeEntry'), target: $('tutRangeTarget'), fingerScale: .9 }); rangePlayer.begin({ key, kind: 'range', captionInitially: true }); }
-+    if (key === 'time-rule') { timePlayer.begin(); place(); }
-+  }
-+  function ruleTop() {
-+    const title = $('tutPopTitle').textContent, text = $('tutPopTxt').textContent, extra = $('tutExtra').textContent, extraHidden = $('tutExtra').hidden, stepText = $('tutPopStep').textContent;
-+    let largest = 0;
-+    for (const step of config.steps.filter(s => s.chapter.startsWith('3 ') && s.kind === 'instruction')) {
-+      $('tutPopTitle').textContent = step.title; $('tutPopTxt').textContent = step.copy; $('tutExtra').hidden = true; $('tutPopStep').textContent = model.label(step); largest = Math.max(largest, pop.getBoundingClientRect().height);
-+    }
-+    $('tutPopTitle').textContent = title; $('tutPopTxt').textContent = text; $('tutExtra').textContent = extra; $('tutExtra').hidden = extraHidden; $('tutPopStep').textContent = stepText;
-+    return Math.max(48, Math.min((innerHeight - largest) / 2, row.getBoundingClientRect().top - largest - 18));
-+  }
-+  function place() {
-+    const idx = model.index();
-+    if (idx < 0) return; const step = current(), vh = innerHeight, width = Math.min(innerWidth * (idx ? .92 : .72), (idx ? 540 : 420) * env.uiScale), sr = startBtn.getBoundingClientRect();
-+    row.style.width = width + 'px'; row.style.left = (innerWidth - width) / 2 + 'px'; row.style.bottom = 'auto';
-+    const bh = row.getBoundingClientRect().height || 52, startVisible = startBtn.style.visibility === 'visible';
-+    const minTop = model.replay() && !$('tutClose').classList.contains('hidden') ? $('tutClose').getBoundingClientRect().bottom + 12 : 8;
-+    const ph = pop.getBoundingClientRect().height;
-+    if (step.id === 'motor-range' || step.id === 'time-rule') {
-+      const gap = vh <= 640 ? 10 : 18, top = Math.max(minTop, vh <= 640 ? 24 : 42);
-+      const maxNavTop = vh - bh - Math.max(12, vh * .025), graphicTop = top + ph + gap;
-+      const available = Math.max(0, maxNavTop - gap - graphicTop);
-+      pop.style.left = (innerWidth - pop.getBoundingClientRect().width) / 2 + 'px'; pop.style.top = top + 'px';
-+      graphic.style.top = graphicTop + 'px';
-+      if (step.id === 'time-rule') graphic.style.setProperty('--time-demo-max-height', available + 'px');
-+      else {
-+        const caption = graphic.querySelector('.guided-range-caption');
-+        const captionHeight = caption ? caption.getBoundingClientRect().height + parseFloat(getComputedStyle(caption).marginBottom) : 0;
-+        const height = Math.min(Math.min(innerWidth, vh) * .39, Math.max(0, available - captionHeight - 88));
-+        graphic.style.setProperty('--range-target-height', height + 'px');
-+        graphic.style.setProperty('--range-target-width', height * 60 / 39 + 'px');
-+      }
-+      graphic.style.left = (innerWidth - graphic.getBoundingClientRect().width) / 2 + 'px';
-+      row.style.top = Math.min(maxNavTop, Math.max(sr.top + sr.height / 2 - bh / 2, graphic.getBoundingClientRect().bottom + gap)) + 'px';
-+      return;
-+    }
-+    let navTop = startVisible ? vh - bh - Math.max(12, vh * .025) : sr.top + sr.height / 2 - bh / 2;
-+    if (startVisible && navTop < sr.bottom + 4) navTop = sr.bottom + 4 + bh <= vh - 6 ? sr.bottom + 4 : Math.max(8, sr.top - bh - 12);
-+    if (!startVisible) {
-+      let needed = minTop + ph + 16;
-+      navTop = Math.min(vh - bh - 6, Math.max(navTop, needed));
-+    }
-+    row.style.top = navTop + 'px';
-+    const maxTop = navTop - ph - 16;
-+    pop.style.left = (innerWidth - pop.getBoundingClientRect().width) / 2 + 'px';
-+    let top = Math.max(48, Math.min((vh - ph) / 2, maxTop));
-+    if (step.kind === 'orientation') {
-+      const r = (step.focus === 'stem' ? stemEl : step.focus === 'start' ? startBtn : choiceA).getBoundingClientRect();
-+      top = step.focus === 'start' ? r.top - ph - 16 : r.bottom + 16;
-+      if (step.focus === 'choices') top = Math.max(r.bottom + 12, Math.min(top, sr.top - ph - 8));
-+      if (navTop < sr.top && step.focus === 'start') top = Math.min(top, maxTop);
-+    } else if (step.id === 'motor-route' || (step.id === 'motor' && !model.motorDone())) top = Math.max(42, vh * .06);
-+    else if (step.chapter.startsWith('3 ') && step.kind === 'instruction') top = ruleTop();
-+    pop.style.top = Math.max(minTop, Math.min(top, maxTop)) + 'px';
-+    if (step.id === 'motor-route' || step.id === 'motor') {
-+      const sf = surface.getBoundingClientRect(); target.style.top = Math.max(sf.height * .34, pop.getBoundingClientRect().bottom - sf.top + 18) + 'px';
-+    }
-+    placeMotorHint();
-+  }
-+  function renderQuiz({ q, chosen, order, nextLabel, disabled }) {
-+    const good = chosen === q.correctIndex;
-+    $('tutPopTitle').textContent = q.copy; $('tutPopTxt').textContent = ''; $('tutExtra').hidden = true; meta(current());
-+    $('tutPopNext').textContent = nextLabel;
-+    $('tutPopNext').disabled = disabled; row.classList.toggle('pending', disabled);
-+    $('tutPrev').classList.toggle('hidden', false);
-+    $('tutPopOp').textContent = chosen != null && !good ? 'もう一度、答えを選んでください' : '答えを1つ選んで「' + $('tutPopNext').textContent + '」';
-+    const feedback = $('tutQuizFeedback'); feedback.textContent = chosen == null ? '' : good ? q.right : q.wrong; feedback.classList.toggle('wrong', chosen != null && !good);
-+    const choices = $('tutQuiz'); choices.replaceChildren(); choices.setAttribute('role', 'radiogroup'); choices.setAttribute('aria-labelledby', 'tutPopTitle');
-+    for (const originalIndex of order) {
-+      const button = document.createElement('button'); button.type = 'button'; button.textContent = q.labels[originalIndex]; button.dataset.answerIndex = originalIndex; button.dataset.originalIndex = originalIndex; button.classList.toggle('selected', chosen === originalIndex);
-+      button.onclick = () => events.answer(originalIndex, document.activeElement === button, q);
-+      button.setAttribute('role', 'radio'); button.setAttribute('aria-checked', String(chosen === originalIndex));
-+      choices.append(button);
-+    }
-+    const options = [...choices.children], selected = options.find(button => button.dataset.answerIndex === String(chosen));
-+    for (const button of options) button.tabIndex = button === (selected || options[0]) ? 0 : -1;
-+    choices.onkeydown = event => {
-+      if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) return;
-+      const at = options.indexOf(event.target); if (at < 0) return; event.preventDefault();
-+      const n = event.key === 'Home' ? 0 : event.key === 'End' ? options.length - 1 : (at + (['ArrowRight', 'ArrowDown'].includes(event.key) ? 1 : options.length - 1)) % options.length;
-+      const answer = options[n].dataset.answerIndex; options[n].click(); focusQuizAnswer(answer);
-+    };
-+  }
-+  function focusQuizAnswer(answer) { $('tutQuiz').querySelector('[data-answer-index="' + answer + '"]').focus({ preventScroll: true }); }
-+  function prepareTeardown() { clearHint(); held = null; stopGraphics(); motion.finish(); }
-+  function hide() {
-+    pop.classList.remove('on'); pop.classList.add('hidden'); row.classList.add('hidden'); row.classList.remove('pending'); $('tutClose').classList.add('hidden'); backdrop.style.display = ''; graphic.hidden = true;
-+    for (const el of [stemEl, choiceA, choiceB, startBtn]) { el.classList.remove('guided-dim', 'guided-focus'); el.style.visibility = ''; }
-+    startBtn.classList.remove('armed'); startBtn.textContent = 'スタート'; stemEl.textContent = ''; numA.textContent = ''; numB.textContent = ''; target.style.display = ''; hidePosition();
-+    document.body.classList.remove('guided-tutorial', 'guided-instruction', 'guided-range', 'guided-time', 'guided-quiz', 'guided-motor', 'tut-review');
-+  }
-+  function enter() {
-+    document.body.classList.add('guided-tutorial'); document.body.classList.toggle('tut-review', model.replay()); $('tutAgain').classList.add('hidden'); $('counter').textContent = '';
-+    $('tutClose').classList.toggle('hidden', !model.canClose());
-+  }
-+  return {
-+    build, prepareRender, showStep, showStage, playGraphics, place, renderQuiz, focusQuizAnswer,
-+    prepareTeardown, hide, enter, resetFlash, flash, clearHint,
-+    isHeld: () => !!held,
-+    motionSnapshot: () => motion.snapshot(), animate: before => motion.run(before),
-+    removeCue: () => $('tutPopNext').classList.remove('cue'), addCue: () => $('tutPopNext').classList.add('cue'),
-+    setWaiting: waiting => $('tutPopNext').classList.toggle('wait', waiting), clearWaiting: () => $('tutPopNext').classList.remove('wait'),
-+  };
-+};
-diff --git a/tools/pilot-anchor/js/tutorial-controller.js b/tools/pilot-anchor/js/tutorial-controller.js
-new file mode 100644
---- /dev/null
-+++ b/tools/pilot-anchor/js/tutorial-controller.js
-@@ -0,0 +1,165 @@
-+'use strict';
-+
-+// 進行・読了待機・復習合格・教示ログ・保存/再開を所有する。
-+// viewへ渡すmodelは読取getterのみ。viewのdisabled属性に依存せず、ここでも進行を制限する。
-+window.PILOT_GUIDED_TUTORIAL.createEngine = function (env) {
-+  const config = window.PILOT_GUIDED_TUTORIAL, SCHEMA = config.schema;
-+  const { dragTutState } = env;
-+  const STEPS = config.steps;
-+  const INSTRUCTED_STEPS = env.instructedSteps.map((s, i) => ({ ...s, id: 'instructed-' + i, kind: 'instruction', chapter: '追加10問の操作', title: '追加10問の操作', copy: s.txt, button: i ? '問題に戻る' : '次へ', action: s.op, html: true }));
-+  const seen = new Set(), completed = new Set();
-+  let steps = STEPS, idx = -1, replay = false, required = null, returnLabel = '問題に戻る', onDone = null;
-+  let lockUntil = 0, lockTimer = null, cueTimer = null, nextDisabled = false, pending = false;
-+  let shownAt = null, shownId = null, quizIndex = 0, quizLockKey = null, selections = [], orders = [], attempts = [], trainingComplete = false, priorInitial = null;
-+  const device = () => env.getDevice();
-+  const current = () => steps[idx];
-+  const log = (event, data = {}) => device().tutorialLog.push({ kind: 'drag', schema: SCHEMA, event, step: idx + 1, stepId: current()?.id || null, ...data });
-+  const initial = () => !replay && steps === STEPS;
-+  const shuffle = () => config.checks.map(q => {
-+    const order = q.labels.map((_, i) => i);
-+    for (let i = order.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [order[i], order[j]] = [order[j], order[i]]; }
-+    return order;
-+  });
-+  const passes = () => config.checks.map((q, i) => selections[i] === q.correctIndex);
-+  const view = config.createView({
-+    $: env.$, surface: env.surface, startBtn: env.startBtn, stemEl: env.stemEl,
-+    choiceA: env.choiceA, choiceB: env.choiceB, numA: env.numA, numB: env.numB,
-+    screens: env.screens, uiScale: env.uiScale,
-+  }, {
-+    current, index: () => idx, replay: () => replay,
-+    isFirstStep: () => required ? idx === required[0] : idx === 0, canClose: () => replay && !required,
-+    isStandard: () => steps === STEPS, motorDone: () => completed.has('motor'),
-+    nextDisabled: () => nextDisabled, quizSelection: () => selections[quizIndex],
-+    pageInfo, label, nextLabel,
-+  }, {
-+    advance, back, log, answer,
-+    close: () => { if (idx >= 0 && replay && !required) { log('close'); finish(); } },
-+    replay: () => { if (idx >= 0) { log('replay'); idx = 0; render(); } },
-+    motorComplete: () => { completed.add('motor'); log('motor_complete'); render(); },
-+  });
-+
-+  function snapshot() { return { schema: SCHEMA, stepId: current()?.id || null, index: idx, seen: [...seen], completed: [...completed], quiz: { index: quizIndex, selections: [...selections], orders: orders.map(a => a.slice()), attempts: [...attempts] }, completedTraining: trainingComplete }; }
-+  function save() {
-+    if (!initial()) return;
-+    env.setResumeStage('dragTutorial');
-+    device().guidedTutorial = { schema: SCHEMA, completed: trainingComplete, motorCompleted: completed.has('motor'), quiz: snapshot().quiz };
-+    env.saveBackup();
-+  }
-+  function pageInfo(step) {
-+    if (step.id === 'layout-intro') return { label: 'はじめに', index: 0, total: 0 };
-+    if (step.id === 'rule-check-intro') return { label: 'ルールの復習', index: 0, total: 0 };
-+    if (step.id === 'rule-check') return { label: 'ルールの復習', index: quizIndex + 1, total: config.checks.length };
-+    const peers = required ? required.map(i => steps[i]) : steps.filter(s => s.chapter === step.chapter && !['layout-intro', 'rule-check-intro', 'rule-check'].includes(s.id));
-+    return { label: required ? '操作の確認' : step.chapter.replace(/^\d\s/, ''), index: peers.indexOf(step) + 1, total: peers.length };
-+  }
-+  function label(step) { const p = pageInfo(step); return p.label + (p.total ? '　' + p.index + ' / ' + p.total : ''); }
-+  function nextLabel() {
-+    if (current()?.id === 'rule-check') return quizIndex === config.checks.length - 1 ? (replay ? returnLabel : '例題へ') : '次へ';
-+    if ((required ? idx === required.at(-1) : idx === steps.length - 1) && replay) return returnLabel;
-+    return current()?.button || '次へ';
-+  }
-+  function logEnd() { if (shownAt != null && shownId) log('stay', { stepId: shownId, ms: Math.round(performance.now() - shownAt) }); shownAt = null; shownId = null; }
-+  function setLock(text, wasSeen, exempt = false) {
-+    clearTimeout(lockTimer); lockTimer = null;
-+    lockUntil = required ? performance.now() + env.minReadMs(text) : (replay || wasSeen || exempt) ? 0 : performance.now() + env.minReadMs(text);
-+    view.setWaiting(lockUntil > performance.now());
-+    if (lockUntil > performance.now()) lockTimer = setTimeout(() => view.clearWaiting(), lockUntil - performance.now());
-+  }
-+  function render() {
-+    const before = view.motionSnapshot(); logEnd(); view.prepareRender(); clearTimeout(cueTimer); cueTimer = null;
-+    const step = current(); if (!step) return;
-+    const key = step.id, wasSeen = seen.has(key); seen.add(key); shownAt = performance.now(); shownId = key;
-+    quizLockKey = null;
-+    nextDisabled = false; pending = false;
-+    view.showStep(step);
-+    env.logInstructionExposure(steps === STEPS ? 'dragTutorial' : 'instructedTutorial', { step: idx + 1, stepId: key, schema: SCHEMA, quizIndex: step.kind === 'quiz' ? quizIndex : null });
-+    nextDisabled = key === 'motor' && !completed.has('motor') && !replay; pending = nextDisabled;
-+    view.showStage(step);
-+    if (step.kind === 'quiz') renderQuiz(false);
-+    if (step.kind !== 'quiz') setLock(step.copy + (step.extraCopy || ''), wasSeen, step.kind === 'motor');
-+    view.place();
-+    view.playGraphics(key);
-+    if (!nextDisabled) cueTimer = setTimeout(() => { if (idx >= 0 && current() === step) view.addCue(); }, replay || wasSeen ? 0 : env.readCueDelay(step.copy));
-+    view.animate(before); save();
-+  }
-+  function renderQuiz(withMotion = true) {
-+    clearTimeout(cueTimer); cueTimer = null; view.removeCue();
-+    const before = withMotion ? view.motionSnapshot() : null, q = config.checks[quizIndex], last = quizIndex === config.checks.length - 1, chosen = selections[quizIndex], good = chosen === q.correctIndex;
-+    const questionKey = 'quiz-' + q.id, visited = seen.has(questionKey); seen.add(questionKey);
-+    if (quizLockKey !== q.id) { setLock(q.copy + q.labels.join(''), visited); quizLockKey = q.id; }
-+    nextDisabled = !replay && (!good || (last && !passes().every(Boolean))); pending = nextDisabled;
-+    view.renderQuiz({ q, chosen, order: orders[quizIndex], nextLabel: last ? (replay ? returnLabel : '例題へ') : '次へ', disabled: nextDisabled });
-+    if (withMotion) { view.place(); view.animate(before); }
-+  }
-+  function answer(originalIndex, hadFocus, q) {
-+    view.resetFlash(); const answeredAt = quizIndex; selections[quizIndex] = originalIndex; attempts[quizIndex]++; log('rule_answer', { rule: q.id, answerIndex: originalIndex, correct: originalIndex === q.correctIndex, attempt: attempts[quizIndex] }); renderQuiz(false); if (hadFocus) view.focusQuizAnswer(originalIndex); view.place(); save(); if (originalIndex === q.correctIndex) cueTimer = setTimeout(() => { if (idx >= 0 && current()?.kind === 'quiz' && quizIndex === answeredAt && selections[answeredAt] === q.correctIndex && !nextDisabled) view.addCue(); }, env.readCueDelay(q.right));
-+  }
-+  function advance() {
-+    if (idx < 0 || view.isHeld() || nextDisabled) return;
-+    if (performance.now() < lockUntil) { log('early'); view.flash('読んでから押してください', lockUntil); return; }
-+    if (current().kind === 'quiz') {
-+      if (!replay && selections[quizIndex] !== config.checks[quizIndex].correctIndex) return;
-+      if (quizIndex < config.checks.length - 1) { view.clearHint(); view.resetFlash(); quizIndex++; renderQuiz(); save(); return; }
-+      if (!replay && !passes().every(Boolean)) return;
-+    }
-+    if (required) { const at = required.indexOf(idx); if (at < required.length - 1) { idx = required[at + 1]; render(); } else finish(); }
-+    else if (idx < steps.length - 1) { idx++; render(); } else finish();
-+  }
-+  function back() {
-+    if (idx < 0 || view.isHeld()) return; log('back'); view.clearHint(); view.resetFlash();
-+    if (current()?.kind === 'quiz' && quizIndex > 0) { quizIndex--; renderQuiz(); save(); return; }
-+    if (required) { const at = required.indexOf(idx); if (at > 0) idx = required[at - 1]; else return; }
-+    else if (idx > 0) idx--; else return;
-+    render();
-+  }
-+  function teardown() {
-+    logEnd(); view.prepareTeardown(); clearTimeout(cueTimer); clearTimeout(lockTimer); cueTimer = null; lockTimer = null; lockUntil = 0; view.resetFlash();
-+    view.hide(); idx = -1; dragTutState.active = false; pending = false;
-+  }
-+  function finish() {
-+    if (initial() && (!completed.has('motor') || !passes().every(Boolean))) return;
-+    if (initial()) { trainingComplete = true; dragTutState.schema = SCHEMA; device().guidedTutorial = { schema: SCHEMA, completed: true, motorCompleted: true, quiz: snapshot().quiz }; log('complete'); save(); }
-+    const cb = onDone; onDone = null; const wasReplay = replay; teardown(); dragTutState.done = true;
-+    if (wasReplay && priorInitial) restoreState(priorInitial, false); priorInitial = null; replay = false; required = null;
-+    if (cb) cb();
-+  }
-+  function abort() { if (idx < 0 && !dragTutState.active) return; const wasReplay = replay; teardown(); onDone = null; if (wasReplay && priorInitial) restoreState(priorInitial, false); priorInitial = null; replay = false; required = null; dragTutState.done = false; }
-+  function restoreState(restored, migrate = true) {
-+    seen.clear(); completed.clear(); selections = config.checks.map(() => null); attempts = config.checks.map(() => 0); orders = shuffle(); quizIndex = 0; quizLockKey = null; trainingComplete = false;
-+    if (restored?.schema === SCHEMA) {
-+      for (const key of restored.seen || []) if (STEPS.some(s => s.id === key) || config.checks.some(q => 'quiz-' + q.id === key)) seen.add(key);
-+      for (const key of restored.completed || []) if (key === 'motor') completed.add(key);
-+      const q = restored.quiz || {};
-+      selections = config.checks.map((check, i) => Number.isInteger(q.selections?.[i]) && q.selections[i] >= 0 && q.selections[i] < check.labels.length ? q.selections[i] : null);
-+      attempts = config.checks.map((_, i) => Math.max(0, Number(q.attempts?.[i]) || 0));
-+      orders = config.checks.map((check, i) => Array.isArray(q.orders?.[i]) && q.orders[i].length === check.labels.length && new Set(q.orders[i]).size === check.labels.length && q.orders[i].every(n => Number.isInteger(n) && n >= 0 && n < check.labels.length) ? q.orders[i].slice() : orders[i]);
-+      quizIndex = Math.max(0, Math.min(config.checks.length - 1, Number(q.index) || 0));
-+      trainingComplete = restored.completedTraining === true && completed.has('motor') && passes().every(Boolean);
-+    } else if (restored && migrate) {
-+      for (const n of restored.seen || []) { const key = config.legacyStepIds[n]; if (['layout-intro', 'layout-stem', 'layout-start', 'layout-choice', 'motor-route'].includes(key)) seen.add(key); }
-+      if ((restored.completed || []).includes(6) || (restored.completed || []).includes(7)) completed.add('motor');
-+    }
-+  }
-+  function run(cb, opts = {}) {
-+    if (env.realBlocks.includes('moral')) env.moralPracticeDefinition(); view.build();
-+    if (idx >= 0) teardown();
-+    const enteringReplay = !!opts.replay; priorInitial = enteringReplay ? snapshot() : null;
-+    replay = enteringReplay; steps = opts.instructed ? INSTRUCTED_STEPS : STEPS; returnLabel = opts.returnLabel || '問題に戻る'; onDone = cb;
-+    restoreState(opts.restored, true);
-+    required = Array.isArray(opts.requiredSteps) && opts.requiredSteps.length ? [...new Set(opts.requiredSteps.map(n => typeof n === 'string' ? steps.findIndex(s => s.id === n) : opts.instructed ? n : steps.findIndex(s => s.id === config.legacyStepIds[n])).filter(n => n >= 0 && n < steps.length))] : null;
-+    if (required && !required.length) required = null;
-+    let wanted = 0;
-+    if (opts.restored?.schema === SCHEMA) wanted = steps.findIndex(s => s.id === opts.restored.stepId);
-+    else if (opts.restored && Number.isInteger(opts.restored.index)) wanted = steps.findIndex(s => s.id === config.legacyStepIds[opts.restored.index]);
-+    else if (typeof opts.start === 'string') wanted = steps.findIndex(s => s.id === opts.start);
-+    else if (Number.isInteger(opts.start)) wanted = opts.instructed ? opts.start : steps.findIndex(s => s.id === config.legacyStepIds[opts.start]);
-+    if (!replay && opts.restored && steps === STEPS && wanted > STEPS.findIndex(s => s.id === 'motor') && !completed.has('motor')) wanted = STEPS.findIndex(s => s.id === 'motor');
-+    if (required) wanted = required[0];
-+    if (env.debug && env.query.get('gstep') && !opts.restored) { const debugIndex = steps.findIndex(s => s.id === env.query.get('gstep')); if (debugIndex >= 0) wanted = debugIndex; }
-+    idx = Math.max(0, Math.min(steps.length - 1, wanted < 0 ? 0 : wanted)); dragTutState.active = true;
-+    if (initial()) { dragTutState.schema = SCHEMA; dragTutState.done = false; }
-+    env.hideBanner(); env.clearIdleCoach(); env.coachHide(); env.setCoach(null); env.show('task'); env.sizeCanvas(); env.clearCanvas(); env.updateProgress();
-+    view.enter(); render();
-+  }
-+  return { run, abort, snapshot, schema: SCHEMA, state: () => ({ index: idx, stepId: current()?.id || null, schema: SCHEMA, review: replay, instructed: steps === INSTRUCTED_STEPS, lockRemainingMs: Math.max(0, lockUntil - performance.now()), handsDone: completed.has('motor'), pending, quiz: { index: quizIndex, passed: passes(), selections: [...selections], orders: orders.map(a => a.slice()), attempts: [...attempts], complete: passes().every(Boolean) }, completedTraining: trainingComplete }) };
-+};
-diff --git a/tools/pilot-anchor/js/trial-recorder.js b/tools/pilot-anchor/js/trial-recorder.js
-new file mode 100644
---- /dev/null
-+++ b/tools/pilot-anchor/js/trial-recorder.js
-@@ -0,0 +1,92 @@
-+// 座標・時刻と派生指標の共通取得処理。DOM・説明・保存・画面遷移を持たない。
-+(function (root, factory) {
-+  if (typeof module === 'object' && module.exports) module.exports = factory();
-+  else root.PilotTrialRecorder = factory();
-+})(typeof window === 'object' ? window : globalThis, function () {
-+  'use strict';
-+  function create({ STOP_MIN_MS, STOP_NOTICE_MS, STOP_EPS_PX, LATE_START_MS, EARLY_CPS }) {
-+    const center = r => ({ cx: (r.left + r.right) / 2, cy: (r.top + r.bottom) / 2 });
-+    function begin({ e, phase, trialIndex, instrIndex, recordsLength, aborts, cell, block, stimulusType, meta,
-+      resumePending, stemShownT, stopNoticeShown, sRect, stRect, aRect, bRect, timeOrigin, dpr }) {
-+      const sc = center(stRect), ac = center(aRect), bc = center(bRect);
-+      return {
-+      index: phase === "main" ? trialIndex + 1 : (phase === "instructed" ? instrIndex + 1 : null),
-+      trialOrdinal: recordsLength + 1, attemptNumber: aborts + 1,
-+      timeOrigin,
-+      isInstructed: phase === "instructed" ? true : undefined,
-+      // phase 'tutorial' = 導入の例を操作した1回 (練習にも解析にも数えない)。block: 統合セッションで value/moral を分離するため per-trial に記録
-+      phase: cell.isTutorial ? "tutorial" : phase, block: block, stimulusType: stimulusType,
-+      pointerType: e.pointerType || "unknown",
-+      ...meta,  // 通常=ブロック別メタ / 注意チェック=isCheck メタ
-+      post_check: cell.postCheck === true,   // 弱DQS直後の本試行 (警戒モード汚染を感度分析で除外可能に。§6-2)
-+      post_resume: resumePending === true,   // 中断→再開の直後の本試行 (§6-6 項17。間隔が空いた分を感度分析で除外可能に)
-+      choiceSide: null, correct: null,
-+      // 開始手続き (§6-6 項19。2026-09-26 押下で出現): onset = 場面文の表示、startPressT = 押下 = revealT (選択肢の出現)、initiationT = 枠から出た時刻
-+      stimulusOnsetT: stemShownT, startPressT: e.timeStamp, preStartMs: +(e.timeStamp - stemShownT).toFixed(1),
-+      revealT: e.timeStamp, revealXY: { x: +(e.clientX - sRect.left).toFixed(2), y: +(e.clientY - sRect.top).toFixed(2) },
-+      stopsAfterInit: null, stopFlag: false, lateStart: false, stopNotice: stopNoticeShown,
-+      initiationT: null, responseT: null,
-+      rt_ms: null, rt_proxy_ms: null, mt_proxy_ms: null, total_ms: null,
-+      dispHz: null, nDispatched: 0, nCoalesced: 0, aborts: 0,
-+      ratings: { confidence: null, hesitation: null },
-+      geom: {
-+        surface: { w: sRect.width, h: sRect.height },
-+        start: { cx: sc.cx - sRect.left, cy: sc.cy - sRect.top },
-+        A: { cx: ac.cx - sRect.left, cy: ac.cy - sRect.top, w: aRect.width, h: aRect.height },
-+        B: { cx: bc.cx - sRect.left, cy: bc.cy - sRect.top, w: bRect.width, h: bRect.height },
-+        dpr,
-+      },
-+      _sRect: sRect, _stRect: stRect,
-+      events: [],
-+    };
-+    }
-+  function pushEvent(trial, e, type) {
-+    const x = e.clientX - trial._sRect.left, y = e.clientY - trial._sRect.top;
-+    trial.events.push({ seq: trial.events.length, t: e.timeStamp, x: +x.toFixed(2), y: +y.toFixed(2), type });
-+  }
-+    function hasLeftStart(sr, e) { return (e.clientX < sr.left - 4 || e.clientX > sr.right + 4 || e.clientY < sr.top - 4 || e.clientY > sr.bottom + 4); }
-+  // 出現後の停止 (動的スタート §6-6 項19): 出現以降の down/dispatched/up 点列で、基準点から STOP_EPS_PX 以内に
-+  // STOP_MIN_MS 以上とどまった区間を数える。iOS は静止中 pointermove を出さないので時間の空白も同じ基準で停止になる
-+  function computeStops(events, revealT) {
-+    const out = { n: 0, ms: 0, maxMs: 0 };
-+    if (revealT == null) return out;
-+    const pts = events.filter((p) => (p.type === "dispatched" || p.type === "up" || p.type === "reveal") && p.t >= revealT);
-+    if (!pts.length) return out;
-+    let ax = pts[0].x, ay = pts[0].y, at = pts[0].t;
-+    const close = (d) => { if (d >= STOP_MIN_MS) { out.n++; out.ms += d; out.maxMs = Math.max(out.maxMs, d); } };
-+    for (let i = 1; i < pts.length; i++) {   // 基準点から STOP_EPS_PX を超えて動いた時点で、そこまでの滞在を閉じる
-+      const p = pts[i];
-+      if (Math.hypot(p.x - ax, p.y - ay) > STOP_EPS_PX) { close(p.t - at); ax = p.x; ay = p.y; at = p.t; }
-+    }
-+    close(pts[pts.length - 1].t - at);   // 離すまでの最後の滞在
-+    out.ms = Math.round(out.ms); out.maxMs = Math.round(out.maxMs);
-+    return out;
-+  }
-+
-+    function complete(trial, { disp, aborts, stemChars }) {
-+    const upT = trial.events[trial.events.length - 1].t;
-+    trial.responseT = upT;
-+    if (trial.initiationT == null) trial.initiationT = upT;
-+    trial.rt_ms = +(trial.initiationT - trial.revealT).toFixed(2);
-+    trial.rt_proxy_ms = trial.rt_ms;
-+    trial.mt_proxy_ms = +(upT - trial.initiationT).toFixed(2);
-+    trial.total_ms = +(upT - trial.startPressT).toFixed(2);
-+    trial.stopsAfterInit = computeStops(trial.events, trial.initiationT);   // 動き出した後の停止 (記録のみ・案内しない)
-+    trial.stopFlag = trial.stopsAfterInit.maxMs >= STOP_NOTICE_MS;
-+    trial.lateStart = trial.rt_ms > LATE_START_MS;   // 遅い初動: 選択肢が出てから 3 秒を超えて動かなかった (評定送信後に案内。品質共変量)
-+    // 早出し: 問題文表示〜スタート押下が固定読了時間より短い（問題文のないブロックは判定しない）
-+    trial.stemChars = stemChars;
-+    trial.earlyStart = trial.stemChars > 0 && trial.preStartMs < (trial.stemChars / EARLY_CPS) * 1000;   // 問題文表示〜スタート押下 < 文字数÷25字/秒。読了の有無ではなく時間に基づくフラグ
-+
-+    // 実効 dispatch レート (dt>0 ガード)
-+    let span = 0, n = 0;
-+    for (let i = 1; i < disp.length; i++) { const dt = disp[i].t - disp[i - 1].t; if (dt > 0) { span += dt; n++; } }
-+    trial.dispHz = n > 0 ? +((n) / (span / 1000)).toFixed(1) : null;
-+    trial.nDispatched = disp.length;
-+    trial.nCoalesced = trial.events.filter((p) => p.type === "coalesced").length;
-+    trial.aborts = aborts;
-+    }
-+    return Object.freeze({ begin, pushEvent, hasLeftStart, computeStops, complete });
-+  }
-+  return Object.freeze({ create });
-+});
 diff --git a/tools/pilot-anchor/js/app.js b/tools/pilot-anchor/js/app.js
 new file mode 100644
+index 0000000..adb5031
 --- /dev/null
 +++ b/tools/pilot-anchor/js/app.js
 @@ -0,0 +1,4700 @@
@@ -6381,7 +5566,7 @@ new file mode 100644
 +    { act: "conf", title: "選んだ答えへの自信", focus: "confidence", op: 'いちばん近いものを1つ押して「次へ」',
 +      text: 'いま選んだ答えへの自信の強さを選びます。' },
 +    { act: "finish", title: "1問ずつ考え直す", op: '読んだら「練習問題へ」',
-+      text: '感じ方は問題によって変わります。\n前の問題の選択に引きずられず、その問題で感じたものに近いものをその都度選んでください。' },
++      text: '感じ方は問題によって変わります。前の問題の選択に引きずられず、その問題で感じたものに近いものをその都度選んでください。' },
 +  ];
 +
 +  const $ = (id) => document.getElementById(id);
@@ -6536,7 +5721,7 @@ new file mode 100644
 +    stopNoticesSuppressed: 0, // 上限（種類ごと5回）で非表示にした理由数。両方の抑止なら2
 +    pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
 +    practiceChecks: [], noticeReviews: [], noticeAcknowledgements: [], // 旧別画面見直しと新注意内確認を分ける。読了・理解や除外の判定には用いない
-+    appVersion: "2026-10-15-ui20",  // 段階的な教示・操作実演・ルール復習。開始時の版は再開でも保持する
++    appVersion: "2026-10-16-ui21",  // 実演の倍率・待機と復習・振り返りの表示調整。開始時の版は再開でも保持する
 +    moralPracticeDefinition: null, // 最初の操作説明・練習開始時に固定する刺激の版と全文。表示・理解の証跡ではない
 +    welcomeAgree: null,       // はじめに 5/6・6/6 の同意チェック {items, pages, ms}
 +    devGuard: null,           // 機種ガード {on,minH,w,h,shown,isIPhone,isIPad,ipadLink,platformOk,sizeOk}
@@ -6546,7 +5731,7 @@ new file mode 100644
 +
 +  // appVersionは開始時の版を維持するため、教示の表示版は実行中のコードから記録する。
 +  // 未記録の旧画面を推測で埋めず、表示イベントを読了・理解とみなさない。
-+  const INSTRUCTION_VERSION = "2026-10-15-ui20";
++  const INSTRUCTION_VERSION = "2026-10-16-ui21";
 +  function moralPracticeDefinition(legacy = false) {
 +    if (!device.moralPracticeDefinition) {
 +      const source = PILOT_BANK.moral;
@@ -7381,7 +6566,7 @@ new file mode 100644
 +    numB.style.visibility = "visible";
 +    if (stemEl.textContent) stemEl.style.visibility = "visible";  // 設問ステム (文字2択のみ内容あり)
 +    startBtn.classList.add("armed");
-+    startBtn.textContent = "→";
++    startBtn.textContent = "スタート";
 +  }
 +
 +  // ===== Pointer Events 記録 =====
@@ -7842,13 +7027,13 @@ new file mode 100644
 +  // 説明中に「次へ」以外の場所を押した人への案内 (ドラッグ導入の strayTap と同じ。2026-09-14)。評定ボタン・「戻る」・押せる「次へ」は本来の操作なので除く。
 +  // 押せない (未選択の) 「次へ」は pointer-events:none (app.css) にして親で受ける → 「上から1つ選んでください」
 +  $("rating").addEventListener("pointerdown", (e) => {
-+    if (!tutActive() || ratingReview) return;
++    if (!tutActive()) return;
 +    const t = e.target;
-+    if (t.closest(".likert button") || t.closest("#ratingBack") || t.closest("#ratingTutPrev")) return;
++    if ((!ratingReview && t.closest(".likert button")) || t.closest("#ratingBack") || t.closest("#ratingTutPrev") || t.closest("#ratingTutClose") || t.closest("#stopBtn")) return;
 +    const goBtn = ratPage === 0 ? $("ratingNext") : $("ratingSubmit");
 +    if (t.closest("#" + goBtn.id) && !goBtn.disabled) return;   // 押せる「次へ」: click 側 (早押し判定) に任せる
 +    const p = ratingTutorialPage();
-+    const unselected = ["hes", "conf"].includes(p.act) && trial.ratings[ITEMS[ratPage].key] == null;
++    const unselected = !ratingReview && ["hes", "conf"].includes(p.act) && trial.ratings[ITEMS[ratPage].key] == null;
 +    device.tutorialLog.push({ kind: "rating", page: tutIdx + 1, event: "stray" });
 +    ratBtnFlash(unselected ? "1つ選んでください" : "このボタンで進みます", goBtn);
 +    if (!unselected) goBtn.classList.add("cue");
@@ -7889,13 +7074,13 @@ new file mode 100644
 +    ratPop.classList.add("on");
 +    ratPop.style.top = ""; ratPop.style.left = ""; ratPop.style.marginTop = "0px";
 +    const wrap = $("rating").querySelector(".qwrap"), row = $("ratBtnRow");
-+    if (["intro", "finish", "practiceIntro"].includes(p.act)) {
++    if (ratingReview || ["intro", "finish", "practiceIntro"].includes(p.act)) {
 +      row.style.bottom = "auto";
 +      row.style.top = Math.max(12, innerHeight * .88 - Math.min(innerWidth, innerHeight) * .08 - row.getBoundingClientRect().height / 2) + "px";
 +    } else { row.style.bottom = ""; row.style.top = ""; }
 +    const buttons = row.getBoundingClientRect();
 +    const top = ratingReview ? $("ratingTutClose").getBoundingClientRect().bottom + 8 : parseFloat(getComputedStyle(wrap).paddingTop);
-+    if (!["hes", "conf"].includes(p.act)) {
++    if (ratingReview || !["hes", "conf"].includes(p.act)) {
 +      const natural = ratPop.getBoundingClientRect().top;
 +      ratPop.style.marginTop = Math.max(0, top + (buttons.top - 20 - top - ratPop.offsetHeight) / 2 - natural) + "px";
 +    } else {
@@ -7959,7 +7144,7 @@ new file mode 100644
 +    // 押す対象の評定行を鼓動 (まだ選んでいないときだけ。選んだら進むボタンへ合図が移る)
 +    const key = p.act === "conf" ? "confidence" : "hesitation", lk = $("qitem-" + key).querySelector(".likert");
 +    if (lkC) lkC.classList.remove("tut-cue"); if (lkH) lkH.classList.remove("tut-cue");
-+    const staticPage = !["hes", "conf"].includes(p.act);
++    const staticPage = !!ratingReview || !["hes", "conf"].includes(p.act);
 +    $("rating").classList.toggle("rat-intro", staticPage);
 +    $("rating").classList.toggle("rat-static", staticPage);
 +    if (ratingReview) {
@@ -10514,3 +9699,879 @@ new file mode 100644
 +
 +  window.PilotRuntimeGuards.installTouchGuards({ surface });
 +})();
+diff --git a/tools/pilot-anchor/js/runtime-guards.js b/tools/pilot-anchor/js/runtime-guards.js
+new file mode 100644
+index 0000000..a848d02
+--- /dev/null
++++ b/tools/pilot-anchor/js/runtime-guards.js
+@@ -0,0 +1,142 @@
++/*
++ * 端末・向き・拡大・タッチ操作の共通ガード。
++ * チュートリアルの見た目から独立させ、index.html の元の初期化位置で接続する。
++ * getDevice / isRecording はアプリ側の現在値を読み、試行の中断処理は呼び出し側へ委譲する。
++ */
++(function (global) {
++  "use strict";
++
++  function create(env) {
++    const { $, query: QS, preview: GO, kiosk: KIOSK, cohort: COHORT, study: STUDY } = env;
++    // ===== 横向きガード =====
++    // タッチ端末のみ (PC/headless 検証は対象外)。?rotate=0 で無効化 (デバッグ用)。
++    // 回転でレイアウト(vmin基準)と geom が変わるため、ドラッグ中なら無効試行にして再呈示。
++    const rotateGuardOn = navigator.maxTouchPoints > 0 &&
++      new URLSearchParams(location.search).get("rotate") !== "0";
++    const typing = () => { const a = document.activeElement; return !!(a && (a.tagName === "INPUT" || a.tagName === "TEXTAREA")); };   // キーボードによる高さの変化は、物理的な向きやページ拡大と区別する。
++    function landscapeOrientation() {
++      // Safariでは回転後もscreenの幅・高さが縦向きの値のままになる。物理的な向きを優先し、キーボードによる高さの変化とは分ける。
++      const type = screen.orientation && screen.orientation.type;
++      if (/^landscape-/.test(type)) return true;
++      if (/^portrait-/.test(type)) return false;
++      if (typeof window.orientation === "number" && Number.isFinite(window.orientation)) return Math.abs(window.orientation) % 180 === 90;
++      if (screen.width && screen.height) return screen.width > screen.height;
++      return !typing() && window.innerWidth > window.innerHeight;
++    }
++    function checkOrientation() {
++      if (!rotateGuardOn) return;
++      const landscape = landscapeOrientation();
++      $("rotateGuard").classList.toggle("show", landscape);
++      if (landscape) $("zoomGuard").classList.remove("show");
++      if (landscape && env.isRecording()) env.onOrientationInterrupted();
++    }
++    window.addEventListener("resize", checkOrientation);
++    const orientationChanged = () => { checkOrientation(); checkZoom(); };
++    window.addEventListener("orientationchange", orientationChanged);
++    if (screen.orientation && screen.orientation.addEventListener) screen.orientation.addEventListener("change", orientationChanged);
++    checkOrientation();
++    // ===== 文字サイズ・ページ拡大のガード (2026-09-12 夜) =====
++    // pageZoom = screen.width / innerWidth: Safari「ぁあ」・Chrome「ズーム」はページの CSS px 幅を縮める (= 小さい機種と同じ効果) ので、縦向きで 1 から外れる。
++    // textZoom = 文字だけの拡大 (見本 B / 見本 A の幅)。どちらも 100%±3% を外れたら止めて戻し方を出す。解析はスタート→箱の直線に正規化するので
++    // 機種差と同じ種類の差だが、説明ボックスの収まり (shots.js で 100% 前提で検証) が崩れるため固定する。値は env.getDevice().pageZoom / textZoom に記録
++    const ZOOM_GUARD_ON = navigator.maxTouchPoints > 0 && QS.get("zoomguard") !== "0";
++    // 本実験は UA で判定した iPhone + 既定の画面寸法。自己申告モデルは判定に使わない。
++    // SE 系 (375×667)・8 (375×667)・8 Plus (414×736) を除く。12/13 mini (375×812) は既定では通る (?devmin=844 で外せる)。?devguard=0 で無効 (validate/shots 用)
++    const DEVGUARD_ON = !GO && QS.get("devguard") !== "0";
++    const DEVMIN_H = (function () { const v = parseInt(QS.get("devmin"), 10); return isFinite(v) && v > 0 ? v : 812; })();
++    (function devGuardCheck() {
++      const w = Math.min(screen.width, screen.height), h = Math.max(screen.width, screen.height);
++      const isIPad = /iPad/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
++      const isIPhone = /iPhone/i.test(navigator.userAgent) && !isIPad;
++      const ipadLink = KIOSK && COHORT === "elderly-inperson-ipad" && !STUDY;
++      const platformOk = ipadLink ? isIPad : isIPhone;
++      const sizeOk = h >= DEVMIN_H && w >= 375;
++      const bad = DEVGUARD_ON && (!platformOk || !sizeOk);
++      env.getDevice().isIPhone = isIPhone; env.getDevice().isIPad = isIPad;
++      env.getDevice().devGuard = { on: DEVGUARD_ON, minH: DEVMIN_H, w, h, shown: bad, isIPhone, isIPad, ipadLink, platformOk, sizeOk };
++      if (bad) {
++        if (ipadLink) $("dgMessage").innerHTML = "<b>この調査の対象端末ではありません。</b><br>このリンクは、対面調査の iPad 専用です。";
++        $("dgNow").textContent = platformOk ? `お使いの画面: 幅 ${w} × 高さ ${h}（対象: 幅 375・高さ ${DEVMIN_H} 以上）` : "この端末は、対象の端末として確認できませんでした。";
++        $("devGuard").classList.add("show");
++        for (const el of document.body.children) if (el !== $("devGuard") && !["SCRIPT", "STYLE"].includes(el.tagName)) el.inert = true;
++        $("devGuard").focus({ preventScroll: true });
++      }
++    })();
++    function measureZoom() {
++      const portrait = !landscapeOrientation();
++      const sw = portrait ? Math.min(screen.width, screen.height) : Math.max(screen.width, screen.height);
++      const pageZoom = sw > 0 && innerWidth > 0 ? +(sw / innerWidth).toFixed(3) : 1;
++      const a = $("zpA").getBoundingClientRect().width, b = $("zpB").getBoundingClientRect().width;
++      const textZoom = a > 0 ? +(b / a).toFixed(3) : 1;
++      return { pageZoom, textZoom };
++    }
++    let zoomGuardWasOn = false;
++    function checkZoom() {
++      if (rotateGuardOn && landscapeOrientation()) { $("zoomGuard").classList.remove("show"); return false; }
++      if (typing()) { $("zoomGuard").classList.remove("show"); return false; }   // 入力中 (キーボード表示) は判定しない (2026-09-29)
++      const z = measureZoom(); env.getDevice().pageZoom = z.pageZoom; env.getDevice().textZoom = z.textZoom;
++      const off = ZOOM_GUARD_ON && (Math.abs(z.pageZoom - 1) > 0.03 || Math.abs(z.textZoom - 1) > 0.03);
++      if (off && !zoomGuardWasOn) env.getDevice().zoomGuardShown++;
++      zoomGuardWasOn = off;
++      if (off) {   // いまの設定を割合と向きで示す (2026-09-13: 大きめか小さめか分からないと戻せない)
++        const zz = Math.abs(z.pageZoom - 1) > 0.03 ? z.pageZoom : z.textZoom;
++        $("zgNow").textContent = "いまの設定: 約 " + Math.round(zz * 100) + "%（" + (zz > 1 ? "大きめ" : "小さめ") + "）";
++      }
++      $("zoomGuard").classList.toggle("show", off);
++      return off;
++    }
++    window.addEventListener("resize", checkZoom);
++    if (window.visualViewport) window.visualViewport.addEventListener("resize", checkZoom);
++    checkZoom();
++
++    return { checkZoom, measureZoom };
++  }
++
++  // 既存の起動処理と回復処理が接続された後、index.html の末尾で一度だけ呼ぶ。
++  function installTouchGuards({ surface }) {
++    // 課題面のプルリフレッシュ/スクロール抑止 (intro/done の .pad スクロールは妨げない)
++    surface.addEventListener("touchmove", (e) => { if (e.cancelable) e.preventDefault(); }, { passive: false });
++    document.addEventListener("contextmenu", (e) => { if (!e.target.closest("#ccode")) e.preventDefault(); });   // コピー失敗時はコードを長押しして選択できる
++    document.addEventListener("gesturestart", (e) => e.preventDefault());
++    // Safariはクリック対象でない本文・余白・disabledボタンでtouch-actionだけでは
++    // ダブルタップ拡大を防げない場合がある。操作を持たない領域の単指タップだけを
++    // touchendで取り消す。初回から取り消すため、2回目のイベント欠落にも依存しない。
++    // 有効なフォーム部品/ラベルはネイティブclickに任せ、clickの手動再送はしない。
++    // スワイプ・複数指・キャンセルは除外し、.padの縦スクロールと慣性を維持する。
++    (() => {
++      let tap = null;
++      const options = { capture: true, passive: true };
++      document.addEventListener("touchstart", e => {
++        const t = e.touches.length === 1 && e.touches[0];
++        tap = t ? { id: t.identifier, x: t.clientX, y: t.clientY, moved: false } : null;
++      }, options);
++      document.addEventListener("touchmove", e => {
++        if (!tap) return;
++        const t = [...e.touches].find(t => t.identifier === tap.id);
++        if (!t || e.touches.length !== 1) { tap = null; return; }
++        if (Math.hypot(t.clientX - tap.x, t.clientY - tap.y) > 10) tap.moved = true;
++      }, options);
++      document.addEventListener("touchcancel", () => { tap = null; }, options);
++      document.addEventListener("touchend", e => {
++        const ended = tap; tap = null;
++        const t = e.changedTouches.length === 1 && e.changedTouches[0];
++        if (!ended || ended.moved || !t || t.identifier !== ended.id || e.touches.length ||
++            Math.hypot(t.clientX - ended.x, t.clientY - ended.y) > 10 || !e.cancelable) return;
++        const target = e.target instanceof Element ? e.target : e.target?.parentElement;
++        if (!target || target.closest("#task")) return; // 課題面は下の既存処理を維持
++        const control = target.closest('button, input, select, textarea, a[href], label, [role="button"], [role="link"], [contenteditable="true"], [data-tap-action]');
++        const action = control?.tagName === "LABEL" ? control.control : control;
++        if (action && !action.matches(':disabled, [aria-disabled="true"]')) return;
++        e.preventDefault();
++      }, { capture: true, passive: false });
++    })();
++    // iOS のダブルタップ拡大対策:スタート連打で拡大→復帰不能の実機報告 (2026-07-11)。
++    // タスク画面は Pointer Events のみで click 合成に依存しないため、touchend の既定動作
++    // (ダブルタップ拡大 + click 合成) を丸ごと抑止できる。他画面はCSSと上の補助処理で対処。
++    document.getElementById("task").addEventListener("touchend",
++      (e) => { if (e.target && e.target.closest && e.target.closest("button")) return;   // 右上「↻ 操作方法」など課題画面内のボタンは click 合成を止めない (2026-09-29: iPhone で押せなかった)
++        if (e.cancelable) e.preventDefault(); }, { passive: false });
++  }
++
++  global.PilotRuntimeGuards = { create, installTouchGuards };
++})(window);
+diff --git a/tools/pilot-anchor/js/trial-recorder.js b/tools/pilot-anchor/js/trial-recorder.js
+new file mode 100644
+index 0000000..60ace94
+--- /dev/null
++++ b/tools/pilot-anchor/js/trial-recorder.js
+@@ -0,0 +1,92 @@
++// 座標・時刻と派生指標の共通取得処理。DOM・説明・保存・画面遷移を持たない。
++(function (root, factory) {
++  if (typeof module === 'object' && module.exports) module.exports = factory();
++  else root.PilotTrialRecorder = factory();
++})(typeof window === 'object' ? window : globalThis, function () {
++  'use strict';
++  function create({ STOP_MIN_MS, STOP_NOTICE_MS, STOP_EPS_PX, LATE_START_MS, EARLY_CPS }) {
++    const center = r => ({ cx: (r.left + r.right) / 2, cy: (r.top + r.bottom) / 2 });
++    function begin({ e, phase, trialIndex, instrIndex, recordsLength, aborts, cell, block, stimulusType, meta,
++      resumePending, stemShownT, stopNoticeShown, sRect, stRect, aRect, bRect, timeOrigin, dpr }) {
++      const sc = center(stRect), ac = center(aRect), bc = center(bRect);
++      return {
++      index: phase === "main" ? trialIndex + 1 : (phase === "instructed" ? instrIndex + 1 : null),
++      trialOrdinal: recordsLength + 1, attemptNumber: aborts + 1,
++      timeOrigin,
++      isInstructed: phase === "instructed" ? true : undefined,
++      // phase 'tutorial' = 導入の例を操作した1回 (練習にも解析にも数えない)。block: 統合セッションで value/moral を分離するため per-trial に記録
++      phase: cell.isTutorial ? "tutorial" : phase, block: block, stimulusType: stimulusType,
++      pointerType: e.pointerType || "unknown",
++      ...meta,  // 通常=ブロック別メタ / 注意チェック=isCheck メタ
++      post_check: cell.postCheck === true,   // 弱DQS直後の本試行 (警戒モード汚染を感度分析で除外可能に。§6-2)
++      post_resume: resumePending === true,   // 中断→再開の直後の本試行 (§6-6 項17。間隔が空いた分を感度分析で除外可能に)
++      choiceSide: null, correct: null,
++      // 開始手続き (§6-6 項19。2026-09-26 押下で出現): onset = 場面文の表示、startPressT = 押下 = revealT (選択肢の出現)、initiationT = 枠から出た時刻
++      stimulusOnsetT: stemShownT, startPressT: e.timeStamp, preStartMs: +(e.timeStamp - stemShownT).toFixed(1),
++      revealT: e.timeStamp, revealXY: { x: +(e.clientX - sRect.left).toFixed(2), y: +(e.clientY - sRect.top).toFixed(2) },
++      stopsAfterInit: null, stopFlag: false, lateStart: false, stopNotice: stopNoticeShown,
++      initiationT: null, responseT: null,
++      rt_ms: null, rt_proxy_ms: null, mt_proxy_ms: null, total_ms: null,
++      dispHz: null, nDispatched: 0, nCoalesced: 0, aborts: 0,
++      ratings: { confidence: null, hesitation: null },
++      geom: {
++        surface: { w: sRect.width, h: sRect.height },
++        start: { cx: sc.cx - sRect.left, cy: sc.cy - sRect.top },
++        A: { cx: ac.cx - sRect.left, cy: ac.cy - sRect.top, w: aRect.width, h: aRect.height },
++        B: { cx: bc.cx - sRect.left, cy: bc.cy - sRect.top, w: bRect.width, h: bRect.height },
++        dpr,
++      },
++      _sRect: sRect, _stRect: stRect,
++      events: [],
++    };
++    }
++  function pushEvent(trial, e, type) {
++    const x = e.clientX - trial._sRect.left, y = e.clientY - trial._sRect.top;
++    trial.events.push({ seq: trial.events.length, t: e.timeStamp, x: +x.toFixed(2), y: +y.toFixed(2), type });
++  }
++    function hasLeftStart(sr, e) { return (e.clientX < sr.left - 4 || e.clientX > sr.right + 4 || e.clientY < sr.top - 4 || e.clientY > sr.bottom + 4); }
++  // 出現後の停止 (動的スタート §6-6 項19): 出現以降の down/dispatched/up 点列で、基準点から STOP_EPS_PX 以内に
++  // STOP_MIN_MS 以上とどまった区間を数える。iOS は静止中 pointermove を出さないので時間の空白も同じ基準で停止になる
++  function computeStops(events, revealT) {
++    const out = { n: 0, ms: 0, maxMs: 0 };
++    if (revealT == null) return out;
++    const pts = events.filter((p) => (p.type === "dispatched" || p.type === "up" || p.type === "reveal") && p.t >= revealT);
++    if (!pts.length) return out;
++    let ax = pts[0].x, ay = pts[0].y, at = pts[0].t;
++    const close = (d) => { if (d >= STOP_MIN_MS) { out.n++; out.ms += d; out.maxMs = Math.max(out.maxMs, d); } };
++    for (let i = 1; i < pts.length; i++) {   // 基準点から STOP_EPS_PX を超えて動いた時点で、そこまでの滞在を閉じる
++      const p = pts[i];
++      if (Math.hypot(p.x - ax, p.y - ay) > STOP_EPS_PX) { close(p.t - at); ax = p.x; ay = p.y; at = p.t; }
++    }
++    close(pts[pts.length - 1].t - at);   // 離すまでの最後の滞在
++    out.ms = Math.round(out.ms); out.maxMs = Math.round(out.maxMs);
++    return out;
++  }
++
++    function complete(trial, { disp, aborts, stemChars }) {
++    const upT = trial.events[trial.events.length - 1].t;
++    trial.responseT = upT;
++    if (trial.initiationT == null) trial.initiationT = upT;
++    trial.rt_ms = +(trial.initiationT - trial.revealT).toFixed(2);
++    trial.rt_proxy_ms = trial.rt_ms;
++    trial.mt_proxy_ms = +(upT - trial.initiationT).toFixed(2);
++    trial.total_ms = +(upT - trial.startPressT).toFixed(2);
++    trial.stopsAfterInit = computeStops(trial.events, trial.initiationT);   // 動き出した後の停止 (記録のみ・案内しない)
++    trial.stopFlag = trial.stopsAfterInit.maxMs >= STOP_NOTICE_MS;
++    trial.lateStart = trial.rt_ms > LATE_START_MS;   // 遅い初動: 選択肢が出てから 3 秒を超えて動かなかった (評定送信後に案内。品質共変量)
++    // 早出し: 問題文表示〜スタート押下が固定読了時間より短い（問題文のないブロックは判定しない）
++    trial.stemChars = stemChars;
++    trial.earlyStart = trial.stemChars > 0 && trial.preStartMs < (trial.stemChars / EARLY_CPS) * 1000;   // 問題文表示〜スタート押下 < 文字数÷25字/秒。読了の有無ではなく時間に基づくフラグ
++
++    // 実効 dispatch レート (dt>0 ガード)
++    let span = 0, n = 0;
++    for (let i = 1; i < disp.length; i++) { const dt = disp[i].t - disp[i - 1].t; if (dt > 0) { span += dt; n++; } }
++    trial.dispHz = n > 0 ? +((n) / (span / 1000)).toFixed(1) : null;
++    trial.nDispatched = disp.length;
++    trial.nCoalesced = trial.events.filter((p) => p.type === "coalesced").length;
++    trial.aborts = aborts;
++    }
++    return Object.freeze({ begin, pushEvent, hasLeftStart, computeStops, complete });
++  }
++  return Object.freeze({ create });
++});
+diff --git a/tools/pilot-anchor/js/tutorial-controller.js b/tools/pilot-anchor/js/tutorial-controller.js
+new file mode 100644
+index 0000000..f7e3355
+--- /dev/null
++++ b/tools/pilot-anchor/js/tutorial-controller.js
+@@ -0,0 +1,165 @@
++'use strict';
++
++// 進行・読了待機・復習合格・教示ログ・保存/再開を所有する。
++// viewへ渡すmodelは読取getterのみ。viewのdisabled属性に依存せず、ここでも進行を制限する。
++window.PILOT_GUIDED_TUTORIAL.createEngine = function (env) {
++  const config = window.PILOT_GUIDED_TUTORIAL, SCHEMA = config.schema;
++  const { dragTutState } = env;
++  const STEPS = config.steps;
++  const INSTRUCTED_STEPS = env.instructedSteps.map((s, i) => ({ ...s, id: 'instructed-' + i, kind: 'instruction', chapter: '追加10問の操作', title: '追加10問の操作', copy: s.txt, button: i ? '問題に戻る' : '次へ', action: s.op, html: true }));
++  const seen = new Set(), completed = new Set();
++  let steps = STEPS, idx = -1, replay = false, required = null, returnLabel = '問題に戻る', onDone = null;
++  let lockUntil = 0, lockTimer = null, cueTimer = null, nextDisabled = false, pending = false;
++  let shownAt = null, shownId = null, quizIndex = 0, quizLockKey = null, selections = [], orders = [], attempts = [], trainingComplete = false, priorInitial = null;
++  const device = () => env.getDevice();
++  const current = () => steps[idx];
++  const log = (event, data = {}) => device().tutorialLog.push({ kind: 'drag', schema: SCHEMA, event, step: idx + 1, stepId: current()?.id || null, ...data });
++  const initial = () => !replay && steps === STEPS;
++  const shuffle = () => config.checks.map(q => {
++    const order = q.labels.map((_, i) => i);
++    for (let i = order.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [order[i], order[j]] = [order[j], order[i]]; }
++    return order;
++  });
++  const passes = () => config.checks.map((q, i) => selections[i] === q.correctIndex);
++  const view = config.createView({
++    $: env.$, surface: env.surface, startBtn: env.startBtn, stemEl: env.stemEl,
++    choiceA: env.choiceA, choiceB: env.choiceB, numA: env.numA, numB: env.numB,
++    screens: env.screens, uiScale: env.uiScale,
++  }, {
++    current, index: () => idx, replay: () => replay,
++    isFirstStep: () => required ? idx === required[0] : idx === 0, canClose: () => replay && !required,
++    isStandard: () => steps === STEPS, motorDone: () => completed.has('motor'),
++    nextDisabled: () => nextDisabled, quizSelection: () => selections[quizIndex],
++    pageInfo, label, nextLabel,
++  }, {
++    advance, back, log, answer,
++    close: () => { if (idx >= 0 && replay && !required) { log('close'); finish(); } },
++    replay: () => { if (idx >= 0) { log('replay'); idx = 0; render(); } },
++    motorComplete: () => { completed.add('motor'); log('motor_complete'); render(); },
++  });
++
++  function snapshot() { return { schema: SCHEMA, stepId: current()?.id || null, index: idx, seen: [...seen], completed: [...completed], quiz: { index: quizIndex, selections: [...selections], orders: orders.map(a => a.slice()), attempts: [...attempts] }, completedTraining: trainingComplete }; }
++  function save() {
++    if (!initial()) return;
++    env.setResumeStage('dragTutorial');
++    device().guidedTutorial = { schema: SCHEMA, completed: trainingComplete, motorCompleted: completed.has('motor'), quiz: snapshot().quiz };
++    env.saveBackup();
++  }
++  function pageInfo(step) {
++    if (step.id === 'layout-intro') return { label: 'はじめに', index: 0, total: 0 };
++    if (step.id === 'rule-check-intro') return { label: 'ルールの復習', index: 0, total: 0 };
++    if (step.id === 'rule-check') return { label: 'ルールの復習', index: quizIndex + 1, total: config.checks.length };
++    const peers = required ? required.map(i => steps[i]) : steps.filter(s => s.chapter === step.chapter && !['layout-intro', 'rule-check-intro', 'rule-check'].includes(s.id));
++    return { label: required ? '操作の確認' : step.chapter.replace(/^\d\s/, ''), index: peers.indexOf(step) + 1, total: peers.length };
++  }
++  function label(step) { const p = pageInfo(step); return p.label + (p.total ? '　' + p.index + ' / ' + p.total : ''); }
++  function nextLabel() {
++    if (current()?.id === 'rule-check') return quizIndex === config.checks.length - 1 ? (replay ? returnLabel : '例題へ') : '次へ';
++    if ((required ? idx === required.at(-1) : idx === steps.length - 1) && replay) return returnLabel;
++    return current()?.button || '次へ';
++  }
++  function logEnd() { if (shownAt != null && shownId) log('stay', { stepId: shownId, ms: Math.round(performance.now() - shownAt) }); shownAt = null; shownId = null; }
++  function setLock(text, wasSeen, exempt = false) {
++    clearTimeout(lockTimer); lockTimer = null;
++    lockUntil = required ? performance.now() + env.minReadMs(text) : (replay || wasSeen || exempt) ? 0 : performance.now() + env.minReadMs(text);
++    view.setWaiting(lockUntil > performance.now());
++    if (lockUntil > performance.now()) lockTimer = setTimeout(() => view.clearWaiting(), lockUntil - performance.now());
++  }
++  function render() {
++    const before = view.motionSnapshot(); logEnd(); view.prepareRender(); clearTimeout(cueTimer); cueTimer = null;
++    const step = current(); if (!step) return;
++    const key = step.id, wasSeen = seen.has(key); seen.add(key); shownAt = performance.now(); shownId = key;
++    quizLockKey = null;
++    nextDisabled = false; pending = false;
++    view.showStep(step);
++    env.logInstructionExposure(steps === STEPS ? 'dragTutorial' : 'instructedTutorial', { step: idx + 1, stepId: key, schema: SCHEMA, quizIndex: step.kind === 'quiz' ? quizIndex : null });
++    nextDisabled = key === 'motor' && !completed.has('motor') && !replay; pending = nextDisabled;
++    view.showStage(step);
++    if (step.kind === 'quiz') renderQuiz(false);
++    if (step.kind !== 'quiz') setLock(step.copy + (step.extraCopy || ''), wasSeen, step.kind === 'motor');
++    view.place();
++    view.playGraphics(key);
++    if (!nextDisabled) cueTimer = setTimeout(() => { if (idx >= 0 && current() === step) view.addCue(); }, replay || wasSeen ? 0 : env.readCueDelay(step.copy));
++    view.animate(before); save();
++  }
++  function renderQuiz(withMotion = true) {
++    clearTimeout(cueTimer); cueTimer = null; view.removeCue();
++    const before = withMotion ? view.motionSnapshot() : null, q = config.checks[quizIndex], last = quizIndex === config.checks.length - 1, chosen = selections[quizIndex], good = chosen === q.correctIndex;
++    const questionKey = 'quiz-' + q.id, visited = seen.has(questionKey); seen.add(questionKey);
++    if (quizLockKey !== q.id) { setLock(q.copy + q.labels.join(''), visited); quizLockKey = q.id; }
++    nextDisabled = !replay && (!good || (last && !passes().every(Boolean))); pending = nextDisabled;
++    view.renderQuiz({ q, chosen, order: orders[quizIndex], nextLabel: last ? (replay ? returnLabel : '例題へ') : '次へ', disabled: nextDisabled });
++    if (withMotion) { view.place(); view.animate(before); }
++  }
++  function answer(originalIndex, hadFocus, q) {
++    view.resetFlash(); const answeredAt = quizIndex; selections[quizIndex] = originalIndex; attempts[quizIndex]++; log('rule_answer', { rule: q.id, answerIndex: originalIndex, correct: originalIndex === q.correctIndex, attempt: attempts[quizIndex] }); renderQuiz(false); if (hadFocus) view.focusQuizAnswer(originalIndex); view.place(); save(); if (originalIndex === q.correctIndex) cueTimer = setTimeout(() => { if (idx >= 0 && current()?.kind === 'quiz' && quizIndex === answeredAt && selections[answeredAt] === q.correctIndex && !nextDisabled) view.addCue(); }, env.readCueDelay(q.right));
++  }
++  function advance() {
++    if (idx < 0 || view.isHeld() || nextDisabled) return;
++    if (performance.now() < lockUntil) { log('early'); view.flash('読んでから押してください', lockUntil); return; }
++    if (current().kind === 'quiz') {
++      if (!replay && selections[quizIndex] !== config.checks[quizIndex].correctIndex) return;
++      if (quizIndex < config.checks.length - 1) { view.clearHint(); view.resetFlash(); quizIndex++; renderQuiz(); save(); return; }
++      if (!replay && !passes().every(Boolean)) return;
++    }
++    if (required) { const at = required.indexOf(idx); if (at < required.length - 1) { idx = required[at + 1]; render(); } else finish(); }
++    else if (idx < steps.length - 1) { idx++; render(); } else finish();
++  }
++  function back() {
++    if (idx < 0 || view.isHeld()) return; log('back'); view.clearHint(); view.resetFlash();
++    if (current()?.kind === 'quiz' && quizIndex > 0) { quizIndex--; renderQuiz(); save(); return; }
++    if (required) { const at = required.indexOf(idx); if (at > 0) idx = required[at - 1]; else return; }
++    else if (idx > 0) idx--; else return;
++    render();
++  }
++  function teardown() {
++    logEnd(); view.prepareTeardown(); clearTimeout(cueTimer); clearTimeout(lockTimer); cueTimer = null; lockTimer = null; lockUntil = 0; view.resetFlash();
++    view.hide(); idx = -1; dragTutState.active = false; pending = false;
++  }
++  function finish() {
++    if (initial() && (!completed.has('motor') || !passes().every(Boolean))) return;
++    if (initial()) { trainingComplete = true; dragTutState.schema = SCHEMA; device().guidedTutorial = { schema: SCHEMA, completed: true, motorCompleted: true, quiz: snapshot().quiz }; log('complete'); save(); }
++    const cb = onDone; onDone = null; const wasReplay = replay; teardown(); dragTutState.done = true;
++    if (wasReplay && priorInitial) restoreState(priorInitial, false); priorInitial = null; replay = false; required = null;
++    if (cb) cb();
++  }
++  function abort() { if (idx < 0 && !dragTutState.active) return; const wasReplay = replay; teardown(); onDone = null; if (wasReplay && priorInitial) restoreState(priorInitial, false); priorInitial = null; replay = false; required = null; dragTutState.done = false; }
++  function restoreState(restored, migrate = true) {
++    seen.clear(); completed.clear(); selections = config.checks.map(() => null); attempts = config.checks.map(() => 0); orders = shuffle(); quizIndex = 0; quizLockKey = null; trainingComplete = false;
++    if (restored?.schema === SCHEMA) {
++      for (const key of restored.seen || []) if (STEPS.some(s => s.id === key) || config.checks.some(q => 'quiz-' + q.id === key)) seen.add(key);
++      for (const key of restored.completed || []) if (key === 'motor') completed.add(key);
++      const q = restored.quiz || {};
++      selections = config.checks.map((check, i) => Number.isInteger(q.selections?.[i]) && q.selections[i] >= 0 && q.selections[i] < check.labels.length ? q.selections[i] : null);
++      attempts = config.checks.map((_, i) => Math.max(0, Number(q.attempts?.[i]) || 0));
++      orders = config.checks.map((check, i) => Array.isArray(q.orders?.[i]) && q.orders[i].length === check.labels.length && new Set(q.orders[i]).size === check.labels.length && q.orders[i].every(n => Number.isInteger(n) && n >= 0 && n < check.labels.length) ? q.orders[i].slice() : orders[i]);
++      quizIndex = Math.max(0, Math.min(config.checks.length - 1, Number(q.index) || 0));
++      trainingComplete = restored.completedTraining === true && completed.has('motor') && passes().every(Boolean);
++    } else if (restored && migrate) {
++      for (const n of restored.seen || []) { const key = config.legacyStepIds[n]; if (['layout-intro', 'layout-stem', 'layout-start', 'layout-choice', 'motor-route'].includes(key)) seen.add(key); }
++      if ((restored.completed || []).includes(6) || (restored.completed || []).includes(7)) completed.add('motor');
++    }
++  }
++  function run(cb, opts = {}) {
++    if (env.realBlocks.includes('moral')) env.moralPracticeDefinition(); view.build();
++    if (idx >= 0) teardown();
++    const enteringReplay = !!opts.replay; priorInitial = enteringReplay ? snapshot() : null;
++    replay = enteringReplay; steps = opts.instructed ? INSTRUCTED_STEPS : STEPS; returnLabel = opts.returnLabel || '問題に戻る'; onDone = cb;
++    restoreState(opts.restored, true);
++    required = Array.isArray(opts.requiredSteps) && opts.requiredSteps.length ? [...new Set(opts.requiredSteps.map(n => typeof n === 'string' ? steps.findIndex(s => s.id === n) : opts.instructed ? n : steps.findIndex(s => s.id === config.legacyStepIds[n])).filter(n => n >= 0 && n < steps.length))] : null;
++    if (required && !required.length) required = null;
++    let wanted = 0;
++    if (opts.restored?.schema === SCHEMA) wanted = steps.findIndex(s => s.id === opts.restored.stepId);
++    else if (opts.restored && Number.isInteger(opts.restored.index)) wanted = steps.findIndex(s => s.id === config.legacyStepIds[opts.restored.index]);
++    else if (typeof opts.start === 'string') wanted = steps.findIndex(s => s.id === opts.start);
++    else if (Number.isInteger(opts.start)) wanted = opts.instructed ? opts.start : steps.findIndex(s => s.id === config.legacyStepIds[opts.start]);
++    if (!replay && opts.restored && steps === STEPS && wanted > STEPS.findIndex(s => s.id === 'motor') && !completed.has('motor')) wanted = STEPS.findIndex(s => s.id === 'motor');
++    if (required) wanted = required[0];
++    if (env.debug && env.query.get('gstep') && !opts.restored) { const debugIndex = steps.findIndex(s => s.id === env.query.get('gstep')); if (debugIndex >= 0) wanted = debugIndex; }
++    idx = Math.max(0, Math.min(steps.length - 1, wanted < 0 ? 0 : wanted)); dragTutState.active = true;
++    if (initial()) { dragTutState.schema = SCHEMA; dragTutState.done = false; }
++    env.hideBanner(); env.clearIdleCoach(); env.coachHide(); env.setCoach(null); env.show('task'); env.sizeCanvas(); env.clearCanvas(); env.updateProgress();
++    view.enter(); render();
++  }
++  return { run, abort, snapshot, schema: SCHEMA, state: () => ({ index: idx, stepId: current()?.id || null, schema: SCHEMA, review: replay, instructed: steps === INSTRUCTED_STEPS, lockRemainingMs: Math.max(0, lockUntil - performance.now()), handsDone: completed.has('motor'), pending, quiz: { index: quizIndex, passed: passes(), selections: [...selections], orders: orders.map(a => a.slice()), attempts: [...attempts], complete: passes().every(Boolean) }, completedTraining: trainingComplete }) };
++};
+diff --git a/tools/pilot-anchor/js/tutorial-view.js b/tools/pilot-anchor/js/tutorial-view.js
+new file mode 100644
+index 0000000..6e9878e
+--- /dev/null
++++ b/tools/pilot-anchor/js/tutorial-view.js
+@@ -0,0 +1,289 @@
++'use strict';
++
++// DOM・配置・実演の表示を担当する。進行・合格・保存状態はcontrollerの読取getterと
++// callbackを介して扱い、view内に別の進行状態を持たない。
++window.PILOT_GUIDED_TUTORIAL.createView = function (env, model, events) {
++  const config = window.PILOT_GUIDED_TUTORIAL;
++  const { $, surface, startBtn, stemEl, choiceA, choiceB, numA, numB } = env;
++  const current = model.current, reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
++  const activeTask = () => env.screens.task.classList.contains('active');
++  let built = false;
++  let pop, row, hint, graphic, target, position, demo, backdrop, demoPlayer, rangePlayer = null, timePlayer, motion;
++  let held = null, hintTimer = null, hintToken = 0, flashTimer = null, flashLabel = '', flashHeight = '';
++
++  function resetFlash() {
++    clearTimeout(flashTimer); flashTimer = null;
++    if (built && flashLabel) { $('tutPopNext').textContent = flashLabel; $('tutPopNext').style.height = flashHeight; $('tutPopNext').classList.remove('warn'); }
++    flashLabel = ''; flashHeight = '';
++  }
++  function flash(text, maxUntil) {
++    const button = $('tutPopNext'), now = performance.now();
++    if (flashTimer && button.textContent === text) return;
++    resetFlash(); flashLabel = button.textContent; flashHeight = button.style.height;
++    button.style.height = button.getBoundingClientRect().height + 'px'; button.textContent = text; button.classList.add('warn');
++    flashTimer = setTimeout(resetFlash, Math.max(150, Math.min(1200, maxUntil ? maxUntil - now : 1200)));
++  }
++  function clearHint() { clearTimeout(hintTimer); hintTimer = null; hintToken++; if (!built) return; hint.classList.add('hidden'); hint.textContent = ''; }
++  function setHint(text) {
++    clearHint(); hint.textContent = text; hint.className = 'ng'; const token = hintToken;
++    placeMotorHint();
++    hintTimer = setTimeout(() => { if (hintToken === token) clearHint(); }, 4000);
++  }
++  function placeMotorHint() {
++    if (!built || model.index() < 0 || current()?.id !== 'motor' || hint.classList.contains('hidden')) return;
++    const choiceBottom = target.getBoundingClientRect().bottom, startTop = startBtn.getBoundingClientRect().top;
++    hint.style.top = (choiceBottom + startTop) / 2 + 'px';
++  }
++  function disabledHint() {
++    return current()?.kind === 'quiz' ? (model.quizSelection() == null ? '答えを1つ選んでください' : 'もう一度選びなおしてください') : '操作してから進みます';
++  }
++  function hidePosition() { position.style.display = 'none'; target.classList.remove('arrived'); }
++  function pointerPosition(e) {
++    const r = surface.getBoundingClientRect(); position.style.display = 'block'; position.style.left = (e.clientX - r.left) + 'px'; position.style.top = (e.clientY - r.top) + 'px';
++    const t = target.getBoundingClientRect(), hit = e.clientX >= t.left && e.clientX <= t.right && e.clientY >= t.top && e.clientY <= t.bottom;
++    target.classList.toggle('arrived', hit); return hit;
++  }
++  function meta(step) {
++    $('tutPopStep').textContent = model.label(step);
++    $('tutPopOp').textContent = step.action || (step.kind === 'motor' ? '下のスタートから運んでみてください' : '読んだら「' + model.nextLabel() + '」');
++    $('tutPopOp').classList.remove('hidden');
++    const dots = $('tutPopDots'), p = model.pageInfo(step); dots.replaceChildren();
++    for (let i = 1; i <= p.total; i++) { const dot = document.createElement('i'); if (i === p.index) dot.className = 'a'; dots.append(dot); }
++  }
++  function build() {
++    if (built) return;
++    backdrop = document.createElement('div'); backdrop.id = 'tutBackdrop'; document.body.append(backdrop);
++    graphic = document.createElement('div'); graphic.id = 'tutGraphic'; graphic.hidden = true; document.body.append(graphic);
++    demo = document.createElement('canvas'); demo.id = 'tutDemo'; surface.append(demo);
++    const ink = document.createElement('canvas'); ink.id = 'tutInk'; surface.append(ink);
++    target = document.createElement('div'); target.id = 'tutSingleTarget'; target.textContent = '選択肢'; surface.append(target);
++    position = document.createElement('div'); position.id = 'tutPosition'; surface.append(position);
++    const spot = document.createElement('div'); spot.id = 'tutSpot'; spot.className = 'tut-spot hidden'; document.body.append(spot);
++    const cap = document.createElement('div'); cap.id = 'tutCap'; cap.hidden = true; surface.append(cap);
++    pop = document.createElement('div'); pop.id = 'tutPop'; pop.className = 'tut-pop hidden'; pop.setAttribute('role', 'region'); pop.setAttribute('aria-label', '操作の説明');
++    pop.innerHTML = '<div class="s" id="tutPopStep"></div><h2 id="tutPopTitle"></h2><div class="t" id="tutPopTxt"></div><p id="tutExtra" hidden></p><div id="tutQuiz"></div><p id="tutQuizFeedback" aria-live="polite"></p><div class="guided-meta"><div class="g" id="tutPopOp"></div><div class="dots" id="tutPopDots"></div></div>';
++    document.body.append(pop);
++    const close = document.createElement('button'); close.id = 'tutClose'; close.type = 'button'; close.className = 'hidden'; close.textContent = '× 閉じる'; close.setAttribute('aria-label', '操作方法を閉じる'); document.body.append(close);
++    row = document.createElement('div'); row.id = 'tutBtnRow'; row.className = 'tut-btnrow hidden';
++    row.innerHTML = '<button class="rp hidden" id="tutReplay">↻ もう一度</button><button type="button" class="pv" id="tutPrev">戻る</button><button type="button" class="nx" id="tutPopNext">次へ</button>';
++    document.body.append(row);
++    hint = document.createElement('div'); hint.id = 'tutHint'; hint.className = 'hidden'; hint.setAttribute('role', 'status'); document.body.append(hint);
++    demoPlayer = config.createDemo({ canvas: demo, start: startBtn, target }); timePlayer = config.createTimeDemo({ container: graphic });
++    motion = config.createCardMotion({ getCard: () => !pop.classList.contains('hidden') ? pop : null, disabled: reduced });
++    $('tutPopNext').addEventListener('click', events.advance); row.addEventListener('pointerdown', e => { if (model.nextDisabled() && !e.target.closest('#tutPrev')) flash(disabledHint()); });
++    $('tutPrev').addEventListener('click', events.back); close.addEventListener('click', events.close);
++    $('tutReplay').addEventListener('click', events.replay);
++    surface.addEventListener('pointerdown', e => {
++      if (model.index() < 0 || !activeTask()) return;
++      if (current().kind !== 'motor' || model.motorDone()) return;
++      if (held) return;
++      const r = startBtn.getBoundingClientRect();
++      if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) { setHint('スタートボタンに指を置いて\nそのまま離さずに運びます'); events.log('stray_motor'); return; }
++      motion.finish(); clearHint(); e.preventDefault(); held = e.pointerId;
++      try { surface.setPointerCapture(e.pointerId); } catch (_) {}
++      startBtn.classList.add('armed'); startBtn.textContent = 'スタート'; row.classList.add('hidden'); pointerPosition(e);
++    }, { passive: false });
++    surface.addEventListener('pointermove', e => { if (held === e.pointerId) { e.preventDefault(); pointerPosition(e); } }, { passive: false });
++    surface.addEventListener('pointerup', e => {
++      if (held !== e.pointerId) return;
++      e.preventDefault(); const ok = pointerPosition(e); held = null; hidePosition(); startBtn.classList.remove('armed'); startBtn.textContent = 'スタート';
++      if (ok) { clearHint(); events.motorComplete(); }
++      else { row.classList.remove('hidden'); setHint('選択肢のボックスの中で指を離してください\nスタートボタンからもう一度'); events.log('motor_release_outside'); place(); }
++    }, { passive: false });
++    surface.addEventListener('pointercancel', cancelPointer, { passive: true }); surface.addEventListener('lostpointercapture', e => { if (held === e.pointerId) cancelPointer(); }, { passive: true });
++    document.addEventListener('pointerdown', e => {
++      if (model.index() < 0 || !activeTask() || held || document.body.classList.contains('stop-open')) return;
++      if (e.target.closest('button,a,input,select,textarea')) return;
++      if (current().kind === 'motor' && !model.motorDone()) return;
++      if (e.target.closest('#tutQuiz')) return;
++      events.log('stray'); flash(model.nextDisabled() ? disabledHint() : 'このボタンで進みます');
++    }, { passive: true });
++    window.addEventListener('resize', () => { if (model.index() >= 0) { motion.finish(); cancelPointer(); place(); if (current()?.id === 'motor-route') demoPlayer.begin({ key: 'motor-route', kind: 'route', captionInitially: true }); else if (current()?.id === 'motor-range') playRange(); } });
++    built = true;
++  }
++  function cancelPointer() { if (!held) { clearHint(); return; } held = null; clearHint(); hidePosition(); startBtn.classList.remove('armed'); startBtn.textContent = 'スタート'; if (model.index() >= 0) { row.classList.remove('hidden'); place(); events.log('motor_cancel'); } }
++  function stopGraphics() { demoPlayer.stop(); rangePlayer?.stop(); rangePlayer = null; timePlayer.stop(); graphic.hidden = true; graphic.replaceChildren(); }
++  function clearParts() {
++    for (const el of [stemEl, choiceA, choiceB, startBtn]) { el.classList.remove('guided-dim', 'guided-focus', 'tut-dim', 'tut-sbxhide'); el.style.visibility = 'hidden'; }
++    startBtn.classList.remove('armed'); startBtn.textContent = 'スタート'; stemEl.textContent = ''; numA.textContent = ''; numB.textContent = ''; target.style.top = ''; hidePosition();
++  }
++  function setContent(step) {
++    $('tutPopTitle').textContent = step.title;
++    if (step.html) $('tutPopTxt').innerHTML = step.copy; else $('tutPopTxt').textContent = step.copy;
++    $('tutExtra').hidden = !step.extraCopy; $('tutExtra').textContent = step.extraCopy || '';
++    $('tutQuiz').replaceChildren(); $('tutQuizFeedback').textContent = ''; meta(step);
++  }
++  function prepareRender() { clearHint(); held = null; stopGraphics(); resetFlash(); }
++  function showStep(step) {
++    document.body.classList.remove('guided-instruction', 'guided-range', 'guided-time', 'guided-quiz', 'guided-motor');
++    clearParts(); setContent(step); pop.classList.remove('hidden'); pop.classList.add('on'); row.classList.remove('hidden'); row.classList.remove('pending');
++    $('tutPopNext').textContent = model.nextLabel(); $('tutPopNext').disabled = false; $('tutPopNext').classList.remove('cue');
++    $('tutPrev').classList.toggle('hidden', model.isFirstStep());
++    $('phaseLabel').textContent = model.isStandard() ? step.chapter.replace(/^\d\s/, '') : '追加10問の操作';
++  }
++  function showStage(step) {
++    const key = step.id;
++    if (step.kind === 'orientation') {
++      stemEl.textContent = 'ここに問題文が表示されます'; stemEl.style.visibility = 'visible';
++      if (step.focus !== 'stem') { stemEl.classList.add('guided-dim'); startBtn.style.visibility = 'visible'; }
++      if (step.focus === 'choices') { startBtn.classList.add('guided-dim'); for (const [box, text] of [[choiceA, numA], [choiceB, numB]]) { box.style.visibility = 'visible'; box.classList.add('guided-focus'); text.className = 'txt'; text.textContent = '選択肢'; text.style.visibility = 'visible'; } }
++      else (step.focus === 'stem' ? stemEl : startBtn).classList.add('guided-focus');
++    } else if (key === 'motor-route' || key === 'motor') {
++      document.body.classList.add('guided-motor'); startBtn.style.visibility = 'visible';
++      if (key === 'motor' && model.motorDone()) {
++        $('tutPopTitle').textContent = '操作できました'; $('tutPopTxt').textContent = '次は、実際に問題に回答するときのルールを確認します。'; $('tutPopOp').textContent = '読んだら「ルールを確認する」へ'; $('tutPopNext').textContent = 'ルールを確認する'; startBtn.classList.add('guided-dim'); target.style.display = 'none';
++      } else { target.style.display = ''; target.style.opacity = ''; if (model.nextDisabled()) { row.classList.add('pending'); $('tutPopNext').disabled = true; } }
++    } else if (key === 'motor-range') {
++      document.body.classList.add('guided-range'); graphic.hidden = false; graphic.style.display = 'block';
++      graphic.innerHTML = '<div id="tutRangeFigure"><div id="tutRangeTarget">選択肢</div><div id="tutRangeEntry"></div><canvas id="tutRangeInk"></canvas></div>';
++    } else if (key === 'time-rule') { document.body.classList.add('guided-time'); graphic.hidden = false; graphic.style.display = 'block'; }
++    else { document.body.classList.add(step.kind === 'quiz' ? 'guided-quiz' : 'guided-instruction'); }
++  }
++  function rangeFingerScale(width) {
++    const actualWidth = Math.max(1, choiceA.getBoundingClientRect().width);
++    const normalScale = Math.min(surface.clientWidth, surface.clientHeight) / 375 * .82;
++    return normalScale * width / actualWidth;
++  }
++  function playRange() {
++    rangePlayer?.stop();
++    rangePlayer = config.createDemo({ canvas: $('tutRangeInk'), start: $('tutRangeEntry'), target: $('tutRangeTarget'), fingerScale: rangeFingerScale($('tutRangeTarget').getBoundingClientRect().width) });
++    rangePlayer.begin({ key: 'motor-range', kind: 'range', captionInitially: true });
++  }
++  function playGraphics(key) {
++    if (key === 'motor-route') demoPlayer.begin({ key, kind: 'route', captionInitially: true });
++    if (key === 'motor-range') playRange();
++    if (key === 'time-rule') { timePlayer.begin(); place(); }
++  }
++  function ruleTop() {
++    const title = $('tutPopTitle').textContent, text = $('tutPopTxt').textContent, extra = $('tutExtra').textContent, extraHidden = $('tutExtra').hidden, stepText = $('tutPopStep').textContent;
++    let largest = 0;
++    for (const step of config.steps.filter(s => s.chapter.startsWith('3 ') && s.kind === 'instruction')) {
++      $('tutPopTitle').textContent = step.title; $('tutPopTxt').textContent = step.copy; $('tutExtra').hidden = true; $('tutPopStep').textContent = model.label(step); largest = Math.max(largest, pop.getBoundingClientRect().height);
++    }
++    $('tutPopTitle').textContent = title; $('tutPopTxt').textContent = text; $('tutExtra').textContent = extra; $('tutExtra').hidden = extraHidden; $('tutPopStep').textContent = stepText;
++    return Math.max(48, Math.min((innerHeight - largest) / 2, row.getBoundingClientRect().top - largest - 18));
++  }
++  function reserveQuizSpace() {
++    // 全問を同じ表示幅で測る。正誤の解説が出てもカードと進行ボタンを移動させない。
++    const measure = pop.cloneNode(true);
++    measure.setAttribute('aria-hidden', 'true'); measure.inert = true;
++    Object.assign(measure.style, { left: '-10000px', top: '0', width: pop.getBoundingClientRect().width + 'px', height: 'auto', maxHeight: 'none', overflow: 'visible', visibility: 'hidden', transform: 'none' });
++    measure.style.setProperty('--quiz-card-height', '0px'); measure.style.setProperty('--quiz-feedback-height', '0px');
++    document.body.append(measure);
++    const title = measure.querySelector('#tutPopTitle'), choices = measure.querySelector('#tutQuiz'), feedback = measure.querySelector('#tutQuizFeedback'), op = measure.querySelector('#tutPopOp');
++    let feedbackHeight = 0, cardHeight = 0;
++    for (const q of config.checks) {
++      for (const text of [q.right, q.wrong]) { feedback.textContent = text; feedbackHeight = Math.max(feedbackHeight, feedback.getBoundingClientRect().height); }
++    }
++    measure.style.setProperty('--quiz-feedback-height', feedbackHeight + 'px'); feedback.textContent = '';
++    for (const q of config.checks) {
++      title.textContent = q.copy; choices.replaceChildren();
++      for (const label of q.labels) { const button = document.createElement('button'); button.textContent = label; choices.append(button); }
++      for (const text of ['もう一度選びなおしてください', '答えを1つ選んで「' + model.nextLabel() + '」']) { op.textContent = text; cardHeight = Math.max(cardHeight, measure.getBoundingClientRect().height); }
++    }
++    measure.remove(); pop.style.setProperty('--quiz-feedback-height', feedbackHeight + 'px'); pop.style.setProperty('--quiz-card-height', cardHeight + 'px');
++    return cardHeight;
++  }
++  function place() {
++    const idx = model.index();
++    if (idx < 0) return; const step = current(), vh = innerHeight, width = Math.min(innerWidth * (idx ? .92 : .72), (idx ? 540 : 420) * env.uiScale), sr = startBtn.getBoundingClientRect();
++    row.style.width = width + 'px'; row.style.left = (innerWidth - width) / 2 + 'px'; row.style.bottom = 'auto';
++    const bh = row.getBoundingClientRect().height || 52, startVisible = startBtn.style.visibility === 'visible';
++    const minTop = model.replay() && !$('tutClose').classList.contains('hidden') ? $('tutClose').getBoundingClientRect().bottom + 12 : 8;
++    if (step.kind === 'quiz') {
++      const navTop = vh - bh - Math.max(12, vh * .025), gap = 12;
++      pop.style.maxHeight = Math.max(0, navTop - gap - minTop) + 'px';
++      const height = Math.min(reserveQuizSpace(), navTop - gap - minTop);
++      pop.style.left = (innerWidth - pop.getBoundingClientRect().width) / 2 + 'px';
++      pop.style.top = Math.max(minTop, Math.min((vh - height) / 2, navTop - height - gap)) + 'px';
++      row.style.top = navTop + 'px'; return;
++    }
++    pop.style.maxHeight = '';
++    const ph = pop.getBoundingClientRect().height;
++    if (step.id === 'motor-range' || step.id === 'time-rule') {
++      const gap = vh <= 640 ? 10 : 18, top = Math.max(minTop, vh <= 640 ? 24 : 42);
++      const maxNavTop = vh - bh - Math.max(12, vh * .025), graphicTop = top + ph + gap;
++      const available = Math.max(0, maxNavTop - gap - graphicTop);
++      pop.style.left = (innerWidth - pop.getBoundingClientRect().width) / 2 + 'px'; pop.style.top = top + 'px';
++      graphic.style.top = graphicTop + 'px';
++      if (step.id === 'time-rule') graphic.style.setProperty('--time-demo-max-height', available + 'px');
++      else {
++        const handPerHeight = rangeFingerScale(60 / 39) * 75;
++        const height = Math.min(Math.min(innerWidth, vh) * .39, Math.max(0, Math.min(available - 88, (available - 20) / (1 + handPerHeight))));
++        graphic.style.setProperty('--range-target-height', height + 'px');
++        graphic.style.setProperty('--range-target-width', height * 60 / 39 + 'px');
++        graphic.style.setProperty('--range-entry-space', Math.max(88, rangeFingerScale(height * 60 / 39) * 75 + 20) + 'px');
++      }
++      graphic.style.left = (innerWidth - graphic.getBoundingClientRect().width) / 2 + 'px';
++      row.style.top = Math.min(maxNavTop, Math.max(sr.top + sr.height / 2 - bh / 2, graphic.getBoundingClientRect().bottom + gap)) + 'px';
++      return;
++    }
++    let navTop = startVisible ? vh - bh - Math.max(12, vh * .025) : sr.top + sr.height / 2 - bh / 2;
++    if (startVisible && navTop < sr.bottom + 4) navTop = sr.bottom + 4 + bh <= vh - 6 ? sr.bottom + 4 : Math.max(8, sr.top - bh - 12);
++    if (!startVisible) {
++      let needed = minTop + ph + 16;
++      navTop = Math.min(vh - bh - 6, Math.max(navTop, needed));
++    }
++    row.style.top = navTop + 'px';
++    const maxTop = navTop - ph - 16;
++    pop.style.left = (innerWidth - pop.getBoundingClientRect().width) / 2 + 'px';
++    let top = Math.max(48, Math.min((vh - ph) / 2, maxTop));
++    if (step.kind === 'orientation') {
++      const r = (step.focus === 'stem' ? stemEl : step.focus === 'start' ? startBtn : choiceA).getBoundingClientRect();
++      top = step.focus === 'start' ? r.top - ph - 16 : r.bottom + 16;
++      if (step.focus === 'choices') top = Math.max(r.bottom + 12, Math.min(top, sr.top - ph - 8));
++      if (navTop < sr.top && step.focus === 'start') top = Math.min(top, maxTop);
++    } else if (step.id === 'motor-route' || (step.id === 'motor' && !model.motorDone())) top = Math.max(42, vh * .06);
++    else if (step.chapter.startsWith('3 ') && step.kind === 'instruction') top = ruleTop();
++    pop.style.top = Math.max(minTop, Math.min(top, maxTop)) + 'px';
++    if (step.id === 'motor-route' || step.id === 'motor') {
++      const sf = surface.getBoundingClientRect(); target.style.top = Math.max(sf.height * .34, pop.getBoundingClientRect().bottom - sf.top + 18) + 'px';
++    }
++    placeMotorHint();
++  }
++  function renderQuiz({ q, chosen, order, nextLabel, disabled }) {
++    const good = chosen === q.correctIndex;
++    $('tutPopTitle').textContent = q.copy; $('tutPopTxt').textContent = ''; $('tutExtra').hidden = true; meta(current());
++    $('tutPopNext').textContent = nextLabel;
++    $('tutPopNext').disabled = disabled; row.classList.toggle('pending', disabled);
++    $('tutPrev').classList.toggle('hidden', false);
++    $('tutPopOp').textContent = chosen != null && !good ? 'もう一度選びなおしてください' : '答えを1つ選んで「' + $('tutPopNext').textContent + '」';
++    const feedback = $('tutQuizFeedback'); feedback.textContent = chosen == null ? '' : good ? q.right : q.wrong; feedback.classList.toggle('wrong', chosen != null && !good);
++    const choices = $('tutQuiz'); choices.replaceChildren(); choices.setAttribute('role', 'radiogroup'); choices.setAttribute('aria-labelledby', 'tutPopTitle');
++    for (const originalIndex of order) {
++      const button = document.createElement('button'); button.type = 'button'; button.textContent = q.labels[originalIndex]; button.dataset.answerIndex = originalIndex; button.dataset.originalIndex = originalIndex; button.classList.toggle('selected', chosen === originalIndex);
++      if (chosen === originalIndex) { button.classList.add(good ? 'correct' : 'wrong'); button.setAttribute('aria-label', q.labels[originalIndex] + (good ? '（正解です）' : '（もう一度選びなおしてください）')); }
++      button.onclick = () => events.answer(originalIndex, document.activeElement === button, q);
++      button.setAttribute('role', 'radio'); button.setAttribute('aria-checked', String(chosen === originalIndex));
++      choices.append(button);
++    }
++    const options = [...choices.children], selected = options.find(button => button.dataset.answerIndex === String(chosen));
++    for (const button of options) button.tabIndex = button === (selected || options[0]) ? 0 : -1;
++    choices.onkeydown = event => {
++      if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) return;
++      const at = options.indexOf(event.target); if (at < 0) return; event.preventDefault();
++      const n = event.key === 'Home' ? 0 : event.key === 'End' ? options.length - 1 : (at + (['ArrowRight', 'ArrowDown'].includes(event.key) ? 1 : options.length - 1)) % options.length;
++      const answer = options[n].dataset.answerIndex; options[n].click(); focusQuizAnswer(answer);
++    };
++  }
++  function focusQuizAnswer(answer) { $('tutQuiz').querySelector('[data-answer-index="' + answer + '"]').focus({ preventScroll: true }); }
++  function prepareTeardown() { clearHint(); held = null; stopGraphics(); motion.finish(); }
++  function hide() {
++    pop.classList.remove('on'); pop.classList.add('hidden'); row.classList.add('hidden'); row.classList.remove('pending'); $('tutClose').classList.add('hidden'); backdrop.style.display = ''; graphic.hidden = true;
++    for (const el of [stemEl, choiceA, choiceB, startBtn]) { el.classList.remove('guided-dim', 'guided-focus'); el.style.visibility = ''; }
++    startBtn.classList.remove('armed'); startBtn.textContent = 'スタート'; stemEl.textContent = ''; numA.textContent = ''; numB.textContent = ''; target.style.display = ''; hidePosition();
++    document.body.classList.remove('guided-tutorial', 'guided-instruction', 'guided-range', 'guided-time', 'guided-quiz', 'guided-motor', 'tut-review');
++  }
++  function enter() {
++    document.body.classList.add('guided-tutorial'); document.body.classList.toggle('tut-review', model.replay()); $('tutAgain').classList.add('hidden'); $('counter').textContent = '';
++    $('tutClose').classList.toggle('hidden', !model.canClose());
++  }
++  return {
++    build, prepareRender, showStep, showStage, playGraphics, place, renderQuiz, focusQuizAnswer,
++    prepareTeardown, hide, enter, resetFlash, flash, clearHint,
++    isHeld: () => !!held,
++    motionSnapshot: () => motion.snapshot(), animate: before => motion.run(before),
++    removeCue: () => $('tutPopNext').classList.remove('cue'), addCue: () => $('tutPopNext').classList.add('cue'),
++    setWaiting: waiting => $('tutPopNext').classList.toggle('wait', waiting), clearWaiting: () => $('tutPopNext').classList.remove('wait'),
++  };
++};
+diff --git a/tools/pilot-anchor/js/tutorial-visuals.js b/tools/pilot-anchor/js/tutorial-visuals.js
+new file mode 100644
+index 0000000..bd77dc6
+--- /dev/null
++++ b/tools/pilot-anchor/js/tutorial-visuals.js
+@@ -0,0 +1,158 @@
++'use strict';
++// 独立試作の実演。座標は描画用のみ。経路の線は描かず、現在の指を動かす。
++window.PILOT_GUIDED_TUTORIAL.createDemo=function({canvas,start,target,onReady,onChange,fingerScale}){
++ const g=canvas.getContext('2d'),seen=new Set(),durations={press:350,move:1300,release:500,wait:600};
++ let frame=0,lastTime=0,s=null,extraReady=null,changed=null;
++ const lerp=(a,b,t)=>a+(b-a)*t,random=(a,b)=>a+Math.random()*(b-a),clamp=(a,b,x)=>Math.min(b,Math.max(a,x));
++ const bezier=(a,b,c,d,t)=>{const u=1-t;return u*u*u*a+3*u*u*t*b+3*u*t*t*c+t*t*t*d;};
++ function center(el){const r=el.getBoundingClientRect(),p=canvas.parentElement.getBoundingClientRect();return{x:r.x+r.width/2-p.x,y:r.y+r.height/2-p.y,w:r.width,h:r.height};}
++ function size(){const dpr=devicePixelRatio||1,r=canvas.parentElement.getBoundingClientRect();canvas.width=Math.round(r.width*dpr);canvas.height=Math.round(r.height*dpr);canvas.style.width=r.width+'px';canvas.style.height=r.height+'px';g.setTransform(dpr,0,0,dpr,0,0);}
++ function clear(){g.save();g.setTransform(1,0,0,1,0,0);g.clearRect(0,0,canvas.width,canvas.height);g.restore();}
++ function ring(x,y,r,alpha,color){g.save();g.globalAlpha=alpha;g.strokeStyle=color;g.lineWidth=3;g.beginPath();g.arc(x,y,r,0,Math.PI*2);g.stroke();g.restore();}
++ function finger(x,y,alpha){
++  const scale=fingerScale??Math.min(canvas.parentElement.clientWidth,canvas.parentElement.clientHeight)/375*.82;
++  g.save();g.globalAlpha=alpha;g.translate(x,y);g.scale(scale,scale);g.translate(-22,-2);g.fillStyle='#f4d7b8';g.strokeStyle='#5b3a1e';g.lineWidth=1.8;g.lineJoin='round';g.lineCap='round';
++  const shape=new Path2D('M22 2 c-3.3 0 -6 2.7 -6 6 v30 c-3 -2.5 -8.5 -3 -11.5 0 c-3 3 -1.5 7.5 1.5 10.5 l9 12 c4.5 7.5 10.5 11.5 20 11.5 h7 c8.5 0 15 -6.5 15 -15 v-18 c0 -3 -2.2 -5 -5 -5 c-2 0 -3.4 1 -4.2 2.6 c-0.4 -3.2 -2.4 -5.6 -5.3 -5.6 c-2 0 -3.4 1 -4.2 2.6 c-0.4 -3.2 -2.4 -5.6 -5.3 -5.6 c-1.6 0 -3 0.7 -4 1.9 V8 c0 -3.3 -2.7 -6 -6 -6 z');
++  g.fill(shape);g.stroke(shape);g.fillStyle='#fbece0';g.lineWidth=1.2;g.beginPath();g.ellipse(22,9.5,3.6,5.2,0,0,Math.PI*2);g.fill();g.stroke();g.restore();
++ }
++ function freshPath(){
++  const a=center(start),b=center(target);let ex,ey;
++  if(s.kind==='range'){
++   const points=[[-.29,-.22],[.28,.23],[-.27,.2],[.3,-.2]];const p=points[s.cycles%points.length];ex=b.x+p[0]*b.w;ey=b.y+p[1]*b.h;
++  }else{ex=b.x+random(-.28,.28)*b.w;ey=b.y+random(-.23,.23)*b.h;}
++  const sx=a.x+random(-.1,.1)*a.w,sy=a.y+random(-.09,.09)*a.h,dx=ex-sx,dy=ey-sy,L=Math.hypot(dx,dy),nx=-dy/L,ny=dx/L;
++  // 最初は左右の違いが明確な曲線。その後もゼロに近い曲がりを避ける。
++  const sign=s.cycles<2?s.firstSign*(s.cycles===0?1:-1):(Math.random()<.5?-1:1);
++  const opposite=s.cycles>=2&&Math.random()<.35;
++  const o1=sign*random(.22,.31)*L,o2=(opposite?-sign:sign)*random(.24,.32)*L;
++  const c1={x:sx+dx*.3+nx*o1,y:sy+dy*.3+ny*o1},c2={x:sx+dx*.72+nx*o2,y:sy+dy*.72+ny*o2};
++  const W=canvas.parentElement.clientWidth;c1.x=clamp(36,W-36,c1.x);c2.x=clamp(36,W-36,c2.x);
++  s.path={start:{x:sx,y:sy},c1,c2,end:{x:ex,y:ey}};s.pathType=opposite?'s-curve':sign<0?'left-curve':'right-curve';
++ }
++ function ready(){if(!s.captionVisible){s.captionVisible=true;seen.add(s.key);}extraReady?.(true);onReady?.(true);}
++ function draw(){
++  if(!s)return;clear();const p=s.path,t=s.elapsed/durations[s.phase];
++  start.classList.toggle('armed',s.phase==='press'||s.phase==='move');start.textContent='スタート';target.classList.toggle('arrived',s.phase==='release'||s.phase==='wait');
++  if(s.reduced){const a=center(start),b=center(target);ring(a.x,a.y,18,.9,'#b8531a');ring(b.x-b.w*.29,b.y-b.h*.22,17,.9,'#12855a');ring(b.x+b.w*.28,b.y+b.h*.23,17,.9,'#12855a');return;}
++  if(s.phase==='press'){finger(p.start.x,p.start.y,1);ring(p.start.x,p.start.y,17+4*t,.8,'#b8531a');}
++  else if(s.phase==='move'){const e=t*t*(3-2*t),x=bezier(p.start.x,p.c1.x,p.c2.x,p.end.x,e),y=bezier(p.start.y,p.c1.y,p.c2.y,p.end.y,e);finger(x,y,1);ring(x,y,19,.8,'#b8531a');}
++  else if(s.phase==='release'){finger(p.end.x,p.end.y,1-t);ring(p.end.x,p.end.y,19+24*t,1-t,'#12855a');}
++ }
++ function tick(now){
++  frame=0;if(!s||!s.running)return;
++  if(!s.paused&&!s.reduced){s.elapsed+=Math.min(80,Math.max(0,now-lastTime));while(s.elapsed>=durations[s.phase]){s.elapsed-=durations[s.phase];if(s.phase==='press')s.phase='move';else if(s.phase==='move')s.phase='release';else if(s.phase==='release'){s.cycles++;s.phase='wait';if(s.cycles>=2)ready();}else{s.phase='press';freshPath();}}draw();}
++  lastTime=now;frame=requestAnimationFrame(tick);
++ }
++ function stop(){if(frame)cancelAnimationFrame(frame);frame=0;if(s)s.running=false;s=null;clear();canvas.hidden=true;start.classList.remove('armed');start.textContent='スタート';target.classList.remove('arrived');}
++ function begin(options){
++  stop();size();extraReady=options.onReady;changed=options.onChange;
++  s={key:options.key,kind:options.kind,cycles:0,captionVisible:!!options.captionInitially||seen.has(options.key),paused:false,running:true,reduced:matchMedia('(prefers-reduced-motion: reduce)').matches,phase:'press',elapsed:0,firstSign:options.capture?-1:Math.random()<.5?-1:1,pathType:null,path:null};
++  canvas.hidden=false;freshPath();extraReady?.(s.captionVisible);onReady?.(s.captionVisible);
++  if(options.capture){sample(options.phase||'after');return;}
++  if(s.reduced){s.paused=true;ready();draw();changed?.(s);onChange?.(s);return;}
++  lastTime=performance.now();draw();frame=requestAnimationFrame(tick);changed?.(s);onChange?.(s);
++ }
++ function pause(){if(!s)return;s.paused=!s.paused;lastTime=performance.now();changed?.(s);onChange?.(s);}
++ function replay(){if(!s)return;const keep=s.captionVisible;s.cycles=0;s.elapsed=0;s.phase='press';s.paused=s.reduced;s.captionVisible=keep;freshPath();lastTime=performance.now();draw();changed?.(s);onChange?.(s);}
++ function sample(phase,cycles){if(!s)return;if(frame)cancelAnimationFrame(frame);frame=0;s.paused=true;s.cycles=Number.isInteger(cycles)?Math.max(0,cycles):phase==='before'?0:2;s.phase=['press','release'].includes(phase)?phase:'move';s.elapsed=durations[s.phase]*.6;freshPath();if(s.captionVisible)seen.add(s.key);extraReady?.(s.captionVisible);onReady?.(s.captionVisible);draw();changed?.(s);}
++ return{begin,stop,pause,replay,sample,state:()=>s?JSON.parse(JSON.stringify(s)):null};
++};
++
++'use strict';
++// 独立試作の初動説明。回答先を描かず、触れてから枠を出る区間だけを見せる。
++window.PILOT_GUIDED_TUTORIAL.createTimeDemo=function({container}){
++ const durations={idle:1000,press:650,move:1200,exit:1100,reset:650};
++ const bounds={x:102,y:88,width:126,height:56},from={x:160,y:109},to={x:205,y:64};
++ let frame=0,lastTime=0,s=null,svg=null,finger=null,ghost=null,button=null,buttonText=null,ring=null,touchLabel=null,exitLabel=null,borderGlow=null;
++ const hand='M22 2 c-3.3 0 -6 2.7 -6 6 v30 c-3 -2.5 -8.5 -3 -11.5 0 c-3 3 -1.5 7.5 1.5 10.5 l9 12 c4.5 7.5 10.5 11.5 20 11.5 h7 c8.5 0 15 -6.5 15 -15 v-18 c0 -3 -2.2 -5 -5 -5 c-2 0 -3.4 1 -4.2 2.6 c-0.4 -3.2 -2.4 -5.6 -5.3 -5.6 c-2 0 -3.4 1 -4.2 2.6 c-0.4 -3.2 -2.4 -5.6 -5.3 -5.6 c-1.6 0 -3 0.7 -4 1.9 V8 c0 -3.3 -2.7 -6 -6 -6 z';
++ const eased=t=>t*t*(3-2*t);
++ const bezier=(a,b,c,d,t)=>{const u=1-t;return u*u*u*a+3*u*u*t*b+3*u*t*t*c+t*t*t*d;};
++ function setHand(el,p,alpha=1){el.setAttribute('transform',`translate(${p.x} ${p.y}) scale(.52) translate(-22 -2)`);el.setAttribute('opacity',String(alpha));}
++ function mount(){
++  container.classList.add('start-exit-demo');
++  container.innerHTML=`<svg class="start-exit-svg" viewBox="70 0 200 208" preserveAspectRatio="xMidYMid meet" role="img" aria-label="スタートボタンに指を置き、指を離さず、3秒以内にボタンの枠の外へ動かします。回答先はこの図には表示していません。">
++   <rect class="start-exit-border-glow" x="99" y="85" width="132" height="62" rx="17" />
++   <rect class="start-exit-button" x="102" y="88" width="126" height="56" rx="14" />
++   <text class="start-exit-button-text" x="165" y="122" text-anchor="middle">スタート</text>
++   <g class="start-exit-ghost" aria-hidden="true"><path d="${hand}" /></g>
++   <circle class="start-exit-ring" r="14" />
++   <g class="start-exit-finger" aria-hidden="true"><path d="${hand}" /><ellipse class="start-exit-nail" cx="22" cy="9.5" rx="3.6" ry="5.2" /></g>
++   <text class="start-exit-touch-label" x="165" y="168" text-anchor="middle">触れる</text>
++   <text class="start-exit-label" x="165" y="48" text-anchor="middle">枠の外へ出る</text>
++   <text class="start-exit-interval" x="165" y="196" text-anchor="middle">この間が3秒以内</text>
++  </svg>`;
++  svg=container.querySelector('svg');finger=svg.querySelector('.start-exit-finger');ghost=svg.querySelector('.start-exit-ghost');button=svg.querySelector('.start-exit-button');buttonText=svg.querySelector('.start-exit-button-text');ring=svg.querySelector('.start-exit-ring');touchLabel=svg.querySelector('.start-exit-touch-label');exitLabel=svg.querySelector('.start-exit-label');borderGlow=svg.querySelector('.start-exit-border-glow');
++ }
++ function draw(){
++  if(!s)return;
++  const t=Math.max(0,Math.min(1,s.elapsed/durations[s.phase]));
++  let p={...from},alpha=s.phase==='idle'?0:1;
++  if(s.phase==='move'){
++   const e=eased(t);p={x:bezier(from.x,184,200,to.x,e),y:bezier(from.y,106,78,to.y,e)};
++  }else if(s.phase==='exit'||s.phase==='reset'){
++   p={...to};if(s.phase==='reset')alpha=1-t;
++  }
++  if(s.reduced)p={...to};
++  const contacted=s.phase!=='idle'||s.reduced,exited=contacted&&p.y<bounds.y;
++  s.finger=p;s.exited=exited;s.contacted=contacted;
++  setHand(finger,p,alpha);setHand(ghost,from,s.reduced ? .42 : 0);
++  button.classList.toggle('armed',contacted);
++  buttonText.classList.toggle('armed',contacted);
++  buttonText.textContent='スタート';
++  ring.setAttribute('cx',String(p.x));ring.setAttribute('cy',String(p.y));
++  ring.setAttribute('r',String(exited?14+(!s.reduced&&s.phase==='exit'?2*Math.sin(t*Math.PI):0):12));
++  ring.setAttribute('opacity',String(!contacted?0:exited?alpha:.45));
++  ring.classList.toggle('outside',exited);
++  borderGlow.style.opacity=String(exited ? .45*alpha : 0);
++  touchLabel.style.opacity=String(contacted?1:0);
++  exitLabel.style.opacity=String(exited?1:0);
++ }
++ function tick(now){
++  frame=0;if(!s||!s.running)return;
++  s.elapsed+=Math.min(80,Math.max(0,now-lastTime));
++  while(s.elapsed>=durations[s.phase]){
++   s.elapsed-=durations[s.phase];
++   if(s.phase==='idle')s.phase='press';
++   else if(s.phase==='press')s.phase='move';
++   else if(s.phase==='move')s.phase='exit';
++   else if(s.phase==='exit')s.phase='reset';
++   else{s.phase='idle';s.cycles++;}
++  }
++  lastTime=now;draw();frame=requestAnimationFrame(tick);
++ }
++ function stop(){
++  if(frame)cancelAnimationFrame(frame);frame=0;
++  if(s)s.running=false;s=null;
++  container.replaceChildren();container.classList.remove('start-exit-demo');
++ }
++ function sample(phase='exit'){
++  if(!s)return;if(frame)cancelAnimationFrame(frame);frame=0;
++  s.captured=true;s.phase=durations[phase]?phase:'exit';s.elapsed=durations[s.phase]*(s.phase==='move'?.7:.35);draw();
++ }
++ function begin(options={}){
++  stop();mount();
++  s={phase:'idle',elapsed:0,cycles:0,running:true,reduced:matchMedia('(prefers-reduced-motion: reduce)').matches,captured:false,finger:{...from},exited:false,startBounds:{...bounds}};
++  const captured=options.capture??(new URLSearchParams(location.search).get('capture')==='1');
++  if(captured){sample(options.phase||'exit');return;}
++  if(s.reduced){s.phase='exit';draw();return;}
++  lastTime=performance.now();draw();frame=requestAnimationFrame(tick);
++ }
++ return{begin,stop,sample,state:()=>s?JSON.parse(JSON.stringify(s)):null};
++};
++
++'use strict';
++// 説明箱だけを前の位置から次の位置へつなぐ。本番の操作パーツは動かさない。
++window.PILOT_GUIDED_TUTORIAL.createCardMotion=function({getCard,disabled}){
++ let animation=null,version=0,current={running:false,from:null,to:null};
++ function snapshot(){const el=getCard();if(!el)return null;const r=el.getBoundingClientRect();return r.width&&r.height?{x:r.x,y:r.y,width:r.width,height:r.height}:null;}
++ function finish(){version++;if(animation){animation.finish();animation=null;}current.running=false;}
++ function run(from){
++  version++;if(animation){animation.cancel();animation=null;}current={running:false,from,to:snapshot()};
++  const card=getCard();if(!card||disabled())return;
++  const to=current.to;if(!to)return;const ticket=version;
++  const frames=from?[{transform:'translate('+(from.x-to.x)+'px,'+(from.y-to.y)+'px)',opacity:.78},{transform:'translate(0,0)',opacity:1}]:[{opacity:.35},{opacity:1}];
++  current.running=true;animation=card.animate(frames,{duration:from?320:180,easing:'cubic-bezier(.22,.7,.2,1)'});
++  animation.finished.then(()=>{if(version===ticket){animation=null;current.running=false;}}).catch(()=>{});
++ }
++ return{snapshot,run,finish,state:()=>JSON.parse(JSON.stringify(current))};
++};
