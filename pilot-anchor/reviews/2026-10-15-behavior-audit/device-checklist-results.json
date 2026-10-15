@@ -1,0 +1,974 @@
+{
+  "checkedAt": "2026-10-15T14:02:04.915Z",
+  "scope": "HTML実機チェック管理画面のChrome合成UI検証。実機Safariでの参加者アプリ動作確認ではない。",
+  "checks": [
+    {
+      "name": "1200: exactly the 14 physical checks have cards",
+      "passed": true
+    },
+    {
+      "name": "1200: initial record is entirely unverified",
+      "passed": true
+    },
+    {
+      "name": "1200: no horizontal page overflow",
+      "passed": true
+    },
+    {
+      "name": "1200: all legacy IDs are accepted for archiving but not active",
+      "passed": true
+    },
+    {
+      "name": "1200: only preview and lab modes are offered",
+      "passed": true
+    },
+    {
+      "name": "1200: environment kind is retained invisibly for legacy records",
+      "passed": true
+    },
+    {
+      "name": "1200: instructions scope the work to iPhone Safari",
+      "passed": true
+    },
+    {
+      "name": "1200: every participant-app preview uses implemented GO/debug/upload=0/mic=0",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "1200: status buttons are usable touch targets",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "1200: each card explains where, how, expected result",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /reviews/2026-10-15-guided-release/index.html",
+      "passed": true
+    },
+    {
+      "name": "external reference is the fixed private lab menu with exact case/run",
+      "passed": true,
+      "detail": "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=consent&run=consent-check"
+    },
+    {
+      "name": "linked resource exists: /reviews/2026-10-15-guided-release/ux-next-proposals.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "external reference is the fixed private lab menu with exact case/run",
+      "passed": true,
+      "detail": "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=resume&run=resume-check"
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "external reference is the fixed private lab menu with exact case/run",
+      "passed": true,
+      "detail": "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=delivery&run=delivery-check"
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /reviews/2026-10-15-guided-release/publication.json",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /reviews/2026-10-15-guided-release/verification.json",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /reviews/2026-10-15-behavior-audit/index.html",
+      "passed": true
+    },
+    {
+      "name": "ios-scroll-consent: lab buttons have the documented cases and stable runs",
+      "passed": true,
+      "detail": [
+        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=resume&run=resume-check"
+      ]
+    },
+    {
+      "name": "ios-keyboard: lab buttons have the documented cases and stable runs",
+      "passed": true,
+      "detail": [
+        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=consent&run=consent-check"
+      ]
+    },
+    {
+      "name": "ios-background: lab buttons have the documented cases and stable runs",
+      "passed": true,
+      "detail": [
+        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=resume&run=resume-check"
+      ]
+    },
+    {
+      "name": "ios-reopen: lab buttons have the documented cases and stable runs",
+      "passed": true,
+      "detail": [
+        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=resume&run=resume-check",
+        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=delivery&run=delivery-check"
+      ]
+    },
+    {
+      "name": "ios-multi-tab: lab buttons have the documented cases and stable runs",
+      "passed": true,
+      "detail": [
+        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=resume&run=resume-check"
+      ]
+    },
+    {
+      "name": "ios-history: lab buttons have the documented cases and stable runs",
+      "passed": true,
+      "detail": [
+        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=resume&run=resume-check"
+      ]
+    },
+    {
+      "name": "ios-export: lab buttons have the documented cases and stable runs",
+      "passed": true,
+      "detail": [
+        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=delivery&run=delivery-check"
+      ]
+    },
+    {
+      "name": "lab reference exception rejects other origins, paths, cases, runs and extra parameters",
+      "passed": true
+    },
+    {
+      "name": "legacy technical checks never become active physical cards",
+      "passed": true
+    },
+    {
+      "name": "comparison technical cards no longer assign 49 manual check tasks",
+      "passed": true
+    },
+    {
+      "name": "retired check hash leaves the smaller checklist usable",
+      "passed": true
+    },
+    {
+      "name": "active check hash scrolls to the matching physical card",
+      "passed": true
+    },
+    {
+      "name": "ios-layout: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-layout: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-layout: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-layout: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-tap: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-tap: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-tap: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-tap: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-gestures: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-gestures: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-gestures: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-gestures: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-scroll-consent: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-scroll-consent: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-scroll-consent: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-scroll-consent: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-drag: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-drag: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-drag: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-drag: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-multitouch: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-multitouch: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-multitouch: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-multitouch: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-keyboard: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-keyboard: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-keyboard: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-keyboard: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-rotation-zoom: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-rotation-zoom: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-rotation-zoom: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-rotation-zoom: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-background: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-background: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-background: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-background: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-reopen: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-reopen: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-reopen: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-reopen: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-multi-tab: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-multi-tab: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-multi-tab: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-multi-tab: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-history: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-history: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-history: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-history: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-export: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-export: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-export: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-export: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-copy: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-copy: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-copy: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "ios-copy: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "status/note survive reload",
+      "passed": true
+    },
+    {
+      "name": "notes stay text, never become HTML",
+      "passed": true
+    },
+    {
+      "name": "device environment survives reload",
+      "passed": true
+    },
+    {
+      "name": "passed filter shows only checked card",
+      "passed": true
+    },
+    {
+      "name": "search finds notes",
+      "passed": true
+    },
+    {
+      "name": "search no-result state",
+      "passed": true
+    },
+    {
+      "name": "#groupFilter 表示・指操作: nonempty matching subset",
+      "passed": true
+    },
+    {
+      "name": "#groupFilter 入力・端末の表示: nonempty matching subset",
+      "passed": true
+    },
+    {
+      "name": "#groupFilter Safari・OSからの復帰: nonempty matching subset",
+      "passed": true
+    },
+    {
+      "name": "#groupFilter Safariの保存・コピー: nonempty matching subset",
+      "passed": true
+    },
+    {
+      "name": "#modeFilter preview: nonempty matching subset",
+      "passed": true
+    },
+    {
+      "name": "#modeFilter lab: nonempty matching subset",
+      "passed": true
+    },
+    {
+      "name": "new device record preserves previous record",
+      "passed": true
+    },
+    {
+      "name": "new device record starts entirely pending",
+      "passed": true
+    },
+    {
+      "name": "switching device restores independent status",
+      "passed": true
+    },
+    {
+      "name": "UI JSON download includes current record",
+      "passed": true
+    },
+    {
+      "name": "API JSON export matches selected record",
+      "passed": true
+    },
+    {
+      "name": "export includes titles for all active and archived IDs",
+      "passed": true
+    },
+    {
+      "name": "unrelated localStorage is never changed",
+      "passed": true
+    },
+    {
+      "name": "different target version: rejected",
+      "passed": true
+    },
+    {
+      "name": "different target version: existing records intact",
+      "passed": true
+    },
+    {
+      "name": "wrong tool: rejected",
+      "passed": true
+    },
+    {
+      "name": "wrong tool: existing records intact",
+      "passed": true
+    },
+    {
+      "name": "wrong schema: rejected",
+      "passed": true
+    },
+    {
+      "name": "wrong schema: existing records intact",
+      "passed": true
+    },
+    {
+      "name": "unknown check ID: rejected",
+      "passed": true
+    },
+    {
+      "name": "unknown check ID: existing records intact",
+      "passed": true
+    },
+    {
+      "name": "invalid check status: rejected",
+      "passed": true
+    },
+    {
+      "name": "invalid check status: existing records intact",
+      "passed": true
+    },
+    {
+      "name": "malformed import rejected without loss",
+      "passed": true
+    },
+    {
+      "name": "UI import rejection explains version and preserves records",
+      "passed": true
+    },
+    {
+      "name": "imported title/environment are text, never HTML",
+      "passed": true
+    },
+    {
+      "name": "concurrent tab cannot overwrite newer disk record",
+      "passed": true
+    },
+    {
+      "name": "concurrent tab preserves its own unsaved edits for export",
+      "passed": true
+    },
+    {
+      "name": "375: exactly the 14 physical checks have cards",
+      "passed": true
+    },
+    {
+      "name": "375: initial record is entirely unverified",
+      "passed": true
+    },
+    {
+      "name": "375: no horizontal page overflow",
+      "passed": true
+    },
+    {
+      "name": "375: all legacy IDs are accepted for archiving but not active",
+      "passed": true
+    },
+    {
+      "name": "375: only preview and lab modes are offered",
+      "passed": true
+    },
+    {
+      "name": "375: environment kind is retained invisibly for legacy records",
+      "passed": true
+    },
+    {
+      "name": "375: instructions scope the work to iPhone Safari",
+      "passed": true
+    },
+    {
+      "name": "375: every participant-app preview uses implemented GO/debug/upload=0/mic=0",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "375: status buttons are usable touch targets",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "375: each card explains where, how, expected result",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=tut&gstep=motor-range&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=practicecheck&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=notice&notice=early_late&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=tut&gstep=layout-start&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=rating&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=tut&gstep=motor&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=post&stop=1&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=task&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=done&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "keyboard-check link points to the six-page short route",
+      "passed": true
+    },
+    {
+      "name": "short questionnaire page 1 matches documented route",
+      "passed": true,
+      "detail": {
+        "id": "grip",
+        "part": null,
+        "step": "1 / 6"
+      }
+    },
+    {
+      "name": "short questionnaire page 2 matches documented route",
+      "passed": true,
+      "detail": {
+        "id": "problems",
+        "part": "1",
+        "step": "2 / 6"
+      }
+    },
+    {
+      "name": "short questionnaire page 3 matches documented route",
+      "passed": true,
+      "detail": {
+        "id": "problems",
+        "part": "2",
+        "step": "3 / 6"
+      }
+    },
+    {
+      "name": "short questionnaire page 4 matches documented route",
+      "passed": true,
+      "detail": {
+        "id": "problems",
+        "part": "3",
+        "step": "4 / 6"
+      }
+    },
+    {
+      "name": "short questionnaire page 5 matches documented route",
+      "passed": true,
+      "detail": {
+        "id": "ease",
+        "part": null,
+        "step": "5 / 6"
+      }
+    },
+    {
+      "name": "short questionnaire page 6 matches documented route",
+      "passed": true,
+      "detail": {
+        "id": "comment",
+        "part": null,
+        "step": "6 / 6"
+      }
+    },
+    {
+      "name": "sixth page exposes the documented optional free-text field",
+      "passed": true
+    },
+    {
+      "name": "optional free-text input accepts typing without changing screen",
+      "passed": true
+    },
+    {
+      "name": "other-browser import adds a separate record",
+      "passed": true
+    },
+    {
+      "name": "other-browser import keeps check result and note",
+      "passed": true
+    },
+    {
+      "name": "imported record survives reload",
+      "passed": true
+    },
+    {
+      "name": "legacy 72: existing localStorage key is reused",
+      "passed": true
+    },
+    {
+      "name": "legacy 72: opening old storage never rewrites the original bytes",
+      "passed": true
+    },
+    {
+      "name": "legacy 72: every old status/note/environment remains intact",
+      "passed": true
+    },
+    {
+      "name": "legacy 72: old checks are absent from cards and progress denominator",
+      "passed": true
+    },
+    {
+      "name": "legacy 72: all new physical checks remain pending",
+      "passed": true
+    },
+    {
+      "name": "legacy 72: archive notice explains the preserved count",
+      "passed": true
+    },
+    {
+      "name": "legacy 72: archived notes are excluded from active search",
+      "passed": true
+    },
+    {
+      "name": "legacy 72: archived passed results do not appear in the passed filter",
+      "passed": true
+    },
+    {
+      "name": "legacy 72: export preserves all old result fields with titles",
+      "passed": true
+    },
+    {
+      "name": "legacy 72: archived text cannot execute HTML",
+      "passed": true
+    },
+    {
+      "name": "legacy 72: reload retains archived results without promoting new checks",
+      "passed": true
+    },
+    {
+      "name": "legacy 72: checking a physical item leaves every archived field intact",
+      "passed": true
+    },
+    {
+      "name": "legacy 72: new record never copies old results",
+      "passed": true
+    },
+    {
+      "name": "legacy 72: old JSON imports as a separate record without loss",
+      "passed": true
+    },
+    {
+      "name": "legacy 72: JSON import leaves all physical checks pending",
+      "passed": true
+    },
+    {
+      "name": "legacy 72: imported archived results survive reload",
+      "passed": true
+    },
+    {
+      "name": "legacy 79: existing localStorage key is reused",
+      "passed": true
+    },
+    {
+      "name": "legacy 79: opening old storage never rewrites the original bytes",
+      "passed": true
+    },
+    {
+      "name": "legacy 79: every old status/note/environment remains intact",
+      "passed": true
+    },
+    {
+      "name": "legacy 79: old checks are absent from cards and progress denominator",
+      "passed": true
+    },
+    {
+      "name": "legacy 79: all new physical checks remain pending",
+      "passed": true
+    },
+    {
+      "name": "legacy 79: archive notice explains the preserved count",
+      "passed": true
+    },
+    {
+      "name": "legacy 79: archived notes are excluded from active search",
+      "passed": true
+    },
+    {
+      "name": "legacy 79: archived passed results do not appear in the passed filter",
+      "passed": true
+    },
+    {
+      "name": "legacy 79: export preserves all old result fields with titles",
+      "passed": true
+    },
+    {
+      "name": "legacy 79: archived text cannot execute HTML",
+      "passed": true
+    },
+    {
+      "name": "legacy 79: reload retains archived results without promoting new checks",
+      "passed": true
+    },
+    {
+      "name": "legacy 79: checking a physical item leaves every archived field intact",
+      "passed": true
+    },
+    {
+      "name": "legacy 79: new record never copies old results",
+      "passed": true
+    },
+    {
+      "name": "legacy 79: old JSON imports as a separate record without loss",
+      "passed": true
+    },
+    {
+      "name": "legacy 79: JSON import leaves all physical checks pending",
+      "passed": true
+    },
+    {
+      "name": "legacy 79: imported archived results survive reload",
+      "passed": true
+    },
+    {
+      "name": "storage rejection keeps tool usable",
+      "passed": true
+    },
+    {
+      "name": "storage rejection is visibly reported",
+      "passed": true
+    },
+    {
+      "name": "unsaved record remains exportable",
+      "passed": true
+    },
+    {
+      "name": "storage read rejection keeps tool usable and warns",
+      "passed": true
+    },
+    {
+      "name": "corrupt saved text is preserved for recovery",
+      "passed": true
+    },
+    {
+      "name": "corrupt saved record gives visible warning",
+      "passed": true
+    },
+    {
+      "name": "corruption fallback does not copy automatic passed statuses",
+      "passed": true
+    },
+    {
+      "name": "file:// standalone loads every card",
+      "passed": true
+    },
+    {
+      "name": "file:// narrow layout has no horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "all 14 participant-app assets remain unchanged",
+      "passed": true
+    },
+    {
+      "name": "all participant-app assets match the current release or scoped patch",
+      "passed": true
+    },
+    {
+      "name": "review source unchanged during validation",
+      "passed": true
+    },
+    {
+      "name": "no JavaScript errors",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "no remote or non-GET requests",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "errors": [],
+  "unexpectedRequests": [],
+  "source": {
+    "checklist.html": "e67847684f94d2af9ac23dc32bd33efcf4ecaeae84a368483c4f081ad77b9733",
+    "checklist.js": "062ca5545b8326e718d3c4ec27ef9c1291a597e95b9165bd6feba9692bee129f",
+    "checklist.css": "9c7e52d9effc4208f4aa9351d66c6dfb81d42bfe724040d25cd8cac260219ad5",
+    "device-checks-data.js": "f99f6dda2af41c0b24a400cabc7de2f5bce09e8d02ff8e67033582d162ed20cd"
+  },
+  "sourceBefore": {
+    "checklist.html": "e67847684f94d2af9ac23dc32bd33efcf4ecaeae84a368483c4f081ad77b9733",
+    "checklist.js": "062ca5545b8326e718d3c4ec27ef9c1291a597e95b9165bd6feba9692bee129f",
+    "checklist.css": "9c7e52d9effc4208f4aa9351d66c6dfb81d42bfe724040d25cd8cac260219ad5",
+    "device-checks-data.js": "f99f6dda2af41c0b24a400cabc7de2f5bce09e8d02ff8e67033582d162ed20cd"
+  },
+  "appAssetsBefore": {
+    "index.html": "e3e2aedaccaae98893e400d7e727ea2496884c6df2163f94edeb648079015777",
+    "app.css": "2a55dac2607fe78a57674b1b4e61551dbc40e782a2fff6238b26f21efcb28e27",
+    "guided-tutorial.js": "231ce70f1a01fa178e43616db65c691e7fe0317853762d81a4a7e82e88871c26",
+    "guided-tutorial.css": "54e56698da645dfdd4dc425ec3a127d6c7751987f369e058692c93b7c1918853",
+    "bank.js": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
+    "session-store.js": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+    "durable-storage.js": "84d006f048e2cc16c4a7a7087ec5815485c0b3a7d2ffa4ce6b7b62905dde967b",
+    "storage-worker.js": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
+    "staged-delivery.js": "7f37d628ce04dc47233b16387d43add674608d278030dd17355621745ab9f7ad",
+    "consent.js": "6dae132f66dc20526ae6e79c59c6ff12049a75a1b11161b6815bfa1339a14bd9",
+    "consent.css": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
+    "data-codec.js": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+    "vendor/pako.min.js": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+    "vendor/pako-LICENSE": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539"
+  },
+  "appAssetsAfter": {
+    "index.html": "e3e2aedaccaae98893e400d7e727ea2496884c6df2163f94edeb648079015777",
+    "app.css": "2a55dac2607fe78a57674b1b4e61551dbc40e782a2fff6238b26f21efcb28e27",
+    "guided-tutorial.js": "231ce70f1a01fa178e43616db65c691e7fe0317853762d81a4a7e82e88871c26",
+    "guided-tutorial.css": "54e56698da645dfdd4dc425ec3a127d6c7751987f369e058692c93b7c1918853",
+    "bank.js": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
+    "session-store.js": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+    "durable-storage.js": "84d006f048e2cc16c4a7a7087ec5815485c0b3a7d2ffa4ce6b7b62905dde967b",
+    "storage-worker.js": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
+    "staged-delivery.js": "7f37d628ce04dc47233b16387d43add674608d278030dd17355621745ab9f7ad",
+    "consent.js": "6dae132f66dc20526ae6e79c59c6ff12049a75a1b11161b6815bfa1339a14bd9",
+    "consent.css": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
+    "data-codec.js": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+    "vendor/pako.min.js": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+    "vendor/pako-LICENSE": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539"
+  },
+  "shortPostRoute": [
+    {
+      "id": "grip",
+      "part": null,
+      "step": "1 / 6"
+    },
+    {
+      "id": "problems",
+      "part": "1",
+      "step": "2 / 6"
+    },
+    {
+      "id": "problems",
+      "part": "2",
+      "step": "3 / 6"
+    },
+    {
+      "id": "problems",
+      "part": "3",
+      "step": "4 / 6"
+    },
+    {
+      "id": "ease",
+      "part": null,
+      "step": "5 / 6"
+    },
+    {
+      "id": "comment",
+      "part": null,
+      "step": "6 / 6"
+    }
+  ],
+  "passed": true,
+  "totals": {
+    "passed": 206,
+    "failed": 0
+  }
+}
