@@ -1,9 +1,9 @@
 {
-  "checkedAt": "2026-10-15T09:06:47.096Z",
+  "checkedAt": "2026-10-15T10:00:50.186Z",
   "scope": "HTML実機チェック管理画面のChrome合成UI検証。実機Safariでの参加者アプリ動作確認ではない。",
   "checks": [
     {
-      "name": "1200: all data items have cards",
+      "name": "1200: exactly the 14 physical checks have cards",
       "passed": true
     },
     {
@@ -15,7 +15,23 @@
       "passed": true
     },
     {
-      "name": "1200: every participant-app preview is go/debug/upload=0",
+      "name": "1200: all legacy IDs are accepted for archiving but not active",
+      "passed": true
+    },
+    {
+      "name": "1200: only preview and lab modes are offered",
+      "passed": true
+    },
+    {
+      "name": "1200: environment kind is retained invisibly for legacy records",
+      "passed": true
+    },
+    {
+      "name": "1200: instructions scope the work to iPhone Safari",
+      "passed": true
+    },
+    {
+      "name": "1200: every participant-app preview uses implemented GO/debug/upload=0/mic=0",
       "passed": true,
       "detail": []
     },
@@ -54,137 +70,29 @@
       "passed": true
     },
     {
-      "name": "linked resource exists: /reviews/2026-10-15-guided-release/publication.json",
-      "passed": true
-    },
-    {
-      "name": "linked resource exists: /reviews/2026-10-15-guided-release/recovery-results.json",
-      "passed": true
-    },
-    {
-      "name": "linked resource exists: /reviews/2026-10-15-guided-release/before-manifest.json",
-      "passed": true
-    },
-    {
-      "name": "linked resource exists: /reviews/2026-10-15-guided-release/preparation-results.json",
-      "passed": true
-    },
-    {
       "name": "linked resource exists: /index.html",
       "passed": true
     },
     {
       "name": "linked resource exists: /index.html",
-      "passed": true
-    },
-    {
-      "name": "linked resource exists: /index.html",
-      "passed": true
-    },
-    {
-      "name": "linked resource exists: /index.html",
-      "passed": true
-    },
-    {
-      "name": "linked resource exists: /index.html",
-      "passed": true
-    },
-    {
-      "name": "linked resource exists: /index.html",
-      "passed": true
-    },
-    {
-      "name": "linked resource exists: /index.html",
-      "passed": true
-    },
-    {
-      "name": "linked resource exists: /index.html",
-      "passed": true
-    },
-    {
-      "name": "linked resource exists: /index.html",
-      "passed": true
-    },
-    {
-      "name": "linked resource exists: /index.html",
-      "passed": true
-    },
-    {
-      "name": "linked resource exists: /index.html",
-      "passed": true
-    },
-    {
-      "name": "linked resource exists: /index.html",
-      "passed": true
-    },
-    {
-      "name": "linked resource exists: /index.html",
-      "passed": true
-    },
-    {
-      "name": "linked resource exists: /index.html",
-      "passed": true
-    },
-    {
-      "name": "linked resource exists: /index.html",
-      "passed": true
-    },
-    {
-      "name": "linked resource exists: /index.html",
-      "passed": true
-    },
-    {
-      "name": "linked resource exists: /index.html",
-      "passed": true
-    },
-    {
-      "name": "linked resource exists: /index.html",
-      "passed": true
-    },
-    {
-      "name": "linked resource exists: /index.html",
-      "passed": true
-    },
-    {
-      "name": "linked resource exists: /reviews/2026-10-15-guided-release/full-validation.txt",
-      "passed": true
-    },
-    {
-      "name": "linked resource exists: /index.html",
-      "passed": true
-    },
-    {
-      "name": "linked resource exists: /index.html",
-      "passed": true
-    },
-    {
-      "name": "linked resource exists: /index.html",
-      "passed": true
-    },
-    {
-      "name": "linked resource exists: /reviews/2026-10-15-guided-release/results.json",
-      "passed": true
-    },
-    {
-      "name": "linked resource exists: /index.html",
-      "passed": true
-    },
-    {
-      "name": "linked resource exists: /index.html",
-      "passed": true
-    },
-    {
-      "name": "linked resource exists: /index.html",
-      "passed": true
-    },
-    {
-      "name": "linked resource exists: /reviews/2026-10-15-guided-release/audit-results.json",
       "passed": true
     },
     {
       "name": "external reference is the fixed private lab menu with exact case/run",
       "passed": true,
       "detail": "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=resume&run=resume-check"
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
     },
     {
       "name": "external reference is the fixed private lab menu with exact case/run",
@@ -196,7 +104,7 @@
       "passed": true
     },
     {
-      "name": "linked resource exists: /index.html",
+      "name": "linked resource exists: /reviews/2026-10-15-guided-release/publication.json",
       "passed": true
     },
     {
@@ -204,126 +112,57 @@
       "passed": true
     },
     {
-      "name": "linked resource exists: /reviews/2026-10-15-guided-release/checklist.md",
+      "name": "linked resource exists: /reviews/2026-10-15-guided-release/index.html",
       "passed": true
     },
     {
-      "name": "prep-isolated-data: lab button has the documented case and stable run",
+      "name": "ios-scroll-consent: lab buttons have the documented cases and stable runs",
+      "passed": true,
+      "detail": [
+        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=resume&run=resume-check"
+      ]
+    },
+    {
+      "name": "ios-keyboard: lab buttons have the documented cases and stable runs",
       "passed": true,
       "detail": [
         "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=consent&run=consent-check"
       ]
     },
     {
-      "name": "consent-reading: lab button has the documented case and stable run",
-      "passed": true,
-      "detail": [
-        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=consent&run=consent-check"
-      ]
-    },
-    {
-      "name": "same-url-resume: lab button has the documented case and stable run",
+      "name": "ios-background: lab buttons have the documented cases and stable runs",
       "passed": true,
       "detail": [
         "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=resume&run=resume-check"
       ]
     },
     {
-      "name": "resume-snapshot: lab button has the documented case and stable run",
+      "name": "ios-reopen: lab buttons have the documented cases and stable runs",
       "passed": true,
       "detail": [
-        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=resume&run=resume-check"
-      ]
-    },
-    {
-      "name": "visibility-and-lock: lab button has the documented case and stable run",
-      "passed": true,
-      "detail": [
-        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=resume&run=resume-check"
-      ]
-    },
-    {
-      "name": "local-storage: lab button has the documented case and stable run",
-      "passed": true,
-      "detail": [
+        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=resume&run=resume-check",
         "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=delivery&run=delivery-check"
       ]
     },
     {
-      "name": "storage-quiz-motor: lab button has the documented case and stable run",
+      "name": "ios-multi-tab: lab buttons have the documented cases and stable runs",
       "passed": true,
       "detail": [
         "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=resume&run=resume-check"
       ]
     },
     {
-      "name": "storage-rating-pages: lab button has the documented case and stable run",
+      "name": "ios-history: lab buttons have the documented cases and stable runs",
       "passed": true,
       "detail": [
         "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=resume&run=resume-check"
       ]
     },
     {
-      "name": "storage-life-cycle: lab button has the documented case and stable run",
-      "passed": true,
-      "detail": [
-        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=resume&run=resume-check"
-      ]
-    },
-    {
-      "name": "storage-delivery-contract: lab button has the documented case and stable run",
+      "name": "ios-export: lab buttons have the documented cases and stable runs",
       "passed": true,
       "detail": [
         "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=delivery&run=delivery-check"
-      ]
-    },
-    {
-      "name": "lab-consent-success: lab button has the documented case and stable run",
-      "passed": true,
-      "detail": [
-        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=consent&run=consent-check"
-      ]
-    },
-    {
-      "name": "lab-consent-failure: lab button has the documented case and stable run",
-      "passed": true,
-      "detail": [
-        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=consent&run=consent-check"
-      ]
-    },
-    {
-      "name": "lab-tutorial-resume: lab button has the documented case and stable run",
-      "passed": true,
-      "detail": [
-        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=resume&run=resume-check"
-      ]
-    },
-    {
-      "name": "lab-rating-resume: lab button has the documented case and stable run",
-      "passed": true,
-      "detail": [
-        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=resume&run=resume-check"
-      ]
-    },
-    {
-      "name": "lab-multi-tab: lab button has the documented case and stable run",
-      "passed": true,
-      "detail": [
-        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=resume&run=resume-check"
-      ]
-    },
-    {
-      "name": "lab-delivery-retry: lab button has the documented case and stable run",
-      "passed": true,
-      "detail": [
-        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=delivery&run=delivery-check"
-      ]
-    },
-    {
-      "name": "lab-reset-scope: lab button has the documented case and stable run",
-      "passed": true,
-      "detail": [
-        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=consent&run=consent-check"
       ]
     },
     {
@@ -331,1283 +170,243 @@
       "passed": true
     },
     {
-      "name": "all 49 inherited functional checks are represented",
+      "name": "legacy technical checks never become active physical cards",
       "passed": true
     },
     {
-      "name": "all 49 comparison cards link to exactly their matching check",
+      "name": "comparison technical cards no longer assign 49 manual check tasks",
       "passed": true
     },
     {
-      "name": "unknown check hash leaves the checklist usable",
+      "name": "retired check hash leaves the smaller checklist usable",
       "passed": true
     },
     {
-      "name": "valid check hash scrolls to the matching rule card",
+      "name": "active check hash scrolls to the matching physical card",
       "passed": true
     },
     {
-      "name": "prep-pc-sizes: passed button changes current record",
+      "name": "ios-layout: passed button changes current record",
       "passed": true
     },
     {
-      "name": "prep-pc-sizes: issue button changes current record",
+      "name": "ios-layout: issue button changes current record",
       "passed": true
     },
     {
-      "name": "prep-pc-sizes: hold button changes current record",
+      "name": "ios-layout: hold button changes current record",
       "passed": true
     },
     {
-      "name": "prep-pc-sizes: pending button changes current record",
+      "name": "ios-layout: pending button changes current record",
       "passed": true
     },
     {
-      "name": "prep-safari: passed button changes current record",
+      "name": "ios-tap: passed button changes current record",
       "passed": true
     },
     {
-      "name": "prep-safari: issue button changes current record",
+      "name": "ios-tap: issue button changes current record",
       "passed": true
     },
     {
-      "name": "prep-safari: hold button changes current record",
+      "name": "ios-tap: hold button changes current record",
       "passed": true
     },
     {
-      "name": "prep-safari: pending button changes current record",
+      "name": "ios-tap: pending button changes current record",
       "passed": true
     },
     {
-      "name": "prep-record: passed button changes current record",
+      "name": "ios-gestures: passed button changes current record",
       "passed": true
     },
     {
-      "name": "prep-record: issue button changes current record",
+      "name": "ios-gestures: issue button changes current record",
       "passed": true
     },
     {
-      "name": "prep-record: hold button changes current record",
+      "name": "ios-gestures: hold button changes current record",
       "passed": true
     },
     {
-      "name": "prep-record: pending button changes current record",
+      "name": "ios-gestures: pending button changes current record",
       "passed": true
     },
     {
-      "name": "prep-preview-safety: passed button changes current record",
+      "name": "ios-scroll-consent: passed button changes current record",
       "passed": true
     },
     {
-      "name": "prep-preview-safety: issue button changes current record",
+      "name": "ios-scroll-consent: issue button changes current record",
       "passed": true
     },
     {
-      "name": "prep-preview-safety: hold button changes current record",
+      "name": "ios-scroll-consent: hold button changes current record",
       "passed": true
     },
     {
-      "name": "prep-preview-safety: pending button changes current record",
+      "name": "ios-scroll-consent: pending button changes current record",
       "passed": true
     },
     {
-      "name": "prep-isolated-data: passed button changes current record",
+      "name": "ios-drag: passed button changes current record",
       "passed": true
     },
     {
-      "name": "prep-isolated-data: issue button changes current record",
+      "name": "ios-drag: issue button changes current record",
       "passed": true
     },
     {
-      "name": "prep-isolated-data: hold button changes current record",
+      "name": "ios-drag: hold button changes current record",
       "passed": true
     },
     {
-      "name": "prep-isolated-data: pending button changes current record",
+      "name": "ios-drag: pending button changes current record",
       "passed": true
     },
     {
-      "name": "prep-frozen-before: passed button changes current record",
+      "name": "ios-multitouch: passed button changes current record",
       "passed": true
     },
     {
-      "name": "prep-frozen-before: issue button changes current record",
+      "name": "ios-multitouch: issue button changes current record",
       "passed": true
     },
     {
-      "name": "prep-frozen-before: hold button changes current record",
+      "name": "ios-multitouch: hold button changes current record",
       "passed": true
     },
     {
-      "name": "prep-frozen-before: pending button changes current record",
+      "name": "ios-multitouch: pending button changes current record",
       "passed": true
     },
     {
-      "name": "touch-static-all: passed button changes current record",
+      "name": "ios-keyboard: passed button changes current record",
       "passed": true
     },
     {
-      "name": "touch-static-all: issue button changes current record",
+      "name": "ios-keyboard: issue button changes current record",
       "passed": true
     },
     {
-      "name": "touch-static-all: hold button changes current record",
+      "name": "ios-keyboard: hold button changes current record",
       "passed": true
     },
     {
-      "name": "touch-static-all: pending button changes current record",
+      "name": "ios-keyboard: pending button changes current record",
       "passed": true
     },
     {
-      "name": "touch-active-all: passed button changes current record",
+      "name": "ios-rotation-zoom: passed button changes current record",
       "passed": true
     },
     {
-      "name": "touch-active-all: issue button changes current record",
+      "name": "ios-rotation-zoom: issue button changes current record",
       "passed": true
     },
     {
-      "name": "touch-active-all: hold button changes current record",
+      "name": "ios-rotation-zoom: hold button changes current record",
       "passed": true
     },
     {
-      "name": "touch-active-all: pending button changes current record",
+      "name": "ios-rotation-zoom: pending button changes current record",
       "passed": true
     },
     {
-      "name": "touch-disabled-all: passed button changes current record",
+      "name": "ios-background: passed button changes current record",
       "passed": true
     },
     {
-      "name": "touch-disabled-all: issue button changes current record",
+      "name": "ios-background: issue button changes current record",
       "passed": true
     },
     {
-      "name": "touch-disabled-all: hold button changes current record",
+      "name": "ios-background: hold button changes current record",
       "passed": true
     },
     {
-      "name": "touch-disabled-all: pending button changes current record",
+      "name": "ios-background: pending button changes current record",
       "passed": true
     },
     {
-      "name": "touch-pinch-all: passed button changes current record",
+      "name": "ios-reopen: passed button changes current record",
       "passed": true
     },
     {
-      "name": "touch-pinch-all: issue button changes current record",
+      "name": "ios-reopen: issue button changes current record",
       "passed": true
     },
     {
-      "name": "touch-pinch-all: hold button changes current record",
+      "name": "ios-reopen: hold button changes current record",
       "passed": true
     },
     {
-      "name": "touch-pinch-all: pending button changes current record",
+      "name": "ios-reopen: pending button changes current record",
       "passed": true
     },
     {
-      "name": "touch-after-normal: passed button changes current record",
+      "name": "ios-multi-tab: passed button changes current record",
       "passed": true
     },
     {
-      "name": "touch-after-normal: issue button changes current record",
+      "name": "ios-multi-tab: issue button changes current record",
       "passed": true
     },
     {
-      "name": "touch-after-normal: hold button changes current record",
+      "name": "ios-multi-tab: hold button changes current record",
       "passed": true
     },
     {
-      "name": "touch-after-normal: pending button changes current record",
+      "name": "ios-multi-tab: pending button changes current record",
       "passed": true
     },
     {
-      "name": "touch-scroll-all: passed button changes current record",
+      "name": "ios-history: passed button changes current record",
       "passed": true
     },
     {
-      "name": "touch-scroll-all: issue button changes current record",
+      "name": "ios-history: issue button changes current record",
       "passed": true
     },
     {
-      "name": "touch-scroll-all: hold button changes current record",
+      "name": "ios-history: hold button changes current record",
       "passed": true
     },
     {
-      "name": "touch-scroll-all: pending button changes current record",
+      "name": "ios-history: pending button changes current record",
       "passed": true
     },
     {
-      "name": "touch-code-copy: passed button changes current record",
+      "name": "ios-export: passed button changes current record",
       "passed": true
     },
     {
-      "name": "touch-code-copy: issue button changes current record",
+      "name": "ios-export: issue button changes current record",
       "passed": true
     },
     {
-      "name": "touch-code-copy: hold button changes current record",
+      "name": "ios-export: hold button changes current record",
       "passed": true
     },
     {
-      "name": "touch-code-copy: pending button changes current record",
+      "name": "ios-export: pending button changes current record",
       "passed": true
     },
     {
-      "name": "touch-keyboard: passed button changes current record",
+      "name": "ios-copy: passed button changes current record",
       "passed": true
     },
     {
-      "name": "touch-keyboard: issue button changes current record",
+      "name": "ios-copy: issue button changes current record",
       "passed": true
     },
     {
-      "name": "touch-keyboard: hold button changes current record",
+      "name": "ios-copy: hold button changes current record",
       "passed": true
     },
     {
-      "name": "touch-keyboard: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "touch-safari-ui: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "touch-safari-ui: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "touch-safari-ui: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "touch-safari-ui: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "screen-layout: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "screen-layout: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "screen-layout: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "screen-layout: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "guide-labels: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "guide-labels: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "guide-labels: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "guide-labels: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "part-emphasis: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "part-emphasis: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "part-emphasis: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "part-emphasis: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "card-motion: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "card-motion: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "card-motion: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "card-motion: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "read-lock: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "read-lock: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "read-lock: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "read-lock: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "read-cue: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "read-cue: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "read-cue: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "read-cue: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "stray-tap: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "stray-tap: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "stray-tap: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "stray-tap: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "disabled-rating-tap: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "disabled-rating-tap: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "disabled-rating-tap: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "disabled-rating-tap: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "motor-hint: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "motor-hint: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "motor-hint: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "motor-hint: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "hint-timer: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "hint-timer: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "hint-timer: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "hint-timer: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "watch-then-act: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "watch-then-act: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "watch-then-act: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "watch-then-act: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "varied-demo: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "varied-demo: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "varied-demo: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "varied-demo: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "release-range: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "release-range: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "release-range: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "release-range: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "mandatory-hands: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "mandatory-hands: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "mandatory-hands: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "mandatory-hands: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "completion-revisit: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "completion-revisit: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "completion-revisit: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "completion-revisit: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "press-reveal: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "press-reveal: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "press-reveal: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "press-reveal: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "continuous-drag: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "continuous-drag: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "continuous-drag: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "continuous-drag: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "pointer-guard: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "pointer-guard: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "pointer-guard: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "pointer-guard: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "pointer-cancel: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "pointer-cancel: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "pointer-cancel: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "pointer-cancel: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "start-rule: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "start-rule: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "start-rule: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "start-rule: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "first-exit-time: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "first-exit-time: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "first-exit-time: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "first-exit-time: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "pace-and-stop: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "pace-and-stop: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "pace-and-stop: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "pace-and-stop: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "trajectory-recording: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "trajectory-recording: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "trajectory-recording: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "trajectory-recording: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "rule-quiz: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "rule-quiz: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "rule-quiz: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "rule-quiz: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "rating-five: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "rating-five: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "rating-five: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "rating-five: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "rating-back: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "rating-back: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "rating-back: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "rating-back: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "rating-selection-gate: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "rating-selection-gate: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "rating-selection-gate: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "rating-selection-gate: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "rating-review-time: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "rating-review-time: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "rating-review-time: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "rating-review-time: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "rating-finish-resume: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "rating-finish-resume: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "rating-finish-resume: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "rating-finish-resume: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "practice-definition: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "practice-definition: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "practice-definition: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "practice-definition: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "formal-practice-gate: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "formal-practice-gate: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "formal-practice-gate: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "formal-practice-gate: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "practice-post-check: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "practice-post-check: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "practice-post-check: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "practice-post-check: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "tutorial-provenance: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "tutorial-provenance: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "tutorial-provenance: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "tutorial-provenance: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "resume-snapshot: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "resume-snapshot: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "resume-snapshot: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "resume-snapshot: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "same-url-resume: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "same-url-resume: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "same-url-resume: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "same-url-resume: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "review-reentry-time: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "review-reentry-time: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "review-reentry-time: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "review-reentry-time: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "local-storage: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "local-storage: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "local-storage: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "local-storage: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "visibility-and-lock: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "visibility-and-lock: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "visibility-and-lock: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "visibility-and-lock: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "preview-no-send: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "preview-no-send: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "preview-no-send: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "preview-no-send: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "static-doubletap: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "static-doubletap: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "static-doubletap: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "static-doubletap: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "active-button-doubletap: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "active-button-doubletap: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "active-button-doubletap: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "active-button-doubletap: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "pinch-and-context: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "pinch-and-context: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "pinch-and-context: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "pinch-and-context: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "orientation-and-zoom: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "orientation-and-zoom: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "orientation-and-zoom: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "orientation-and-zoom: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "stop-confirm: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "stop-confirm: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "stop-confirm: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "stop-confirm: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "rating-progress: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "rating-progress: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "rating-progress: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "rating-progress: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "instructed-trials: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "instructed-trials: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "instructed-trials: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "instructed-trials: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "consent-reading: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "consent-reading: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "consent-reading: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "consent-reading: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "reduced-motion: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "reduced-motion: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "reduced-motion: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "reduced-motion: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "accessibility-focus: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "accessibility-focus: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "accessibility-focus: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "accessibility-focus: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "storage-legacy-tutorial: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "storage-legacy-tutorial: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "storage-legacy-tutorial: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "storage-legacy-tutorial: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "storage-quiz-motor: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "storage-quiz-motor: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "storage-quiz-motor: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "storage-quiz-motor: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "storage-rating-pages: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "storage-rating-pages: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "storage-rating-pages: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "storage-rating-pages: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "storage-stimulus-version: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "storage-stimulus-version: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "storage-stimulus-version: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "storage-stimulus-version: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "storage-review-clocks: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "storage-review-clocks: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "storage-review-clocks: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "storage-review-clocks: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "storage-record-contract: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "storage-record-contract: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "storage-record-contract: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "storage-record-contract: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "storage-life-cycle: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "storage-life-cycle: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "storage-life-cycle: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "storage-life-cycle: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "storage-delivery-contract: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "storage-delivery-contract: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "storage-delivery-contract: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "storage-delivery-contract: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "lab-consent-success: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "lab-consent-success: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "lab-consent-success: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "lab-consent-success: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "lab-consent-failure: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "lab-consent-failure: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "lab-consent-failure: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "lab-consent-failure: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "lab-tutorial-resume: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "lab-tutorial-resume: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "lab-tutorial-resume: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "lab-tutorial-resume: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "lab-rating-resume: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "lab-rating-resume: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "lab-rating-resume: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "lab-rating-resume: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "lab-multi-tab: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "lab-multi-tab: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "lab-multi-tab: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "lab-multi-tab: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "lab-delivery-retry: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "lab-delivery-retry: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "lab-delivery-retry: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "lab-delivery-retry: pending button changes current record",
-      "passed": true
-    },
-    {
-      "name": "lab-reset-scope: passed button changes current record",
-      "passed": true
-    },
-    {
-      "name": "lab-reset-scope: issue button changes current record",
-      "passed": true
-    },
-    {
-      "name": "lab-reset-scope: hold button changes current record",
-      "passed": true
-    },
-    {
-      "name": "lab-reset-scope: pending button changes current record",
+      "name": "ios-copy: pending button changes current record",
       "passed": true
     },
     {
@@ -1635,75 +434,19 @@
       "passed": true
     },
     {
-      "name": "#groupFilter 準備: nonempty matching subset",
+      "name": "#groupFilter 表示・指操作: nonempty matching subset",
       "passed": true
     },
     {
-      "name": "#groupFilter 全領域タッチ: nonempty matching subset",
+      "name": "#groupFilter 入力・端末の表示: nonempty matching subset",
       "passed": true
     },
     {
-      "name": "#groupFilter 導入: nonempty matching subset",
+      "name": "#groupFilter Safari・OSからの復帰: nonempty matching subset",
       "passed": true
     },
     {
-      "name": "#groupFilter 進行補助: nonempty matching subset",
-      "passed": true
-    },
-    {
-      "name": "#groupFilter 評定: nonempty matching subset",
-      "passed": true
-    },
-    {
-      "name": "#groupFilter 操作: nonempty matching subset",
-      "passed": true
-    },
-    {
-      "name": "#groupFilter 回答: nonempty matching subset",
-      "passed": true
-    },
-    {
-      "name": "#groupFilter ルール: nonempty matching subset",
-      "passed": true
-    },
-    {
-      "name": "#groupFilter 計測: nonempty matching subset",
-      "passed": true
-    },
-    {
-      "name": "#groupFilter 復元: nonempty matching subset",
-      "passed": true
-    },
-    {
-      "name": "#groupFilter 練習: nonempty matching subset",
-      "passed": true
-    },
-    {
-      "name": "#groupFilter 保存: nonempty matching subset",
-      "passed": true
-    },
-    {
-      "name": "#groupFilter 確認環境: nonempty matching subset",
-      "passed": true
-    },
-    {
-      "name": "#groupFilter タッチ: nonempty matching subset",
-      "passed": true
-    },
-    {
-      "name": "#groupFilter 本番UI: nonempty matching subset",
-      "passed": true
-    },
-    {
-      "name": "#groupFilter 周辺UI: nonempty matching subset",
-      "passed": true
-    },
-    {
-      "name": "#groupFilter 保存・再開の別検証: nonempty matching subset",
-      "passed": true
-    },
-    {
-      "name": "#groupFilter 同意・保存・再開の実機確認: nonempty matching subset",
+      "name": "#groupFilter Safariの保存・コピー: nonempty matching subset",
       "passed": true
     },
     {
@@ -1712,14 +455,6 @@
     },
     {
       "name": "#modeFilter lab: nonempty matching subset",
-      "passed": true
-    },
-    {
-      "name": "#modeFilter synthetic: nonempty matching subset",
-      "passed": true
-    },
-    {
-      "name": "#modeFilter reference: nonempty matching subset",
       "passed": true
     },
     {
@@ -1740,6 +475,10 @@
     },
     {
       "name": "API JSON export matches selected record",
+      "passed": true
+    },
+    {
+      "name": "export includes titles for all active and archived IDs",
       "passed": true
     },
     {
@@ -1807,7 +546,7 @@
       "passed": true
     },
     {
-      "name": "375: all data items have cards",
+      "name": "375: exactly the 14 physical checks have cards",
       "passed": true
     },
     {
@@ -1819,7 +558,23 @@
       "passed": true
     },
     {
-      "name": "375: every participant-app preview is go/debug/upload=0",
+      "name": "375: all legacy IDs are accepted for archiving but not active",
+      "passed": true
+    },
+    {
+      "name": "375: only preview and lab modes are offered",
+      "passed": true
+    },
+    {
+      "name": "375: environment kind is retained invisibly for legacy records",
+      "passed": true
+    },
+    {
+      "name": "375: instructions scope the work to iPhone Safari",
+      "passed": true
+    },
+    {
+      "name": "375: every participant-app preview uses implemented GO/debug/upload=0/mic=0",
       "passed": true,
       "detail": []
     },
@@ -1833,19 +588,7 @@
       "passed": true
     },
     {
-      "name": "live preview has no upload: ?go=tut&gstep=layout-stem&block=moral&debug=1&upload=0&mic=0",
-      "passed": true
-    },
-    {
-      "name": "live preview has no upload: ?go=tut&block=moral&debug=1&upload=0&mic=0",
-      "passed": true
-    },
-    {
-      "name": "live preview has no upload: ?go=tut&gstep=layout-intro&block=moral&debug=1&upload=0&mic=0",
-      "passed": true
-    },
-    {
-      "name": "live preview has no upload: ?go=rating&block=moral&debug=1&upload=0&mic=0",
+      "name": "live preview has no upload: ?go=tut&gstep=motor-range&block=moral&debug=1&upload=0&mic=0",
       "passed": true
     },
     {
@@ -1853,47 +596,7 @@
       "passed": true
     },
     {
-      "name": "live preview has no upload: ?go=notice&block=moral&debug=1&upload=0&mic=0",
-      "passed": true
-    },
-    {
-      "name": "live preview has no upload: ?go=break&block=moral&debug=1&upload=0&mic=0",
-      "passed": true
-    },
-    {
-      "name": "live preview has no upload: ?go=instructed&block=moral&debug=1&upload=0&mic=0",
-      "passed": true
-    },
-    {
-      "name": "live preview has no upload: ?go=post&block=moral&debug=1&upload=0&mic=0",
-      "passed": true
-    },
-    {
-      "name": "live preview has no upload: ?go=sending&block=moral&debug=1&upload=0&mic=0",
-      "passed": true
-    },
-    {
-      "name": "live preview has no upload: ?go=done&block=moral&debug=1&upload=0&mic=0",
-      "passed": true
-    },
-    {
-      "name": "live preview has no upload: ?go=tut&gstep=rule-check&block=moral&debug=1&upload=0&mic=0",
-      "passed": true
-    },
-    {
-      "name": "live preview has no upload: ?go=tut&gstep=motor&block=moral&debug=1&upload=0&mic=0",
-      "passed": true
-    },
-    {
-      "name": "live preview has no upload: ?go=task&block=moral&debug=1&upload=0&mic=0",
-      "passed": true
-    },
-    {
-      "name": "live preview has no upload: ?go=post&stop=1&block=moral&debug=1&upload=0&mic=0",
-      "passed": true
-    },
-    {
-      "name": "live preview has no upload: ?go=tut&gstep=motor-range&block=moral&debug=1&upload=0&mic=0",
+      "name": "live preview has no upload: ?go=notice&notice=early_late&block=moral&debug=1&upload=0&mic=0",
       "passed": true
     },
     {
@@ -1901,55 +604,23 @@
       "passed": true
     },
     {
-      "name": "live preview has no upload: ?go=tut&gstep=layout-choice&block=moral&debug=1&upload=0&mic=0",
+      "name": "live preview has no upload: ?go=rating&block=moral&debug=1&upload=0&mic=0",
       "passed": true
     },
     {
-      "name": "live preview has no upload: ?go=exampleintro&block=moral&debug=1&upload=0&mic=0",
+      "name": "live preview has no upload: ?go=tut&gstep=motor&block=moral&debug=1&upload=0&mic=0",
       "passed": true
     },
     {
-      "name": "live preview has no upload: ?go=rtut&rtstep=0&block=moral&debug=1&upload=0&mic=0",
+      "name": "live preview has no upload: ?go=post&stop=1&block=moral&debug=1&upload=0&mic=0",
       "passed": true
     },
     {
-      "name": "live preview has no upload: ?go=tut&gstep=start-rule&block=moral&debug=1&upload=0&mic=0",
+      "name": "live preview has no upload: ?go=task&block=moral&debug=1&upload=0&mic=0",
       "passed": true
     },
     {
-      "name": "live preview has no upload: ?go=tut&gstep=movement-reason&block=moral&debug=1&upload=0&mic=0",
-      "passed": true
-    },
-    {
-      "name": "live preview has no upload: ?go=tut&gstep=motor-route&block=moral&debug=1&upload=0&mic=0",
-      "passed": true
-    },
-    {
-      "name": "live preview has no upload: ?go=tut&gstep=time-rule&block=moral&debug=1&upload=0&mic=0",
-      "passed": true
-    },
-    {
-      "name": "live preview has no upload: ?go=tut&gstep=answer-pace&block=moral&debug=1&upload=0&mic=0",
-      "passed": true
-    },
-    {
-      "name": "live preview has no upload: ?go=rtut&rtstep=1&block=moral&debug=1&upload=0&mic=0",
-      "passed": true
-    },
-    {
-      "name": "live preview has no upload: ?go=rtut&rtstep=3&block=moral&debug=1&upload=0&mic=0",
-      "passed": true
-    },
-    {
-      "name": "live preview has no upload: ?go=rtut&rtstep=4&block=moral&debug=1&upload=0&mic=0",
-      "passed": true
-    },
-    {
-      "name": "live preview has no upload: ?go=tut&gstep=rule-check&stop=1&block=moral&debug=1&upload=0&mic=0",
-      "passed": true
-    },
-    {
-      "name": "live preview has no upload: ?go=rating&stop=1&block=moral&debug=1&upload=0&mic=0",
+      "name": "live preview has no upload: ?go=done&block=moral&debug=1&upload=0&mic=0",
       "passed": true
     },
     {
@@ -2031,23 +702,131 @@
       "passed": true
     },
     {
-      "name": "legacy fixture represents the 72 checks before the seven lab checks were added",
+      "name": "legacy 72: existing localStorage key is reused",
       "passed": true
     },
     {
-      "name": "pre-lab record imports without losing the existing browser record",
+      "name": "legacy 72: opening old storage never rewrites the original bytes",
       "passed": true
     },
     {
-      "name": "pre-lab record keeps every old status, note and environment",
+      "name": "legacy 72: every old status/note/environment remains intact",
       "passed": true
     },
     {
-      "name": "seven newly added lab checks remain unverified after importing an old record",
+      "name": "legacy 72: old checks are absent from cards and progress denominator",
       "passed": true
     },
     {
-      "name": "old imported record and pending new lab checks survive reload",
+      "name": "legacy 72: all new physical checks remain pending",
+      "passed": true
+    },
+    {
+      "name": "legacy 72: archive notice explains the preserved count",
+      "passed": true
+    },
+    {
+      "name": "legacy 72: archived notes are excluded from active search",
+      "passed": true
+    },
+    {
+      "name": "legacy 72: archived passed results do not appear in the passed filter",
+      "passed": true
+    },
+    {
+      "name": "legacy 72: export preserves all old result fields with titles",
+      "passed": true
+    },
+    {
+      "name": "legacy 72: archived text cannot execute HTML",
+      "passed": true
+    },
+    {
+      "name": "legacy 72: reload retains archived results without promoting new checks",
+      "passed": true
+    },
+    {
+      "name": "legacy 72: checking a physical item leaves every archived field intact",
+      "passed": true
+    },
+    {
+      "name": "legacy 72: new record never copies old results",
+      "passed": true
+    },
+    {
+      "name": "legacy 72: old JSON imports as a separate record without loss",
+      "passed": true
+    },
+    {
+      "name": "legacy 72: JSON import leaves all physical checks pending",
+      "passed": true
+    },
+    {
+      "name": "legacy 72: imported archived results survive reload",
+      "passed": true
+    },
+    {
+      "name": "legacy 79: existing localStorage key is reused",
+      "passed": true
+    },
+    {
+      "name": "legacy 79: opening old storage never rewrites the original bytes",
+      "passed": true
+    },
+    {
+      "name": "legacy 79: every old status/note/environment remains intact",
+      "passed": true
+    },
+    {
+      "name": "legacy 79: old checks are absent from cards and progress denominator",
+      "passed": true
+    },
+    {
+      "name": "legacy 79: all new physical checks remain pending",
+      "passed": true
+    },
+    {
+      "name": "legacy 79: archive notice explains the preserved count",
+      "passed": true
+    },
+    {
+      "name": "legacy 79: archived notes are excluded from active search",
+      "passed": true
+    },
+    {
+      "name": "legacy 79: archived passed results do not appear in the passed filter",
+      "passed": true
+    },
+    {
+      "name": "legacy 79: export preserves all old result fields with titles",
+      "passed": true
+    },
+    {
+      "name": "legacy 79: archived text cannot execute HTML",
+      "passed": true
+    },
+    {
+      "name": "legacy 79: reload retains archived results without promoting new checks",
+      "passed": true
+    },
+    {
+      "name": "legacy 79: checking a physical item leaves every archived field intact",
+      "passed": true
+    },
+    {
+      "name": "legacy 79: new record never copies old results",
+      "passed": true
+    },
+    {
+      "name": "legacy 79: old JSON imports as a separate record without loss",
+      "passed": true
+    },
+    {
+      "name": "legacy 79: JSON import leaves all physical checks pending",
+      "passed": true
+    },
+    {
+      "name": "legacy 79: imported archived results survive reload",
       "passed": true
     },
     {
@@ -2112,16 +891,16 @@
   "errors": [],
   "unexpectedRequests": [],
   "source": {
-    "checklist.html": "49cebcace51b10e8c97d9e88aa53d8ef249d797d69650689217e6787e4516313",
-    "checklist.js": "7cea6f00f602ecd73cf3e939b15773e4075f9eca81e4622906419317e8fb88e2",
-    "checklist.css": "0bc23551f28cf178db1ef355a4aba9f917074dad5069620e9225c0b36fc75288",
-    "device-checks-data.js": "b67a7e249062a6487ab24b304c010916e479e3be6e6d0018e1629f40081737ce"
+    "checklist.html": "fe2eb630032f012778e8641f6f5fa1db39146fecf1960a4a88e22d48483d6564",
+    "checklist.js": "062ca5545b8326e718d3c4ec27ef9c1291a597e95b9165bd6feba9692bee129f",
+    "checklist.css": "9c7e52d9effc4208f4aa9351d66c6dfb81d42bfe724040d25cd8cac260219ad5",
+    "device-checks-data.js": "2a36c9e426d5728792266430006c6f933fb55d1c8a5d88a050a9b6ddb101a5af"
   },
   "sourceBefore": {
-    "checklist.html": "49cebcace51b10e8c97d9e88aa53d8ef249d797d69650689217e6787e4516313",
-    "checklist.js": "7cea6f00f602ecd73cf3e939b15773e4075f9eca81e4622906419317e8fb88e2",
-    "checklist.css": "0bc23551f28cf178db1ef355a4aba9f917074dad5069620e9225c0b36fc75288",
-    "device-checks-data.js": "b67a7e249062a6487ab24b304c010916e479e3be6e6d0018e1629f40081737ce"
+    "checklist.html": "fe2eb630032f012778e8641f6f5fa1db39146fecf1960a4a88e22d48483d6564",
+    "checklist.js": "062ca5545b8326e718d3c4ec27ef9c1291a597e95b9165bd6feba9692bee129f",
+    "checklist.css": "9c7e52d9effc4208f4aa9351d66c6dfb81d42bfe724040d25cd8cac260219ad5",
+    "device-checks-data.js": "2a36c9e426d5728792266430006c6f933fb55d1c8a5d88a050a9b6ddb101a5af"
   },
   "appAssetsBefore": {
     "index.html": "0bfe6ce03394e80037fef067059c20c14a9d1ea31eb86dfb4394c0206d9d1357",
@@ -2189,7 +968,7 @@
   ],
   "passed": true,
   "totals": {
-    "passed": 504,
+    "passed": 206,
     "failed": 0
   }
 }
