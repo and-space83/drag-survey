@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-10-15T02:27:11.652Z",
+  "checkedAt": "2026-10-15T12:01:15.266Z",
   "version": "2026-10-15-ui20",
   "baseUrl": "https://and-space83.github.io/drag-survey/pilot-anchor/",
   "normalUrls": true,
@@ -7,29 +7,29 @@
     {
       "file": "index.html",
       "status": 200,
-      "expectedSha256LF": "0bfe6ce03394e80037fef067059c20c14a9d1ea31eb86dfb4394c0206d9d1357",
-      "actualSha256LF": "0bfe6ce03394e80037fef067059c20c14a9d1ea31eb86dfb4394c0206d9d1357",
+      "expectedSha256LF": "c96a13a2117f895945f6cc295121143e8bbeecac6df0cf308a77d747a670d735",
+      "actualSha256LF": "c96a13a2117f895945f6cc295121143e8bbeecac6df0cf308a77d747a670d735",
       "match": true
     },
     {
       "file": "app.css",
       "status": 200,
-      "expectedSha256LF": "dc355b1f2426a7f7ad5f73e480154798279a6e35fbb7846c9661328cac1b3e89",
-      "actualSha256LF": "dc355b1f2426a7f7ad5f73e480154798279a6e35fbb7846c9661328cac1b3e89",
+      "expectedSha256LF": "2a55dac2607fe78a57674b1b4e61551dbc40e782a2fff6238b26f21efcb28e27",
+      "actualSha256LF": "2a55dac2607fe78a57674b1b4e61551dbc40e782a2fff6238b26f21efcb28e27",
       "match": true
     },
     {
       "file": "guided-tutorial.js",
       "status": 200,
-      "expectedSha256LF": "cd252e516fb4d4dfca1a1c14683df9a7da3de6aa38e679766285bc4aac3b9e28",
-      "actualSha256LF": "cd252e516fb4d4dfca1a1c14683df9a7da3de6aa38e679766285bc4aac3b9e28",
+      "expectedSha256LF": "ddc7896e7c8777584cb9c379501979877ecb1568225b46649959a1ed501a07f5",
+      "actualSha256LF": "ddc7896e7c8777584cb9c379501979877ecb1568225b46649959a1ed501a07f5",
       "match": true
     },
     {
       "file": "guided-tutorial.css",
       "status": 200,
-      "expectedSha256LF": "d73d3e7373a4602e5258bacbbdbcaad73a00f49ee638094430fe29cb14b146b7",
-      "actualSha256LF": "d73d3e7373a4602e5258bacbbdbcaad73a00f49ee638094430fe29cb14b146b7",
+      "expectedSha256LF": "54e56698da645dfdd4dc425ec3a127d6c7751987f369e058692c93b7c1918853",
+      "actualSha256LF": "54e56698da645dfdd4dc425ec3a127d6c7751987f369e058692c93b7c1918853",
       "match": true
     },
     {

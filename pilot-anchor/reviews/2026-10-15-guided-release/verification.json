@@ -208,6 +208,8 @@
         "sha": "ad329583db32d083c1c46e4a2ca71cca24776051",
         "message": "横向きを縮小表示と区別し縦向き案内を優先"
       }
-    ]
+    ],
+    "publication": "../2026-10-15-stem-and-hints/publication.json",
+    "sitePublication": "device-lab-publication.json"
   }
 }
