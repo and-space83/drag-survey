@@ -1,0 +1,25 @@
+#consent .pad { height:100%; max-width:680px; display:flex; flex-direction:column; box-sizing:border-box; padding-top:12px; padding-bottom:max(12px, env(safe-area-inset-bottom)); gap:8px; overflow:hidden; }
+#consent .pad::before, #consent .pad::after { content:none; }
+#consent h1 { margin:0; font-size:1.25em; }
+#consent p { margin:0; }
+#consent, #consent .pad, #consentDocument, #consentChoice, #consent-save, #consent-save .pad { touch-action:manipulation; }
+#consentDocument { flex:1 1 0; min-height:100px; overflow-y:auto; overscroll-behavior:contain; -webkit-overflow-scrolling:touch; border:2px solid #9aa6af; border-radius:8px; padding:14px; background:#fff; color:#17242d; line-height:1.65; }
+#consentDocument h2 { font-size:1.08em; line-height:1.5; margin:1.1em 0 .4em; }
+#consentDocument h2:first-child { margin-top:0; }
+#consentDocument p { margin:0 0 .65em; }
+#consentChoice { display:flex; align-items:flex-start; gap:9px; line-height:1.45; }
+#consentCheck { flex:0 0 23px; width:23px; height:23px; margin-top:3px; accent-color:#19764b; }
+#consentStatus { font-size:.88em; min-height:1.4em; color:#334155; }
+#consentGo { flex-shrink:0; width:100%; font-size:1em; padding:12px 8px; }
+#consent .consent-actions { display:flex; justify-content:space-between; gap:8px; }
+#consent .consent-actions button { font-size:.82em; padding:7px; }
+#consentBack[hidden] { display:none; }
+#consentIdentity { font-size:.88em; overflow-wrap:anywhere; }
+#consentDeclined { position:fixed; inset:0; background:#fff; color:#17242d; z-index:15000; padding:32px; }
+#consent-save .pad { width:100%; max-width:560px; margin:0 auto; align-items:center; text-align:center; }
+#consent-save h1 { max-width:100%; }
+#consentSaveStatus { display:flex; flex-direction:column; align-items:center; gap:20px; max-width:100%; }
+#consentSaveStatus p { margin:0; line-height:1.8; }
+#consent-save .spin { flex:0 0 auto; width:40px; height:40px; border-radius:50%; border:4px solid var(--line); border-top-color:var(--go); animation:spin .9s linear infinite; }
+@media (prefers-reduced-motion:reduce) { #consent-save .spin { animation:none; } }
+@media (max-height:620px) { #consent .pad { gap:5px; padding-top:7px; } #consent h1 { font-size:1.1em; } #consentChoice { font-size:.9em; } #consentGo { padding:9px 5px; } }

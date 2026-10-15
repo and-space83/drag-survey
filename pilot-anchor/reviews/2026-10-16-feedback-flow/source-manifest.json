@@ -1,0 +1,21 @@
+{
+  "capturedAt": "2026-10-15T16:40:34.536Z",
+  "appVersion": "2026-10-15-ui20",
+  "scope": "Current production source frozen for a disposable UI comparison. app/index.html is unmodified; preview.html/runtime contain explicitly isolated fixtures and presentation overrides.",
+  "source": {
+    "index.html": "e3e2aedaccaae98893e400d7e727ea2496884c6df2163f94edeb648079015777",
+    "app.css": "2a55dac2607fe78a57674b1b4e61551dbc40e782a2fff6238b26f21efcb28e27",
+    "guided-tutorial.js": "231ce70f1a01fa178e43616db65c691e7fe0317853762d81a4a7e82e88871c26",
+    "guided-tutorial.css": "54e56698da645dfdd4dc425ec3a127d6c7751987f369e058692c93b7c1918853",
+    "bank.js": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
+    "session-store.js": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+    "durable-storage.js": "84d006f048e2cc16c4a7a7087ec5815485c0b3a7d2ffa4ce6b7b62905dde967b",
+    "storage-worker.js": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
+    "staged-delivery.js": "7f37d628ce04dc47233b16387d43add674608d278030dd17355621745ab9f7ad",
+    "consent.js": "6dae132f66dc20526ae6e79c59c6ff12049a75a1b11161b6815bfa1339a14bd9",
+    "consent.css": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
+    "data-codec.js": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+    "vendor/pako.min.js": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+    "vendor/pako-LICENSE": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539"
+  }
+}

@@ -1,0 +1,67 @@
+/* 説明だけを新しくする。課題の問題文・選択肢・スタートの寸法はapp.cssを使う。 */
+#tutBackdrop,#tutGraphic,#tutSingleTarget,#tutPosition{display:none}
+body.guided-tutorial #tutBackdrop{position:fixed;inset:0;z-index:30;background:var(--bg);pointer-events:none;display:none}
+body.guided-tutorial.guided-instruction #tutBackdrop,body.guided-tutorial.guided-range #tutBackdrop,body.guided-tutorial.guided-time #tutBackdrop,body.guided-tutorial.guided-quiz #tutBackdrop{display:block}
+body.guided-tutorial #tutPop{width:min(86%,540px);max-width:none;padding:18px 20px;background:#fff;border:1px solid #dce8df;border-radius:18px;box-shadow:0 8px 35px -24px #284431;color:var(--ink);transform:none;transition:none;pointer-events:none;box-sizing:border-box}
+body.guided-tutorial #tutPop.hidden{display:none}
+body.guided-tutorial #tutPop.on{opacity:1;transform:none}
+body.guided-tutorial #tutPopStep{font-size:12px;color:#577062;line-height:1.5;margin:0 0 10px}
+body.guided-tutorial #tutPopTitle{font-size:23px;line-height:1.35;margin:0 0 12px;color:#203b30;font-weight:700;text-wrap:balance}
+body.guided-tutorial #tutPopTxt{font-size:16px;line-height:1.6;white-space:pre-line;font-weight:400;margin:0;color:#40584c}
+body.guided-tutorial #tutExtra{font-size:15px;line-height:1.5;white-space:pre-line;color:#12855a;font-weight:700;margin:7px 0 0}
+body.guided-tutorial .guided-meta{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-top:12px}
+body.guided-tutorial #tutPopOp{font-size:12px;line-height:1.5;color:#237450;font-weight:600;margin:0}
+body.guided-tutorial #tutPopDots{margin:0;display:flex;gap:5px;flex-shrink:0}
+body.guided-tutorial #tutPopDots i{width:6px;height:6px;margin:0;border-radius:50%;background:#d9e5dc}
+body.guided-tutorial #tutPopDots i.a{background:#12855a}
+body.guided-tutorial #tutBtnRow{z-index:42;bottom:auto;gap:10px}
+body.guided-tutorial #tutBtnRow button{font-size:16px;line-height:1.3;padding:12px 14px;min-height:52px;box-sizing:border-box}
+body.guided-tutorial #tutBtnRow .pv{flex:0 0 27%;background:#fff;color:#577062;border:1px solid #cad8cf}
+body.guided-tutorial #tutBtnRow .nx{background:#12855a;border-radius:14px}
+body.guided-tutorial #tutBtnRow .nx:disabled{opacity:.4;pointer-events:none}
+body.guided-tutorial #tutHint{position:fixed;left:50%;top:auto;z-index:43;transform:translate(-50%,-50%);width:max-content;max-width:92%;font-size:var(--hint-fs);line-height:1.5;white-space:pre-line;text-align:center;pointer-events:none}
+body.guided-tutorial #tutHint.ng{color:var(--err);border:0;background:none;padding:0}
+body.guided-tutorial #tutSingleTarget{position:absolute;left:32%;width:36%;height:12%;top:34%;border:2px solid var(--go);border-radius:14px;background:rgba(18,133,90,.07);font-size:4.1vmin;font-weight:600;color:var(--ink);align-items:center;justify-content:center;box-sizing:border-box;pointer-events:none}
+body.guided-tutorial.guided-motor #tutSingleTarget{display:flex}
+body.guided-tutorial #tutSingleTarget.arrived{background:rgba(18,133,90,.2);box-shadow:0 0 0 4px rgba(18,133,90,.2)}
+body.guided-tutorial #tutPosition{position:absolute;width:48px;height:48px;border:3px solid var(--accent);background:rgba(22,104,196,.04);border-radius:50%;transform:translate(-50%,-50%);z-index:7;box-sizing:border-box;pointer-events:none}
+body.guided-tutorial #tutPosition::after{content:'';position:absolute;width:4px;height:4px;left:19px;top:19px;border-radius:50%;background:var(--accent)}
+body.guided-tutorial #tutDemo{z-index:5;pointer-events:none}
+body.guided-tutorial #tutInk{display:none}
+body.guided-tutorial .guided-dim{opacity:.2}
+body.guided-tutorial .guided-focus{opacity:1;animation:guidedRoleGlow 2.8s ease-in-out infinite}
+@keyframes guidedRoleGlow{0%,100%{box-shadow:0 0 0 4px rgba(18,133,90,.17)}50%{box-shadow:0 0 0 9px rgba(18,133,90,.32)}}
+body.guided-tutorial #tutGraphic{position:fixed;z-index:41;left:7%;width:86%;pointer-events:none}
+body.guided-tutorial #tutGraphic[hidden]{display:none!important}
+body.guided-tutorial #tutRangeFigure{position:relative;width:100%;height:calc(var(--range-target-height,39vmin) + 88px)}
+body.guided-tutorial #tutRangeTarget{position:absolute;left:50%;transform:translateX(-50%);top:0;width:var(--range-target-width,60vmin);height:var(--range-target-height,39vmin);border:3px solid #12855a;border-radius:21px;background:rgba(18,133,90,.16);display:flex;align-items:center;justify-content:center;font-size:6.3vmin;font-weight:700;box-sizing:border-box}
+body.guided-tutorial #tutRangeTarget.arrived{box-shadow:0 0 0 5px rgba(18,133,90,.18);background:rgba(18,133,90,.23)}
+body.guided-tutorial #tutRangeEntry{position:absolute;top:calc(var(--range-target-height,39vmin) + 8px);left:calc(50% - 4px);width:8px;height:8px;opacity:0}
+body.guided-tutorial #tutRangeInk{position:absolute;inset:0;pointer-events:none}
+body.guided-tutorial .guided-range-caption{font-size:13px;line-height:1.5;color:#237450;text-align:center;font-weight:700;margin:0 0 8px}
+body.guided-tutorial #tutQuiz{display:flex;flex-direction:column;gap:10px;margin-top:16px;pointer-events:auto}
+body.guided-tutorial #tutQuiz:empty{display:none}
+body.guided-tutorial #tutQuiz button{font-family:inherit;text-align:left;padding:12px 14px;border:1px solid #cedcd2;border-radius:14px;background:#fff;font-size:15px;line-height:1.5;color:#314e3d;min-height:52px;cursor:pointer;white-space:pre-line}
+body.guided-tutorial #tutQuiz button.selected{border-color:#12855a;background:#eaf4ed}
+body.guided-tutorial #tutQuizFeedback{font-size:14px;line-height:1.5;color:#237450;white-space:pre-line;margin:13px 0 0}
+body.guided-tutorial #tutQuizFeedback.wrong{color:#94482a}
+body.guided-tutorial #tutQuizFeedback:empty{display:none}
+body.stop-open #tutBackdrop,body.stop-open #tutGraphic,body.stop-open #tutPosition{display:none!important}
+@media(max-height:640px){body.guided-tutorial #tutPop{padding:12px 15px}body.guided-tutorial #tutPopTitle{font-size:21px;line-height:1.3;margin-bottom:9px}body.guided-tutorial #tutPopStep{margin-bottom:7px}body.guided-tutorial #tutPopTxt{font-size:15px;line-height:1.5}body.guided-tutorial .guided-meta{margin-top:9px}body.guided-tutorial #tutExtra{font-size:14px}body.guided-tutorial #tutQuiz{gap:8px;margin-top:12px}body.guided-tutorial #tutQuiz button{font-size:14px;padding:9px 11px;min-height:46px}body.guided-tutorial #tutQuizFeedback{font-size:13px;margin-top:10px}}
+@media(prefers-reduced-motion:reduce){body.guided-tutorial .guided-focus{animation:none}}
+
+/* 初動説明の図だけに適用。本番のスタートボタンの寸法・座標は扱わない。 */
+.start-exit-demo{width:100%;max-width:360px;aspect-ratio:200/180;max-height:var(--time-demo-max-height,none);margin:0 auto;line-height:1}
+.start-exit-demo .start-exit-svg{display:block;width:100%;height:100%;overflow:visible;font-family:'Segoe UI','Meiryo UI',Meiryo,sans-serif;pointer-events:none}
+.start-exit-demo .start-exit-interval{fill:#237450;font-size:15px;font-weight:700}
+.start-exit-demo .start-exit-button{fill:rgba(184,83,26,.07);stroke:#b8531a;stroke-width:2}
+.start-exit-demo .start-exit-button.armed{fill:rgba(18,133,90,.10);stroke:#12855a}
+.start-exit-demo .start-exit-button-text{fill:#b8531a;font-size:17px;font-weight:700}
+.start-exit-demo .start-exit-button-text.armed{fill:#12855a}
+.start-exit-demo .start-exit-border-glow{fill:none;stroke:#12855a;stroke-width:5;opacity:0}
+.start-exit-demo .start-exit-ring{fill:rgba(184,83,26,.04);stroke:#b8531a;stroke-width:2}
+.start-exit-demo .start-exit-ring.outside{fill:rgba(18,133,90,.05);stroke:#12855a}
+.start-exit-demo .start-exit-finger{fill:#f4d7b8;stroke:#5b3a1e;stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round}
+.start-exit-demo .start-exit-nail{fill:#fbece0;stroke-width:1.2}
+.start-exit-demo .start-exit-ghost{fill:#f4d7b8;stroke:#5b3a1e;stroke-width:1.8}
+.start-exit-demo .start-exit-label,.start-exit-demo .start-exit-touch-label{fill:#12855a;font-size:13px;font-weight:700;opacity:0}
