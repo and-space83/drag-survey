@@ -159,6 +159,13 @@
   #ratingProgress { top: max(5%, calc(max(9px, env(safe-area-inset-top)) + max(24px, calc(24px * var(--ui-scale))))); }
   #surface { position: absolute; inset: 0; touch-action: none; }
   #trace { position: absolute; top: 0; left: 0; pointer-events: none; z-index: 1; }
+  .guided-intro-card { position: absolute; left: 16px; right: 16px; top: 32%; padding: 20px;
+    border: 1px solid #c9dbd1; border-radius: 16px; background: #fff; box-shadow: 0 5px 22px #183d2810; }
+  .guided-intro-card h1 { font-size: 23px; line-height: 1.35; margin: 0 0 14px; }
+  .guided-intro-card p { font-size: 16px; line-height: 1.6; margin: 0 0 14px; }
+  .guided-intro-card .guided-intro-op { color: var(--go); font-weight: 700; margin-bottom: 0; }
+  #guidedIntroGo { position: absolute; left: 16px; right: 16px; top: calc(88% - 8vmin - 28px); }
+  #guidedIntroGo.flash { animation: btnNudge .5s ease-in-out; }
   /* 設問ステム (文字2択ブロックで上部中央に固定。数値ブロックでは空=非表示)。
      topbar(5%) と選択肢(--choice-top=27%) の間に収める。 */
   #stem { position: absolute; top: 6%; left: 5%; right: 5%; height: 19%;
@@ -511,6 +518,62 @@
   body.tut-review #stopBtn { top: max(8px, env(safe-area-inset-top)); right: auto; left: max(12px, env(safe-area-inset-left)); }
   /* 案内画面の理由 (太字+色) */
   #noticeText .why { color: var(--warn); }
+  /* 回答の振り返りの説明だけをカード化。通常の本番・練習評定の倍率や配置は変更しない。 */
+  #rating.tut-front { --ui-scale: 1; }
+  #rating.tut-front .qwrap { padding: 20px 18px 20px; }
+  #rating.tut-front .qwrap > * { flex-shrink: 0; }
+  #rating.tut-front #ratingHead { display: none; }
+  #rating.tut-front #ratPop { position: relative; top: auto; left: auto; transform: none; width: 100%; max-width: none;
+    opacity: 1; pointer-events: auto; padding: 12px 14px; margin: 0 0 16px; border: 1px solid #dce8df;
+    border-radius: 18px; background: #fff; box-shadow: 0 8px 35px -24px #284431; transition: none; }
+  #rating.tut-front #tutStepLabel { color: #667d6e; font-size: 12px; line-height: 1.5; letter-spacing: 0; margin-bottom: 6px; }
+  #rating.tut-front #ratTutTitle { color: #203b30; font-size: 23px; line-height: 1.35; margin: 0 0 8px; }
+  #rating.tut-front #ratTutText { color: #40584c; font-size: 16px; line-height: 1.5; white-space: pre-line; text-wrap: pretty; }
+  #rating.tut-front .rat-card-meta { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 9px; }
+  #rating.tut-front #ratPopOp { margin: 0; color: #237450; font-size: 12px; line-height: 1.5; }
+  #rating.tut-front #ratPopDots { display: flex; flex-shrink: 0; gap: 5px; }
+  #rating.tut-front #ratPopDots i.a { background: var(--go); }
+  #rating.tut-front .qitem { margin-bottom: 10px; }
+  #rating.tut-front .qi-text { font-size: 16px; line-height: 1.4; margin-bottom: 8px; }
+  #rating.tut-front .likert { gap: 6px; }
+  #rating.tut-front .likert button { font-size: 17px; line-height: 1.3; padding: 8px 12px; }
+  #rating.tut-front .likert button b { font-size: 20px; }
+  #rating.tut-front .likert.tut-cue button { border-color: #77ad91; animation: ratingTutorialGlow 2.8s ease-in-out infinite; }
+  #rating.tut-front #ratingAnswer { font-size: 16px; line-height: 1.4; margin: 0 0 10px; }
+  #rating.tut-front #ratingAnswer b { font-size: 18px; }
+  #rating.tut-front #ratingBackNote { font-size: 12px; line-height: 1.5; white-space: nowrap; margin: 0 0 5px; color: #577062; }
+  #ratingBackNote[hidden] { display: none; }
+  #rating.tut-front #ratBtnRow { width: 100%; max-width: none; margin: 0; display: flex; gap: 10px; align-items: stretch; }
+  #rating.tut-front #ratBtnRow .btn { min-width: 0; flex: 1; font-size: var(--nav-fs); padding: var(--nav-pad); }
+  #rating.tut-front #ratBtnRow #ratingTutPrev { flex: 0 0 32%; }
+  #rating.tut-front #ratingTutPrev[hidden] { display: none; }
+  #rating.tut-front.rat-static #ratingItems, #rating.tut-front.rat-static #ratingAnswer { display: none; }
+  #rating.tut-front.rat-static #ratBtnRow { position: absolute; left: 6%; bottom: max(6%, env(safe-area-inset-bottom)); width: 88%; }
+  #rating.tut-front.rat-static #ratPop { padding: 20px 22px; }
+  #rating.tut-front.rat-static #ratTutText { line-height: 1.65; }
+  #rating.tut-front.rat-static #ratTutTitle { margin-bottom: 14px; }
+  #rating.tut-front #ratingNext.cue, #rating.tut-front #ratingSubmit.cue { animation: ratBtnCue 1.2s ease-in-out infinite; }
+  @keyframes ratingTutorialGlow { 0%,100% { box-shadow: 0 0 0 0 rgba(18,133,90,0); } 50% { box-shadow: 0 0 0 3px rgba(18,133,90,.18); } }
+  @media (max-height: 640px) {
+    #rating.tut-front .qwrap { padding: 14px 18px 12px; }
+    #rating.tut-front #ratPop { padding: 6px 12px; margin-bottom: 6px; }
+    #rating.tut-front #tutStepLabel { margin-bottom: 4px; }
+    #rating.tut-front #ratTutTitle { margin-bottom: 5px; }
+    #rating.tut-front #ratTutText { line-height: 1.4; }
+    #rating.tut-front .rat-card-meta { margin-top: 4px; }
+    #rating.tut-front #ratingAnswer { margin-bottom: 4px; }
+    #rating.tut-front .qi-text { line-height: 1.35; margin-bottom: 4px; }
+    #rating.tut-front .likert { gap: 4px; }
+    #rating.tut-front .likert button { padding: 5px 12px; }
+    #rating.tut-front .qitem { margin-bottom: 6px; }
+    #rating.tut-front #ratingBackNote { margin-bottom: 4px; }
+    #rating.tut-front.rating-review .qwrap { padding-bottom: 6px; }
+    #rating.tut-front.rating-review .likert button { padding-top: 3px; padding-bottom: 3px; }
+    #rating.tut-front.rat-static #ratBtnRow { bottom: max(4%, env(safe-area-inset-bottom)); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #rating.tut-front .likert.tut-cue button, #rating.tut-front #ratingNext.cue, #rating.tut-front #ratingSubmit.cue { animation: none; }
+  }
   /* 実施後のアンケート: 1 ページ目は次へを中央に、最後のページは完了を戻るの隣に */
   #postq #postNav.first { justify-content: center; }
   #postq #postNav.first .btn.primary { flex: 0 1 min(72%, var(--nav-maxw)); }
