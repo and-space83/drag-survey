@@ -4700,16 +4700,27 @@
   // 回転でレイアウト(vmin基準)と geom が変わるため、ドラッグ中なら無効試行にして再呈示。
   const rotateGuardOn = navigator.maxTouchPoints > 0 &&
     new URLSearchParams(location.search).get("rotate") !== "0";
-  const typing = () => { const a = document.activeElement; return !!(a && (a.tagName === "INPUT" || a.tagName === "TEXTAREA")); };   // キーボードが開くと innerHeight が縮む → 横向き/拡大と誤判定するので、入力中は判定しない (2026-09-29: アンケートの自由記述で入力できなかった)
+  const typing = () => { const a = document.activeElement; return !!(a && (a.tagName === "INPUT" || a.tagName === "TEXTAREA")); };   // キーボードによる高さの変化は、物理的な向きやページ拡大と区別する。
+  function landscapeOrientation() {
+    // Safariでは回転後もscreenの幅・高さが縦向きの値のままになる。物理的な向きを優先し、キーボードによる高さの変化とは分ける。
+    const type = screen.orientation && screen.orientation.type;
+    if (/^landscape-/.test(type)) return true;
+    if (/^portrait-/.test(type)) return false;
+    if (typeof window.orientation === "number" && Number.isFinite(window.orientation)) return Math.abs(window.orientation) % 180 === 90;
+    if (screen.width && screen.height) return screen.width > screen.height;
+    return !typing() && window.innerWidth > window.innerHeight;
+  }
   function checkOrientation() {
     if (!rotateGuardOn) return;
-    if (typing()) { $("rotateGuard").classList.remove("show"); return; }
-    const landscape = (screen.width && screen.height) ? screen.width > screen.height : window.innerWidth > window.innerHeight;
+    const landscape = landscapeOrientation();
     $("rotateGuard").classList.toggle("show", landscape);
+    if (landscape) $("zoomGuard").classList.remove("show");
     if (landscape && recording) { recording = false; activePointerId = null; retryTrial("画面が回転しました", null, "orientation_changed"); }
   }
   window.addEventListener("resize", checkOrientation);
-  window.addEventListener("orientationchange", checkOrientation);
+  const orientationChanged = () => { checkOrientation(); checkZoom(); };
+  window.addEventListener("orientationchange", orientationChanged);
+  if (screen.orientation && screen.orientation.addEventListener) screen.orientation.addEventListener("change", orientationChanged);
   checkOrientation();
   // ===== 文字サイズ・ページ拡大のガード (2026-09-12 夜) =====
   // pageZoom = screen.width / innerWidth: Safari「ぁあ」・Chrome「ズーム」はページの CSS px 幅を縮める (= 小さい機種と同じ効果) ので、縦向きで 1 から外れる。
@@ -4739,7 +4750,7 @@
     }
   })();
   function measureZoom() {
-    const portrait = (screen.width && screen.height) ? screen.width <= screen.height : innerHeight >= innerWidth;   // 向きは screen の寸法で (キーボードで innerHeight が縮んでも誤判定しない。2026-09-29)
+    const portrait = !landscapeOrientation();
     const sw = portrait ? Math.min(screen.width, screen.height) : Math.max(screen.width, screen.height);
     const pageZoom = sw > 0 && innerWidth > 0 ? +(sw / innerWidth).toFixed(3) : 1;
     const a = $("zpA").getBoundingClientRect().width, b = $("zpB").getBoundingClientRect().width;
@@ -4748,6 +4759,7 @@
   }
   let zoomGuardWasOn = false;
   function checkZoom() {
+    if (rotateGuardOn && landscapeOrientation()) { $("zoomGuard").classList.remove("show"); return false; }
     if (typing()) { $("zoomGuard").classList.remove("show"); return false; }   // 入力中 (キーボード表示) は判定しない (2026-09-29)
     const z = measureZoom(); device.pageZoom = z.pageZoom; device.textZoom = z.textZoom;
     const off = ZOOM_GUARD_ON && (Math.abs(z.pageZoom - 1) > 0.03 || Math.abs(z.textZoom - 1) > 0.03);
