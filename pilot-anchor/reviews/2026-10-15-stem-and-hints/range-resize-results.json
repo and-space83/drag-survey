@@ -1,0 +1,2090 @@
+{
+  "at": "2026-10-15T11:46:44.710Z",
+  "scope": "Targeted real canvas resize/path verification in Chrome touch emulation; no physical Safari claim",
+  "beforeRef": "e2c0219db650decb66fd236d5f3b827baca0c765",
+  "beforeSource": {
+    "index.html": "0bfe6ce03394e80037fef067059c20c14a9d1ea31eb86dfb4394c0206d9d1357",
+    "app.css": "dc355b1f2426a7f7ad5f73e480154798279a6e35fbb7846c9661328cac1b3e89",
+    "guided-tutorial.js": "cd252e516fb4d4dfca1a1c14683df9a7da3de6aa38e679766285bc4aac3b9e28",
+    "guided-tutorial.css": "d73d3e7373a4602e5258bacbbdbcaad73a00f49ee638094430fe29cb14b146b7",
+    "bank.js": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
+    "session-store.js": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+    "durable-storage.js": "84d006f048e2cc16c4a7a7087ec5815485c0b3a7d2ffa4ce6b7b62905dde967b",
+    "storage-worker.js": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
+    "staged-delivery.js": "7f37d628ce04dc47233b16387d43add674608d278030dd17355621745ab9f7ad",
+    "consent.js": "6dae132f66dc20526ae6e79c59c6ff12049a75a1b11161b6815bfa1339a14bd9",
+    "consent.css": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
+    "data-codec.js": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+    "vendor/pako.min.js": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+    "vendor/pako-LICENSE": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539"
+  },
+  "afterSource": {
+    "index.html": "c96a13a2117f895945f6cc295121143e8bbeecac6df0cf308a77d747a670d735",
+    "app.css": "2a55dac2607fe78a57674b1b4e61551dbc40e782a2fff6238b26f21efcb28e27",
+    "guided-tutorial.js": "ddc7896e7c8777584cb9c379501979877ecb1568225b46649959a1ed501a07f5",
+    "guided-tutorial.css": "54e56698da645dfdd4dc425ec3a127d6c7751987f369e058692c93b7c1918853",
+    "bank.js": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
+    "session-store.js": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+    "durable-storage.js": "84d006f048e2cc16c4a7a7087ec5815485c0b3a7d2ffa4ce6b7b62905dde967b",
+    "storage-worker.js": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
+    "staged-delivery.js": "7f37d628ce04dc47233b16387d43add674608d278030dd17355621745ab9f7ad",
+    "consent.js": "6dae132f66dc20526ae6e79c59c6ff12049a75a1b11161b6815bfa1339a14bd9",
+    "consent.css": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
+    "data-codec.js": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+    "vendor/pako.min.js": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+    "vendor/pako-LICENSE": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539"
+  },
+  "finalSource": {
+    "index.html": "c96a13a2117f895945f6cc295121143e8bbeecac6df0cf308a77d747a670d735",
+    "app.css": "2a55dac2607fe78a57674b1b4e61551dbc40e782a2fff6238b26f21efcb28e27",
+    "guided-tutorial.js": "ddc7896e7c8777584cb9c379501979877ecb1568225b46649959a1ed501a07f5",
+    "guided-tutorial.css": "54e56698da645dfdd4dc425ec3a127d6c7751987f369e058692c93b7c1918853",
+    "bank.js": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
+    "session-store.js": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+    "durable-storage.js": "84d006f048e2cc16c4a7a7087ec5815485c0b3a7d2ffa4ce6b7b62905dde967b",
+    "storage-worker.js": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
+    "staged-delivery.js": "7f37d628ce04dc47233b16387d43add674608d278030dd17355621745ab9f7ad",
+    "consent.js": "6dae132f66dc20526ae6e79c59c6ff12049a75a1b11161b6815bfa1339a14bd9",
+    "consent.css": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
+    "data-codec.js": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+    "vendor/pako.min.js": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+    "vendor/pako-LICENSE": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539"
+  },
+  "checks": [
+    {
+      "name": "after go=tut&gstep=motor-range upload disabled",
+      "pass": true
+    },
+    {
+      "name": "375x548 range resize 416x681 canvas CSS matches the parent figure",
+      "pass": true,
+      "detail": {
+        "canvas": {
+          "width": 357.75,
+          "height": 250.234375,
+          "bitmapWidth": 358,
+          "bitmapHeight": 250
+        },
+        "parent": {
+          "width": 357.75,
+          "height": 250.234375
+        },
+        "dpr": 1
+      }
+    },
+    {
+      "name": "375x548 range resize 416x681 bitmap matches current CSS size and DPR",
+      "pass": true,
+      "detail": {
+        "canvas": {
+          "width": 357.75,
+          "height": 250.234375,
+          "bitmapWidth": 358,
+          "bitmapHeight": 250
+        },
+        "parent": {
+          "width": 357.75,
+          "height": 250.234375
+        },
+        "dpr": 1
+      }
+    },
+    {
+      "name": "375x548 range resize 416x681 visible release point is inside the resized target",
+      "pass": true,
+      "detail": [
+        {
+          "x": 106.4928125,
+          "y": 45.425625,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "name": "375x548 range resize 416x681 explanation precedes the illustration",
+      "pass": true,
+      "detail": {
+        "pop": {
+          "x": 29.125,
+          "y": 42,
+          "right": 386.875,
+          "bottom": 257.828125,
+          "width": 357.75,
+          "height": 215.828125
+        },
+        "graphic": {
+          "x": 29.125,
+          "y": 275.828125,
+          "right": 386.875,
+          "bottom": 553.5625,
+          "width": 357.75,
+          "height": 277.734375
+        },
+        "nav": {
+          "x": 16.625,
+          "y": 571.5625,
+          "right": 399.34375,
+          "bottom": 623.5625,
+          "width": 382.71875,
+          "height": 52
+        },
+        "contents": [
+          {
+            "tag": "P",
+            "class": "guided-range-caption",
+            "rect": {
+              "x": 29.125,
+              "y": 275.828125,
+              "right": 386.875,
+              "bottom": 295.328125,
+              "width": 357.75,
+              "height": 19.5
+            }
+          },
+          {
+            "tag": "DIV",
+            "class": "arrived",
+            "rect": {
+              "x": 83.203125,
+              "y": 303.328125,
+              "right": 332.796875,
+              "bottom": 465.5625,
+              "width": 249.59375,
+              "height": 162.234375
+            }
+          },
+          {
+            "tag": "CANVAS",
+            "class": null,
+            "rect": {
+              "x": 29.125,
+              "y": 303.328125,
+              "right": 386.875,
+              "bottom": 553.5625,
+              "width": 357.75,
+              "height": 250.234375
+            }
+          }
+        ],
+        "timeButton": null,
+        "viewport": {
+          "width": 416,
+          "height": 681
+        }
+      }
+    },
+    {
+      "name": "375x548 range resize 416x681 illustration ends above navigation",
+      "pass": true,
+      "detail": {
+        "pop": {
+          "x": 29.125,
+          "y": 42,
+          "right": 386.875,
+          "bottom": 257.828125,
+          "width": 357.75,
+          "height": 215.828125
+        },
+        "graphic": {
+          "x": 29.125,
+          "y": 275.828125,
+          "right": 386.875,
+          "bottom": 553.5625,
+          "width": 357.75,
+          "height": 277.734375
+        },
+        "nav": {
+          "x": 16.625,
+          "y": 571.5625,
+          "right": 399.34375,
+          "bottom": 623.5625,
+          "width": 382.71875,
+          "height": 52
+        },
+        "contents": [
+          {
+            "tag": "P",
+            "class": "guided-range-caption",
+            "rect": {
+              "x": 29.125,
+              "y": 275.828125,
+              "right": 386.875,
+              "bottom": 295.328125,
+              "width": 357.75,
+              "height": 19.5
+            }
+          },
+          {
+            "tag": "DIV",
+            "class": "arrived",
+            "rect": {
+              "x": 83.203125,
+              "y": 303.328125,
+              "right": 332.796875,
+              "bottom": 465.5625,
+              "width": 249.59375,
+              "height": 162.234375
+            }
+          },
+          {
+            "tag": "CANVAS",
+            "class": null,
+            "rect": {
+              "x": 29.125,
+              "y": 303.328125,
+              "right": 386.875,
+              "bottom": 553.5625,
+              "width": 357.75,
+              "height": 250.234375
+            }
+          }
+        ],
+        "timeButton": null,
+        "viewport": {
+          "width": 416,
+          "height": 681
+        }
+      }
+    },
+    {
+      "name": "375x548 range resize 416x681 card/illustration/navigation fit inside viewport",
+      "pass": true,
+      "detail": {
+        "pop": {
+          "x": 29.125,
+          "y": 42,
+          "right": 386.875,
+          "bottom": 257.828125,
+          "width": 357.75,
+          "height": 215.828125
+        },
+        "graphic": {
+          "x": 29.125,
+          "y": 275.828125,
+          "right": 386.875,
+          "bottom": 553.5625,
+          "width": 357.75,
+          "height": 277.734375
+        },
+        "nav": {
+          "x": 16.625,
+          "y": 571.5625,
+          "right": 399.34375,
+          "bottom": 623.5625,
+          "width": 382.71875,
+          "height": 52
+        },
+        "contents": [
+          {
+            "tag": "P",
+            "class": "guided-range-caption",
+            "rect": {
+              "x": 29.125,
+              "y": 275.828125,
+              "right": 386.875,
+              "bottom": 295.328125,
+              "width": 357.75,
+              "height": 19.5
+            }
+          },
+          {
+            "tag": "DIV",
+            "class": "arrived",
+            "rect": {
+              "x": 83.203125,
+              "y": 303.328125,
+              "right": 332.796875,
+              "bottom": 465.5625,
+              "width": 249.59375,
+              "height": 162.234375
+            }
+          },
+          {
+            "tag": "CANVAS",
+            "class": null,
+            "rect": {
+              "x": 29.125,
+              "y": 303.328125,
+              "right": 386.875,
+              "bottom": 553.5625,
+              "width": 357.75,
+              "height": 250.234375
+            }
+          }
+        ],
+        "timeButton": null,
+        "viewport": {
+          "width": 416,
+          "height": 681
+        }
+      }
+    },
+    {
+      "name": "375x548 range resize 416x681 visible drawing/text avoid clipping and navigation",
+      "pass": true,
+      "detail": [
+        {
+          "tag": "P",
+          "class": "guided-range-caption",
+          "rect": {
+            "x": 29.125,
+            "y": 275.828125,
+            "right": 386.875,
+            "bottom": 295.328125,
+            "width": 357.75,
+            "height": 19.5
+          }
+        },
+        {
+          "tag": "DIV",
+          "class": "arrived",
+          "rect": {
+            "x": 83.203125,
+            "y": 303.328125,
+            "right": 332.796875,
+            "bottom": 465.5625,
+            "width": 249.59375,
+            "height": 162.234375
+          }
+        },
+        {
+          "tag": "CANVAS",
+          "class": null,
+          "rect": {
+            "x": 29.125,
+            "y": 303.328125,
+            "right": 386.875,
+            "bottom": 553.5625,
+            "width": 357.75,
+            "height": 250.234375
+          }
+        }
+      ]
+    },
+    {
+      "name": "375x548 range resize 375x548 canvas CSS matches the parent figure",
+      "pass": true,
+      "detail": {
+        "canvas": {
+          "width": 322.5,
+          "height": 229,
+          "bitmapWidth": 323,
+          "bitmapHeight": 229
+        },
+        "parent": {
+          "width": 322.5,
+          "height": 229
+        },
+        "dpr": 1
+      }
+    },
+    {
+      "name": "375x548 range resize 375x548 bitmap matches current CSS size and DPR",
+      "pass": true,
+      "detail": {
+        "canvas": {
+          "width": 322.5,
+          "height": 229,
+          "bitmapWidth": 323,
+          "bitmapHeight": 229
+        },
+        "parent": {
+          "width": 322.5,
+          "height": 229
+        },
+        "dpr": 1
+      }
+    },
+    {
+      "name": "375x548 range resize 375x548 visible release point is inside the resized target",
+      "pass": true,
+      "detail": [
+        {
+          "x": 98.34265625,
+          "y": 39.480000000000004,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "name": "375x548 range resize 375x548 explanation precedes the illustration",
+      "pass": true,
+      "detail": {
+        "pop": {
+          "x": 26.25,
+          "y": 24,
+          "right": 348.75,
+          "bottom": 205.796875,
+          "width": 322.5,
+          "height": 181.796875
+        },
+        "graphic": {
+          "x": 26.25,
+          "y": 215.796875,
+          "right": 348.75,
+          "bottom": 472.296875,
+          "width": 322.5,
+          "height": 256.5
+        },
+        "nav": {
+          "x": 15,
+          "y": 482.296875,
+          "right": 360,
+          "bottom": 534.296875,
+          "width": 345,
+          "height": 52
+        },
+        "contents": [
+          {
+            "tag": "P",
+            "class": "guided-range-caption",
+            "rect": {
+              "x": 26.25,
+              "y": 215.796875,
+              "right": 348.75,
+              "bottom": 235.296875,
+              "width": 322.5,
+              "height": 19.5
+            }
+          },
+          {
+            "tag": "DIV",
+            "class": "arrived",
+            "rect": {
+              "x": 79.0390625,
+              "y": 243.296875,
+              "right": 295.9609375,
+              "bottom": 384.296875,
+              "width": 216.921875,
+              "height": 141
+            }
+          },
+          {
+            "tag": "CANVAS",
+            "class": null,
+            "rect": {
+              "x": 26.25,
+              "y": 243.296875,
+              "right": 348.75,
+              "bottom": 472.296875,
+              "width": 322.5,
+              "height": 229
+            }
+          }
+        ],
+        "timeButton": null,
+        "viewport": {
+          "width": 375,
+          "height": 548
+        }
+      }
+    },
+    {
+      "name": "375x548 range resize 375x548 illustration ends above navigation",
+      "pass": true,
+      "detail": {
+        "pop": {
+          "x": 26.25,
+          "y": 24,
+          "right": 348.75,
+          "bottom": 205.796875,
+          "width": 322.5,
+          "height": 181.796875
+        },
+        "graphic": {
+          "x": 26.25,
+          "y": 215.796875,
+          "right": 348.75,
+          "bottom": 472.296875,
+          "width": 322.5,
+          "height": 256.5
+        },
+        "nav": {
+          "x": 15,
+          "y": 482.296875,
+          "right": 360,
+          "bottom": 534.296875,
+          "width": 345,
+          "height": 52
+        },
+        "contents": [
+          {
+            "tag": "P",
+            "class": "guided-range-caption",
+            "rect": {
+              "x": 26.25,
+              "y": 215.796875,
+              "right": 348.75,
+              "bottom": 235.296875,
+              "width": 322.5,
+              "height": 19.5
+            }
+          },
+          {
+            "tag": "DIV",
+            "class": "arrived",
+            "rect": {
+              "x": 79.0390625,
+              "y": 243.296875,
+              "right": 295.9609375,
+              "bottom": 384.296875,
+              "width": 216.921875,
+              "height": 141
+            }
+          },
+          {
+            "tag": "CANVAS",
+            "class": null,
+            "rect": {
+              "x": 26.25,
+              "y": 243.296875,
+              "right": 348.75,
+              "bottom": 472.296875,
+              "width": 322.5,
+              "height": 229
+            }
+          }
+        ],
+        "timeButton": null,
+        "viewport": {
+          "width": 375,
+          "height": 548
+        }
+      }
+    },
+    {
+      "name": "375x548 range resize 375x548 card/illustration/navigation fit inside viewport",
+      "pass": true,
+      "detail": {
+        "pop": {
+          "x": 26.25,
+          "y": 24,
+          "right": 348.75,
+          "bottom": 205.796875,
+          "width": 322.5,
+          "height": 181.796875
+        },
+        "graphic": {
+          "x": 26.25,
+          "y": 215.796875,
+          "right": 348.75,
+          "bottom": 472.296875,
+          "width": 322.5,
+          "height": 256.5
+        },
+        "nav": {
+          "x": 15,
+          "y": 482.296875,
+          "right": 360,
+          "bottom": 534.296875,
+          "width": 345,
+          "height": 52
+        },
+        "contents": [
+          {
+            "tag": "P",
+            "class": "guided-range-caption",
+            "rect": {
+              "x": 26.25,
+              "y": 215.796875,
+              "right": 348.75,
+              "bottom": 235.296875,
+              "width": 322.5,
+              "height": 19.5
+            }
+          },
+          {
+            "tag": "DIV",
+            "class": "arrived",
+            "rect": {
+              "x": 79.0390625,
+              "y": 243.296875,
+              "right": 295.9609375,
+              "bottom": 384.296875,
+              "width": 216.921875,
+              "height": 141
+            }
+          },
+          {
+            "tag": "CANVAS",
+            "class": null,
+            "rect": {
+              "x": 26.25,
+              "y": 243.296875,
+              "right": 348.75,
+              "bottom": 472.296875,
+              "width": 322.5,
+              "height": 229
+            }
+          }
+        ],
+        "timeButton": null,
+        "viewport": {
+          "width": 375,
+          "height": 548
+        }
+      }
+    },
+    {
+      "name": "375x548 range resize 375x548 visible drawing/text avoid clipping and navigation",
+      "pass": true,
+      "detail": [
+        {
+          "tag": "P",
+          "class": "guided-range-caption",
+          "rect": {
+            "x": 26.25,
+            "y": 215.796875,
+            "right": 348.75,
+            "bottom": 235.296875,
+            "width": 322.5,
+            "height": 19.5
+          }
+        },
+        {
+          "tag": "DIV",
+          "class": "arrived",
+          "rect": {
+            "x": 79.0390625,
+            "y": 243.296875,
+            "right": 295.9609375,
+            "bottom": 384.296875,
+            "width": 216.921875,
+            "height": 141
+          }
+        },
+        {
+          "tag": "CANVAS",
+          "class": null,
+          "rect": {
+            "x": 26.25,
+            "y": 243.296875,
+            "right": 348.75,
+            "bottom": 472.296875,
+            "width": 322.5,
+            "height": 229
+          }
+        }
+      ]
+    },
+    {
+      "name": "after go=tut&gstep=motor-range upload disabled",
+      "pass": true
+    },
+    {
+      "name": "375x700 range resize 416x833 canvas CSS matches the parent figure",
+      "pass": true,
+      "detail": {
+        "canvas": {
+          "width": 357.75,
+          "height": 250.234375,
+          "bitmapWidth": 358,
+          "bitmapHeight": 250
+        },
+        "parent": {
+          "width": 357.75,
+          "height": 250.234375
+        },
+        "dpr": 1
+      }
+    },
+    {
+      "name": "375x700 range resize 416x833 bitmap matches current CSS size and DPR",
+      "pass": true,
+      "detail": {
+        "canvas": {
+          "width": 357.75,
+          "height": 250.234375,
+          "bitmapWidth": 358,
+          "bitmapHeight": 250
+        },
+        "parent": {
+          "width": 357.75,
+          "height": 250.234375
+        },
+        "dpr": 1
+      }
+    },
+    {
+      "name": "375x700 range resize 416x833 visible release point is inside the resized target",
+      "pass": true,
+      "detail": [
+        {
+          "x": 106.4928125,
+          "y": 45.425625,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "name": "375x700 range resize 416x833 explanation precedes the illustration",
+      "pass": true,
+      "detail": {
+        "pop": {
+          "x": 29.125,
+          "y": 42,
+          "right": 386.875,
+          "bottom": 257.828125,
+          "width": 357.75,
+          "height": 215.828125
+        },
+        "graphic": {
+          "x": 29.125,
+          "y": 275.828125,
+          "right": 386.875,
+          "bottom": 553.5625,
+          "width": 357.75,
+          "height": 277.734375
+        },
+        "nav": {
+          "x": 16.625,
+          "y": 673.765625,
+          "right": 399.34375,
+          "bottom": 725.765625,
+          "width": 382.71875,
+          "height": 52
+        },
+        "contents": [
+          {
+            "tag": "P",
+            "class": "guided-range-caption",
+            "rect": {
+              "x": 29.125,
+              "y": 275.828125,
+              "right": 386.875,
+              "bottom": 295.328125,
+              "width": 357.75,
+              "height": 19.5
+            }
+          },
+          {
+            "tag": "DIV",
+            "class": "arrived",
+            "rect": {
+              "x": 83.203125,
+              "y": 303.328125,
+              "right": 332.796875,
+              "bottom": 465.5625,
+              "width": 249.59375,
+              "height": 162.234375
+            }
+          },
+          {
+            "tag": "CANVAS",
+            "class": null,
+            "rect": {
+              "x": 29.125,
+              "y": 303.328125,
+              "right": 386.875,
+              "bottom": 553.5625,
+              "width": 357.75,
+              "height": 250.234375
+            }
+          }
+        ],
+        "timeButton": null,
+        "viewport": {
+          "width": 416,
+          "height": 833
+        }
+      }
+    },
+    {
+      "name": "375x700 range resize 416x833 illustration ends above navigation",
+      "pass": true,
+      "detail": {
+        "pop": {
+          "x": 29.125,
+          "y": 42,
+          "right": 386.875,
+          "bottom": 257.828125,
+          "width": 357.75,
+          "height": 215.828125
+        },
+        "graphic": {
+          "x": 29.125,
+          "y": 275.828125,
+          "right": 386.875,
+          "bottom": 553.5625,
+          "width": 357.75,
+          "height": 277.734375
+        },
+        "nav": {
+          "x": 16.625,
+          "y": 673.765625,
+          "right": 399.34375,
+          "bottom": 725.765625,
+          "width": 382.71875,
+          "height": 52
+        },
+        "contents": [
+          {
+            "tag": "P",
+            "class": "guided-range-caption",
+            "rect": {
+              "x": 29.125,
+              "y": 275.828125,
+              "right": 386.875,
+              "bottom": 295.328125,
+              "width": 357.75,
+              "height": 19.5
+            }
+          },
+          {
+            "tag": "DIV",
+            "class": "arrived",
+            "rect": {
+              "x": 83.203125,
+              "y": 303.328125,
+              "right": 332.796875,
+              "bottom": 465.5625,
+              "width": 249.59375,
+              "height": 162.234375
+            }
+          },
+          {
+            "tag": "CANVAS",
+            "class": null,
+            "rect": {
+              "x": 29.125,
+              "y": 303.328125,
+              "right": 386.875,
+              "bottom": 553.5625,
+              "width": 357.75,
+              "height": 250.234375
+            }
+          }
+        ],
+        "timeButton": null,
+        "viewport": {
+          "width": 416,
+          "height": 833
+        }
+      }
+    },
+    {
+      "name": "375x700 range resize 416x833 card/illustration/navigation fit inside viewport",
+      "pass": true,
+      "detail": {
+        "pop": {
+          "x": 29.125,
+          "y": 42,
+          "right": 386.875,
+          "bottom": 257.828125,
+          "width": 357.75,
+          "height": 215.828125
+        },
+        "graphic": {
+          "x": 29.125,
+          "y": 275.828125,
+          "right": 386.875,
+          "bottom": 553.5625,
+          "width": 357.75,
+          "height": 277.734375
+        },
+        "nav": {
+          "x": 16.625,
+          "y": 673.765625,
+          "right": 399.34375,
+          "bottom": 725.765625,
+          "width": 382.71875,
+          "height": 52
+        },
+        "contents": [
+          {
+            "tag": "P",
+            "class": "guided-range-caption",
+            "rect": {
+              "x": 29.125,
+              "y": 275.828125,
+              "right": 386.875,
+              "bottom": 295.328125,
+              "width": 357.75,
+              "height": 19.5
+            }
+          },
+          {
+            "tag": "DIV",
+            "class": "arrived",
+            "rect": {
+              "x": 83.203125,
+              "y": 303.328125,
+              "right": 332.796875,
+              "bottom": 465.5625,
+              "width": 249.59375,
+              "height": 162.234375
+            }
+          },
+          {
+            "tag": "CANVAS",
+            "class": null,
+            "rect": {
+              "x": 29.125,
+              "y": 303.328125,
+              "right": 386.875,
+              "bottom": 553.5625,
+              "width": 357.75,
+              "height": 250.234375
+            }
+          }
+        ],
+        "timeButton": null,
+        "viewport": {
+          "width": 416,
+          "height": 833
+        }
+      }
+    },
+    {
+      "name": "375x700 range resize 416x833 visible drawing/text avoid clipping and navigation",
+      "pass": true,
+      "detail": [
+        {
+          "tag": "P",
+          "class": "guided-range-caption",
+          "rect": {
+            "x": 29.125,
+            "y": 275.828125,
+            "right": 386.875,
+            "bottom": 295.328125,
+            "width": 357.75,
+            "height": 19.5
+          }
+        },
+        {
+          "tag": "DIV",
+          "class": "arrived",
+          "rect": {
+            "x": 83.203125,
+            "y": 303.328125,
+            "right": 332.796875,
+            "bottom": 465.5625,
+            "width": 249.59375,
+            "height": 162.234375
+          }
+        },
+        {
+          "tag": "CANVAS",
+          "class": null,
+          "rect": {
+            "x": 29.125,
+            "y": 303.328125,
+            "right": 386.875,
+            "bottom": 553.5625,
+            "width": 357.75,
+            "height": 250.234375
+          }
+        }
+      ]
+    },
+    {
+      "name": "375x700 range resize 375x700 canvas CSS matches the parent figure",
+      "pass": true,
+      "detail": {
+        "canvas": {
+          "width": 322.5,
+          "height": 234.25,
+          "bitmapWidth": 323,
+          "bitmapHeight": 234
+        },
+        "parent": {
+          "width": 322.5,
+          "height": 234.25
+        },
+        "dpr": 1
+      }
+    },
+    {
+      "name": "375x700 range resize 375x700 bitmap matches current CSS size and DPR",
+      "pass": true,
+      "detail": {
+        "canvas": {
+          "width": 322.5,
+          "height": 234.25,
+          "bitmapWidth": 323,
+          "bitmapHeight": 234
+        },
+        "parent": {
+          "width": 322.5,
+          "height": 234.25
+        },
+        "dpr": 1
+      }
+    },
+    {
+      "name": "375x700 range resize 375x700 visible release point is inside the resized target",
+      "pass": true,
+      "detail": [
+        {
+          "x": 96,
+          "y": 40.95,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "name": "375x700 range resize 375x700 explanation precedes the illustration",
+      "pass": true,
+      "detail": {
+        "pop": {
+          "x": 26.25,
+          "y": 42,
+          "right": 348.75,
+          "bottom": 257.828125,
+          "width": 322.5,
+          "height": 215.828125
+        },
+        "graphic": {
+          "x": 26.25,
+          "y": 275.828125,
+          "right": 348.75,
+          "bottom": 537.578125,
+          "width": 322.5,
+          "height": 261.75
+        },
+        "nav": {
+          "x": 15,
+          "y": 560,
+          "right": 360,
+          "bottom": 612,
+          "width": 345,
+          "height": 52
+        },
+        "contents": [
+          {
+            "tag": "P",
+            "class": "guided-range-caption",
+            "rect": {
+              "x": 26.25,
+              "y": 275.828125,
+              "right": 348.75,
+              "bottom": 295.328125,
+              "width": 322.5,
+              "height": 19.5
+            }
+          },
+          {
+            "tag": "DIV",
+            "class": "arrived",
+            "rect": {
+              "x": 75,
+              "y": 303.328125,
+              "right": 300,
+              "bottom": 449.578125,
+              "width": 225,
+              "height": 146.25
+            }
+          },
+          {
+            "tag": "CANVAS",
+            "class": null,
+            "rect": {
+              "x": 26.25,
+              "y": 303.328125,
+              "right": 348.75,
+              "bottom": 537.578125,
+              "width": 322.5,
+              "height": 234.25
+            }
+          }
+        ],
+        "timeButton": null,
+        "viewport": {
+          "width": 375,
+          "height": 700
+        }
+      }
+    },
+    {
+      "name": "375x700 range resize 375x700 illustration ends above navigation",
+      "pass": true,
+      "detail": {
+        "pop": {
+          "x": 26.25,
+          "y": 42,
+          "right": 348.75,
+          "bottom": 257.828125,
+          "width": 322.5,
+          "height": 215.828125
+        },
+        "graphic": {
+          "x": 26.25,
+          "y": 275.828125,
+          "right": 348.75,
+          "bottom": 537.578125,
+          "width": 322.5,
+          "height": 261.75
+        },
+        "nav": {
+          "x": 15,
+          "y": 560,
+          "right": 360,
+          "bottom": 612,
+          "width": 345,
+          "height": 52
+        },
+        "contents": [
+          {
+            "tag": "P",
+            "class": "guided-range-caption",
+            "rect": {
+              "x": 26.25,
+              "y": 275.828125,
+              "right": 348.75,
+              "bottom": 295.328125,
+              "width": 322.5,
+              "height": 19.5
+            }
+          },
+          {
+            "tag": "DIV",
+            "class": "arrived",
+            "rect": {
+              "x": 75,
+              "y": 303.328125,
+              "right": 300,
+              "bottom": 449.578125,
+              "width": 225,
+              "height": 146.25
+            }
+          },
+          {
+            "tag": "CANVAS",
+            "class": null,
+            "rect": {
+              "x": 26.25,
+              "y": 303.328125,
+              "right": 348.75,
+              "bottom": 537.578125,
+              "width": 322.5,
+              "height": 234.25
+            }
+          }
+        ],
+        "timeButton": null,
+        "viewport": {
+          "width": 375,
+          "height": 700
+        }
+      }
+    },
+    {
+      "name": "375x700 range resize 375x700 card/illustration/navigation fit inside viewport",
+      "pass": true,
+      "detail": {
+        "pop": {
+          "x": 26.25,
+          "y": 42,
+          "right": 348.75,
+          "bottom": 257.828125,
+          "width": 322.5,
+          "height": 215.828125
+        },
+        "graphic": {
+          "x": 26.25,
+          "y": 275.828125,
+          "right": 348.75,
+          "bottom": 537.578125,
+          "width": 322.5,
+          "height": 261.75
+        },
+        "nav": {
+          "x": 15,
+          "y": 560,
+          "right": 360,
+          "bottom": 612,
+          "width": 345,
+          "height": 52
+        },
+        "contents": [
+          {
+            "tag": "P",
+            "class": "guided-range-caption",
+            "rect": {
+              "x": 26.25,
+              "y": 275.828125,
+              "right": 348.75,
+              "bottom": 295.328125,
+              "width": 322.5,
+              "height": 19.5
+            }
+          },
+          {
+            "tag": "DIV",
+            "class": "arrived",
+            "rect": {
+              "x": 75,
+              "y": 303.328125,
+              "right": 300,
+              "bottom": 449.578125,
+              "width": 225,
+              "height": 146.25
+            }
+          },
+          {
+            "tag": "CANVAS",
+            "class": null,
+            "rect": {
+              "x": 26.25,
+              "y": 303.328125,
+              "right": 348.75,
+              "bottom": 537.578125,
+              "width": 322.5,
+              "height": 234.25
+            }
+          }
+        ],
+        "timeButton": null,
+        "viewport": {
+          "width": 375,
+          "height": 700
+        }
+      }
+    },
+    {
+      "name": "375x700 range resize 375x700 visible drawing/text avoid clipping and navigation",
+      "pass": true,
+      "detail": [
+        {
+          "tag": "P",
+          "class": "guided-range-caption",
+          "rect": {
+            "x": 26.25,
+            "y": 275.828125,
+            "right": 348.75,
+            "bottom": 295.328125,
+            "width": 322.5,
+            "height": 19.5
+          }
+        },
+        {
+          "tag": "DIV",
+          "class": "arrived",
+          "rect": {
+            "x": 75,
+            "y": 303.328125,
+            "right": 300,
+            "bottom": 449.578125,
+            "width": 225,
+            "height": 146.25
+          }
+        },
+        {
+          "tag": "CANVAS",
+          "class": null,
+          "rect": {
+            "x": 26.25,
+            "y": 303.328125,
+            "right": 348.75,
+            "bottom": 537.578125,
+            "width": 322.5,
+            "height": 234.25
+          }
+        }
+      ]
+    },
+    {
+      "name": "after go=tut&gstep=motor-range upload disabled",
+      "pass": true
+    },
+    {
+      "name": "402x759 range resize 443x892 canvas CSS matches the parent figure",
+      "pass": true,
+      "detail": {
+        "canvas": {
+          "width": 380.96875,
+          "height": 260.765625,
+          "bitmapWidth": 381,
+          "bitmapHeight": 261
+        },
+        "parent": {
+          "width": 380.96875,
+          "height": 260.765625
+        },
+        "dpr": 1
+      }
+    },
+    {
+      "name": "402x759 range resize 443x892 bitmap matches current CSS size and DPR",
+      "pass": true,
+      "detail": {
+        "canvas": {
+          "width": 380.96875,
+          "height": 260.765625,
+          "bitmapWidth": 381,
+          "bitmapHeight": 261
+        },
+        "parent": {
+          "width": 380.96875,
+          "height": 260.765625
+        },
+        "dpr": 1
+      }
+    },
+    {
+      "name": "402x759 range resize 443x892 visible release point is inside the resized target",
+      "pass": true,
+      "detail": [
+        {
+          "x": 113.40328125,
+          "y": 48.374375,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "name": "402x759 range resize 443x892 explanation precedes the illustration",
+      "pass": true,
+      "detail": {
+        "pop": {
+          "x": 31.015625,
+          "y": 42,
+          "right": 411.984375,
+          "bottom": 257.828125,
+          "width": 380.96875,
+          "height": 215.828125
+        },
+        "graphic": {
+          "x": 31.015625,
+          "y": 275.828125,
+          "right": 411.984375,
+          "bottom": 564.09375,
+          "width": 380.96875,
+          "height": 288.265625
+        },
+        "nav": {
+          "x": 17.71875,
+          "y": 723.53125,
+          "right": 425.265625,
+          "bottom": 775.53125,
+          "width": 407.546875,
+          "height": 52
+        },
+        "contents": [
+          {
+            "tag": "P",
+            "class": "guided-range-caption",
+            "rect": {
+              "x": 31.015625,
+              "y": 275.828125,
+              "right": 411.984375,
+              "bottom": 295.328125,
+              "width": 380.96875,
+              "height": 19.5
+            }
+          },
+          {
+            "tag": "DIV",
+            "class": "arrived",
+            "rect": {
+              "x": 88.6015625,
+              "y": 303.328125,
+              "right": 354.3984375,
+              "bottom": 476.09375,
+              "width": 265.796875,
+              "height": 172.765625
+            }
+          },
+          {
+            "tag": "CANVAS",
+            "class": null,
+            "rect": {
+              "x": 31.015625,
+              "y": 303.328125,
+              "right": 411.984375,
+              "bottom": 564.09375,
+              "width": 380.96875,
+              "height": 260.765625
+            }
+          }
+        ],
+        "timeButton": null,
+        "viewport": {
+          "width": 443,
+          "height": 892
+        }
+      }
+    },
+    {
+      "name": "402x759 range resize 443x892 illustration ends above navigation",
+      "pass": true,
+      "detail": {
+        "pop": {
+          "x": 31.015625,
+          "y": 42,
+          "right": 411.984375,
+          "bottom": 257.828125,
+          "width": 380.96875,
+          "height": 215.828125
+        },
+        "graphic": {
+          "x": 31.015625,
+          "y": 275.828125,
+          "right": 411.984375,
+          "bottom": 564.09375,
+          "width": 380.96875,
+          "height": 288.265625
+        },
+        "nav": {
+          "x": 17.71875,
+          "y": 723.53125,
+          "right": 425.265625,
+          "bottom": 775.53125,
+          "width": 407.546875,
+          "height": 52
+        },
+        "contents": [
+          {
+            "tag": "P",
+            "class": "guided-range-caption",
+            "rect": {
+              "x": 31.015625,
+              "y": 275.828125,
+              "right": 411.984375,
+              "bottom": 295.328125,
+              "width": 380.96875,
+              "height": 19.5
+            }
+          },
+          {
+            "tag": "DIV",
+            "class": "arrived",
+            "rect": {
+              "x": 88.6015625,
+              "y": 303.328125,
+              "right": 354.3984375,
+              "bottom": 476.09375,
+              "width": 265.796875,
+              "height": 172.765625
+            }
+          },
+          {
+            "tag": "CANVAS",
+            "class": null,
+            "rect": {
+              "x": 31.015625,
+              "y": 303.328125,
+              "right": 411.984375,
+              "bottom": 564.09375,
+              "width": 380.96875,
+              "height": 260.765625
+            }
+          }
+        ],
+        "timeButton": null,
+        "viewport": {
+          "width": 443,
+          "height": 892
+        }
+      }
+    },
+    {
+      "name": "402x759 range resize 443x892 card/illustration/navigation fit inside viewport",
+      "pass": true,
+      "detail": {
+        "pop": {
+          "x": 31.015625,
+          "y": 42,
+          "right": 411.984375,
+          "bottom": 257.828125,
+          "width": 380.96875,
+          "height": 215.828125
+        },
+        "graphic": {
+          "x": 31.015625,
+          "y": 275.828125,
+          "right": 411.984375,
+          "bottom": 564.09375,
+          "width": 380.96875,
+          "height": 288.265625
+        },
+        "nav": {
+          "x": 17.71875,
+          "y": 723.53125,
+          "right": 425.265625,
+          "bottom": 775.53125,
+          "width": 407.546875,
+          "height": 52
+        },
+        "contents": [
+          {
+            "tag": "P",
+            "class": "guided-range-caption",
+            "rect": {
+              "x": 31.015625,
+              "y": 275.828125,
+              "right": 411.984375,
+              "bottom": 295.328125,
+              "width": 380.96875,
+              "height": 19.5
+            }
+          },
+          {
+            "tag": "DIV",
+            "class": "arrived",
+            "rect": {
+              "x": 88.6015625,
+              "y": 303.328125,
+              "right": 354.3984375,
+              "bottom": 476.09375,
+              "width": 265.796875,
+              "height": 172.765625
+            }
+          },
+          {
+            "tag": "CANVAS",
+            "class": null,
+            "rect": {
+              "x": 31.015625,
+              "y": 303.328125,
+              "right": 411.984375,
+              "bottom": 564.09375,
+              "width": 380.96875,
+              "height": 260.765625
+            }
+          }
+        ],
+        "timeButton": null,
+        "viewport": {
+          "width": 443,
+          "height": 892
+        }
+      }
+    },
+    {
+      "name": "402x759 range resize 443x892 visible drawing/text avoid clipping and navigation",
+      "pass": true,
+      "detail": [
+        {
+          "tag": "P",
+          "class": "guided-range-caption",
+          "rect": {
+            "x": 31.015625,
+            "y": 275.828125,
+            "right": 411.984375,
+            "bottom": 295.328125,
+            "width": 380.96875,
+            "height": 19.5
+          }
+        },
+        {
+          "tag": "DIV",
+          "class": "arrived",
+          "rect": {
+            "x": 88.6015625,
+            "y": 303.328125,
+            "right": 354.3984375,
+            "bottom": 476.09375,
+            "width": 265.796875,
+            "height": 172.765625
+          }
+        },
+        {
+          "tag": "CANVAS",
+          "class": null,
+          "rect": {
+            "x": 31.015625,
+            "y": 303.328125,
+            "right": 411.984375,
+            "bottom": 564.09375,
+            "width": 380.96875,
+            "height": 260.765625
+          }
+        }
+      ]
+    },
+    {
+      "name": "402x759 range resize 402x759 canvas CSS matches the parent figure",
+      "pass": true,
+      "detail": {
+        "canvas": {
+          "width": 345.71875,
+          "height": 244.765625,
+          "bitmapWidth": 346,
+          "bitmapHeight": 245
+        },
+        "parent": {
+          "width": 345.71875,
+          "height": 244.765625
+        },
+        "dpr": 1
+      }
+    },
+    {
+      "name": "402x759 range resize 402x759 bitmap matches current CSS size and DPR",
+      "pass": true,
+      "detail": {
+        "canvas": {
+          "width": 345.71875,
+          "height": 244.765625,
+          "bitmapWidth": 346,
+          "bitmapHeight": 245
+        },
+        "parent": {
+          "width": 345.71875,
+          "height": 244.765625
+        },
+        "dpr": 1
+      }
+    },
+    {
+      "name": "402x759 range resize 402x759 visible release point is inside the resized target",
+      "pass": true,
+      "detail": [
+        {
+          "x": 102.915,
+          "y": 43.894375,
+          "inside": true
+        }
+      ]
+    },
+    {
+      "name": "402x759 range resize 402x759 explanation precedes the illustration",
+      "pass": true,
+      "detail": {
+        "pop": {
+          "x": 28.140625,
+          "y": 42,
+          "right": 373.859375,
+          "bottom": 257.828125,
+          "width": 345.71875,
+          "height": 215.828125
+        },
+        "graphic": {
+          "x": 28.140625,
+          "y": 275.828125,
+          "right": 373.859375,
+          "bottom": 548.09375,
+          "width": 345.71875,
+          "height": 272.265625
+        },
+        "nav": {
+          "x": 16.078125,
+          "y": 609.765625,
+          "right": 385.90625,
+          "bottom": 661.765625,
+          "width": 369.828125,
+          "height": 52
+        },
+        "contents": [
+          {
+            "tag": "P",
+            "class": "guided-range-caption",
+            "rect": {
+              "x": 28.140625,
+              "y": 275.828125,
+              "right": 373.859375,
+              "bottom": 295.328125,
+              "width": 345.71875,
+              "height": 19.5
+            }
+          },
+          {
+            "tag": "DIV",
+            "class": "arrived",
+            "rect": {
+              "x": 80.40625,
+              "y": 303.328125,
+              "right": 321.59375,
+              "bottom": 460.09375,
+              "width": 241.1875,
+              "height": 156.765625
+            }
+          },
+          {
+            "tag": "CANVAS",
+            "class": null,
+            "rect": {
+              "x": 28.140625,
+              "y": 303.328125,
+              "right": 373.859375,
+              "bottom": 548.09375,
+              "width": 345.71875,
+              "height": 244.765625
+            }
+          }
+        ],
+        "timeButton": null,
+        "viewport": {
+          "width": 402,
+          "height": 759
+        }
+      }
+    },
+    {
+      "name": "402x759 range resize 402x759 illustration ends above navigation",
+      "pass": true,
+      "detail": {
+        "pop": {
+          "x": 28.140625,
+          "y": 42,
+          "right": 373.859375,
+          "bottom": 257.828125,
+          "width": 345.71875,
+          "height": 215.828125
+        },
+        "graphic": {
+          "x": 28.140625,
+          "y": 275.828125,
+          "right": 373.859375,
+          "bottom": 548.09375,
+          "width": 345.71875,
+          "height": 272.265625
+        },
+        "nav": {
+          "x": 16.078125,
+          "y": 609.765625,
+          "right": 385.90625,
+          "bottom": 661.765625,
+          "width": 369.828125,
+          "height": 52
+        },
+        "contents": [
+          {
+            "tag": "P",
+            "class": "guided-range-caption",
+            "rect": {
+              "x": 28.140625,
+              "y": 275.828125,
+              "right": 373.859375,
+              "bottom": 295.328125,
+              "width": 345.71875,
+              "height": 19.5
+            }
+          },
+          {
+            "tag": "DIV",
+            "class": "arrived",
+            "rect": {
+              "x": 80.40625,
+              "y": 303.328125,
+              "right": 321.59375,
+              "bottom": 460.09375,
+              "width": 241.1875,
+              "height": 156.765625
+            }
+          },
+          {
+            "tag": "CANVAS",
+            "class": null,
+            "rect": {
+              "x": 28.140625,
+              "y": 303.328125,
+              "right": 373.859375,
+              "bottom": 548.09375,
+              "width": 345.71875,
+              "height": 244.765625
+            }
+          }
+        ],
+        "timeButton": null,
+        "viewport": {
+          "width": 402,
+          "height": 759
+        }
+      }
+    },
+    {
+      "name": "402x759 range resize 402x759 card/illustration/navigation fit inside viewport",
+      "pass": true,
+      "detail": {
+        "pop": {
+          "x": 28.140625,
+          "y": 42,
+          "right": 373.859375,
+          "bottom": 257.828125,
+          "width": 345.71875,
+          "height": 215.828125
+        },
+        "graphic": {
+          "x": 28.140625,
+          "y": 275.828125,
+          "right": 373.859375,
+          "bottom": 548.09375,
+          "width": 345.71875,
+          "height": 272.265625
+        },
+        "nav": {
+          "x": 16.078125,
+          "y": 609.765625,
+          "right": 385.90625,
+          "bottom": 661.765625,
+          "width": 369.828125,
+          "height": 52
+        },
+        "contents": [
+          {
+            "tag": "P",
+            "class": "guided-range-caption",
+            "rect": {
+              "x": 28.140625,
+              "y": 275.828125,
+              "right": 373.859375,
+              "bottom": 295.328125,
+              "width": 345.71875,
+              "height": 19.5
+            }
+          },
+          {
+            "tag": "DIV",
+            "class": "arrived",
+            "rect": {
+              "x": 80.40625,
+              "y": 303.328125,
+              "right": 321.59375,
+              "bottom": 460.09375,
+              "width": 241.1875,
+              "height": 156.765625
+            }
+          },
+          {
+            "tag": "CANVAS",
+            "class": null,
+            "rect": {
+              "x": 28.140625,
+              "y": 303.328125,
+              "right": 373.859375,
+              "bottom": 548.09375,
+              "width": 345.71875,
+              "height": 244.765625
+            }
+          }
+        ],
+        "timeButton": null,
+        "viewport": {
+          "width": 402,
+          "height": 759
+        }
+      }
+    },
+    {
+      "name": "402x759 range resize 402x759 visible drawing/text avoid clipping and navigation",
+      "pass": true,
+      "detail": [
+        {
+          "tag": "P",
+          "class": "guided-range-caption",
+          "rect": {
+            "x": 28.140625,
+            "y": 275.828125,
+            "right": 373.859375,
+            "bottom": 295.328125,
+            "width": 345.71875,
+            "height": 19.5
+          }
+        },
+        {
+          "tag": "DIV",
+          "class": "arrived",
+          "rect": {
+            "x": 80.40625,
+            "y": 303.328125,
+            "right": 321.59375,
+            "bottom": 460.09375,
+            "width": 241.1875,
+            "height": 156.765625
+          }
+        },
+        {
+          "tag": "CANVAS",
+          "class": null,
+          "rect": {
+            "x": 28.140625,
+            "y": 303.328125,
+            "right": 373.859375,
+            "bottom": 548.09375,
+            "width": 345.71875,
+            "height": 244.765625
+          }
+        }
+      ]
+    },
+    {
+      "name": "tested production assets remained stable during targeted verification",
+      "pass": true
+    },
+    {
+      "name": "no JavaScript errors",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "no external or non-GET request",
+      "pass": true,
+      "detail": []
+    }
+  ],
+  "errors": [],
+  "unexpectedRequests": [],
+  "scenes": [],
+  "375x548": {
+    "rangeResize": [
+      {
+        "viewport": {
+          "width": 416,
+          "height": 681
+        },
+        "dimensions": {
+          "canvas": {
+            "width": 357.75,
+            "height": 250.234375,
+            "bitmapWidth": 358,
+            "bitmapHeight": 250
+          },
+          "parent": {
+            "width": 357.75,
+            "height": 250.234375
+          },
+          "dpr": 1
+        },
+        "releasePoints": [
+          {
+            "x": 106.4928125,
+            "y": 45.425625,
+            "inside": true
+          }
+        ]
+      },
+      {
+        "viewport": {
+          "width": 375,
+          "height": 548
+        },
+        "dimensions": {
+          "canvas": {
+            "width": 322.5,
+            "height": 229,
+            "bitmapWidth": 323,
+            "bitmapHeight": 229
+          },
+          "parent": {
+            "width": 322.5,
+            "height": 229
+          },
+          "dpr": 1
+        },
+        "releasePoints": [
+          {
+            "x": 98.34265625,
+            "y": 39.480000000000004,
+            "inside": true
+          }
+        ]
+      }
+    ]
+  },
+  "375x700": {
+    "rangeResize": [
+      {
+        "viewport": {
+          "width": 416,
+          "height": 833
+        },
+        "dimensions": {
+          "canvas": {
+            "width": 357.75,
+            "height": 250.234375,
+            "bitmapWidth": 358,
+            "bitmapHeight": 250
+          },
+          "parent": {
+            "width": 357.75,
+            "height": 250.234375
+          },
+          "dpr": 1
+        },
+        "releasePoints": [
+          {
+            "x": 106.4928125,
+            "y": 45.425625,
+            "inside": true
+          }
+        ]
+      },
+      {
+        "viewport": {
+          "width": 375,
+          "height": 700
+        },
+        "dimensions": {
+          "canvas": {
+            "width": 322.5,
+            "height": 234.25,
+            "bitmapWidth": 323,
+            "bitmapHeight": 234
+          },
+          "parent": {
+            "width": 322.5,
+            "height": 234.25
+          },
+          "dpr": 1
+        },
+        "releasePoints": [
+          {
+            "x": 96,
+            "y": 40.95,
+            "inside": true
+          }
+        ]
+      }
+    ]
+  },
+  "402x759": {
+    "rangeResize": [
+      {
+        "viewport": {
+          "width": 443,
+          "height": 892
+        },
+        "dimensions": {
+          "canvas": {
+            "width": 380.96875,
+            "height": 260.765625,
+            "bitmapWidth": 381,
+            "bitmapHeight": 261
+          },
+          "parent": {
+            "width": 380.96875,
+            "height": 260.765625
+          },
+          "dpr": 1
+        },
+        "releasePoints": [
+          {
+            "x": 113.40328125,
+            "y": 48.374375,
+            "inside": true
+          }
+        ]
+      },
+      {
+        "viewport": {
+          "width": 402,
+          "height": 759
+        },
+        "dimensions": {
+          "canvas": {
+            "width": 345.71875,
+            "height": 244.765625,
+            "bitmapWidth": 346,
+            "bitmapHeight": 245
+          },
+          "parent": {
+            "width": 345.71875,
+            "height": 244.765625
+          },
+          "dpr": 1
+        },
+        "releasePoints": [
+          {
+            "x": 102.915,
+            "y": 43.894375,
+            "inside": true
+          }
+        ]
+      }
+    ]
+  },
+  "passed": 48,
+  "failed": 0
+}

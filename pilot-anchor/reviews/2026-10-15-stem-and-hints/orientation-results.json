@@ -1,0 +1,219 @@
+{
+  "scope": "Chrome mobile synthetic regression of physical orientation, keyboard height, zoom precedence and real drag cancellation. Safari device confirmation remains separate.",
+  "checkedAt": "2026-10-15T11:52:09.126Z",
+  "beforeSource": "_work/rounded-stem-hints/before-app",
+  "checks": [
+    {
+      "name": "portrait starts without either guard",
+      "pass": true
+    },
+    {
+      "name": "modern landscape is detected even when screen stays portrait",
+      "pass": true,
+      "detail": {
+        "rotate": true,
+        "zoom": false,
+        "measurement": {
+          "pageZoom": 1,
+          "textZoom": 1
+        }
+      }
+    },
+    {
+      "name": "modern portrait takes precedence over conflicting legacy angle",
+      "pass": true,
+      "detail": {
+        "rotate": false,
+        "zoom": false,
+        "measurement": {
+          "pageZoom": 1,
+          "textZoom": 1
+        }
+      }
+    },
+    {
+      "name": "keyboard-like viewport height change does not become landscape",
+      "pass": true,
+      "detail": {
+        "rotate": false,
+        "zoom": false,
+        "measurement": {
+          "pageZoom": 1,
+          "textZoom": 1
+        }
+      }
+    },
+    {
+      "name": "physical rotation is detected while an input remains focused",
+      "pass": true,
+      "detail": {
+        "rotate": true,
+        "zoom": false,
+        "measurement": {
+          "pageZoom": 1,
+          "textZoom": 1
+        }
+      }
+    },
+    {
+      "name": "portrait return clears rotation guard",
+      "pass": true
+    },
+    {
+      "name": "portrait zoom detection remains active after rotation",
+      "pass": true,
+      "detail": {
+        "rotate": false,
+        "zoom": true,
+        "measurement": {
+          "pageZoom": 1.333,
+          "textZoom": 1
+        }
+      }
+    },
+    {
+      "name": "modern change event without resize gives rotation precedence",
+      "pass": true
+    },
+    {
+      "name": "modern portrait change event alone restores real zoom guidance",
+      "pass": true
+    },
+    {
+      "name": "legacy orientation event without resize gives rotation precedence",
+      "pass": true
+    },
+    {
+      "name": "legacy portrait event alone restores real zoom guidance",
+      "pass": true
+    },
+    {
+      "name": "restoring page width clears zoom guard",
+      "pass": true
+    },
+    {
+      "name": "legacy physical angle detects landscape: 90",
+      "pass": true,
+      "detail": {
+        "rotate": true,
+        "zoom": false,
+        "measurement": {
+          "pageZoom": 1,
+          "textZoom": 1
+        }
+      }
+    },
+    {
+      "name": "legacy physical angle detects landscape: -90",
+      "pass": true,
+      "detail": {
+        "rotate": true,
+        "zoom": false,
+        "measurement": {
+          "pageZoom": 1,
+          "textZoom": 1
+        }
+      }
+    },
+    {
+      "name": "legacy physical angle detects landscape: 270",
+      "pass": true,
+      "detail": {
+        "rotate": true,
+        "zoom": false,
+        "measurement": {
+          "pageZoom": 1,
+          "textZoom": 1
+        }
+      }
+    },
+    {
+      "name": "legacy zero angle restores portrait",
+      "pass": true
+    },
+    {
+      "name": "screen dimensions remain a fallback when APIs are absent",
+      "pass": true
+    },
+    {
+      "name": "viewport is the final orientation fallback",
+      "pass": true
+    },
+    {
+      "name": "typing suppresses only the viewport-only fallback",
+      "pass": true
+    },
+    {
+      "name": "actual task drag begins with a main-phase attempt",
+      "pass": true
+    },
+    {
+      "name": "physical rotation cancels and preserves exactly one invalid attempt",
+      "pass": true
+    },
+    {
+      "name": "orientation invalidation increments abort count once without recording an answer",
+      "pass": true
+    },
+    {
+      "name": "repeated orientation events do not duplicate the cancelled attempt",
+      "pass": true
+    },
+    {
+      "name": "portrait return retains the same question for retry",
+      "pass": true
+    },
+    {
+      "name": "non-touch desktop retains no rotation guard",
+      "pass": true
+    },
+    {
+      "name": "rotate=0 continues to disable only the rotation guard",
+      "pass": true,
+      "detail": {
+        "rotate": false,
+        "zoom": false,
+        "measurement": {
+          "pageZoom": 1,
+          "textZoom": 1
+        }
+      }
+    },
+    {
+      "name": "frozen previous source reproduces wrong zoom guidance for fixed portrait screen",
+      "pass": true,
+      "detail": {
+        "rotate": false,
+        "zoom": true,
+        "measurement": {
+          "pageZoom": 0.5,
+          "textZoom": 1
+        }
+      }
+    },
+    {
+      "name": "no collector/external request was attempted",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "no JavaScript exceptions",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "orientation source remained stable during verification",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "unexpectedRequests": [],
+  "screenshots": {
+    "before": "shots/orientation-before-800x400.png",
+    "after": "shots/orientation-after-800x400.png"
+  },
+  "sourceSha256": "c96a13a2117f895945f6cc295121143e8bbeecac6df0cf308a77d747a670d735",
+  "sourceAfterSha256": "c96a13a2117f895945f6cc295121143e8bbeecac6df0cf308a77d747a670d735",
+  "passed": 30,
+  "failed": 0
+}

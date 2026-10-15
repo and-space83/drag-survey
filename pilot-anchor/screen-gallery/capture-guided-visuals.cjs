@@ -4,6 +4,8 @@
 const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),crypto=require('node:crypto');
 const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'C:/Users/watal/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
 const root=path.resolve(process.env.APP_ROOT||path.join(__dirname,'..')),out=__dirname,files=require('./source-assets.cjs');
+let captureWriteSeq=0;
+function writeCapture(target,data){const resolved=path.resolve(target);if(!resolved.startsWith(path.resolve(out)+path.sep))throw Error('Capture output outside gallery');const temp=resolved+'.tmp-'+process.pid+'-'+(++captureWriteSeq);try{fs.writeFileSync(temp,data);for(let attempt=0;;attempt++){try{fs.renameSync(temp,resolved);return;}catch(error){if(!['UNKNOWN','EPERM','EACCES','EBUSY'].includes(error.code)||attempt>=9)throw error;Atomics.wait(new Int32Array(new SharedArrayBuffer(4)),0,0,150);}}}finally{if(fs.existsSync(temp))fs.unlinkSync(temp);}}
 const flow=JSON.parse(fs.readFileSync(path.join(out,'data/flow.json'),'utf8')),assets=new Map();
 for(const file of files){const bytes=fs.readFileSync(path.join(root,file)),digest=crypto.createHash('sha256').update(bytes.toString().replace(/\r\n/g,'\n')).digest('hex');if(flow.source[file]!==digest)throw Error('Visual refresh source differs: '+file);assets.set('/'+file,bytes);}
 const observe=function(){window.__galleryPlayers={};for(const key of ['createDemo','createTimeDemo']){const original=PILOT_GUIDED_TUTORIAL[key];PILOT_GUIDED_TUTORIAL[key]=function(options){const api=original.call(this,options);window.__galleryPlayers[key]=api;return api;};}};
@@ -30,9 +32,9 @@ const server=http.createServer((req,res)=>{const pathname=new URL(req.url,'http:
    const state=await p.evaluate(item=>{const player=window.__galleryPlayers[item.factory];player.sample(item.phase,item.cycles);return player.state();},item);
    await p.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));
    const screen=flow.screens.find(s=>s.id==='flow-'+item.id);if(!screen)throw Error('Missing normal-flow still: '+item.id);
-   fs.writeFileSync(path.join(out,screen.images[size.id].src),await p.screenshot({animations:'disabled'}));screen.title=item.title;screen.text[size.id]=(await p.locator('body').innerText()).replace(/^あいうえお0123456789あいうえお0123456789\n/,'');screen.animationCapture={method:'Native animation sample API; display phase only. Participant input and production source unchanged.',phase:item.phase,...(item.cycles===undefined?{}:{cycles:item.cycles})};captured.push({size:size.id,id:screen.id,phase:state.phase});console.log(size.id+' '+item.id);
+   writeCapture(path.join(out,screen.images[size.id].src),await p.screenshot({animations:'disabled'}));screen.title=item.title;screen.text[size.id]=(await p.locator('body').innerText()).replace(/^あいうえお0123456789あいうえお0123456789\n/,'');screen.animationCapture={method:'Native animation sample API; display phase only. Participant input and production source unchanged.',phase:item.phase,...(item.cycles===undefined?{}:{cycles:item.cycles})};captured.push({size:size.id,id:screen.id,phase:state.phase});console.log(size.id+' '+item.id);
   }await ctx.close();
  }
  if(errors.length||remote.length)throw Error(JSON.stringify({errors,remote}));
- flow.verification.animationStills={at:new Date().toISOString(),captured,errors,remote,motionPreference:'no-preference'};fs.writeFileSync(path.join(out,'data/flow.json'),JSON.stringify(flow,null,2)+'\n');
+ flow.verification.animationStills={at:new Date().toISOString(),captured,errors,remote,motionPreference:'no-preference'};writeCapture(path.join(out,'data/flow.json'),JSON.stringify(flow,null,2)+'\n');
 })().catch(error=>{console.error(error);process.exitCode=1;}).finally(async()=>{if(browser)await browser.close();server.close();});

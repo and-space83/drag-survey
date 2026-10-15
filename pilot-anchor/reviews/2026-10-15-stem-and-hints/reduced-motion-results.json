@@ -1,0 +1,882 @@
+{
+  "at": "2026-10-15T11:46:43.690Z",
+  "scope": "prefers-reduced-motion static fallback in Chrome mobile emulation; no physical Safari claim",
+  "source": {
+    "index.html": "c96a13a2117f895945f6cc295121143e8bbeecac6df0cf308a77d747a670d735",
+    "app.css": "2a55dac2607fe78a57674b1b4e61551dbc40e782a2fff6238b26f21efcb28e27",
+    "guided-tutorial.js": "ddc7896e7c8777584cb9c379501979877ecb1568225b46649959a1ed501a07f5",
+    "guided-tutorial.css": "54e56698da645dfdd4dc425ec3a127d6c7751987f369e058692c93b7c1918853",
+    "bank.js": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
+    "session-store.js": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+    "durable-storage.js": "84d006f048e2cc16c4a7a7087ec5815485c0b3a7d2ffa4ce6b7b62905dde967b",
+    "storage-worker.js": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
+    "staged-delivery.js": "7f37d628ce04dc47233b16387d43add674608d278030dd17355621745ab9f7ad",
+    "consent.js": "6dae132f66dc20526ae6e79c59c6ff12049a75a1b11161b6815bfa1339a14bd9",
+    "consent.css": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
+    "data-codec.js": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+    "vendor/pako.min.js": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+    "vendor/pako-LICENSE": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539"
+  },
+  "checks": [
+    {
+      "name": "375x548 time-rule reduced-motion is active and sending is disabled",
+      "pass": true
+    },
+    {
+      "name": "375x548 time-rule explanation then drawing then navigation",
+      "pass": true,
+      "detail": {
+        "reduced": true,
+        "pop": {
+          "x": 26.25,
+          "y": 24,
+          "right": 348.75,
+          "bottom": 183.296875,
+          "width": 322.5,
+          "height": 159.296875
+        },
+        "graphic": {
+          "x": 26.25,
+          "y": 193.296875,
+          "right": 348.75,
+          "bottom": 472.296875,
+          "width": 322.5,
+          "height": 279
+        },
+        "nav": {
+          "x": 15,
+          "y": 482.296875,
+          "right": 360,
+          "bottom": 534.296875,
+          "width": 345,
+          "height": 52
+        },
+        "width": 375,
+        "height": 548,
+        "svg": {
+          "touch": "1",
+          "exit": "1",
+          "ghost": "0.42",
+          "finger": "translate(205 64) scale(.52) translate(-22 -2)",
+          "ring": "1",
+          "button": "start-exit-button armed"
+        },
+        "drawing": null
+      }
+    },
+    {
+      "name": "375x548 time-rule content remains inside the viewport",
+      "pass": true,
+      "detail": {
+        "reduced": true,
+        "pop": {
+          "x": 26.25,
+          "y": 24,
+          "right": 348.75,
+          "bottom": 183.296875,
+          "width": 322.5,
+          "height": 159.296875
+        },
+        "graphic": {
+          "x": 26.25,
+          "y": 193.296875,
+          "right": 348.75,
+          "bottom": 472.296875,
+          "width": 322.5,
+          "height": 279
+        },
+        "nav": {
+          "x": 15,
+          "y": 482.296875,
+          "right": 360,
+          "bottom": 534.296875,
+          "width": 345,
+          "height": 52
+        },
+        "width": 375,
+        "height": 548,
+        "svg": {
+          "touch": "1",
+          "exit": "1",
+          "ghost": "0.42",
+          "finger": "translate(205 64) scale(.52) translate(-22 -2)",
+          "ring": "1",
+          "button": "start-exit-button armed"
+        },
+        "drawing": null
+      }
+    },
+    {
+      "name": "375x548 time-rule both green labels and the original-position ghost remain visible",
+      "pass": true,
+      "detail": {
+        "touch": "1",
+        "exit": "1",
+        "ghost": "0.42",
+        "finger": "translate(205 64) scale(.52) translate(-22 -2)",
+        "ring": "1",
+        "button": "start-exit-button armed"
+      }
+    },
+    {
+      "name": "375x548 time-rule fallback does not animate the hand or labels",
+      "pass": true
+    },
+    {
+      "name": "375x548 motor-range reduced-motion is active and sending is disabled",
+      "pass": true
+    },
+    {
+      "name": "375x548 motor-range explanation then drawing then navigation",
+      "pass": true,
+      "detail": {
+        "reduced": true,
+        "pop": {
+          "x": 26.25,
+          "y": 24,
+          "right": 348.75,
+          "bottom": 205.796875,
+          "width": 322.5,
+          "height": 181.796875
+        },
+        "graphic": {
+          "x": 26.25,
+          "y": 215.796875,
+          "right": 348.75,
+          "bottom": 472.296875,
+          "width": 322.5,
+          "height": 256.5
+        },
+        "nav": {
+          "x": 15,
+          "y": 482.296875,
+          "right": 360,
+          "bottom": 534.296875,
+          "width": 345,
+          "height": 52
+        },
+        "width": 375,
+        "height": 548,
+        "svg": null,
+        "drawing": {
+          "hash": "eb3b0f61ffabefb9026b611528f45500e920293d0bc7f746b13a71cac1d084b5",
+          "painted": true
+        }
+      }
+    },
+    {
+      "name": "375x548 motor-range content remains inside the viewport",
+      "pass": true,
+      "detail": {
+        "reduced": true,
+        "pop": {
+          "x": 26.25,
+          "y": 24,
+          "right": 348.75,
+          "bottom": 205.796875,
+          "width": 322.5,
+          "height": 181.796875
+        },
+        "graphic": {
+          "x": 26.25,
+          "y": 215.796875,
+          "right": 348.75,
+          "bottom": 472.296875,
+          "width": 322.5,
+          "height": 256.5
+        },
+        "nav": {
+          "x": 15,
+          "y": 482.296875,
+          "right": 360,
+          "bottom": 534.296875,
+          "width": 345,
+          "height": 52
+        },
+        "width": 375,
+        "height": 548,
+        "svg": null,
+        "drawing": {
+          "hash": "eb3b0f61ffabefb9026b611528f45500e920293d0bc7f746b13a71cac1d084b5",
+          "painted": true
+        }
+      }
+    },
+    {
+      "name": "375x548 motor-range static inside-range markers are drawn",
+      "pass": true
+    },
+    {
+      "name": "375x548 motor-range range fallback does not animate",
+      "pass": true
+    },
+    {
+      "name": "375x700 time-rule reduced-motion is active and sending is disabled",
+      "pass": true
+    },
+    {
+      "name": "375x700 time-rule explanation then drawing then navigation",
+      "pass": true,
+      "detail": {
+        "reduced": true,
+        "pop": {
+          "x": 26.25,
+          "y": 42,
+          "right": 348.75,
+          "bottom": 288.875,
+          "width": 322.5,
+          "height": 246.875
+        },
+        "graphic": {
+          "x": 26.25,
+          "y": 306.875,
+          "right": 348.75,
+          "bottom": 597.125,
+          "width": 322.5,
+          "height": 290.25
+        },
+        "nav": {
+          "x": 15,
+          "y": 615.125,
+          "right": 360,
+          "bottom": 667.125,
+          "width": 345,
+          "height": 52
+        },
+        "width": 375,
+        "height": 700,
+        "svg": {
+          "touch": "1",
+          "exit": "1",
+          "ghost": "0.42",
+          "finger": "translate(205 64) scale(.52) translate(-22 -2)",
+          "ring": "1",
+          "button": "start-exit-button armed"
+        },
+        "drawing": null
+      }
+    },
+    {
+      "name": "375x700 time-rule content remains inside the viewport",
+      "pass": true,
+      "detail": {
+        "reduced": true,
+        "pop": {
+          "x": 26.25,
+          "y": 42,
+          "right": 348.75,
+          "bottom": 288.875,
+          "width": 322.5,
+          "height": 246.875
+        },
+        "graphic": {
+          "x": 26.25,
+          "y": 306.875,
+          "right": 348.75,
+          "bottom": 597.125,
+          "width": 322.5,
+          "height": 290.25
+        },
+        "nav": {
+          "x": 15,
+          "y": 615.125,
+          "right": 360,
+          "bottom": 667.125,
+          "width": 345,
+          "height": 52
+        },
+        "width": 375,
+        "height": 700,
+        "svg": {
+          "touch": "1",
+          "exit": "1",
+          "ghost": "0.42",
+          "finger": "translate(205 64) scale(.52) translate(-22 -2)",
+          "ring": "1",
+          "button": "start-exit-button armed"
+        },
+        "drawing": null
+      }
+    },
+    {
+      "name": "375x700 time-rule both green labels and the original-position ghost remain visible",
+      "pass": true,
+      "detail": {
+        "touch": "1",
+        "exit": "1",
+        "ghost": "0.42",
+        "finger": "translate(205 64) scale(.52) translate(-22 -2)",
+        "ring": "1",
+        "button": "start-exit-button armed"
+      }
+    },
+    {
+      "name": "375x700 time-rule fallback does not animate the hand or labels",
+      "pass": true
+    },
+    {
+      "name": "375x700 motor-range reduced-motion is active and sending is disabled",
+      "pass": true
+    },
+    {
+      "name": "375x700 motor-range explanation then drawing then navigation",
+      "pass": true,
+      "detail": {
+        "reduced": true,
+        "pop": {
+          "x": 26.25,
+          "y": 42,
+          "right": 348.75,
+          "bottom": 257.828125,
+          "width": 322.5,
+          "height": 215.828125
+        },
+        "graphic": {
+          "x": 26.25,
+          "y": 275.828125,
+          "right": 348.75,
+          "bottom": 537.578125,
+          "width": 322.5,
+          "height": 261.75
+        },
+        "nav": {
+          "x": 15,
+          "y": 560,
+          "right": 360,
+          "bottom": 612,
+          "width": 345,
+          "height": 52
+        },
+        "width": 375,
+        "height": 700,
+        "svg": null,
+        "drawing": {
+          "hash": "da1af8550cb77f88916ca41b927d095d215de08a03b9201c1186fe705e682856",
+          "painted": true
+        }
+      }
+    },
+    {
+      "name": "375x700 motor-range content remains inside the viewport",
+      "pass": true,
+      "detail": {
+        "reduced": true,
+        "pop": {
+          "x": 26.25,
+          "y": 42,
+          "right": 348.75,
+          "bottom": 257.828125,
+          "width": 322.5,
+          "height": 215.828125
+        },
+        "graphic": {
+          "x": 26.25,
+          "y": 275.828125,
+          "right": 348.75,
+          "bottom": 537.578125,
+          "width": 322.5,
+          "height": 261.75
+        },
+        "nav": {
+          "x": 15,
+          "y": 560,
+          "right": 360,
+          "bottom": 612,
+          "width": 345,
+          "height": 52
+        },
+        "width": 375,
+        "height": 700,
+        "svg": null,
+        "drawing": {
+          "hash": "da1af8550cb77f88916ca41b927d095d215de08a03b9201c1186fe705e682856",
+          "painted": true
+        }
+      }
+    },
+    {
+      "name": "375x700 motor-range static inside-range markers are drawn",
+      "pass": true
+    },
+    {
+      "name": "375x700 motor-range range fallback does not animate",
+      "pass": true
+    },
+    {
+      "name": "402x759 time-rule reduced-motion is active and sending is disabled",
+      "pass": true
+    },
+    {
+      "name": "402x759 time-rule explanation then drawing then navigation",
+      "pass": true,
+      "detail": {
+        "reduced": true,
+        "pop": {
+          "x": 28.140625,
+          "y": 42,
+          "right": 373.859375,
+          "bottom": 263.28125,
+          "width": 345.71875,
+          "height": 221.28125
+        },
+        "graphic": {
+          "x": 28.140625,
+          "y": 281.28125,
+          "right": 373.859375,
+          "bottom": 592.421875,
+          "width": 345.71875,
+          "height": 311.140625
+        },
+        "nav": {
+          "x": 16.078125,
+          "y": 610.421875,
+          "right": 385.90625,
+          "bottom": 662.421875,
+          "width": 369.828125,
+          "height": 52
+        },
+        "width": 402,
+        "height": 759,
+        "svg": {
+          "touch": "1",
+          "exit": "1",
+          "ghost": "0.42",
+          "finger": "translate(205 64) scale(.52) translate(-22 -2)",
+          "ring": "1",
+          "button": "start-exit-button armed"
+        },
+        "drawing": null
+      }
+    },
+    {
+      "name": "402x759 time-rule content remains inside the viewport",
+      "pass": true,
+      "detail": {
+        "reduced": true,
+        "pop": {
+          "x": 28.140625,
+          "y": 42,
+          "right": 373.859375,
+          "bottom": 263.28125,
+          "width": 345.71875,
+          "height": 221.28125
+        },
+        "graphic": {
+          "x": 28.140625,
+          "y": 281.28125,
+          "right": 373.859375,
+          "bottom": 592.421875,
+          "width": 345.71875,
+          "height": 311.140625
+        },
+        "nav": {
+          "x": 16.078125,
+          "y": 610.421875,
+          "right": 385.90625,
+          "bottom": 662.421875,
+          "width": 369.828125,
+          "height": 52
+        },
+        "width": 402,
+        "height": 759,
+        "svg": {
+          "touch": "1",
+          "exit": "1",
+          "ghost": "0.42",
+          "finger": "translate(205 64) scale(.52) translate(-22 -2)",
+          "ring": "1",
+          "button": "start-exit-button armed"
+        },
+        "drawing": null
+      }
+    },
+    {
+      "name": "402x759 time-rule both green labels and the original-position ghost remain visible",
+      "pass": true,
+      "detail": {
+        "touch": "1",
+        "exit": "1",
+        "ghost": "0.42",
+        "finger": "translate(205 64) scale(.52) translate(-22 -2)",
+        "ring": "1",
+        "button": "start-exit-button armed"
+      }
+    },
+    {
+      "name": "402x759 time-rule fallback does not animate the hand or labels",
+      "pass": true
+    },
+    {
+      "name": "402x759 motor-range reduced-motion is active and sending is disabled",
+      "pass": true
+    },
+    {
+      "name": "402x759 motor-range explanation then drawing then navigation",
+      "pass": true,
+      "detail": {
+        "reduced": true,
+        "pop": {
+          "x": 28.140625,
+          "y": 42,
+          "right": 373.859375,
+          "bottom": 257.828125,
+          "width": 345.71875,
+          "height": 215.828125
+        },
+        "graphic": {
+          "x": 28.140625,
+          "y": 275.828125,
+          "right": 373.859375,
+          "bottom": 548.09375,
+          "width": 345.71875,
+          "height": 272.265625
+        },
+        "nav": {
+          "x": 16.078125,
+          "y": 609.765625,
+          "right": 385.90625,
+          "bottom": 661.765625,
+          "width": 369.828125,
+          "height": 52
+        },
+        "width": 402,
+        "height": 759,
+        "svg": null,
+        "drawing": {
+          "hash": "e3df0474d3c13889ec0602e6f7c470bcccd0187b9894d1fc2b5d970861869875",
+          "painted": true
+        }
+      }
+    },
+    {
+      "name": "402x759 motor-range content remains inside the viewport",
+      "pass": true,
+      "detail": {
+        "reduced": true,
+        "pop": {
+          "x": 28.140625,
+          "y": 42,
+          "right": 373.859375,
+          "bottom": 257.828125,
+          "width": 345.71875,
+          "height": 215.828125
+        },
+        "graphic": {
+          "x": 28.140625,
+          "y": 275.828125,
+          "right": 373.859375,
+          "bottom": 548.09375,
+          "width": 345.71875,
+          "height": 272.265625
+        },
+        "nav": {
+          "x": 16.078125,
+          "y": 609.765625,
+          "right": 385.90625,
+          "bottom": 661.765625,
+          "width": 369.828125,
+          "height": 52
+        },
+        "width": 402,
+        "height": 759,
+        "svg": null,
+        "drawing": {
+          "hash": "e3df0474d3c13889ec0602e6f7c470bcccd0187b9894d1fc2b5d970861869875",
+          "painted": true
+        }
+      }
+    },
+    {
+      "name": "402x759 motor-range static inside-range markers are drawn",
+      "pass": true
+    },
+    {
+      "name": "402x759 motor-range range fallback does not animate",
+      "pass": true
+    },
+    {
+      "name": "tested source stayed fixed",
+      "pass": true
+    },
+    {
+      "name": "no JavaScript exception",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "no external or non-GET request",
+      "pass": true,
+      "detail": []
+    }
+  ],
+  "errors": [],
+  "unexpectedRequests": [],
+  "scenes": [
+    {
+      "size": {
+        "width": 375,
+        "height": 548
+      },
+      "step": "time-rule",
+      "image": "shots/reduced-motion/375x548/time-rule.png",
+      "geometry": {
+        "reduced": true,
+        "pop": {
+          "x": 26.25,
+          "y": 24,
+          "right": 348.75,
+          "bottom": 183.296875,
+          "width": 322.5,
+          "height": 159.296875
+        },
+        "graphic": {
+          "x": 26.25,
+          "y": 193.296875,
+          "right": 348.75,
+          "bottom": 472.296875,
+          "width": 322.5,
+          "height": 279
+        },
+        "nav": {
+          "x": 15,
+          "y": 482.296875,
+          "right": 360,
+          "bottom": 534.296875,
+          "width": 345,
+          "height": 52
+        },
+        "width": 375,
+        "height": 548,
+        "svg": {
+          "touch": "1",
+          "exit": "1",
+          "ghost": "0.42",
+          "finger": "translate(205 64) scale(.52) translate(-22 -2)",
+          "ring": "1",
+          "button": "start-exit-button armed"
+        },
+        "drawing": null
+      }
+    },
+    {
+      "size": {
+        "width": 375,
+        "height": 548
+      },
+      "step": "motor-range",
+      "image": "shots/reduced-motion/375x548/motor-range.png",
+      "geometry": {
+        "reduced": true,
+        "pop": {
+          "x": 26.25,
+          "y": 24,
+          "right": 348.75,
+          "bottom": 205.796875,
+          "width": 322.5,
+          "height": 181.796875
+        },
+        "graphic": {
+          "x": 26.25,
+          "y": 215.796875,
+          "right": 348.75,
+          "bottom": 472.296875,
+          "width": 322.5,
+          "height": 256.5
+        },
+        "nav": {
+          "x": 15,
+          "y": 482.296875,
+          "right": 360,
+          "bottom": 534.296875,
+          "width": 345,
+          "height": 52
+        },
+        "width": 375,
+        "height": 548,
+        "svg": null,
+        "drawing": {
+          "hash": "eb3b0f61ffabefb9026b611528f45500e920293d0bc7f746b13a71cac1d084b5",
+          "painted": true
+        }
+      }
+    },
+    {
+      "size": {
+        "width": 375,
+        "height": 700
+      },
+      "step": "time-rule",
+      "image": "shots/reduced-motion/375x700/time-rule.png",
+      "geometry": {
+        "reduced": true,
+        "pop": {
+          "x": 26.25,
+          "y": 42,
+          "right": 348.75,
+          "bottom": 288.875,
+          "width": 322.5,
+          "height": 246.875
+        },
+        "graphic": {
+          "x": 26.25,
+          "y": 306.875,
+          "right": 348.75,
+          "bottom": 597.125,
+          "width": 322.5,
+          "height": 290.25
+        },
+        "nav": {
+          "x": 15,
+          "y": 615.125,
+          "right": 360,
+          "bottom": 667.125,
+          "width": 345,
+          "height": 52
+        },
+        "width": 375,
+        "height": 700,
+        "svg": {
+          "touch": "1",
+          "exit": "1",
+          "ghost": "0.42",
+          "finger": "translate(205 64) scale(.52) translate(-22 -2)",
+          "ring": "1",
+          "button": "start-exit-button armed"
+        },
+        "drawing": null
+      }
+    },
+    {
+      "size": {
+        "width": 375,
+        "height": 700
+      },
+      "step": "motor-range",
+      "image": "shots/reduced-motion/375x700/motor-range.png",
+      "geometry": {
+        "reduced": true,
+        "pop": {
+          "x": 26.25,
+          "y": 42,
+          "right": 348.75,
+          "bottom": 257.828125,
+          "width": 322.5,
+          "height": 215.828125
+        },
+        "graphic": {
+          "x": 26.25,
+          "y": 275.828125,
+          "right": 348.75,
+          "bottom": 537.578125,
+          "width": 322.5,
+          "height": 261.75
+        },
+        "nav": {
+          "x": 15,
+          "y": 560,
+          "right": 360,
+          "bottom": 612,
+          "width": 345,
+          "height": 52
+        },
+        "width": 375,
+        "height": 700,
+        "svg": null,
+        "drawing": {
+          "hash": "da1af8550cb77f88916ca41b927d095d215de08a03b9201c1186fe705e682856",
+          "painted": true
+        }
+      }
+    },
+    {
+      "size": {
+        "width": 402,
+        "height": 759
+      },
+      "step": "time-rule",
+      "image": "shots/reduced-motion/402x759/time-rule.png",
+      "geometry": {
+        "reduced": true,
+        "pop": {
+          "x": 28.140625,
+          "y": 42,
+          "right": 373.859375,
+          "bottom": 263.28125,
+          "width": 345.71875,
+          "height": 221.28125
+        },
+        "graphic": {
+          "x": 28.140625,
+          "y": 281.28125,
+          "right": 373.859375,
+          "bottom": 592.421875,
+          "width": 345.71875,
+          "height": 311.140625
+        },
+        "nav": {
+          "x": 16.078125,
+          "y": 610.421875,
+          "right": 385.90625,
+          "bottom": 662.421875,
+          "width": 369.828125,
+          "height": 52
+        },
+        "width": 402,
+        "height": 759,
+        "svg": {
+          "touch": "1",
+          "exit": "1",
+          "ghost": "0.42",
+          "finger": "translate(205 64) scale(.52) translate(-22 -2)",
+          "ring": "1",
+          "button": "start-exit-button armed"
+        },
+        "drawing": null
+      }
+    },
+    {
+      "size": {
+        "width": 402,
+        "height": 759
+      },
+      "step": "motor-range",
+      "image": "shots/reduced-motion/402x759/motor-range.png",
+      "geometry": {
+        "reduced": true,
+        "pop": {
+          "x": 28.140625,
+          "y": 42,
+          "right": 373.859375,
+          "bottom": 257.828125,
+          "width": 345.71875,
+          "height": 215.828125
+        },
+        "graphic": {
+          "x": 28.140625,
+          "y": 275.828125,
+          "right": 373.859375,
+          "bottom": 548.09375,
+          "width": 345.71875,
+          "height": 272.265625
+        },
+        "nav": {
+          "x": 16.078125,
+          "y": 609.765625,
+          "right": 385.90625,
+          "bottom": 661.765625,
+          "width": 369.828125,
+          "height": 52
+        },
+        "width": 402,
+        "height": 759,
+        "svg": null,
+        "drawing": {
+          "hash": "e3df0474d3c13889ec0602e6f7c470bcccd0187b9894d1fc2b5d970861869875",
+          "painted": true
+        }
+      }
+    }
+  ],
+  "passed": 33,
+  "failed": 0
+}

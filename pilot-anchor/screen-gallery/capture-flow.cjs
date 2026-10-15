@@ -16,7 +16,8 @@ const source=assets.get('/index.html').toString();
 report.verification.appVersion=source.match(/appVersion:\s*"([^"]+)"/)[1];
 const server=http.createServer((req,res)=>{const key=new URL(req.url,'http://local').pathname==='/'?'/index.html':new URL(req.url,'http://local').pathname,data=assets.get(key);if(req.method!=='GET'||!data){res.writeHead(404);res.end();return;}res.setHeader('Content-Type',({'html':'text/html;charset=utf-8','css':'text/css','js':'application/javascript'})[key.split('.').at(-1)]||'application/octet-stream');res.end(data);});
 let browser,origin;const screenMap=new Map(),sleep=ms=>new Promise(r=>setTimeout(r,ms));
-function writeCapturedFile(target,data){for(let attempt=0;;attempt++){try{fs.writeFileSync(target,data);return;}catch(error){if(error.code!=='UNKNOWN'||attempt>=9)throw error;Atomics.wait(new Int32Array(new SharedArrayBuffer(4)),0,0,150);}}}
+let captureWriteSeq=0;
+function writeCapturedFile(target,data){const resolved=path.resolve(target);if(!resolved.startsWith(path.resolve(out)+path.sep))throw Error('Capture output outside gallery');const temp=resolved+'.tmp-'+process.pid+'-'+(++captureWriteSeq);try{fs.writeFileSync(temp,data);for(let attempt=0;;attempt++){try{fs.renameSync(temp,resolved);return;}catch(error){if(!['UNKNOWN','EPERM','EACCES','EBUSY'].includes(error.code)||attempt>=9)throw error;Atomics.wait(new Int32Array(new SharedArrayBuffer(4)),0,0,150);}}}finally{if(fs.existsSync(temp))fs.unlinkSync(temp);}}
 function save(){report.screens=[...screenMap.values()].sort((a,b)=>a.order-b.order||a.id.localeCompare(b.id));fs.mkdirSync(path.join(out,'data'),{recursive:true});writeCapturedFile(path.join(out,'data/flow.json'),JSON.stringify(report,null,2));}
 function retireUnusedScreens(){const active=new Set([...screenMap.values()].map(s=>s.id)),retired=priorScreens.filter(s=>!active.has(s.id));const imagesRoot=path.resolve(out,'images')+path.sep;for(const s of retired)for(const info of Object.values(s.images)){const target=path.resolve(out,info.src);if(!target.startsWith(imagesRoot)||!path.basename(target).startsWith('flow-'))throw Error('Unexpected retired flow image path');if(fs.existsSync(target))fs.unlinkSync(target);}report.verification.retiredScreens=retired.map(s=>s.id);}
 const syncValues=new Map();
@@ -33,9 +34,10 @@ async function suite(size){
    return r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({ok:true,protocol:3,sessionId:payload.device.sessionId,state:payload.kind==='consent'?'consented':payload.kind==='tasks'?'tasks_received':'completed',consentReceivedAt:new Date().toISOString(),receivedAt:new Date().toISOString(),tasksDigest:digest,finalDigest:digest})});
  }if(r.request().method()!=='GET'){report.remote.push(r.request().url());return r.abort();}return r.continue();});
  await p.clock.install();
+ let screenshotClockHeld=false;
  const shot=async(id,title,section,order,description='',condition='通常の進行',sourceScreen=null)=>{
    if(consentRefresh&&section!=='consent')return;
-   await p.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));await sleep(90);
+   const frames=p.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));if(screenshotClockHeld)await p.clock.runFor(40);await frames;await sleep(90);
    const filename='flow-'+id+'.png';fs.mkdirSync(path.join(out,'images',size.id),{recursive:true});writeCapturedFile(path.join(out,'images',size.id,filename),await p.screenshot({animations:'disabled'}));
    const active=await p.evaluate(()=>__pilot.activeScreen());let s=screenMap.get(id);if(!s){s={id:'flow-'+id,title,section,order,description,condition,sourceScreen:sourceScreen||active,images:{},text:{}};screenMap.set(id,s);}Object.assign(s,{title,section,order,description});s.images[size.id]={src:'images/'+size.id+'/'+filename,width:size.width,height:size.height};s.text[size.id]=(await p.locator('body').innerText()).replace(/^あいうえお0123456789あいうえお0123456789\n/,'');save();console.log(size.id+' '+id);
  };
@@ -82,14 +84,16 @@ async function suite(size){
      }
      continue;
    }
+   // Keep screenshot I/O from consuming the very reading deadline being checked.
+   if(i===0){await p.clock.pauseAt(await p.evaluate(()=>Date.now()));screenshotClockHeld=true;}
    await shot('tutorial-'+step.id,step.title,'tutorial',base,step.kind==='motor'?'ここから本人がスタートからボックスまで運ぶ操作を試します。':step.kind==='demo'||step.id==='motor-range'?'見本を見る画面です。本人は操作せず、読んだら「次へ」で進みます。':'説明を読み、ページ送りで1項目ずつ確認します。');
-   if(i===0){await tap('#tutPopNext');await shot('tutorial-read-wait','説明を読む前に「次へ」を押した場合','tutorial',base+.01,'読了待機中は同じ説明に留まり、短い案内を表示します。','初回の読了待機中に「次へ」を押した場合');if(await p.evaluate(()=>__pilot.helpState().drag.stepId!=='layout-intro'))throw Error('Initial reading wait did not hold');}
+   if(i===0){await tap('#tutPopNext');await shot('tutorial-read-wait','説明を読む前に「次へ」を押した場合','tutorial',base+.01,'読了待機中は同じ説明に留まり、短い案内を表示します。','初回の読了待機中に「次へ」を押した場合');if(await p.evaluate(()=>__pilot.helpState().drag.stepId!=='layout-intro'))throw Error('Initial reading wait did not hold');screenshotClockHeld=false;await p.clock.resume();}
    if(step.id==='motor-route'){await p.clock.runFor(1200);await shot('tutorial-motor-route-moving','操作の見本 — 指を離さずに運ぶ途中','tutorial',base+.1,'経路を変えながら繰り返す見本。道すじは自由という文を初めから表示。');await p.clock.runFor(4000);await shot('tutorial-motor-route-another','操作の見本 — 別の道すじ','tutorial',base+.2,'複数の曲線の一例。見本の速度や道すじをまねする指示ではありません。');}
    if(step.id==='motor-range'){await p.clock.runFor(1400);await shot('tutorial-motor-range-inside','離す場所の見本 — 枠の内側','tutorial',base+.1,'拡大図の内側全体を示し、異なる内側の位置で離す見本を繰り返します。');}
    if(step.id==='time-rule'){await p.clock.runFor(1000);await shot('tutorial-time-rule-touch','3秒の区間 — スタートに触れる','tutorial',base+.1,'3秒を計る区間の見本。回答を終えるまでの時間ではありません。');await p.clock.runFor(2000);await shot('tutorial-time-rule-exit','3秒の区間 — スタートの枠を出る','tutorial',base+.2,'スタートの枠の外へ出るまでを確認します。');}
    await helpWait();
    if(step.kind==='motor'){
-     await p.locator('#surface').tap({position:{x:18,y:size.height*.6}});await shot('tutorial-motor-stray','操作の練習 — スタート以外を触った場合','tutorial',base+.1,'中央の赤い案内は4秒表示。スタート接触や画面移動で消えます。','操作練習でスタート以外に触れた場合');
+     await p.locator('#surface').tap({position:{x:18,y:size.height*.6}});await shot('tutorial-motor-stray','操作の練習 — スタート以外を触った場合','tutorial',base+.1,'赤い案内は選択肢とスタートの間に4秒表示。スタート接触や画面移動で消えます。','操作練習でスタート以外に触れた場合');
      await drag('sandbox',null,true);await shot('tutorial-motor-retry','操作の練習 — スタートで離した場合','tutorial',base+.2,'スタートからボックスまで指を離さず運び直します。','操作練習で途中で指を離した場合');
      await drag('outside');await shot('tutorial-motor-outside','操作の練習 — 枠外で離した場合','tutorial',base+.3,'選択肢の枠内で離すよう案内します。','操作練習で枠外で指を離した場合');
      await drag('sandbox',{press:['tutorial-motor-press','操作の練習 — スタート押下','tutorial',base+.4],move:['tutorial-motor-drag','操作の練習 — 指を運ぶ途中','tutorial',base+.5,'本人の軌跡は表示せず、現在位置と押下・到達の反応を表示します。']});

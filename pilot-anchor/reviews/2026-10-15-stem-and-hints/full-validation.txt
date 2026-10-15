@@ -1,0 +1,929 @@
+
+--- O14: early-start copy / feedback / saved survey migration ---
+✅ [O14/timing] 文言変更後も判定の設定値は25字/秒を維持
+✅ [O14] 検証セッションの実送信が無効
+✅ [O14/timing] 25字/秒より短い押下は従来どおりearlyStart記録 — {"preStartMs":20.2,"stemChars":58,"early":true}
+✅ [O14/copy] plainとHTMLの表示文字が採用した非断定の全文に一致
+✅ [O14/layout/mini] 起動時倍率を再計算し元の画面・記録を保持 — {"scale":1,"stage":"notice","notice":"early"}
+✅ [O14/layout/mini] early-notice: 文字欠け・スクロール・操作の重なりなし — {"width":375,"height":700,"pad":{"left":0,"right":375,"top":0,"bottom":700,"width":375,"height":700},"overflowX":0,"overflowY":0,"nav":{"left":69.78125,"right":305.21875,"top":462.3125,"bottom":519.3125,"width":235.4375,"height":57},"controls":[{"id":"noticeGo","text":"確認して問題に戻る","left":69.78125,"right":305.21875,"top":462.3125,"bottom":519.3125,"width":235.4375,"height":57,"overflowX":0,"overflowY":0,"hit":true}]}
+✅ [O14/layout/iphone17] 起動時倍率を再計算し元の画面・記録を保持 — {"scale":1,"stage":"notice","notice":"early"}
+✅ [O14/layout/iphone17] early-notice: 文字欠け・スクロール・操作の重なりなし — {"width":402,"height":759,"pad":{"left":0,"right":402,"top":0,"bottom":759,"width":402,"height":759},"overflowX":0,"overflowY":0,"nav":{"left":73.5625,"right":328.4375,"top":497.703125,"bottom":554.703125,"width":254.875,"height":57},"controls":[{"id":"noticeGo","text":"確認して問題に戻る","left":73.5625,"right":328.4375,"top":497.703125,"bottom":554.703125,"width":254.875,"height":57,"overflowX":0,"overflowY":0,"hit":true}]}
+✅ [O14/layout/ipad] 起動時倍率を再計算し元の画面・記録を保持 — {"scale":1.6,"stage":"notice","notice":"early"}
+✅ [O14/layout/ipad] early-notice: 文字欠け・スクロール・操作の重なりなし — {"width":820,"height":1180,"pad":{"left":0,"right":820,"top":0,"bottom":1180,"width":820,"height":1180},"overflowX":0,"overflowY":0,"nav":{"left":132.078125,"right":687.90625,"top":769.9375,"bottom":853.125,"width":555.828125,"height":83.1875},"controls":[{"id":"noticeGo","text":"確認して問題に戻る","left":132.078125,"right":687.90625,"top":769.9375,"bottom":853.125,"width":555.828125,"height":83.1875,"overflowX":0,"overflowY":0,"hit":true}]}
+✅ [O14/timing] 25字/秒以上の表示時間を経た押下はearlyStartにならない — {"preStartMs":2705.1,"stemChars":63,"early":false}
+✅ [O14/timing] 読了閾値以上では追加の早出し案内が出ない
+✅ [O14/survey] 追加項目は独立した3ページ目に採用文で表示
+✅ [O14/survey] 2項目を同時選択して先行回答を保持
+✅ [O14/survey] 前後移動で追加2項目を保持
+✅ [O14/survey] 再読み込みでページ・全回答・その他記述を保持
+✅ [O14/survey] 3ページ目のなしはその他も含め同ページだけを解除
+✅ [O14/survey] 2ページ目のなしでも新しい2項目を消さない
+✅ [O14/survey] 1ページ目のなしでも新しい2項目を消さない
+✅ [O14/layout/mini] 起動時倍率を再計算し元の画面・記録を保持 — {"scale":1,"stage":"postq","pageId":"problems3","notice":null}
+✅ [O14/layout/mini] feedback-3-selected: 文字欠け・スクロール・操作の重なりなし — {"width":375,"height":700,"pad":{"left":0,"right":375,"top":0,"bottom":700,"width":375,"height":700},"overflowX":0,"overflowY":0,"nav":{"left":37.078125,"right":337.90625,"top":576.71875,"bottom":633.71875,"width":300.828125,"height":57},"controls":[{"id":"","key":"read_notice_after_reading","text":"問題文を読み終えていたのに、「読んでから」という案内が出た","left":24,"right":351,"top":218.328125,"bottom":288.328125,"width":327,"height":70,"overflowX":0,"overflowY":0,"hit":true},{"id":"","key":"explanation_wait_after_reading","text":"説明を読み終えていたのに、「次へ」を押しても進めなかった","left":24,"right":351,"top":294.328125,"bottom":364.328125,"width":327,"height":70,"overflowX":0,"overflowY":0,"hit":true},{"id":"","key":"other","text":"その他","left":24,"right":351,"top":370.328125,"bottom":417.328125,"width":327,"height":47,"overflowX":0,"overflowY":0,"hit":true},{"id":"","key":"none3","text":"このページでは該当なし","left":24,"right":351,"top":423.328125,"bottom":470.328125,"width":327,"height":47,"overflowX":0,"overflowY":0,"hit":true},{"id":"postPrev","text":"戻る","left":37.078125,"right":133.328125,"top":576.71875,"bottom":633.71875,"width":96.25,"height":57,"overflowX":0,"overflowY":0,"hit":true},{"id":"postNext","text":"次へ","left":141.328125,"right":337.90625,"top":576.71875,"bottom":633.71875,"width":196.578125,"height":57,"overflowX":0,"overflowY":0,"hit":true}],"part":"3"}
+✅ [O14/layout/iphone17] 起動時倍率を再計算し元の画面・記録を保持 — {"scale":1,"stage":"postq","pageId":"problems3","notice":null}
+✅ [O14/layout/iphone17] feedback-3-selected: 文字欠け・スクロール・操作の重なりなし — {"width":402,"height":759,"pad":{"left":0,"right":402,"top":0,"bottom":759,"width":402,"height":759},"overflowX":0,"overflowY":0,"nav":{"left":38.15625,"right":363.828125,"top":596.390625,"bottom":653.390625,"width":325.671875,"height":57},"controls":[{"id":"","key":"read_notice_after_reading","text":"問題文を読み終えていたのに、「読んでから」という案内が出た","left":24,"right":378,"top":238,"bottom":308,"width":354,"height":70,"overflowX":0,"overflowY":0,"hit":true},{"id":"","key":"explanation_wait_after_reading","text":"説明を読み終えていたのに、「次へ」を押しても進めなかった","left":24,"right":378,"top":314,"bottom":384,"width":354,"height":70,"overflowX":0,"overflowY":0,"hit":true},{"id":"","key":"other","text":"その他","left":24,"right":378,"top":390,"bottom":437,"width":354,"height":47,"overflowX":0,"overflowY":0,"hit":true},{"id":"","key":"none3","text":"このページでは該当なし","left":24,"right":378,"top":443,"bottom":490,"width":354,"height":47,"overflowX":0,"overflowY":0,"hit":true},{"id":"postPrev","text":"戻る","left":38.15625,"right":142.359375,"top":596.390625,"bottom":653.390625,"width":104.203125,"height":57,"overflowX":0,"overflowY":0,"hit":true},{"id":"postNext","text":"次へ","left":150.359375,"right":363.828125,"top":596.390625,"bottom":653.390625,"width":213.46875,"height":57,"overflowX":0,"overflowY":0,"hit":true}],"part":"3"}
+✅ [O14/layout/ipad] 起動時倍率を再計算し元の画面・記録を保持 — {"scale":1.6,"stage":"postq","pageId":"problems3","notice":null}
+✅ [O14/layout/ipad] feedback-3-selected: 文字欠け・スクロール・操作の重なりなし — {"width":820,"height":1180,"pad":{"left":0,"right":820,"top":0,"bottom":1180,"width":820,"height":1180},"overflowX":0,"overflowY":0,"nav":{"left":54.875,"right":765.109375,"top":775.140625,"bottom":858.328125,"width":710.234375,"height":83.1875},"controls":[{"id":"","key":"read_notice_after_reading","text":"問題文を読み終えていたのに、「読んでから」という案内が出た","left":24,"right":796,"top":386.296875,"bottom":446.296875,"width":772,"height":60,"overflowX":0,"overflowY":0,"hit":true},{"id":"","key":"explanation_wait_after_reading","text":"説明を読み終えていたのに、「次へ」を押しても進めなかった","left":24,"right":796,"top":452.296875,"bottom":512.296875,"width":772,"height":60,"overflowX":0,"overflowY":0,"hit":true},{"id":"","key":"other","text":"その他","left":24,"right":796,"top":518.296875,"bottom":578.296875,"width":772,"height":60,"overflowX":0,"overflowY":0,"hit":true},{"id":"","key":"none3","text":"このページでは該当なし","left":24,"right":796,"top":584.296875,"bottom":644.296875,"width":772,"height":60,"overflowX":0,"overflowY":0,"hit":true},{"id":"postPrev","text":"戻る","left":54.875,"right":282.140625,"top":775.140625,"bottom":858.328125,"width":227.265625,"height":83.1875,"overflowX":0,"overflowY":0,"hit":true},{"id":"postNext","text":"次へ","left":290.140625,"right":765.109375,"top":775.140625,"bottom":858.328125,"width":474.96875,"height":83.1875,"overflowX":0,"overflowY":0,"hit":true}],"part":"3"}
+✅ [O14/payload] 完了用payloadに追加キー・ページ別回答・自由記述が揃う
+✅ [O14/payload] 保存した送信待ちpayloadにも同じ回答を保全
+✅ [O14/legacy] 旧part2番号を同じページへ復元し新設ページは未回答 — {"page":14,"pageId":"problems2","answers":[["rating_burden"],["other"],null]}
+✅ [O14/legacy] 旧part2の追加未回答を自動noneにせず完了を制限
+✅ [O14/legacy] 旧ease番号を同じページへ復元し新設ページは未回答 — {"page":16,"pageId":"ease","answers":[["none"],["none"],null]}
+✅ [O14/legacy] 旧easeの追加未回答を自動noneにせず完了を制限
+✅ [O14/legacy] 旧comment番号を同じページへ復元し新設ページは未回答 — {"page":17,"pageId":"comment","answers":[["rating_burden"],["other"],null]}
+✅ [O14/legacy] 旧commentの追加未回答を自動noneにせず完了を制限
+✅ [O14/legacy] 旧末尾から未回答案内で最初の新設項目へ移れる
+✅ [O14/legacy] 旧global-none番号を同じページへ復元し新設ページは未回答 — {"page":17,"pageId":"comment","answers":[["none"],["none"],null]}
+✅ [O14/legacy] 旧global-noneの追加未回答を自動noneにせず完了を制限
+
+--- round4: movement wording / late-notice limit ---
+✅ [round4] 合成セッションは実送信を無効化
+✅ [round4/copy/mini] 操作の説明は離さず運んでボックス内で離す
+✅ [round4/layout/mini] operation-initial-motor: 文字と操作ボタンが画面内 — {"width":375,"height":700,"box":{"left":26.25,"right":348.75,"top":42,"bottom":257.828125,"width":322.5,"height":215.828125},"scrollWidth":321,"clientWidth":321,"scrollHeight":214,"clientHeight":214,"buttons":[{"id":"tutPrev","left":15,"right":108.140625,"top":630.5,"bottom":682.5,"width":93.140625,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":118.140625,"right":360,"top":630.5,"bottom":682.5,"width":241.859375,"height":52,"overflowX":0,"overflowY":0}],"choiceTop":275.828125,"choiceBottom":359.828125,"startTop":556}
+✅ [round4/layout/mini] operation-initial-motor: 説明が運ぶ先の箱を隠さない — {"boxBottom":257.828125,"choiceTop":275.828125,"choiceBottom":359.828125,"startTop":556}
+✅ [round4/layout/mini] operation-initial-motor: STARTと左右の箱が画面内で説明に覆われない — [{"id":"start","inside":true,"covered":false},{"id":"tutSingleTarget","inside":true,"covered":false}]
+✅ [round4/input/mini] 長い説明でもSTARTから箱へ実際に運べる
+✅ [round4] 合成セッションは実送信を無効化
+✅ [round4/copy/mini] 3秒は触れてからスタート枠外までと実演で説明
+✅ [round4/layout/mini] operation-time-rule: 文字と操作ボタンが画面内 — {"width":375,"height":700,"box":{"left":26.25,"right":348.75,"top":42,"bottom":288.875,"width":322.5,"height":246.875},"scrollWidth":321,"clientWidth":321,"scrollHeight":245,"clientHeight":245,"buttons":[{"id":"tutPrev","left":15,"right":108.140625,"top":615.125,"bottom":667.125,"width":93.140625,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":118.140625,"right":360,"top":615.125,"bottom":667.125,"width":241.859375,"height":52,"overflowX":0,"overflowY":0}],"choiceTop":189,"choiceBottom":286.5,"startTop":556}
+✅ [round4] 合成セッションは実送信を無効化
+✅ [round4/copy/mini] 回答期限ではなく本人のペースを別画面で説明
+✅ [round4/layout/mini] operation-answer-pace: 文字と操作ボタンが画面内 — {"width":375,"height":700,"box":{"left":26.25,"right":348.75,"top":213.765625,"bottom":480.78125,"width":322.5,"height":267.015625},"scrollWidth":321,"clientWidth":321,"scrollHeight":265,"clientHeight":265,"buttons":[{"id":"tutPrev","left":15,"right":108.140625,"top":560,"bottom":612,"width":93.140625,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":118.140625,"right":360,"top":560,"bottom":612,"width":241.859375,"height":52,"overflowX":0,"overflowY":0}],"choiceTop":189,"choiceBottom":286.5,"startTop":556}
+✅ [round4] 合成セッションは実送信を無効化
+✅ [round4/copy/mini] 遅い初動の案内も初動と回答期限を区別する説明とボタンの外への移動を説明
+✅ [round4/layout/mini] late-notice: 文字と操作ボタンが画面内 — {"width":375,"height":700,"box":{"left":0,"right":375,"top":0,"bottom":700,"width":375,"height":700},"scrollWidth":375,"clientWidth":375,"scrollHeight":700,"clientHeight":700,"buttons":[{"id":"noticeGo","left":69.78125,"right":305.21875,"top":536.078125,"bottom":593.078125,"width":235.4375,"height":57,"overflowX":0,"overflowY":0}],"choiceTop":null,"choiceBottom":null,"startTop":null}
+✅ [round4/copy/mini] 注意には有効な確認ボタンが1個あり説明ボタンはない
+✅ [round4/copy/mini] 1回の確認で問題へ戻り余分な回答を作らない
+✅ [round4] 合成セッションは実送信を無効化
+✅ [round4/copy/iphone17] 操作の説明は離さず運んでボックス内で離す
+✅ [round4/layout/iphone17] operation-initial-motor: 文字と操作ボタンが画面内 — {"width":402,"height":759,"box":{"left":28.140625,"right":373.859375,"top":45.53125,"bottom":261.359375,"width":345.71875,"height":215.828125},"scrollWidth":344,"clientWidth":344,"scrollHeight":214,"clientHeight":214,"buttons":[{"id":"tutPrev","left":16.078125,"right":115.921875,"top":688.015625,"bottom":740.015625,"width":99.84375,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":125.921875,"right":385.90625,"top":688.015625,"bottom":740.015625,"width":259.984375,"height":52,"overflowX":0,"overflowY":0}],"choiceTop":279.359375,"choiceBottom":370.4375,"startTop":603.609375}
+✅ [round4/layout/iphone17] operation-initial-motor: 説明が運ぶ先の箱を隠さない — {"boxBottom":261.359375,"choiceTop":279.359375,"choiceBottom":370.4375,"startTop":603.609375}
+✅ [round4/layout/iphone17] operation-initial-motor: STARTと左右の箱が画面内で説明に覆われない — [{"id":"start","inside":true,"covered":false},{"id":"tutSingleTarget","inside":true,"covered":false}]
+✅ [round4/input/iphone17] 長い説明でもSTARTから箱へ実際に運べる
+✅ [round4] 合成セッションは実送信を無効化
+✅ [round4/copy/iphone17] 3秒は触れてからスタート枠外までと実演で説明
+✅ [round4/layout/iphone17] operation-time-rule: 文字と操作ボタンが画面内 — {"width":402,"height":759,"box":{"left":28.140625,"right":373.859375,"top":42,"bottom":263.28125,"width":345.71875,"height":221.28125},"scrollWidth":344,"clientWidth":344,"scrollHeight":219,"clientHeight":219,"buttons":[{"id":"tutPrev","left":16.078125,"right":115.921875,"top":610.421875,"bottom":662.421875,"width":99.84375,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":125.921875,"right":385.90625,"top":610.421875,"bottom":662.421875,"width":259.984375,"height":52,"overflowX":0,"overflowY":0}],"choiceTop":204.921875,"choiceBottom":309.4375,"startTop":603.609375}
+✅ [round4] 合成セッションは実送信を無効化
+✅ [round4/copy/iphone17] 回答期限ではなく本人のペースを別画面で説明
+✅ [round4/layout/iphone17] operation-answer-pace: 文字と操作ボタンが画面内 — {"width":402,"height":759,"box":{"left":28.140625,"right":373.859375,"top":256.0625,"bottom":471.890625,"width":345.71875,"height":215.828125},"scrollWidth":344,"clientWidth":344,"scrollHeight":214,"clientHeight":214,"buttons":[{"id":"tutPrev","left":16.078125,"right":115.921875,"top":609.765625,"bottom":661.765625,"width":99.84375,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":125.921875,"right":385.90625,"top":609.765625,"bottom":661.765625,"width":259.984375,"height":52,"overflowX":0,"overflowY":0}],"choiceTop":204.921875,"choiceBottom":309.4375,"startTop":603.609375}
+✅ [round4] 合成セッションは実送信を無効化
+✅ [round4/copy/iphone17] 遅い初動の案内も初動と回答期限を区別する説明とボタンの外への移動を説明
+✅ [round4/layout/iphone17] late-notice: 文字と操作ボタンが画面内 — {"width":402,"height":759,"box":{"left":0,"right":402,"top":0,"bottom":759,"width":402,"height":759},"scrollWidth":402,"clientWidth":402,"scrollHeight":759,"clientHeight":759,"buttons":[{"id":"noticeGo","left":73.5625,"right":328.4375,"top":553.5,"bottom":610.5,"width":254.875,"height":57,"overflowX":0,"overflowY":0}],"choiceTop":null,"choiceBottom":null,"startTop":null}
+✅ [round4/copy/iphone17] 注意には有効な確認ボタンが1個あり説明ボタンはない
+✅ [round4/copy/iphone17] 1回の確認で問題へ戻り余分な回答を作らない
+✅ [round4] 合成セッションは実送信を無効化
+✅ [round4/copy/ipad] 操作の説明は離さず運んでボックス内で離す
+✅ [round4/layout/ipad] operation-initial-motor: 文字と操作ボタンが画面内 — {"width":820,"height":1180,"box":{"left":140,"right":680,"top":70.796875,"bottom":261.03125,"width":540,"height":190.234375},"scrollWidth":538,"clientWidth":538,"scrollHeight":188,"clientHeight":188,"buttons":[{"id":"tutPrev","left":32.796875,"right":236.46875,"top":1098.5,"bottom":1150.5,"width":203.671875,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":246.46875,"right":787.1875,"top":1098.5,"bottom":1150.5,"width":540.71875,"height":52,"overflowX":0,"overflowY":0}],"choiceTop":401.1875,"choiceBottom":542.78125,"startTop":907.21875}
+✅ [round4/layout/ipad] operation-initial-motor: 説明が運ぶ先の箱を隠さない — {"boxBottom":261.03125,"choiceTop":401.1875,"choiceBottom":542.78125,"startTop":907.21875}
+✅ [round4/layout/ipad] operation-initial-motor: STARTと左右の箱が画面内で説明に覆われない — [{"id":"start","inside":true,"covered":false},{"id":"tutSingleTarget","inside":true,"covered":false}]
+✅ [round4/input/ipad] 長い説明でもSTARTから箱へ実際に運べる
+✅ [round4] 合成セッションは実送信を無効化
+✅ [round4/copy/ipad] 3秒は触れてからスタート枠外までと実演で説明
+✅ [round4/layout/ipad] operation-time-rule: 文字と操作ボタンが画面内 — {"width":820,"height":1180,"box":{"left":140,"right":680,"top":42,"bottom":232.234375,"width":540,"height":190.234375},"scrollWidth":538,"clientWidth":538,"scrollHeight":188,"clientHeight":188,"buttons":[{"id":"tutPrev","left":32.796875,"right":236.46875,"top":946.8125,"bottom":998.8125,"width":203.671875,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":246.46875,"right":787.1875,"top":946.8125,"bottom":998.8125,"width":540.71875,"height":52,"overflowX":0,"overflowY":0}],"choiceTop":318.59375,"choiceBottom":531.78125,"startTop":907.21875}
+✅ [round4] 合成セッションは実送信を無効化
+✅ [round4/copy/ipad] 回答期限ではなく本人のペースを別画面で説明
+✅ [round4/layout/ipad] operation-answer-pace: 文字と操作ボタンが画面内 — {"width":820,"height":1180,"box":{"left":140,"right":680,"top":482.078125,"bottom":697.90625,"width":540,"height":215.828125},"scrollWidth":538,"clientWidth":538,"scrollHeight":214,"clientHeight":214,"buttons":[{"id":"tutPrev","left":32.796875,"right":236.46875,"top":946.8125,"bottom":998.8125,"width":203.671875,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":246.46875,"right":787.1875,"top":946.8125,"bottom":998.8125,"width":540.71875,"height":52,"overflowX":0,"overflowY":0}],"choiceTop":318.59375,"choiceBottom":531.78125,"startTop":907.21875}
+✅ [round4] 合成セッションは実送信を無効化
+✅ [round4/copy/ipad] 遅い初動の案内も初動と回答期限を区別する説明とボタンの外への移動を説明
+✅ [round4/layout/ipad] late-notice: 文字と操作ボタンが画面内 — {"width":820,"height":1180,"box":{"left":0,"right":820,"top":0,"bottom":1180,"width":820,"height":1180},"scrollWidth":820,"clientWidth":820,"scrollHeight":1180,"clientHeight":1180,"buttons":[{"id":"noticeGo","left":132.078125,"right":687.90625,"top":859.1875,"bottom":942.375,"width":555.828125,"height":83.1875,"overflowX":0,"overflowY":0}],"choiceTop":null,"choiceBottom":null,"startTop":null}
+✅ [round4/copy/ipad] 注意には有効な確認ボタンが1個あり説明ボタンはない
+✅ [round4/copy/ipad] 1回の確認で問題へ戻り余分な回答を作らない
+✅ [round4] 合成セッションは実送信を無効化
+✅ [round4/notice] 3秒未満に枠を出れば遅い初動にならない — {"rt":2791.4,"late":false,"early":false}
+✅ [round4/notice] 3秒未満の試行後に案内を表示しない
+✅ [round4/notice] 動き出した後の3秒超停止中も案内画面を出さない
+✅ [round4/notice] 動き出し後の停止は記録のみ — {"rt":41,"late":false,"early":false,"stop":{"n":1,"ms":3334,"maxMs":3334}}
+✅ [round4/notice] 動き出し後の3秒超停止は評定の後にも案内を表示しない
+✅ [round4/notice] 遅い初動1: 枠内の微動では初動扱いにせず3秒超を記録 — {"rt":3294.7,"late":true,"early":false}
+✅ [round4/notice] 遅い初動1/5: 案内を表示
+✅ [round4/notice] 遅い初動1/5: 表示回数を記録
+✅ [round4/notice] 遅い初動2: 枠内の微動では初動扱いにせず3秒超を記録 — {"rt":3260,"late":true,"early":false}
+✅ [round4/notice] 遅い初動2/5: 案内を表示
+✅ [round4/notice] 遅い初動2/5: 表示回数を記録
+✅ [round4/notice] 遅い初動3: 枠内の微動では初動扱いにせず3秒超を記録 — {"rt":3262.7,"late":true,"early":false}
+✅ [round4/notice] 遅い初動3/5: 案内を表示
+✅ [round4/notice] 遅い初動3/5: 表示回数を記録
+✅ [round4/notice] 遅い初動4: 枠内の微動では初動扱いにせず3秒超を記録 — {"rt":3254.8,"late":true,"early":false}
+✅ [round4/notice] 遅い初動4/5: 案内を表示
+✅ [round4/notice] 遅い初動4/5: 表示回数を記録
+✅ [round4/notice] 遅い初動5: 枠内の微動では初動扱いにせず3秒超を記録 — {"rt":3263.4,"late":true,"early":false}
+✅ [round4/notice] 遅い初動5/5: 案内を表示
+✅ [round4/notice] 遅い初動5/5: 表示回数を記録
+✅ [round4/notice] 遅い初動6: 枠内の微動では初動扱いにせず3秒超を記録 — {"rt":3267,"late":true,"early":false}
+✅ [round4/notice] 6回目は画面を出さず記録と抑止回数を残す
+
+--- round3: explanation navigation / rating review / instructed help ---
+✅ [round3] 確認セッションは実送信しない
+✅ [round3/welcome/mini] 最初のページには前へがない
+✅ [round3/welcome/mini] 1/6: スクロールなし — {"scrollHeight":700,"clientHeight":700,"scrollWidth":375,"clientWidth":375,"navBottom":515.296875,"height":700}
+✅ [round3/welcome/mini] 2/6: スクロールなし — {"scrollHeight":700,"clientHeight":700,"scrollWidth":375,"clientWidth":375,"navBottom":551.296875,"height":700}
+✅ [round3/welcome/mini] 3/6: スクロールなし — {"scrollHeight":700,"clientHeight":700,"scrollWidth":375,"clientWidth":375,"navBottom":503.296875,"height":700}
+✅ [round3/welcome/mini] 4/6: スクロールなし — {"scrollHeight":700,"clientHeight":700,"scrollWidth":375,"clientWidth":375,"navBottom":485.296875,"height":700}
+✅ [round3/welcome/mini] 5/6: スクロールなし — {"scrollHeight":700,"clientHeight":700,"scrollWidth":375,"clientWidth":375,"navBottom":600.046875,"height":700}
+✅ [round3/welcome/mini] 同意チェックは前へ・次への往復で保持
+✅ [round3/welcome/mini] 6/6: スクロールなし — {"scrollHeight":700,"clientHeight":700,"scrollWidth":375,"clientWidth":375,"navBottom":537.921875,"height":700}
+✅ [round3/welcome/mini] 未回答の別同意ページは飛ばせない
+✅ [round3/welcome/mini] 戻っても未回答の必須同意は保持
+✅ [round3/welcome/mini] 5件の同意を揃えて初めて入力画面へ
+✅ [round3] 確認セッションは実送信しない
+✅ [round3/read/mini] 初回未読は読了待ちを維持
+✅ [round3/read/mini] 前へで既読に戻ると再読待ちなし
+✅ [round3] 確認セッションは実送信しない
+✅ [round3/read/mini] 評定の初回未読も読了待ちを維持
+✅ [round3/read/mini] 評定の前へも既読ページに再読待ちなし
+✅ [round3] 確認セッションは実送信しない
+✅ [round3/layout/mini] operation-initial-1: 画面内・文字欠けとボタン重なりなし — {"width":375,"height":700,"box":{"left":26.25,"right":348.75,"top":267.671875,"bottom":432.3125,"width":322.5,"height":164.640625},"row":{"left":52.5,"right":322.5,"top":560,"bottom":612,"width":270,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPopNext","left":52.5,"right":322.5,"top":560,"bottom":612,"width":270,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/mini] operation-initial-2: 画面内・文字欠けとボタン重なりなし — {"width":375,"height":700,"box":{"left":26.25,"right":348.75,"top":191,"bottom":355.640625,"width":322.5,"height":164.640625},"row":{"left":15,"right":360,"top":560,"bottom":612,"width":345,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":15,"right":108.140625,"top":560,"bottom":612,"width":93.140625,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":118.140625,"right":360,"top":560,"bottom":612,"width":241.859375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/mini] operation-initial-3: 画面内・文字欠けとボタン重なりなし — {"width":375,"height":700,"box":{"left":26.25,"right":348.75,"top":349.765625,"bottom":540,"width":322.5,"height":190.234375},"row":{"left":15,"right":360,"top":630.5,"bottom":682.5,"width":345,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":15,"right":108.140625,"top":630.5,"bottom":682.5,"width":93.140625,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":118.140625,"right":360,"top":630.5,"bottom":682.5,"width":241.859375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/mini] operation-initial-4: 画面内・文字欠けとボタン重なりなし — {"width":375,"height":700,"box":{"left":26.25,"right":348.75,"top":302.5,"bottom":492.734375,"width":322.5,"height":190.234375},"row":{"left":15,"right":360,"top":630.5,"bottom":682.5,"width":345,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":15,"right":108.140625,"top":630.5,"bottom":682.5,"width":93.140625,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":118.140625,"right":360,"top":630.5,"bottom":682.5,"width":241.859375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/mini] operation-initial-5: 画面内・文字欠けとボタン重なりなし — {"width":375,"height":700,"box":{"left":26.25,"right":348.75,"top":42,"bottom":287.328125,"width":322.5,"height":245.328125},"row":{"left":15,"right":360,"top":630.5,"bottom":682.5,"width":345,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":15,"right":108.140625,"top":630.5,"bottom":682.5,"width":93.140625,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":118.140625,"right":360,"top":630.5,"bottom":682.5,"width":241.859375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/mini] operation-initial-6: 画面内・文字欠けとボタン重なりなし — {"width":375,"height":700,"box":{"left":26.25,"right":348.75,"top":42,"bottom":257.828125,"width":322.5,"height":215.828125},"row":{"left":15,"right":360,"top":560,"bottom":612,"width":345,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":15,"right":108.140625,"top":560,"bottom":612,"width":93.140625,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":118.140625,"right":360,"top":560,"bottom":612,"width":241.859375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/mini] operation-initial-7: 画面内・文字欠けとボタン重なりなし — {"width":375,"height":700,"box":{"left":26.25,"right":348.75,"top":42,"bottom":257.828125,"width":322.5,"height":215.828125},"row":{"left":15,"right":360,"top":630.5,"bottom":682.5,"width":345,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":15,"right":108.140625,"top":630.5,"bottom":682.5,"width":93.140625,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":118.140625,"right":360,"top":630.5,"bottom":682.5,"width":241.859375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/hands/mini] 初回7: 前へ往復で未実施の操作確認を飛ばせない
+✅ [round3/hands/mini] 初回7: 完了済み操作を戻っても再操作・待ち不要
+✅ [round3/layout/mini] operation-initial-8: 画面内・文字欠けとボタン重なりなし — {"width":375,"height":700,"box":{"left":26.25,"right":348.75,"top":213.765625,"bottom":460.640625,"width":322.5,"height":246.875},"row":{"left":15,"right":360,"top":560,"bottom":612,"width":345,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":15,"right":108.140625,"top":560,"bottom":612,"width":93.140625,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":118.140625,"right":360,"top":560,"bottom":612,"width":241.859375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/mini] operation-initial-9: 画面内・文字欠けとボタン重なりなし — {"width":375,"height":700,"box":{"left":26.25,"right":348.75,"top":213.765625,"bottom":486.234375,"width":322.5,"height":272.46875},"row":{"left":15,"right":360,"top":560,"bottom":612,"width":345,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":15,"right":108.140625,"top":560,"bottom":612,"width":93.140625,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":118.140625,"right":360,"top":560,"bottom":612,"width":241.859375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/mini] operation-initial-10: 画面内・文字欠けとボタン重なりなし — {"width":375,"height":700,"box":{"left":26.25,"right":348.75,"top":213.765625,"bottom":460.640625,"width":322.5,"height":246.875},"row":{"left":15,"right":360,"top":560,"bottom":612,"width":345,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":15,"right":108.140625,"top":560,"bottom":612,"width":93.140625,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":118.140625,"right":360,"top":560,"bottom":612,"width":241.859375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/mini] operation-initial-11: 画面内・文字欠けとボタン重なりなし — {"width":375,"height":700,"box":{"left":26.25,"right":348.75,"top":42,"bottom":288.875,"width":322.5,"height":246.875},"row":{"left":15,"right":360,"top":615.125,"bottom":667.125,"width":345,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":15,"right":108.140625,"top":615.125,"bottom":667.125,"width":93.140625,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":118.140625,"right":360,"top":615.125,"bottom":667.125,"width":241.859375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/mini] operation-initial-12: 画面内・文字欠けとボタン重なりなし — {"width":375,"height":700,"box":{"left":26.25,"right":348.75,"top":213.765625,"bottom":480.78125,"width":322.5,"height":267.015625},"row":{"left":15,"right":360,"top":560,"bottom":612,"width":345,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":15,"right":108.140625,"top":560,"bottom":612,"width":93.140625,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":118.140625,"right":360,"top":560,"bottom":612,"width":241.859375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/mini] operation-initial-13: 画面内・文字欠けとボタン重なりなし — {"width":375,"height":700,"box":{"left":26.25,"right":348.75,"top":213.765625,"bottom":429.59375,"width":322.5,"height":215.828125},"row":{"left":15,"right":360,"top":560,"bottom":612,"width":345,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":15,"right":108.140625,"top":560,"bottom":612,"width":93.140625,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":118.140625,"right":360,"top":560,"bottom":612,"width":241.859375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/mini] operation-initial-14: 画面内・文字欠けとボタン重なりなし — {"width":375,"height":700,"box":{"left":26.25,"right":348.75,"top":165.453125,"bottom":534.546875,"width":322.5,"height":369.09375},"row":{"left":15,"right":360,"top":560,"bottom":612,"width":345,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":15,"right":108.140625,"top":560,"bottom":612,"width":93.140625,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":118.140625,"right":360,"top":560,"bottom":612,"width":241.859375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/rules/mini] 1: 未選択なら復習を飛ばせない
+✅ [round3/layout/mini] operation-rule-check-2: 画面内・文字欠けとボタン重なりなし — {"width":375,"height":700,"box":{"left":26.25,"right":348.75,"top":155.90625,"bottom":544,"width":322.5,"height":388.09375},"row":{"left":15,"right":360,"top":560,"bottom":612,"width":345,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":15,"right":108.140625,"top":560,"bottom":612,"width":93.140625,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":118.140625,"right":360,"top":560,"bottom":612,"width":241.859375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/rules/mini] 2: 未選択なら復習を飛ばせない
+✅ [round3/layout/mini] operation-rule-check-3: 画面内・文字欠けとボタン重なりなし — {"width":375,"height":700,"box":{"left":26.25,"right":348.75,"top":155.90625,"bottom":544,"width":322.5,"height":388.09375},"row":{"left":15,"right":360,"top":560,"bottom":612,"width":345,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":15,"right":108.140625,"top":560,"bottom":612,"width":93.140625,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":118.140625,"right":360,"top":560,"bottom":612,"width":241.859375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/rules/mini] 3: 未選択なら復習を飛ばせない
+✅ [round3/layout/mini] operation-rule-check-4: 画面内・文字欠けとボタン重なりなし — {"width":375,"height":700,"box":{"left":26.25,"right":348.75,"top":174.953125,"bottom":525.046875,"width":322.5,"height":350.09375},"row":{"left":15,"right":360,"top":560,"bottom":612,"width":345,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":15,"right":108.140625,"top":560,"bottom":612,"width":93.140625,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":118.140625,"right":360,"top":560,"bottom":612,"width":241.859375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/rules/mini] 4: 未選択なら復習を飛ばせない
+✅ [round3/layout/mini] operation-rule-check-5: 画面内・文字欠けとボタン重なりなし — {"width":375,"height":700,"box":{"left":26.25,"right":348.75,"top":143.859375,"bottom":544,"width":322.5,"height":400.140625},"row":{"left":15,"right":360,"top":560,"bottom":612,"width":345,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":15,"right":108.140625,"top":560,"bottom":612,"width":93.140625,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":118.140625,"right":360,"top":560,"bottom":612,"width":241.859375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/rules/mini] 5: 未選択なら復習を飛ばせない
+✅ [round3/layout/mini] operation-rule-check-6: 画面内・文字欠けとボタン重なりなし — {"width":375,"height":700,"box":{"left":26.25,"right":348.75,"top":174.953125,"bottom":525.046875,"width":322.5,"height":350.09375},"row":{"left":15,"right":360,"top":560,"bottom":612,"width":345,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":15,"right":108.140625,"top":560,"bottom":612,"width":93.140625,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":118.140625,"right":360,"top":560,"bottom":612,"width":241.859375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/rules/mini] 6: 未選択なら復習を飛ばせない
+✅ [round3/layout/mini] operation-rule-check-7: 画面内・文字欠けとボタン重なりなし — {"width":375,"height":700,"box":{"left":26.25,"right":348.75,"top":155.90625,"bottom":544,"width":322.5,"height":388.09375},"row":{"left":15,"right":360,"top":560,"bottom":612,"width":345,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":15,"right":108.140625,"top":560,"bottom":612,"width":93.140625,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":118.140625,"right":360,"top":560,"bottom":612,"width":241.859375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/rules/mini] 7: 未選択なら復習を飛ばせない
+✅ [round3/hands/mini] 初回の説明は最後までXで閉じられない
+✅ [round3] 確認セッションは実送信しない
+✅ [round3/layout/mini] rating-initial-1: 画面内・文字欠けとボタン重なりなし — {"width":375,"height":700,"box":{"left":18,"right":357,"top":156.75,"bottom":400.359375,"width":339,"height":243.609375},"row":{"left":22.5,"right":352.5,"top":557.5,"bottom":614.5,"width":330,"height":57},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"ratingNext","left":22.5,"right":352.5,"top":557.5,"bottom":614.5,"width":330,"height":57,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/mini] rating-initial-1: 説明ボックスは回答・質問に重ならない
+✅ [round3/layout/mini] rating-initial-2: 画面内・文字欠けとボタン重なりなし — {"width":375,"height":700,"box":{"left":18,"right":357,"top":66.6875,"bottom":230.734375,"width":339,"height":164.046875},"row":{"left":18,"right":357,"top":576.3125,"bottom":633.3125,"width":339,"height":57},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"ratingTutPrev","left":18,"right":126.46875,"top":576.3125,"bottom":633.3125,"width":108.46875,"height":57,"overflowX":0,"overflowY":0},{"id":"ratingNext","left":136.46875,"right":357,"top":576.3125,"bottom":633.3125,"width":220.53125,"height":57,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/mini] rating-initial-2: 説明ボックスは回答・質問に重ならない
+✅ [round3/rating-initial/mini] 前へで戻っても迷いの選択は必要
+✅ [round3/layout/mini] rating-initial-3: 画面内・文字欠けとボタン重なりなし — {"width":375,"height":700,"box":{"left":18,"right":357,"top":43.984375,"bottom":208.03125,"width":339,"height":164.046875},"row":{"left":18,"right":357,"top":599,"bottom":656,"width":339,"height":57},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"ratingTutPrev","left":18,"right":126.46875,"top":599,"bottom":656,"width":108.46875,"height":57,"overflowX":0,"overflowY":0},{"id":"ratingSubmit","left":136.46875,"right":357,"top":599,"bottom":656,"width":220.53125,"height":57,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/mini] rating-initial-3: 説明ボックスは回答・質問に重ならない
+✅ [round3/rating-initial/mini] 自信の未選択を飛ばせず初回Xもない
+✅ [round3/layout/mini] rating-initial-4: 画面内・文字欠けとボタン重なりなし — {"width":375,"height":700,"box":{"left":18,"right":357,"top":156.75,"bottom":400.359375,"width":339,"height":243.609375},"row":{"left":22.5,"right":352.5,"top":557.5,"bottom":614.5,"width":330,"height":57},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"ratingSubmit","left":22.5,"right":352.5,"top":557.5,"bottom":614.5,"width":330,"height":57,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/mini] rating-initial-4: 説明ボックスは回答・質問に重ならない
+✅ [round3/layout/mini] practice-intro: 画面内・文字欠けとボタン重なりなし — {"width":375,"height":700,"box":{"left":18,"right":357,"top":208.75,"bottom":349.1875,"width":339,"height":140.4375},"row":{"left":22.5,"right":352.5,"top":557.5,"bottom":614.5,"width":330,"height":57},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"ratingSubmit","left":22.5,"right":352.5,"top":557.5,"bottom":614.5,"width":330,"height":57,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/mini] practice-intro: 説明ボックスは回答・質問に重ならない
+✅ [round3/rating-initial/mini] 練習導入は番号と質問なしの単独画面
+✅ [round3] 確認セッションは実送信しない
+✅ [round3/rating/mini] 迷い・未選択: 見直し中の回答・試行・時計を保全
+✅ [round3/rating/mini] 迷い・未選択: 閉じるは44px以上の画面右上
+✅ [round3/rating/mini] 迷い・未選択: Xで閉じると元の評定へ戻る
+✅ [round3/timing/mini] 迷い・未選択: 説明時間を評定時間に加えない — {"before":{"page":0,"elapsedMs":228.0999999642372,"pageElapsedMs":227.39999997615814,"tutorial":null},"after":{"page":0,"elapsedMs":337.39999997615814,"pageElapsedMs":336.69999998807907,"tutorial":null}}
+✅ [round3/rating/mini] 迷い・選択済み: 見直し中の回答・試行・時計を保全
+✅ [round3/rating/mini] 迷い・選択済み: 閉じるは44px以上の画面右上
+✅ [round3/rating/mini] 迷い・選択済み: 最後まで進むと元の評定へ戻る
+✅ [round3/timing/mini] 迷い・選択済み: 説明時間を評定時間に加えない — {"before":{"page":0,"elapsedMs":379.2999999523163,"pageElapsedMs":378.5999999642372,"tutorial":null},"after":{"page":0,"elapsedMs":381.8999999165535,"pageElapsedMs":381.1999999284744,"tutorial":null}}
+✅ [round3/reload/mini] 評定1見直し中の再読込: 元のページと選択を復旧 — {"before":{"page":0,"elapsedMs":386.3999999165535,"pageElapsedMs":385.6999999284744,"tutorial":null},"frozen":{"page":0,"elapsedMs":410.5999999642372,"pageElapsedMs":409.89999997615814,"tutorial":null},"after":{"page":0,"elapsedMs":416.1999999284744,"pageElapsedMs":414.99999994039536,"tutorial":null}}
+✅ [round3/rating/mini] 自信・未選択: 見直し中の回答・試行・時計を保全
+✅ [round3/rating/mini] 自信・未選択: 閉じるは44px以上の画面右上
+✅ [round3/rating/mini] 自信・未選択: Xで閉じると元の評定へ戻る
+✅ [round3/timing/mini] 自信・未選択: 説明時間を評定時間に加えない — {"before":{"page":1,"elapsedMs":443.1999999284744,"pageElapsedMs":22.19999998807907,"tutorial":null},"after":{"page":1,"elapsedMs":546.5999999642372,"pageElapsedMs":125.60000002384186,"tutorial":null}}
+✅ [round3/layout/mini] rating-review-1: 画面内・文字欠けとボタン重なりなし — {"width":375,"height":700,"box":{"left":18,"right":357,"top":176.75,"bottom":420.359375,"width":339,"height":243.609375},"row":{"left":22.5,"right":352.5,"top":557.5,"bottom":614.5,"width":330,"height":57},"close":{"left":275,"right":363,"top":8,"bottom":52,"width":88,"height":44},"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"ratingNext","left":22.5,"right":352.5,"top":557.5,"bottom":614.5,"width":330,"height":57,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/mini] rating-review-1: 説明ボックスは回答・質問に重ならない
+✅ [round3/layout/mini] rating-review-2: 画面内・文字欠けとボタン重なりなし — {"width":375,"height":700,"box":{"left":18,"right":357,"top":86.6875,"bottom":250.734375,"width":339,"height":164.046875},"row":{"left":18,"right":357,"top":596.3125,"bottom":653.3125,"width":339,"height":57},"close":{"left":275,"right":363,"top":8,"bottom":52,"width":88,"height":44},"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"ratingTutPrev","left":18,"right":126.46875,"top":596.3125,"bottom":653.3125,"width":108.46875,"height":57,"overflowX":0,"overflowY":0},{"id":"ratingNext","left":136.46875,"right":357,"top":596.3125,"bottom":653.3125,"width":220.53125,"height":57,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/mini] rating-review-2: 説明ボックスは回答・質問に重ならない
+✅ [round3/layout/mini] rating-review-3: 画面内・文字欠けとボタン重なりなし — {"width":375,"height":700,"box":{"left":18,"right":357,"top":75.484375,"bottom":239.53125,"width":339,"height":164.046875},"row":{"left":18,"right":357,"top":607.5,"bottom":664.5,"width":339,"height":57},"close":{"left":275,"right":363,"top":8,"bottom":52,"width":88,"height":44},"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"ratingTutPrev","left":18,"right":126.46875,"top":607.5,"bottom":664.5,"width":108.46875,"height":57,"overflowX":0,"overflowY":0},{"id":"ratingSubmit","left":136.46875,"right":357,"top":607.5,"bottom":664.5,"width":220.53125,"height":57,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/mini] rating-review-3: 説明ボックスは回答・質問に重ならない
+✅ [round3/layout/mini] rating-review-4: 画面内・文字欠けとボタン重なりなし — {"width":375,"height":700,"box":{"left":18,"right":357,"top":176.75,"bottom":420.359375,"width":339,"height":243.609375},"row":{"left":22.5,"right":352.5,"top":557.5,"bottom":614.5,"width":330,"height":57},"close":{"left":275,"right":363,"top":8,"bottom":52,"width":88,"height":44},"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"ratingTutPrev","left":22.5,"right":128.09375,"top":557.5,"bottom":614.5,"width":105.59375,"height":57,"overflowX":0,"overflowY":0},{"id":"ratingSubmit","left":138.09375,"right":352.5,"top":557.5,"bottom":614.5,"width":214.40625,"height":57,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/mini] rating-review-4: 説明ボックスは回答・質問に重ならない
+✅ [round3/rating/mini] 説明の前へで選択済みの評定と元ページを変えない
+✅ [round3/rating/mini] 自信・選択済み: 見直し中の回答・試行・時計を保全
+✅ [round3/rating/mini] 自信・選択済み: 閉じるは44px以上の画面右上
+✅ [round3/rating/mini] 自信・選択済み: 最後まで進むと元の評定へ戻る
+✅ [round3/timing/mini] 自信・選択済み: 説明時間を評定時間に加えない — {"before":{"page":1,"elapsedMs":611.5999999642372,"pageElapsedMs":190.60000002384186,"tutorial":null},"after":{"page":1,"elapsedMs":613.7999999523163,"pageElapsedMs":192.80000001192093,"tutorial":null}}
+✅ [round3/reload/mini] 評定2見直し中の再読込: 元のページと選択を復旧 — {"before":{"page":1,"elapsedMs":618.5999999642372,"pageElapsedMs":197.60000002384186,"tutorial":null},"frozen":{"page":1,"elapsedMs":635.3999999761581,"pageElapsedMs":214.4000000357628,"tutorial":null},"after":{"page":1,"elapsedMs":640.8999999761581,"pageElapsedMs":219.30000007152557,"tutorial":null}}
+✅ [round3/rating/mini] 見直し後も通常の回答の戻る操作が有効
+✅ [round3/instructed/mini] 全員の経路は専用説明を挟まず追加問題の案内
+✅ [round3/layout/mini] 追加問題導入: 謝礼の追記も画面内に収まる — {"scrollHeight":700,"clientHeight":700,"scrollWidth":375,"clientWidth":375,"buttonBottom":569.09375,"height":700}
+✅ [round3/layout/mini] instructed-review-1: 画面内・文字欠けとボタン重なりなし — {"width":375,"height":700,"box":{"left":26.25,"right":348.75,"top":190.890625,"bottom":509.09375,"width":322.5,"height":318.203125},"row":{"left":52.5,"right":322.5,"top":560,"bottom":612,"width":270,"height":52},"close":{"left":275,"right":363,"top":8,"bottom":52,"width":88,"height":44},"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPopNext","left":52.5,"right":322.5,"top":560,"bottom":612,"width":270,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/mini] instructed-review-2: 画面内・文字欠けとボタン重なりなし — {"width":375,"height":700,"box":{"left":26.25,"right":348.75,"top":190.890625,"bottom":509.09375,"width":322.5,"height":318.203125},"row":{"left":15,"right":360,"top":560,"bottom":612,"width":345,"height":52},"close":{"left":275,"right":363,"top":8,"bottom":52,"width":88,"height":44},"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":15,"right":108.140625,"top":560,"bottom":612,"width":93.140625,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":118.140625,"right":360,"top":560,"bottom":612,"width":241.859375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/instructed/mini] 追加問題専用は2枚・読んでからの逆指示なし — 追加の10問では、問題文も選択肢も読まずに、適当に指を運んでください。どちらの選択肢でも構いません。前の答えを思い出す必要もありません。この10問は、指示どおり読まずに答える問題なので、謝礼には影響しません。操作はこれまでと同じです。スタートボタンに指を置き、指を離さずにどちらかの選択肢のボックスまで運び、選択肢のボックスの中で離します。問題文や選択肢は読まずに進めてください。振り返りの質問はありません。
+✅ [round3/instructed/mini] 専用説明を前後移動して閉じても同じ未回答問題へ
+✅ [round3/instructed/mini] 専用説明を最後まで進めても同じ問題へ
+✅ [round3/instructed/mini] 説明後の追加回答を重複なく記録
+✅ [round3] 確認セッションは実送信しない
+✅ [round3/layout/mini] sleep-hours: 区間ラベルとナビが収まる — {"width":375,"height":700,"scrollHeight":700,"clientHeight":700,"scrollWidth":375,"clientWidth":375,"navBottom":559.84375,"bad":[]}
+✅ [round3/layout/mini] usage-years-hours: 区間ラベルとナビが収まる — {"width":375,"height":700,"scrollHeight":700,"clientHeight":700,"scrollWidth":375,"clientWidth":375,"navBottom":665.4375,"bad":[]}
+✅ [round3/layout/mini] concentration-scope: 区間ラベルとナビが収まる — {"width":375,"height":700,"scrollHeight":700,"clientHeight":700,"scrollWidth":375,"clientWidth":375,"navBottom":626.890625,"bad":[]}
+✅ [round3/layout/mini] data-use-scope: 区間ラベルとナビが収まる — {"width":375,"height":700,"scrollHeight":700,"clientHeight":700,"scrollWidth":375,"clientWidth":375,"navBottom":675.28125,"bad":[]}
+✅ [round3/survey/mini] 除外注記の繰り返しを削除し謝礼注記と複数選択の案内を表示
+✅ [round3] 確認セッションは実送信しない
+✅ [round3/welcome/iphone17] 最初のページには前へがない
+✅ [round3/welcome/iphone17] 1/6: スクロールなし — {"scrollHeight":759,"clientHeight":759,"scrollWidth":402,"clientWidth":402,"navBottom":532.796875,"height":759}
+✅ [round3/welcome/iphone17] 2/6: スクロールなし — {"scrollHeight":759,"clientHeight":759,"scrollWidth":402,"clientWidth":402,"navBottom":580.796875,"height":759}
+✅ [round3/welcome/iphone17] 3/6: スクロールなし — {"scrollHeight":759,"clientHeight":759,"scrollWidth":402,"clientWidth":402,"navBottom":532.796875,"height":759}
+✅ [round3/welcome/iphone17] 4/6: スクロールなし — {"scrollHeight":759,"clientHeight":759,"scrollWidth":402,"clientWidth":402,"navBottom":514.796875,"height":759}
+✅ [round3/welcome/iphone17] 5/6: スクロールなし — {"scrollHeight":759,"clientHeight":759,"scrollWidth":402,"clientWidth":402,"navBottom":596.921875,"height":759}
+✅ [round3/welcome/iphone17] 同意チェックは前へ・次への往復で保持
+✅ [round3/welcome/iphone17] 6/6: スクロールなし — {"scrollHeight":759,"clientHeight":759,"scrollWidth":402,"clientWidth":402,"navBottom":567.421875,"height":759}
+✅ [round3/welcome/iphone17] 未回答の別同意ページは飛ばせない
+✅ [round3/welcome/iphone17] 戻っても未回答の必須同意は保持
+✅ [round3/welcome/iphone17] 5件の同意を揃えて初めて入力画面へ
+✅ [round3] 確認セッションは実送信しない
+✅ [round3/read/iphone17] 初回未読は読了待ちを維持
+✅ [round3/read/iphone17] 前へで既読に戻ると再読待ちなし
+✅ [round3] 確認セッションは実送信しない
+✅ [round3/read/iphone17] 評定の初回未読も読了待ちを維持
+✅ [round3/read/iphone17] 評定の前へも既読ページに再読待ちなし
+✅ [round3] 確認セッションは実送信しない
+✅ [round3/layout/iphone17] operation-initial-1: 画面内・文字欠けとボタン重なりなし — {"width":402,"height":759,"box":{"left":28.140625,"right":373.859375,"top":297.171875,"bottom":461.8125,"width":345.71875,"height":164.640625},"row":{"left":56.265625,"right":345.703125,"top":609.765625,"bottom":661.765625,"width":289.4375,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPopNext","left":56.265625,"right":345.703125,"top":609.765625,"bottom":661.765625,"width":289.4375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/iphone17] operation-initial-2: 画面内・文字欠けとボタン重なりなし — {"width":402,"height":759,"box":{"left":28.140625,"right":373.859375,"top":205.734375,"bottom":370.375,"width":345.71875,"height":164.640625},"row":{"left":16.078125,"right":385.90625,"top":609.765625,"bottom":661.765625,"width":369.828125,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":16.078125,"right":115.921875,"top":609.765625,"bottom":661.765625,"width":99.84375,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":125.921875,"right":385.90625,"top":609.765625,"bottom":661.765625,"width":259.984375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/iphone17] operation-initial-3: 画面内・文字欠けとボタン重なりなし — {"width":402,"height":759,"box":{"left":28.140625,"right":373.859375,"top":397.375,"bottom":587.609375,"width":345.71875,"height":190.234375},"row":{"left":16.078125,"right":385.90625,"top":688.015625,"bottom":740.015625,"width":369.828125,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":16.078125,"right":115.921875,"top":688.015625,"bottom":740.015625,"width":99.84375,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":125.921875,"right":385.90625,"top":688.015625,"bottom":740.015625,"width":259.984375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/iphone17] operation-initial-4: 画面内・文字欠けとボタン重なりなし — {"width":402,"height":759,"box":{"left":28.140625,"right":373.859375,"top":325.4375,"bottom":515.671875,"width":345.71875,"height":190.234375},"row":{"left":16.078125,"right":385.90625,"top":688.015625,"bottom":740.015625,"width":369.828125,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":16.078125,"right":115.921875,"top":688.015625,"bottom":740.015625,"width":99.84375,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":125.921875,"right":385.90625,"top":688.015625,"bottom":740.015625,"width":259.984375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/iphone17] operation-initial-5: 画面内・文字欠けとボタン重なりなし — {"width":402,"height":759,"box":{"left":28.140625,"right":373.859375,"top":45.53125,"bottom":290.859375,"width":345.71875,"height":245.328125},"row":{"left":16.078125,"right":385.90625,"top":688.015625,"bottom":740.015625,"width":369.828125,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":16.078125,"right":115.921875,"top":688.015625,"bottom":740.015625,"width":99.84375,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":125.921875,"right":385.90625,"top":688.015625,"bottom":740.015625,"width":259.984375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/iphone17] operation-initial-6: 画面内・文字欠けとボタン重なりなし — {"width":402,"height":759,"box":{"left":28.140625,"right":373.859375,"top":42,"bottom":257.828125,"width":345.71875,"height":215.828125},"row":{"left":16.078125,"right":385.90625,"top":609.765625,"bottom":661.765625,"width":369.828125,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":16.078125,"right":115.921875,"top":609.765625,"bottom":661.765625,"width":99.84375,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":125.921875,"right":385.90625,"top":609.765625,"bottom":661.765625,"width":259.984375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/iphone17] operation-initial-7: 画面内・文字欠けとボタン重なりなし — {"width":402,"height":759,"box":{"left":28.140625,"right":373.859375,"top":45.53125,"bottom":261.359375,"width":345.71875,"height":215.828125},"row":{"left":16.078125,"right":385.90625,"top":688.015625,"bottom":740.015625,"width":369.828125,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":16.078125,"right":115.921875,"top":688.015625,"bottom":740.015625,"width":99.84375,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":125.921875,"right":385.90625,"top":688.015625,"bottom":740.015625,"width":259.984375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/hands/iphone17] 初回7: 前へ往復で未実施の操作確認を飛ばせない
+✅ [round3/hands/iphone17] 初回7: 完了済み操作を戻っても再操作・待ち不要
+✅ [round3/layout/iphone17] operation-initial-8: 画面内・文字欠けとボタン重なりなし — {"width":402,"height":759,"box":{"left":28.140625,"right":373.859375,"top":256.0625,"bottom":502.9375,"width":345.71875,"height":246.875},"row":{"left":16.078125,"right":385.90625,"top":609.765625,"bottom":661.765625,"width":369.828125,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":16.078125,"right":115.921875,"top":609.765625,"bottom":661.765625,"width":99.84375,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":125.921875,"right":385.90625,"top":609.765625,"bottom":661.765625,"width":259.984375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/iphone17] operation-initial-9: 画面内・文字欠けとボタン重なりなし — {"width":402,"height":759,"box":{"left":28.140625,"right":373.859375,"top":256.0625,"bottom":497.484375,"width":345.71875,"height":241.421875},"row":{"left":16.078125,"right":385.90625,"top":609.765625,"bottom":661.765625,"width":369.828125,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":16.078125,"right":115.921875,"top":609.765625,"bottom":661.765625,"width":99.84375,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":125.921875,"right":385.90625,"top":609.765625,"bottom":661.765625,"width":259.984375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/iphone17] operation-initial-10: 画面内・文字欠けとボタン重なりなし — {"width":402,"height":759,"box":{"left":28.140625,"right":373.859375,"top":256.0625,"bottom":502.9375,"width":345.71875,"height":246.875},"row":{"left":16.078125,"right":385.90625,"top":609.765625,"bottom":661.765625,"width":369.828125,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":16.078125,"right":115.921875,"top":609.765625,"bottom":661.765625,"width":99.84375,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":125.921875,"right":385.90625,"top":609.765625,"bottom":661.765625,"width":259.984375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/iphone17] operation-initial-11: 画面内・文字欠けとボタン重なりなし — {"width":402,"height":759,"box":{"left":28.140625,"right":373.859375,"top":42,"bottom":263.28125,"width":345.71875,"height":221.28125},"row":{"left":16.078125,"right":385.90625,"top":610.421875,"bottom":662.421875,"width":369.828125,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":16.078125,"right":115.921875,"top":610.421875,"bottom":662.421875,"width":99.84375,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":125.921875,"right":385.90625,"top":610.421875,"bottom":662.421875,"width":259.984375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/iphone17] operation-initial-12: 画面内・文字欠けとボタン重なりなし — {"width":402,"height":759,"box":{"left":28.140625,"right":373.859375,"top":256.0625,"bottom":471.890625,"width":345.71875,"height":215.828125},"row":{"left":16.078125,"right":385.90625,"top":609.765625,"bottom":661.765625,"width":369.828125,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":16.078125,"right":115.921875,"top":609.765625,"bottom":661.765625,"width":99.84375,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":125.921875,"right":385.90625,"top":609.765625,"bottom":661.765625,"width":259.984375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/iphone17] operation-initial-13: 画面内・文字欠けとボタン重なりなし — {"width":402,"height":759,"box":{"left":28.140625,"right":373.859375,"top":256.0625,"bottom":471.890625,"width":345.71875,"height":215.828125},"row":{"left":16.078125,"right":385.90625,"top":609.765625,"bottom":661.765625,"width":369.828125,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":16.078125,"right":115.921875,"top":609.765625,"bottom":661.765625,"width":99.84375,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":125.921875,"right":385.90625,"top":609.765625,"bottom":661.765625,"width":259.984375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/iphone17] operation-initial-14: 画面内・文字欠けとボタン重なりなし — {"width":402,"height":759,"box":{"left":28.140625,"right":373.859375,"top":194.953125,"bottom":564.046875,"width":345.71875,"height":369.09375},"row":{"left":16.078125,"right":385.90625,"top":609.765625,"bottom":661.765625,"width":369.828125,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":16.078125,"right":115.921875,"top":609.765625,"bottom":661.765625,"width":99.84375,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":125.921875,"right":385.90625,"top":609.765625,"bottom":661.765625,"width":259.984375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/rules/iphone17] 1: 未選択なら復習を飛ばせない
+✅ [round3/layout/iphone17] operation-rule-check-2: 画面内・文字欠けとボタン重なりなし — {"width":402,"height":759,"box":{"left":28.140625,"right":373.859375,"top":185.453125,"bottom":573.546875,"width":345.71875,"height":388.09375},"row":{"left":16.078125,"right":385.90625,"top":609.765625,"bottom":661.765625,"width":369.828125,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":16.078125,"right":115.921875,"top":609.765625,"bottom":661.765625,"width":99.84375,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":125.921875,"right":385.90625,"top":609.765625,"bottom":661.765625,"width":259.984375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/rules/iphone17] 2: 未選択なら復習を飛ばせない
+✅ [round3/layout/iphone17] operation-rule-check-3: 画面内・文字欠けとボタン重なりなし — {"width":402,"height":759,"box":{"left":28.140625,"right":373.859375,"top":194.953125,"bottom":564.046875,"width":345.71875,"height":369.09375},"row":{"left":16.078125,"right":385.90625,"top":609.765625,"bottom":661.765625,"width":369.828125,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":16.078125,"right":115.921875,"top":609.765625,"bottom":661.765625,"width":99.84375,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":125.921875,"right":385.90625,"top":609.765625,"bottom":661.765625,"width":259.984375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/rules/iphone17] 3: 未選択なら復習を飛ばせない
+✅ [round3/layout/iphone17] operation-rule-check-4: 画面内・文字欠けとボタン重なりなし — {"width":402,"height":759,"box":{"left":28.140625,"right":373.859375,"top":204.453125,"bottom":554.546875,"width":345.71875,"height":350.09375},"row":{"left":16.078125,"right":385.90625,"top":609.765625,"bottom":661.765625,"width":369.828125,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":16.078125,"right":115.921875,"top":609.765625,"bottom":661.765625,"width":99.84375,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":125.921875,"right":385.90625,"top":609.765625,"bottom":661.765625,"width":259.984375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/rules/iphone17] 4: 未選択なら復習を飛ばせない
+✅ [round3/layout/iphone17] operation-rule-check-5: 画面内・文字欠けとボタン重なりなし — {"width":402,"height":759,"box":{"left":28.140625,"right":373.859375,"top":204.453125,"bottom":554.546875,"width":345.71875,"height":350.09375},"row":{"left":16.078125,"right":385.90625,"top":609.765625,"bottom":661.765625,"width":369.828125,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":16.078125,"right":115.921875,"top":609.765625,"bottom":661.765625,"width":99.84375,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":125.921875,"right":385.90625,"top":609.765625,"bottom":661.765625,"width":259.984375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/rules/iphone17] 5: 未選択なら復習を飛ばせない
+✅ [round3/layout/iphone17] operation-rule-check-6: 画面内・文字欠けとボタン重なりなし — {"width":402,"height":759,"box":{"left":28.140625,"right":373.859375,"top":204.453125,"bottom":554.546875,"width":345.71875,"height":350.09375},"row":{"left":16.078125,"right":385.90625,"top":609.765625,"bottom":661.765625,"width":369.828125,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":16.078125,"right":115.921875,"top":609.765625,"bottom":661.765625,"width":99.84375,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":125.921875,"right":385.90625,"top":609.765625,"bottom":661.765625,"width":259.984375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/rules/iphone17] 6: 未選択なら復習を飛ばせない
+✅ [round3/layout/iphone17] operation-rule-check-7: 画面内・文字欠けとボタン重なりなし — {"width":402,"height":759,"box":{"left":28.140625,"right":373.859375,"top":194.953125,"bottom":564.046875,"width":345.71875,"height":369.09375},"row":{"left":16.078125,"right":385.90625,"top":609.765625,"bottom":661.765625,"width":369.828125,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":16.078125,"right":115.921875,"top":609.765625,"bottom":661.765625,"width":99.84375,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":125.921875,"right":385.90625,"top":609.765625,"bottom":661.765625,"width":259.984375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/rules/iphone17] 7: 未選択なら復習を飛ばせない
+✅ [round3/hands/iphone17] 初回の説明は最後までXで閉じられない
+✅ [round3] 確認セッションは実送信しない
+✅ [round3/layout/iphone17] rating-initial-1: 画面内・文字欠けとボタン重なりなし — {"width":402,"height":759,"box":{"left":18,"right":384,"top":181.625,"bottom":425.234375,"width":366,"height":243.609375},"row":{"left":24.109375,"right":377.859375,"top":607.25,"bottom":664.25,"width":353.75,"height":57},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"ratingNext","left":24.109375,"right":377.859375,"top":607.25,"bottom":664.25,"width":353.75,"height":57,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/iphone17] rating-initial-1: 説明ボックスは回答・質問に重ならない
+✅ [round3/layout/iphone17] rating-initial-2: 画面内・文字欠けとボタン重なりなし — {"width":402,"height":759,"box":{"left":18,"right":384,"top":96.1875,"bottom":260.234375,"width":366,"height":164.046875},"row":{"left":18,"right":384,"top":605.8125,"bottom":662.8125,"width":366,"height":57},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"ratingTutPrev","left":18,"right":135.109375,"top":605.8125,"bottom":662.8125,"width":117.109375,"height":57,"overflowX":0,"overflowY":0},{"id":"ratingNext","left":145.109375,"right":384,"top":605.8125,"bottom":662.8125,"width":238.890625,"height":57,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/iphone17] rating-initial-2: 説明ボックスは回答・質問に重ならない
+✅ [round3/rating-initial/iphone17] 前へで戻っても迷いの選択は必要
+✅ [round3/layout/iphone17] rating-initial-3: 画面内・文字欠けとボタン重なりなし — {"width":402,"height":759,"box":{"left":18,"right":384,"top":96.6875,"bottom":236.734375,"width":366,"height":140.046875},"row":{"left":18,"right":384,"top":605.3125,"bottom":662.3125,"width":366,"height":57},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"ratingTutPrev","left":18,"right":135.109375,"top":605.3125,"bottom":662.3125,"width":117.109375,"height":57,"overflowX":0,"overflowY":0},{"id":"ratingSubmit","left":145.109375,"right":384,"top":605.3125,"bottom":662.3125,"width":238.890625,"height":57,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/iphone17] rating-initial-3: 説明ボックスは回答・質問に重ならない
+✅ [round3/rating-initial/iphone17] 自信の未選択を飛ばせず初回Xもない
+✅ [round3/layout/iphone17] rating-initial-4: 画面内・文字欠けとボタン重なりなし — {"width":402,"height":759,"box":{"left":18,"right":384,"top":181.625,"bottom":425.234375,"width":366,"height":243.609375},"row":{"left":24.109375,"right":377.859375,"top":607.25,"bottom":664.25,"width":353.75,"height":57},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"ratingSubmit","left":24.109375,"right":377.859375,"top":607.25,"bottom":664.25,"width":353.75,"height":57,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/iphone17] rating-initial-4: 説明ボックスは回答・質問に重ならない
+✅ [round3/layout/iphone17] practice-intro: 画面内・文字欠けとボタン重なりなし — {"width":402,"height":759,"box":{"left":18,"right":384,"top":233.625,"bottom":374.0625,"width":366,"height":140.4375},"row":{"left":24.109375,"right":377.859375,"top":607.25,"bottom":664.25,"width":353.75,"height":57},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"ratingSubmit","left":24.109375,"right":377.859375,"top":607.25,"bottom":664.25,"width":353.75,"height":57,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/iphone17] practice-intro: 説明ボックスは回答・質問に重ならない
+✅ [round3/rating-initial/iphone17] 練習導入は番号と質問なしの単独画面
+✅ [round3] 確認セッションは実送信しない
+✅ [round3/rating/iphone17] 迷い・未選択: 見直し中の回答・試行・時計を保全
+✅ [round3/rating/iphone17] 迷い・未選択: 閉じるは44px以上の画面右上
+✅ [round3/rating/iphone17] 迷い・未選択: Xで閉じると元の評定へ戻る
+✅ [round3/timing/iphone17] 迷い・未選択: 説明時間を評定時間に加えない — {"before":{"page":0,"elapsedMs":228.5,"pageElapsedMs":227.9000000357628,"tutorial":null},"after":{"page":0,"elapsedMs":340.5999999642372,"pageElapsedMs":340,"tutorial":null}}
+✅ [round3/rating/iphone17] 迷い・選択済み: 見直し中の回答・試行・時計を保全
+✅ [round3/rating/iphone17] 迷い・選択済み: 閉じるは44px以上の画面右上
+✅ [round3/rating/iphone17] 迷い・選択済み: 最後まで進むと元の評定へ戻る
+✅ [round3/timing/iphone17] 迷い・選択済み: 説明時間を評定時間に加えない — {"before":{"page":0,"elapsedMs":373.39999997615814,"pageElapsedMs":372.80000001192093,"tutorial":null},"after":{"page":0,"elapsedMs":376.19999998807907,"pageElapsedMs":375.60000002384186,"tutorial":null}}
+✅ [round3/reload/iphone17] 評定1見直し中の再読込: 元のページと選択を復旧 — {"before":{"page":0,"elapsedMs":381.5999999642372,"pageElapsedMs":381,"tutorial":null},"frozen":{"page":0,"elapsedMs":413.19999998807907,"pageElapsedMs":412.60000002384186,"tutorial":null},"after":{"page":0,"elapsedMs":500.69999998807907,"pageElapsedMs":499.30000001192093,"tutorial":null}}
+✅ [round3/rating/iphone17] 自信・未選択: 見直し中の回答・試行・時計を保全
+✅ [round3/rating/iphone17] 自信・未選択: 閉じるは44px以上の画面右上
+✅ [round3/rating/iphone17] 自信・未選択: Xで閉じると元の評定へ戻る
+✅ [round3/timing/iphone17] 自信・未選択: 説明時間を評定時間に加えない — {"before":{"page":1,"elapsedMs":541.8000000119209,"pageElapsedMs":35.40000003576279,"tutorial":null},"after":{"page":1,"elapsedMs":644.6999999880791,"pageElapsedMs":138.30000001192093,"tutorial":null}}
+✅ [round3/layout/iphone17] rating-review-1: 画面内・文字欠けとボタン重なりなし — {"width":402,"height":759,"box":{"left":18,"right":384,"top":201.625,"bottom":445.234375,"width":366,"height":243.609375},"row":{"left":24.109375,"right":377.859375,"top":607.25,"bottom":664.25,"width":353.75,"height":57},"close":{"left":302,"right":390,"top":8,"bottom":52,"width":88,"height":44},"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"ratingNext","left":24.109375,"right":377.859375,"top":607.25,"bottom":664.25,"width":353.75,"height":57,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/iphone17] rating-review-1: 説明ボックスは回答・質問に重ならない
+✅ [round3/layout/iphone17] rating-review-2: 画面内・文字欠けとボタン重なりなし — {"width":402,"height":759,"box":{"left":18,"right":384,"top":116.1875,"bottom":280.234375,"width":366,"height":164.046875},"row":{"left":18,"right":384,"top":625.8125,"bottom":682.8125,"width":366,"height":57},"close":{"left":302,"right":390,"top":8,"bottom":52,"width":88,"height":44},"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"ratingTutPrev","left":18,"right":135.109375,"top":625.8125,"bottom":682.8125,"width":117.109375,"height":57,"overflowX":0,"overflowY":0},{"id":"ratingNext","left":145.109375,"right":384,"top":625.8125,"bottom":682.8125,"width":238.890625,"height":57,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/iphone17] rating-review-2: 説明ボックスは回答・質問に重ならない
+✅ [round3/layout/iphone17] rating-review-3: 画面内・文字欠けとボタン重なりなし — {"width":402,"height":759,"box":{"left":18,"right":384,"top":128.1875,"bottom":268.234375,"width":366,"height":140.046875},"row":{"left":18,"right":384,"top":613.8125,"bottom":670.8125,"width":366,"height":57},"close":{"left":302,"right":390,"top":8,"bottom":52,"width":88,"height":44},"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"ratingTutPrev","left":18,"right":135.109375,"top":613.8125,"bottom":670.8125,"width":117.109375,"height":57,"overflowX":0,"overflowY":0},{"id":"ratingSubmit","left":145.109375,"right":384,"top":613.8125,"bottom":670.8125,"width":238.890625,"height":57,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/iphone17] rating-review-3: 説明ボックスは回答・質問に重ならない
+✅ [round3/layout/iphone17] rating-review-4: 画面内・文字欠けとボタン重なりなし — {"width":402,"height":759,"box":{"left":18,"right":384,"top":201.625,"bottom":445.234375,"width":366,"height":243.609375},"row":{"left":24.109375,"right":377.859375,"top":607.25,"bottom":664.25,"width":353.75,"height":57},"close":{"left":302,"right":390,"top":8,"bottom":52,"width":88,"height":44},"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"ratingTutPrev","left":24.109375,"right":137.296875,"top":607.25,"bottom":664.25,"width":113.1875,"height":57,"overflowX":0,"overflowY":0},{"id":"ratingSubmit","left":147.296875,"right":377.859375,"top":607.25,"bottom":664.25,"width":230.5625,"height":57,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/iphone17] rating-review-4: 説明ボックスは回答・質問に重ならない
+✅ [round3/rating/iphone17] 説明の前へで選択済みの評定と元ページを変えない
+✅ [round3/rating/iphone17] 自信・選択済み: 見直し中の回答・試行・時計を保全
+✅ [round3/rating/iphone17] 自信・選択済み: 閉じるは44px以上の画面右上
+✅ [round3/rating/iphone17] 自信・選択済み: 最後まで進むと元の評定へ戻る
+✅ [round3/timing/iphone17] 自信・選択済み: 説明時間を評定時間に加えない — {"before":{"page":1,"elapsedMs":721.4999999403954,"pageElapsedMs":215.0999999642372,"tutorial":null},"after":{"page":1,"elapsedMs":725.9999999403954,"pageElapsedMs":219.5999999642372,"tutorial":null}}
+✅ [round3/reload/iphone17] 評定2見直し中の再読込: 元のページと選択を復旧 — {"before":{"page":1,"elapsedMs":731.5999999642372,"pageElapsedMs":225.19999998807907,"tutorial":null},"frozen":{"page":1,"elapsedMs":752.2999999523163,"pageElapsedMs":245.89999997615814,"tutorial":null},"after":{"page":1,"elapsedMs":842.6999999284744,"pageElapsedMs":335.7999999523163,"tutorial":null}}
+✅ [round3/rating/iphone17] 見直し後も通常の回答の戻る操作が有効
+✅ [round3/instructed/iphone17] 全員の経路は専用説明を挟まず追加問題の案内
+✅ [round3/layout/iphone17] 追加問題導入: 謝礼の追記も画面内に収まる — {"scrollHeight":759,"clientHeight":759,"scrollWidth":402,"clientWidth":402,"buttonBottom":574.59375,"height":759}
+✅ [round3/layout/iphone17] instructed-review-1: 画面内・文字欠けとボタン重なりなし — {"width":402,"height":759,"box":{"left":28.140625,"right":373.859375,"top":233.1875,"bottom":525.796875,"width":345.71875,"height":292.609375},"row":{"left":56.265625,"right":345.703125,"top":609.765625,"bottom":661.765625,"width":289.4375,"height":52},"close":{"left":302,"right":390,"top":8,"bottom":52,"width":88,"height":44},"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPopNext","left":56.265625,"right":345.703125,"top":609.765625,"bottom":661.765625,"width":289.4375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/iphone17] instructed-review-2: 画面内・文字欠けとボタン重なりなし — {"width":402,"height":759,"box":{"left":28.140625,"right":373.859375,"top":233.1875,"bottom":525.796875,"width":345.71875,"height":292.609375},"row":{"left":16.078125,"right":385.90625,"top":609.765625,"bottom":661.765625,"width":369.828125,"height":52},"close":{"left":302,"right":390,"top":8,"bottom":52,"width":88,"height":44},"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":16.078125,"right":115.921875,"top":609.765625,"bottom":661.765625,"width":99.84375,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":125.921875,"right":385.90625,"top":609.765625,"bottom":661.765625,"width":259.984375,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/instructed/iphone17] 追加問題専用は2枚・読んでからの逆指示なし — 追加の10問では、問題文も選択肢も読まずに、適当に指を運んでください。どちらの選択肢でも構いません。前の答えを思い出す必要もありません。この10問は、指示どおり読まずに答える問題なので、謝礼には影響しません。操作はこれまでと同じです。スタートボタンに指を置き、指を離さずにどちらかの選択肢のボックスまで運び、選択肢のボックスの中で離します。問題文や選択肢は読まずに進めてください。振り返りの質問はありません。
+✅ [round3/instructed/iphone17] 専用説明を前後移動して閉じても同じ未回答問題へ
+✅ [round3/instructed/iphone17] 専用説明を最後まで進めても同じ問題へ
+✅ [round3/instructed/iphone17] 説明後の追加回答を重複なく記録
+✅ [round3] 確認セッションは実送信しない
+✅ [round3/layout/iphone17] sleep-hours: 区間ラベルとナビが収まる — {"width":402,"height":759,"scrollHeight":759,"clientHeight":759,"scrollWidth":402,"clientWidth":402,"navBottom":548.84375,"bad":[]}
+✅ [round3/layout/iphone17] usage-years-hours: 区間ラベルとナビが収まる — {"width":402,"height":759,"scrollHeight":759,"clientHeight":759,"scrollWidth":402,"clientWidth":402,"navBottom":640.84375,"bad":[]}
+✅ [round3/layout/iphone17] concentration-scope: 区間ラベルとナビが収まる — {"width":402,"height":759,"scrollHeight":759,"clientHeight":759,"scrollWidth":402,"clientWidth":402,"navBottom":631.625,"bad":[]}
+✅ [round3/layout/iphone17] data-use-scope: 区間ラベルとナビが収まる — {"width":402,"height":759,"scrollHeight":759,"clientHeight":759,"scrollWidth":402,"clientWidth":402,"navBottom":680.015625,"bad":[]}
+✅ [round3/survey/iphone17] 除外注記の繰り返しを削除し謝礼注記と複数選択の案内を表示
+✅ [round3] 確認セッションは実送信しない
+✅ [round3/welcome/ipad] 最初のページには前へがない
+✅ [round3/welcome/ipad] 1/6: スクロールなし — {"scrollHeight":1180,"clientHeight":1180,"scrollWidth":820,"clientWidth":820,"navBottom":778.4375,"height":1180}
+✅ [round3/welcome/ipad] 2/6: スクロールなし — {"scrollHeight":1180,"clientHeight":1180,"scrollWidth":820,"clientWidth":820,"navBottom":855.21875,"height":1180}
+✅ [round3/welcome/ipad] 3/6: スクロールなし — {"scrollHeight":1180,"clientHeight":1180,"scrollWidth":820,"clientWidth":820,"navBottom":797.640625,"height":1180}
+✅ [round3/welcome/ipad] 4/6: スクロールなし — {"scrollHeight":1180,"clientHeight":1180,"scrollWidth":820,"clientWidth":820,"navBottom":753.25,"height":1180}
+✅ [round3/welcome/ipad] 5/6: スクロールなし — {"scrollHeight":1180,"clientHeight":1180,"scrollWidth":820,"clientWidth":820,"navBottom":861.25,"height":1180}
+✅ [round3/welcome/ipad] 同意チェックは前へ・次への往復で保持
+✅ [round3/welcome/ipad] 6/6: スクロールなし — {"scrollHeight":1180,"clientHeight":1180,"scrollWidth":820,"clientWidth":820,"navBottom":820.046875,"height":1180}
+✅ [round3/welcome/ipad] 未回答の別同意ページは飛ばせない
+✅ [round3/welcome/ipad] 戻っても未回答の必須同意は保持
+✅ [round3/welcome/ipad] 5件の同意を揃えて初めて入力画面へ
+✅ [round3] 確認セッションは実送信しない
+✅ [round3/read/ipad] 初回未読は読了待ちを維持
+✅ [round3/read/ipad] 前へで既読に戻ると再読待ちなし
+✅ [round3] 確認セッションは実送信しない
+✅ [round3/read/ipad] 評定の初回未読も読了待ちを維持
+✅ [round3/read/ipad] 評定の前へも既読ページに再読待ちなし
+✅ [round3] 確認セッションは実送信しない
+✅ [round3/layout/ipad] operation-initial-1: 画面内・文字欠けとボタン重なりなし — {"width":820,"height":1180,"box":{"left":140,"right":680,"top":507.671875,"bottom":672.3125,"width":540,"height":164.640625},"row":{"left":114.796875,"right":705.1875,"top":946.8125,"bottom":998.8125,"width":590.390625,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPopNext","left":114.796875,"right":705.1875,"top":946.8125,"bottom":998.8125,"width":590.390625,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/ipad] operation-initial-2: 画面内・文字欠けとボタン重なりなし — {"width":820,"height":1180,"box":{"left":140,"right":680,"top":310.984375,"bottom":475.625,"width":540,"height":164.640625},"row":{"left":32.796875,"right":787.1875,"top":946.8125,"bottom":998.8125,"width":754.390625,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":32.796875,"right":236.46875,"top":946.8125,"bottom":998.8125,"width":203.671875,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":246.46875,"right":787.1875,"top":946.8125,"bottom":998.8125,"width":540.71875,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/ipad] operation-initial-3: 画面内・文字欠けとボタン重なりなし — {"width":820,"height":1180,"box":{"left":140,"right":680,"top":726.578125,"bottom":891.21875,"width":540,"height":164.640625},"row":{"left":32.796875,"right":787.1875,"top":1098.5,"bottom":1150.5,"width":754.390625,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":32.796875,"right":236.46875,"top":1098.5,"bottom":1150.5,"width":203.671875,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":246.46875,"right":787.1875,"top":1098.5,"bottom":1150.5,"width":540.71875,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/ipad] operation-initial-4: 画面内・文字欠けとボタン重なりなし — {"width":820,"height":1180,"box":{"left":140,"right":680,"top":547.78125,"bottom":712.421875,"width":540,"height":164.640625},"row":{"left":32.796875,"right":787.1875,"top":1098.5,"bottom":1150.5,"width":754.390625,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":32.796875,"right":236.46875,"top":1098.5,"bottom":1150.5,"width":203.671875,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":246.46875,"right":787.1875,"top":1098.5,"bottom":1150.5,"width":540.71875,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/ipad] operation-initial-5: 画面内・文字欠けとボタン重なりなし — {"width":820,"height":1180,"box":{"left":140,"right":680,"top":70.796875,"bottom":290.53125,"width":540,"height":219.734375},"row":{"left":32.796875,"right":787.1875,"top":1098.5,"bottom":1150.5,"width":754.390625,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":32.796875,"right":236.46875,"top":1098.5,"bottom":1150.5,"width":203.671875,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":246.46875,"right":787.1875,"top":1098.5,"bottom":1150.5,"width":540.71875,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/ipad] operation-initial-6: 画面内・文字欠けとボタン重なりなし — {"width":820,"height":1180,"box":{"left":140,"right":680,"top":42,"bottom":257.828125,"width":540,"height":215.828125},"row":{"left":32.796875,"right":787.1875,"top":946.8125,"bottom":998.8125,"width":754.390625,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":32.796875,"right":236.46875,"top":946.8125,"bottom":998.8125,"width":203.671875,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":246.46875,"right":787.1875,"top":946.8125,"bottom":998.8125,"width":540.71875,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/ipad] operation-initial-7: 画面内・文字欠けとボタン重なりなし — {"width":820,"height":1180,"box":{"left":140,"right":680,"top":70.796875,"bottom":261.03125,"width":540,"height":190.234375},"row":{"left":32.796875,"right":787.1875,"top":1098.5,"bottom":1150.5,"width":754.390625,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":32.796875,"right":236.46875,"top":1098.5,"bottom":1150.5,"width":203.671875,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":246.46875,"right":787.1875,"top":1098.5,"bottom":1150.5,"width":540.71875,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/hands/ipad] 初回7: 前へ往復で未実施の操作確認を飛ばせない
+✅ [round3/hands/ipad] 初回7: 完了済み操作を戻っても再操作・待ち不要
+✅ [round3/layout/ipad] operation-initial-8: 画面内・文字欠けとボタン重なりなし — {"width":820,"height":1180,"box":{"left":140,"right":680,"top":482.078125,"bottom":672.3125,"width":540,"height":190.234375},"row":{"left":32.796875,"right":787.1875,"top":946.8125,"bottom":998.8125,"width":754.390625,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":32.796875,"right":236.46875,"top":946.8125,"bottom":998.8125,"width":203.671875,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":246.46875,"right":787.1875,"top":946.8125,"bottom":998.8125,"width":540.71875,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/ipad] operation-initial-9: 画面内・文字欠けとボタン重なりなし — {"width":820,"height":1180,"box":{"left":140,"right":680,"top":482.078125,"bottom":672.3125,"width":540,"height":190.234375},"row":{"left":32.796875,"right":787.1875,"top":946.8125,"bottom":998.8125,"width":754.390625,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":32.796875,"right":236.46875,"top":946.8125,"bottom":998.8125,"width":203.671875,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":246.46875,"right":787.1875,"top":946.8125,"bottom":998.8125,"width":540.71875,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/ipad] operation-initial-10: 画面内・文字欠けとボタン重なりなし — {"width":820,"height":1180,"box":{"left":140,"right":680,"top":482.078125,"bottom":672.3125,"width":540,"height":190.234375},"row":{"left":32.796875,"right":787.1875,"top":946.8125,"bottom":998.8125,"width":754.390625,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":32.796875,"right":236.46875,"top":946.8125,"bottom":998.8125,"width":203.671875,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":246.46875,"right":787.1875,"top":946.8125,"bottom":998.8125,"width":540.71875,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/ipad] operation-initial-11: 画面内・文字欠けとボタン重なりなし — {"width":820,"height":1180,"box":{"left":140,"right":680,"top":42,"bottom":232.234375,"width":540,"height":190.234375},"row":{"left":32.796875,"right":787.1875,"top":946.8125,"bottom":998.8125,"width":754.390625,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":32.796875,"right":236.46875,"top":946.8125,"bottom":998.8125,"width":203.671875,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":246.46875,"right":787.1875,"top":946.8125,"bottom":998.8125,"width":540.71875,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/ipad] operation-initial-12: 画面内・文字欠けとボタン重なりなし — {"width":820,"height":1180,"box":{"left":140,"right":680,"top":482.078125,"bottom":697.90625,"width":540,"height":215.828125},"row":{"left":32.796875,"right":787.1875,"top":946.8125,"bottom":998.8125,"width":754.390625,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":32.796875,"right":236.46875,"top":946.8125,"bottom":998.8125,"width":203.671875,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":246.46875,"right":787.1875,"top":946.8125,"bottom":998.8125,"width":540.71875,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/ipad] operation-initial-13: 画面内・文字欠けとボタン重なりなし — {"width":820,"height":1180,"box":{"left":140,"right":680,"top":482.078125,"bottom":672.3125,"width":540,"height":190.234375},"row":{"left":32.796875,"right":787.1875,"top":946.8125,"bottom":998.8125,"width":754.390625,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":32.796875,"right":236.46875,"top":946.8125,"bottom":998.8125,"width":203.671875,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":246.46875,"right":787.1875,"top":946.8125,"bottom":998.8125,"width":540.71875,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/ipad] operation-initial-14: 画面内・文字欠けとボタン重なりなし — {"width":820,"height":1180,"box":{"left":140,"right":680,"top":430.46875,"bottom":749.515625,"width":540,"height":319.046875},"row":{"left":32.796875,"right":787.1875,"top":946.8125,"bottom":998.8125,"width":754.390625,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":32.796875,"right":236.46875,"top":946.8125,"bottom":998.8125,"width":203.671875,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":246.46875,"right":787.1875,"top":946.8125,"bottom":998.8125,"width":540.71875,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/rules/ipad] 1: 未選択なら復習を飛ばせない
+✅ [round3/layout/ipad] operation-rule-check-2: 画面内・文字欠けとボタン重なりなし — {"width":820,"height":1180,"box":{"left":140,"right":680,"top":430.46875,"bottom":749.515625,"width":540,"height":319.046875},"row":{"left":32.796875,"right":787.1875,"top":946.8125,"bottom":998.8125,"width":754.390625,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":32.796875,"right":236.46875,"top":946.8125,"bottom":998.8125,"width":203.671875,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":246.46875,"right":787.1875,"top":946.8125,"bottom":998.8125,"width":540.71875,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/rules/ipad] 2: 未選択なら復習を飛ばせない
+✅ [round3/layout/ipad] operation-rule-check-3: 画面内・文字欠けとボタン重なりなし — {"width":820,"height":1180,"box":{"left":140,"right":680,"top":430.46875,"bottom":749.515625,"width":540,"height":319.046875},"row":{"left":32.796875,"right":787.1875,"top":946.8125,"bottom":998.8125,"width":754.390625,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":32.796875,"right":236.46875,"top":946.8125,"bottom":998.8125,"width":203.671875,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":246.46875,"right":787.1875,"top":946.8125,"bottom":998.8125,"width":540.71875,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/rules/ipad] 3: 未選択なら復習を飛ばせない
+✅ [round3/layout/ipad] operation-rule-check-4: 画面内・文字欠けとボタン重なりなし — {"width":820,"height":1180,"box":{"left":140,"right":680,"top":430.46875,"bottom":749.515625,"width":540,"height":319.046875},"row":{"left":32.796875,"right":787.1875,"top":946.8125,"bottom":998.8125,"width":754.390625,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":32.796875,"right":236.46875,"top":946.8125,"bottom":998.8125,"width":203.671875,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":246.46875,"right":787.1875,"top":946.8125,"bottom":998.8125,"width":540.71875,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/rules/ipad] 4: 未選択なら復習を飛ばせない
+✅ [round3/layout/ipad] operation-rule-check-5: 画面内・文字欠けとボタン重なりなし — {"width":820,"height":1180,"box":{"left":140,"right":680,"top":414.953125,"bottom":765.046875,"width":540,"height":350.09375},"row":{"left":32.796875,"right":787.1875,"top":946.8125,"bottom":998.8125,"width":754.390625,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":32.796875,"right":236.46875,"top":946.8125,"bottom":998.8125,"width":203.671875,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":246.46875,"right":787.1875,"top":946.8125,"bottom":998.8125,"width":540.71875,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/rules/ipad] 5: 未選択なら復習を飛ばせない
+✅ [round3/layout/ipad] operation-rule-check-6: 画面内・文字欠けとボタン重なりなし — {"width":820,"height":1180,"box":{"left":140,"right":680,"top":430.46875,"bottom":749.515625,"width":540,"height":319.046875},"row":{"left":32.796875,"right":787.1875,"top":946.8125,"bottom":998.8125,"width":754.390625,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":32.796875,"right":236.46875,"top":946.8125,"bottom":998.8125,"width":203.671875,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":246.46875,"right":787.1875,"top":946.8125,"bottom":998.8125,"width":540.71875,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/rules/ipad] 6: 未選択なら復習を飛ばせない
+✅ [round3/layout/ipad] operation-rule-check-7: 画面内・文字欠けとボタン重なりなし — {"width":820,"height":1180,"box":{"left":140,"right":680,"top":414.953125,"bottom":765.046875,"width":540,"height":350.09375},"row":{"left":32.796875,"right":787.1875,"top":946.8125,"bottom":998.8125,"width":754.390625,"height":52},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":32.796875,"right":236.46875,"top":946.8125,"bottom":998.8125,"width":203.671875,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":246.46875,"right":787.1875,"top":946.8125,"bottom":998.8125,"width":540.71875,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/rules/ipad] 7: 未選択なら復習を飛ばせない
+✅ [round3/hands/ipad] 初回の説明は最後までXで閉じられない
+✅ [round3] 確認セッションは実送信しない
+✅ [round3/layout/ipad] rating-initial-1: 画面内・文字欠けとボタン重なりなし — {"width":820,"height":1180,"box":{"left":18,"right":802,"top":370.09375,"bottom":560.921875,"width":784,"height":190.828125},"row":{"left":49.1875,"right":770.78125,"top":931.203125,"bottom":1014.390625,"width":721.59375,"height":83.1875},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"ratingNext","left":49.1875,"right":770.78125,"top":931.203125,"bottom":1014.390625,"width":721.59375,"height":83.1875,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/ipad] rating-initial-1: 説明ボックスは回答・質問に重ならない
+✅ [round3/layout/ipad] rating-initial-2: 画面内・文字欠けとボタン重なりなし — {"width":820,"height":1180,"box":{"left":18,"right":802,"top":305.59375,"bottom":445.640625,"width":784,"height":140.046875},"row":{"left":18,"right":802,"top":791.21875,"bottom":874.40625,"width":784,"height":83.1875},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"ratingTutPrev","left":18,"right":268.875,"top":791.21875,"bottom":874.40625,"width":250.875,"height":83.1875,"overflowX":0,"overflowY":0},{"id":"ratingNext","left":278.875,"right":802,"top":791.21875,"bottom":874.40625,"width":523.125,"height":83.1875,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/ipad] rating-initial-2: 説明ボックスは回答・質問に重ならない
+✅ [round3/rating-initial/ipad] 前へで戻っても迷いの選択は必要
+✅ [round3/layout/ipad] rating-initial-3: 画面内・文字欠けとボタン重なりなし — {"width":820,"height":1180,"box":{"left":18,"right":802,"top":294.09375,"bottom":434.140625,"width":784,"height":140.046875},"row":{"left":18,"right":802,"top":802.71875,"bottom":885.90625,"width":784,"height":83.1875},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"ratingTutPrev","left":18,"right":268.875,"top":802.71875,"bottom":885.90625,"width":250.875,"height":83.1875,"overflowX":0,"overflowY":0},{"id":"ratingSubmit","left":278.875,"right":698.875,"top":802.71875,"bottom":885.90625,"width":420,"height":83.1875,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/ipad] rating-initial-3: 説明ボックスは回答・質問に重ならない
+✅ [round3/rating-initial/ipad] 自信の未選択を飛ばせず初回Xもない
+✅ [round3/layout/ipad] rating-initial-4: 画面内・文字欠けとボタン重なりなし — {"width":820,"height":1180,"box":{"left":18,"right":802,"top":370.09375,"bottom":560.921875,"width":784,"height":190.828125},"row":{"left":49.1875,"right":770.78125,"top":931.203125,"bottom":1014.390625,"width":721.59375,"height":83.1875},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"ratingSubmit","left":49.1875,"right":469.1875,"top":931.203125,"bottom":1014.390625,"width":420,"height":83.1875,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/ipad] rating-initial-4: 説明ボックスは回答・質問に重ならない
+✅ [round3/layout/ipad] practice-intro: 画面内・文字欠けとボタン重なりなし — {"width":820,"height":1180,"box":{"left":18,"right":802,"top":395.59375,"bottom":536.03125,"width":784,"height":140.4375},"row":{"left":49.1875,"right":770.78125,"top":931.203125,"bottom":1014.390625,"width":721.59375,"height":83.1875},"close":null,"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"ratingSubmit","left":49.1875,"right":469.1875,"top":931.203125,"bottom":1014.390625,"width":420,"height":83.1875,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/ipad] practice-intro: 説明ボックスは回答・質問に重ならない
+✅ [round3/rating-initial/ipad] 練習導入は番号と質問なしの単独画面
+✅ [round3] 確認セッションは実送信しない
+✅ [round3/rating/ipad] 迷い・未選択: 見直し中の回答・試行・時計を保全
+✅ [round3/rating/ipad] 迷い・未選択: 閉じるは44px以上の画面右上
+✅ [round3/rating/ipad] 迷い・未選択: Xで閉じると元の評定へ戻る
+✅ [round3/timing/ipad] 迷い・未選択: 説明時間を評定時間に加えない — {"before":{"page":0,"elapsedMs":230.5,"pageElapsedMs":230,"tutorial":null},"after":{"page":0,"elapsedMs":333.60000002384186,"pageElapsedMs":333.10000002384186,"tutorial":null}}
+✅ [round3/rating/ipad] 迷い・選択済み: 見直し中の回答・試行・時計を保全
+✅ [round3/rating/ipad] 迷い・選択済み: 閉じるは44px以上の画面右上
+✅ [round3/rating/ipad] 迷い・選択済み: 最後まで進むと元の評定へ戻る
+✅ [round3/timing/ipad] 迷い・選択済み: 説明時間を評定時間に加えない — {"before":{"page":0,"elapsedMs":382.60000002384186,"pageElapsedMs":382.10000002384186,"tutorial":null},"after":{"page":0,"elapsedMs":384.60000002384186,"pageElapsedMs":384.10000002384186,"tutorial":null}}
+✅ [round3/reload/ipad] 評定1見直し中の再読込: 元のページと選択を復旧 — {"before":{"page":0,"elapsedMs":390.60000002384186,"pageElapsedMs":390.10000002384186,"tutorial":null},"frozen":{"page":0,"elapsedMs":422,"pageElapsedMs":421.5,"tutorial":null},"after":{"page":0,"elapsedMs":517,"pageElapsedMs":516.1999999880791,"tutorial":null}}
+✅ [round3/rating/ipad] 自信・未選択: 見直し中の回答・試行・時計を保全
+✅ [round3/rating/ipad] 自信・未選択: 閉じるは44px以上の画面右上
+✅ [round3/rating/ipad] 自信・未選択: Xで閉じると元の評定へ戻る
+✅ [round3/timing/ipad] 自信・未選択: 説明時間を評定時間に加えない — {"before":{"page":1,"elapsedMs":557,"pageElapsedMs":35.5,"tutorial":null},"after":{"page":1,"elapsedMs":667.6999999880791,"pageElapsedMs":146.19999998807907,"tutorial":null}}
+✅ [round3/layout/ipad] rating-review-1: 画面内・文字欠けとボタン重なりなし — {"width":820,"height":1180,"box":{"left":18,"right":802,"top":390.09375,"bottom":580.921875,"width":784,"height":190.828125},"row":{"left":49.1875,"right":770.78125,"top":931.203125,"bottom":1014.390625,"width":721.59375,"height":83.1875},"close":{"left":720,"right":808,"top":8,"bottom":52,"width":88,"height":44},"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"ratingNext","left":49.1875,"right":770.78125,"top":931.203125,"bottom":1014.390625,"width":721.59375,"height":83.1875,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/ipad] rating-review-1: 説明ボックスは回答・質問に重ならない
+✅ [round3/layout/ipad] rating-review-2: 画面内・文字欠けとボタン重なりなし — {"width":820,"height":1180,"box":{"left":18,"right":802,"top":325.59375,"bottom":465.640625,"width":784,"height":140.046875},"row":{"left":18,"right":802,"top":811.21875,"bottom":894.40625,"width":784,"height":83.1875},"close":{"left":720,"right":808,"top":8,"bottom":52,"width":88,"height":44},"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"ratingTutPrev","left":18,"right":268.875,"top":811.21875,"bottom":894.40625,"width":250.875,"height":83.1875,"overflowX":0,"overflowY":0},{"id":"ratingNext","left":278.875,"right":802,"top":811.21875,"bottom":894.40625,"width":523.125,"height":83.1875,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/ipad] rating-review-2: 説明ボックスは回答・質問に重ならない
+✅ [round3/layout/ipad] rating-review-3: 画面内・文字欠けとボタン重なりなし — {"width":820,"height":1180,"box":{"left":18,"right":802,"top":325.59375,"bottom":465.640625,"width":784,"height":140.046875},"row":{"left":18,"right":802,"top":811.21875,"bottom":894.40625,"width":784,"height":83.1875},"close":{"left":720,"right":808,"top":8,"bottom":52,"width":88,"height":44},"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"ratingTutPrev","left":18,"right":268.875,"top":811.21875,"bottom":894.40625,"width":250.875,"height":83.1875,"overflowX":0,"overflowY":0},{"id":"ratingSubmit","left":278.875,"right":698.875,"top":811.21875,"bottom":894.40625,"width":420,"height":83.1875,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/ipad] rating-review-3: 説明ボックスは回答・質問に重ならない
+✅ [round3/layout/ipad] rating-review-4: 画面内・文字欠けとボタン重なりなし — {"width":820,"height":1180,"box":{"left":18,"right":802,"top":390.09375,"bottom":580.921875,"width":784,"height":190.828125},"row":{"left":49.1875,"right":770.78125,"top":931.203125,"bottom":1014.390625,"width":721.59375,"height":83.1875},"close":{"left":720,"right":808,"top":8,"bottom":52,"width":88,"height":44},"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"ratingTutPrev","left":49.1875,"right":280.09375,"top":931.203125,"bottom":1014.390625,"width":230.90625,"height":83.1875,"overflowX":0,"overflowY":0},{"id":"ratingSubmit","left":290.09375,"right":710.09375,"top":931.203125,"bottom":1014.390625,"width":420,"height":83.1875,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/ipad] rating-review-4: 説明ボックスは回答・質問に重ならない
+✅ [round3/rating/ipad] 説明の前へで選択済みの評定と元ページを変えない
+✅ [round3/rating/ipad] 自信・選択済み: 見直し中の回答・試行・時計を保全
+✅ [round3/rating/ipad] 自信・選択済み: 閉じるは44px以上の画面右上
+✅ [round3/rating/ipad] 自信・選択済み: 最後まで進むと元の評定へ戻る
+✅ [round3/timing/ipad] 自信・選択済み: 説明時間を評定時間に加えない — {"before":{"page":1,"elapsedMs":741.9000000357628,"pageElapsedMs":220.4000000357628,"tutorial":null},"after":{"page":1,"elapsedMs":743.8000000715256,"pageElapsedMs":222.30000007152557,"tutorial":null}}
+✅ [round3/reload/ipad] 評定2見直し中の再読込: 元のページと選択を復旧 — {"before":{"page":1,"elapsedMs":747.5000000596046,"pageElapsedMs":226.00000005960464,"tutorial":null},"frozen":{"page":1,"elapsedMs":782.1000000834465,"pageElapsedMs":260.6000000834465,"tutorial":null},"after":{"page":1,"elapsedMs":869.6000000834465,"pageElapsedMs":347.40000009536743,"tutorial":null}}
+✅ [round3/rating/ipad] 見直し後も通常の回答の戻る操作が有効
+✅ [round3/instructed/ipad] 全員の経路は専用説明を挟まず追加問題の案内
+✅ [round3/layout/ipad] 追加問題導入: 謝礼の追記も画面内に収まる — {"scrollHeight":1180,"clientHeight":1180,"scrollWidth":820,"clientWidth":820,"buttonBottom":856.703125,"height":1180}
+✅ [round3/layout/ipad] instructed-review-1: 画面内・文字欠けとボタン重なりなし — {"width":820,"height":1180,"box":{"left":140,"right":680,"top":443.6875,"bottom":736.296875,"width":540,"height":292.609375},"row":{"left":114.796875,"right":705.1875,"top":946.8125,"bottom":998.8125,"width":590.390625,"height":52},"close":{"left":720,"right":808,"top":8,"bottom":52,"width":88,"height":44},"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPopNext","left":114.796875,"right":705.1875,"top":946.8125,"bottom":998.8125,"width":590.390625,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/layout/ipad] instructed-review-2: 画面内・文字欠けとボタン重なりなし — {"width":820,"height":1180,"box":{"left":140,"right":680,"top":456.484375,"bottom":723.5,"width":540,"height":267.015625},"row":{"left":32.796875,"right":787.1875,"top":946.8125,"bottom":998.8125,"width":754.390625,"height":52},"close":{"left":720,"right":808,"top":8,"bottom":52,"width":88,"height":44},"boxOverflowX":0,"boxOverflowY":0,"buttons":[{"id":"tutPrev","left":32.796875,"right":236.46875,"top":946.8125,"bottom":998.8125,"width":203.671875,"height":52,"overflowX":0,"overflowY":0},{"id":"tutPopNext","left":246.46875,"right":787.1875,"top":946.8125,"bottom":998.8125,"width":540.71875,"height":52,"overflowX":0,"overflowY":0}],"bodyOverflow":0}
+✅ [round3/instructed/ipad] 追加問題専用は2枚・読んでからの逆指示なし — 追加の10問では、問題文も選択肢も読まずに、適当に指を運んでください。どちらの選択肢でも構いません。前の答えを思い出す必要もありません。この10問は、指示どおり読まずに答える問題なので、謝礼には影響しません。操作はこれまでと同じです。スタートボタンに指を置き、指を離さずにどちらかの選択肢のボックスまで運び、選択肢のボックスの中で離します。問題文や選択肢は読まずに進めてください。振り返りの質問はありません。
+✅ [round3/instructed/ipad] 専用説明を前後移動して閉じても同じ未回答問題へ
+✅ [round3/instructed/ipad] 専用説明を最後まで進めても同じ問題へ
+✅ [round3/instructed/ipad] 説明後の追加回答を重複なく記録
+✅ [round3] 確認セッションは実送信しない
+✅ [round3/layout/ipad] sleep-hours: 区間ラベルとナビが収まる — {"width":820,"height":1180,"scrollHeight":1180,"clientHeight":1180,"scrollWidth":820,"clientWidth":820,"navBottom":787.640625,"bad":[]}
+✅ [round3/layout/ipad] usage-years-hours: 区間ラベルとナビが収まる — {"width":820,"height":1180,"scrollHeight":1180,"clientHeight":1180,"scrollWidth":820,"clientWidth":820,"navBottom":941.90625,"bad":[]}
+✅ [round3/layout/ipad] concentration-scope: 区間ラベルとナビが収まる — {"width":820,"height":1180,"scrollHeight":1180,"clientHeight":1180,"scrollWidth":820,"clientWidth":820,"navBottom":866.09375,"bad":[]}
+✅ [round3/layout/ipad] data-use-scope: 区間ラベルとナビが収まる — {"width":820,"height":1180,"scrollHeight":1180,"clientHeight":1180,"scrollWidth":820,"clientWidth":820,"navBottom":909.609375,"bad":[]}
+✅ [round3/survey/ipad] 除外注記の繰り返しを削除し謝礼注記と複数選択の案内を表示
+✅ [round3] 確認セッションは実送信しない
+✅ [round3/stop] 本番説明中の終了取消: フェーズ・同じ問題・残り問題を保持
+✅ [round3/stop] 本番説明中の終了取消: 読んだ時間を保ち説明・中断時間を除外 — {"before":273,"frozen":307.19999998807907,"after":314.69999998807907}
+✅ [round3/stop] 本番終了取消後は古い見直し状態が残らず時計が進む
+✅ [round3/stop] 本番終了取消後も再度見直して同じ問題に戻れる
+✅ [round3/stop] 評定説明中の終了取消: 元のページと回答を復元
+✅ [round3/stop] 終了取消後も評定説明を再度開け、保存段階が評定のまま
+✅ [round3/stop] 終了取消後の評定を重複なく確定
+✅ [round3/stop] 追加問題説明中の終了取消: フェーズ・同じ問題・残り問題を保持
+✅ [round3/stop] 追加問題説明中の終了取消: 読んだ時間を保ち説明・中断時間を除外 — {"before":257.10000002384186,"frozen":276.10000002384186,"after":282.30000001192093}
+✅ [round3/stop] 追加問題終了取消後は古い見直し状態が残らず時計が進む
+✅ [round3/stop] 追加問題終了取消後も再度見直して同じ問題に戻れる
+✅ [round3/stop] 終了取消を経ても本番と追加回答を各1件だけ記録
+✅ [round3] 確認セッションは実送信しない
+✅ [round3/motion] 動きを減らす設定でも未実施の操作確認は飛ばせない
+✅ [round3/motion] 動きを減らす設定でも初回の中央ボックス操作を完了できる — {"drag":{"index":6,"stepId":"motor","schema":"guided-2026-10-15","review":false,"instructed":false,"lockRemainingMs":0,"handsDone":true,"pending":false,"quiz":{"index":0,"passed":[false,false,false,false,false,false,false],"selections":[null,null,null,null,null,null,null],"orders":[[2,1,0],[2,1,0],[2,0,1],[1,2,0],[0,2,1],[0,2,1],[1,0,2]],"attempts":[0,0,0,0,0,0,0],"complete":false},"completedTraining":false},"rating":{"index":-1,"review":false,"lockRemainingMs":0}}
+✅ [round3/motion] 動きを減らす設定でも操作成功を戻って保持できる — {"drag":{"index":6,"stepId":"motor","schema":"guided-2026-10-15","review":false,"instructed":false,"lockRemainingMs":0,"handsDone":true,"pending":false,"quiz":{"index":0,"passed":[false,false,false,false,false,false,false],"selections":[null,null,null,null,null,null,null],"orders":[[2,1,0],[2,1,0],[2,0,1],[1,2,0],[0,2,1],[0,2,1],[1,0,2]],"attempts":[0,0,0,0,0,0,0],"complete":false},"completedTraining":false},"rating":{"index":-1,"review":false,"lockRemainingMs":0}}
+✅ [round3/motion] 動きを減らす設定でも例題の左右選択肢へ回答できる
+
+--- survey intervals: labels / saved codes / small screens ---
+✅ [interval/mini] sleep_hours: 境界ラベルと保存コード
+✅ [interval/mini] usage_years: 境界ラベルと保存コード
+✅ [interval/mini] usage_hours: 境界ラベルと保存コード
+✅ [interval/mini] 睡眠時間ページへ移動
+✅ [interval/layout/mini] sleep-hours: スクロール・欠け・ナビとの重なりなし — {"width":375,"height":700,"scrollHeight":700,"clientHeight":700,"scrollWidth":375,"clientWidth":375,"navBottom":559.84375,"bad":[]}
+✅ [interval/mini] 使用年数ページへ移動
+✅ [interval/layout/mini] usage-years-hours: スクロール・欠け・ナビとの重なりなし — {"width":375,"height":700,"scrollHeight":700,"clientHeight":700,"scrollWidth":375,"clientWidth":375,"navBottom":665.4375,"bad":[]}
+✅ [interval/mini] ページ往復後も既存コードで回答を保持
+✅ [interval/iphone17] sleep_hours: 境界ラベルと保存コード
+✅ [interval/iphone17] usage_years: 境界ラベルと保存コード
+✅ [interval/iphone17] usage_hours: 境界ラベルと保存コード
+✅ [interval/iphone17] 睡眠時間ページへ移動
+✅ [interval/layout/iphone17] sleep-hours: スクロール・欠け・ナビとの重なりなし — {"width":402,"height":759,"scrollHeight":759,"clientHeight":759,"scrollWidth":402,"clientWidth":402,"navBottom":548.84375,"bad":[]}
+✅ [interval/iphone17] 使用年数ページへ移動
+✅ [interval/layout/iphone17] usage-years-hours: スクロール・欠け・ナビとの重なりなし — {"width":402,"height":759,"scrollHeight":759,"clientHeight":759,"scrollWidth":402,"clientWidth":402,"navBottom":640.84375,"bad":[]}
+✅ [interval/iphone17] ページ往復後も既存コードで回答を保持
+✅ [interval/ipad] sleep_hours: 境界ラベルと保存コード
+✅ [interval/ipad] usage_years: 境界ラベルと保存コード
+✅ [interval/ipad] usage_hours: 境界ラベルと保存コード
+✅ [interval/ipad] 睡眠時間ページへ移動
+✅ [interval/layout/ipad] sleep-hours: スクロール・欠け・ナビとの重なりなし — {"width":820,"height":1180,"scrollHeight":1180,"clientHeight":1180,"scrollWidth":820,"clientWidth":820,"navBottom":787.640625,"bad":[]}
+✅ [interval/ipad] 使用年数ページへ移動
+✅ [interval/layout/ipad] usage-years-hours: スクロール・欠け・ナビとの重なりなし — {"width":820,"height":1180,"scrollHeight":1180,"clientHeight":1180,"scrollWidth":820,"clientWidth":820,"navBottom":941.90625,"bad":[]}
+✅ [interval/ipad] ページ往復後も既存コードで回答を保持
+
+--- review UI: one-screen notice and optional help ---
+✅ [review/mini] 初回の操作説明は途中で閉じられない
+✅ [review/mini] 初回は閉じる処理も無効
+✅ [review/mini] 注意には確認ボタンだけがあり、説明の別画面を要求しない
+✅ [review/mini] 注意の表示だけでは確認完了や回答を作らない
+✅ [review/mini] 中断の確認中は説明を閉じるボタンを隠す
+✅ [review/mini] 中断を取り消すと同じ注意・未回答問題へ復帰
+✅ [review/mini] 1回の確認で問題に戻り、確認ログだけを1件残す
+✅ [review/mini] 次の問題文の時計は注意の確認後に始まる — {"stemElapsedMs":130.5}
+✅ [review/mini] 確認ボタンの重複操作で回答やログを増やさない
+✅ [review/mini] 本番では進捗バーが表示される
+✅ [review/mini] 早出しの注意画面に到達
+✅ [review/mini] 早出しも注意本文と1ボタンで確認し、未確認を補完しない
+✅ [review/mini] 早出しの確認で次の未回答問題へ進み、別説明の履歴を作らない
+✅ [review/mini] 上部からの見直し 1/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/mini] 上部からの見直し 2/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/mini] 上部からの見直し 3/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/mini] 上部からの見直し 4/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/mini] 上部からの見直し 5/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/mini] 上部からの見直し 6/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/mini] 上部からの見直し 7/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/mini] 上部からの見直し 8/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/mini] 上部からの見直し 9/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/mini] 上部からの見直し 10/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/mini] 上部からの見直し 11/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/mini] 上部からの見直し 12/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/mini] 上部からの見直し 13/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/mini] 上部からの見直し 14/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/mini] 上部からの見直し 15/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/mini] 上部からの見直し 16/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/mini] 上部からの見直し 17/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/mini] 上部からの見直し 18/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/mini] 上部からの見直し 19/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/mini] 上部からの見直し 20/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/mini] 本番の同じ問題に復帰・記録数と進捗を維持
+✅ [review/mini] 任意説明を読んだ時間を元問題の読解時間へ加えない — {"before":149.19999998807907,"after":283.80000001192093}
+✅ [review/mini] 任意説明は注意の確認・見直し履歴を増やさない
+✅ [review/mini] 送信中は回転表示のみ・コードは隠す・実送信なし — {"spin":"spin","bar":false,"code":"none","upload":null}
+✅ [review/mini] コード横のコピーアイコンと下のメールボタン — {"beside":true,"icon":true,"target":true,"below":true,"mail":true,"fits":true,"verticalOverflow":193}
+✅ [review/mini] コピー成功はコードと一致し、アイコンを保って完了を表示
+✅ [review/mini] コピー完了の表示が消える
+✅ [review/mini] コピー失敗時に成功と表示せず、手動コピーを案内
+✅ [review/mini] 代替コピーが成功した場合だけ完了を表示
+✅ [review/iphone17] 初回の操作説明は途中で閉じられない
+✅ [review/iphone17] 初回は閉じる処理も無効
+✅ [review/iphone17] 注意には確認ボタンだけがあり、説明の別画面を要求しない
+✅ [review/iphone17] 注意の表示だけでは確認完了や回答を作らない
+✅ [review/iphone17] 中断の確認中は説明を閉じるボタンを隠す
+✅ [review/iphone17] 中断を取り消すと同じ注意・未回答問題へ復帰
+✅ [review/iphone17] 1回の確認で問題に戻り、確認ログだけを1件残す
+✅ [review/iphone17] 次の問題文の時計は注意の確認後に始まる — {"stemElapsedMs":136.69999998807907}
+✅ [review/iphone17] 確認ボタンの重複操作で回答やログを増やさない
+✅ [review/iphone17] 本番では進捗バーが表示される
+✅ [review/iphone17] 早出しの注意画面に到達
+✅ [review/iphone17] 早出しも注意本文と1ボタンで確認し、未確認を補完しない
+✅ [review/iphone17] 早出しの確認で次の未回答問題へ進み、別説明の履歴を作らない
+✅ [review/iphone17] 上部からの見直し 1/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/iphone17] 上部からの見直し 2/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/iphone17] 上部からの見直し 3/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/iphone17] 上部からの見直し 4/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/iphone17] 上部からの見直し 5/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/iphone17] 上部からの見直し 6/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/iphone17] 上部からの見直し 7/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/iphone17] 上部からの見直し 8/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/iphone17] 上部からの見直し 9/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/iphone17] 上部からの見直し 10/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/iphone17] 上部からの見直し 11/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/iphone17] 上部からの見直し 12/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/iphone17] 上部からの見直し 13/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/iphone17] 上部からの見直し 14/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/iphone17] 上部からの見直し 15/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/iphone17] 上部からの見直し 16/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/iphone17] 上部からの見直し 17/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/iphone17] 上部からの見直し 18/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/iphone17] 上部からの見直し 19/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/iphone17] 上部からの見直し 20/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/iphone17] 本番の同じ問題に復帰・記録数と進捗を維持
+✅ [review/iphone17] 任意説明を読んだ時間を元問題の読解時間へ加えない — {"before":145,"after":276}
+✅ [review/iphone17] 任意説明は注意の確認・見直し履歴を増やさない
+✅ [review/iphone17] 送信中は回転表示のみ・コードは隠す・実送信なし — {"spin":"spin","bar":false,"code":"none","upload":null}
+✅ [review/iphone17] コード横のコピーアイコンと下のメールボタン — {"beside":true,"icon":true,"target":true,"below":true,"mail":true,"fits":true,"verticalOverflow":110}
+✅ [review/iphone17] コピー成功はコードと一致し、アイコンを保って完了を表示
+✅ [review/iphone17] コピー完了の表示が消える
+✅ [review/iphone17] コピー失敗時に成功と表示せず、手動コピーを案内
+✅ [review/iphone17] 代替コピーが成功した場合だけ完了を表示
+✅ [review/ipad] 初回の操作説明は途中で閉じられない
+✅ [review/ipad] 初回は閉じる処理も無効
+✅ [review/ipad] 注意には確認ボタンだけがあり、説明の別画面を要求しない
+✅ [review/ipad] 注意の表示だけでは確認完了や回答を作らない
+✅ [review/ipad] 中断の確認中は説明を閉じるボタンを隠す
+✅ [review/ipad] 中断を取り消すと同じ注意・未回答問題へ復帰
+✅ [review/ipad] 1回の確認で問題に戻り、確認ログだけを1件残す
+✅ [review/ipad] 次の問題文の時計は注意の確認後に始まる — {"stemElapsedMs":138.60000002384186}
+✅ [review/ipad] 確認ボタンの重複操作で回答やログを増やさない
+✅ [review/ipad] 本番では進捗バーが表示される
+✅ [review/ipad] 早出しの注意画面に到達
+✅ [review/ipad] 早出しも注意本文と1ボタンで確認し、未確認を補完しない
+✅ [review/ipad] 早出しの確認で次の未回答問題へ進み、別説明の履歴を作らない
+✅ [review/ipad] 上部からの見直し 1/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/ipad] 上部からの見直し 2/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/ipad] 上部からの見直し 3/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/ipad] 上部からの見直し 4/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/ipad] 上部からの見直し 5/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/ipad] 上部からの見直し 6/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/ipad] 上部からの見直し 7/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/ipad] 上部からの見直し 8/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/ipad] 上部からの見直し 9/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/ipad] 上部からの見直し 10/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/ipad] 上部からの見直し 11/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/ipad] 上部からの見直し 12/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/ipad] 上部からの見直し 13/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/ipad] 上部からの見直し 14/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/ipad] 上部からの見直し 15/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/ipad] 上部からの見直し 16/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/ipad] 上部からの見直し 17/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/ipad] 上部からの見直し 18/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/ipad] 上部からの見直し 19/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/ipad] 上部からの見直し 20/20: 閉じるが押せる・進捗なし — {"outside":true,"fixed":true,"target":true,"onScreen":true,"clear":true,"noProgress":true,"helpHidden":true,"hit":true}
+✅ [review/ipad] 本番の同じ問題に復帰・記録数と進捗を維持
+✅ [review/ipad] 任意説明を読んだ時間を元問題の読解時間へ加えない — {"before":153.39999997615814,"after":280.19999998807907}
+✅ [review/ipad] 任意説明は注意の確認・見直し履歴を増やさない
+✅ [review/ipad] 送信中は回転表示のみ・コードは隠す・実送信なし — {"spin":"spin","bar":false,"code":"none","upload":null}
+✅ [review/ipad] コード横のコピーアイコンと下のメールボタン — {"beside":true,"icon":true,"target":true,"below":true,"mail":true,"fits":true,"verticalOverflow":0}
+✅ [review/ipad] コピー成功はコードと一致し、アイコンを保って完了を表示
+✅ [review/ipad] コピー完了の表示が消える
+✅ [review/ipad] コピー失敗時に成功と表示せず、手動コピーを案内
+✅ [review/ipad] 代替コピーが成功した場合だけ完了を表示
+✅ [rating-progress] 本番の第1問は従来どおり完了率0%
+✅ [rating-progress] 迷いは直前の問題と同じ割合・同じ完了数 — {"screen":"rating","page":0,"shown":true,"task":"0%","rating":"0%","trial":0,"count":1}
+✅ [rating-progress] 自信へ移っても完了率・試行数を進めない — {"screen":"rating","page":1,"shown":true,"task":"0%","rating":"0%","trial":0,"count":1}
+✅ [rating-progress] 戻るでも同じ完了率と回答を保持 — {"screen":"rating","page":0,"shown":true,"task":"0%","rating":"0%","trial":0,"count":1}
+✅ [rating-progress] 振り返りの説明を見直している間はバーを隠す
+✅ [rating-progress] 説明を閉じると同じ割合・完了数へ復帰 — {"screen":"rating","page":0,"shown":true,"task":"0%","rating":"0%","trial":0,"count":1}
+✅ [rating-progress] 振り返り確定後の次問で初めて完了率を1/5へ進める
+✅ [rating-progress] 次の振り返りも同じ分母・20%を表示 — {"screen":"rating","page":0,"shown":true,"task":"20%","rating":"20%","trial":1,"count":2}
+✅ [rating-progress] 未確定の自信から再読込すると再開画面を提示
+✅ [rating-progress] 再開後も自信のページ・20%・完了数を保持 — {"screen":"rating","page":1,"shown":true,"task":"20%","rating":"20%","trial":1,"count":2}
+✅ [rating-progress] 再開で迷いと自信の回答値を変えない
+✅ [rating-progress/375x700] 色と幅を共用し上部ヘルプに重ならず20%を表示 — {"left":82.5,"right":292.5,"top":37,"bottom":41.125,"helpBottom":32,"width":210,"expected":210.00000000000003,"target":37,"ratio":0.2,"color":"rgb(18, 133, 90)","vh":700}
+✅ [rating-progress/402x759] 色と幅を共用し上部ヘルプに重ならず20%を表示 — {"left":88.4375,"right":313.5625,"top":39.9375,"bottom":44.359375,"helpBottom":32,"width":225.125,"expected":225.12000000000003,"target":39.95,"ratio":0.19995835646862853,"color":"rgb(18, 133, 90)","vh":759}
+✅ [rating-progress/440x811] 色と幅を共用し上部ヘルプに重ならず20%を表示 — {"left":96.796875,"right":343.203125,"top":42.546875,"bottom":47.375,"helpBottom":34,"width":246.40625,"expected":246.40000000000003,"target":42.550000000000004,"ratio":0.2,"color":"rgb(18, 133, 90)","vh":811}
+✅ [rating-progress/820x1180] 色と幅を共用し上部ヘルプに重ならず20%を表示 — {"left":180.390625,"right":639.609375,"top":61,"bottom":69,"helpBottom":34,"width":459.21875,"expected":459.20000000000005,"target":61,"ratio":0.2,"color":"rgb(18, 133, 90)","vh":1180}
+✅ [rating-progress/375x548] 色と幅を共用し上部ヘルプに重ならず20%を表示 — {"left":82.5,"right":292.5,"top":35,"bottom":39.125,"helpBottom":30,"width":210,"expected":210.00000000000003,"target":32,"ratio":0.2,"color":"rgb(18, 133, 90)","vh":548}
+✅ [rating-progress] 例題と練習の通常振り返りにはバーを出さない
+✅ [rating-progress] 初回の振り返りの説明にもバーを出さない
+
+--- anchor (http://127.0.0.1:8000/?devguard=0&minread=0&readgate=0&reps=1&debug=1&upload=0&mic=0&tut=0) ---
+✅ [anchor] ページ読込 + debug フック
+✅ [anchor] ブロック判定 — block=anchor
+✅ [anchor] 評定 ON/OFF — ratings=false
+✅ [anchor] 事前必須が揃うと開始ボタン有効化
+✅ [anchor] 練習スキップ導線なし (goMain 削除)
+✅ [anchor] 事後アンケート画面を経由
+✅ [anchor] 自由記述はその他選択時のみ表示 (初期=非表示 → その他で出現) — init_hidden=null / shown_on_other=null
+✅ [anchor] チュートリアル表示 (練習=あり / 本番=なし) — practice=true / mainHidden=true
+✅ [anchor] セッション完走 (done 到達)
+✅ [anchor] 事後アンケート (1 項目 1 画面。2026-09-26): 評定ブロック=27項目（追加OFFは26）・最初は 1 / 19 の持ち方ページで次へ無効・埋めるまで完了不可 / anchor=拡充分なし (1 / 1) — filled=0 gateBefore=true hint=1 / 1|true|grip
+✅ [anchor] device.post 記録 (評定ブロックの全キーが回答済み・postMs>0 / anchor=null) — post=null
+✅ [anchor] device.block 記録 — block=anchor
+✅ [anchor] 事前アンケート記録
+✅ [anchor] 事後アンケート記録 (grip) — grip=right_thumb
+✅ [anchor] 使いにくさアンケートなし (survey=null / 評定ブロックのみ) — survey=null
+✅ [anchor] 匿名 client UUID 記録
+✅ [anchor] 記録試行数 (練習=practiceTrials 6問完走 / 本番12) — total=18 / practice=6 / main=12
+✅ [anchor] 行動ゲート: 不正解で streak リセット後、正解3連続で解錠 (以降も練習は完走)
+✅ [anchor] 無効試行のコーチング経路 (練習1試行目に aborts=1) — aborts=1
+✅ [anchor] practiceSummary 記録 (gate 3・正誤あり・練習6・abort1) — {"gateStreak":3,"gateCorrect":true,"trials":6,"aborts":1,"skipped":false}
+✅ [anchor] stimulusType=numeric-size
+✅ [anchor] congruency メタ
+✅ [anchor] 全 main にイベント列
+✅ [anchor] 全 main に geom
+✅ [anchor] dispHz 記録
+✅ [anchor] choiceSide/correct 記録
+✅ [anchor] 評定なし (ratings 未入力)
+✅ [anchor] mic=0: device.mic.mode=off・noise=null — {"mode":"off","threshold":-35,"checkMs":5000,"quietMs":2000,"gateMinOverMs":500,"ambientDb":null,"ambientRetries":0,"drops":0,"muteCount":0,"mutedMs":0}
+
+--- moral (http://127.0.0.1:8000/?devguard=0&minread=0&readgate=0&block=moral&reps=1&debug=1&upload=0&mic=0&tut=0) ---
+✅ [moral] ページ読込 + debug フック
+✅ [moral] ブロック判定 — block=moral
+✅ [moral] 評定 ON/OFF — ratings=true
+✅ [moral] 事前必須が揃うと開始ボタン有効化
+✅ [moral] 練習スキップ導線なし (goMain 削除)
+✅ [moral] 事後アンケート画面を経由
+✅ [moral] 自由記述はその他選択時のみ表示 (初期=非表示 → その他で出現) — init_hidden=true / shown_on_other=true
+✅ [moral] チュートリアル表示 (練習=あり / 本番=なし) — practice=true / mainHidden=true
+✅ [moral] 設問ステムを文節ブロック (.nb) で描画 — blocks=9
+✅ [moral] セッション完走 (done 到達)
+✅ [moral] 事後アンケート (1 項目 1 画面。2026-09-26): 評定ブロック=27項目（追加OFFは26）・最初は 1 / 19 の持ち方ページで次へ無効・埋めるまで完了不可 / anchor=拡充分なし (1 / 1) — filled=27 gateBefore=true hint=1 / 19|true|grip
+✅ [moral] device.post 記録 (評定ブロックの全キーが回答済み・postMs>0 / anchor=null) — keys=27 postMs=276
+✅ [moral] device.block 記録 (③only=moral 単体) — block=moral
+✅ [moral] seq 記録 (moral のみ。確認 2 問は本番の末尾に含める。2026-09-30) — seq=moral
+✅ [moral] 本番試行数 = 49 (練習5 / 弱DQS4 / 末尾attn2 は別) — total=70 / practice=5 / moralReal=49 / dqs=4 / attn=2
+✅ [moral] 練習にも評定リハーサル記録 (2項目)
+✅ [moral] 振り返りの説明 完遂 (completed+4枚・例題後) — {"changed":true,"completed":true,"pages":4}
+✅ [moral] 振り返り導入1/4は回答・質問なし → 迷い2/4は選択するまで進めない — {"step":"回答の振り返り 1 / 4","page":0,"nextEnabled":true,"rowCueOff":true,"noAnswer":true,"noQuestion":true,"afterPage":0,"afterStep":"回答の振り返り 2 / 4","nextDisabledAfter":true}
+✅ [moral] 評定チュートリアルは5択を強調し、戻っても値を保持する。説明は例題後の1回のみ — seen=1 / p2={"step":"回答の振り返り 3 / 4","hesHidden":true,"confShown":true,"backShown":true,"nextHidden":true,"submitShown":true,"submitDisabled":true,"submitLabel":"次へ","cueTarget":true,"spotOn":false,"rowSide":true,"popAboveTarget":true}
+✅ [moral] 振り返り4/4は2文改行 → 練習導入は番号なし・次へで既存5問へ — {"finish":{"step":"回答の振り返り 4 / 4","title":"1問ずつ考え直す","copy":"感じ方は問題によって変わります。\n前の問題の選択に引きずられず、その問題で感じたものに近いものをその都度選んでください。","button":"練習問題へ","noQuestion":true,"index":3},"intro":{"text":"ここから5問、練習問題に回答します。","numbered":false,"index":4,"button":"次へ"}}
+✅ [moral] stimulusType=text-choice
+✅ [moral] 文字2択ラベル
+✅ [moral] 場面文ステム
+✅ [moral] 7類型そろう (sacrifice/honesty/loyalty/care/promise/autonomy/privacy) — types=sacrifice,promise,privacy,care,autonomy,loyalty,honesty
+✅ [moral] 各類型が明確1・中間2・拮抗4 (計7問) — counts=sacrifice:7 honesty:7 loyalty:7 care:7 promise:7 autonomy:7 privacy:7
+✅ [moral] 葛藤3水準そろう (clear7/mid14/conflict28) — levels=clear:7 mid:14 conflict:28
+✅ [moral] 構造タグ記録 (weight/escape/split, 全 本番)
+✅ [moral] itemId 一意 (49問)
+✅ [moral] 明確のみ betterSide 定義 / 中・拮抗は null
+✅ [moral] 左右CB: 明確の betterSide が左右両方
+✅ [moral] 規範整合 correct (明確 true/false, 中・拮抗 null)
+✅ [moral] 全 本番に2項目評定 (1–5)・difficulty なし (2026-07-15 改訂)
+✅ [moral] 評定の所要時間 ratingSubmitMs 記録
+✅ [moral] ⑤弱DQS4問 (指示側 左右 2:2・10/23/31/42 問目) + 本番の最後の 2 問 = infreq+IMC (振り返りあり・index 54/55。2026-09-30) — dqs=4 attn=[infreq,imc]
+✅ [moral] 弱DQS直後の本試行に post_check フラグ
+✅ [moral] ⑤ check 試行に correct (注意して回答できたか) が記録・デブリーフィング表示 (欺瞞の種明かし)
+✅ [moral] 事後アンケート記録 (survey) — {"problems":["rating_burden","other"],"problemPages":[["rating_burden"],["none"],["other"]],"ease":"ok","free":"その他テスト記述","comment":""}
+✅ [moral] 全 本番にイベント列 + geom
+✅ [moral] 読速ベースライン記録 (③落選場面4本+charsPerSec。§6-6 項13・2026-09-09) — {"trials":[{"chars":38,"ms":455},{"chars":44,"ms":461},{"chars":43,"ms":459},{"chars":54,"ms":461}],"charsPerSec":97.49}
+✅ [moral] 開始手続きの記録 (全本番に preStartMs>=0・startPressT=revealT・reveal イベント・rt_ms・lateStart・stopsAfterInit。device.startMode='press'。2026-09-26) — {"pre":232.6,"reveal":17587.19999998808,"rt":83.8,"stops":{"n":0,"ms":0,"maxMs":0}}
+✅ [post_resume] 再開しない完走では本番・追加とも全回答false
+✅ [moral] 教示誘導ブロック: 10 問・isInstructed・評定 null・⑤ (attn) の後・本番の項目を再提示・device.instructed — {"n":10,"first":60,"lastMain":59,"dev":10}
+✅ [moral] 教示誘導ブロックの水準 (明確1・中間3・拮抗6。2026-09-26 後刻) — {"conflict":6,"mid":3,"clear":1}
+✅ [moral] 休憩ログ (breakEvery=20 → 20/40 の2回・末尾は残セグメント<20で省略・dwellMs 記録。2026-09-27) — [{"block":"moral","atTrial":20,"dwellMs":226},{"block":"moral","atTrial":40,"dwellMs":225}]
+
+--- mic (mock) ---
+✅ [mic] mic モード = mock
+✅ [mic] 開始で環境音チェック画面 (micgate) へ
+✅ [mic] 騒音時は通過不可 (再計測ボタンのみ)
+✅ [mic] 静音で通過 (進むボタン出現・ambientDb 記録)
+✅ [mic] チェック通過後に練習開始
+✅ [mic] セッション完走 (done 到達)
+✅ [mic] 評定送信後ノイズゲート (騒音中ブロック → 持続静音で解錠) — seen=true blocked=true open=true
+✅ [mic] 切断 → 試行境界で再取得画面を経由
+✅ [mic] device.mic 記録 (mode/threshold/ambientDb/ambientRetries/drops) — {"mode":"mock","threshold":-35,"checkMs":400,"quietMs":300,"gateMinOverMs":200,"ambientDb":-60,"ambientRetries":1,"drops":1,"muteCount":0,"mutedMs":0}
+✅ [mic] 全 main に noise 要約 (切断中の試行のみ n=0 可) — n0=0
+✅ [mic] 騒音試行に overMs + noisePause {durationMs, retries} 記録 — noisy=1
+✅ 完了時にチェックポイント保持 (未回収)
+✅ 完了後のリロードで同じ完了コードを復元
+✅ 検証用データの消去後は新規回答の画面
+✅ landscape でガード表示
+✅ portrait 復帰でガード消滅
+✅ [zoom] 100% ではガードが出ない (pageZoom≈1・textZoom≈1) — {"pageZoom":1,"textZoom":1}
+✅ [zoom] ページ拡大 125% 相当 (screen 375 / innerWidth 300) でガードが出る — {"pageZoom":1.25,"textZoom":1}
+✅ [zoom] 100% に戻すとガードが消える
+
+--- tutorial smoke (drag intro ①②③) ---
+✅ [tut] 画面の見方の導入は説明だけ・初回は閉じられない
+✅ [tut] 問題文の説明はスタート・選択肢を隠す
+✅ [tut] スタートの役割と選択肢の出現を説明
+✅ [tut] 全体の見本と道すじの自由を先に見せる
+✅ [tut] 枠内で離す場所は拡大図で示す
+✅ [tut] 純操作は成功前に次へ進めない
+✅ [tut] 自分で運ぶ成功を保持し、実回答の記録にはしない
+✅ [tut] 復習1は誤答のまま進めない
+✅ [tut] 復習1の正答と履歴を保持
+✅ [tut] 復習2は誤答のまま進めない
+✅ [tut] 復習2の正答と履歴を保持
+✅ [tut] 復習3は誤答のまま進めない
+✅ [tut] 復習3の正答と履歴を保持
+✅ [tut] 復習4は誤答のまま進めない
+✅ [tut] 復習4の正答と履歴を保持
+✅ [tut] 復習5は誤答のまま進めない
+✅ [tut] 復習5の正答と履歴を保持
+✅ [tut] 復習6は誤答のまま進めない
+✅ [tut] 復習6の正答と履歴を保持
+✅ [tut] 復習7は誤答のまま進めない
+✅ [tut] 復習7の正答と履歴を保持
+✅ [tut] 操作と7問の復習完了後に番号なしの例題導入
+✅ [tut] 例題導入から元の例題1問へ接続 — {"screen":"task","phase":"practice","counter":"","banner":"では、1問やってみましょう"}
+✅ [practice] (チュートリアル試行) START 案内が選択肢と START の間に出ている — {"cls":"pos-gap ok","text":"問題文を読み、状況が分かったらスタートボタンに指","top":377,"bottom":465,"choiceVis":"visible","choiceBottom":287,"startTop":556}
+✅ [practice] START を押した時点で START 案内は消える — {"cls":"","text":"","top":0,"bottom":0,"choiceVis":"visible","choiceBottom":287,"startTop":556}
+✅ [practice] 選択肢の外で離す → 「選択肢のボックスの中で…」が選択肢と START の間に出て、選択肢の枠は消えない — {"cls":"pos-gap ng","text":"選択肢のボックスの中で指を離してくださいスタート","top":399,"bottom":444,"choiceVis":"visible","choiceBottom":287,"startTop":556}
+✅ [practice] 案内は START を押している間は残る — {"cls":"pos-gap ng","text":"選択肢のボックスの中で指を離してくださいスタート","top":399,"bottom":444,"choiceVis":"visible","choiceBottom":287,"startTop":556}
+✅ [practice] START を出た時点で案内が消える — {"cls":"","text":"","top":0,"bottom":0,"choiceVis":"visible","choiceBottom":287,"startTop":556}
+✅ [tut] 例題を操作すると振り返りの説明へ (1/4 = 導入) — {"screen":"rating","step":"回答の振り返り 1 / 4","stem":"「禁煙中だから吸おうとしたら"}
+✅ [tut] 評定チュートリアル完了 → 最初の練習 (上部=「練習」+「1 / 5」・帯・例の試行は phase=tutorial で1件・練習にはまだ0件) — {"screen":"task","phase":"練習","counter":"1 / 5","head":"","banner":"ここから練習です（5問）","tutorialRec":1,"practiceRec":0}
+✅ [tut] 練習の帯は1行で、選択肢と START の間に出る — {"top":395,"bottom":448,"oneLine":true,"choiceBottom":287,"startTop":556}
+✅ [tut] 説明ページの滞在時間を記録 (ドラッグ導入14段階と復習・振り返り4枚と練習導入・ms>0。2026-09-12 夜) — [{"kind":"drag","schema":"guided-2026-10-15","event":"stay","step":2,"stepId":"layout-intro","ms":936},{"kind":"drag","schema":"guided-2026-10-15","event":"stay","step":3,"stepId":"layout-stem","ms":410},{"kind":"drag","schema":"guided-2026-10-15","event":"stay","step":4,"stepId":"layout-start","ms":419},{"kind":"drag","schema":"guided-2026-10-15","event":"stay","step":5,"stepId":"layout-choice","ms":415},{"kind":"drag","schema":"guided-2026-10-15","event":"stay","step":6,"stepId":"motor-route","ms":418},{"kind":"drag","schema":"guided-2026-10-15","event":"stay","step":7,"stepId":"motor-range","ms":417},{"kind":"drag","schema":"guided-2026-10-15","event":"motor_complete","step":7,"stepId":"motor"},{"kind":"drag","schema":"guided-2026-10-15","event":"stay","step":7,"stepId":"motor","ms":1109},{"kind":"drag","schema":"guided-2026-10-15","event":"stay","step":8,"stepId":"motor","ms":416},{"kind":"drag","schema":"guided-2026-10-15","event":"stay","step":9,"stepId":"start-rule","ms":424},{"kind":"drag","schema":"guided-2026-10-15","event":"stay","step":10,"stepId":"movement-reason","ms":418},{"kind":"drag","schema":"guided-2026-10-15","event":"stay","step":11,"stepId":"uncertain","ms":413},{"kind":"drag","schema":"guided-2026-10-15","event":"stay","step":12,"stepId":"time-rule","ms":425},{"kind":"drag","schema":"guided-2026-10-15","event":"stay","step":13,"stepId":"answer-pace","ms":420},{"kind":"drag","schema":"guided-2026-10-15","event":"stay","step":14,"stepId":"rule-check-intro","ms":420},{"kind":"drag","schema":"guided-2026-10-15","event":"rule_answer","step":14,"stepId":"rule-check","rule":"start-trigger","answerIndex":1,"correct":false,"attempt":1},{"kind":"drag","schema":"guided-2026-10-15","event":"rule_answer","step":14,"stepId":"rule-check","rule":"start-trigger","answerIndex":0,"correct":true,"attempt":2},{"kind":"drag","schema":"guided-2026-10-15","event":"rule_answer","step":14,"stepId":"rule-check","rule":"move-decision","answerIndex":1,"correct":false,"attempt":1},{"kind":"drag","schema":"guided-2026-10-15","event":"rule_answer","step":14,"stepId":"rule-check","rule":"move-decision","answerIndex":0,"correct":true,"attempt":2},{"kind":"drag","schema":"guided-2026-10-15","event":"rule_answer","step":14,"stepId":"rule-check","rule":"uncertain","answerIndex":1,"correct":false,"attempt":1},{"kind":"drag","schema":"guided-2026-10-15","event":"rule_answer","step":14,"stepId":"rule-check","rule":"uncertain","answerIndex":0,"correct":true,"attempt":2},{"kind":"drag","schema":"guided-2026-10-15","event":"rule_answer","step":14,"stepId":"rule-check","rule":"exit-time","answerIndex":1,"correct":false,"attempt":1},{"kind":"drag","schema":"guided-2026-10-15","event":"rule_answer","step":14,"stepId":"rule-check","rule":"exit-time","answerIndex":0,"correct":true,"attempt":2},{"kind":"drag","schema":"guided-2026-10-15","event":"rule_answer","step":14,"stepId":"rule-check","rule":"answer-pace","answerIndex":1,"correct":false,"attempt":1},{"kind":"drag","schema":"guided-2026-10-15","event":"rule_answer","step":14,"stepId":"rule-check","rule":"answer-pace","answerIndex":0,"correct":true,"attempt":2},{"kind":"drag","schema":"guided-2026-10-15","event":"rule_answer","step":14,"stepId":"rule-check","rule":"path","answerIndex":1,"correct":false,"attempt":1},{"kind":"drag","schema":"guided-2026-10-15","event":"rule_answer","step":14,"stepId":"rule-check","rule":"path","answerIndex":0,"correct":true,"attempt":2},{"kind":"drag","schema":"guided-2026-10-15","event":"rule_answer","step":14,"stepId":"rule-check","rule":"release","answerIndex":1,"correct":false,"attempt":1},{"kind":"drag","schema":"guided-2026-10-15","event":"rule_answer","step":14,"stepId":"rule-check","rule":"release","answerIndex":0,"correct":true,"attempt":2},{"kind":"drag","schema":"guided-2026-10-15","event":"complete","step":14,"stepId":"rule-check"},{"kind":"drag","schema":"guided-2026-10-15","event":"stay","step":14,"stepId":"rule-check","ms":2959},{"kind":"drag","event":"exampleIntro","ms":409},{"kind":"rating","page":1,"ms":973},{"kind":"rating","page":2,"ms":581},{"kind":"rating","page":3,"ms":572},{"kind":"rating","page":4,"ms":718},{"kind":"rating","page":5,"ms":412}]
+✅ [practice] 練習1問目は最初は案内なし — {"cls":"","text":"","top":0,"bottom":0,"choiceVis":"visible","choiceBottom":287,"startTop":556}
+✅ [practice] 練習で無操作8秒たつと「読み終えたら、下の START を…」が選択肢と START の間に出る (2026-09-09) — {"cls":"pos-gap ok","text":"問題文を読み、状況が分かったらスタートボタンに指","top":377,"bottom":465,"choiceVis":"visible","choiceBottom":287,"startTop":556}
+✅ [dyn] 問題文は START を押す前から見えている — stem=visible
+✅ [dyn] 押す前は選択肢の中身が出ていない — numA=hidden
+✅ [dyn] START に指を置いた瞬間に選択肢が出る (START は押下表示・START 案内は消える) — {"a":"visible","armed":true,"coach":""}
+✅ [dyn] 記録: preStartMs>1000・startPressT=revealT/revealXY・reveal イベント1件・rt_ms>=3000 (=rt_proxy_ms)・lateStart=true・stopsAfterInit (maxMs>=3000)・stopFlag=true — {"screen":"rating","preStart":11332.5,"press":"number","reveal":true,"revealEv":1,"stops":{"n":1,"ms":3337,"maxMs":3337},"flag":true,"rt":3438.1,"rtOld":3438.1,"late":true,"mt":3803.1,"ans":"あなたの回答: 黙っておく","label":"黙っておく","side":"right"}
+✅ [dyn] 評定画面に「あなたの回答: <選んだ行為>」 — {"ans":"あなたの回答: 黙っておく","label":"黙っておく"}
+✅ [dyn] 練習の3秒超は振り返り後・次問の前に該当ルールだけの必須チェックを提示 — {"screen":"practicecheck","rules":["late"],"disabled":true}
+✅ [dyn] チェック後は次問へ進み、確認の滞在を1件記録する。本番用の注意を重ねない — {"screen":"task","stopNotices":0,"msg":"","notices":1,"ms":1134,"stem":"visible"}
+✅ [practice] 練習中は進捗バーを出さない (2026-09-15) — {"on":false,"ratio":-1,"expect":0.2,"green":"rgb(18, 133, 90)","below":false}
+✅ [dyn] 練習確認の直後に本番の注意フラグを付けず、すぐ動けばlateStart=false・止まらなければstopFlag=false — {"notice":false,"flag":false,"late":false,"rt":93.4,"stops":{"n":0,"ms":0,"maxMs":0}}
+
+--- tutorial + stop (説明の途中で終了) ---
+✅ [tut/stop] 画面の見方で「終了」→ 確認画面では説明ボックスが隠れる — {"s0":"task","v0":true,"s1":"stopconfirm","v1":false}
+✅ [tut/stop] 「続ける」で同じ説明ページに戻る (説明ボックスが再表示) — {"s2":"task","v2":true,"st2":"はじめに"}
+✅ [tut/stop] 「終了する」で説明が畳まれて最後の質問画面へ (説明ボックスが残らない) — {"s3":"postq","v3":false}
+✅ [tut/stop] 取り消しで説明の最初から再開 — {"back":true,"s4":"task","v4":true,"st4":"はじめに"}
+
+--- inperson stop (http://127.0.0.1:8000/?devguard=0&minread=0&readgate=0&block=moral&debug=1&upload=0&mic=0&tut=0&attn=0&rtut=0&reps=1&stop=1&pid=E01&age=72&model=iPhone%2013&sex=female&hand=right&intro=0&cohort=elderly-inperson&strat=1) ---
+✅ [inperson stop] 事前アンケートを URL プリセット (欄を隠して入力なしで開始可) — {"hidden":true,"enabled":true}
+✅ [inperson stop] 本番の進捗バー (「本番 n / N」の下・済んだ割合・「次へ」と同じ緑。2026-09-15) — {"on":true,"ratio":0,"expect":0,"green":"rgb(18, 133, 90)","below":true}
+✅ [inperson stop] 本番中は中断ボタンが出る / 確認画面では消える — task=true confirm_hidden=true
+✅ [inperson stop] 「続ける」で誤タップから復帰した
+✅ [inperson stop] 途中終了は事後アンケートを必須にしない
+✅ [inperson stop] 「課題に戻る（終了を取り消す）」で最後の質問画面から課題へ戻れる (partial 解除) — {"screen":"task","partial":false,"endedBy":null}
+✅ [inperson stop] done 到達 (途中終了でも通常の完了・送信経路)
+✅ [inperson stop] partial / endedBy=operator / cohort 記録 — partial=true endedBy=operator cohort=elderly-inperson
+✅ [inperson stop] 事前アンケートがプリセット値で記録 — E01/72/iPhone 13/female/right
+✅ [inperson stop] 完了分だけ記録 (mainCompleted < mainPlanned=49) — completed=14/49 ms=19045
+✅ [inperson stop] 事後アンケート拡充分は対面 (stop) では出ない (post=null) — post=null
+✅ [inperson stop] 中断確認の滞在と終了の取り消しを記録 (stopPauses: 課題に戻る1回 + 取り消し1回) — [{"screen":"task","durationMs":314},{"screen":"postq","from":"task","durationMs":323}]
+✅ [inperson stop] ?strat=1: 打ち切っても水準構成が偏らない (明確/中間/拮抗が全て出る) — {"conflict":8,"mid":4,"clear":2}
+
+--- inperson timebox (http://127.0.0.1:8000/?devguard=0&minread=0&readgate=0&block=moral&debug=1&upload=0&mic=0&tut=0&attn=0&rtut=0&reps=1&stop=1&pid=E01&age=72&model=iPhone%2013&sex=female&hand=right&intro=0&cohort=elderly-inperson&strat=1&maxmin=0.05) ---
+✅ [inperson timebox] 事前アンケートを URL プリセット (欄を隠して入力なしで開始可) — {"hidden":true,"enabled":true}
+✅ [inperson timebox] 本番の進捗バー (「本番 n / N」の下・済んだ割合・「次へ」と同じ緑。2026-09-15) — {"on":true,"ratio":0,"expect":0,"green":"rgb(18, 133, 90)","below":true}
+✅ [inperson timebox] 本番中は中断ボタンが出る / 確認画面では消える — task=true confirm_hidden=null
+✅ [inperson timebox] 途中終了は事後アンケートを必須にしない
+✅ [inperson timebox] done 到達 (途中終了でも通常の完了・送信経路)
+✅ [inperson timebox] partial / endedBy=timebox — partial=true endedBy=timebox
+✅ [inperson timebox] 本番を1問以上完了してから境界で終了 — completed=3
+✅ [inperson] 共用端末で参加者ごとに clientId が変わる (pid 指定時は永続化しない) — 66c7414d… vs 8bccfd31…
+✅ [inperson timebox] 最後の試行は完全な記録 (途中で切っていない)
+
+--- kiosk offline (http://127.0.0.1:8000/?devguard=0&minread=0&readgate=0&block=moral&kiosk=1&debug=1&mic=0&tut=0&rtut=0&reps=1&maxmin=0.05&pidauto=E&model=iPhone%2013&sex=female&hand=right&cohort=elderly-inperson&uploadurl=/__dead.json) ---
+✅ [kiosk offline] ウェルカムは対面用の2枚 — pages=2
+✅ [kiosk offline] 参加者IDを自動採番し、入力欄は隠れる (年代タップだけ残す) — {"pid":"E01","pidHidden":true,"ageHidden":true,"modelHidden":true,"bandShown":true,"beforeBand":true}
+✅ [kiosk offline] 年代を選ぶまで開始できない
+✅ [kiosk offline] 年代タップで開始可能
+✅ [kiosk offline] done 到達
+✅ [kiosk] 注意チェック・完了コードを省く (対面の短時間セッション) — seq=moral
+✅ [kiosk] 事後アンケート拡充分は kiosk では出ない (post=null) — post=null
+✅ [kiosk] device に kiosk/cohort/ageBand を記録 (age は数値でなく年代) — kiosk=true cohort=elderly-inperson band=70s age=null
+✅ [kiosk] 完了時は送信せず端末に保留する (未送信キュー1件) — queued=1
+✅ [kiosk] 参加者向けの表示は「端末に保留・送信して次の人へ」 — 📥 端末に保留しています。「送信して次の人へ」を押すと送信します。
+✅ [kiosk] 「送信して次の人へ」と「保存せずに最初から」が出る — {"status":"📥 端末に保留しています。「送信して次の人へ」を押すと送信します。","next":true,"nextLabel":"送信して次の人へ","discard":true,"bar":true}
+✅ [kiosk] done 画面に未送信バーが出る
+✅ [kiosk] マイクは許可だけで先へ進む (計測待ちなし) — micQuickMs=null (mic=0 のため null 可)
+✅ [kiosk] 「送信して次の人へ」→ 送れなくても最初の画面へ (データは端末に残る)
+✅ [kiosk] 次に開いたとき未送信ぶんが自動送信される (キューが空になる) — left=0
+✅ [kiosk] ローカルPOST模擬応答が同じセッションを受領 (本番へ送信しない)
+✅ [kiosk] 未送信バーは0件なら出ない
+
+--- kiosk mic+discard (http://127.0.0.1:8000/?devguard=0&minread=0&readgate=0&block=moral&kiosk=1&welcome=0&debug=1&upload=0&mic=mock&micchk=400&tut=0&rtut=0&reps=1&maxmin=0.05&pidauto=E&model=iPhone%2017&sex=female&hand=right&cohort=elderly-inperson) ---
+✅ [kiosk mic+discard] ウェルカムは対面用の2枚 — pages=2
+✅ [kiosk mic+discard] 参加者IDを自動採番し、入力欄は隠れる (年代タップだけ残す) — {"pid":"E04","pidHidden":true,"ageHidden":true,"modelHidden":true,"bandShown":true,"beforeBand":true}
+✅ [kiosk mic+discard] 年代を選ぶまで開始できない
+✅ [kiosk mic+discard] 年代タップで開始可能
+✅ [kiosk mic+discard] done 到達
+✅ [kiosk/mic] 許可ボタンだけで 1.5 秒以内に先へ進む — micQuickMs=6
+✅ [kiosk/mic] マイクの許可 → 入力画面の順 (研究者が許可して入力画面で渡す。2026-09-15) — {"micQuickMs":6,"micFirst":true}
+✅ [kiosk/mic] 会場の音量は裏で計測して記録 (ambientDb)・読速はなし (welcome=0 で入力画面から) — ambient=-55 rb=null
+✅ [kiosk/discard] 「保存せずに最初から」→ 確認 → 消して最初の画面へ (キューが空) — {"held":1,"confirm":true,"screen":"micgate","queued":0,"discardedStillExists":false}
+✅ [配布既定] 中断ボタンは出ない (?stop=1 のときだけ) — {"screen":"task","on":false,"shown":false}
+
+--- resume (http://127.0.0.1:8000/?devguard=0&minread=0&readgate=0&block=moral&debug=1&upload=0&mic=0&tut=0&rtut=0&attn=0&instr=0&reps=1&nmain=12) ---
+✅ [resume] 初回は再開画面を出さない (welcome から)
+✅ [resume] クラウド配布のウェルカムは6枚 (氏名説明1ページ・同意チェック2ページ) — pages=6
+✅ [resume] 本番3問を完了 (中断前) — main=3
+✅ [resume] 本番途中で再読込 → 「続きから再開」画面 (3 / N 問まで) — {"screen":"resume","offered":true,"info":"前回は本番の途中でした（3 / 12 問まで）。保存された回答を引き継ぎます。"}
+✅ [resume] mic=0 では環境音チェックなしで本番4問目へ (カウンタ 4 / N・記録復元) — {"screen":"task","phase":"main","counter":"4 / 12","rec":8,"resumes":[{"at":"2026-10-15T11:52:38.835Z","afterTrial":3,"phase":"main","stage":"task","gapMs":321}],"pid":"tester","rb":97.39,"prac":5}
+✅ [resume] device.resumes に {afterTrial:3, gapMs} を1件記録・事前アンケート/読速/練習記録を保持 — [{"at":"2026-10-15T11:52:38.835Z","afterTrial":3,"phase":"main","stage":"task","gapMs":321}]
+✅ [resume] 続きから完走 (done 到達) — screen=done
+✅ [resume] 本番 N 問・itemId 非重複・再開前の3問を保持 — n=12 uniq=12
+✅ [resume] 再開直後の本試行 (4問目) だけ post_resume=true — flagged=3
+✅ [resume] 完走扱い (partial=false・endedBy=complete・完了コード発行・mainCompleted=N) — partial=false endedBy=complete code=TJFW-HZXU
+✅ [resume] 完走後の再読込で完了画面へ戻る
+✅ [resume] 再読込でも同じ完了コードを保持
+✅ [resume/survey] (前提) 完走できる
+✅ [resume/survey] 本番を終えてアンケート画面に到達
+✅ [resume/survey] アンケート途中の再読込 → 再開画面 (問題はすべて終えた旨・アンケートから続く旨) — {"screen":"resume","info":"前回は最後のアンケートの途中でした。保存された回答を引き継ぎます。","how":"「続きから再開する」を押すと、中断したところから続きます。"}
+✅ [resume/survey] マイクの確認なしでアンケートへ (本番 49 問の記録を保持・再開を記録) — {"screen":"postq","main":12,"resumes":1}
+✅ [resume/survey] アンケートを終えて完走扱い (post 26 キー（追加OFF）・completed・partial=false) — screen=done keys=26
+✅ [resume/survey] 完了後の再読込は完了コードへ戻る
+✅ [resume] 1問後の再読込でも再開画面
+✅ [resume] 最初からの導線がなくチェックポイントを保持
+✅ [resume] 中断から3時間超は再開不能案内とデータ保持
+✅ [resume] URL クエリが違う構成は元リンクへ案内しデータ保持
+✅ [resume/mic] 本番1問完了 (mock) — main=1
+✅ [resume/mic] 再開画面
+✅ [resume/mic] 再開 → まず環境音チェック (マイク未取得の状態から再取得) — {"screen":"micgate","title":"実施環境の確認","acquired":false}
+✅ [resume/mic] 静音で通過 → 進むボタンは「続きにすすむ」 — {"go":true,"label":"続きにすすむ","acquired":true}
+✅ [resume/mic] 続きの本番2問目へ — {"screen":"task","phase":"main","counter":"2 / 12"}
+✅ [resume/mic] ミュート中はサンプルを取らない (無音として集計しない) — n0=4 n1=4
+✅ [resume/mic] ミュートが続くと試行境界で再取得画面 — reacq=true title=マイクが切断されました
+✅ [resume/mic] 再取得で本番に戻る (acquired・lost 解除。案内画面があればその後) — {"screen":"task","mic":{"acquired":true,"lost":false,"drops":0,"ambientDb":-60}}
+✅ [resume/kiosk] 本番2問完了 — main=2
+✅ [resume/kiosk] 再読込しても再開画面は出さない (次の人は最初から) — {"screen":"welcome","offered":false}
+✅ [resume/kiosk] 前の人の途中データを partial/endedBy=reload で未送信キューへ退避 (チェックポイントは消す) — {"partial":true,"endedBy":"reload","mainCompleted":2,"pid":"E06"}
+
+--- go (確認モード) ---
+✅ [go] go=post → 最後のアンケート (block 既定 moral・拡充分あり・送信無効・印) — {"screen":"postq","block":"moral","upload":null,"post":true,"badge":true}
+✅ [go] 最後のアンケートはページ送り (19 ページ): 持ち方を答えると次へ有効 (戻るは隠す) → 2 / 19 fatigue_pre (3 問・導入文は持ち方のページに統合・1 ページだけ表示・スクロール不要・次へ無効) → 戻るで 1 / 19 (回答保持) — {"g1":{"step":"1 / 19","next":false,"submit":"none","prev":"none"},"g2":{"step":"2 / 19","page":"fatigue_pre","next":true,"lead":"none","noScroll":true,"onPages":1},"g3":{"step":"1 / 19","page":"grip","next":false,"kept":"right_thumb"}}
+✅ [go] 最後のページ (任意の自由記述) で「次へ」が消えて「完了する」が出る (必須が全部答えてあれば有効) — {"step":"19 / 19","page":"comment","next":"none","submit":"","submitOff":false}
+✅ [go] go=rtut → 振り返りの説明 1/4 — {"screen":"rating","step":"回答の振り返り 1 / 4"}
+✅ [go] go=rating → 通常の評定画面 (説明なし) — {"screen":"rating","tut":false}
+✅ [go] go=tut → 操作説明 1/6 から — {"screen":"task","pop":true}
+✅ [go] go=micgate → 環境音チェック
+✅ [go] go=done → 完了画面
+✅ [welcome=0] 入力画面から始まる
+✅ [study] ?study= を device.study に記録
+
+--- intro fit (iPhone SE 相当 375x667) ---
+✅ [intro] 入力画面が1画面に収まる (SE 375x667 でスクロール不要) — {"screen":"intro","scrollH":667,"clientH":667,"overflow":0}
+✅ [rtut/SE] 振り返り4枚＋練習導入が375×548でスクロール不要 (説明・5段・次への重複なし) — {"f0":{"step":"回答の振り返り 1 / 4","overflow":0,"btnBottom":481,"vh":548},"f1":{"step":"回答の振り返り 2 / 4","overflow":0,"btnBottom":510,"vh":548},"f2":{"step":"回答の振り返り 3 / 4","overflow":0,"btnBottom":536,"vh":548},"finishFit":{"step":"回答の振り返り 4 / 4","overflow":0,"btnBottom":481,"vh":548},"practiceIntroFit":{"step":"","overflow":0,"btnBottom":481,"vh":548},"popOk":true}
+✅ [rating/SE] 本番の評定画面が 375×548 でスクロール不要 — {"overflow":0,"btnBottom":447,"vh":548}
+
+--- usual UI accessibility / validation ---
+✅ [a11y] 入力画面への遷移で見出しに焦点
+✅ [a11y] 性別のグループ名・radio状態
+✅ [a11y] 矢印で次の選択肢へ・選択とTab順を同期
+✅ [validation] 年齢 "": 停止 — {"enabled":false,"invalid":"true"}
+✅ [validation] 年齢 "-1": 停止 — {"enabled":false,"invalid":"true"}
+✅ [validation] 年齢 "0": 受付 — {"enabled":true,"invalid":"false"}
+✅ [validation] 年齢 "120": 受付 — {"enabled":true,"invalid":"false"}
+✅ [validation] 年齢 "121": 停止 — {"enabled":false,"invalid":"true"}
+✅ [validation] 年齢 "999": 停止 — {"enabled":false,"invalid":"true"}
+✅ [validation] 年齢 "22.5": 停止 — {"enabled":false,"invalid":"true"}
+✅ [validation] 年齢 "22": 受付 — {"enabled":true,"invalid":"false"}
+✅ [a11y] 説明の次ページ見出しへ焦点
+✅ [a11y] 同意チェックの選択/解除状態
+✅ [a11y] 評定の質問と選択状態が結び付く
+✅ [a11y] 次の評定の質問へ焦点
+✅ [a11y] 持ち方の質問がグループ名になる
+✅ [a11y] アンケートの次ページは最初の質問へ焦点
+✅ [a11y] 数字尺度にも端点の説明が関連付く
+✅ [layout] その他入力を開いてもナビゲーションへ到達できる — {"navVisible":true,"fieldVisible":true,"scrollable":false}
+✅ [layout] その他記入後に操作のしやすさページへ進む
+✅ [layout] 操作説明の見た目を保ってタップ範囲だけ広げる — {"smallVisual":true,"expanded":true,"rect":{"x":191.484375,"y":5,"w":76.375,"h":25},"geom":[{"id":"start","x":123.75,"y":556,"w":127.5,"h":60},{"id":"choiceA","x":15,"y":189,"w":150,"h":97.5},{"id":"choiceB","x":210,"y":189,"w":150,"h":97.5}]}
+✅ [a11y] 送信の状態領域を読み上げへ公開
+
+--- interrupted rating / instructed / post recovery ---
+✅ [recovery] 未回答の現在cellを残りqueueと別に保存
+✅ [recovery] 1問も答えていない本番を同じ項目から再開
+✅ [recovery] 評定の選択済み回答・ページ・戻る回数を復元
+✅ [recovery] 評定再開はドラッグ記録を重複させない
+✅ [recovery] 復元した評定の選択状態を支援技術へ伝える
+✅ [timing] 説明の見直し前に読んだ時間を保つ — {"before":7.699999988079071,"after":267.0999999642372}
+✅ [notice] 無効操作の後も直前に見た注意の印を保持 — {"notice":"early","marked":"early","aborts":1}
+✅ [input] 各回答のpointerTypeを記録 — touch
+✅ [recovery] 最終本番の評定を追加問題や事後質問へ飛ばさない
+✅ [recovery] 最終評定後の追加問題の案内を復元
+✅ [post_resume] 追加説明からの再開は無効操作を挟んでも最初の有効回答に記録
+✅ [recovery] 追加問題の完了数・現在項目・残りqueueを復元
+✅ [post_resume] 追加途中の連続再開後も次の有効回答だけtrue、後続はfalse — [true,true,false]
+✅ [recovery] 事後質問の回答・自由記述・現在ページを復元
+✅ [recovery] 復元した事後質問の表示と送信可否が一致
+✅ [timing] 追加問題・事後質問・その再開で本番時間を増やさない
+✅ [recovery] 完走結果に重複・欠落・未評定がない
+✅ [timing] 出力mainMsは本番末尾で確定した値
+✅ [schema] 収集予定を明示して出力
+✅ [preview] 対面の完了確認でもダミー回答を保存せず、保存エラーを出さない
+
+🎉 全チェック通過
