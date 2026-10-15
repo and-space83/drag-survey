@@ -565,7 +565,7 @@
     { act: "conf", title: "選んだ答えへの自信", focus: "confidence", op: 'いちばん近いものを1つ押して「次へ」',
       text: 'いま選んだ答えへの自信の強さを選びます。' },
     { act: "finish", title: "1問ずつ考え直す", op: '読んだら「練習問題へ」',
-      text: '感じ方は問題によって変わります。\n前の問題の選択に引きずられず、その問題で感じたものに近いものをその都度選んでください。' },
+      text: '感じ方は問題によって変わります。前の問題の選択に引きずられず、その問題で感じたものに近いものをその都度選んでください。' },
   ];
 
   const $ = (id) => document.getElementById(id);
@@ -720,7 +720,7 @@
     stopNoticesSuppressed: 0, // 上限（種類ごと5回）で非表示にした理由数。両方の抑止なら2
     pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
     practiceChecks: [], noticeReviews: [], noticeAcknowledgements: [], // 旧別画面見直しと新注意内確認を分ける。読了・理解や除外の判定には用いない
-    appVersion: "2026-10-15-ui20",  // 段階的な教示・操作実演・ルール復習。開始時の版は再開でも保持する
+    appVersion: "2026-10-16-ui21",  // 実演の倍率・待機と復習・振り返りの表示調整。開始時の版は再開でも保持する
     moralPracticeDefinition: null, // 最初の操作説明・練習開始時に固定する刺激の版と全文。表示・理解の証跡ではない
     welcomeAgree: null,       // はじめに 5/6・6/6 の同意チェック {items, pages, ms}
     devGuard: null,           // 機種ガード {on,minH,w,h,shown,isIPhone,isIPad,ipadLink,platformOk,sizeOk}
@@ -730,7 +730,7 @@
 
   // appVersionは開始時の版を維持するため、教示の表示版は実行中のコードから記録する。
   // 未記録の旧画面を推測で埋めず、表示イベントを読了・理解とみなさない。
-  const INSTRUCTION_VERSION = "2026-10-15-ui20";
+  const INSTRUCTION_VERSION = "2026-10-16-ui21";
   function moralPracticeDefinition(legacy = false) {
     if (!device.moralPracticeDefinition) {
       const source = PILOT_BANK.moral;
@@ -1565,7 +1565,7 @@
     numB.style.visibility = "visible";
     if (stemEl.textContent) stemEl.style.visibility = "visible";  // 設問ステム (文字2択のみ内容あり)
     startBtn.classList.add("armed");
-    startBtn.textContent = "→";
+    startBtn.textContent = "スタート";
   }
 
   // ===== Pointer Events 記録 =====
@@ -2026,13 +2026,13 @@
   // 説明中に「次へ」以外の場所を押した人への案内 (ドラッグ導入の strayTap と同じ。2026-09-14)。評定ボタン・「戻る」・押せる「次へ」は本来の操作なので除く。
   // 押せない (未選択の) 「次へ」は pointer-events:none (app.css) にして親で受ける → 「上から1つ選んでください」
   $("rating").addEventListener("pointerdown", (e) => {
-    if (!tutActive() || ratingReview) return;
+    if (!tutActive()) return;
     const t = e.target;
-    if (t.closest(".likert button") || t.closest("#ratingBack") || t.closest("#ratingTutPrev")) return;
+    if ((!ratingReview && t.closest(".likert button")) || t.closest("#ratingBack") || t.closest("#ratingTutPrev") || t.closest("#ratingTutClose") || t.closest("#stopBtn")) return;
     const goBtn = ratPage === 0 ? $("ratingNext") : $("ratingSubmit");
     if (t.closest("#" + goBtn.id) && !goBtn.disabled) return;   // 押せる「次へ」: click 側 (早押し判定) に任せる
     const p = ratingTutorialPage();
-    const unselected = ["hes", "conf"].includes(p.act) && trial.ratings[ITEMS[ratPage].key] == null;
+    const unselected = !ratingReview && ["hes", "conf"].includes(p.act) && trial.ratings[ITEMS[ratPage].key] == null;
     device.tutorialLog.push({ kind: "rating", page: tutIdx + 1, event: "stray" });
     ratBtnFlash(unselected ? "1つ選んでください" : "このボタンで進みます", goBtn);
     if (!unselected) goBtn.classList.add("cue");
@@ -2073,13 +2073,13 @@
     ratPop.classList.add("on");
     ratPop.style.top = ""; ratPop.style.left = ""; ratPop.style.marginTop = "0px";
     const wrap = $("rating").querySelector(".qwrap"), row = $("ratBtnRow");
-    if (["intro", "finish", "practiceIntro"].includes(p.act)) {
+    if (ratingReview || ["intro", "finish", "practiceIntro"].includes(p.act)) {
       row.style.bottom = "auto";
       row.style.top = Math.max(12, innerHeight * .88 - Math.min(innerWidth, innerHeight) * .08 - row.getBoundingClientRect().height / 2) + "px";
     } else { row.style.bottom = ""; row.style.top = ""; }
     const buttons = row.getBoundingClientRect();
     const top = ratingReview ? $("ratingTutClose").getBoundingClientRect().bottom + 8 : parseFloat(getComputedStyle(wrap).paddingTop);
-    if (!["hes", "conf"].includes(p.act)) {
+    if (ratingReview || !["hes", "conf"].includes(p.act)) {
       const natural = ratPop.getBoundingClientRect().top;
       ratPop.style.marginTop = Math.max(0, top + (buttons.top - 20 - top - ratPop.offsetHeight) / 2 - natural) + "px";
     } else {
@@ -2143,7 +2143,7 @@
     // 押す対象の評定行を鼓動 (まだ選んでいないときだけ。選んだら進むボタンへ合図が移る)
     const key = p.act === "conf" ? "confidence" : "hesitation", lk = $("qitem-" + key).querySelector(".likert");
     if (lkC) lkC.classList.remove("tut-cue"); if (lkH) lkH.classList.remove("tut-cue");
-    const staticPage = !["hes", "conf"].includes(p.act);
+    const staticPage = !!ratingReview || !["hes", "conf"].includes(p.act);
     $("rating").classList.toggle("rat-intro", staticPage);
     $("rating").classList.toggle("rat-static", staticPage);
     if (ratingReview) {

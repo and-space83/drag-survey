@@ -17,7 +17,8 @@
     --go-ink: #ffffff;
     --warn: #b8531a;        /* 注意 (枠線・見出し) */
     --err: #b3382f;         /* やり直し・誘導の文字 (枠線のオレンジと区別する、目に優しい赤) */
-    --task-bg: #f4f6f9;     /* 課題画面の地 */
+    --task-bg: var(--bg);   /* 説明・課題・振り返りの最背面を統一 */
+    --contact-diameter: 72px; /* 指の外側から現在位置を見つけられる円。判定は中心座標を使う */
     --ui-scale: 1;          /* 説明・評定・アンケート画面の文字倍率 (JS が短辺≥700px で 1.6、?fs= で上書き。§6-6 項18) */
   }
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -152,7 +153,7 @@
   #ratingProgress { top: max(5%, calc(max(9px, env(safe-area-inset-top)) + max(24px, calc(24px * var(--ui-scale))))); }
   #surface { position: absolute; inset: 0; touch-action: none; }
   #trace { position: absolute; top: 0; left: 0; pointer-events: none; z-index: 1; }
-  #dragPosition { position: absolute; width: 48px; height: 48px; border: 3px solid #1668c4;
+  #dragPosition { position: absolute; width: var(--contact-diameter); height: var(--contact-diameter); border: 3px solid #1668c4;
     border-radius: 50%; background: rgba(22,104,196,.12); transform: translate(-50%,-50%);
     pointer-events: none; z-index: 5; }
   #dragPosition[hidden] { display: none; }
@@ -527,10 +528,10 @@
     border-radius: 18px; background: #fff; box-shadow: 0 8px 35px -24px #284431; transition: none; }
   #rating.tut-front #tutStepLabel { color: #667d6e; font-size: 12px; line-height: 1.5; letter-spacing: 0; margin-bottom: 6px; }
   #rating.tut-front #ratTutTitle { color: #203b30; font-size: 23px; line-height: 1.35; margin: 0 0 8px; }
-  #rating.tut-front #ratTutText { color: #40584c; font-size: 16px; line-height: 1.5; white-space: pre-line; text-wrap: pretty; }
+  #rating.tut-front #ratTutText { color: #40584c; font-size: 16px; line-height: 1.5; white-space: normal; text-wrap: wrap; width: 100%; }
   #rating.tut-front .rat-card-meta { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 9px; }
   #rating.tut-front #ratPopOp { margin: 0; color: #237450; font-size: 12px; line-height: 1.5; }
-  #rating.tut-front #ratPopDots { display: flex; flex-shrink: 0; gap: 5px; }
+  #rating.tut-front #ratPopDots { display: flex; flex-shrink: 0; gap: 5px; margin-left: auto; margin-right: 0; }
   #rating.tut-front #ratPopDots i.a { background: var(--go); }
   #rating.tut-front .qitem { margin-bottom: 10px; }
   #rating.tut-front .qi-text { font-size: 16px; line-height: 1.4; margin-bottom: 8px; }
@@ -552,6 +553,7 @@
   #rating.tut-front.rat-static #ratTutText { line-height: 1.65; }
   #rating.tut-front.rat-static #ratTutTitle { margin-bottom: 14px; }
   #rating.tut-front #ratingNext.cue, #rating.tut-front #ratingSubmit.cue { animation: ratBtnCue 1.2s ease-in-out infinite; }
+  #rating.tut-front #ratBtnRow .btn.warn { animation: btnNudge .5s ease-in-out; }
   @keyframes ratingTutorialGlow { 0%,100% { box-shadow: 0 0 0 0 rgba(18,133,90,0); } 50% { box-shadow: 0 0 0 3px rgba(18,133,90,.18); } }
   @media (max-height: 640px) {
     #rating.tut-front .qwrap { padding: 14px 18px 12px; }
@@ -572,6 +574,7 @@
   }
   @media (prefers-reduced-motion: reduce) {
     #rating.tut-front .likert.tut-cue button, #rating.tut-front #ratingNext.cue, #rating.tut-front #ratingSubmit.cue { animation: none; }
+    #rating.tut-front #ratBtnRow .btn.warn { animation: none; outline: 3px solid var(--go); outline-offset: 3px; }
   }
   /* 実施後のアンケート: 1 ページ目は次へを中央に、最後のページは完了を戻るの隣に */
   #postq #postNav.first { justify-content: center; }

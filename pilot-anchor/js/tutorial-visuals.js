@@ -32,7 +32,7 @@ window.PILOT_GUIDED_TUTORIAL.createDemo=function({canvas,start,target,onReady,on
  function ready(){if(!s.captionVisible){s.captionVisible=true;seen.add(s.key);}extraReady?.(true);onReady?.(true);}
  function draw(){
   if(!s)return;clear();const p=s.path,t=s.elapsed/durations[s.phase];
-  start.classList.toggle('armed',s.phase==='press'||s.phase==='move');start.textContent=s.phase==='press'||s.phase==='move'?'→':'スタート';target.classList.toggle('arrived',s.phase==='release'||s.phase==='wait');
+  start.classList.toggle('armed',s.phase==='press'||s.phase==='move');start.textContent='スタート';target.classList.toggle('arrived',s.phase==='release'||s.phase==='wait');
   if(s.reduced){const a=center(start),b=center(target);ring(a.x,a.y,18,.9,'#b8531a');ring(b.x-b.w*.29,b.y-b.h*.22,17,.9,'#12855a');ring(b.x+b.w*.28,b.y+b.h*.23,17,.9,'#12855a');return;}
   if(s.phase==='press'){finger(p.start.x,p.start.y,1);ring(p.start.x,p.start.y,17+4*t,.8,'#b8531a');}
   else if(s.phase==='move'){const e=t*t*(3-2*t),x=bezier(p.start.x,p.c1.x,p.c2.x,p.end.x,e),y=bezier(p.start.y,p.c1.y,p.c2.y,p.end.y,e);finger(x,y,1);ring(x,y,19,.8,'#b8531a');}
@@ -61,7 +61,7 @@ window.PILOT_GUIDED_TUTORIAL.createDemo=function({canvas,start,target,onReady,on
 'use strict';
 // 独立試作の初動説明。回答先を描かず、触れてから枠を出る区間だけを見せる。
 window.PILOT_GUIDED_TUTORIAL.createTimeDemo=function({container}){
- const durations={idle:300,press:650,move:1200,exit:1100,reset:650};
+ const durations={idle:1000,press:650,move:1200,exit:1100,reset:650};
  const bounds={x:102,y:88,width:126,height:56},from={x:160,y:109},to={x:205,y:64};
  let frame=0,lastTime=0,s=null,svg=null,finger=null,ghost=null,button=null,buttonText=null,ring=null,touchLabel=null,exitLabel=null,borderGlow=null;
  const hand='M22 2 c-3.3 0 -6 2.7 -6 6 v30 c-3 -2.5 -8.5 -3 -11.5 0 c-3 3 -1.5 7.5 1.5 10.5 l9 12 c4.5 7.5 10.5 11.5 20 11.5 h7 c8.5 0 15 -6.5 15 -15 v-18 c0 -3 -2.2 -5 -5 -5 c-2 0 -3.4 1 -4.2 2.6 c-0.4 -3.2 -2.4 -5.6 -5.3 -5.6 c-2 0 -3.4 1 -4.2 2.6 c-0.4 -3.2 -2.4 -5.6 -5.3 -5.6 c-1.6 0 -3 0.7 -4 1.9 V8 c0 -3.3 -2.7 -6 -6 -6 z';
@@ -70,8 +70,7 @@ window.PILOT_GUIDED_TUTORIAL.createTimeDemo=function({container}){
  function setHand(el,p,alpha=1){el.setAttribute('transform',`translate(${p.x} ${p.y}) scale(.52) translate(-22 -2)`);el.setAttribute('opacity',String(alpha));}
  function mount(){
   container.classList.add('start-exit-demo');
-  container.innerHTML=`<svg class="start-exit-svg" viewBox="70 0 200 180" preserveAspectRatio="xMidYMid meet" role="img" aria-label="スタートボタンに指を置き、指を離さず、3秒以内にボタンの枠の外へ動かします。回答先はこの図には表示していません。">
-   <text class="start-exit-interval" x="165" y="19" text-anchor="middle">この間が3秒以内</text>
+  container.innerHTML=`<svg class="start-exit-svg" viewBox="70 0 200 208" preserveAspectRatio="xMidYMid meet" role="img" aria-label="スタートボタンに指を置き、指を離さず、3秒以内にボタンの枠の外へ動かします。回答先はこの図には表示していません。">
    <rect class="start-exit-border-glow" x="99" y="85" width="132" height="62" rx="17" />
    <rect class="start-exit-button" x="102" y="88" width="126" height="56" rx="14" />
    <text class="start-exit-button-text" x="165" y="122" text-anchor="middle">スタート</text>
@@ -80,6 +79,7 @@ window.PILOT_GUIDED_TUTORIAL.createTimeDemo=function({container}){
    <g class="start-exit-finger" aria-hidden="true"><path d="${hand}" /><ellipse class="start-exit-nail" cx="22" cy="9.5" rx="3.6" ry="5.2" /></g>
    <text class="start-exit-touch-label" x="165" y="168" text-anchor="middle">触れる</text>
    <text class="start-exit-label" x="165" y="48" text-anchor="middle">枠の外へ出る</text>
+   <text class="start-exit-interval" x="165" y="196" text-anchor="middle">この間が3秒以内</text>
   </svg>`;
   svg=container.querySelector('svg');finger=svg.querySelector('.start-exit-finger');ghost=svg.querySelector('.start-exit-ghost');button=svg.querySelector('.start-exit-button');buttonText=svg.querySelector('.start-exit-button-text');ring=svg.querySelector('.start-exit-ring');touchLabel=svg.querySelector('.start-exit-touch-label');exitLabel=svg.querySelector('.start-exit-label');borderGlow=svg.querySelector('.start-exit-border-glow');
  }
@@ -98,7 +98,7 @@ window.PILOT_GUIDED_TUTORIAL.createTimeDemo=function({container}){
   setHand(finger,p,alpha);setHand(ghost,from,s.reduced ? .42 : 0);
   button.classList.toggle('armed',contacted);
   buttonText.classList.toggle('armed',contacted);
-  buttonText.textContent=s.phase==='idle'&&!s.reduced?'スタート':'→';
+  buttonText.textContent='スタート';
   ring.setAttribute('cx',String(p.x));ring.setAttribute('cy',String(p.y));
   ring.setAttribute('r',String(exited?14+(!s.reduced&&s.phase==='exit'?2*Math.sin(t*Math.PI):0):12));
   ring.setAttribute('opacity',String(!contacted?0:exited?alpha:.45));

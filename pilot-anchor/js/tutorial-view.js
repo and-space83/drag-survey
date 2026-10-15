@@ -34,6 +34,9 @@ window.PILOT_GUIDED_TUTORIAL.createView = function (env, model, events) {
     const choiceBottom = target.getBoundingClientRect().bottom, startTop = startBtn.getBoundingClientRect().top;
     hint.style.top = (choiceBottom + startTop) / 2 + 'px';
   }
+  function disabledHint() {
+    return current()?.kind === 'quiz' ? (model.quizSelection() == null ? '答えを1つ選んでください' : 'もう一度選びなおしてください') : '操作してから進みます';
+  }
   function hidePosition() { position.style.display = 'none'; target.classList.remove('arrived'); }
   function pointerPosition(e) {
     const r = surface.getBoundingClientRect(); position.style.display = 'block'; position.style.left = (e.clientX - r.left) + 'px'; position.style.top = (e.clientY - r.top) + 'px';
@@ -67,7 +70,7 @@ window.PILOT_GUIDED_TUTORIAL.createView = function (env, model, events) {
     hint = document.createElement('div'); hint.id = 'tutHint'; hint.className = 'hidden'; hint.setAttribute('role', 'status'); document.body.append(hint);
     demoPlayer = config.createDemo({ canvas: demo, start: startBtn, target }); timePlayer = config.createTimeDemo({ container: graphic });
     motion = config.createCardMotion({ getCard: () => !pop.classList.contains('hidden') ? pop : null, disabled: reduced });
-    $('tutPopNext').addEventListener('click', events.advance); row.addEventListener('pointerdown', e => { if (model.nextDisabled() && !e.target.closest('#tutPrev')) flash(current()?.kind === 'quiz' ? (model.quizSelection() == null ? '答えを1つ選んでください' : '正しい答えを選んでください') : '操作してから進みます'); });
+    $('tutPopNext').addEventListener('click', events.advance); row.addEventListener('pointerdown', e => { if (model.nextDisabled() && !e.target.closest('#tutPrev')) flash(disabledHint()); });
     $('tutPrev').addEventListener('click', events.back); close.addEventListener('click', events.close);
     $('tutReplay').addEventListener('click', events.replay);
     surface.addEventListener('pointerdown', e => {
@@ -78,7 +81,7 @@ window.PILOT_GUIDED_TUTORIAL.createView = function (env, model, events) {
       if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) { setHint('スタートボタンに指を置いて\nそのまま離さずに運びます'); events.log('stray_motor'); return; }
       motion.finish(); clearHint(); e.preventDefault(); held = e.pointerId;
       try { surface.setPointerCapture(e.pointerId); } catch (_) {}
-      startBtn.classList.add('armed'); startBtn.textContent = '→'; row.classList.add('hidden'); pointerPosition(e);
+      startBtn.classList.add('armed'); startBtn.textContent = 'スタート'; row.classList.add('hidden'); pointerPosition(e);
     }, { passive: false });
     surface.addEventListener('pointermove', e => { if (held === e.pointerId) { e.preventDefault(); pointerPosition(e); } }, { passive: false });
     surface.addEventListener('pointerup', e => {
@@ -93,9 +96,9 @@ window.PILOT_GUIDED_TUTORIAL.createView = function (env, model, events) {
       if (e.target.closest('button,a,input,select,textarea')) return;
       if (current().kind === 'motor' && !model.motorDone()) return;
       if (e.target.closest('#tutQuiz')) return;
-      events.log('stray'); flash(model.nextDisabled() ? '答えを1つ選んでください' : 'このボタンで進みます');
+      events.log('stray'); flash(model.nextDisabled() ? disabledHint() : 'このボタンで進みます');
     }, { passive: true });
-    window.addEventListener('resize', () => { if (model.index() >= 0) { motion.finish(); cancelPointer(); place(); if (current()?.id === 'motor-route') demoPlayer.begin({ key: 'motor-route', kind: 'route', captionInitially: true }); else if (current()?.id === 'motor-range') rangePlayer?.begin({ key: 'motor-range', kind: 'range', captionInitially: true }); } });
+    window.addEventListener('resize', () => { if (model.index() >= 0) { motion.finish(); cancelPointer(); place(); if (current()?.id === 'motor-route') demoPlayer.begin({ key: 'motor-route', kind: 'route', captionInitially: true }); else if (current()?.id === 'motor-range') playRange(); } });
     built = true;
   }
   function cancelPointer() { if (!held) { clearHint(); return; } held = null; clearHint(); hidePosition(); startBtn.classList.remove('armed'); startBtn.textContent = 'スタート'; if (model.index() >= 0) { row.classList.remove('hidden'); place(); events.log('motor_cancel'); } }
@@ -132,13 +135,23 @@ window.PILOT_GUIDED_TUTORIAL.createView = function (env, model, events) {
       } else { target.style.display = ''; target.style.opacity = ''; if (model.nextDisabled()) { row.classList.add('pending'); $('tutPopNext').disabled = true; } }
     } else if (key === 'motor-range') {
       document.body.classList.add('guided-range'); graphic.hidden = false; graphic.style.display = 'block';
-      graphic.innerHTML = '<p class="guided-range-caption">見本を見る・選択肢の拡大図</p><div id="tutRangeFigure"><div id="tutRangeTarget">選択肢</div><div id="tutRangeEntry"></div><canvas id="tutRangeInk"></canvas></div>';
+      graphic.innerHTML = '<div id="tutRangeFigure"><div id="tutRangeTarget">選択肢</div><div id="tutRangeEntry"></div><canvas id="tutRangeInk"></canvas></div>';
     } else if (key === 'time-rule') { document.body.classList.add('guided-time'); graphic.hidden = false; graphic.style.display = 'block'; }
     else { document.body.classList.add(step.kind === 'quiz' ? 'guided-quiz' : 'guided-instruction'); }
   }
+  function rangeFingerScale(width) {
+    const actualWidth = Math.max(1, choiceA.getBoundingClientRect().width);
+    const normalScale = Math.min(surface.clientWidth, surface.clientHeight) / 375 * .82;
+    return normalScale * width / actualWidth;
+  }
+  function playRange() {
+    rangePlayer?.stop();
+    rangePlayer = config.createDemo({ canvas: $('tutRangeInk'), start: $('tutRangeEntry'), target: $('tutRangeTarget'), fingerScale: rangeFingerScale($('tutRangeTarget').getBoundingClientRect().width) });
+    rangePlayer.begin({ key: 'motor-range', kind: 'range', captionInitially: true });
+  }
   function playGraphics(key) {
     if (key === 'motor-route') demoPlayer.begin({ key, kind: 'route', captionInitially: true });
-    if (key === 'motor-range') { rangePlayer = config.createDemo({ canvas: $('tutRangeInk'), start: $('tutRangeEntry'), target: $('tutRangeTarget'), fingerScale: .9 }); rangePlayer.begin({ key, kind: 'range', captionInitially: true }); }
+    if (key === 'motor-range') playRange();
     if (key === 'time-rule') { timePlayer.begin(); place(); }
   }
   function ruleTop() {
@@ -150,12 +163,42 @@ window.PILOT_GUIDED_TUTORIAL.createView = function (env, model, events) {
     $('tutPopTitle').textContent = title; $('tutPopTxt').textContent = text; $('tutExtra').textContent = extra; $('tutExtra').hidden = extraHidden; $('tutPopStep').textContent = stepText;
     return Math.max(48, Math.min((innerHeight - largest) / 2, row.getBoundingClientRect().top - largest - 18));
   }
+  function reserveQuizSpace() {
+    // 全問を同じ表示幅で測る。正誤の解説が出てもカードと進行ボタンを移動させない。
+    const measure = pop.cloneNode(true);
+    measure.setAttribute('aria-hidden', 'true'); measure.inert = true;
+    Object.assign(measure.style, { left: '-10000px', top: '0', width: pop.getBoundingClientRect().width + 'px', height: 'auto', maxHeight: 'none', overflow: 'visible', visibility: 'hidden', transform: 'none' });
+    measure.style.setProperty('--quiz-card-height', '0px'); measure.style.setProperty('--quiz-feedback-height', '0px');
+    document.body.append(measure);
+    const title = measure.querySelector('#tutPopTitle'), choices = measure.querySelector('#tutQuiz'), feedback = measure.querySelector('#tutQuizFeedback'), op = measure.querySelector('#tutPopOp');
+    let feedbackHeight = 0, cardHeight = 0;
+    for (const q of config.checks) {
+      for (const text of [q.right, q.wrong]) { feedback.textContent = text; feedbackHeight = Math.max(feedbackHeight, feedback.getBoundingClientRect().height); }
+    }
+    measure.style.setProperty('--quiz-feedback-height', feedbackHeight + 'px'); feedback.textContent = '';
+    for (const q of config.checks) {
+      title.textContent = q.copy; choices.replaceChildren();
+      for (const label of q.labels) { const button = document.createElement('button'); button.textContent = label; choices.append(button); }
+      for (const text of ['もう一度選びなおしてください', '答えを1つ選んで「' + model.nextLabel() + '」']) { op.textContent = text; cardHeight = Math.max(cardHeight, measure.getBoundingClientRect().height); }
+    }
+    measure.remove(); pop.style.setProperty('--quiz-feedback-height', feedbackHeight + 'px'); pop.style.setProperty('--quiz-card-height', cardHeight + 'px');
+    return cardHeight;
+  }
   function place() {
     const idx = model.index();
     if (idx < 0) return; const step = current(), vh = innerHeight, width = Math.min(innerWidth * (idx ? .92 : .72), (idx ? 540 : 420) * env.uiScale), sr = startBtn.getBoundingClientRect();
     row.style.width = width + 'px'; row.style.left = (innerWidth - width) / 2 + 'px'; row.style.bottom = 'auto';
     const bh = row.getBoundingClientRect().height || 52, startVisible = startBtn.style.visibility === 'visible';
     const minTop = model.replay() && !$('tutClose').classList.contains('hidden') ? $('tutClose').getBoundingClientRect().bottom + 12 : 8;
+    if (step.kind === 'quiz') {
+      const navTop = vh - bh - Math.max(12, vh * .025), gap = 12;
+      pop.style.maxHeight = Math.max(0, navTop - gap - minTop) + 'px';
+      const height = Math.min(reserveQuizSpace(), navTop - gap - minTop);
+      pop.style.left = (innerWidth - pop.getBoundingClientRect().width) / 2 + 'px';
+      pop.style.top = Math.max(minTop, Math.min((vh - height) / 2, navTop - height - gap)) + 'px';
+      row.style.top = navTop + 'px'; return;
+    }
+    pop.style.maxHeight = '';
     const ph = pop.getBoundingClientRect().height;
     if (step.id === 'motor-range' || step.id === 'time-rule') {
       const gap = vh <= 640 ? 10 : 18, top = Math.max(minTop, vh <= 640 ? 24 : 42);
@@ -165,11 +208,11 @@ window.PILOT_GUIDED_TUTORIAL.createView = function (env, model, events) {
       graphic.style.top = graphicTop + 'px';
       if (step.id === 'time-rule') graphic.style.setProperty('--time-demo-max-height', available + 'px');
       else {
-        const caption = graphic.querySelector('.guided-range-caption');
-        const captionHeight = caption ? caption.getBoundingClientRect().height + parseFloat(getComputedStyle(caption).marginBottom) : 0;
-        const height = Math.min(Math.min(innerWidth, vh) * .39, Math.max(0, available - captionHeight - 88));
+        const handPerHeight = rangeFingerScale(60 / 39) * 75;
+        const height = Math.min(Math.min(innerWidth, vh) * .39, Math.max(0, Math.min(available - 88, (available - 20) / (1 + handPerHeight))));
         graphic.style.setProperty('--range-target-height', height + 'px');
         graphic.style.setProperty('--range-target-width', height * 60 / 39 + 'px');
+        graphic.style.setProperty('--range-entry-space', Math.max(88, rangeFingerScale(height * 60 / 39) * 75 + 20) + 'px');
       }
       graphic.style.left = (innerWidth - graphic.getBoundingClientRect().width) / 2 + 'px';
       row.style.top = Math.min(maxNavTop, Math.max(sr.top + sr.height / 2 - bh / 2, graphic.getBoundingClientRect().bottom + gap)) + 'px';
@@ -204,11 +247,12 @@ window.PILOT_GUIDED_TUTORIAL.createView = function (env, model, events) {
     $('tutPopNext').textContent = nextLabel;
     $('tutPopNext').disabled = disabled; row.classList.toggle('pending', disabled);
     $('tutPrev').classList.toggle('hidden', false);
-    $('tutPopOp').textContent = chosen != null && !good ? 'もう一度、答えを選んでください' : '答えを1つ選んで「' + $('tutPopNext').textContent + '」';
+    $('tutPopOp').textContent = chosen != null && !good ? 'もう一度選びなおしてください' : '答えを1つ選んで「' + $('tutPopNext').textContent + '」';
     const feedback = $('tutQuizFeedback'); feedback.textContent = chosen == null ? '' : good ? q.right : q.wrong; feedback.classList.toggle('wrong', chosen != null && !good);
     const choices = $('tutQuiz'); choices.replaceChildren(); choices.setAttribute('role', 'radiogroup'); choices.setAttribute('aria-labelledby', 'tutPopTitle');
     for (const originalIndex of order) {
       const button = document.createElement('button'); button.type = 'button'; button.textContent = q.labels[originalIndex]; button.dataset.answerIndex = originalIndex; button.dataset.originalIndex = originalIndex; button.classList.toggle('selected', chosen === originalIndex);
+      if (chosen === originalIndex) { button.classList.add(good ? 'correct' : 'wrong'); button.setAttribute('aria-label', q.labels[originalIndex] + (good ? '（正解です）' : '（もう一度選びなおしてください）')); }
       button.onclick = () => events.answer(originalIndex, document.activeElement === button, q);
       button.setAttribute('role', 'radio'); button.setAttribute('aria-checked', String(chosen === originalIndex));
       choices.append(button);
