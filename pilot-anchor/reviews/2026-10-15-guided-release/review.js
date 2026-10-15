@@ -63,6 +63,7 @@ function renderAudits(){
  const check=document.createElement('div');check.className='audit-check';for(const [label,value] of [['実機で試すこと',item.manualCheck],['自動確認の候補',item.automaticCheck]]){const strong=document.createElement('strong'),p=document.createElement('p');strong.textContent=label;p.textContent=value;check.append(strong,p);}const caveat=document.createElement('p');caveat.className='audit-caveat';caveat.textContent=item.caveat;check.append(caveat);card.append(check);
  const source=document.createElement('p');source.className='audit-source';source.textContent='凍結原本 '+item.source.file+':'+(item.source.line||'未特定')+' · '+item.source.pattern;card.append(source);
  if(item.evidence?.length){const p=document.createElement('p');p.className='audit-source';p.textContent='実施証拠: '+item.evidence.map(e=>typeof e==='string'?e:JSON.stringify(e)).join(' / ');card.append(p);}
+ const manual=document.createElement('p');manual.className='audit-source';const link=document.createElement('a');link.href='checklist.html#check-'+encodeURIComponent(item.id);link.textContent='この項目の実機チェックを開く';manual.append(link);card.append(manual);
  byId('auditList').append(card);}
 }
 byId('group').onchange=renderAudits;byId('status').onchange=renderAudits;

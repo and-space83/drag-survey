@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"><title>実機チェック表 — チュートリアル刷新</title><link rel="stylesheet" href="checklist.css"></head>
+<body><header class="page-header"><div class="wrap"><a class="back-link" href="index.html">← 変更前後の比較へ</a><div class="eyebrow">TUTORIAL REVIEW · <span id="targetVersion"></span></div><h1>実機チェック表</h1><p class="lead">確認場所と手順を見ながら、<br class="mobile-break">ひとつずつ記録します。</p><p class="intro">「確認画面を開く」で対象を表示し、この表に戻って結果を選んでください。自動テストの合格とは別に、すべて未確認から始めます。</p></div></header>
+<main class="wrap">
+<section class="record-panel" aria-labelledby="recordHeading"><div class="section-heading"><div><span class="section-kicker">01 · 確認する端末</span><h2 id="recordHeading">今回の確認記録</h2></div><button id="newRecord" type="button" class="secondary">別の端末・記録を追加</button></div>
+<div class="record-top"><label>保存した記録<select id="recordSelect"></select></label><label>記録の名前<input id="recordTitle" maxlength="160" placeholder="例：iPhone 17 · Safariで確認"></label></div>
+<details id="environmentDetails" open><summary>端末・確認環境を記録する</summary><div class="environment-grid">
+<label>確認した環境<select id="envKind"><option value="actual-device">実機（指で操作）</option><option value="pc">PCの表示・操作</option><option value="synthetic">合成データ・検証環境</option></select></label>
+<label>端末名<input id="envDevice" maxlength="160" placeholder="例：iPhone 17"></label><label>OS<input id="envOs" maxlength="160" placeholder="例：iOS 26"></label><label>ブラウザ<input id="envBrowser" maxlength="160" placeholder="例：Safari"></label><label>確認日<input id="envDate" type="date"></label><label>環境の補足<input id="envNotes" maxlength="2000" placeholder="文字サイズ、持ち方など"></label>
+</div></details>
+<div class="save-line"><span id="storageStatus" role="status" aria-live="polite">保存状態を確認しています。</span><span id="recordUpdated"></span></div>
+<p class="storage-help">このブラウザ内に自動保存します。PC・スマホ・別のブラウザの間では共有されず、ローカル版と公開版でも保存先が異なります。下のJSON書き出し・読み込みで記録を移せます。実験の回答データへは送信しません。</p>
+<div class="record-actions"><button id="exportRecord" type="button">この記録をJSONで書き出す</button><label class="file-button" for="importFile">記録を読み込む<input id="importFile" type="file" accept=".json,application/json"></label><button id="copyReport" type="button">結果をコピー</button></div><p id="actionStatus" role="status" aria-live="polite"></p>
+</section>
+<section class="check-section" aria-labelledby="checksHeading"><div class="section-heading"><div><span class="section-kicker">02 · 確認を進める</span><h2 id="checksHeading">場所・操作・期待する結果</h2></div><span id="totalCount" class="muted"></span></div>
+<div class="progress-panel"><div class="progress-title"><strong id="progressText"></strong><span id="progressPercent"></span></div><progress id="checkProgress" max="1" value="0" aria-label="確認済みの割合"></progress><div class="status-summary" id="statusSummary" aria-label="状態で絞り込む"></div></div>
+<div class="filter-bar"><label class="search-label">キーワードで探す<input id="searchChecks" type="search" placeholder="例：3秒、次へ、振り返り"></label><label>確認するパート<select id="groupFilter"><option value="">すべてのパート</option></select></label><label>確認の方法<select id="modeFilter"><option value="">すべての方法</option><option value="preview">確認画面で試す</option><option value="synthetic">別の検証環境が必要</option><option value="reference">資料・設定を見る</option></select></label><label>状態<select id="statusFilter"><option value="">すべての状態</option><option value="pending">未確認</option><option value="passed">確認済み</option><option value="issue">要修正</option><option value="hold">保留</option></select></label><button id="clearFilters" type="button" class="text-button">絞り込みを解除</button></div>
+<div class="list-caption"><p id="visibleCount" role="status" aria-live="polite"></p><p>「確認画面」は保存・送信なし。保存や再開を確かめる項目は、別の検証環境が必要です。</p></div>
+<div id="checkList"></div><p id="emptyState" hidden>この条件に合う項目はありません。絞り込みを変更してください。</p>
+</section>
+<footer><p>確認状態とメモは、あなたがこの表で付けた記録です。PCで確認した結果を、実機Safariでの確認済みとは扱いません。対象のアプリが変わったら、別の記録で再確認してください。</p><div class="footer-links"><a href="index.html">変更前後を操作する</a><a href="publication.json">対象版の公開照合</a><a href="verification.json">自動テストの結果</a><a href="checklist.md">元の項目一覧</a></div></footer>
+</main>
+<dialog id="copyDialog"><h2>結果をコピー</h2><p>下のテキストを選択してコピーしてください。</p><textarea id="copyFallback" readonly aria-label="コピーする確認結果"></textarea><button id="closeCopy" type="button">閉じる</button></dialog>
+<noscript><p class="wrap">このチェック表の表示と保存にはJavaScriptが必要です。</p></noscript>
+<script src="device-checks-data.js?v=1"></script><script src="checklist.js?v=1"></script></body></html>

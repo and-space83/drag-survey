@@ -10,7 +10,7 @@
   "after": {
     "source": "../../index.html",
     "status": "published_assets_verified",
-    "tests": "Chrome/Node/Pythonのローカル合成検証のうち、各項目に実在する実行証拠がある範囲だけ更新。passedは記載の自動動作範囲に限る。一部確認の残件と全実機未確認を分離。公開先の配信確認は未実施。",
+    "tests": "Chrome/Node/Pythonのローカル合成検証のうち、各項目に実在する実行証拠がある範囲だけ更新。passedは記載の自動動作範囲に限る。一部確認の残件と全実機未確認を分離。公開先の配信照合はpublication.jsonを参照。HTMLチェック表での個人の記録はこの判定を自動変更しない。",
     "appVersion": "2026-10-15-ui20",
     "sourceVerification": {
       "method": "SHA-256 after CRLF→LF, matching final results.json source",

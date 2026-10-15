@@ -1,0 +1,1913 @@
+{
+  "checkedAt": "2026-10-15T04:52:01.740Z",
+  "scope": "HTML実機チェック管理画面のChrome合成UI検証。実機Safariでの参加者アプリ動作確認ではない。",
+  "checks": [
+    {
+      "name": "1200: all data items have cards",
+      "passed": true
+    },
+    {
+      "name": "1200: initial record is entirely unverified",
+      "passed": true
+    },
+    {
+      "name": "1200: no horizontal page overflow",
+      "passed": true
+    },
+    {
+      "name": "1200: every participant-app preview is go/debug/upload=0",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "1200: status buttons are usable touch targets",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "1200: each card explains where, how, expected result",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /reviews/2026-10-15-guided-release/index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /reviews/2026-10-15-guided-release/publication.json",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /reviews/2026-10-15-guided-release/recovery-results.json",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /reviews/2026-10-15-guided-release/before-manifest.json",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /reviews/2026-10-15-guided-release/preparation-results.json",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /reviews/2026-10-15-guided-release/full-validation.txt",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /reviews/2026-10-15-guided-release/results.json",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /reviews/2026-10-15-guided-release/audit-results.json",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /index.html",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /reviews/2026-10-15-guided-release/verification.json",
+      "passed": true
+    },
+    {
+      "name": "linked resource exists: /reviews/2026-10-15-guided-release/checklist.md",
+      "passed": true
+    },
+    {
+      "name": "all 49 inherited functional checks are represented",
+      "passed": true
+    },
+    {
+      "name": "all 49 comparison cards link to exactly their matching check",
+      "passed": true
+    },
+    {
+      "name": "unknown check hash leaves the checklist usable",
+      "passed": true
+    },
+    {
+      "name": "valid check hash scrolls to the matching rule card",
+      "passed": true
+    },
+    {
+      "name": "prep-pc-sizes: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "prep-pc-sizes: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "prep-pc-sizes: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "prep-pc-sizes: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "prep-safari: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "prep-safari: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "prep-safari: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "prep-safari: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "prep-record: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "prep-record: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "prep-record: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "prep-record: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "prep-preview-safety: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "prep-preview-safety: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "prep-preview-safety: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "prep-preview-safety: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "prep-isolated-data: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "prep-isolated-data: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "prep-isolated-data: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "prep-isolated-data: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "prep-frozen-before: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "prep-frozen-before: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "prep-frozen-before: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "prep-frozen-before: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "touch-static-all: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "touch-static-all: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "touch-static-all: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "touch-static-all: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "touch-active-all: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "touch-active-all: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "touch-active-all: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "touch-active-all: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "touch-disabled-all: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "touch-disabled-all: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "touch-disabled-all: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "touch-disabled-all: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "touch-pinch-all: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "touch-pinch-all: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "touch-pinch-all: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "touch-pinch-all: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "touch-after-normal: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "touch-after-normal: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "touch-after-normal: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "touch-after-normal: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "touch-scroll-all: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "touch-scroll-all: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "touch-scroll-all: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "touch-scroll-all: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "touch-code-copy: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "touch-code-copy: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "touch-code-copy: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "touch-code-copy: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "touch-keyboard: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "touch-keyboard: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "touch-keyboard: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "touch-keyboard: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "touch-safari-ui: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "touch-safari-ui: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "touch-safari-ui: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "touch-safari-ui: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "screen-layout: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "screen-layout: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "screen-layout: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "screen-layout: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "guide-labels: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "guide-labels: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "guide-labels: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "guide-labels: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "part-emphasis: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "part-emphasis: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "part-emphasis: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "part-emphasis: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "card-motion: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "card-motion: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "card-motion: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "card-motion: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "read-lock: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "read-lock: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "read-lock: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "read-lock: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "read-cue: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "read-cue: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "read-cue: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "read-cue: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "stray-tap: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "stray-tap: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "stray-tap: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "stray-tap: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "disabled-rating-tap: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "disabled-rating-tap: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "disabled-rating-tap: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "disabled-rating-tap: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "motor-hint: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "motor-hint: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "motor-hint: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "motor-hint: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "hint-timer: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "hint-timer: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "hint-timer: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "hint-timer: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "watch-then-act: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "watch-then-act: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "watch-then-act: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "watch-then-act: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "varied-demo: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "varied-demo: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "varied-demo: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "varied-demo: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "release-range: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "release-range: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "release-range: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "release-range: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "mandatory-hands: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "mandatory-hands: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "mandatory-hands: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "mandatory-hands: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "completion-revisit: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "completion-revisit: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "completion-revisit: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "completion-revisit: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "press-reveal: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "press-reveal: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "press-reveal: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "press-reveal: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "continuous-drag: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "continuous-drag: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "continuous-drag: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "continuous-drag: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "pointer-guard: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "pointer-guard: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "pointer-guard: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "pointer-guard: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "pointer-cancel: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "pointer-cancel: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "pointer-cancel: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "pointer-cancel: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "start-rule: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "start-rule: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "start-rule: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "start-rule: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "first-exit-time: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "first-exit-time: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "first-exit-time: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "first-exit-time: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "pace-and-stop: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "pace-and-stop: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "pace-and-stop: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "pace-and-stop: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "trajectory-recording: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "trajectory-recording: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "trajectory-recording: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "trajectory-recording: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "rule-quiz: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "rule-quiz: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "rule-quiz: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "rule-quiz: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "rating-five: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "rating-five: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "rating-five: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "rating-five: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "rating-back: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "rating-back: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "rating-back: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "rating-back: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "rating-selection-gate: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "rating-selection-gate: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "rating-selection-gate: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "rating-selection-gate: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "rating-review-time: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "rating-review-time: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "rating-review-time: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "rating-review-time: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "rating-finish-resume: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "rating-finish-resume: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "rating-finish-resume: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "rating-finish-resume: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "practice-definition: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "practice-definition: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "practice-definition: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "practice-definition: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "formal-practice-gate: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "formal-practice-gate: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "formal-practice-gate: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "formal-practice-gate: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "practice-post-check: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "practice-post-check: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "practice-post-check: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "practice-post-check: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "tutorial-provenance: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "tutorial-provenance: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "tutorial-provenance: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "tutorial-provenance: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "resume-snapshot: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "resume-snapshot: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "resume-snapshot: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "resume-snapshot: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "same-url-resume: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "same-url-resume: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "same-url-resume: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "same-url-resume: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "review-reentry-time: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "review-reentry-time: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "review-reentry-time: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "review-reentry-time: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "local-storage: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "local-storage: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "local-storage: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "local-storage: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "visibility-and-lock: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "visibility-and-lock: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "visibility-and-lock: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "visibility-and-lock: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "preview-no-send: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "preview-no-send: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "preview-no-send: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "preview-no-send: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "static-doubletap: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "static-doubletap: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "static-doubletap: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "static-doubletap: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "active-button-doubletap: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "active-button-doubletap: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "active-button-doubletap: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "active-button-doubletap: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "pinch-and-context: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "pinch-and-context: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "pinch-and-context: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "pinch-and-context: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "orientation-and-zoom: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "orientation-and-zoom: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "orientation-and-zoom: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "orientation-and-zoom: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "stop-confirm: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "stop-confirm: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "stop-confirm: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "stop-confirm: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "rating-progress: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "rating-progress: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "rating-progress: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "rating-progress: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "instructed-trials: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "instructed-trials: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "instructed-trials: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "instructed-trials: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "consent-reading: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "consent-reading: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "consent-reading: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "consent-reading: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "reduced-motion: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "reduced-motion: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "reduced-motion: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "reduced-motion: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "accessibility-focus: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "accessibility-focus: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "accessibility-focus: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "accessibility-focus: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "storage-legacy-tutorial: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "storage-legacy-tutorial: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "storage-legacy-tutorial: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "storage-legacy-tutorial: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "storage-quiz-motor: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "storage-quiz-motor: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "storage-quiz-motor: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "storage-quiz-motor: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "storage-rating-pages: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "storage-rating-pages: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "storage-rating-pages: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "storage-rating-pages: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "storage-stimulus-version: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "storage-stimulus-version: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "storage-stimulus-version: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "storage-stimulus-version: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "storage-review-clocks: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "storage-review-clocks: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "storage-review-clocks: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "storage-review-clocks: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "storage-record-contract: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "storage-record-contract: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "storage-record-contract: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "storage-record-contract: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "storage-life-cycle: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "storage-life-cycle: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "storage-life-cycle: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "storage-life-cycle: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "storage-delivery-contract: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "storage-delivery-contract: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "storage-delivery-contract: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "storage-delivery-contract: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "status/note survive reload",
+      "passed": true
+    },
+    {
+      "name": "notes stay text, never become HTML",
+      "passed": true
+    },
+    {
+      "name": "device environment survives reload",
+      "passed": true
+    },
+    {
+      "name": "passed filter shows only checked card",
+      "passed": true
+    },
+    {
+      "name": "search finds notes",
+      "passed": true
+    },
+    {
+      "name": "search no-result state",
+      "passed": true
+    },
+    {
+      "name": "#groupFilter 準備: nonempty matching subset",
+      "passed": true
+    },
+    {
+      "name": "#groupFilter 全領域タッチ: nonempty matching subset",
+      "passed": true
+    },
+    {
+      "name": "#groupFilter 導入: nonempty matching subset",
+      "passed": true
+    },
+    {
+      "name": "#groupFilter 進行補助: nonempty matching subset",
+      "passed": true
+    },
+    {
+      "name": "#groupFilter 評定: nonempty matching subset",
+      "passed": true
+    },
+    {
+      "name": "#groupFilter 操作: nonempty matching subset",
+      "passed": true
+    },
+    {
+      "name": "#groupFilter 回答: nonempty matching subset",
+      "passed": true
+    },
+    {
+      "name": "#groupFilter ルール: nonempty matching subset",
+      "passed": true
+    },
+    {
+      "name": "#groupFilter 計測: nonempty matching subset",
+      "passed": true
+    },
+    {
+      "name": "#groupFilter 復元: nonempty matching subset",
+      "passed": true
+    },
+    {
+      "name": "#groupFilter 練習: nonempty matching subset",
+      "passed": true
+    },
+    {
+      "name": "#groupFilter 保存: nonempty matching subset",
+      "passed": true
+    },
+    {
+      "name": "#groupFilter 確認環境: nonempty matching subset",
+      "passed": true
+    },
+    {
+      "name": "#groupFilter タッチ: nonempty matching subset",
+      "passed": true
+    },
+    {
+      "name": "#groupFilter 本番UI: nonempty matching subset",
+      "passed": true
+    },
+    {
+      "name": "#groupFilter 周辺UI: nonempty matching subset",
+      "passed": true
+    },
+    {
+      "name": "#groupFilter 保存・再開の別検証: nonempty matching subset",
+      "passed": true
+    },
+    {
+      "name": "#modeFilter preview: nonempty matching subset",
+      "passed": true
+    },
+    {
+      "name": "#modeFilter synthetic: nonempty matching subset",
+      "passed": true
+    },
+    {
+      "name": "#modeFilter reference: nonempty matching subset",
+      "passed": true
+    },
+    {
+      "name": "new device record preserves previous record",
+      "passed": true
+    },
+    {
+      "name": "new device record starts entirely pending",
+      "passed": true
+    },
+    {
+      "name": "switching device restores independent status",
+      "passed": true
+    },
+    {
+      "name": "UI JSON download includes current record",
+      "passed": true
+    },
+    {
+      "name": "API JSON export matches selected record",
+      "passed": true
+    },
+    {
+      "name": "unrelated localStorage is never changed",
+      "passed": true
+    },
+    {
+      "name": "different target version: rejected",
+      "passed": true
+    },
+    {
+      "name": "different target version: existing records intact",
+      "passed": true
+    },
+    {
+      "name": "wrong tool: rejected",
+      "passed": true
+    },
+    {
+      "name": "wrong tool: existing records intact",
+      "passed": true
+    },
+    {
+      "name": "wrong schema: rejected",
+      "passed": true
+    },
+    {
+      "name": "wrong schema: existing records intact",
+      "passed": true
+    },
+    {
+      "name": "unknown check ID: rejected",
+      "passed": true
+    },
+    {
+      "name": "unknown check ID: existing records intact",
+      "passed": true
+    },
+    {
+      "name": "invalid check status: rejected",
+      "passed": true
+    },
+    {
+      "name": "invalid check status: existing records intact",
+      "passed": true
+    },
+    {
+      "name": "malformed import rejected without loss",
+      "passed": true
+    },
+    {
+      "name": "UI import rejection explains version and preserves records",
+      "passed": true
+    },
+    {
+      "name": "imported title/environment are text, never HTML",
+      "passed": true
+    },
+    {
+      "name": "concurrent tab cannot overwrite newer disk record",
+      "passed": true
+    },
+    {
+      "name": "concurrent tab preserves its own unsaved edits for export",
+      "passed": true
+    },
+    {
+      "name": "375: all data items have cards",
+      "passed": true
+    },
+    {
+      "name": "375: initial record is entirely unverified",
+      "passed": true
+    },
+    {
+      "name": "375: no horizontal page overflow",
+      "passed": true
+    },
+    {
+      "name": "375: every participant-app preview is go/debug/upload=0",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "375: status buttons are usable touch targets",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "375: each card explains where, how, expected result",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=tut&gstep=layout-stem&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=tut&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=tut&gstep=layout-intro&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=rating&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=practicecheck&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=notice&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=break&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=instructed&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=post&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=sending&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=done&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=tut&gstep=rule-check&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=tut&gstep=motor&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=task&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=post&stop=1&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=tut&gstep=motor-range&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=tut&gstep=layout-start&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=tut&gstep=layout-choice&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=exampleintro&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=rtut&rtstep=0&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=tut&gstep=start-rule&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=tut&gstep=movement-reason&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=tut&gstep=motor-route&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=tut&gstep=time-rule&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=tut&gstep=answer-pace&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=rtut&rtstep=1&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=rtut&rtstep=3&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=rtut&rtstep=4&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=tut&gstep=rule-check&stop=1&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "live preview has no upload: ?go=rating&stop=1&block=moral&debug=1&upload=0&mic=0",
+      "passed": true
+    },
+    {
+      "name": "keyboard-check link points to the six-page short route",
+      "passed": true
+    },
+    {
+      "name": "short questionnaire page 1 matches documented route",
+      "passed": true,
+      "detail": {
+        "id": "grip",
+        "part": null,
+        "step": "1 / 6"
+      }
+    },
+    {
+      "name": "short questionnaire page 2 matches documented route",
+      "passed": true,
+      "detail": {
+        "id": "problems",
+        "part": "1",
+        "step": "2 / 6"
+      }
+    },
+    {
+      "name": "short questionnaire page 3 matches documented route",
+      "passed": true,
+      "detail": {
+        "id": "problems",
+        "part": "2",
+        "step": "3 / 6"
+      }
+    },
+    {
+      "name": "short questionnaire page 4 matches documented route",
+      "passed": true,
+      "detail": {
+        "id": "problems",
+        "part": "3",
+        "step": "4 / 6"
+      }
+    },
+    {
+      "name": "short questionnaire page 5 matches documented route",
+      "passed": true,
+      "detail": {
+        "id": "ease",
+        "part": null,
+        "step": "5 / 6"
+      }
+    },
+    {
+      "name": "short questionnaire page 6 matches documented route",
+      "passed": true,
+      "detail": {
+        "id": "comment",
+        "part": null,
+        "step": "6 / 6"
+      }
+    },
+    {
+      "name": "sixth page exposes the documented optional free-text field",
+      "passed": true
+    },
+    {
+      "name": "optional free-text input accepts typing without changing screen",
+      "passed": true
+    },
+    {
+      "name": "other-browser import adds a separate record",
+      "passed": true
+    },
+    {
+      "name": "other-browser import keeps check result and note",
+      "passed": true
+    },
+    {
+      "name": "imported record survives reload",
+      "passed": true
+    },
+    {
+      "name": "storage rejection keeps tool usable",
+      "passed": true
+    },
+    {
+      "name": "storage rejection is visibly reported",
+      "passed": true
+    },
+    {
+      "name": "unsaved record remains exportable",
+      "passed": true
+    },
+    {
+      "name": "storage read rejection keeps tool usable and warns",
+      "passed": true
+    },
+    {
+      "name": "corrupt saved text is preserved for recovery",
+      "passed": true
+    },
+    {
+      "name": "corrupt saved record gives visible warning",
+      "passed": true
+    },
+    {
+      "name": "corruption fallback does not copy automatic passed statuses",
+      "passed": true
+    },
+    {
+      "name": "file:// standalone loads every card",
+      "passed": true
+    },
+    {
+      "name": "file:// narrow layout has no horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "all 14 participant-app assets remain unchanged",
+      "passed": true
+    },
+    {
+      "name": "all participant-app assets still match UI20 release",
+      "passed": true
+    },
+    {
+      "name": "review source unchanged during validation",
+      "passed": true
+    },
+    {
+      "name": "no JavaScript errors",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "no remote or non-GET requests",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "errors": [],
+  "unexpectedRequests": [],
+  "source": {
+    "checklist.html": "57b23e2629abd3d683e44b771844d5eb90fcaeff529ab52a601940769d931725",
+    "checklist.js": "9a724c5205eca45f5b7d4c49dd4a0ba4c244acca69d33bf131b58d317f1f6d56",
+    "checklist.css": "0bc23551f28cf178db1ef355a4aba9f917074dad5069620e9225c0b36fc75288",
+    "device-checks-data.js": "751a48bb2515ed4a9b10aefe8e7d479461f21dc46f68700ce1859e616c97a5ca"
+  },
+  "sourceBefore": {
+    "checklist.html": "57b23e2629abd3d683e44b771844d5eb90fcaeff529ab52a601940769d931725",
+    "checklist.js": "9a724c5205eca45f5b7d4c49dd4a0ba4c244acca69d33bf131b58d317f1f6d56",
+    "checklist.css": "0bc23551f28cf178db1ef355a4aba9f917074dad5069620e9225c0b36fc75288",
+    "device-checks-data.js": "751a48bb2515ed4a9b10aefe8e7d479461f21dc46f68700ce1859e616c97a5ca"
+  },
+  "appAssetsBefore": {
+    "index.html": "0bfe6ce03394e80037fef067059c20c14a9d1ea31eb86dfb4394c0206d9d1357",
+    "app.css": "dc355b1f2426a7f7ad5f73e480154798279a6e35fbb7846c9661328cac1b3e89",
+    "guided-tutorial.js": "cd252e516fb4d4dfca1a1c14683df9a7da3de6aa38e679766285bc4aac3b9e28",
+    "guided-tutorial.css": "d73d3e7373a4602e5258bacbbdbcaad73a00f49ee638094430fe29cb14b146b7",
+    "bank.js": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
+    "session-store.js": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+    "durable-storage.js": "84d006f048e2cc16c4a7a7087ec5815485c0b3a7d2ffa4ce6b7b62905dde967b",
+    "storage-worker.js": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
+    "staged-delivery.js": "7f37d628ce04dc47233b16387d43add674608d278030dd17355621745ab9f7ad",
+    "consent.js": "6dae132f66dc20526ae6e79c59c6ff12049a75a1b11161b6815bfa1339a14bd9",
+    "consent.css": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
+    "data-codec.js": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+    "vendor/pako.min.js": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+    "vendor/pako-LICENSE": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539"
+  },
+  "appAssetsAfter": {
+    "index.html": "0bfe6ce03394e80037fef067059c20c14a9d1ea31eb86dfb4394c0206d9d1357",
+    "app.css": "dc355b1f2426a7f7ad5f73e480154798279a6e35fbb7846c9661328cac1b3e89",
+    "guided-tutorial.js": "cd252e516fb4d4dfca1a1c14683df9a7da3de6aa38e679766285bc4aac3b9e28",
+    "guided-tutorial.css": "d73d3e7373a4602e5258bacbbdbcaad73a00f49ee638094430fe29cb14b146b7",
+    "bank.js": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
+    "session-store.js": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+    "durable-storage.js": "84d006f048e2cc16c4a7a7087ec5815485c0b3a7d2ffa4ce6b7b62905dde967b",
+    "storage-worker.js": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
+    "staged-delivery.js": "7f37d628ce04dc47233b16387d43add674608d278030dd17355621745ab9f7ad",
+    "consent.js": "6dae132f66dc20526ae6e79c59c6ff12049a75a1b11161b6815bfa1339a14bd9",
+    "consent.css": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
+    "data-codec.js": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+    "vendor/pako.min.js": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+    "vendor/pako-LICENSE": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539"
+  },
+  "shortPostRoute": [
+    {
+      "id": "grip",
+      "part": null,
+      "step": "1 / 6"
+    },
+    {
+      "id": "problems",
+      "part": "1",
+      "step": "2 / 6"
+    },
+    {
+      "id": "problems",
+      "part": "2",
+      "step": "3 / 6"
+    },
+    {
+      "id": "problems",
+      "part": "3",
+      "step": "4 / 6"
+    },
+    {
+      "id": "ease",
+      "part": null,
+      "step": "5 / 6"
+    },
+    {
+      "id": "comment",
+      "part": null,
+      "step": "6 / 6"
+    }
+  ],
+  "passed": true,
+  "totals": {
+    "passed": 447,
+    "failed": 0
+  }
+}
