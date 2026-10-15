@@ -3,7 +3,7 @@
   const data = window.PILOT_DEVICE_CHECKS;
   const TOOL = 'pilot-device-checklist', SCHEMA = 1;
   const STATUS = { pending: '未確認', passed: '確認済み', issue: '要修正', hold: '保留' };
-  const MODE = { preview: '確認画面で試す', synthetic: '別の検証環境が必要', reference: '資料・設定を見る' };
+  const MODE = { preview: '確認画面で試す', lab: '保存付き実機確認', synthetic: '追加の合成検証が必要', reference: '資料・設定を見る' };
   const ENV_FIELDS = { device: 'envDevice', os: 'envOs', browser: 'envBrowser', kind: 'envKind', date: 'envDate', notes: 'envNotes' };
   const $ = id => document.getElementById(id);
   if (!data || !Array.isArray(data.items) || !data.items.length) {
@@ -95,7 +95,8 @@
     heading.append(element('p', 'check-kicker', String(index + 1).padStart(2, '0') + ' · ' + item.group + ' · ' + MODE[item.mode]), element('h3', '', item.title));
     const badge = element('span', 'state-badge'); top.append(heading, badge); card.append(top);
     const place = element('div', 'check-place'); place.append(element('strong', '', '確認する場所'), element('p', '', Array.isArray(item.where) ? item.where.join(' → ') : item.where)); card.append(place);
-    if (item.mode === 'synthetic') card.append(element('p', 'method-note', '保存・再開などは、下の確認画面だけでは試せません。実参加者のデータを使わず、検証環境を準備して確認します。'));
+    if (item.mode === 'lab') card.append(element('p', 'method-note', '本番とは別ドメインの本人用サイトです。同じChatGPTアカウントでログインし、架空の内容で操作します。ブラウザ内保存は実際に行い、送信結果は端末内で模擬します。'));
+    if (item.mode === 'synthetic') card.append(element('p', 'method-note', '表示専用の確認画面だけでは、この項目全体を確認できません。「保存付きの実機確認」がある場合はそこで試せる範囲を確認し、旧版互換や記録の照合など残りは合成検証の結果と区別して記録します。'));
     const links = element('div', 'check-links');
     for (const link of item.links || []) { const href = safeLink(link); if (!href) continue; const a = element('a', '', link.label + ' ↗'); a.href = href; a.target = '_blank'; a.rel = 'noopener noreferrer'; links.append(a); }
     if (links.childElementCount) card.append(links);

@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-10-15T04:52:01.740Z",
+  "checkedAt": "2026-10-15T09:06:47.096Z",
   "scope": "HTML実機チェック管理画面のChrome合成UI検証。実機Safariでの参加者アプリ動作確認ではない。",
   "checks": [
     {
@@ -30,6 +30,15 @@
     },
     {
       "name": "linked resource exists: /reviews/2026-10-15-guided-release/index.html",
+      "passed": true
+    },
+    {
+      "name": "external reference is the fixed private lab menu with exact case/run",
+      "passed": true,
+      "detail": "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=consent&run=consent-check"
+    },
+    {
+      "name": "linked resource exists: /reviews/2026-10-15-guided-release/ux-next-proposals.html",
       "passed": true
     },
     {
@@ -173,6 +182,16 @@
       "passed": true
     },
     {
+      "name": "external reference is the fixed private lab menu with exact case/run",
+      "passed": true,
+      "detail": "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=resume&run=resume-check"
+    },
+    {
+      "name": "external reference is the fixed private lab menu with exact case/run",
+      "passed": true,
+      "detail": "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=delivery&run=delivery-check"
+    },
+    {
       "name": "linked resource exists: /index.html",
       "passed": true
     },
@@ -186,6 +205,129 @@
     },
     {
       "name": "linked resource exists: /reviews/2026-10-15-guided-release/checklist.md",
+      "passed": true
+    },
+    {
+      "name": "prep-isolated-data: lab button has the documented case and stable run",
+      "passed": true,
+      "detail": [
+        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=consent&run=consent-check"
+      ]
+    },
+    {
+      "name": "consent-reading: lab button has the documented case and stable run",
+      "passed": true,
+      "detail": [
+        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=consent&run=consent-check"
+      ]
+    },
+    {
+      "name": "same-url-resume: lab button has the documented case and stable run",
+      "passed": true,
+      "detail": [
+        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=resume&run=resume-check"
+      ]
+    },
+    {
+      "name": "resume-snapshot: lab button has the documented case and stable run",
+      "passed": true,
+      "detail": [
+        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=resume&run=resume-check"
+      ]
+    },
+    {
+      "name": "visibility-and-lock: lab button has the documented case and stable run",
+      "passed": true,
+      "detail": [
+        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=resume&run=resume-check"
+      ]
+    },
+    {
+      "name": "local-storage: lab button has the documented case and stable run",
+      "passed": true,
+      "detail": [
+        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=delivery&run=delivery-check"
+      ]
+    },
+    {
+      "name": "storage-quiz-motor: lab button has the documented case and stable run",
+      "passed": true,
+      "detail": [
+        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=resume&run=resume-check"
+      ]
+    },
+    {
+      "name": "storage-rating-pages: lab button has the documented case and stable run",
+      "passed": true,
+      "detail": [
+        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=resume&run=resume-check"
+      ]
+    },
+    {
+      "name": "storage-life-cycle: lab button has the documented case and stable run",
+      "passed": true,
+      "detail": [
+        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=resume&run=resume-check"
+      ]
+    },
+    {
+      "name": "storage-delivery-contract: lab button has the documented case and stable run",
+      "passed": true,
+      "detail": [
+        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=delivery&run=delivery-check"
+      ]
+    },
+    {
+      "name": "lab-consent-success: lab button has the documented case and stable run",
+      "passed": true,
+      "detail": [
+        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=consent&run=consent-check"
+      ]
+    },
+    {
+      "name": "lab-consent-failure: lab button has the documented case and stable run",
+      "passed": true,
+      "detail": [
+        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=consent&run=consent-check"
+      ]
+    },
+    {
+      "name": "lab-tutorial-resume: lab button has the documented case and stable run",
+      "passed": true,
+      "detail": [
+        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=resume&run=resume-check"
+      ]
+    },
+    {
+      "name": "lab-rating-resume: lab button has the documented case and stable run",
+      "passed": true,
+      "detail": [
+        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=resume&run=resume-check"
+      ]
+    },
+    {
+      "name": "lab-multi-tab: lab button has the documented case and stable run",
+      "passed": true,
+      "detail": [
+        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=resume&run=resume-check"
+      ]
+    },
+    {
+      "name": "lab-delivery-retry: lab button has the documented case and stable run",
+      "passed": true,
+      "detail": [
+        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=delivery&run=delivery-check"
+      ]
+    },
+    {
+      "name": "lab-reset-scope: lab button has the documented case and stable run",
+      "passed": true,
+      "detail": [
+        "https://drag-survey-device-lab.rubyball4.chatgpt.site/?case=consent&run=consent-check"
+      ]
+    },
+    {
+      "name": "lab reference exception rejects other origins, paths, cases, runs and extra parameters",
       "passed": true
     },
     {
@@ -1357,6 +1499,118 @@
       "passed": true
     },
     {
+      "name": "lab-consent-success: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "lab-consent-success: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "lab-consent-success: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "lab-consent-success: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "lab-consent-failure: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "lab-consent-failure: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "lab-consent-failure: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "lab-consent-failure: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "lab-tutorial-resume: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "lab-tutorial-resume: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "lab-tutorial-resume: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "lab-tutorial-resume: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "lab-rating-resume: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "lab-rating-resume: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "lab-rating-resume: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "lab-rating-resume: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "lab-multi-tab: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "lab-multi-tab: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "lab-multi-tab: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "lab-multi-tab: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "lab-delivery-retry: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "lab-delivery-retry: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "lab-delivery-retry: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "lab-delivery-retry: pending button changes current record",
+      "passed": true
+    },
+    {
+      "name": "lab-reset-scope: passed button changes current record",
+      "passed": true
+    },
+    {
+      "name": "lab-reset-scope: issue button changes current record",
+      "passed": true
+    },
+    {
+      "name": "lab-reset-scope: hold button changes current record",
+      "passed": true
+    },
+    {
+      "name": "lab-reset-scope: pending button changes current record",
+      "passed": true
+    },
+    {
       "name": "status/note survive reload",
       "passed": true
     },
@@ -1449,7 +1703,15 @@
       "passed": true
     },
     {
+      "name": "#groupFilter 同意・保存・再開の実機確認: nonempty matching subset",
+      "passed": true
+    },
+    {
       "name": "#modeFilter preview: nonempty matching subset",
+      "passed": true
+    },
+    {
+      "name": "#modeFilter lab: nonempty matching subset",
       "passed": true
     },
     {
@@ -1769,6 +2031,26 @@
       "passed": true
     },
     {
+      "name": "legacy fixture represents the 72 checks before the seven lab checks were added",
+      "passed": true
+    },
+    {
+      "name": "pre-lab record imports without losing the existing browser record",
+      "passed": true
+    },
+    {
+      "name": "pre-lab record keeps every old status, note and environment",
+      "passed": true
+    },
+    {
+      "name": "seven newly added lab checks remain unverified after importing an old record",
+      "passed": true
+    },
+    {
+      "name": "old imported record and pending new lab checks survive reload",
+      "passed": true
+    },
+    {
       "name": "storage rejection keeps tool usable",
       "passed": true
     },
@@ -1830,16 +2112,16 @@
   "errors": [],
   "unexpectedRequests": [],
   "source": {
-    "checklist.html": "57b23e2629abd3d683e44b771844d5eb90fcaeff529ab52a601940769d931725",
-    "checklist.js": "9a724c5205eca45f5b7d4c49dd4a0ba4c244acca69d33bf131b58d317f1f6d56",
+    "checklist.html": "49cebcace51b10e8c97d9e88aa53d8ef249d797d69650689217e6787e4516313",
+    "checklist.js": "7cea6f00f602ecd73cf3e939b15773e4075f9eca81e4622906419317e8fb88e2",
     "checklist.css": "0bc23551f28cf178db1ef355a4aba9f917074dad5069620e9225c0b36fc75288",
-    "device-checks-data.js": "751a48bb2515ed4a9b10aefe8e7d479461f21dc46f68700ce1859e616c97a5ca"
+    "device-checks-data.js": "b67a7e249062a6487ab24b304c010916e479e3be6e6d0018e1629f40081737ce"
   },
   "sourceBefore": {
-    "checklist.html": "57b23e2629abd3d683e44b771844d5eb90fcaeff529ab52a601940769d931725",
-    "checklist.js": "9a724c5205eca45f5b7d4c49dd4a0ba4c244acca69d33bf131b58d317f1f6d56",
+    "checklist.html": "49cebcace51b10e8c97d9e88aa53d8ef249d797d69650689217e6787e4516313",
+    "checklist.js": "7cea6f00f602ecd73cf3e939b15773e4075f9eca81e4622906419317e8fb88e2",
     "checklist.css": "0bc23551f28cf178db1ef355a4aba9f917074dad5069620e9225c0b36fc75288",
-    "device-checks-data.js": "751a48bb2515ed4a9b10aefe8e7d479461f21dc46f68700ce1859e616c97a5ca"
+    "device-checks-data.js": "b67a7e249062a6487ab24b304c010916e479e3be6e6d0018e1629f40081737ce"
   },
   "appAssetsBefore": {
     "index.html": "0bfe6ce03394e80037fef067059c20c14a9d1ea31eb86dfb4394c0206d9d1357",
@@ -1907,7 +2189,7 @@
   ],
   "passed": true,
   "totals": {
-    "passed": 447,
+    "passed": 504,
     "failed": 0
   }
 }
