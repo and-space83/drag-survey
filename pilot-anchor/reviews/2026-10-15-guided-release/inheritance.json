@@ -1376,7 +1376,7 @@
       "caveat": "desktop合成イベントでSafari拡大防止を保証しない。",
       "status": "partial",
       "evidence": [
-        "static-tap-results.json［staticTap］: 代表本文/余白/disabledで2連打を取消しChrome viewport不変。43 pass、最終ソースより前の時点。",
+        "static-tap-results.json［staticTap］: 代表本文/余白/disabledで2連打を取消しChrome viewport不変。43 pass、最終ui20ソースで再実行。",
         "未確認: 新全説明/quiz/評定/完了の全領域を網羅しておらず、Safari実smart zoomは未確認。",
         "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
       ],

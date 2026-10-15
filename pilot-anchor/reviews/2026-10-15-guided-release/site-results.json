@@ -1,5 +1,5 @@
 {
-  "at": "2026-10-15T02:29:28.903Z",
+  "at": "2026-10-15T02:33:20.916Z",
   "scope": "比較サイトのリンク・3寸法・読み込み・送信先null。実機操作や保存互換は対象外。",
   "checks": [
     {
@@ -233,9 +233,9 @@
   "unexpectedRequests": [],
   "source": {
     "index.html": "1ea2cb49aa4c21e09bf40c719c1fdac2a04254fac1d8f53ab80901ef926da5f1",
-    "review.js": "9db45981e1b47a1273bc965348fe6b5b0cc516a6b3b7592f909d8adacb469844",
+    "review.js": "84c7f62eb2f1bde69cdb26e69f027ea86eef26c70c678d86f5fdfd6768ccbd6a",
     "review.css": "e4d8b693d10faf4e3e46285c8a39f484648548b534bd98bf1bfd05ab0b885957",
-    "inheritance.json": "131f4f0a3554598aa68bd26259ad1363473c9eded67d3a12e86d0ce74b627a14"
+    "inheritance.json": "95031b1069f383530bb90d9941c66e1e1fa52771e8996678f5c2628a746e155e"
   },
   "afterSource": {
     "index.html": "0bfe6ce03394e80037fef067059c20c14a9d1ea31eb86dfb4394c0206d9d1357",

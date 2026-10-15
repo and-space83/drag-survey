@@ -56,7 +56,7 @@ byId('beforeAdvance').onclick=async()=>{
 };
 function renderAudits(){
  const group=byId('group').value,status=byId('status').value,show=audits.filter(item=>(!group||item.group===group)&&(!status||item.status===status));
- byId('auditList').replaceChildren();byId('auditCount').textContent=audits.length+'機能 · Chrome動作確認 '+audits.filter(i=>i.status==='passed').length+' · 未確認 '+audits.filter(i=>i.status==='not_verified').length;
+ byId('auditList').replaceChildren();byId('auditCount').textContent=audits.length+'機能 · Chrome確認済み '+audits.filter(i=>i.status==='passed').length+' · 一部確認 '+audits.filter(i=>i.status==='partial').length+' · 実機未確認 '+audits.filter(i=>i.verification?.physicalStatus==='not_verified').length;
  for(const item of show){const card=document.createElement('article');card.className='audit-card';
  const head=document.createElement('div');head.className='audit-head';const title=document.createElement('div');const small=document.createElement('small');small.textContent=item.group+' · '+item.id;const h=document.createElement('h3');h.textContent=item.title;title.append(small,h);const badge=document.createElement('span');badge.className='badge status-'+item.status;badge.textContent=statusLabels[item.status]||item.status;head.append(title,badge);card.append(head);
  const columns=document.createElement('div');columns.className='audit-columns';for(const [label,value] of [['変更前の機能',item.before],['変更後に満たす条件',item.requiredAfter]]){const column=document.createElement('div'),strong=document.createElement('strong'),p=document.createElement('p');strong.textContent=label;p.textContent=value;column.append(strong,p);columns.append(column);}card.append(columns);
@@ -68,4 +68,3 @@ function renderAudits(){
 byId('group').onchange=renderAudits;byId('status').onchange=renderAudits;
 fetch('inheritance.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('監査データを読み込めません');return r.json();}).then(data=>{audits=data.items;for(const group of [...new Set(audits.map(i=>i.group))]){const o=document.createElement('option');o.value=group;o.textContent=group;byId('group').append(o);}renderAudits();}).catch(e=>{byId('auditCount').textContent=e.message;});
 loadFrames();
-
