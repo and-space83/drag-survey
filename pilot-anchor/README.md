@@ -79,7 +79,7 @@
 
 指を選択肢の手前で離す等の無効ドラッグも、理由・座標・時刻・同じ問題での試行番号を `invalidAttempts` に保持する。有効回答の `trials` とは分け、再開時にも保存済みの点列を引き継ぐ。OS終了直前の未保存部分まで取得できる保証はない。
 
-配布物は `index.html`・`app.css`・`bank.js`・`session-store.js`・`durable-storage.js`・`storage-worker.js`・`staged-delivery.js`・`consent.js`・`consent.css`・`data-codec.js` と `vendor/`。更新時は旧版のタブを閉じてから開き直す。旧保存形式は元データを保全しながら移行する。先にGAS受け口を更新し、3段階方式を確認してから静的サイトを更新する。GASはエディタ保存だけでなく、既存デプロイの新バージョンへの切り替えが必要。
+配布物は `index.html`・`app.css`・`guided-tutorial.js`・`guided-tutorial.css`・`bank.js`・`session-store.js`・`durable-storage.js`・`storage-worker.js`・`staged-delivery.js`・`consent.js`・`consent.css`・`data-codec.js` と `js/`・`css/`・`vendor/`。開発元の `lib/app-source.cjs` が列挙する一式をそろえる。`js/app.js` が実験全体を接続し、`js/trial-recorder.js` が計測、`js/runtime-guards.js` が共通ガード、`js/tutorial-controller.js` が教示の進行・保存再開、`js/tutorial-view.js` / `js/tutorial-visuals.js` が表示と実演を担当する。更新時は旧版のタブを閉じてから開き直す。旧保存形式は元データを保全しながら移行する。先にGAS受け口を更新し、3段階方式を確認してから静的サイトを更新する。GASはエディタ保存だけでなく、既存デプロイの新バージョンへの切り替えが必要。
 
 ## このアプリの目的
 
@@ -146,7 +146,7 @@
 | `?minread=0` | ON | 説明ページの最小読了時間 (速すぎる「次へ」は進めず注意。2026-09-12) を無効化 = **開発専用・配布URL禁止** |
 | `?upload=0` | — | 自動送信を無効化 (デモ・検証で Drive にゴミを送らない) |
 | `?debug=1` | — | `window.__pilot` 露出 + 軌道CSVボタン表示 (自動テスト用) |
-| `CONFIG.contactEmail` | 設定値を参照 | index.html の設定。入れると完了画面に「メールで送信する」(mailto に完了コードと名前) が出る |
+| `CONFIG.contactEmail` | 設定値を参照 | js/app.js の設定。入れると完了画面に「メールで送信する」(mailto に完了コードと名前) が出る |
 | `?instr=0` | moral を含むクラウド配布で追加10問 | 教示誘導ブロックを無効化 (開発用)。kiosk / stop では既定OFF |
 | `?study=` / `?cohort=` | — | Drive の保存先サブフォルダ `pilot-anchor-data/<study または cohort>/`。本実験は `study=main` |
 | `?devguard=0` / `?devmin=N` | ON / 812 | **機種ガード**: iPhone判定と画面の高さ ≥ N CSS px・幅 ≥ 375 の両方を要求する。iPadは上記の対面専用リンクだけ例外。対象外端末は最初の画面で終了を案内する。`devguard=0` で無効 (検証用)、`devmin=844` で 12/13 mini も除外 |

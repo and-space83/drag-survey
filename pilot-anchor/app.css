@@ -25,13 +25,6 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif; }
   body { position: fixed; inset: 0; background: var(--bg); color: var(--ink);
     -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
-  /* 全要素にダブルタップ拡大防止を指定する (manipulation は通常のtap/clickを保つ)。
-     Safariの非操作領域ではCSSだけで効かない場合があるため、本文・余白・無効ボタンは
-     index.html末尾のtouchend処理でも補完する。動的要素も同じ対象になる。
-     下の .pad / #rating .qwrap の pan-y と #task / #surface の none は優先され、
-     必要な縦スクロールとドラッグ中のブラウザ操作抑止を維持する。 */
-  * { touch-action: manipulation; }
-
   .screen { position: absolute; inset: 0; display: none; flex-direction: column; }
   .screen.active { display: flex; }
   /* 読み上げ用に自動フォーカスする見出しは操作部品ではないため、枠を表示しない。 */
