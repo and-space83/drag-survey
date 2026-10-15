@@ -366,9 +366,9 @@ window.PILOT_GUIDED_TUTORIAL.createTimeDemo=function({container}){
   const contacted=s.phase!=='idle'||s.reduced,exited=contacted&&p.y<bounds.y;
   s.finger=p;s.exited=exited;s.contacted=contacted;
   setHand(finger,p,alpha);setHand(ghost,from,s.reduced ? .42 : 0);
-  button.classList.toggle('armed',(contacted&&s.phase!=='reset')||s.reduced);
-  buttonText.classList.toggle('armed',(contacted&&s.phase!=='reset')||s.reduced);
-  buttonText.textContent=(s.phase==='idle'||s.phase==='reset')&&!s.reduced?'スタート':'→';
+  button.classList.toggle('armed',contacted);
+  buttonText.classList.toggle('armed',contacted);
+  buttonText.textContent=s.phase==='idle'&&!s.reduced?'スタート':'→';
   ring.setAttribute('cx',String(p.x));ring.setAttribute('cy',String(p.y));
   ring.setAttribute('r',String(exited?14+(!s.reduced&&s.phase==='exit'?2*Math.sin(t*Math.PI):0):12));
   ring.setAttribute('opacity',String(!contacted?0:exited?alpha:.45));
