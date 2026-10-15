@@ -65,7 +65,11 @@ async function suite(size){
  await p.locator('#pid').fill('画面確認用');await p.locator('#age').fill('30');await p.locator('#devModel').fill('iPhone（撮影用）');await tap('#sexSeg [data-val="na"]');await tap('#handSeg [data-val="right"]');await p.locator('#pid').blur();await capScroll('entry-ready','あなたについて — 入力済み','entry',110,'入力はすべて撮影用の架空データ。');await tap('#goPractice');
  await capScroll('consent-document','研究説明と協力承諾書','consent',200,'文書枠内の全文を末尾まで撮影。','通常の進行','#consentDocument');
  await p.locator('#consentDocument').evaluate(e=>e.scrollTop=e.scrollHeight);await sleep(100);await shot('consent-read','研究説明 — 末尾まで読んだ状態','consent',210,'末尾まで進むと同意チェックが有効。');await p.locator('#consentCheck').check();await shot('consent-checked','研究説明 — 同意チェック済み','consent',220);await p.locator('#consentGo').click();await p.waitForSelector('#consent-save.active');await shot('consent-saving','同意情報を保存しています','consent',230,'ローカル模擬受領応答の待機画面。');await p.waitForFunction(()=>__pilot.activeScreen()==='reading');if(consentRefresh)return;
- await shot('reading-intro','読む速さの計測 — 説明','reading',300);await tap('#readDone');for(let i=1;i<=4;i++){await shot('reading-'+i,'読む速さの計測 — 文章 '+i+' / 4','reading',310+i);await p.clock.fastForward(4000);await tap('#readDone');}
+ await shot('reading-intro','読む速さの計測 — 説明','reading',300);
+ // Pause before timed reading and the tutorial deadline are created. A future
+ // target also avoids the protocol round-trip racing a running page clock.
+ await p.clock.pauseAt(await p.evaluate(()=>Date.now()+60000));screenshotClockHeld=true;
+ await tap('#readDone');for(let i=1;i<=4;i++){await shot('reading-'+i,'読む速さの計測 — 文章 '+i+' / 4','reading',310+i);await p.clock.fastForward(4000);await tap('#readDone');}
  const tutorialSteps=await p.evaluate(()=>PILOT_GUIDED_TUTORIAL.steps.map(s=>({id:s.id,title:s.title,kind:s.kind})));
  report.verification.tutorialStepIds=tutorialSteps.map(s=>s.id);
  for(let i=0;i<tutorialSteps.length;i++){
@@ -84,8 +88,7 @@ async function suite(size){
      }
      continue;
    }
-   // Keep screenshot I/O from consuming the very reading deadline being checked.
-   if(i===0){await p.clock.pauseAt(await p.evaluate(()=>Date.now()));screenshotClockHeld=true;}
+   // The clock is already paused, so screenshot I/O cannot consume this deadline.
    await shot('tutorial-'+step.id,step.title,'tutorial',base,step.kind==='motor'?'ここから本人がスタートからボックスまで運ぶ操作を試します。':step.kind==='demo'||step.id==='motor-range'?'見本を見る画面です。本人は操作せず、読んだら「次へ」で進みます。':'説明を読み、ページ送りで1項目ずつ確認します。');
    if(i===0){await tap('#tutPopNext');await shot('tutorial-read-wait','説明を読む前に「次へ」を押した場合','tutorial',base+.01,'読了待機中は同じ説明に留まり、短い案内を表示します。','初回の読了待機中に「次へ」を押した場合');if(await p.evaluate(()=>__pilot.helpState().drag.stepId!=='layout-intro'))throw Error('Initial reading wait did not hold');screenshotClockHeld=false;await p.clock.resume();}
    if(step.id==='motor-route'){await p.clock.runFor(1200);await shot('tutorial-motor-route-moving','操作の見本 — 指を離さずに運ぶ途中','tutorial',base+.1,'経路を変えながら繰り返す見本。道すじは自由という文を初めから表示。');await p.clock.runFor(4000);await shot('tutorial-motor-route-another','操作の見本 — 別の道すじ','tutorial',base+.2,'複数の曲線の一例。見本の速度や道すじをまねする指示ではありません。');}

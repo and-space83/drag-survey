@@ -1,10 +1,10 @@
 {
-  "checkedAt": "2026-10-15T12:02:46.386Z",
+  "checkedAt": "2026-10-15T13:32:26.610Z",
   "toVersion": "2026-10-15-ui20",
   "sourceSha256LF": {
-    "index.html": "c96a13a2117f895945f6cc295121143e8bbeecac6df0cf308a77d747a670d735",
+    "index.html": "e3e2aedaccaae98893e400d7e727ea2496884c6df2163f94edeb648079015777",
     "app.css": "2a55dac2607fe78a57674b1b4e61551dbc40e782a2fff6238b26f21efcb28e27",
-    "guided-tutorial.js": "ddc7896e7c8777584cb9c379501979877ecb1568225b46649959a1ed501a07f5",
+    "guided-tutorial.js": "231ce70f1a01fa178e43616db65c691e7fe0317853762d81a4a7e82e88871c26",
     "guided-tutorial.css": "54e56698da645dfdd4dc425ec3a127d6c7751987f369e058692c93b7c1918853",
     "bank.js": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
     "session-store.js": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
@@ -47,7 +47,7 @@
     }
   },
   "verification": "data/verification.json",
-  "publicationStatus": "matched",
+  "publicationStatus": "not verified",
   "publication": "data/publication.json",
   "flowCoverage": {
     "tutorialStepIds": [

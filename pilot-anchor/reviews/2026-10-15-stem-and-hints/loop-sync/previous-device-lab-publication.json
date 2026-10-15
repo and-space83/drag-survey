@@ -1,0 +1,253 @@
+{
+  "checkedAt": "2026-10-15T11:54:29.182Z",
+  "url": "https://drag-survey-device-lab.rubyball4.chatgpt.site",
+  "projectId": "appgprj_6ad09558f6908191a501fb9f70b12336",
+  "versionId": "appgprj_6ad09558f6908191a501fb9f70b12336~appgver_d03981160254819196107e6b28785b66",
+  "deploymentId": "appgdep_6ad0bdbc105c8191b1cabc08c026fbe6",
+  "commitSha": "4e8fe0b8bf145aeacf537e333f4eb8ead734a6f1",
+  "audience": "owner-only",
+  "separateOrigin": true,
+  "collector": "browser-only simulation; no GAS or Drive requests",
+  "checks": [
+    {
+      "file": "app/app.css",
+      "status": 200,
+      "expectedSha256": "2a55dac2607fe78a57674b1b4e61551dbc40e782a2fff6238b26f21efcb28e27",
+      "actualSha256": "2a55dac2607fe78a57674b1b4e61551dbc40e782a2fff6238b26f21efcb28e27",
+      "match": true,
+      "sourcePreserved": true
+    },
+    {
+      "file": "app/bank.js",
+      "status": 200,
+      "expectedSha256": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
+      "actualSha256": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
+      "match": true,
+      "sourcePreserved": true
+    },
+    {
+      "file": "app/consent.css",
+      "status": 200,
+      "expectedSha256": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
+      "actualSha256": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
+      "match": true,
+      "sourcePreserved": true
+    },
+    {
+      "file": "app/consent.js",
+      "status": 200,
+      "expectedSha256": "339a27d039090dd7363a0ce7e8d2a87a1feb66a8a288319f193c096066de620b",
+      "actualSha256": "339a27d039090dd7363a0ce7e8d2a87a1feb66a8a288319f193c096066de620b",
+      "match": true,
+      "sourcePreserved": true
+    },
+    {
+      "file": "app/data-codec.js",
+      "status": 200,
+      "expectedSha256": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+      "actualSha256": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+      "match": true,
+      "sourcePreserved": true
+    },
+    {
+      "file": "app/durable-storage.js",
+      "status": 200,
+      "expectedSha256": "fcbdade15892c887e6d0886b0878f4cc70126f27cde2bfdf9d1e64267235c004",
+      "actualSha256": "fcbdade15892c887e6d0886b0878f4cc70126f27cde2bfdf9d1e64267235c004",
+      "match": true,
+      "sourcePreserved": true
+    },
+    {
+      "file": "app/guided-tutorial.css",
+      "status": 200,
+      "expectedSha256": "54e56698da645dfdd4dc425ec3a127d6c7751987f369e058692c93b7c1918853",
+      "actualSha256": "54e56698da645dfdd4dc425ec3a127d6c7751987f369e058692c93b7c1918853",
+      "match": true,
+      "sourcePreserved": true
+    },
+    {
+      "file": "app/guided-tutorial.js",
+      "status": 200,
+      "expectedSha256": "ddc7896e7c8777584cb9c379501979877ecb1568225b46649959a1ed501a07f5",
+      "actualSha256": "ddc7896e7c8777584cb9c379501979877ecb1568225b46649959a1ed501a07f5",
+      "match": true,
+      "sourcePreserved": true
+    },
+    {
+      "file": "app/index.html",
+      "status": 200,
+      "expectedSha256": "80a7b0278ce65030df7b54a2cfc741b6a71422e3b9faa982da6d1d87652b370f",
+      "actualSha256": "3010ab9510b138aa1322198e74615a86ddf7652e08eb9f53bebc7e200f7cc221",
+      "match": false,
+      "sourcePreserved": true,
+      "headPreserved": true,
+      "bodyPreserved": true,
+      "hostingInsertionBytes": 938
+    },
+    {
+      "file": "app/session-store.js",
+      "status": 200,
+      "expectedSha256": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+      "actualSha256": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+      "match": true,
+      "sourcePreserved": true
+    },
+    {
+      "file": "app/staged-delivery.js",
+      "status": 200,
+      "expectedSha256": "e7af387be6c7902f7d36f3832d5252a84e2649d35451c9aaca255d2012c19876",
+      "actualSha256": "e7af387be6c7902f7d36f3832d5252a84e2649d35451c9aaca255d2012c19876",
+      "match": true,
+      "sourcePreserved": true
+    },
+    {
+      "file": "app/storage-worker.js",
+      "status": 200,
+      "expectedSha256": "cdfd77a6ddffeb2a1d7d4de93bd016c16f300563249474a9b7095ee0743bc698",
+      "actualSha256": "cdfd77a6ddffeb2a1d7d4de93bd016c16f300563249474a9b7095ee0743bc698",
+      "match": true,
+      "sourcePreserved": true
+    },
+    {
+      "file": "app/vendor/pako-LICENSE",
+      "status": 200,
+      "expectedSha256": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539",
+      "actualSha256": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539",
+      "match": true,
+      "sourcePreserved": true
+    },
+    {
+      "file": "app/vendor/pako.min.js",
+      "status": 200,
+      "expectedSha256": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+      "actualSha256": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+      "match": true,
+      "sourcePreserved": true
+    },
+    {
+      "file": "build-manifest.json",
+      "status": 200,
+      "expectedSha256": "baadde122d4ffa3ac3bb8e30b990ed3746915f1b2515b45a4e36063a35107ac0",
+      "actualSha256": "baadde122d4ffa3ac3bb8e30b990ed3746915f1b2515b45a4e36063a35107ac0",
+      "match": true,
+      "sourcePreserved": true
+    },
+    {
+      "file": "index.html",
+      "status": 200,
+      "expectedSha256": "7ce674570c72ff01ec7140100b5ae481a49781957a2b6d74201114e4f30f2931",
+      "actualSha256": "8b9c11f7cdb5de4f52a22532732785ba5dc8e4b0334962744c19f80d1a7c53d2",
+      "match": false,
+      "sourcePreserved": true,
+      "headPreserved": true,
+      "bodyPreserved": true,
+      "hostingInsertionBytes": 938
+    },
+    {
+      "file": "lab-control.css",
+      "status": 200,
+      "expectedSha256": "7d686a9f3c6aa074c08bbbe0999714631e6e48ed879d8884bac8376741fa563a",
+      "actualSha256": "7d686a9f3c6aa074c08bbbe0999714631e6e48ed879d8884bac8376741fa563a",
+      "match": true,
+      "sourcePreserved": true
+    },
+    {
+      "file": "lab-control.js",
+      "status": 200,
+      "expectedSha256": "70f1296ace233762a677815c106a412085275343d055172005df0c034bd72213",
+      "actualSha256": "70f1296ace233762a677815c106a412085275343d055172005df0c034bd72213",
+      "match": true,
+      "sourcePreserved": true
+    },
+    {
+      "file": "lab-runtime.js",
+      "status": 200,
+      "expectedSha256": "a75e317c92968f8f92d1ae21346a1f9f404a22eaa91b71c37f71b8f5ceae9435",
+      "actualSha256": "a75e317c92968f8f92d1ae21346a1f9f404a22eaa91b71c37f71b8f5ceae9435",
+      "match": true,
+      "sourcePreserved": true
+    }
+  ],
+  "browserChecks": [
+    {
+      "name": "published normal consent fixture loads",
+      "pass": true
+    },
+    {
+      "name": "tutorial reaches actual motor practice",
+      "pass": true
+    },
+    {
+      "name": "stem corners use the approved 14px radius",
+      "pass": true
+    },
+    {
+      "name": "warning is halfway between target and start",
+      "pass": true,
+      "detail": {
+        "targetBottom": 359.828125,
+        "startTop": 556,
+        "hintTop": 435.40625,
+        "hintBottom": 480.40625,
+        "center": 457.90625,
+        "expected": 457.9140625,
+        "text": "選択肢のボックスの中で指を離してください\nスタートボタンからもう一度"
+      }
+    },
+    {
+      "name": "no external requests or page errors",
+      "pass": true,
+      "detail": {
+        "external": [],
+        "errors": []
+      }
+    },
+    {
+      "name": "updated time demonstration is reached in the saved normal flow",
+      "pass": true
+    },
+    {
+      "name": "explanation stays above enlarged diagram without fixed sequence copy",
+      "pass": true,
+      "detail": {
+        "cardBottom": 288.875,
+        "figureTop": 306.875,
+        "viewBox": "70 0 200 180",
+        "oldSequence": false
+      }
+    },
+    {
+      "name": "touch label appears before exit label",
+      "pass": true
+    },
+    {
+      "name": "both labels appear after leaving the frame",
+      "pass": true
+    },
+    {
+      "name": "labels remain visible during reset",
+      "pass": true
+    },
+    {
+      "name": "both labels clear before the next contact",
+      "pass": true
+    },
+    {
+      "name": "time demo produces no external requests or JavaScript errors",
+      "pass": true,
+      "detail": {
+        "external": [],
+        "errors": []
+      }
+    },
+    {
+      "name": "published physical landscape overrides fixed portrait screen and zoom guidance",
+      "pass": true
+    },
+    {
+      "name": "published portrait return clears physical rotation guard",
+      "pass": true
+    }
+  ],
+  "passed": true
+}

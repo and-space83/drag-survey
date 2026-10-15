@@ -215,7 +215,7 @@ index 0000000..b2c8339
 +.start-exit-demo .start-exit-label,.start-exit-demo .start-exit-touch-label{fill:#12855a;font-size:13px;font-weight:700;opacity:0}
 diff --git a/tools/pilot-anchor/guided-tutorial.js b/tools/pilot-anchor/guided-tutorial.js
 new file mode 100644
-index 0000000..ccfc3da
+index 0000000..48732c8
 --- /dev/null
 +++ b/tools/pilot-anchor/guided-tutorial.js
 @@ -0,0 +1,769 @@
@@ -587,9 +587,9 @@ index 0000000..ccfc3da
 +  const contacted=s.phase!=='idle'||s.reduced,exited=contacted&&p.y<bounds.y;
 +  s.finger=p;s.exited=exited;s.contacted=contacted;
 +  setHand(finger,p,alpha);setHand(ghost,from,s.reduced ? .42 : 0);
-+  button.classList.toggle('armed',(contacted&&s.phase!=='reset')||s.reduced);
-+  buttonText.classList.toggle('armed',(contacted&&s.phase!=='reset')||s.reduced);
-+  buttonText.textContent=(s.phase==='idle'||s.phase==='reset')&&!s.reduced?'スタート':'→';
++  button.classList.toggle('armed',contacted);
++  buttonText.classList.toggle('armed',contacted);
++  buttonText.textContent=s.phase==='idle'&&!s.reduced?'スタート':'→';
 +  ring.setAttribute('cx',String(p.x));ring.setAttribute('cy',String(p.y));
 +  ring.setAttribute('r',String(exited?14+(!s.reduced&&s.phase==='exit'?2*Math.sin(t*Math.PI):0):12));
 +  ring.setAttribute('opacity',String(!contacted?0:exited?alpha:.45));
@@ -989,7 +989,7 @@ index 0000000..ccfc3da
 +  return { run, abort, snapshot, schema: SCHEMA, state: () => ({ index: idx, stepId: current()?.id || null, schema: SCHEMA, review: replay, instructed: steps === INSTRUCTED_STEPS, lockRemainingMs: Math.max(0, lockUntil - performance.now()), handsDone: completed.has('motor'), pending: !!row && row.classList.contains('pending'), quiz: { index: quizIndex, passed: passes(), selections: [...selections], orders: orders.map(a => a.slice()), attempts: [...attempts], complete: passes().every(Boolean) }, completedTraining: trainingComplete }) };
 +};
 diff --git a/tools/pilot-anchor/index.html b/tools/pilot-anchor/index.html
-index b02688a..1811007 100644
+index b02688a..aa3ee74 100644
 --- a/tools/pilot-anchor/index.html
 +++ b/tools/pilot-anchor/index.html
 @@ -31 +31,4 @@
@@ -1088,7 +1088,7 @@ index b02688a..1811007 100644
 @@ -541 +567,2 @@
 -<script src="bank.js"></script>
 +<script src="bank.js?v=2026-10-15-ui18"></script>
-+<script src="guided-tutorial.js?v=2026-10-15-ui20-stem-hints1"></script>
++<script src="guided-tutorial.js?v=2026-10-15-ui20-loop-sync1"></script>
 @@ -646 +673 @@
 -  const STOPPABLE = { task: 1, rating: 1, break: 1, blockintro: 1, reading: 1, notice: 1 };   // 中断ボタンを出す画面
 +  const STOPPABLE = { task: 1, rating: 1, break: 1, blockintro: 1, reading: 1, notice: 1, practicecheck: 1, guidedintro: 1 };   // 中断ボタンを出す画面

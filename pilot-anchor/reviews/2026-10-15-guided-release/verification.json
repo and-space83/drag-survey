@@ -103,14 +103,13 @@
     "researchDecision": "77facbe"
   },
   "latestPatch": {
-    "id": "2026-10-15-ui20-stem-hints-and-demos",
-    "baseVersion": "2026-10-15-ui20",
-    "checkedAt": "2026-10-15T11:55:57.144Z",
-    "scope": "問題文の角丸、本人操作の注意位置、説明と図の順序、初動説明の図と接触表示、および横向き判定補修のChromeタッチ表示の回帰検証。初回ui20の全検証は上のsource/testsと対応させて保持する。",
+    "id": "2026-10-15-ui20-loop-sync1",
+    "version": "2026-10-15-ui20",
+    "checkedAt": "2026-10-15T13:43:51.574Z",
     "source": {
-      "index.html": "c96a13a2117f895945f6cc295121143e8bbeecac6df0cf308a77d747a670d735",
+      "index.html": "e3e2aedaccaae98893e400d7e727ea2496884c6df2163f94edeb648079015777",
       "app.css": "2a55dac2607fe78a57674b1b4e61551dbc40e782a2fff6238b26f21efcb28e27",
-      "guided-tutorial.js": "ddc7896e7c8777584cb9c379501979877ecb1568225b46649959a1ed501a07f5",
+      "guided-tutorial.js": "231ce70f1a01fa178e43616db65c691e7fe0317853762d81a4a7e82e88871c26",
       "guided-tutorial.css": "54e56698da645dfdd4dc425ec3a127d6c7751987f369e058692c93b7c1918853",
       "bank.js": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
       "session-store.js": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
@@ -124,92 +123,35 @@
       "vendor/pako-LICENSE": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539"
     },
     "changes": [
-      "問題文の角を14pxにする。部品寸法は維持。",
-      "本人操作の注意を選択肢とスタートの縦の余白の中央へ置く。",
-      "枠内で離す見本・3秒の実演を説明の下へ置き、画面高に合わせて収める。",
-      "初動説明の図を拡大し、接触・枠外の緑ラベルと接触前300msを示す。次ループ開始で両表示を消す。",
-      "横向きでは縦に戻す案内を優先し、キーボード表示中の高さ変化と物理回転を区別する。"
+      "実演のreset中も矢印と緑色を維持し、2ラベルを消すidleのフレームで通常色のスタートへ戻す。0.3秒の待機と他のタイミング、配置は維持。"
     ],
     "evidence": [
       {
-        "command": "node tools/pilot-anchor/reviews/2026-10-15-stem-and-hints/test-stem-and-hints.cjs",
-        "record": "../2026-10-15-stem-and-hints/results.json",
-        "passed": 333,
-        "failed": 0,
-        "images": 42,
-        "scope": "3サイズのbefore/after、実タッチ・座標/時刻と部品寸法、警告の位置/4秒/開始/移動/resize消去、説明/図/ナビの配置、初動の実ループ、range canvasのresizeと実経路。"
-      },
-      {
-        "command": "node tools/pilot-anchor/reviews/2026-10-15-guided-release/test-device-checklist.cjs",
-        "record": "device-checklist-results.json",
-        "passed": 206,
-        "failed": 0,
-        "checkedAt": "2026-10-15T11:49:58.111Z",
-        "scope": "iPhone Safari向け14項目の管理UIと、旧72/79項目の保管・読込・書出し。新項目は未確認、旧項目は一覧/検索/進捗から除外。"
-      },
-      {
-        "command": "node tools/pilot-anchor/reviews/2026-10-15-stem-and-hints/test-reduced-motion.cjs",
-        "record": "../2026-10-15-stem-and-hints/reduced-motion-results.json",
-        "passed": 33,
-        "failed": 0,
-        "images": 6,
-        "scope": "3サイズ×2実演のprefers-reduced-motion静止fallback、接触/枠外ラベルと元位置の表示、図と説明/ナビの収まり。",
-        "checkedAt": "2026-10-15T11:46:43.690Z"
-      },
-      {
-        "command": "STEM_RANGE_ONLY=1 node tools/pilot-anchor/reviews/2026-10-15-stem-and-hints/test-stem-and-hints.cjs",
-        "record": "../2026-10-15-stem-and-hints/range-resize-results.json",
-        "passed": 48,
-        "failed": 0,
-        "scope": "resize処理完了後のサンプルだけを観測。3サイズの拡大/元サイズ復帰で実canvas/親寸法/DPR一致、release点が新target内、説明/図/ナビの収まり。"
+        "command": "node tools/pilot-anchor/reviews/2026-10-15-stem-and-hints/test-loop-sync.cjs",
+        "record": "../2026-10-15-stem-and-hints/loop-sync-results.json",
+        "passed": 65,
+        "failed": 0
       },
       {
         "command": "node tools/pilot-anchor/validate.js",
-        "record": "../2026-10-15-stem-and-hints/full-validation-results.json",
-        "log": "../2026-10-15-stem-and-hints/full-validation.txt",
+        "record": "../2026-10-15-stem-and-hints/loop-sync/full-validation-results.json",
+        "log": "../2026-10-15-stem-and-hints/loop-sync/full-validation.txt",
         "passed": 889,
         "failed": 0,
-        "sourceFinal": true,
         "sourceStable": true,
-        "logSha256": "580a2f980f5681a7e810e57854e87da7277d66f4dd15ec084c8e87ea7b1d2f66"
-      },
-      {
-        "command": "node tools/pilot-anchor/reviews/2026-10-15-stem-and-hints/test-orientation.cjs",
-        "record": "../2026-10-15-stem-and-hints/orientation-results.json",
-        "passed": 30,
-        "failed": 0,
-        "sourceFinal": true,
-        "scope": "Modern and legacy orientation APIs, fixed screen dimensions, keyboard, return-to-portrait zoom, interruption of a formal touch response."
-      },
-      {
-        "command": "node tools/pilot-anchor/reviews/2026-10-15-guided-release/test-device-lab.cjs",
-        "record": "../2026-10-15-stem-and-hints/device-lab-latest-results.json",
-        "passed": 82,
-        "failed": 0,
-        "scope": "Final isolated copy: consent, save, resume and simulated delivery; no production collector access."
+        "logSha256": "1436db468672b4237fa6d6741ebc8ff20fb7c144b2bea8b06a388c3e941f507e"
       }
     ],
     "physical": {
       "status": "not_verified",
-      "checklist": "checklist.html?scope=ios14",
-      "note": "Chromeの合成検証とiPhone Safari実機の結果を区別する。"
+      "checklist": "checklist.html?scope=ios14"
     },
-    "changeScope": "横向きでは縦に戻す案内を優先し、キーボードによる高さ変化と区別する。画面向きAPI、従来の向き値、画面/viewportの順で物理回転を判定し、横向き中は拡大案内を抑止する。",
-    "commits": [
-      {
-        "sha": "54822a81ed8575e1dc76e8ba0f270f948a526a46",
-        "message": "問題文を角丸にし操作練習の注意を部品間へ配置"
-      },
-      {
-        "sha": "1d5a243927ddbef0fa473f948cc52ffa5a18e5f8",
-        "message": "説明を先に示し初動の拡大実演と接触表示を改善"
-      },
-      {
-        "sha": "ad329583db32d083c1c46e4a2ca71cca24776051",
-        "message": "横向きを縮小表示と区別し縦向き案内を優先"
-      }
-    ],
-    "publication": "../2026-10-15-stem-and-hints/publication.json",
     "sitePublication": "device-lab-publication.json"
-  }
+  },
+  "patchHistory": [
+    {
+      "id": "2026-10-15-ui20-stem-hints-and-demos",
+      "record": "../2026-10-15-stem-and-hints/loop-sync/previous-patch-verification.json"
+    }
+  ]
 }

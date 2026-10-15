@@ -1,0 +1,42 @@
+{
+  "checkedAt": "2026-10-15T13:30:15.977Z",
+  "projectId": "appgprj_6ad09558f6908191a501fb9f70b12336",
+  "url": "https://drag-survey-device-lab.rubyball4.chatgpt.site",
+  "audience": {
+    "currentUserRole": "owner",
+    "accessMode": "custom",
+    "allowedUsers": [
+      {
+        "role": "owner",
+        "isExternal": false
+      }
+    ],
+    "allowedGroupCount": 0,
+    "externalVisitorCount": 0
+  },
+  "version": {
+    "id": "appgprj_6ad09558f6908191a501fb9f70b12336~appgver_e7b367fb8f5081919e63abea9681dacd",
+    "number": 5,
+    "commitSha": "f731879a8e9a9073d3c03993d86cdc02342323f0",
+    "archive": {
+      "archive_format": "tar",
+      "sediment_file_id": "file_00000000e970820780478c8d197126ba",
+      "content_hash": "sha256:5c5939c5a2dbee69196a48cd247a5da6ac6c2372aa7ad9f391be4b2329035671",
+      "size_bytes": 665600,
+      "file_count": 20
+    }
+  },
+  "deployment": {
+    "id": "appgdep_6ad0c46e81948191bc7aa03a61c60e98",
+    "status": "succeeded",
+    "versionId": "appgprj_6ad09558f6908191a501fb9f70b12336~appgver_e7b367fb8f5081919e63abea9681dacd",
+    "url": "https://drag-survey-device-lab.rubyball4.chatgpt.site",
+    "updatedAt": "2026-10-15T12:18:50.655166+00:00"
+  },
+  "sourceCheckout": "_work/device-lab-site-host",
+  "sourceOnlyChanges": [
+    "dist/app/guided-tutorial.js",
+    "dist/app/index.html",
+    "dist/build-manifest.json"
+  ]
+}

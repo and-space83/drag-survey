@@ -1,10 +1,15 @@
 {
-  "checkedAt": "2026-10-15T11:54:29.182Z",
+  "checkedAt": "2026-10-15T13:29:45.603Z",
+  "patch": "ui20-loop-sync1",
+  "previousPublication": {
+    "path": "../2026-10-15-stem-and-hints/loop-sync/previous-device-lab-publication.json",
+    "sha256": "8b18ab267515bcf1a90f95f9019733ad95d47a9bb3907fabde75ad8c091eb22e"
+  },
   "url": "https://drag-survey-device-lab.rubyball4.chatgpt.site",
   "projectId": "appgprj_6ad09558f6908191a501fb9f70b12336",
-  "versionId": "appgprj_6ad09558f6908191a501fb9f70b12336~appgver_d03981160254819196107e6b28785b66",
-  "deploymentId": "appgdep_6ad0bdbc105c8191b1cabc08c026fbe6",
-  "commitSha": "4e8fe0b8bf145aeacf537e333f4eb8ead734a6f1",
+  "versionId": "appgprj_6ad09558f6908191a501fb9f70b12336~appgver_e7b367fb8f5081919e63abea9681dacd",
+  "deploymentId": "appgdep_6ad0c46e81948191bc7aa03a61c60e98",
+  "commitSha": "f731879a8e9a9073d3c03993d86cdc02342323f0",
   "audience": "owner-only",
   "separateOrigin": true,
   "collector": "browser-only simulation; no GAS or Drive requests",
@@ -68,16 +73,16 @@
     {
       "file": "app/guided-tutorial.js",
       "status": 200,
-      "expectedSha256": "ddc7896e7c8777584cb9c379501979877ecb1568225b46649959a1ed501a07f5",
-      "actualSha256": "ddc7896e7c8777584cb9c379501979877ecb1568225b46649959a1ed501a07f5",
+      "expectedSha256": "231ce70f1a01fa178e43616db65c691e7fe0317853762d81a4a7e82e88871c26",
+      "actualSha256": "231ce70f1a01fa178e43616db65c691e7fe0317853762d81a4a7e82e88871c26",
       "match": true,
       "sourcePreserved": true
     },
     {
       "file": "app/index.html",
       "status": 200,
-      "expectedSha256": "80a7b0278ce65030df7b54a2cfc741b6a71422e3b9faa982da6d1d87652b370f",
-      "actualSha256": "3010ab9510b138aa1322198e74615a86ddf7652e08eb9f53bebc7e200f7cc221",
+      "expectedSha256": "74e99b8ef54ac2939d6e9ba8cc5a57433181452400e0897614d5c03665119e85",
+      "actualSha256": "5862c699c92b430c0b747e7d0d464c3ed5c8d46c05ddf2fd9db3f27cc863715d",
       "match": false,
       "sourcePreserved": true,
       "headPreserved": true,
@@ -127,8 +132,8 @@
     {
       "file": "build-manifest.json",
       "status": 200,
-      "expectedSha256": "baadde122d4ffa3ac3bb8e30b990ed3746915f1b2515b45a4e36063a35107ac0",
-      "actualSha256": "baadde122d4ffa3ac3bb8e30b990ed3746915f1b2515b45a4e36063a35107ac0",
+      "expectedSha256": "2e163f209f131d4337ea6527faa620ca17d33489e87394521060124a8c68a460",
+      "actualSha256": "2e163f209f131d4337ea6527faa620ca17d33489e87394521060124a8c68a460",
       "match": true,
       "sourcePreserved": true
     },
@@ -136,7 +141,7 @@
       "file": "index.html",
       "status": 200,
       "expectedSha256": "7ce674570c72ff01ec7140100b5ae481a49781957a2b6d74201114e4f30f2931",
-      "actualSha256": "8b9c11f7cdb5de4f52a22532732785ba5dc8e4b0334962744c19f80d1a7c53d2",
+      "actualSha256": "b8b989a23f873a5f500da315940837d35fbf14d00c31eea4cd623eab08c4db8a",
       "match": false,
       "sourcePreserved": true,
       "headPreserved": true,
@@ -225,12 +230,28 @@
       "pass": true
     },
     {
-      "name": "labels remain visible during reset",
-      "pass": true
+      "name": "reset preserves green arrow and both labels while finger fades",
+      "pass": true,
+      "detail": {
+        "text": "→",
+        "buttonArmed": true,
+        "textArmed": true,
+        "stroke": "rgb(18, 133, 90)",
+        "touchLabel": "1",
+        "exitLabel": "1"
+      }
     },
     {
-      "name": "both labels clear before the next contact",
-      "pass": true
+      "name": "idle clears labels and restores normal start together",
+      "pass": true,
+      "detail": {
+        "text": "スタート",
+        "buttonArmed": false,
+        "textArmed": false,
+        "stroke": "rgb(184, 83, 26)",
+        "touchLabel": "0",
+        "exitLabel": "0"
+      }
     },
     {
       "name": "time demo produces no external requests or JavaScript errors",
