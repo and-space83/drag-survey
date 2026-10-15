@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-15T13:32:26.592Z",
+  "generatedAt": "2026-10-15T13:52:49.015Z",
   "appVersion": "2026-10-15-ui20",
   "instructionVersion": "2026-10-15-ui20",
   "devices": {
@@ -128,7 +128,125 @@
   },
   "sourceRefreshes": [],
   "sourceMatchesWorkingTree": true,
-  "publication": null,
+  "publication": {
+    "checkedAt": "2026-10-15T13:51:19.628Z",
+    "version": "2026-10-15-ui20",
+    "baseUrl": "https://and-space83.github.io/drag-survey/pilot-anchor/",
+    "normalUrls": true,
+    "checks": [
+      {
+        "file": "index.html",
+        "status": 200,
+        "expectedSha256LF": "e3e2aedaccaae98893e400d7e727ea2496884c6df2163f94edeb648079015777",
+        "actualSha256LF": "e3e2aedaccaae98893e400d7e727ea2496884c6df2163f94edeb648079015777",
+        "match": true
+      },
+      {
+        "file": "app.css",
+        "status": 200,
+        "expectedSha256LF": "2a55dac2607fe78a57674b1b4e61551dbc40e782a2fff6238b26f21efcb28e27",
+        "actualSha256LF": "2a55dac2607fe78a57674b1b4e61551dbc40e782a2fff6238b26f21efcb28e27",
+        "match": true
+      },
+      {
+        "file": "guided-tutorial.js",
+        "status": 200,
+        "expectedSha256LF": "231ce70f1a01fa178e43616db65c691e7fe0317853762d81a4a7e82e88871c26",
+        "actualSha256LF": "231ce70f1a01fa178e43616db65c691e7fe0317853762d81a4a7e82e88871c26",
+        "match": true
+      },
+      {
+        "file": "guided-tutorial.css",
+        "status": 200,
+        "expectedSha256LF": "54e56698da645dfdd4dc425ec3a127d6c7751987f369e058692c93b7c1918853",
+        "actualSha256LF": "54e56698da645dfdd4dc425ec3a127d6c7751987f369e058692c93b7c1918853",
+        "match": true
+      },
+      {
+        "file": "bank.js",
+        "status": 200,
+        "expectedSha256LF": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
+        "actualSha256LF": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
+        "match": true
+      },
+      {
+        "file": "session-store.js",
+        "status": 200,
+        "expectedSha256LF": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+        "actualSha256LF": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+        "match": true
+      },
+      {
+        "file": "durable-storage.js",
+        "status": 200,
+        "expectedSha256LF": "84d006f048e2cc16c4a7a7087ec5815485c0b3a7d2ffa4ce6b7b62905dde967b",
+        "actualSha256LF": "84d006f048e2cc16c4a7a7087ec5815485c0b3a7d2ffa4ce6b7b62905dde967b",
+        "match": true
+      },
+      {
+        "file": "storage-worker.js",
+        "status": 200,
+        "expectedSha256LF": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
+        "actualSha256LF": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
+        "match": true
+      },
+      {
+        "file": "staged-delivery.js",
+        "status": 200,
+        "expectedSha256LF": "7f37d628ce04dc47233b16387d43add674608d278030dd17355621745ab9f7ad",
+        "actualSha256LF": "7f37d628ce04dc47233b16387d43add674608d278030dd17355621745ab9f7ad",
+        "match": true
+      },
+      {
+        "file": "consent.js",
+        "status": 200,
+        "expectedSha256LF": "6dae132f66dc20526ae6e79c59c6ff12049a75a1b11161b6815bfa1339a14bd9",
+        "actualSha256LF": "6dae132f66dc20526ae6e79c59c6ff12049a75a1b11161b6815bfa1339a14bd9",
+        "match": true
+      },
+      {
+        "file": "consent.css",
+        "status": 200,
+        "expectedSha256LF": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
+        "actualSha256LF": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
+        "match": true
+      },
+      {
+        "file": "data-codec.js",
+        "status": 200,
+        "expectedSha256LF": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+        "actualSha256LF": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+        "match": true
+      },
+      {
+        "file": "vendor/pako.min.js",
+        "status": 200,
+        "expectedSha256LF": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+        "actualSha256LF": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+        "match": true
+      },
+      {
+        "file": "vendor/pako-LICENSE",
+        "status": 200,
+        "expectedSha256LF": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539",
+        "actualSha256LF": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539",
+        "match": true
+      }
+    ],
+    "saveNotices": [
+      {
+        "id": "consentSaveNote",
+        "lineBreak": true,
+        "wholeSentenceBold": true
+      },
+      {
+        "id": "sendWaitNote",
+        "lineBreak": true,
+        "wholeSentenceBold": true
+      }
+    ],
+    "allMatch": true
+  },
   "screens": [
     {
       "id": "flow-welcome-1",

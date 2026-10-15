@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-10-15T12:01:15.266Z",
+  "checkedAt": "2026-10-15T13:51:19.628Z",
   "version": "2026-10-15-ui20",
   "baseUrl": "https://and-space83.github.io/drag-survey/pilot-anchor/",
   "normalUrls": true,
@@ -7,8 +7,8 @@
     {
       "file": "index.html",
       "status": 200,
-      "expectedSha256LF": "c96a13a2117f895945f6cc295121143e8bbeecac6df0cf308a77d747a670d735",
-      "actualSha256LF": "c96a13a2117f895945f6cc295121143e8bbeecac6df0cf308a77d747a670d735",
+      "expectedSha256LF": "e3e2aedaccaae98893e400d7e727ea2496884c6df2163f94edeb648079015777",
+      "actualSha256LF": "e3e2aedaccaae98893e400d7e727ea2496884c6df2163f94edeb648079015777",
       "match": true
     },
     {
@@ -21,8 +21,8 @@
     {
       "file": "guided-tutorial.js",
       "status": 200,
-      "expectedSha256LF": "ddc7896e7c8777584cb9c379501979877ecb1568225b46649959a1ed501a07f5",
-      "actualSha256LF": "ddc7896e7c8777584cb9c379501979877ecb1568225b46649959a1ed501a07f5",
+      "expectedSha256LF": "231ce70f1a01fa178e43616db65c691e7fe0317853762d81a4a7e82e88871c26",
+      "actualSha256LF": "231ce70f1a01fa178e43616db65c691e7fe0317853762d81a4a7e82e88871c26",
       "match": true
     },
     {

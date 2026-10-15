@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-10-15T13:34:47.934Z",
+  "checkedAt": "2026-10-15T13:54:53.544Z",
   "appVersion": "2026-10-15-ui20",
   "source": {
     "index.html": "e3e2aedaccaae98893e400d7e727ea2496884c6df2163f94edeb648079015777",
@@ -19,8 +19,8 @@
   },
   "screenshots": 488,
   "reviewCounts": {
-    "active": 69,
-    "completed": 0
+    "active": 0,
+    "completed": 69
   },
   "sharedCopy": [
     {

@@ -146,7 +146,8 @@
       "status": "not_verified",
       "checklist": "checklist.html?scope=ios14"
     },
-    "sitePublication": "device-lab-publication.json"
+    "sitePublication": "device-lab-publication.json",
+    "publication": "../2026-10-15-stem-and-hints/publication.json"
   },
   "patchHistory": [
     {

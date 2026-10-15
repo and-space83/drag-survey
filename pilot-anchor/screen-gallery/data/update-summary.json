@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-10-15T13:32:26.610Z",
+  "checkedAt": "2026-10-15T13:52:49.024Z",
   "toVersion": "2026-10-15-ui20",
   "sourceSha256LF": {
     "index.html": "e3e2aedaccaae98893e400d7e727ea2496884c6df2163f94edeb648079015777",
@@ -47,7 +47,7 @@
     }
   },
   "verification": "data/verification.json",
-  "publicationStatus": "not verified",
+  "publicationStatus": "matched",
   "publication": "data/publication.json",
   "flowCoverage": {
     "tutorialStepIds": [
