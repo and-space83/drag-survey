@@ -1,0 +1,360 @@
+{
+  "at": "2026-10-15T17:00:06.125Z",
+  "scope": "Local comparison shell, independent no-send iframe state, small-screen tabs and final illustration screenshots. Chrome desktop mouse and mobile touch emulation only; not physical Safari.",
+  "checks": [
+    {
+      "name": "comparison offers ten visible cases and the cap edge case",
+      "pass": true
+    },
+    {
+      "name": "default entry is the real rating stage",
+      "pass": true
+    },
+    {
+      "name": "both versions are visible on desktop",
+      "pass": true
+    },
+    {
+      "name": "desktop: page and active device fit horizontally",
+      "pass": true,
+      "detail": {
+        "w": 1200,
+        "sw": 1200,
+        "panels": [
+          {
+            "id": "currentPanel",
+            "x": 66,
+            "right": 589,
+            "stageLeft": 140,
+            "stageRight": 515
+          },
+          {
+            "id": "candidatePanel",
+            "x": 611,
+            "right": 1134,
+            "stageLeft": 685,
+            "stageRight": 1060
+          }
+        ]
+      }
+    },
+    {
+      "name": "desktop versions progress independently",
+      "pass": true
+    },
+    {
+      "name": "feedback entry uses the same three conditions in both versions",
+      "pass": true
+    },
+    {
+      "name": "changing the case updates both actual app frames",
+      "pass": true
+    },
+    {
+      "name": "selected frame dimensions match the actual app viewport",
+      "pass": true
+    },
+    {
+      "name": "standalone link fixes the no-send route and selected case",
+      "pass": true
+    },
+    {
+      "name": "standalone opens the actual app without a comparison frame",
+      "pass": true
+    },
+    {
+      "name": "standalone reload has no unload confirmation",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "restart returns both ratings to unselected",
+      "pass": true
+    },
+    {
+      "name": "parent case changes after a main rating without dialogs",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "last-practice route describes completion rather than a sixth practice",
+      "pass": true
+    },
+    {
+      "name": "mobile initially displays only the candidate panel",
+      "pass": true
+    },
+    {
+      "name": "mobile: page and active device fit horizontally",
+      "pass": true,
+      "detail": {
+        "w": 375,
+        "sw": 375,
+        "panels": [
+          {
+            "id": "candidatePanel",
+            "x": 16,
+            "right": 359,
+            "stageLeft": 33,
+            "stageRight": 342
+          }
+        ]
+      }
+    },
+    {
+      "name": "mobile tab shows the current version",
+      "pass": true
+    },
+    {
+      "name": "mobile switching keeps the candidate rating and selected value",
+      "pass": true
+    },
+    {
+      "name": "edge case has five prior notices without consuming the cap",
+      "pass": true
+    },
+    {
+      "name": "capped mobile flow goes straight to the next question",
+      "pass": true
+    },
+    {
+      "name": "mobile after case change: page and active device fit horizontally",
+      "pass": true,
+      "detail": {
+        "w": 375,
+        "sw": 375,
+        "panels": [
+          {
+            "id": "candidatePanel",
+            "x": 16,
+            "right": 359,
+            "stageLeft": 33,
+            "stageRight": 342
+          }
+        ]
+      }
+    },
+    {
+      "name": "late 375x548: scroll cue matches unread content",
+      "pass": true,
+      "detail": {
+        "remaining": 289,
+        "shown": true
+      }
+    },
+    {
+      "name": "late 375x548: cue clears at the end",
+      "pass": true
+    },
+    {
+      "name": "release 375x548: scroll cue matches unread content",
+      "pass": true,
+      "detail": {
+        "remaining": 92,
+        "shown": true
+      }
+    },
+    {
+      "name": "release 375x548: cue clears at the end",
+      "pass": true
+    },
+    {
+      "name": "final release illustration 375x548: whole inside is shaded and only one release example is used",
+      "pass": true
+    },
+    {
+      "name": "final release screen 375x548: last checkbox and action can be reached",
+      "pass": true
+    },
+    {
+      "name": "notice collapsed 375x548: scroll cue matches unread content",
+      "pass": true,
+      "detail": {
+        "remaining": 177,
+        "shown": true
+      }
+    },
+    {
+      "name": "notice collapsed 375x548: cue clears at the end",
+      "pass": true
+    },
+    {
+      "name": "notice expanded 375x548: scroll cue matches unread content",
+      "pass": true,
+      "detail": {
+        "remaining": 0,
+        "shown": false
+      }
+    },
+    {
+      "name": "notice expanded 375x548: cue clears at the end",
+      "pass": true
+    },
+    {
+      "name": "late 375x700: scroll cue matches unread content",
+      "pass": true,
+      "detail": {
+        "remaining": 264,
+        "shown": true
+      }
+    },
+    {
+      "name": "late 375x700: cue clears at the end",
+      "pass": true
+    },
+    {
+      "name": "release 375x700: scroll cue matches unread content",
+      "pass": true,
+      "detail": {
+        "remaining": 0,
+        "shown": false
+      }
+    },
+    {
+      "name": "release 375x700: cue clears at the end",
+      "pass": true
+    },
+    {
+      "name": "final release illustration 375x700: whole inside is shaded and only one release example is used",
+      "pass": true
+    },
+    {
+      "name": "final release screen 375x700: last checkbox and action can be reached",
+      "pass": true
+    },
+    {
+      "name": "notice collapsed 375x700: scroll cue matches unread content",
+      "pass": true,
+      "detail": {
+        "remaining": 50,
+        "shown": true
+      }
+    },
+    {
+      "name": "notice collapsed 375x700: cue clears at the end",
+      "pass": true
+    },
+    {
+      "name": "notice expanded 375x700: scroll cue matches unread content",
+      "pass": true,
+      "detail": {
+        "remaining": 0,
+        "shown": false
+      }
+    },
+    {
+      "name": "notice expanded 375x700: cue clears at the end",
+      "pass": true
+    },
+    {
+      "name": "late 402x759: scroll cue matches unread content",
+      "pass": true,
+      "detail": {
+        "remaining": 173,
+        "shown": true
+      }
+    },
+    {
+      "name": "late 402x759: cue clears at the end",
+      "pass": true
+    },
+    {
+      "name": "release 402x759: scroll cue matches unread content",
+      "pass": true,
+      "detail": {
+        "remaining": 0,
+        "shown": false
+      }
+    },
+    {
+      "name": "release 402x759: cue clears at the end",
+      "pass": true
+    },
+    {
+      "name": "final release illustration 402x759: whole inside is shaded and only one release example is used",
+      "pass": true
+    },
+    {
+      "name": "final release screen 402x759: last checkbox and action can be reached",
+      "pass": true
+    },
+    {
+      "name": "notice collapsed 402x759: scroll cue matches unread content",
+      "pass": true,
+      "detail": {
+        "remaining": 0,
+        "shown": false
+      }
+    },
+    {
+      "name": "notice collapsed 402x759: cue clears at the end",
+      "pass": true
+    },
+    {
+      "name": "notice expanded 402x759: scroll cue matches unread content",
+      "pass": true,
+      "detail": {
+        "remaining": 0,
+        "shown": false
+      }
+    },
+    {
+      "name": "notice expanded 402x759: cue clears at the end",
+      "pass": true
+    },
+    {
+      "name": "no browser exceptions",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "no external requests or POSTs",
+      "pass": true,
+      "detail": []
+    }
+  ],
+  "errors": [],
+  "dialogs": [],
+  "unexpectedRequests": [],
+  "assets": {
+    "/app/app.css": "2a55dac2607fe78a57674b1b4e61551dbc40e782a2fff6238b26f21efcb28e27",
+    "/app/bank.js": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
+    "/app/consent.css": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
+    "/app/consent.js": "6dae132f66dc20526ae6e79c59c6ff12049a75a1b11161b6815bfa1339a14bd9",
+    "/app/data-codec.js": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+    "/app/durable-storage.js": "84d006f048e2cc16c4a7a7087ec5815485c0b3a7d2ffa4ce6b7b62905dde967b",
+    "/app/guided-tutorial.css": "54e56698da645dfdd4dc425ec3a127d6c7751987f369e058692c93b7c1918853",
+    "/app/guided-tutorial.js": "231ce70f1a01fa178e43616db65c691e7fe0317853762d81a4a7e82e88871c26",
+    "/app/index.html": "e3e2aedaccaae98893e400d7e727ea2496884c6df2163f94edeb648079015777",
+    "/app/preview-runtime.js": "1dfcab2fa3de5c4133cf6f4a79e20d8adccd40575be8010c928e0f4ba24c3ab4",
+    "/app/preview.html": "209834998c0a879982151c62e5a17dd727d540ba5d84a62afab905b832e8eedf",
+    "/app/session-store.js": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+    "/app/staged-delivery.js": "e7af387be6c7902f7d36f3832d5252a84e2649d35451c9aaca255d2012c19876",
+    "/app/storage-worker.js": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
+    "/app/vendor/pako.min.js": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+    "/candidate-ui.js": "c1976bdb6c685cb9cac2a8757a6881433b1dd5d95a14eafe69ab6cb3d6da5f29",
+    "/candidate.css": "803b99fd8790a36abebf7a99985cb2011654ea78dcc2df2669e770b34b4e1d32",
+    "/changes-data.js": "22108132e6d5669047745a329f63557aad336026a48e04baaf7562b07db05753",
+    "/fixture-bootstrap.js": "1d6d22e15e55228d21e8e8ec98e01e381676389c14340599631432c81af41f12",
+    "/fixture-bridge.js": "332167e1ea1a8efa10410bdc3acac7589519239c7bf5ed0d6fe30bc9f66ba5a7",
+    "/index.html": "6503f3791ba07b17445aee4d494138a5df3f6adda5031840c3a9247e74ea6365",
+    "/review.css": "181ed92e35193e56bf641d76ca00fea662f6ded2b89c3f06d12e391613413865",
+    "/review.js": "3b3a6845a51d7202c91495c4d2480e04daf398feb99667d9e3be85cf1ee2e7f9"
+  },
+  "screenshots": [
+    "desktop-comparison.png",
+    "mobile-comparison.png",
+    "candidate-time-375x548.png",
+    "candidate-release-375x548.png",
+    "candidate-notice-375x548.png",
+    "candidate-time-375x700.png",
+    "candidate-release-375x700.png",
+    "candidate-notice-375x700.png",
+    "candidate-time-402x759.png",
+    "candidate-release-402x759.png",
+    "candidate-notice-402x759.png"
+  ],
+  "assetSourceUnchanged": true,
+  "passed": 53,
+  "failed": 0
+}

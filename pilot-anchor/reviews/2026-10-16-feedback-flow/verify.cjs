@@ -1,0 +1,20 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),vm=require('node:vm');
+const dir=__dirname,read=f=>fs.readFileSync(path.join(dir,f),'utf8').replace(/\r\n/g,'\n'),json=f=>JSON.parse(read(f)),sha=b=>crypto.createHash('sha256').update(b).digest('hex');
+const checks=[],check=(name,pass,detail)=>checks.push({name,pass:!!pass,...(detail===undefined?{}:{detail})});
+const source=json('source-manifest.json');
+for(const [f,h]of Object.entries(source.source))check('Frozen comparison source '+f,sha(read('app/'+f))===h);
+const html=read('app/index.html'),inline=html.slice(html.indexOf('<script>')+8,html.indexOf('</script>',html.indexOf('<script>'))),bridge=read('fixture-bridge.js'),runtime=read('app/preview-runtime.js');
+check('Preview runtime adds only its documented fixture bridge',runtime.includes(bridge)&&runtime.replace(bridge+'\n','')===inline);
+check('No inline script or executable inline event handler in preview HTML',!/<script\s*>|\son(?:click|load|error)=/i.test(read('app/preview.html')));
+check('Preview CSP denies connections and workers',read('app/preview.html').includes("connect-src 'none'; worker-src 'none'"));
+check('Disposable preview replaces persisted storage and blocks request APIs',read('fixture-bootstrap.js').includes("Object.defineProperty(window,'localStorage'")&&read('fixture-bootstrap.js').includes('window.fetch=')&&read('fixture-bootstrap.js').includes('window.XMLHttpRequest=')&&read('fixture-bootstrap.js').includes("'sendBeacon'"));
+for(const f of ['fixture-bootstrap.js','fixture-bridge.js','candidate-ui.js','review.js','changes-data.js','app/preview-runtime.js']){try{new vm.Script(read(f),{filename:f});check('JavaScript syntax '+f,true);}catch(e){check('JavaScript syntax '+f,false,String(e));}}
+const flow=json('qa-results.json'),comparison=json('comparison-results.json');
+check('Visible-input flow comparison completed without failures',flow.failed===0&&flow.passed>=700,{passed:flow.passed,failed:flow.failed});
+check('Comparison UI completed without failures',comparison.failed===0&&comparison.passed>0,{passed:comparison.passed,failed:comparison.failed});
+check('Flow tests have no JS errors or unexpected requests',flow.errors.length===0&&flow.unexpectedRequests.length===0);
+check('Parent tests have no JS errors or unexpected requests',comparison.errors.length===0&&comparison.unexpectedRequests.length===0);
+const files=[];function scan(folder){for(const e of fs.readdirSync(path.join(dir,folder),{withFileTypes:true})){const f=path.posix.join(folder,e.name);if(e.isDirectory())scan(f);else if(!['verification.json','publication.json'].includes(f)){const bytes=fs.readFileSync(path.join(dir,f)),isText=/\.(?:html|css|js|cjs|json|md|txt)$/.test(f)||f.endsWith('pako-LICENSE');files.push({file:f,sha256:sha(isText?bytes.toString().replace(/\r\n/g,'\n'):bytes),normalization:isText?'CRLF_to_LF':'binary'});}}}scan('');
+const result={checkedAt:new Date().toISOString(),status:'proposal-only',scope:'Immutable ui20 comparison snapshot plus a review-only fixture and presentation layer. Production files are not generated or deployed by this review. Test counts are separate, not unique guarantees.',snapshot:source.source,checks,flow:{passed:flow.passed,failed:flow.failed,result:'qa-results.json'},comparison:{passed:comparison.passed,failed:comparison.failed,result:'comparison-results.json'},physicalSafari:'not_verified',comprehensionEffect:'not_measured',persistentResume:'not_part_of_disposable_preview',files,passed:checks.filter(c=>c.pass).length,failed:checks.filter(c=>!c.pass).length};
+fs.writeFileSync(path.join(dir,'verification.json'),JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify({passed:result.passed,failed:result.failed,files:files.length,failures:checks.filter(c=>!c.pass)}));process.exitCode=result.failed?1:0;
