@@ -1,0 +1,329 @@
+{
+  "at": "2026-10-15T13:43:41.973Z",
+  "scope": "Synthetic lab history and input recovery; no participant origin or collector",
+  "checks": [
+    {
+      "name": "browser-back-forward accepts input and reaches consent",
+      "pass": true,
+      "detail": {
+        "sameDocument": true,
+        "inputError": null
+      }
+    },
+    {
+      "name": "menu-link-back accepts input and reaches consent",
+      "pass": false,
+      "detail": {
+        "sameDocument": true,
+        "inputError": "page.waitForFunction: Timeout 6000ms exceeded."
+      }
+    },
+    {
+      "name": "browser-back-open accepts input and reaches consent",
+      "pass": true,
+      "detail": {
+        "sameDocument": false,
+        "inputError": null
+      }
+    },
+    {
+      "name": "no external requests",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "external": [],
+  "cases": [
+    {
+      "mode": "browser-back-forward",
+      "before": {
+        "url": "http://127.0.0.1:63864/app/index.html?study=main&block=moral&debug=1&consent=1&mic=0&run=history-browser-back-forward&labcase=consent",
+        "id": "d38fdb2e-0fa1-4cb6-80bf-67379fc57ae5",
+        "events": [
+          {
+            "event": "pageshow",
+            "persisted": false,
+            "hidden": false
+          }
+        ],
+        "screen": "welcome",
+        "ready": true,
+        "errors": [],
+        "inert": [],
+        "overlays": [],
+        "pid": {
+          "disabled": false,
+          "readOnly": false,
+          "inert": false,
+          "hidden": true,
+          "at": ""
+        }
+      },
+      "after": {
+        "url": "http://127.0.0.1:63864/app/index.html?study=main&block=moral&debug=1&consent=1&mic=0&run=history-browser-back-forward&labcase=consent",
+        "id": "d38fdb2e-0fa1-4cb6-80bf-67379fc57ae5",
+        "events": [
+          {
+            "event": "pageshow",
+            "persisted": false,
+            "hidden": false
+          },
+          {
+            "event": "pagehide",
+            "persisted": true,
+            "hidden": false
+          },
+          {
+            "event": "visibilitychange",
+            "hidden": true
+          },
+          {
+            "event": "visibilitychange",
+            "hidden": false
+          },
+          {
+            "event": "pageshow",
+            "persisted": true,
+            "hidden": false
+          }
+        ],
+        "screen": "welcome",
+        "ready": true,
+        "errors": [],
+        "inert": [],
+        "overlays": [],
+        "pid": {
+          "disabled": false,
+          "readOnly": false,
+          "inert": false,
+          "hidden": true,
+          "at": ""
+        }
+      },
+      "final": {
+        "url": "http://127.0.0.1:63864/app/index.html?study=main&block=moral&debug=1&consent=1&mic=0&run=history-browser-back-forward&labcase=consent",
+        "id": "d38fdb2e-0fa1-4cb6-80bf-67379fc57ae5",
+        "events": [
+          {
+            "event": "pageshow",
+            "persisted": false,
+            "hidden": false
+          },
+          {
+            "event": "pagehide",
+            "persisted": true,
+            "hidden": false
+          },
+          {
+            "event": "visibilitychange",
+            "hidden": true
+          },
+          {
+            "event": "visibilitychange",
+            "hidden": false
+          },
+          {
+            "event": "pageshow",
+            "persisted": true,
+            "hidden": false
+          }
+        ],
+        "screen": "consent",
+        "ready": true,
+        "errors": [],
+        "inert": [],
+        "overlays": [],
+        "pid": {
+          "disabled": false,
+          "readOnly": false,
+          "inert": false,
+          "hidden": true,
+          "at": ""
+        }
+      },
+      "inputError": null
+    },
+    {
+      "mode": "menu-link-back",
+      "before": {
+        "url": "http://127.0.0.1:63864/app/index.html?study=main&block=moral&debug=1&consent=1&mic=0&run=history-menu-link-back&labcase=consent",
+        "id": "7adadb14-047d-4919-8fc9-bfff4987829b",
+        "events": [
+          {
+            "event": "pageshow",
+            "persisted": false,
+            "hidden": false
+          }
+        ],
+        "screen": "welcome",
+        "ready": true,
+        "errors": [],
+        "inert": [],
+        "overlays": [],
+        "pid": {
+          "disabled": false,
+          "readOnly": false,
+          "inert": false,
+          "hidden": true,
+          "at": ""
+        }
+      },
+      "after": {
+        "url": "http://127.0.0.1:63864/app/index.html?study=main&block=moral&debug=1&consent=1&mic=0&run=history-menu-link-back&labcase=consent",
+        "id": "7adadb14-047d-4919-8fc9-bfff4987829b",
+        "events": [
+          {
+            "event": "pageshow",
+            "persisted": false,
+            "hidden": false
+          },
+          {
+            "event": "pagehide",
+            "persisted": true,
+            "hidden": false
+          },
+          {
+            "event": "visibilitychange",
+            "hidden": true
+          },
+          {
+            "event": "visibilitychange",
+            "hidden": false
+          },
+          {
+            "event": "pageshow",
+            "persisted": true,
+            "hidden": false
+          }
+        ],
+        "screen": "welcome",
+        "ready": false,
+        "errors": [],
+        "inert": [],
+        "overlays": [],
+        "pid": {
+          "disabled": false,
+          "readOnly": false,
+          "inert": false,
+          "hidden": true,
+          "at": ""
+        }
+      },
+      "final": {
+        "url": "http://127.0.0.1:63864/app/index.html?study=main&block=moral&debug=1&consent=1&mic=0&run=history-menu-link-back&labcase=consent",
+        "id": "7adadb14-047d-4919-8fc9-bfff4987829b",
+        "events": [
+          {
+            "event": "pageshow",
+            "persisted": false,
+            "hidden": false
+          },
+          {
+            "event": "pagehide",
+            "persisted": true,
+            "hidden": false
+          },
+          {
+            "event": "visibilitychange",
+            "hidden": true
+          },
+          {
+            "event": "visibilitychange",
+            "hidden": false
+          },
+          {
+            "event": "pageshow",
+            "persisted": true,
+            "hidden": false
+          }
+        ],
+        "screen": "intro",
+        "ready": false,
+        "errors": [],
+        "inert": [],
+        "overlays": [],
+        "pid": {
+          "disabled": false,
+          "readOnly": false,
+          "inert": false,
+          "hidden": false,
+          "at": "deviceLabMenu"
+        }
+      },
+      "inputError": "page.waitForFunction: Timeout 6000ms exceeded."
+    },
+    {
+      "mode": "browser-back-open",
+      "before": {
+        "url": "http://127.0.0.1:63864/app/index.html?study=main&block=moral&debug=1&consent=1&mic=0&run=history-browser-back-open&labcase=consent",
+        "id": "f546e7ad-c9aa-4199-ae6e-b4ebbe1d814a",
+        "events": [
+          {
+            "event": "pageshow",
+            "persisted": false,
+            "hidden": false
+          }
+        ],
+        "screen": "welcome",
+        "ready": true,
+        "errors": [],
+        "inert": [],
+        "overlays": [],
+        "pid": {
+          "disabled": false,
+          "readOnly": false,
+          "inert": false,
+          "hidden": true,
+          "at": ""
+        }
+      },
+      "after": {
+        "url": "http://127.0.0.1:63864/app/index.html?study=main&block=moral&debug=1&consent=1&mic=0&run=history-browser-back-open&labcase=consent",
+        "id": "202056ef-d0e9-49e7-bc78-7ca15ab2d96c",
+        "events": [
+          {
+            "event": "pageshow",
+            "persisted": false,
+            "hidden": false
+          }
+        ],
+        "screen": "welcome",
+        "ready": true,
+        "errors": [],
+        "inert": [],
+        "overlays": [],
+        "pid": {
+          "disabled": false,
+          "readOnly": false,
+          "inert": false,
+          "hidden": true,
+          "at": ""
+        }
+      },
+      "final": {
+        "url": "http://127.0.0.1:63864/app/index.html?study=main&block=moral&debug=1&consent=1&mic=0&run=history-browser-back-open&labcase=consent",
+        "id": "202056ef-d0e9-49e7-bc78-7ca15ab2d96c",
+        "events": [
+          {
+            "event": "pageshow",
+            "persisted": false,
+            "hidden": false
+          }
+        ],
+        "screen": "consent",
+        "ready": true,
+        "errors": [],
+        "inert": [],
+        "overlays": [],
+        "pid": {
+          "disabled": false,
+          "readOnly": false,
+          "inert": false,
+          "hidden": true,
+          "at": ""
+        }
+      },
+      "inputError": null
+    }
+  ]
+}

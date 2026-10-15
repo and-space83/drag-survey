@@ -1,272 +1,378 @@
 {
-  "checkedAt": "2026-10-15T13:29:45.603Z",
-  "patch": "ui20-loop-sync1",
-  "previousPublication": {
-    "path": "../2026-10-15-stem-and-hints/loop-sync/previous-device-lab-publication.json",
-    "sha256": "8b18ab267515bcf1a90f95f9019733ad95d47a9bb3907fabde75ad8c091eb22e"
-  },
+  "checkedAt": "2026-10-15T13:52:26.977Z",
+  "patch": "lab-history-recovery1",
   "url": "https://drag-survey-device-lab.rubyball4.chatgpt.site",
   "projectId": "appgprj_6ad09558f6908191a501fb9f70b12336",
-  "versionId": "appgprj_6ad09558f6908191a501fb9f70b12336~appgver_e7b367fb8f5081919e63abea9681dacd",
-  "deploymentId": "appgdep_6ad0c46e81948191bc7aa03a61c60e98",
-  "commitSha": "f731879a8e9a9073d3c03993d86cdc02342323f0",
+  "versionId": "appgprj_6ad09558f6908191a501fb9f70b12336~appgver_7ef1521ba3e081919c24f77bdf88306b",
+  "versionNumber": 6,
+  "deploymentId": "appgdep_6ad0d9b7c7d88191925ebe90354bec31",
+  "commitSha": "08b5766d0c77ecd2e6e3f76a0f48d229069f55dd",
   "audience": "owner-only",
+  "audienceVerification": {
+    "mode": "custom",
+    "role": "owner",
+    "allowedOwnerCount": 1,
+    "otherAllowedUserCount": 0,
+    "externalVisitorCount": 0,
+    "allowedGroupCount": 0
+  },
   "separateOrigin": true,
   "collector": "browser-only simulation; no GAS or Drive requests",
+  "previousPublication": {
+    "path": "../2026-10-15-behavior-audit/previous-lab-publication.json",
+    "sha256": "a450db4c724138ce62004d10a2e7c730d39b279ffeecd5330cb3724c016a1c97"
+  },
+  "evidence": {
+    "published": "../2026-10-15-behavior-audit/lab-history-published-results.json",
+    "localHistory": "../2026-10-15-behavior-audit/lab-history-recovery-results.json",
+    "regression": "../2026-10-15-behavior-audit/lab-regression-results.json",
+    "deployment": "../2026-10-15-behavior-audit/lab-site-deployment.json"
+  },
   "checks": [
     {
-      "file": "app/app.css",
-      "status": 200,
-      "expectedSha256": "2a55dac2607fe78a57674b1b4e61551dbc40e782a2fff6238b26f21efcb28e27",
-      "actualSha256": "2a55dac2607fe78a57674b1b4e61551dbc40e782a2fff6238b26f21efcb28e27",
-      "match": true,
-      "sourcePreserved": true
+      "name": "published source app/app.css",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 60367,
+        "publishedBytes": 60367
+      }
     },
     {
-      "file": "app/bank.js",
-      "status": 200,
-      "expectedSha256": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
-      "actualSha256": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
-      "match": true,
-      "sourcePreserved": true
+      "name": "published source app/bank.js",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 34843,
+        "publishedBytes": 34843
+      }
     },
     {
-      "file": "app/consent.css",
-      "status": 200,
-      "expectedSha256": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
-      "actualSha256": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
-      "match": true,
-      "sourcePreserved": true
+      "name": "published source app/consent.css",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 2291,
+        "publishedBytes": 2291
+      }
     },
     {
-      "file": "app/consent.js",
-      "status": 200,
-      "expectedSha256": "339a27d039090dd7363a0ce7e8d2a87a1feb66a8a288319f193c096066de620b",
-      "actualSha256": "339a27d039090dd7363a0ce7e8d2a87a1feb66a8a288319f193c096066de620b",
-      "match": true,
-      "sourcePreserved": true
+      "name": "published source app/consent.js",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 6157,
+        "publishedBytes": 6157
+      }
     },
     {
-      "file": "app/data-codec.js",
-      "status": 200,
-      "expectedSha256": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
-      "actualSha256": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
-      "match": true,
-      "sourcePreserved": true
+      "name": "published source app/data-codec.js",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 2316,
+        "publishedBytes": 2316
+      }
     },
     {
-      "file": "app/durable-storage.js",
-      "status": 200,
-      "expectedSha256": "fcbdade15892c887e6d0886b0878f4cc70126f27cde2bfdf9d1e64267235c004",
-      "actualSha256": "fcbdade15892c887e6d0886b0878f4cc70126f27cde2bfdf9d1e64267235c004",
-      "match": true,
-      "sourcePreserved": true
+      "name": "published source app/durable-storage.js",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 3940,
+        "publishedBytes": 3940
+      }
     },
     {
-      "file": "app/guided-tutorial.css",
-      "status": 200,
-      "expectedSha256": "54e56698da645dfdd4dc425ec3a127d6c7751987f369e058692c93b7c1918853",
-      "actualSha256": "54e56698da645dfdd4dc425ec3a127d6c7751987f369e058692c93b7c1918853",
-      "match": true,
-      "sourcePreserved": true
+      "name": "published source app/guided-tutorial.css",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 7987,
+        "publishedBytes": 7987
+      }
     },
     {
-      "file": "app/guided-tutorial.js",
-      "status": 200,
-      "expectedSha256": "231ce70f1a01fa178e43616db65c691e7fe0317853762d81a4a7e82e88871c26",
-      "actualSha256": "231ce70f1a01fa178e43616db65c691e7fe0317853762d81a4a7e82e88871c26",
-      "match": true,
-      "sourcePreserved": true
+      "name": "published source app/guided-tutorial.js",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 56549,
+        "publishedBytes": 56549
+      }
     },
     {
-      "file": "app/index.html",
-      "status": 200,
-      "expectedSha256": "74e99b8ef54ac2939d6e9ba8cc5a57433181452400e0897614d5c03665119e85",
-      "actualSha256": "5862c699c92b430c0b747e7d0d464c3ed5c8d46c05ddf2fd9db3f27cc863715d",
-      "match": false,
-      "sourcePreserved": true,
-      "headPreserved": true,
-      "bodyPreserved": true,
-      "hostingInsertionBytes": 938
+      "name": "published source app/index.html",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 363957,
+        "publishedBytes": 364895
+      }
     },
     {
-      "file": "app/session-store.js",
-      "status": 200,
-      "expectedSha256": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
-      "actualSha256": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
-      "match": true,
-      "sourcePreserved": true
+      "name": "published source app/session-store.js",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 13094,
+        "publishedBytes": 13094
+      }
     },
     {
-      "file": "app/staged-delivery.js",
-      "status": 200,
-      "expectedSha256": "e7af387be6c7902f7d36f3832d5252a84e2649d35451c9aaca255d2012c19876",
-      "actualSha256": "e7af387be6c7902f7d36f3832d5252a84e2649d35451c9aaca255d2012c19876",
-      "match": true,
-      "sourcePreserved": true
+      "name": "published source app/staged-delivery.js",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 4383,
+        "publishedBytes": 4383
+      }
     },
     {
-      "file": "app/storage-worker.js",
-      "status": 200,
-      "expectedSha256": "cdfd77a6ddffeb2a1d7d4de93bd016c16f300563249474a9b7095ee0743bc698",
-      "actualSha256": "cdfd77a6ddffeb2a1d7d4de93bd016c16f300563249474a9b7095ee0743bc698",
-      "match": true,
-      "sourcePreserved": true
+      "name": "published source app/storage-worker.js",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 3038,
+        "publishedBytes": 3038
+      }
     },
     {
-      "file": "app/vendor/pako-LICENSE",
-      "status": 200,
-      "expectedSha256": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539",
-      "actualSha256": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539",
-      "match": true,
-      "sourcePreserved": true
+      "name": "published source app/vendor/pako-LICENSE",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 1104,
+        "publishedBytes": 1104
+      }
     },
     {
-      "file": "app/vendor/pako.min.js",
-      "status": 200,
-      "expectedSha256": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
-      "actualSha256": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
-      "match": true,
-      "sourcePreserved": true
+      "name": "published source app/vendor/pako.min.js",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 45988,
+        "publishedBytes": 45988
+      }
     },
     {
-      "file": "build-manifest.json",
-      "status": 200,
-      "expectedSha256": "2e163f209f131d4337ea6527faa620ca17d33489e87394521060124a8c68a460",
-      "actualSha256": "2e163f209f131d4337ea6527faa620ca17d33489e87394521060124a8c68a460",
-      "match": true,
-      "sourcePreserved": true
+      "name": "published source build-manifest.json",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 6927,
+        "publishedBytes": 6927
+      }
     },
     {
-      "file": "index.html",
-      "status": 200,
-      "expectedSha256": "7ce674570c72ff01ec7140100b5ae481a49781957a2b6d74201114e4f30f2931",
-      "actualSha256": "b8b989a23f873a5f500da315940837d35fbf14d00c31eea4cd623eab08c4db8a",
-      "match": false,
-      "sourcePreserved": true,
-      "headPreserved": true,
-      "bodyPreserved": true,
-      "hostingInsertionBytes": 938
+      "name": "published source index.html",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 5562,
+        "publishedBytes": 6500
+      }
     },
     {
-      "file": "lab-control.css",
-      "status": 200,
-      "expectedSha256": "7d686a9f3c6aa074c08bbbe0999714631e6e48ed879d8884bac8376741fa563a",
-      "actualSha256": "7d686a9f3c6aa074c08bbbe0999714631e6e48ed879d8884bac8376741fa563a",
-      "match": true,
-      "sourcePreserved": true
+      "name": "published source lab-control.css",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 2451,
+        "publishedBytes": 2451
+      }
     },
     {
-      "file": "lab-control.js",
-      "status": 200,
-      "expectedSha256": "70f1296ace233762a677815c106a412085275343d055172005df0c034bd72213",
-      "actualSha256": "70f1296ace233762a677815c106a412085275343d055172005df0c034bd72213",
-      "match": true,
-      "sourcePreserved": true
+      "name": "published source lab-control.js",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 8607,
+        "publishedBytes": 8607
+      }
     },
     {
-      "file": "lab-runtime.js",
-      "status": 200,
-      "expectedSha256": "a75e317c92968f8f92d1ae21346a1f9f404a22eaa91b71c37f71b8f5ceae9435",
-      "actualSha256": "a75e317c92968f8f92d1ae21346a1f9f404a22eaa91b71c37f71b8f5ceae9435",
-      "match": true,
-      "sourcePreserved": true
+      "name": "published source lab-runtime.js",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 12922,
+        "publishedBytes": 12922
+      }
     }
   ],
   "browserChecks": [
     {
-      "name": "published normal consent fixture loads",
-      "pass": true
-    },
-    {
-      "name": "tutorial reaches actual motor practice",
-      "pass": true
-    },
-    {
-      "name": "stem corners use the approved 14px radius",
-      "pass": true
-    },
-    {
-      "name": "warning is halfway between target and start",
+      "name": "browser-back-forward accepts touch input and reaches consent",
       "pass": true,
       "detail": {
-        "targetBottom": 359.828125,
-        "startTop": 556,
-        "hintTop": 435.40625,
-        "hintBottom": 480.40625,
-        "center": 457.90625,
-        "expected": 457.9140625,
-        "text": "選択肢のボックスの中で指を離してください\nスタートボタンからもう一度"
+        "sameDocument": true,
+        "inputError": null
       }
     },
     {
-      "name": "no external requests or page errors",
+      "name": "menu-link-back accepts touch input and reaches consent",
       "pass": true,
       "detail": {
-        "external": [],
-        "errors": []
+        "sameDocument": false,
+        "inputError": null
       }
     },
     {
-      "name": "updated time demonstration is reached in the saved normal flow",
+      "name": "browser-back-open accepts touch input and reaches consent",
+      "pass": true,
+      "detail": {
+        "sameDocument": false,
+        "inputError": null
+      }
+    },
+    {
+      "name": "explicit menu history restores the same saved session and consent",
       "pass": true
     },
     {
-      "name": "explanation stays above enlarged diagram without fixed sequence copy",
+      "name": "closed menu history restores the saved stage and closes menu",
       "pass": true,
       "detail": {
-        "cardBottom": 288.875,
-        "figureTop": 306.875,
-        "viewBox": "70 0 200 180",
-        "oldSequence": false
+        "before": {
+          "v": 2,
+          "search": "?study=main&block=moral&debug=1&consent=1&mic=0&run=history-saved&labcase=resume",
+          "seq": [
+            "moral"
+          ],
+          "seqIndex": 0,
+          "block": "moral",
+          "stage": "reading",
+          "phase": "practice",
+          "queue": [],
+          "totalMain": 0,
+          "trialIndex": 0,
+          "instrIndex": 0,
+          "instructedDone": false,
+          "currentCell": null,
+          "trialRecordIndex": null,
+          "rating": null,
+          "preMain": {
+            "dragDone": false,
+            "dragSchema": null,
+            "ratingDone": false,
+            "streak": 0,
+            "exampleIntroRead": false,
+            "reading": {
+              "index": -1,
+              "elapsedMs": 0
+            },
+            "drag": null
+          },
+          "post": null,
+          "activeAttempt": null,
+          "pendingInstructedStart": false,
+          "pendingMainStart": false,
+          "pendingNotice": null,
+          "stopNoticeShown": false,
+          "noticeKind": null,
+          "practiceRuleFlags": [],
+          "practiceCheck": null,
+          "noticeElapsedMs": 0,
+          "breakElapsedMs": 0,
+          "breakAtTrial": 0,
+          "stemElapsedMs": 0,
+          "aborts": 0,
+          "monitors": {
+            "noise": {
+              "n": 0,
+              "sum": 0,
+              "max": null,
+              "overMs": 0,
+              "mutedMs": 0
+            },
+            "vis": {
+              "count": 0,
+              "totalMs": 0
+            }
+          },
+          "tutChanged": false,
+          "mainStarted": false,
+          "mainElapsedMs": 0,
+          "mainElapsedAtEnd": null
+        },
+        "after": {
+          "v": 2,
+          "search": "?study=main&block=moral&debug=1&consent=1&mic=0&run=history-saved&labcase=resume",
+          "seq": [
+            "moral"
+          ],
+          "seqIndex": 0,
+          "block": "moral",
+          "stage": "reading",
+          "phase": "practice",
+          "queue": [],
+          "totalMain": 0,
+          "trialIndex": 0,
+          "instrIndex": 0,
+          "instructedDone": false,
+          "currentCell": null,
+          "trialRecordIndex": null,
+          "rating": null,
+          "preMain": {
+            "dragDone": false,
+            "dragSchema": null,
+            "ratingDone": false,
+            "streak": 0,
+            "exampleIntroRead": false,
+            "reading": {
+              "index": -1,
+              "elapsedMs": 0
+            },
+            "drag": null
+          },
+          "post": null,
+          "activeAttempt": null,
+          "pendingInstructedStart": false,
+          "pendingMainStart": false,
+          "pendingNotice": null,
+          "stopNoticeShown": false,
+          "noticeKind": null,
+          "practiceRuleFlags": [],
+          "practiceCheck": null,
+          "noticeElapsedMs": 0,
+          "breakElapsedMs": 0,
+          "breakAtTrial": 0,
+          "stemElapsedMs": 0,
+          "aborts": 0,
+          "monitors": {
+            "noise": {
+              "n": 0,
+              "sum": 0,
+              "max": null,
+              "overMs": 0,
+              "mutedMs": 0
+            },
+            "vis": {
+              "count": 0,
+              "totalMs": 0
+            }
+          },
+          "tutChanged": false,
+          "mainStarted": false,
+          "mainElapsedMs": 0,
+          "mainElapsedAtEnd": null
+        }
       }
     },
     {
-      "name": "touch label appears before exit label",
+      "name": "ordinary browser history keeps its live document and consent",
       "pass": true
     },
     {
-      "name": "both labels appear after leaving the frame",
-      "pass": true
-    },
-    {
-      "name": "reset preserves green arrow and both labels while finger fades",
+      "name": "history-restored session still rejects a second writer",
       "pass": true,
       "detail": {
-        "text": "→",
-        "buttonArmed": true,
-        "textArmed": true,
-        "stroke": "rgb(18, 133, 90)",
-        "touchLabel": "1",
-        "exitLabel": "1"
+        "message": "この回答を別のタブで開いている場合は、そちらを閉じてからもう一度試してください。保存機能が利用できないブラウザでは続けられません。"
       }
     },
     {
-      "name": "idle clears labels and restores normal start together",
-      "pass": true,
-      "detail": {
-        "text": "スタート",
-        "buttonArmed": false,
-        "textArmed": false,
-        "stroke": "rgb(184, 83, 26)",
-        "touchLabel": "0",
-        "exitLabel": "0"
-      }
-    },
-    {
-      "name": "time demo produces no external requests or JavaScript errors",
-      "pass": true,
-      "detail": {
-        "external": [],
-        "errors": []
-      }
-    },
-    {
-      "name": "published physical landscape overrides fixed portrait screen and zoom guidance",
-      "pass": true
-    },
-    {
-      "name": "published portrait return clears physical rotation guard",
+      "name": "no external requests",
       "pass": true
     }
   ],

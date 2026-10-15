@@ -1,0 +1,617 @@
+{
+  "at": "2026-10-15T13:52:26.977Z",
+  "scope": "Synthetic lab history and input recovery; no participant origin or collector",
+  "checks": [
+    {
+      "name": "published source app/app.css",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 60367,
+        "publishedBytes": 60367
+      }
+    },
+    {
+      "name": "published source app/bank.js",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 34843,
+        "publishedBytes": 34843
+      }
+    },
+    {
+      "name": "published source app/consent.css",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 2291,
+        "publishedBytes": 2291
+      }
+    },
+    {
+      "name": "published source app/consent.js",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 6157,
+        "publishedBytes": 6157
+      }
+    },
+    {
+      "name": "published source app/data-codec.js",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 2316,
+        "publishedBytes": 2316
+      }
+    },
+    {
+      "name": "published source app/durable-storage.js",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 3940,
+        "publishedBytes": 3940
+      }
+    },
+    {
+      "name": "published source app/guided-tutorial.css",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 7987,
+        "publishedBytes": 7987
+      }
+    },
+    {
+      "name": "published source app/guided-tutorial.js",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 56549,
+        "publishedBytes": 56549
+      }
+    },
+    {
+      "name": "published source app/index.html",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 363957,
+        "publishedBytes": 364895
+      }
+    },
+    {
+      "name": "published source app/session-store.js",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 13094,
+        "publishedBytes": 13094
+      }
+    },
+    {
+      "name": "published source app/staged-delivery.js",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 4383,
+        "publishedBytes": 4383
+      }
+    },
+    {
+      "name": "published source app/storage-worker.js",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 3038,
+        "publishedBytes": 3038
+      }
+    },
+    {
+      "name": "published source app/vendor/pako-LICENSE",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 1104,
+        "publishedBytes": 1104
+      }
+    },
+    {
+      "name": "published source app/vendor/pako.min.js",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 45988,
+        "publishedBytes": 45988
+      }
+    },
+    {
+      "name": "published source build-manifest.json",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 6927,
+        "publishedBytes": 6927
+      }
+    },
+    {
+      "name": "published source index.html",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 5562,
+        "publishedBytes": 6500
+      }
+    },
+    {
+      "name": "published source lab-control.css",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 2451,
+        "publishedBytes": 2451
+      }
+    },
+    {
+      "name": "published source lab-control.js",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 8607,
+        "publishedBytes": 8607
+      }
+    },
+    {
+      "name": "published source lab-runtime.js",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sourceBytes": 12922,
+        "publishedBytes": 12922
+      }
+    },
+    {
+      "name": "browser-back-forward accepts touch input and reaches consent",
+      "pass": true,
+      "detail": {
+        "sameDocument": true,
+        "inputError": null
+      }
+    },
+    {
+      "name": "menu-link-back accepts touch input and reaches consent",
+      "pass": true,
+      "detail": {
+        "sameDocument": false,
+        "inputError": null
+      }
+    },
+    {
+      "name": "browser-back-open accepts touch input and reaches consent",
+      "pass": true,
+      "detail": {
+        "sameDocument": false,
+        "inputError": null
+      }
+    },
+    {
+      "name": "explicit menu history restores the same saved session and consent",
+      "pass": true
+    },
+    {
+      "name": "closed menu history restores the saved stage and closes menu",
+      "pass": true,
+      "detail": {
+        "before": {
+          "v": 2,
+          "search": "?study=main&block=moral&debug=1&consent=1&mic=0&run=history-saved&labcase=resume",
+          "seq": [
+            "moral"
+          ],
+          "seqIndex": 0,
+          "block": "moral",
+          "stage": "reading",
+          "phase": "practice",
+          "queue": [],
+          "totalMain": 0,
+          "trialIndex": 0,
+          "instrIndex": 0,
+          "instructedDone": false,
+          "currentCell": null,
+          "trialRecordIndex": null,
+          "rating": null,
+          "preMain": {
+            "dragDone": false,
+            "dragSchema": null,
+            "ratingDone": false,
+            "streak": 0,
+            "exampleIntroRead": false,
+            "reading": {
+              "index": -1,
+              "elapsedMs": 0
+            },
+            "drag": null
+          },
+          "post": null,
+          "activeAttempt": null,
+          "pendingInstructedStart": false,
+          "pendingMainStart": false,
+          "pendingNotice": null,
+          "stopNoticeShown": false,
+          "noticeKind": null,
+          "practiceRuleFlags": [],
+          "practiceCheck": null,
+          "noticeElapsedMs": 0,
+          "breakElapsedMs": 0,
+          "breakAtTrial": 0,
+          "stemElapsedMs": 0,
+          "aborts": 0,
+          "monitors": {
+            "noise": {
+              "n": 0,
+              "sum": 0,
+              "max": null,
+              "overMs": 0,
+              "mutedMs": 0
+            },
+            "vis": {
+              "count": 0,
+              "totalMs": 0
+            }
+          },
+          "tutChanged": false,
+          "mainStarted": false,
+          "mainElapsedMs": 0,
+          "mainElapsedAtEnd": null
+        },
+        "after": {
+          "v": 2,
+          "search": "?study=main&block=moral&debug=1&consent=1&mic=0&run=history-saved&labcase=resume",
+          "seq": [
+            "moral"
+          ],
+          "seqIndex": 0,
+          "block": "moral",
+          "stage": "reading",
+          "phase": "practice",
+          "queue": [],
+          "totalMain": 0,
+          "trialIndex": 0,
+          "instrIndex": 0,
+          "instructedDone": false,
+          "currentCell": null,
+          "trialRecordIndex": null,
+          "rating": null,
+          "preMain": {
+            "dragDone": false,
+            "dragSchema": null,
+            "ratingDone": false,
+            "streak": 0,
+            "exampleIntroRead": false,
+            "reading": {
+              "index": -1,
+              "elapsedMs": 0
+            },
+            "drag": null
+          },
+          "post": null,
+          "activeAttempt": null,
+          "pendingInstructedStart": false,
+          "pendingMainStart": false,
+          "pendingNotice": null,
+          "stopNoticeShown": false,
+          "noticeKind": null,
+          "practiceRuleFlags": [],
+          "practiceCheck": null,
+          "noticeElapsedMs": 0,
+          "breakElapsedMs": 0,
+          "breakAtTrial": 0,
+          "stemElapsedMs": 0,
+          "aborts": 0,
+          "monitors": {
+            "noise": {
+              "n": 0,
+              "sum": 0,
+              "max": null,
+              "overMs": 0,
+              "mutedMs": 0
+            },
+            "vis": {
+              "count": 0,
+              "totalMs": 0
+            }
+          },
+          "tutChanged": false,
+          "mainStarted": false,
+          "mainElapsedMs": 0,
+          "mainElapsedAtEnd": null
+        }
+      }
+    },
+    {
+      "name": "ordinary browser history keeps its live document and consent",
+      "pass": true
+    },
+    {
+      "name": "history-restored session still rejects a second writer",
+      "pass": true,
+      "detail": {
+        "message": "この回答を別のタブで開いている場合は、そちらを閉じてからもう一度試してください。保存機能が利用できないブラウザでは続けられません。"
+      }
+    },
+    {
+      "name": "no external requests",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "external": [],
+  "cases": [
+    {
+      "mode": "browser-back-forward",
+      "before": {
+        "url": "https://drag-survey-device-lab.rubyball4.chatgpt.site/app/?study=main&block=moral&debug=1&consent=1&mic=0&run=history-browser-back-forward&labcase=consent",
+        "id": "6a8c465e-7323-4524-993c-d76fbe6e0899",
+        "events": [
+          {
+            "event": "pageshow",
+            "persisted": false,
+            "hidden": false
+          }
+        ],
+        "screen": "welcome",
+        "ready": true,
+        "errors": [],
+        "inert": [],
+        "overlays": [],
+        "pid": {
+          "disabled": false,
+          "readOnly": false,
+          "inert": false,
+          "hidden": true,
+          "at": ""
+        }
+      },
+      "after": {
+        "url": "https://drag-survey-device-lab.rubyball4.chatgpt.site/app/?study=main&block=moral&debug=1&consent=1&mic=0&run=history-browser-back-forward&labcase=consent",
+        "id": "6a8c465e-7323-4524-993c-d76fbe6e0899",
+        "events": [
+          {
+            "event": "pageshow",
+            "persisted": false,
+            "hidden": false
+          },
+          {
+            "event": "pagehide",
+            "persisted": true,
+            "hidden": false
+          },
+          {
+            "event": "visibilitychange",
+            "hidden": true
+          },
+          {
+            "event": "visibilitychange",
+            "hidden": false
+          },
+          {
+            "event": "pageshow",
+            "persisted": true,
+            "hidden": false
+          }
+        ],
+        "screen": "welcome",
+        "ready": true,
+        "errors": [],
+        "inert": [],
+        "overlays": [],
+        "pid": {
+          "disabled": false,
+          "readOnly": false,
+          "inert": false,
+          "hidden": true,
+          "at": ""
+        }
+      },
+      "final": {
+        "url": "https://drag-survey-device-lab.rubyball4.chatgpt.site/app/?study=main&block=moral&debug=1&consent=1&mic=0&run=history-browser-back-forward&labcase=consent",
+        "id": "6a8c465e-7323-4524-993c-d76fbe6e0899",
+        "events": [
+          {
+            "event": "pageshow",
+            "persisted": false,
+            "hidden": false
+          },
+          {
+            "event": "pagehide",
+            "persisted": true,
+            "hidden": false
+          },
+          {
+            "event": "visibilitychange",
+            "hidden": true
+          },
+          {
+            "event": "visibilitychange",
+            "hidden": false
+          },
+          {
+            "event": "pageshow",
+            "persisted": true,
+            "hidden": false
+          }
+        ],
+        "screen": "consent",
+        "ready": true,
+        "errors": [],
+        "inert": [],
+        "overlays": [],
+        "pid": {
+          "disabled": false,
+          "readOnly": false,
+          "inert": false,
+          "hidden": true,
+          "at": ""
+        }
+      },
+      "inputError": null
+    },
+    {
+      "mode": "menu-link-back",
+      "before": {
+        "url": "https://drag-survey-device-lab.rubyball4.chatgpt.site/app/?study=main&block=moral&debug=1&consent=1&mic=0&run=history-menu-link-back&labcase=consent",
+        "id": "2f1dfee0-b7b4-4975-a5b7-4f4baef4fae9",
+        "events": [
+          {
+            "event": "pageshow",
+            "persisted": false,
+            "hidden": false
+          }
+        ],
+        "screen": "welcome",
+        "ready": true,
+        "errors": [],
+        "inert": [],
+        "overlays": [],
+        "pid": {
+          "disabled": false,
+          "readOnly": false,
+          "inert": false,
+          "hidden": true,
+          "at": ""
+        }
+      },
+      "after": {
+        "url": "https://drag-survey-device-lab.rubyball4.chatgpt.site/app/?study=main&block=moral&debug=1&consent=1&mic=0&run=history-menu-link-back&labcase=consent",
+        "id": "fd1bb646-80b9-42b9-b1b5-a7b145568c00",
+        "events": [
+          {
+            "event": "pageshow",
+            "persisted": false,
+            "hidden": false
+          }
+        ],
+        "screen": "welcome",
+        "ready": false,
+        "errors": [],
+        "inert": [],
+        "overlays": [],
+        "pid": {
+          "disabled": false,
+          "readOnly": false,
+          "inert": false,
+          "hidden": true,
+          "at": ""
+        }
+      },
+      "final": {
+        "url": "https://drag-survey-device-lab.rubyball4.chatgpt.site/app/?study=main&block=moral&debug=1&consent=1&mic=0&run=history-menu-link-back&labcase=consent",
+        "id": "fd1bb646-80b9-42b9-b1b5-a7b145568c00",
+        "events": [
+          {
+            "event": "pageshow",
+            "persisted": false,
+            "hidden": false
+          }
+        ],
+        "screen": "consent",
+        "ready": true,
+        "errors": [],
+        "inert": [],
+        "overlays": [],
+        "pid": {
+          "disabled": false,
+          "readOnly": false,
+          "inert": false,
+          "hidden": true,
+          "at": ""
+        }
+      },
+      "inputError": null
+    },
+    {
+      "mode": "browser-back-open",
+      "before": {
+        "url": "https://drag-survey-device-lab.rubyball4.chatgpt.site/app/?study=main&block=moral&debug=1&consent=1&mic=0&run=history-browser-back-open&labcase=consent",
+        "id": "dc6baa0e-5cdd-4799-93d1-0395a1c9f4a2",
+        "events": [
+          {
+            "event": "pageshow",
+            "persisted": false,
+            "hidden": false
+          }
+        ],
+        "screen": "welcome",
+        "ready": true,
+        "errors": [],
+        "inert": [],
+        "overlays": [],
+        "pid": {
+          "disabled": false,
+          "readOnly": false,
+          "inert": false,
+          "hidden": true,
+          "at": ""
+        }
+      },
+      "after": {
+        "url": "https://drag-survey-device-lab.rubyball4.chatgpt.site/app/?study=main&block=moral&debug=1&consent=1&mic=0&run=history-browser-back-open&labcase=consent",
+        "id": "805f8172-c8f0-4d8a-9e6b-d0cab224568c",
+        "events": [
+          {
+            "event": "pageshow",
+            "persisted": false,
+            "hidden": false
+          }
+        ],
+        "screen": "welcome",
+        "ready": false,
+        "errors": [],
+        "inert": [],
+        "overlays": [],
+        "pid": {
+          "disabled": false,
+          "readOnly": false,
+          "inert": false,
+          "hidden": true,
+          "at": ""
+        }
+      },
+      "final": {
+        "url": "https://drag-survey-device-lab.rubyball4.chatgpt.site/app/?study=main&block=moral&debug=1&consent=1&mic=0&run=history-browser-back-open&labcase=consent",
+        "id": "805f8172-c8f0-4d8a-9e6b-d0cab224568c",
+        "events": [
+          {
+            "event": "pageshow",
+            "persisted": false,
+            "hidden": false
+          }
+        ],
+        "screen": "consent",
+        "ready": true,
+        "errors": [],
+        "inert": [],
+        "overlays": [],
+        "pid": {
+          "disabled": false,
+          "readOnly": false,
+          "inert": false,
+          "hidden": true,
+          "at": ""
+        }
+      },
+      "inputError": null
+    }
+  ],
+  "publication": {
+    "url": "https://drag-survey-device-lab.rubyball4.chatgpt.site",
+    "commitSha": "08b5766d0c77ecd2e6e3f76a0f48d229069f55dd",
+    "versionId": "appgprj_6ad09558f6908191a501fb9f70b12336~appgver_7ef1521ba3e081919c24f77bdf88306b",
+    "deploymentId": "appgdep_6ad0d9b7c7d88191925ebe90354bec31"
+  },
+  "passed": 27,
+  "failed": 0
+}

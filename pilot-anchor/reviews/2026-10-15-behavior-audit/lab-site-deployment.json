@@ -1,0 +1,28 @@
+{
+  "checkedAt": "2026-10-15T13:54:01.328Z",
+  "patch": "lab-history-recovery1",
+  "projectId": "appgprj_6ad09558f6908191a501fb9f70b12336",
+  "url": "https://drag-survey-device-lab.rubyball4.chatgpt.site",
+  "versionId": "appgprj_6ad09558f6908191a501fb9f70b12336~appgver_7ef1521ba3e081919c24f77bdf88306b",
+  "versionNumber": 6,
+  "commitSha": "08b5766d0c77ecd2e6e3f76a0f48d229069f55dd",
+  "deploymentId": "appgdep_6ad0d9b7c7d88191925ebe90354bec31",
+  "deploymentStatus": "succeeded",
+  "deploymentUpdatedAt": "2026-10-15T13:48:58.138322+00:00",
+  "audience": {
+    "mode": "custom",
+    "role": "owner",
+    "allowedOwnerCount": 1,
+    "otherAllowedUserCount": 0,
+    "externalVisitorCount": 0,
+    "allowedGroupCount": 0
+  },
+  "changedFiles": [
+    "dist/lab-runtime.js",
+    "dist/build-manifest.json"
+  ],
+  "productionCoreChanged": false,
+  "localHistoryEvidence": "lab-history-recovery-results.json",
+  "localRegressionEvidence": "lab-regression-results.json",
+  "publishedEvidence": "lab-history-published-results.json"
+}

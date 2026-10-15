@@ -1,0 +1,440 @@
+{
+  "at": "2026-10-15T13:52:07.929Z",
+  "scope": "Synthetic lab history and input recovery; no participant origin or collector",
+  "checks": [
+    {
+      "name": "browser-back-forward accepts touch input and reaches consent",
+      "pass": true,
+      "detail": {
+        "sameDocument": true,
+        "inputError": null
+      }
+    },
+    {
+      "name": "menu-link-back accepts touch input and reaches consent",
+      "pass": true,
+      "detail": {
+        "sameDocument": false,
+        "inputError": null
+      }
+    },
+    {
+      "name": "browser-back-open accepts touch input and reaches consent",
+      "pass": true,
+      "detail": {
+        "sameDocument": false,
+        "inputError": null
+      }
+    },
+    {
+      "name": "explicit menu history restores the same saved session and consent",
+      "pass": true
+    },
+    {
+      "name": "closed menu history restores the saved stage and closes menu",
+      "pass": true,
+      "detail": {
+        "before": {
+          "v": 2,
+          "search": "?study=main&block=moral&debug=1&consent=1&mic=0&run=history-saved&labcase=resume",
+          "seq": [
+            "moral"
+          ],
+          "seqIndex": 0,
+          "block": "moral",
+          "stage": "reading",
+          "phase": "practice",
+          "queue": [],
+          "totalMain": 0,
+          "trialIndex": 0,
+          "instrIndex": 0,
+          "instructedDone": false,
+          "currentCell": null,
+          "trialRecordIndex": null,
+          "rating": null,
+          "preMain": {
+            "dragDone": false,
+            "dragSchema": null,
+            "ratingDone": false,
+            "streak": 0,
+            "exampleIntroRead": false,
+            "reading": {
+              "index": -1,
+              "elapsedMs": 0
+            },
+            "drag": null
+          },
+          "post": null,
+          "activeAttempt": null,
+          "pendingInstructedStart": false,
+          "pendingMainStart": false,
+          "pendingNotice": null,
+          "stopNoticeShown": false,
+          "noticeKind": null,
+          "practiceRuleFlags": [],
+          "practiceCheck": null,
+          "noticeElapsedMs": 0,
+          "breakElapsedMs": 0,
+          "breakAtTrial": 0,
+          "stemElapsedMs": 0,
+          "aborts": 0,
+          "monitors": {
+            "noise": {
+              "n": 0,
+              "sum": 0,
+              "max": null,
+              "overMs": 0,
+              "mutedMs": 0
+            },
+            "vis": {
+              "count": 0,
+              "totalMs": 0
+            }
+          },
+          "tutChanged": false,
+          "mainStarted": false,
+          "mainElapsedMs": 0,
+          "mainElapsedAtEnd": null
+        },
+        "after": {
+          "v": 2,
+          "search": "?study=main&block=moral&debug=1&consent=1&mic=0&run=history-saved&labcase=resume",
+          "seq": [
+            "moral"
+          ],
+          "seqIndex": 0,
+          "block": "moral",
+          "stage": "reading",
+          "phase": "practice",
+          "queue": [],
+          "totalMain": 0,
+          "trialIndex": 0,
+          "instrIndex": 0,
+          "instructedDone": false,
+          "currentCell": null,
+          "trialRecordIndex": null,
+          "rating": null,
+          "preMain": {
+            "dragDone": false,
+            "dragSchema": null,
+            "ratingDone": false,
+            "streak": 0,
+            "exampleIntroRead": false,
+            "reading": {
+              "index": -1,
+              "elapsedMs": 0
+            },
+            "drag": null
+          },
+          "post": null,
+          "activeAttempt": null,
+          "pendingInstructedStart": false,
+          "pendingMainStart": false,
+          "pendingNotice": null,
+          "stopNoticeShown": false,
+          "noticeKind": null,
+          "practiceRuleFlags": [],
+          "practiceCheck": null,
+          "noticeElapsedMs": 0,
+          "breakElapsedMs": 0,
+          "breakAtTrial": 0,
+          "stemElapsedMs": 0,
+          "aborts": 0,
+          "monitors": {
+            "noise": {
+              "n": 0,
+              "sum": 0,
+              "max": null,
+              "overMs": 0,
+              "mutedMs": 0
+            },
+            "vis": {
+              "count": 0,
+              "totalMs": 0
+            }
+          },
+          "tutChanged": false,
+          "mainStarted": false,
+          "mainElapsedMs": 0,
+          "mainElapsedAtEnd": null
+        }
+      }
+    },
+    {
+      "name": "ordinary browser history keeps its live document and consent",
+      "pass": true
+    },
+    {
+      "name": "history-restored session still rejects a second writer",
+      "pass": true,
+      "detail": {
+        "message": "この回答を別のタブで開いている場合は、そちらを閉じてからもう一度試してください。保存機能が利用できないブラウザでは続けられません。"
+      }
+    },
+    {
+      "name": "no external requests",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "external": [],
+  "cases": [
+    {
+      "mode": "browser-back-forward",
+      "before": {
+        "url": "http://127.0.0.1:61200/app/index.html?study=main&block=moral&debug=1&consent=1&mic=0&run=history-browser-back-forward&labcase=consent",
+        "id": "02313abf-772e-4619-8718-9111ddcdfb08",
+        "events": [
+          {
+            "event": "pageshow",
+            "persisted": false,
+            "hidden": false
+          }
+        ],
+        "screen": "welcome",
+        "ready": true,
+        "errors": [],
+        "inert": [],
+        "overlays": [],
+        "pid": {
+          "disabled": false,
+          "readOnly": false,
+          "inert": false,
+          "hidden": true,
+          "at": ""
+        }
+      },
+      "after": {
+        "url": "http://127.0.0.1:61200/app/index.html?study=main&block=moral&debug=1&consent=1&mic=0&run=history-browser-back-forward&labcase=consent",
+        "id": "02313abf-772e-4619-8718-9111ddcdfb08",
+        "events": [
+          {
+            "event": "pageshow",
+            "persisted": false,
+            "hidden": false
+          },
+          {
+            "event": "pagehide",
+            "persisted": true,
+            "hidden": false
+          },
+          {
+            "event": "visibilitychange",
+            "hidden": true
+          },
+          {
+            "event": "visibilitychange",
+            "hidden": false
+          },
+          {
+            "event": "pageshow",
+            "persisted": true,
+            "hidden": false
+          }
+        ],
+        "screen": "welcome",
+        "ready": true,
+        "errors": [],
+        "inert": [],
+        "overlays": [],
+        "pid": {
+          "disabled": false,
+          "readOnly": false,
+          "inert": false,
+          "hidden": true,
+          "at": ""
+        }
+      },
+      "final": {
+        "url": "http://127.0.0.1:61200/app/index.html?study=main&block=moral&debug=1&consent=1&mic=0&run=history-browser-back-forward&labcase=consent",
+        "id": "02313abf-772e-4619-8718-9111ddcdfb08",
+        "events": [
+          {
+            "event": "pageshow",
+            "persisted": false,
+            "hidden": false
+          },
+          {
+            "event": "pagehide",
+            "persisted": true,
+            "hidden": false
+          },
+          {
+            "event": "visibilitychange",
+            "hidden": true
+          },
+          {
+            "event": "visibilitychange",
+            "hidden": false
+          },
+          {
+            "event": "pageshow",
+            "persisted": true,
+            "hidden": false
+          }
+        ],
+        "screen": "consent",
+        "ready": true,
+        "errors": [],
+        "inert": [],
+        "overlays": [],
+        "pid": {
+          "disabled": false,
+          "readOnly": false,
+          "inert": false,
+          "hidden": true,
+          "at": ""
+        }
+      },
+      "inputError": null
+    },
+    {
+      "mode": "menu-link-back",
+      "before": {
+        "url": "http://127.0.0.1:61200/app/index.html?study=main&block=moral&debug=1&consent=1&mic=0&run=history-menu-link-back&labcase=consent",
+        "id": "bbf8a553-8631-4bf6-88ce-8ebf199e07be",
+        "events": [
+          {
+            "event": "pageshow",
+            "persisted": false,
+            "hidden": false
+          }
+        ],
+        "screen": "welcome",
+        "ready": true,
+        "errors": [],
+        "inert": [],
+        "overlays": [],
+        "pid": {
+          "disabled": false,
+          "readOnly": false,
+          "inert": false,
+          "hidden": true,
+          "at": ""
+        }
+      },
+      "after": {
+        "url": "http://127.0.0.1:61200/app/index.html?study=main&block=moral&debug=1&consent=1&mic=0&run=history-menu-link-back&labcase=consent",
+        "id": "7cf8b225-db5d-446a-b0f3-62df32522401",
+        "events": [
+          {
+            "event": "pageshow",
+            "persisted": false,
+            "hidden": false
+          }
+        ],
+        "screen": "welcome",
+        "ready": true,
+        "errors": [],
+        "inert": [],
+        "overlays": [],
+        "pid": {
+          "disabled": false,
+          "readOnly": false,
+          "inert": false,
+          "hidden": true,
+          "at": ""
+        }
+      },
+      "final": {
+        "url": "http://127.0.0.1:61200/app/index.html?study=main&block=moral&debug=1&consent=1&mic=0&run=history-menu-link-back&labcase=consent",
+        "id": "7cf8b225-db5d-446a-b0f3-62df32522401",
+        "events": [
+          {
+            "event": "pageshow",
+            "persisted": false,
+            "hidden": false
+          }
+        ],
+        "screen": "consent",
+        "ready": true,
+        "errors": [],
+        "inert": [],
+        "overlays": [],
+        "pid": {
+          "disabled": false,
+          "readOnly": false,
+          "inert": false,
+          "hidden": true,
+          "at": ""
+        }
+      },
+      "inputError": null
+    },
+    {
+      "mode": "browser-back-open",
+      "before": {
+        "url": "http://127.0.0.1:61200/app/index.html?study=main&block=moral&debug=1&consent=1&mic=0&run=history-browser-back-open&labcase=consent",
+        "id": "04dda7d6-ce25-4266-8625-11d60d583dd7",
+        "events": [
+          {
+            "event": "pageshow",
+            "persisted": false,
+            "hidden": false
+          }
+        ],
+        "screen": "welcome",
+        "ready": true,
+        "errors": [],
+        "inert": [],
+        "overlays": [],
+        "pid": {
+          "disabled": false,
+          "readOnly": false,
+          "inert": false,
+          "hidden": true,
+          "at": ""
+        }
+      },
+      "after": {
+        "url": "http://127.0.0.1:61200/app/index.html?study=main&block=moral&debug=1&consent=1&mic=0&run=history-browser-back-open&labcase=consent",
+        "id": "26d162a4-aa99-4d38-af52-92f7b91a62d5",
+        "events": [
+          {
+            "event": "pageshow",
+            "persisted": false,
+            "hidden": false
+          }
+        ],
+        "screen": "welcome",
+        "ready": true,
+        "errors": [],
+        "inert": [],
+        "overlays": [],
+        "pid": {
+          "disabled": false,
+          "readOnly": false,
+          "inert": false,
+          "hidden": true,
+          "at": ""
+        }
+      },
+      "final": {
+        "url": "http://127.0.0.1:61200/app/index.html?study=main&block=moral&debug=1&consent=1&mic=0&run=history-browser-back-open&labcase=consent",
+        "id": "26d162a4-aa99-4d38-af52-92f7b91a62d5",
+        "events": [
+          {
+            "event": "pageshow",
+            "persisted": false,
+            "hidden": false
+          }
+        ],
+        "screen": "consent",
+        "ready": true,
+        "errors": [],
+        "inert": [],
+        "overlays": [],
+        "pid": {
+          "disabled": false,
+          "readOnly": false,
+          "inert": false,
+          "hidden": true,
+          "at": ""
+        }
+      },
+      "inputError": null
+    }
+  ],
+  "passed": 8,
+  "failed": 0
+}
