@@ -1,0 +1,39 @@
+{
+  "checkedAt": "2026-10-15T13:53:20.057Z",
+  "checks": [
+    {
+      "name": "375 no horizontal page overflow",
+      "pass": true
+    },
+    {
+      "name": "375 completed counts and summary",
+      "pass": true
+    },
+    {
+      "name": "375 all source/evidence links exist except root-owned index pending",
+      "pass": true
+    },
+    {
+      "name": "375 expanded checks remain within viewport",
+      "pass": true
+    },
+    {
+      "name": "1200 no horizontal page overflow",
+      "pass": true
+    },
+    {
+      "name": "1200 completed counts and summary",
+      "pass": true
+    },
+    {
+      "name": "1200 all source/evidence links exist except root-owned index pending",
+      "pass": true
+    },
+    {
+      "name": "1200 expanded checks remain within viewport",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "passed": true
+}

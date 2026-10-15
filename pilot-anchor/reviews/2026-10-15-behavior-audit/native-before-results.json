@@ -1,0 +1,342 @@
+{
+  "at": "2026-10-15T13:54:53.767Z",
+  "source": {
+    "index.html": "56af91d047a8bb3c83ca77e43008a21889535580f664156adbcd0a8f339edb2e",
+    "app.css": "07462d80c069de42d3d80c865d8a765ab0ce2ea44a44c980e19396ff647e65ca"
+  },
+  "checks": [
+    {
+      "name": "#notice h1: both native defaults canceled, no synthetic click",
+      "pass": true,
+      "detail": {
+        "events": [
+          {
+            "prevented": true,
+            "target": "H1"
+          },
+          {
+            "prevented": true,
+            "target": "H1"
+          }
+        ],
+        "clicks": [],
+        "scale": 1
+      }
+    },
+    {
+      "name": "#notice h1: Chrome viewport unchanged",
+      "pass": true,
+      "detail": 1
+    },
+    {
+      "name": "#noticeText: both native defaults canceled, no synthetic click",
+      "pass": true,
+      "detail": {
+        "events": [
+          {
+            "prevented": true,
+            "target": "P"
+          },
+          {
+            "prevented": true,
+            "target": "P"
+          }
+        ],
+        "clicks": [],
+        "scale": 1
+      }
+    },
+    {
+      "name": "#noticeText: Chrome viewport unchanged",
+      "pass": true,
+      "detail": 1
+    },
+    {
+      "name": "#noticeGo: both native defaults canceled, no synthetic click",
+      "pass": true,
+      "detail": {
+        "events": [
+          {
+            "prevented": true,
+            "target": "noticeGo"
+          },
+          {
+            "prevented": true,
+            "target": "noticeGo"
+          }
+        ],
+        "clicks": [],
+        "scale": 1
+      }
+    },
+    {
+      "name": "#noticeGo: Chrome viewport unchanged",
+      "pass": true,
+      "detail": 1
+    },
+    {
+      "name": "notice padding: both native defaults canceled, no synthetic click",
+      "pass": true,
+      "detail": {
+        "events": [
+          {
+            "prevented": true,
+            "target": "DIV"
+          },
+          {
+            "prevented": true,
+            "target": "DIV"
+          }
+        ],
+        "clicks": [],
+        "scale": 1
+      }
+    },
+    {
+      "name": "notice padding: Chrome viewport unchanged",
+      "pass": true,
+      "detail": 1
+    },
+    {
+      "name": "notice disabled gate remains closed",
+      "pass": true
+    },
+    {
+      "name": "one acknowledgement control remains",
+      "pass": true
+    },
+    {
+      "name": "return button still works",
+      "pass": true
+    },
+    {
+      "name": "go=notice&notice=early_late: no upload URL",
+      "pass": true
+    },
+    {
+      "name": "additional intro text: both native defaults canceled, no synthetic click",
+      "pass": true,
+      "detail": {
+        "events": [
+          {
+            "prevented": true,
+            "target": "P"
+          },
+          {
+            "prevented": true,
+            "target": "P"
+          }
+        ],
+        "clicks": [],
+        "scale": 1
+      }
+    },
+    {
+      "name": "additional intro text: Chrome viewport unchanged",
+      "pass": true,
+      "detail": 1
+    },
+    {
+      "name": "additional intro padding: both native defaults canceled, no synthetic click",
+      "pass": true,
+      "detail": {
+        "events": [
+          {
+            "prevented": true,
+            "target": "DIV"
+          },
+          {
+            "prevented": true,
+            "target": "DIV"
+          }
+        ],
+        "clicks": [],
+        "scale": 1
+      }
+    },
+    {
+      "name": "additional intro padding: Chrome viewport unchanged",
+      "pass": true,
+      "detail": 1
+    },
+    {
+      "name": "additional continue opens task",
+      "pass": true
+    },
+    {
+      "name": "go=instructed: no upload URL",
+      "pass": true
+    },
+    {
+      "name": "disabled practice continue: both native defaults canceled, no synthetic click",
+      "pass": true,
+      "detail": {
+        "events": [
+          {
+            "prevented": true,
+            "target": "practiceCheckGo"
+          },
+          {
+            "prevented": true,
+            "target": "practiceCheckGo"
+          }
+        ],
+        "clicks": [],
+        "scale": 1
+      }
+    },
+    {
+      "name": "disabled practice continue: Chrome viewport unchanged",
+      "pass": true,
+      "detail": 1
+    },
+    {
+      "name": "practice heading: both native defaults canceled, no synthetic click",
+      "pass": true,
+      "detail": {
+        "events": [
+          {
+            "prevented": true,
+            "target": "H1"
+          },
+          {
+            "prevented": true,
+            "target": "H1"
+          }
+        ],
+        "clicks": [],
+        "scale": 1
+      }
+    },
+    {
+      "name": "practice heading: Chrome viewport unchanged",
+      "pass": true,
+      "detail": 1
+    },
+    {
+      "name": "all checkbox labels still activate",
+      "pass": true
+    },
+    {
+      "name": "practice continue enabled only after checks",
+      "pass": true
+    },
+    {
+      "name": "practice continue works",
+      "pass": true
+    },
+    {
+      "name": "go=practicecheck: no upload URL",
+      "pass": true
+    },
+    {
+      "name": "survey question: both native defaults canceled, no synthetic click",
+      "pass": true,
+      "detail": {
+        "events": [
+          {
+            "prevented": true,
+            "target": "gripQuestion"
+          },
+          {
+            "prevented": true,
+            "target": "gripQuestion"
+          }
+        ],
+        "clicks": [],
+        "scale": 1
+      }
+    },
+    {
+      "name": "survey question: Chrome viewport unchanged",
+      "pass": true,
+      "detail": 1
+    },
+    {
+      "name": "survey answer selected",
+      "pass": true
+    },
+    {
+      "name": "survey next works",
+      "pass": true
+    },
+    {
+      "name": "custom unanswered link keeps native click",
+      "pass": true
+    },
+    {
+      "name": "go=post: no upload URL",
+      "pass": true
+    },
+    {
+      "name": "rating text: both native defaults canceled, no synthetic click",
+      "pass": true,
+      "detail": {
+        "events": [
+          {
+            "prevented": true,
+            "target": "DIV"
+          },
+          {
+            "prevented": true,
+            "target": "DIV"
+          }
+        ],
+        "clicks": [],
+        "scale": 1
+      }
+    },
+    {
+      "name": "rating text: Chrome viewport unchanged",
+      "pass": true,
+      "detail": 1
+    },
+    {
+      "name": "rating selection and next preserved",
+      "pass": true
+    },
+    {
+      "name": "go=rating: no upload URL",
+      "pass": true
+    },
+    {
+      "name": "text field focus preserved",
+      "pass": true
+    },
+    {
+      "name": "text entry preserved",
+      "pass": true
+    },
+    {
+      "name": "static-area swipe scrolls and end is not canceled",
+      "pass": true
+    },
+    {
+      "name": "multitouch and canceled sequences are ignored",
+      "pass": true,
+      "detail": {
+        "multi": false,
+        "canceled": false
+      }
+    },
+    {
+      "name": "welcome=0: no upload URL",
+      "pass": true
+    },
+    {
+      "name": "no JS errors",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "no remote requests",
+      "pass": true,
+      "detail": []
+    }
+  ],
+  "errors": [],
+  "remote": [],
+  "scope": "Chrome touch emulation; physical Safari smart zoom remains to be checked",
+  "passed": 43,
+  "failed": 0
+}

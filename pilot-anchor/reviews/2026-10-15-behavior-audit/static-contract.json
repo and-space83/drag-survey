@@ -1,0 +1,590 @@
+{
+  "checkedAt": "2026-10-15T13:51:11.944Z",
+  "scope": "LF正規化した凍結ui19と現行のソース照合。動作確認、実機確認、実GAS/Driveの検証ではない。",
+  "assets": [
+    {
+      "file": "index.html",
+      "before": "56af91d047a8bb3c83ca77e43008a21889535580f664156adbcd0a8f339edb2e",
+      "current": "e3e2aedaccaae98893e400d7e727ea2496884c6df2163f94edeb648079015777",
+      "same": false
+    },
+    {
+      "file": "app.css",
+      "before": "07462d80c069de42d3d80c865d8a765ab0ce2ea44a44c980e19396ff647e65ca",
+      "current": "2a55dac2607fe78a57674b1b4e61551dbc40e782a2fff6238b26f21efcb28e27",
+      "same": false
+    },
+    {
+      "file": "guided-tutorial.js",
+      "before": null,
+      "current": "231ce70f1a01fa178e43616db65c691e7fe0317853762d81a4a7e82e88871c26",
+      "same": false
+    },
+    {
+      "file": "guided-tutorial.css",
+      "before": null,
+      "current": "54e56698da645dfdd4dc425ec3a127d6c7751987f369e058692c93b7c1918853",
+      "same": false
+    },
+    {
+      "file": "bank.js",
+      "before": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
+      "current": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
+      "same": true
+    },
+    {
+      "file": "session-store.js",
+      "before": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+      "current": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+      "same": true
+    },
+    {
+      "file": "durable-storage.js",
+      "before": "84d006f048e2cc16c4a7a7087ec5815485c0b3a7d2ffa4ce6b7b62905dde967b",
+      "current": "84d006f048e2cc16c4a7a7087ec5815485c0b3a7d2ffa4ce6b7b62905dde967b",
+      "same": true
+    },
+    {
+      "file": "storage-worker.js",
+      "before": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
+      "current": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
+      "same": true
+    },
+    {
+      "file": "staged-delivery.js",
+      "before": "7f37d628ce04dc47233b16387d43add674608d278030dd17355621745ab9f7ad",
+      "current": "7f37d628ce04dc47233b16387d43add674608d278030dd17355621745ab9f7ad",
+      "same": true
+    },
+    {
+      "file": "consent.js",
+      "before": "6dae132f66dc20526ae6e79c59c6ff12049a75a1b11161b6815bfa1339a14bd9",
+      "current": "6dae132f66dc20526ae6e79c59c6ff12049a75a1b11161b6815bfa1339a14bd9",
+      "same": true
+    },
+    {
+      "file": "consent.css",
+      "before": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
+      "current": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
+      "same": true
+    },
+    {
+      "file": "data-codec.js",
+      "before": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+      "current": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+      "same": true
+    },
+    {
+      "file": "vendor/pako.min.js",
+      "before": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+      "current": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+      "same": true
+    },
+    {
+      "file": "vendor/pako-LICENSE",
+      "before": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539",
+      "current": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539",
+      "same": true
+    }
+  ],
+  "functions": [
+    {
+      "name": "publicTrial",
+      "oldExists": true,
+      "currentExists": true,
+      "same": true,
+      "beforeSha": "e00c8771a946d87d77ac88bc05a4f3bcd6dd892bd1226f48389f7c921376f48c",
+      "currentSha": "e00c8771a946d87d77ac88bc05a4f3bcd6dd892bd1226f48389f7c921376f48c",
+      "oldLine": 1762,
+      "currentLine": 1784
+    },
+    {
+      "name": "invalidAttempt",
+      "oldExists": true,
+      "currentExists": true,
+      "same": true,
+      "beforeSha": "713892604f23217431e1238b2f2cce678ce286275c9a027afe8ce8eb354366d9",
+      "currentSha": "713892604f23217431e1238b2f2cce678ce286275c9a027afe8ce8eb354366d9",
+      "oldLine": 1765,
+      "currentLine": 1787
+    },
+    {
+      "name": "restoreInvalidAttempts",
+      "oldExists": true,
+      "currentExists": true,
+      "same": true,
+      "beforeSha": "a214b0343aeb48d6504e18bbe5851f6d23b4aacc8d656711977b37fb0e04a9ca",
+      "currentSha": "a214b0343aeb48d6504e18bbe5851f6d23b4aacc8d656711977b37fb0e04a9ca",
+      "oldLine": 1771,
+      "currentLine": 1793
+    },
+    {
+      "name": "presentStimulus",
+      "oldExists": true,
+      "currentExists": true,
+      "same": true,
+      "beforeSha": "dbf967a1b7ca6b16c5a38b53cd9aa158d901b6d02954dc93228b08005fa260f8",
+      "currentSha": "dbf967a1b7ca6b16c5a38b53cd9aa158d901b6d02954dc93228b08005fa260f8",
+      "oldLine": 2046,
+      "currentLine": 2068
+    },
+    {
+      "name": "revealStimulus",
+      "oldExists": true,
+      "currentExists": true,
+      "same": true,
+      "beforeSha": "e8414d8664f95fecc7e36e00ba9d21548eb1e8d75ba9bc955d683342886932de",
+      "currentSha": "e8414d8664f95fecc7e36e00ba9d21548eb1e8d75ba9bc955d683342886932de",
+      "oldLine": 2114,
+      "currentLine": 2136
+    },
+    {
+      "name": "pushEvent",
+      "oldExists": true,
+      "currentExists": true,
+      "same": true,
+      "beforeSha": "38ebbb7f992093ac3364975870d61ec9df3391136bf924dd80bde54f3b828b58",
+      "currentSha": "38ebbb7f992093ac3364975870d61ec9df3391136bf924dd80bde54f3b828b58",
+      "oldLine": 2220,
+      "currentLine": 2239
+    },
+    {
+      "name": "computeStops",
+      "oldExists": true,
+      "currentExists": true,
+      "same": true,
+      "beforeSha": "53392529abfc673c56e0f2864d677edb2dfde443a675cdc5fab9f00e6b64fcf1",
+      "currentSha": "53392529abfc673c56e0f2864d677edb2dfde443a675cdc5fab9f00e6b64fcf1",
+      "oldLine": 2273,
+      "currentLine": 2295
+    },
+    {
+      "name": "finalizeDrag",
+      "oldExists": true,
+      "currentExists": true,
+      "same": true,
+      "beforeSha": "e17b6e09431e16d7bf970377b871a3918fc0e17c8622c5c737ceddf515049251",
+      "currentSha": "e17b6e09431e16d7bf970377b871a3918fc0e17c8622c5c737ceddf515049251",
+      "oldLine": 2288,
+      "currentLine": 2310
+    },
+    {
+      "name": "buildPayload",
+      "oldExists": true,
+      "currentExists": true,
+      "same": true,
+      "beforeSha": "0df3faacb2e83fc84fb4849700de4a272b1544ac5fc28e17f18ccfa9b86b6306",
+      "currentSha": "0df3faacb2e83fc84fb4849700de4a272b1544ac5fc28e17f18ccfa9b86b6306",
+      "oldLine": 4631,
+      "currentLine": 4196
+    },
+    {
+      "name": "saveBackup",
+      "oldExists": true,
+      "currentExists": true,
+      "same": true,
+      "beforeSha": "f5592bbe889985e6951275da24c9f944de944ba87a27120e19e6f4f41e6a77a7",
+      "currentSha": "f5592bbe889985e6951275da24c9f944de944ba87a27120e19e6f4f41e6a77a7",
+      "oldLine": 4641,
+      "currentLine": 4206
+    },
+    {
+      "name": "normalizedResume",
+      "oldExists": true,
+      "currentExists": true,
+      "same": true,
+      "beforeSha": "44c3f082935240f2318f5f3f08e775ea42de9cefa8a0ee204f3a5e8f294280ca",
+      "currentSha": "44c3f082935240f2318f5f3f08e775ea42de9cefa8a0ee204f3a5e8f294280ca",
+      "oldLine": 4725,
+      "currentLine": 4290
+    },
+    {
+      "name": "closeRatingReview",
+      "oldExists": true,
+      "currentExists": true,
+      "same": true,
+      "beforeSha": "180caa34475ad93eeeaf567fcc10532d63ef878b3cc0c15f179ad959443b325d",
+      "currentSha": "180caa34475ad93eeeaf567fcc10532d63ef878b3cc0c15f179ad959443b325d",
+      "oldLine": 2575,
+      "currentLine": 2602
+    },
+    {
+      "name": "minReadMs",
+      "oldExists": true,
+      "currentExists": true,
+      "same": true,
+      "beforeSha": "f7b3adb5128e7ff447aff96ee9d6fcebe73e5f866200258304d1228d8d7c3e50",
+      "currentSha": "f7b3adb5128e7ff447aff96ee9d6fcebe73e5f866200258304d1228d8d7c3e50",
+      "oldLine": 2661,
+      "currentLine": 2685
+    },
+    {
+      "name": "readCueDelay",
+      "oldExists": true,
+      "currentExists": true,
+      "same": true,
+      "beforeSha": "690683a619fdd49d91944c3dae82bdaa45b10347194c8f0adfc3adb7e501154e",
+      "currentSha": "690683a619fdd49d91944c3dae82bdaa45b10347194c8f0adfc3adb7e501154e",
+      "oldLine": 2666,
+      "currentLine": 2690
+    },
+    {
+      "name": "requestWakeLock",
+      "oldExists": true,
+      "currentExists": true,
+      "same": true,
+      "beforeSha": "f293a5a98a61bb482a24fda16ca150b56c9759e776ffc6bb346e8ae96da4ba1f",
+      "currentSha": "f293a5a98a61bb482a24fda16ca150b56c9759e776ffc6bb346e8ae96da4ba1f",
+      "oldLine": 1433,
+      "currentLine": 1444
+    },
+    {
+      "name": "captureIntro",
+      "oldExists": true,
+      "currentExists": true,
+      "same": true,
+      "beforeSha": "380b093a3a2fceacb84074db7e154e5fa9a5ec51cf776d81480083b26aabc339",
+      "currentSha": "380b093a3a2fceacb84074db7e154e5fa9a5ec51cf776d81480083b26aabc339",
+      "oldLine": 2833,
+      "currentLine": 2868
+    },
+    {
+      "name": "showReading",
+      "oldExists": true,
+      "currentExists": true,
+      "same": true,
+      "beforeSha": "094f860f9201c5b70f1a336b65b62d8a20093b0f8f35592f66c90cec3215a504",
+      "currentSha": "094f860f9201c5b70f1a336b65b62d8a20093b0f8f35592f66c90cec3215a504",
+      "oldLine": 1641,
+      "currentLine": 1652
+    },
+    {
+      "name": "logInstructionExposure",
+      "oldExists": true,
+      "currentExists": true,
+      "same": true,
+      "beforeSha": "1ad3c159c4daf7033af81bb3113530250f2771260ff47272067947fb20eb46c8",
+      "currentSha": "1ad3c159c4daf7033af81bb3113530250f2771260ff47272067947fb20eb46c8",
+      "oldLine": 1325,
+      "currentLine": 1336
+    },
+    {
+      "name": "moralPracticeDefinition",
+      "oldExists": true,
+      "currentExists": true,
+      "same": true,
+      "beforeSha": "56cd2babc4c196f65771d8c0b59d4b39797cbe7dd9a0c76fcb5de150962cc4a4",
+      "currentSha": "56cd2babc4c196f65771d8c0b59d4b39797cbe7dd9a0c76fcb5de150962cc4a4",
+      "oldLine": 1296,
+      "currentLine": 1307
+    },
+    {
+      "name": "retryTrial",
+      "oldExists": true,
+      "currentExists": true,
+      "same": false,
+      "beforeSha": "c5ef7321f2430f7977c2bcc25bb67ff8528ca1bc1ab74fdd4da272fc1fde6ee4",
+      "currentSha": "d064148791abe66d0ec1a0da09b0f8854bccb8fe23fd99e24db12f155da3bb3f",
+      "oldLine": 2240,
+      "currentLine": 2261
+    },
+    {
+      "name": "selectRating",
+      "oldExists": true,
+      "currentExists": true,
+      "same": false,
+      "beforeSha": "55172c98de803a1aeefa2c37430b8f2df0aa494dc789cecda5e1d0613993a551",
+      "currentSha": "27c29e8cd337a741a9acbb6e0ffcc4f365502aa58e37843dfc3791712aeaa6cd",
+      "oldLine": 2787,
+      "currentLine": 2807
+    },
+    {
+      "name": "submitRating",
+      "oldExists": true,
+      "currentExists": true,
+      "same": false,
+      "beforeSha": "8b3c9c2243bb68efa41f3794bbf9e4718033057634698a7cf4ca599bdc57845e",
+      "currentSha": "cd861216a41976325a43d303902c9859631c1e8d371ff1541b718f7dd0ed8cd0",
+      "oldLine": 2803,
+      "currentLine": 2824
+    },
+    {
+      "name": "beginRating",
+      "oldExists": true,
+      "currentExists": true,
+      "same": false,
+      "beforeSha": "b0a31ae5dcef0ee06c950e2137ee1d386dbd6b5c5eac9ba00249787f659b4b48",
+      "currentSha": "f6561a06c83b5f0630e78608fc423b79a611630972462ad1644fce8182aef144",
+      "oldLine": 2470,
+      "currentLine": 2492
+    },
+    {
+      "name": "ratShowPage",
+      "oldExists": true,
+      "currentExists": true,
+      "same": false,
+      "beforeSha": "b338001172d26a5ea10888ef77e000af8eceb22451cafca74fdce7596664989a",
+      "currentSha": "bd4638893cdb355e69f883becea6974e38c9aa5aca532b7178e2a6ed8f0902c8",
+      "oldLine": 2529,
+      "currentLine": 2553
+    },
+    {
+      "name": "resumeState",
+      "oldExists": true,
+      "currentExists": true,
+      "same": false,
+      "beforeSha": "d47d23c1ff4ab73c95eb2cbb317d45c2117318c7245ff3f2d878c87b55ac19e5",
+      "currentSha": "a9d1b1994238bd1f383d8d6576e4885f8c63c94916bdfef9d6a2c279464fff64",
+      "oldLine": 4698,
+      "currentLine": 4263
+    },
+    {
+      "name": "canResume",
+      "oldExists": true,
+      "currentExists": true,
+      "same": false,
+      "beforeSha": "3c0a6c406586fea5c9c37a58a4a38b1facd94dcb8ff2913b87ba4f3eeb158e46",
+      "currentSha": "fce839e0ebcfd22937071042614f90f1e966ec97c9ce0699443dd41aa13ebd2e",
+      "oldLine": 4741,
+      "currentLine": 4306
+    },
+    {
+      "name": "doResume",
+      "oldExists": true,
+      "currentExists": true,
+      "same": false,
+      "beforeSha": "c3fc279799b2fcde002aaa98874635a878697c9c4d940c73c8485622a71aae76",
+      "currentSha": "8b62db9700f9ceb59d14dc6679c71ae443c29f6f6bf23baa98752993b5d83953",
+      "oldLine": 4791,
+      "currentLine": 4357
+    },
+    {
+      "name": "startPractice",
+      "oldExists": true,
+      "currentExists": true,
+      "same": false,
+      "beforeSha": "645659668e192cbb247cdfe0c16c06b840ca93ddb731b4100dd0ac8a0d865046",
+      "currentSha": "b2fa722596ddb9e96da3ca65e0df977f3c55ae56963ee4a61bf1e106e28e4503",
+      "oldLine": 3387,
+      "currentLine": 2951
+    }
+  ],
+  "constants": [
+    {
+      "name": "ITEMS",
+      "same": true,
+      "beforeSha": "3dbcee85c452e74998f679c16b95668573e5ca8f679cce9827523301ee78f61d",
+      "currentSha": "3dbcee85c452e74998f679c16b95668573e5ca8f679cce9827523301ee78f61d"
+    },
+    {
+      "name": "CONFIG",
+      "same": true,
+      "beforeSha": "12194764cf303f73f95b5ba74444b912e75fff60e64ada69f8a8171b8c2d0922",
+      "currentSha": "12194764cf303f73f95b5ba74444b912e75fff60e64ada69f8a8171b8c2d0922"
+    },
+    {
+      "name": "PRACTICE_RULES",
+      "same": true,
+      "beforeSha": "c7f8c7fc8017e3e5c521ddf7e6b6ed1d74c2175c2fc74502884401bc4c2050af",
+      "currentSha": "c7f8c7fc8017e3e5c521ddf7e6b6ed1d74c2175c2fc74502884401bc4c2050af"
+    }
+  ],
+  "sections": [
+    {
+      "name": "post questions, answers, navigation and definitions",
+      "same": true,
+      "beforeSha": "21ff06f36a3737a0dc9b80ab083349867381a66257f7e420a4ada9f98c97adf0",
+      "currentSha": "21ff06f36a3737a0dc9b80ab083349867381a66257f7e420a4ada9f98c97adf0"
+    },
+    {
+      "name": "electronic consent wiring",
+      "same": true,
+      "beforeSha": "90b7271009fa9e5053df6306fdf82c0f952df392ce48a2577f6993822d8521fe",
+      "currentSha": "90b7271009fa9e5053df6306fdf82c0f952df392ce48a2577f6993822d8521fe"
+    },
+    {
+      "name": "welcome definitions and controls",
+      "same": true,
+      "beforeSha": "9424896e22ea26aa41a4095b9eae25c8c75b3d42afdd3a7e6d36d5ce39073f3b",
+      "currentSha": "9424896e22ea26aa41a4095b9eae25c8c75b3d42afdd3a7e6d36d5ce39073f3b"
+    },
+    {
+      "name": "block definitions and main/practice builders",
+      "same": true,
+      "beforeSha": "9155b794956b8fa58ddb00062c7391f9ccd716534f9aaf1498f5cf7c22443123",
+      "currentSha": "9155b794956b8fa58ddb00062c7391f9ccd716534f9aaf1498f5cf7c22443123"
+    }
+  ],
+  "checks": [
+    {
+      "name": "Normalized asset identity: bank.js",
+      "pass": true
+    },
+    {
+      "name": "Normalized asset identity: session-store.js",
+      "pass": true
+    },
+    {
+      "name": "Normalized asset identity: durable-storage.js",
+      "pass": true
+    },
+    {
+      "name": "Normalized asset identity: storage-worker.js",
+      "pass": true
+    },
+    {
+      "name": "Normalized asset identity: staged-delivery.js",
+      "pass": true
+    },
+    {
+      "name": "Normalized asset identity: consent.js",
+      "pass": true
+    },
+    {
+      "name": "Normalized asset identity: consent.css",
+      "pass": true
+    },
+    {
+      "name": "Normalized asset identity: data-codec.js",
+      "pass": true
+    },
+    {
+      "name": "Normalized asset identity: vendor/pako.min.js",
+      "pass": true
+    },
+    {
+      "name": "Normalized asset identity: vendor/pako-LICENSE",
+      "pass": true
+    },
+    {
+      "name": "Named function source identity: publicTrial",
+      "pass": true
+    },
+    {
+      "name": "Named function source identity: invalidAttempt",
+      "pass": true
+    },
+    {
+      "name": "Named function source identity: restoreInvalidAttempts",
+      "pass": true
+    },
+    {
+      "name": "Named function source identity: presentStimulus",
+      "pass": true
+    },
+    {
+      "name": "Named function source identity: revealStimulus",
+      "pass": true
+    },
+    {
+      "name": "Named function source identity: pushEvent",
+      "pass": true
+    },
+    {
+      "name": "Named function source identity: computeStops",
+      "pass": true
+    },
+    {
+      "name": "Named function source identity: finalizeDrag",
+      "pass": true
+    },
+    {
+      "name": "Named function source identity: buildPayload",
+      "pass": true
+    },
+    {
+      "name": "Named function source identity: saveBackup",
+      "pass": true
+    },
+    {
+      "name": "Named function source identity: normalizedResume",
+      "pass": true
+    },
+    {
+      "name": "Named function source identity: closeRatingReview",
+      "pass": true
+    },
+    {
+      "name": "Named function source identity: minReadMs",
+      "pass": true
+    },
+    {
+      "name": "Named function source identity: readCueDelay",
+      "pass": true
+    },
+    {
+      "name": "Named function source identity: requestWakeLock",
+      "pass": true
+    },
+    {
+      "name": "Named function source identity: captureIntro",
+      "pass": true
+    },
+    {
+      "name": "Named function source identity: showReading",
+      "pass": true
+    },
+    {
+      "name": "Named function source identity: logInstructionExposure",
+      "pass": true
+    },
+    {
+      "name": "Named function source identity: moralPracticeDefinition",
+      "pass": true
+    },
+    {
+      "name": "retryTrial differs only by clearing visual feedback",
+      "pass": true
+    },
+    {
+      "name": "selectRating differs only by disabling selection on static explanations",
+      "pass": true
+    },
+    {
+      "name": "Constant definition source identity: ITEMS",
+      "pass": true
+    },
+    {
+      "name": "Constant definition source identity: CONFIG",
+      "pass": true
+    },
+    {
+      "name": "Constant definition source identity: PRACTICE_RULES",
+      "pass": true
+    },
+    {
+      "name": "Section source identity: post questions, answers, navigation and definitions",
+      "pass": true
+    },
+    {
+      "name": "Section source identity: electronic consent wiring",
+      "pass": true
+    },
+    {
+      "name": "Section source identity: welcome definitions and controls",
+      "pass": true
+    },
+    {
+      "name": "Section source identity: block definitions and main/practice builders",
+      "pass": true
+    },
+    {
+      "name": "Measured trial object schema source identity",
+      "pass": true
+    }
+  ],
+  "passed": 39,
+  "failed": 0,
+  "intentionalChanges": [
+    "参加者への軌跡描画を現在接触点と枠内ハイライトへ変更。raw events/geom/初動算式とは別。",
+    "段階説明・ルール復習・独立例題導入、drag snapshotのschema/stepId/quiz、device.guidedTutorialを追加。resume.v=2は維持し、旧→新の移行を追加。逆方向の互換は検証対象外。",
+    "評定説明3枚→4枚＋番号なし練習導入。初回自信から戻ったratingBacksを現行で加算し、説明の再生は選択値を保持。停止確認から評定説明に戻る場合は保存した状態と経過時間を復元。",
+    "tutorialLogにschema/stepId/stay/rule_answer等を追加。説明表示versionはui20、開始appVersionは旧セッション再開で保持。",
+    "純操作の失敗案内に4秒上限、正しい開始/切替で消去。旧は上限なし。",
+    "横向き判定はscreen.orientation/window.orientationを優先し、キーボードと区別。"
+  ],
+  "limitations": [
+    "関数同一性は呼出順・イベント配送・DOM/CSS由来の変化がないことまで保証しない。動作はtest-data-audit.cjsとtest-training-provenance.cjsを分離して参照。",
+    "現行クイズのinstructionExposureとstayはrule-check全体の粒度。各問表示/滞在時間を記録したものではない。各回答のrule_answerと保存済みindex/orders/selections/attemptsを照合する。"
+  ]
+}

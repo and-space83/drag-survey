@@ -1,0 +1,2019 @@
+{
+  "checkedAt": "2026-10-15T13:49:09.518Z",
+  "scope": "旧 ui19 と現行の正常debugローカル合成セッション。DOM操作、Chrome touch emulation、IndexedDB/reload。実機 Safari、実 GAS/Drive、参加者原本は未使用。",
+  "source": {
+    "index.html": "e3e2aedaccaae98893e400d7e727ea2496884c6df2163f94edeb648079015777",
+    "app.css": "2a55dac2607fe78a57674b1b4e61551dbc40e782a2fff6238b26f21efcb28e27",
+    "guided-tutorial.js": "231ce70f1a01fa178e43616db65c691e7fe0317853762d81a4a7e82e88871c26",
+    "guided-tutorial.css": "54e56698da645dfdd4dc425ec3a127d6c7751987f369e058692c93b7c1918853",
+    "bank.js": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
+    "session-store.js": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+    "durable-storage.js": "84d006f048e2cc16c4a7a7087ec5815485c0b3a7d2ffa4ce6b7b62905dde967b",
+    "storage-worker.js": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
+    "staged-delivery.js": "7f37d628ce04dc47233b16387d43add674608d278030dd17355621745ab9f7ad",
+    "consent.js": "6dae132f66dc20526ae6e79c59c6ff12049a75a1b11161b6815bfa1339a14bd9",
+    "consent.css": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
+    "data-codec.js": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+    "vendor/pako.min.js": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+    "vendor/pako-LICENSE": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539"
+  },
+  "baselineSource": {
+    "index.html": "56af91d047a8bb3c83ca77e43008a21889535580f664156adbcd0a8f339edb2e",
+    "app.css": "07462d80c069de42d3d80c865d8a765ab0ce2ea44a44c980e19396ff647e65ca",
+    "bank.js": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
+    "session-store.js": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+    "durable-storage.js": "84d006f048e2cc16c4a7a7087ec5815485c0b3a7d2ffa4ce6b7b62905dde967b",
+    "storage-worker.js": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
+    "staged-delivery.js": "7f37d628ce04dc47233b16387d43add674608d278030dd17355621745ab9f7ad",
+    "consent.js": "6dae132f66dc20526ae6e79c59c6ff12049a75a1b11161b6815bfa1339a14bd9",
+    "consent.css": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
+    "data-codec.js": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+    "vendor/pako.min.js": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+    "vendor/pako-LICENSE": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539"
+  },
+  "checks": [
+    {
+      "name": "ui19 normal session has no GO and no upload endpoint",
+      "pass": true
+    },
+    {
+      "name": "ui19 starts before main, no raw trials",
+      "pass": true
+    },
+    {
+      "name": "ui19 actual drag page exposure 0",
+      "pass": true
+    },
+    {
+      "name": "ui19 leaving page retains finite dwell 0",
+      "pass": true
+    },
+    {
+      "name": "ui19 actual drag page exposure 1",
+      "pass": true
+    },
+    {
+      "name": "ui19 leaving page retains finite dwell 1",
+      "pass": true
+    },
+    {
+      "name": "ui19 actual drag page exposure 2",
+      "pass": true
+    },
+    {
+      "name": "ui19 leaving page retains finite dwell 2",
+      "pass": true
+    },
+    {
+      "name": "ui19 actual drag page exposure 3",
+      "pass": true
+    },
+    {
+      "name": "ui19 leaving page retains finite dwell 3",
+      "pass": true
+    },
+    {
+      "name": "ui19 actual drag page exposure 4",
+      "pass": true
+    },
+    {
+      "name": "ui19 leaving page retains finite dwell 4",
+      "pass": true
+    },
+    {
+      "name": "ui19 actual drag page exposure 5",
+      "pass": true
+    },
+    {
+      "name": "ui19 leaving page retains finite dwell 5",
+      "pass": true
+    },
+    {
+      "name": "ui19 actual drag page exposure 6",
+      "pass": true
+    },
+    {
+      "name": "ui19 motor completion initially gates progress 6",
+      "pass": true
+    },
+    {
+      "name": "ui19 motor cannot advance before operating 6",
+      "pass": true
+    },
+    {
+      "name": "ui19 motor outside release remains incomplete 6",
+      "pass": true
+    },
+    {
+      "name": "ui19 motor failure does not create measured raw 6",
+      "pass": true
+    },
+    {
+      "name": "ui19 motor success retained in snapshot 6",
+      "pass": true
+    },
+    {
+      "name": "ui19 motor success does not create measured raw 6",
+      "pass": true
+    },
+    {
+      "name": "ui19 leaving page retains finite dwell 6",
+      "pass": true
+    },
+    {
+      "name": "ui19 actual drag page exposure 7",
+      "pass": true
+    },
+    {
+      "name": "ui19 motor completion initially gates progress 7",
+      "pass": true
+    },
+    {
+      "name": "ui19 motor cannot advance before operating 7",
+      "pass": true
+    },
+    {
+      "name": "ui19 motor outside release remains incomplete 7",
+      "pass": true
+    },
+    {
+      "name": "ui19 motor failure does not create measured raw 7",
+      "pass": true
+    },
+    {
+      "name": "ui19 motor success retained in snapshot 7",
+      "pass": true
+    },
+    {
+      "name": "ui19 motor success does not create measured raw 7",
+      "pass": true
+    },
+    {
+      "name": "ui19 leaving page retains finite dwell 7",
+      "pass": true
+    },
+    {
+      "name": "ui19 motor has not polluted raw trial records",
+      "pass": true
+    },
+    {
+      "name": "ui19 all actual drag explanation pages visited",
+      "pass": true
+    },
+    {
+      "name": "ui19 every visited root explanation has dwell record",
+      "pass": true
+    },
+    {
+      "name": "ui19 example precedes exactly five practice questions",
+      "pass": true
+    },
+    {
+      "name": "ui19 actual example raw is tutorial phase",
+      "pass": true
+    },
+    {
+      "name": "ui19 example does not start main clock or count as main",
+      "pass": true
+    },
+    {
+      "name": "ui19 rating back retains selected values",
+      "pass": true
+    },
+    {
+      "name": "ui19 initial rating back-count convention",
+      "pass": true
+    },
+    {
+      "name": "ui19 confidence submit stores finite total and item times",
+      "pass": true
+    },
+    {
+      "name": "ui19 selected values and commit time survive transition",
+      "pass": true
+    },
+    {
+      "name": "ui19 commit time remains final after all explanations",
+      "pass": true
+    },
+    {
+      "name": "ui19 one example followed by first of original five practice",
+      "pass": true
+    },
+    {
+      "name": "ui19 all actual rating explanation pages have finite dwell",
+      "pass": true
+    },
+    {
+      "name": "ui19 exactly five practice and one example before main",
+      "pass": true
+    },
+    {
+      "name": "ui19 saved practice stimuli definition unchanged throughout",
+      "pass": true
+    },
+    {
+      "name": "ui19 main count starts at zero with its own two-question queue",
+      "pass": true
+    },
+    {
+      "name": "current normal session has no GO and no upload endpoint",
+      "pass": true
+    },
+    {
+      "name": "current starts before main, no raw trials",
+      "pass": true
+    },
+    {
+      "name": "current actual drag page exposure layout-intro",
+      "pass": true
+    },
+    {
+      "name": "current leaving page retains finite dwell layout-intro",
+      "pass": true
+    },
+    {
+      "name": "current actual drag page exposure layout-stem",
+      "pass": true
+    },
+    {
+      "name": "current leaving page retains finite dwell layout-stem",
+      "pass": true
+    },
+    {
+      "name": "current actual drag page exposure layout-start",
+      "pass": true
+    },
+    {
+      "name": "current leaving page retains finite dwell layout-start",
+      "pass": true
+    },
+    {
+      "name": "current actual drag page exposure layout-choice",
+      "pass": true
+    },
+    {
+      "name": "current leaving page retains finite dwell layout-choice",
+      "pass": true
+    },
+    {
+      "name": "current actual drag page exposure motor-route",
+      "pass": true
+    },
+    {
+      "name": "current leaving page retains finite dwell motor-route",
+      "pass": true
+    },
+    {
+      "name": "current actual drag page exposure motor-range",
+      "pass": true
+    },
+    {
+      "name": "current leaving page retains finite dwell motor-range",
+      "pass": true
+    },
+    {
+      "name": "current actual drag page exposure motor",
+      "pass": true
+    },
+    {
+      "name": "current motor completion initially gates progress motor",
+      "pass": true
+    },
+    {
+      "name": "current motor cannot advance before operating motor",
+      "pass": true
+    },
+    {
+      "name": "current motor outside release remains incomplete motor",
+      "pass": true
+    },
+    {
+      "name": "current motor failure does not create measured raw motor",
+      "pass": true
+    },
+    {
+      "name": "current motor success retained in snapshot motor",
+      "pass": true
+    },
+    {
+      "name": "current motor success does not create measured raw motor",
+      "pass": true
+    },
+    {
+      "name": "current leaving page retains finite dwell motor",
+      "pass": true
+    },
+    {
+      "name": "current actual drag page exposure start-rule",
+      "pass": true
+    },
+    {
+      "name": "current leaving page retains finite dwell start-rule",
+      "pass": true
+    },
+    {
+      "name": "current actual drag page exposure movement-reason",
+      "pass": true
+    },
+    {
+      "name": "current leaving page retains finite dwell movement-reason",
+      "pass": true
+    },
+    {
+      "name": "current actual drag page exposure uncertain",
+      "pass": true
+    },
+    {
+      "name": "current leaving page retains finite dwell uncertain",
+      "pass": true
+    },
+    {
+      "name": "current actual drag page exposure time-rule",
+      "pass": true
+    },
+    {
+      "name": "current leaving page retains finite dwell time-rule",
+      "pass": true
+    },
+    {
+      "name": "current actual drag page exposure answer-pace",
+      "pass": true
+    },
+    {
+      "name": "current leaving page retains finite dwell answer-pace",
+      "pass": true
+    },
+    {
+      "name": "current actual drag page exposure rule-check-intro",
+      "pass": true
+    },
+    {
+      "name": "current leaving page retains finite dwell rule-check-intro",
+      "pass": true
+    },
+    {
+      "name": "current actual drag page exposure rule-check",
+      "pass": true
+    },
+    {
+      "name": "current seven quiz questions begin with null selections and zero attempts",
+      "pass": true
+    },
+    {
+      "name": "current quiz 1 wrong answer gates next",
+      "pass": true
+    },
+    {
+      "name": "current quiz 1 disabled click preserves current question",
+      "pass": true
+    },
+    {
+      "name": "current quiz 1 correction records second attempt",
+      "pass": true
+    },
+    {
+      "name": "current quiz 1 selection order stays fixed",
+      "pass": true
+    },
+    {
+      "name": "current quiz 1 actual answer has rule/index/correct/attempt provenance",
+      "pass": true
+    },
+    {
+      "name": "current quiz 2 wrong answer gates next",
+      "pass": true
+    },
+    {
+      "name": "current quiz 2 disabled click preserves current question",
+      "pass": true
+    },
+    {
+      "name": "current checkpoint accepted",
+      "pass": true
+    },
+    {
+      "name": "current reload preserves quiz index/order/selections/attempts",
+      "pass": true
+    },
+    {
+      "name": "current reload preserves original session identity",
+      "pass": true
+    },
+    {
+      "name": "current reload does not claim completion",
+      "pass": true
+    },
+    {
+      "name": "current quiz 2 correction records second attempt",
+      "pass": true
+    },
+    {
+      "name": "current quiz 2 selection order stays fixed",
+      "pass": true
+    },
+    {
+      "name": "current quiz 2 actual answer has rule/index/correct/attempt provenance",
+      "pass": true
+    },
+    {
+      "name": "current quiz 3 wrong answer gates next",
+      "pass": true
+    },
+    {
+      "name": "current quiz 3 disabled click preserves current question",
+      "pass": true
+    },
+    {
+      "name": "current quiz 3 correction records second attempt",
+      "pass": true
+    },
+    {
+      "name": "current quiz 3 selection order stays fixed",
+      "pass": true
+    },
+    {
+      "name": "current quiz 3 actual answer has rule/index/correct/attempt provenance",
+      "pass": true
+    },
+    {
+      "name": "current quiz 4 wrong answer gates next",
+      "pass": true
+    },
+    {
+      "name": "current quiz 4 disabled click preserves current question",
+      "pass": true
+    },
+    {
+      "name": "current quiz 4 correction records second attempt",
+      "pass": true
+    },
+    {
+      "name": "current quiz 4 selection order stays fixed",
+      "pass": true
+    },
+    {
+      "name": "current quiz 4 actual answer has rule/index/correct/attempt provenance",
+      "pass": true
+    },
+    {
+      "name": "current quiz 5 wrong answer gates next",
+      "pass": true
+    },
+    {
+      "name": "current quiz 5 disabled click preserves current question",
+      "pass": true
+    },
+    {
+      "name": "current quiz 5 correction records second attempt",
+      "pass": true
+    },
+    {
+      "name": "current quiz 5 selection order stays fixed",
+      "pass": true
+    },
+    {
+      "name": "current quiz 5 actual answer has rule/index/correct/attempt provenance",
+      "pass": true
+    },
+    {
+      "name": "current quiz 6 wrong answer gates next",
+      "pass": true
+    },
+    {
+      "name": "current quiz 6 disabled click preserves current question",
+      "pass": true
+    },
+    {
+      "name": "current quiz 6 correction records second attempt",
+      "pass": true
+    },
+    {
+      "name": "current quiz 6 selection order stays fixed",
+      "pass": true
+    },
+    {
+      "name": "current quiz 6 actual answer has rule/index/correct/attempt provenance",
+      "pass": true
+    },
+    {
+      "name": "current quiz 7 wrong answer gates next",
+      "pass": true
+    },
+    {
+      "name": "current quiz 7 disabled click preserves current question",
+      "pass": true
+    },
+    {
+      "name": "current quiz 7 correction records second attempt",
+      "pass": true
+    },
+    {
+      "name": "current quiz 7 selection order stays fixed",
+      "pass": true
+    },
+    {
+      "name": "current quiz 7 actual answer has rule/index/correct/attempt provenance",
+      "pass": true
+    },
+    {
+      "name": "current training completes only after motor and seven corrections",
+      "pass": true
+    },
+    {
+      "name": "current quiz entry exposure is root-step scoped, not one per question",
+      "pass": true
+    },
+    {
+      "name": "current motor has not polluted raw trial records",
+      "pass": true
+    },
+    {
+      "name": "current all actual drag explanation pages visited",
+      "pass": true
+    },
+    {
+      "name": "current every visited root explanation has dwell record",
+      "pass": true
+    },
+    {
+      "name": "current distinct example introduction persisted",
+      "pass": true
+    },
+    {
+      "name": "current example precedes exactly five practice questions",
+      "pass": true
+    },
+    {
+      "name": "current actual example raw is tutorial phase",
+      "pass": true
+    },
+    {
+      "name": "current example does not start main clock or count as main",
+      "pass": true
+    },
+    {
+      "name": "current rating back retains selected values",
+      "pass": true
+    },
+    {
+      "name": "current initial rating back-count convention",
+      "pass": true
+    },
+    {
+      "name": "current confidence submit stores finite total and item times",
+      "pass": true
+    },
+    {
+      "name": "current committed rating leads to finish explanation",
+      "pass": true
+    },
+    {
+      "name": "current finish explanation time does not alter submitted ms",
+      "pass": true
+    },
+    {
+      "name": "current checkpoint accepted",
+      "pass": true
+    },
+    {
+      "name": "current finish reload retains ratings",
+      "pass": true
+    },
+    {
+      "name": "current finish reload retains submitted ms",
+      "pass": true
+    },
+    {
+      "name": "current finish reload retains page and incomplete training",
+      "pass": true
+    },
+    {
+      "name": "current unnumbered five-practice introduction follows finish",
+      "pass": true
+    },
+    {
+      "name": "current practice introduction time does not alter submitted ms",
+      "pass": true
+    },
+    {
+      "name": "current selected values and commit time survive transition",
+      "pass": true
+    },
+    {
+      "name": "current commit time remains final after all explanations",
+      "pass": true
+    },
+    {
+      "name": "current one example followed by first of original five practice",
+      "pass": true
+    },
+    {
+      "name": "current all actual rating explanation pages have finite dwell",
+      "pass": true
+    },
+    {
+      "name": "current exactly five practice and one example before main",
+      "pass": true
+    },
+    {
+      "name": "current saved practice stimuli definition unchanged throughout",
+      "pass": true
+    },
+    {
+      "name": "current main count starts at zero with its own two-question queue",
+      "pass": true
+    },
+    {
+      "name": "No page JavaScript exceptions",
+      "pass": true
+    },
+    {
+      "name": "No external or submission requests attempted",
+      "pass": true
+    },
+    {
+      "name": "Fourteen production assets unchanged during this audit",
+      "pass": true
+    },
+    {
+      "name": "Frozen ui19 assets unchanged during this audit",
+      "pass": true
+    }
+  ],
+  "observations": [
+    "旧 ui19 は8枚・手操作2回。現行は14ルート説明（復習7問はrule-check内）・手操作1回。ページ数と操作回数は承認済み構成差として扱う。",
+    "現行クイズは各回答をrule_answerとして記録。instructionExposureとstayはrule-checkルート単位であり、各問ごとの表示イベント/滞在msではない。reload再訪は別の表示イベントになる。",
+    "初回評定説明で自信から迷いへ戻る操作のratingBacksは旧0、現行1。通常評定に関する動作差とは区別する。",
+    "評定説明は旧3枚、現行4枚＋番号なし練習導入。後続2枚の滞在とreload後もratingSubmitMsは自信確定時の値を保持した。",
+    "説明表示・滞在・正答は読了または理解を証明しない。"
+  ],
+  "errors": [],
+  "blockedRequests": [],
+  "scenarios": {
+    "ui19": {
+      "initialVersion": "2026-10-15-ui19",
+      "visited": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "dragDwell": [
+        {
+          "kind": "drag",
+          "step": 1,
+          "ms": 483
+        },
+        {
+          "kind": "drag",
+          "step": 2,
+          "ms": 568
+        },
+        {
+          "kind": "drag",
+          "step": 3,
+          "ms": 1085
+        },
+        {
+          "kind": "drag",
+          "step": 4,
+          "ms": 551
+        },
+        {
+          "kind": "drag",
+          "step": 5,
+          "ms": 551
+        },
+        {
+          "kind": "drag",
+          "step": 6,
+          "ms": 552
+        },
+        {
+          "kind": "drag",
+          "step": 7,
+          "ms": 2039
+        },
+        {
+          "kind": "drag",
+          "step": 8,
+          "ms": 2356
+        }
+      ],
+      "instructionExposure": [
+        {
+          "version": "2026-10-15-ui19",
+          "at": "2026-10-15T13:49:10.203Z",
+          "screen": "dragTutorial",
+          "step": 1,
+          "phase": "practice",
+          "block": "moral",
+          "afterTrial": 0
+        },
+        {
+          "version": "2026-10-15-ui19",
+          "at": "2026-10-15T13:49:10.686Z",
+          "screen": "dragTutorial",
+          "step": 2,
+          "phase": "practice",
+          "block": "moral",
+          "afterTrial": 0
+        },
+        {
+          "version": "2026-10-15-ui19",
+          "at": "2026-10-15T13:49:11.254Z",
+          "screen": "dragTutorial",
+          "step": 3,
+          "phase": "practice",
+          "block": "moral",
+          "afterTrial": 0
+        },
+        {
+          "version": "2026-10-15-ui19",
+          "at": "2026-10-15T13:49:12.339Z",
+          "screen": "dragTutorial",
+          "step": 4,
+          "phase": "practice",
+          "block": "moral",
+          "afterTrial": 0
+        },
+        {
+          "version": "2026-10-15-ui19",
+          "at": "2026-10-15T13:49:12.890Z",
+          "screen": "dragTutorial",
+          "step": 5,
+          "phase": "practice",
+          "block": "moral",
+          "afterTrial": 0
+        },
+        {
+          "version": "2026-10-15-ui19",
+          "at": "2026-10-15T13:49:13.441Z",
+          "screen": "dragTutorial",
+          "step": 6,
+          "phase": "practice",
+          "block": "moral",
+          "afterTrial": 0
+        },
+        {
+          "version": "2026-10-15-ui19",
+          "at": "2026-10-15T13:49:13.993Z",
+          "screen": "dragTutorial",
+          "step": 7,
+          "phase": "practice",
+          "block": "moral",
+          "afterTrial": 0
+        },
+        {
+          "version": "2026-10-15-ui19",
+          "at": "2026-10-15T13:49:16.033Z",
+          "screen": "dragTutorial",
+          "step": 8,
+          "phase": "practice",
+          "block": "moral",
+          "afterTrial": 0
+        }
+      ],
+      "quiz": null,
+      "rating": {
+        "committed": 2433,
+        "values": {
+          "confidence": {
+            "value": 4,
+            "rt_ms": 450
+          },
+          "hesitation": {
+            "value": 2,
+            "rt_ms": 1012.8
+          }
+        },
+        "ratingBacks": 0,
+        "explanationDwell": [
+          {
+            "kind": "rating",
+            "page": 1,
+            "ms": 561
+          },
+          {
+            "kind": "rating",
+            "page": 2,
+            "ms": 485
+          },
+          {
+            "kind": "rating",
+            "page": 3,
+            "ms": 485
+          },
+          {
+            "kind": "rating",
+            "page": 2,
+            "ms": 450
+          },
+          {
+            "kind": "rating",
+            "page": 3,
+            "ms": 452
+          }
+        ],
+        "pages": 3,
+        "rawExample": {
+          "index": null,
+          "trialOrdinal": 1,
+          "attemptNumber": 1,
+          "timeOrigin": 1792072149845.9,
+          "phase": "tutorial",
+          "block": "moral",
+          "stimulusType": "text-choice",
+          "pointerType": "touch",
+          "moralType": "autonomy",
+          "conflictLevel": "clear",
+          "itemId": "tutorial-autonomy-M1-clear-20261015",
+          "leftLabel": "止める",
+          "rightLabel": "見逃す",
+          "leftItemId": "a",
+          "rightItemId": "b",
+          "betterSide": null,
+          "tags": null,
+          "stem": "「禁煙中だから吸おうとしたら止めて」と頼んできた友人が、飲み会の帰りに「1本だけ」とたばこを買おうとしている。",
+          "post_check": false,
+          "post_resume": false,
+          "choiceSide": "left",
+          "correct": null,
+          "stimulusOnsetT": 8546,
+          "startPressT": 12170,
+          "preStartMs": 3624,
+          "revealT": 12170,
+          "revealXY": {
+            "x": 187.5,
+            "y": 586
+          },
+          "stopsAfterInit": {
+            "n": 0,
+            "ms": 0,
+            "maxMs": 0
+          },
+          "stopFlag": false,
+          "lateStart": false,
+          "stopNotice": false,
+          "initiationT": 12224.600000000093,
+          "responseT": 12808,
+          "rt_ms": 54.6,
+          "rt_proxy_ms": 54.6,
+          "mt_proxy_ms": 583.4,
+          "total_ms": 638,
+          "dispHz": 28.7,
+          "nDispatched": 18,
+          "nCoalesced": 18,
+          "aborts": 0,
+          "ratings": {
+            "confidence": null,
+            "hesitation": null
+          },
+          "geom": {
+            "surface": {
+              "w": 375,
+              "h": 700
+            },
+            "start": {
+              "cx": 187.5,
+              "cy": 586
+            },
+            "A": {
+              "cx": 90,
+              "cy": 237.75,
+              "w": 150,
+              "h": 97.5
+            },
+            "B": {
+              "cx": 285,
+              "cy": 237.75,
+              "w": 150,
+              "h": 97.5
+            },
+            "dpr": 1
+          },
+          "events": [
+            {
+              "seq": 0,
+              "t": 12170,
+              "x": 187.5,
+              "y": 586,
+              "type": "down"
+            },
+            {
+              "seq": 1,
+              "t": 12170,
+              "x": 187.5,
+              "y": 586,
+              "type": "reveal"
+            },
+            {
+              "seq": 2,
+              "t": 12171.799999999814,
+              "x": 182.08,
+              "y": 566.65,
+              "type": "coalesced"
+            },
+            {
+              "seq": 3,
+              "t": 12171.799999999814,
+              "x": 182.08,
+              "y": 566.65,
+              "type": "dispatched"
+            },
+            {
+              "seq": 4,
+              "t": 12224.600000000093,
+              "x": 176.67,
+              "y": 547.31,
+              "type": "coalesced"
+            },
+            {
+              "seq": 5,
+              "t": 12224.600000000093,
+              "x": 176.67,
+              "y": 547.31,
+              "type": "dispatched"
+            },
+            {
+              "seq": 6,
+              "t": 12270.5,
+              "x": 171.25,
+              "y": 527.96,
+              "type": "coalesced"
+            },
+            {
+              "seq": 7,
+              "t": 12270.5,
+              "x": 171.25,
+              "y": 527.96,
+              "type": "dispatched"
+            },
+            {
+              "seq": 8,
+              "t": 12300.899999999907,
+              "x": 165.83,
+              "y": 508.61,
+              "type": "coalesced"
+            },
+            {
+              "seq": 9,
+              "t": 12300.899999999907,
+              "x": 165.83,
+              "y": 508.61,
+              "type": "dispatched"
+            },
+            {
+              "seq": 10,
+              "t": 12343.600000000093,
+              "x": 160.42,
+              "y": 489.26,
+              "type": "coalesced"
+            },
+            {
+              "seq": 11,
+              "t": 12343.600000000093,
+              "x": 160.42,
+              "y": 489.26,
+              "type": "dispatched"
+            },
+            {
+              "seq": 12,
+              "t": 12362.399999999907,
+              "x": 155,
+              "y": 469.92,
+              "type": "coalesced"
+            },
+            {
+              "seq": 13,
+              "t": 12362.399999999907,
+              "x": 155,
+              "y": 469.92,
+              "type": "dispatched"
+            },
+            {
+              "seq": 14,
+              "t": 12408.69999999972,
+              "x": 149.58,
+              "y": 450.57,
+              "type": "coalesced"
+            },
+            {
+              "seq": 15,
+              "t": 12408.69999999972,
+              "x": 149.58,
+              "y": 450.57,
+              "type": "dispatched"
+            },
+            {
+              "seq": 16,
+              "t": 12442.600000000093,
+              "x": 144.17,
+              "y": 431.22,
+              "type": "coalesced"
+            },
+            {
+              "seq": 17,
+              "t": 12442.600000000093,
+              "x": 144.17,
+              "y": 431.22,
+              "type": "dispatched"
+            },
+            {
+              "seq": 18,
+              "t": 12463.799999999814,
+              "x": 138.75,
+              "y": 411.88,
+              "type": "coalesced"
+            },
+            {
+              "seq": 19,
+              "t": 12463.799999999814,
+              "x": 138.75,
+              "y": 411.88,
+              "type": "dispatched"
+            },
+            {
+              "seq": 20,
+              "t": 12510.19999999972,
+              "x": 133.33,
+              "y": 392.53,
+              "type": "coalesced"
+            },
+            {
+              "seq": 21,
+              "t": 12510.19999999972,
+              "x": 133.33,
+              "y": 392.53,
+              "type": "dispatched"
+            },
+            {
+              "seq": 22,
+              "t": 12541,
+              "x": 127.92,
+              "y": 373.18,
+              "type": "coalesced"
+            },
+            {
+              "seq": 23,
+              "t": 12541,
+              "x": 127.92,
+              "y": 373.18,
+              "type": "dispatched"
+            },
+            {
+              "seq": 24,
+              "t": 12572.69999999972,
+              "x": 122.5,
+              "y": 353.83,
+              "type": "coalesced"
+            },
+            {
+              "seq": 25,
+              "t": 12572.69999999972,
+              "x": 122.5,
+              "y": 353.83,
+              "type": "dispatched"
+            },
+            {
+              "seq": 26,
+              "t": 12609,
+              "x": 117.08,
+              "y": 334.49,
+              "type": "coalesced"
+            },
+            {
+              "seq": 27,
+              "t": 12609,
+              "x": 117.08,
+              "y": 334.49,
+              "type": "dispatched"
+            },
+            {
+              "seq": 28,
+              "t": 12639.799999999814,
+              "x": 111.67,
+              "y": 315.14,
+              "type": "coalesced"
+            },
+            {
+              "seq": 29,
+              "t": 12639.799999999814,
+              "x": 111.67,
+              "y": 315.14,
+              "type": "dispatched"
+            },
+            {
+              "seq": 30,
+              "t": 12670.399999999907,
+              "x": 106.25,
+              "y": 295.79,
+              "type": "coalesced"
+            },
+            {
+              "seq": 31,
+              "t": 12670.399999999907,
+              "x": 106.25,
+              "y": 295.79,
+              "type": "dispatched"
+            },
+            {
+              "seq": 32,
+              "t": 12701.299999999814,
+              "x": 100.83,
+              "y": 276.44,
+              "type": "coalesced"
+            },
+            {
+              "seq": 33,
+              "t": 12701.299999999814,
+              "x": 100.83,
+              "y": 276.44,
+              "type": "dispatched"
+            },
+            {
+              "seq": 34,
+              "t": 12733.299999999814,
+              "x": 95.42,
+              "y": 257.1,
+              "type": "coalesced"
+            },
+            {
+              "seq": 35,
+              "t": 12733.299999999814,
+              "x": 95.42,
+              "y": 257.1,
+              "type": "dispatched"
+            },
+            {
+              "seq": 36,
+              "t": 12765,
+              "x": 90,
+              "y": 237.75,
+              "type": "coalesced"
+            },
+            {
+              "seq": 37,
+              "t": 12765,
+              "x": 90,
+              "y": 237.75,
+              "type": "dispatched"
+            },
+            {
+              "seq": 38,
+              "t": 12808,
+              "x": 90,
+              "y": 237.75,
+              "type": "up"
+            }
+          ],
+          "stemChars": 55,
+          "earlyStart": false,
+          "noise": null,
+          "vis": {
+            "count": 0,
+            "totalMs": 0
+          },
+          "ratingBacks": 0
+        },
+        "postExampleQueueLength": 4
+      },
+      "phaseCounts": {
+        "tutorial": 1,
+        "practice": 5,
+        "main": 0
+      }
+    },
+    "current": {
+      "initialVersion": "2026-10-15-ui20",
+      "visited": [
+        "layout-intro",
+        "layout-stem",
+        "layout-start",
+        "layout-choice",
+        "motor-route",
+        "motor-range",
+        "motor",
+        "start-rule",
+        "movement-reason",
+        "uncertain",
+        "time-rule",
+        "answer-pace",
+        "rule-check-intro",
+        "rule-check"
+      ],
+      "dragDwell": [
+        {
+          "kind": "drag",
+          "schema": "guided-2026-10-15",
+          "event": "stay",
+          "step": 2,
+          "stepId": "layout-intro",
+          "ms": 465
+        },
+        {
+          "kind": "drag",
+          "schema": "guided-2026-10-15",
+          "event": "stay",
+          "step": 3,
+          "stepId": "layout-stem",
+          "ms": 569
+        },
+        {
+          "kind": "drag",
+          "schema": "guided-2026-10-15",
+          "event": "stay",
+          "step": 4,
+          "stepId": "layout-start",
+          "ms": 551
+        },
+        {
+          "kind": "drag",
+          "schema": "guided-2026-10-15",
+          "event": "stay",
+          "step": 5,
+          "stepId": "layout-choice",
+          "ms": 551
+        },
+        {
+          "kind": "drag",
+          "schema": "guided-2026-10-15",
+          "event": "stay",
+          "step": 6,
+          "stepId": "motor-route",
+          "ms": 552
+        },
+        {
+          "kind": "drag",
+          "schema": "guided-2026-10-15",
+          "event": "stay",
+          "step": 7,
+          "stepId": "motor-range",
+          "ms": 551
+        },
+        {
+          "kind": "drag",
+          "schema": "guided-2026-10-15",
+          "event": "stay",
+          "step": 7,
+          "stepId": "motor",
+          "ms": 1921
+        },
+        {
+          "kind": "drag",
+          "schema": "guided-2026-10-15",
+          "event": "stay",
+          "step": 8,
+          "stepId": "motor",
+          "ms": 117
+        },
+        {
+          "kind": "drag",
+          "schema": "guided-2026-10-15",
+          "event": "stay",
+          "step": 9,
+          "stepId": "start-rule",
+          "ms": 552
+        },
+        {
+          "kind": "drag",
+          "schema": "guided-2026-10-15",
+          "event": "stay",
+          "step": 10,
+          "stepId": "movement-reason",
+          "ms": 552
+        },
+        {
+          "kind": "drag",
+          "schema": "guided-2026-10-15",
+          "event": "stay",
+          "step": 11,
+          "stepId": "uncertain",
+          "ms": 551
+        },
+        {
+          "kind": "drag",
+          "schema": "guided-2026-10-15",
+          "event": "stay",
+          "step": 12,
+          "stepId": "time-rule",
+          "ms": 568
+        },
+        {
+          "kind": "drag",
+          "schema": "guided-2026-10-15",
+          "event": "stay",
+          "step": 13,
+          "stepId": "answer-pace",
+          "ms": 552
+        },
+        {
+          "kind": "drag",
+          "schema": "guided-2026-10-15",
+          "event": "stay",
+          "step": 14,
+          "stepId": "rule-check-intro",
+          "ms": 551
+        },
+        {
+          "kind": "drag",
+          "schema": "guided-2026-10-15",
+          "event": "stay",
+          "step": 14,
+          "stepId": "rule-check",
+          "ms": 1238
+        }
+      ],
+      "instructionExposure": [
+        {
+          "version": "2026-10-15-ui20",
+          "at": "2026-10-15T13:49:50.105Z",
+          "screen": "dragTutorial",
+          "step": 1,
+          "stepId": "layout-intro",
+          "schema": "guided-2026-10-15",
+          "quizIndex": null,
+          "phase": "practice",
+          "block": "moral",
+          "afterTrial": 0
+        },
+        {
+          "version": "2026-10-15-ui20",
+          "at": "2026-10-15T13:49:50.569Z",
+          "screen": "dragTutorial",
+          "step": 2,
+          "stepId": "layout-stem",
+          "schema": "guided-2026-10-15",
+          "quizIndex": null,
+          "phase": "practice",
+          "block": "moral",
+          "afterTrial": 0
+        },
+        {
+          "version": "2026-10-15-ui20",
+          "at": "2026-10-15T13:49:51.138Z",
+          "screen": "dragTutorial",
+          "step": 3,
+          "stepId": "layout-start",
+          "schema": "guided-2026-10-15",
+          "quizIndex": null,
+          "phase": "practice",
+          "block": "moral",
+          "afterTrial": 0
+        },
+        {
+          "version": "2026-10-15-ui20",
+          "at": "2026-10-15T13:49:51.689Z",
+          "screen": "dragTutorial",
+          "step": 4,
+          "stepId": "layout-choice",
+          "schema": "guided-2026-10-15",
+          "quizIndex": null,
+          "phase": "practice",
+          "block": "moral",
+          "afterTrial": 0
+        },
+        {
+          "version": "2026-10-15-ui20",
+          "at": "2026-10-15T13:49:52.240Z",
+          "screen": "dragTutorial",
+          "step": 5,
+          "stepId": "motor-route",
+          "schema": "guided-2026-10-15",
+          "quizIndex": null,
+          "phase": "practice",
+          "block": "moral",
+          "afterTrial": 0
+        },
+        {
+          "version": "2026-10-15-ui20",
+          "at": "2026-10-15T13:49:52.792Z",
+          "screen": "dragTutorial",
+          "step": 6,
+          "stepId": "motor-range",
+          "schema": "guided-2026-10-15",
+          "quizIndex": null,
+          "phase": "practice",
+          "block": "moral",
+          "afterTrial": 0
+        },
+        {
+          "version": "2026-10-15-ui20",
+          "at": "2026-10-15T13:49:53.342Z",
+          "screen": "dragTutorial",
+          "step": 7,
+          "stepId": "motor",
+          "schema": "guided-2026-10-15",
+          "quizIndex": null,
+          "phase": "practice",
+          "block": "moral",
+          "afterTrial": 0
+        },
+        {
+          "version": "2026-10-15-ui20",
+          "at": "2026-10-15T13:49:55.263Z",
+          "screen": "dragTutorial",
+          "step": 7,
+          "stepId": "motor",
+          "schema": "guided-2026-10-15",
+          "quizIndex": null,
+          "phase": "practice",
+          "block": "moral",
+          "afterTrial": 0
+        },
+        {
+          "version": "2026-10-15-ui20",
+          "at": "2026-10-15T13:49:55.381Z",
+          "screen": "dragTutorial",
+          "step": 8,
+          "stepId": "start-rule",
+          "schema": "guided-2026-10-15",
+          "quizIndex": null,
+          "phase": "practice",
+          "block": "moral",
+          "afterTrial": 0
+        },
+        {
+          "version": "2026-10-15-ui20",
+          "at": "2026-10-15T13:49:55.932Z",
+          "screen": "dragTutorial",
+          "step": 9,
+          "stepId": "movement-reason",
+          "schema": "guided-2026-10-15",
+          "quizIndex": null,
+          "phase": "practice",
+          "block": "moral",
+          "afterTrial": 0
+        },
+        {
+          "version": "2026-10-15-ui20",
+          "at": "2026-10-15T13:49:56.484Z",
+          "screen": "dragTutorial",
+          "step": 10,
+          "stepId": "uncertain",
+          "schema": "guided-2026-10-15",
+          "quizIndex": null,
+          "phase": "practice",
+          "block": "moral",
+          "afterTrial": 0
+        },
+        {
+          "version": "2026-10-15-ui20",
+          "at": "2026-10-15T13:49:57.036Z",
+          "screen": "dragTutorial",
+          "step": 11,
+          "stepId": "time-rule",
+          "schema": "guided-2026-10-15",
+          "quizIndex": null,
+          "phase": "practice",
+          "block": "moral",
+          "afterTrial": 0
+        },
+        {
+          "version": "2026-10-15-ui20",
+          "at": "2026-10-15T13:49:57.603Z",
+          "screen": "dragTutorial",
+          "step": 12,
+          "stepId": "answer-pace",
+          "schema": "guided-2026-10-15",
+          "quizIndex": null,
+          "phase": "practice",
+          "block": "moral",
+          "afterTrial": 0
+        },
+        {
+          "version": "2026-10-15-ui20",
+          "at": "2026-10-15T13:49:58.155Z",
+          "screen": "dragTutorial",
+          "step": 13,
+          "stepId": "rule-check-intro",
+          "schema": "guided-2026-10-15",
+          "quizIndex": null,
+          "phase": "practice",
+          "block": "moral",
+          "afterTrial": 0
+        },
+        {
+          "version": "2026-10-15-ui20",
+          "at": "2026-10-15T13:49:58.706Z",
+          "screen": "dragTutorial",
+          "step": 14,
+          "stepId": "rule-check",
+          "schema": "guided-2026-10-15",
+          "quizIndex": 0,
+          "phase": "practice",
+          "block": "moral",
+          "afterTrial": 0
+        },
+        {
+          "version": "2026-10-15-ui20",
+          "at": "2026-10-15T13:49:59.910Z",
+          "screen": "dragTutorial",
+          "step": 14,
+          "stepId": "rule-check",
+          "schema": "guided-2026-10-15",
+          "quizIndex": 1,
+          "phase": "practice",
+          "block": "moral",
+          "afterTrial": 0
+        },
+        {
+          "version": "2026-10-15-ui20",
+          "at": "2026-10-15T13:50:01.149Z",
+          "screen": "exampleIntro",
+          "phase": "practice",
+          "block": "moral",
+          "afterTrial": 0
+        }
+      ],
+      "quiz": {
+        "schema": "guided-2026-10-15",
+        "completed": true,
+        "motorCompleted": true,
+        "quiz": {
+          "index": 6,
+          "selections": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "orders": [
+            [
+              1,
+              0,
+              2
+            ],
+            [
+              2,
+              0,
+              1
+            ],
+            [
+              2,
+              0,
+              1
+            ],
+            [
+              1,
+              2,
+              0
+            ],
+            [
+              1,
+              0,
+              2
+            ],
+            [
+              1,
+              0,
+              2
+            ],
+            [
+              0,
+              2,
+              1
+            ]
+          ],
+          "attempts": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        }
+      },
+      "rating": {
+        "committed": 2441.2,
+        "values": {
+          "confidence": {
+            "value": 4,
+            "rt_ms": 450.4
+          },
+          "hesitation": {
+            "value": 2,
+            "rt_ms": 466.9
+          }
+        },
+        "ratingBacks": 1,
+        "explanationDwell": [
+          {
+            "kind": "rating",
+            "page": 1,
+            "ms": 555
+          },
+          {
+            "kind": "rating",
+            "page": 2,
+            "ms": 501
+          },
+          {
+            "kind": "rating",
+            "page": 3,
+            "ms": 484
+          },
+          {
+            "kind": "rating",
+            "page": 2,
+            "ms": 452
+          },
+          {
+            "kind": "rating",
+            "page": 3,
+            "ms": 451
+          },
+          {
+            "kind": "rating",
+            "page": 4,
+            "ms": 619
+          },
+          {
+            "kind": "rating",
+            "page": 5,
+            "ms": 1304
+          }
+        ],
+        "pages": 4,
+        "rawExample": {
+          "index": null,
+          "trialOrdinal": 1,
+          "attemptNumber": 1,
+          "timeOrigin": 1792072199777.5,
+          "phase": "tutorial",
+          "block": "moral",
+          "stimulusType": "text-choice",
+          "pointerType": "touch",
+          "moralType": "autonomy",
+          "conflictLevel": "clear",
+          "itemId": "tutorial-autonomy-M1-clear-20261015",
+          "leftLabel": "止める",
+          "rightLabel": "見逃す",
+          "leftItemId": "a",
+          "rightItemId": "b",
+          "betterSide": null,
+          "tags": null,
+          "stem": "「禁煙中だから吸おうとしたら止めて」と頼んできた友人が、飲み会の帰りに「1本だけ」とたばこを買おうとしている。",
+          "post_check": false,
+          "post_resume": false,
+          "choiceSide": "left",
+          "correct": null,
+          "stimulusOnsetT": 1906.7999999998137,
+          "startPressT": 5445.199999999721,
+          "preStartMs": 3538.4,
+          "revealT": 5445.199999999721,
+          "revealXY": {
+            "x": 187.5,
+            "y": 586
+          },
+          "stopsAfterInit": {
+            "n": 0,
+            "ms": 0,
+            "maxMs": 0
+          },
+          "stopFlag": false,
+          "lateStart": false,
+          "stopNotice": false,
+          "initiationT": 5505.899999999907,
+          "responseT": 6076.199999999721,
+          "rt_ms": 60.7,
+          "rt_proxy_ms": 60.7,
+          "mt_proxy_ms": 570.3,
+          "total_ms": 631,
+          "dispHz": 28.6,
+          "nDispatched": 18,
+          "nCoalesced": 18,
+          "aborts": 0,
+          "ratings": {
+            "confidence": null,
+            "hesitation": null
+          },
+          "geom": {
+            "surface": {
+              "w": 375,
+              "h": 700
+            },
+            "start": {
+              "cx": 187.5,
+              "cy": 586
+            },
+            "A": {
+              "cx": 90,
+              "cy": 237.75,
+              "w": 150,
+              "h": 97.5
+            },
+            "B": {
+              "cx": 285,
+              "cy": 237.75,
+              "w": 150,
+              "h": 97.5
+            },
+            "dpr": 1
+          },
+          "events": [
+            {
+              "seq": 0,
+              "t": 5445.199999999721,
+              "x": 187.5,
+              "y": 586,
+              "type": "down"
+            },
+            {
+              "seq": 1,
+              "t": 5445.199999999721,
+              "x": 187.5,
+              "y": 586,
+              "type": "reveal"
+            },
+            {
+              "seq": 2,
+              "t": 5447.799999999814,
+              "x": 182.08,
+              "y": 566.65,
+              "type": "coalesced"
+            },
+            {
+              "seq": 3,
+              "t": 5447.799999999814,
+              "x": 182.08,
+              "y": 566.65,
+              "type": "dispatched"
+            },
+            {
+              "seq": 4,
+              "t": 5505.899999999907,
+              "x": 176.67,
+              "y": 547.31,
+              "type": "coalesced"
+            },
+            {
+              "seq": 5,
+              "t": 5505.899999999907,
+              "x": 176.67,
+              "y": 547.31,
+              "type": "dispatched"
+            },
+            {
+              "seq": 6,
+              "t": 5546,
+              "x": 171.25,
+              "y": 527.96,
+              "type": "coalesced"
+            },
+            {
+              "seq": 7,
+              "t": 5546,
+              "x": 171.25,
+              "y": 527.96,
+              "type": "dispatched"
+            },
+            {
+              "seq": 8,
+              "t": 5576.799999999814,
+              "x": 165.83,
+              "y": 508.61,
+              "type": "coalesced"
+            },
+            {
+              "seq": 9,
+              "t": 5576.799999999814,
+              "x": 165.83,
+              "y": 508.61,
+              "type": "dispatched"
+            },
+            {
+              "seq": 10,
+              "t": 5608.100000000093,
+              "x": 160.42,
+              "y": 489.26,
+              "type": "coalesced"
+            },
+            {
+              "seq": 11,
+              "t": 5608.100000000093,
+              "x": 160.42,
+              "y": 489.26,
+              "type": "dispatched"
+            },
+            {
+              "seq": 12,
+              "t": 5641.299999999814,
+              "x": 155,
+              "y": 469.92,
+              "type": "coalesced"
+            },
+            {
+              "seq": 13,
+              "t": 5641.299999999814,
+              "x": 155,
+              "y": 469.92,
+              "type": "dispatched"
+            },
+            {
+              "seq": 14,
+              "t": 5677,
+              "x": 149.58,
+              "y": 450.57,
+              "type": "coalesced"
+            },
+            {
+              "seq": 15,
+              "t": 5677,
+              "x": 149.58,
+              "y": 450.57,
+              "type": "dispatched"
+            },
+            {
+              "seq": 16,
+              "t": 5707.899999999907,
+              "x": 144.17,
+              "y": 431.22,
+              "type": "coalesced"
+            },
+            {
+              "seq": 17,
+              "t": 5707.899999999907,
+              "x": 144.17,
+              "y": 431.22,
+              "type": "dispatched"
+            },
+            {
+              "seq": 18,
+              "t": 5742.199999999721,
+              "x": 138.75,
+              "y": 411.88,
+              "type": "coalesced"
+            },
+            {
+              "seq": 19,
+              "t": 5742.199999999721,
+              "x": 138.75,
+              "y": 411.88,
+              "type": "dispatched"
+            },
+            {
+              "seq": 20,
+              "t": 5773.799999999814,
+              "x": 133.33,
+              "y": 392.53,
+              "type": "coalesced"
+            },
+            {
+              "seq": 21,
+              "t": 5773.799999999814,
+              "x": 133.33,
+              "y": 392.53,
+              "type": "dispatched"
+            },
+            {
+              "seq": 22,
+              "t": 5810.600000000093,
+              "x": 127.92,
+              "y": 373.18,
+              "type": "coalesced"
+            },
+            {
+              "seq": 23,
+              "t": 5810.600000000093,
+              "x": 127.92,
+              "y": 373.18,
+              "type": "dispatched"
+            },
+            {
+              "seq": 24,
+              "t": 5841.399999999907,
+              "x": 122.5,
+              "y": 353.83,
+              "type": "coalesced"
+            },
+            {
+              "seq": 25,
+              "t": 5841.399999999907,
+              "x": 122.5,
+              "y": 353.83,
+              "type": "dispatched"
+            },
+            {
+              "seq": 26,
+              "t": 5887,
+              "x": 117.08,
+              "y": 334.49,
+              "type": "coalesced"
+            },
+            {
+              "seq": 27,
+              "t": 5887,
+              "x": 117.08,
+              "y": 334.49,
+              "type": "dispatched"
+            },
+            {
+              "seq": 28,
+              "t": 5911,
+              "x": 111.67,
+              "y": 315.14,
+              "type": "coalesced"
+            },
+            {
+              "seq": 29,
+              "t": 5911,
+              "x": 111.67,
+              "y": 315.14,
+              "type": "dispatched"
+            },
+            {
+              "seq": 30,
+              "t": 5944.699999999721,
+              "x": 106.25,
+              "y": 295.79,
+              "type": "coalesced"
+            },
+            {
+              "seq": 31,
+              "t": 5944.699999999721,
+              "x": 106.25,
+              "y": 295.79,
+              "type": "dispatched"
+            },
+            {
+              "seq": 32,
+              "t": 5975,
+              "x": 100.83,
+              "y": 276.44,
+              "type": "coalesced"
+            },
+            {
+              "seq": 33,
+              "t": 5975,
+              "x": 100.83,
+              "y": 276.44,
+              "type": "dispatched"
+            },
+            {
+              "seq": 34,
+              "t": 6010,
+              "x": 95.42,
+              "y": 257.1,
+              "type": "coalesced"
+            },
+            {
+              "seq": 35,
+              "t": 6010,
+              "x": 95.42,
+              "y": 257.1,
+              "type": "dispatched"
+            },
+            {
+              "seq": 36,
+              "t": 6042.199999999721,
+              "x": 90,
+              "y": 237.75,
+              "type": "coalesced"
+            },
+            {
+              "seq": 37,
+              "t": 6042.199999999721,
+              "x": 90,
+              "y": 237.75,
+              "type": "dispatched"
+            },
+            {
+              "seq": 38,
+              "t": 6076.199999999721,
+              "x": 90,
+              "y": 237.75,
+              "type": "up"
+            }
+          ],
+          "stemChars": 55,
+          "earlyStart": false,
+          "noise": null,
+          "vis": {
+            "count": 0,
+            "totalMs": 0
+          },
+          "ratingBacks": 0
+        },
+        "postExampleQueueLength": 4
+      },
+      "phaseCounts": {
+        "tutorial": 1,
+        "practice": 5,
+        "main": 0
+      }
+    }
+  },
+  "passed": 152,
+  "failed": 0
+}

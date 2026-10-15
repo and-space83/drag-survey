@@ -1,0 +1,348 @@
+{
+  "at": "2026-10-15T14:03:31.824Z",
+  "scope": "Static audit HTML, local GET only; no participant interaction",
+  "checks": [
+    {
+      "name": "index.html/375: no horizontal overflow",
+      "pass": true
+    },
+    {
+      "name": "index.html/375: all images loaded",
+      "pass": true
+    },
+    {
+      "name": "index.html: local link /reviews/2026-10-15-guided-release/index.html",
+      "pass": true
+    },
+    {
+      "name": "index.html: local link /reviews/2026-10-15-guided-release/checklist.html",
+      "pass": true
+    },
+    {
+      "name": "index.html: local link /reviews/2026-10-15-behavior-audit/data-audit.html",
+      "pass": true
+    },
+    {
+      "name": "index.html: local link /reviews/2026-10-15-behavior-audit/index.html",
+      "pass": true
+    },
+    {
+      "name": "index.html: fragment guards",
+      "pass": true
+    },
+    {
+      "name": "index.html: local link /reviews/2026-10-15-behavior-audit/lab-history.html",
+      "pass": true
+    },
+    {
+      "name": "index.html: local link /reviews/2026-10-15-behavior-audit/guard-current-results.json",
+      "pass": true
+    },
+    {
+      "name": "index.html: local link /reviews/2026-10-15-behavior-audit/guard-before-results.json",
+      "pass": true
+    },
+    {
+      "name": "index.html: local link /reviews/2026-10-15-behavior-audit/native-current-results.json",
+      "pass": true
+    },
+    {
+      "name": "index.html: local link /reviews/2026-10-15-behavior-audit/native-before-results.json",
+      "pass": true
+    },
+    {
+      "name": "index.html: local link /reviews/2026-10-15-behavior-audit/test-guard-coverage.cjs",
+      "pass": true
+    },
+    {
+      "name": "index.html: local link /reviews/2026-10-15-stem-and-hints/loop-sync/full-validation-results.json",
+      "pass": true
+    },
+    {
+      "name": "index.html: local link /reviews/2026-10-15-stem-and-hints/loop-sync/full-validation.txt",
+      "pass": true
+    },
+    {
+      "name": "index.html: local link /reviews/2026-10-15-behavior-audit/static-contract.json",
+      "pass": true
+    },
+    {
+      "name": "index.html: local link /reviews/2026-10-15-behavior-audit/data-audit.html",
+      "pass": true
+    },
+    {
+      "name": "index.html: local link /reviews/2026-10-15-guided-release/checklist.html",
+      "pass": true
+    },
+    {
+      "name": "index.html: dynamic fragment check-ios-layout",
+      "pass": true
+    },
+    {
+      "name": "index.html: local link /reviews/2026-10-15-behavior-audit/audit-results.json",
+      "pass": true
+    },
+    {
+      "name": "index.html: local link /reviews/2026-10-15-behavior-audit/README.md",
+      "pass": true
+    },
+    {
+      "name": "guard table presents separate before/current state counts",
+      "pass": true
+    },
+    {
+      "name": "data-audit.html/375: no horizontal overflow",
+      "pass": true
+    },
+    {
+      "name": "data-audit.html/375: all images loaded",
+      "pass": true
+    },
+    {
+      "name": "data-audit.html: local link /reviews/2026-10-15-behavior-audit/index.html",
+      "pass": true
+    },
+    {
+      "name": "data-audit.html: local link /reviews/2026-10-15-behavior-audit/data-audit-results.json",
+      "pass": true
+    },
+    {
+      "name": "data-audit.html: local link /reviews/2026-10-15-behavior-audit/training-provenance-results.json",
+      "pass": true
+    },
+    {
+      "name": "data-audit.html: local link /reviews/2026-10-15-behavior-audit/static-contract.json",
+      "pass": true
+    },
+    {
+      "name": "data-audit.html: local link /reviews/2026-10-15-behavior-audit/data-audit-results.json",
+      "pass": true
+    },
+    {
+      "name": "data-audit.html: local link /reviews/2026-10-15-behavior-audit/training-provenance-results.json",
+      "pass": true
+    },
+    {
+      "name": "data-audit.html: local link /reviews/2026-10-15-behavior-audit/test-static-contract.cjs",
+      "pass": true
+    },
+    {
+      "name": "data-audit.html: local link /reviews/2026-10-15-behavior-audit/test-data-audit.cjs",
+      "pass": true
+    },
+    {
+      "name": "data-audit.html: local link /reviews/2026-10-15-behavior-audit/test-training-provenance.cjs",
+      "pass": true
+    },
+    {
+      "name": "lab-history.html/375: no horizontal overflow",
+      "pass": true
+    },
+    {
+      "name": "lab-history.html/375: all images loaded",
+      "pass": true
+    },
+    {
+      "name": "lab-history.html: local link /reviews/2026-10-15-behavior-audit/index.html",
+      "pass": true
+    },
+    {
+      "name": "lab-history.html: local link /reviews/2026-10-15-behavior-audit/lab-history-recovery-before.json",
+      "pass": true
+    },
+    {
+      "name": "lab-history.html: local link /reviews/2026-10-15-behavior-audit/lab-history-recovery-results.json",
+      "pass": true
+    },
+    {
+      "name": "lab-history.html: local link /reviews/2026-10-15-behavior-audit/lab-history-published-results.json",
+      "pass": true
+    },
+    {
+      "name": "lab-history.html: local link /reviews/2026-10-15-behavior-audit/lab-regression-results.json",
+      "pass": true
+    },
+    {
+      "name": "lab-history.html: local link /reviews/2026-10-15-behavior-audit/lab-site-deployment.json",
+      "pass": true
+    },
+    {
+      "name": "index.html/1200: no horizontal overflow",
+      "pass": true
+    },
+    {
+      "name": "index.html/1200: all images loaded",
+      "pass": true
+    },
+    {
+      "name": "index.html: local link /reviews/2026-10-15-guided-release/index.html",
+      "pass": true
+    },
+    {
+      "name": "index.html: local link /reviews/2026-10-15-guided-release/checklist.html",
+      "pass": true
+    },
+    {
+      "name": "index.html: local link /reviews/2026-10-15-behavior-audit/data-audit.html",
+      "pass": true
+    },
+    {
+      "name": "index.html: local link /reviews/2026-10-15-behavior-audit/index.html",
+      "pass": true
+    },
+    {
+      "name": "index.html: fragment guards",
+      "pass": true
+    },
+    {
+      "name": "index.html: local link /reviews/2026-10-15-behavior-audit/lab-history.html",
+      "pass": true
+    },
+    {
+      "name": "index.html: local link /reviews/2026-10-15-behavior-audit/guard-current-results.json",
+      "pass": true
+    },
+    {
+      "name": "index.html: local link /reviews/2026-10-15-behavior-audit/guard-before-results.json",
+      "pass": true
+    },
+    {
+      "name": "index.html: local link /reviews/2026-10-15-behavior-audit/native-current-results.json",
+      "pass": true
+    },
+    {
+      "name": "index.html: local link /reviews/2026-10-15-behavior-audit/native-before-results.json",
+      "pass": true
+    },
+    {
+      "name": "index.html: local link /reviews/2026-10-15-behavior-audit/test-guard-coverage.cjs",
+      "pass": true
+    },
+    {
+      "name": "index.html: local link /reviews/2026-10-15-stem-and-hints/loop-sync/full-validation-results.json",
+      "pass": true
+    },
+    {
+      "name": "index.html: local link /reviews/2026-10-15-stem-and-hints/loop-sync/full-validation.txt",
+      "pass": true
+    },
+    {
+      "name": "index.html: local link /reviews/2026-10-15-behavior-audit/static-contract.json",
+      "pass": true
+    },
+    {
+      "name": "index.html: local link /reviews/2026-10-15-behavior-audit/data-audit.html",
+      "pass": true
+    },
+    {
+      "name": "index.html: local link /reviews/2026-10-15-guided-release/checklist.html",
+      "pass": true
+    },
+    {
+      "name": "index.html: dynamic fragment check-ios-layout",
+      "pass": true
+    },
+    {
+      "name": "index.html: local link /reviews/2026-10-15-behavior-audit/audit-results.json",
+      "pass": true
+    },
+    {
+      "name": "index.html: local link /reviews/2026-10-15-behavior-audit/README.md",
+      "pass": true
+    },
+    {
+      "name": "guard table presents separate before/current state counts",
+      "pass": true
+    },
+    {
+      "name": "data-audit.html/1200: no horizontal overflow",
+      "pass": true
+    },
+    {
+      "name": "data-audit.html/1200: all images loaded",
+      "pass": true
+    },
+    {
+      "name": "data-audit.html: local link /reviews/2026-10-15-behavior-audit/index.html",
+      "pass": true
+    },
+    {
+      "name": "data-audit.html: local link /reviews/2026-10-15-behavior-audit/data-audit-results.json",
+      "pass": true
+    },
+    {
+      "name": "data-audit.html: local link /reviews/2026-10-15-behavior-audit/training-provenance-results.json",
+      "pass": true
+    },
+    {
+      "name": "data-audit.html: local link /reviews/2026-10-15-behavior-audit/static-contract.json",
+      "pass": true
+    },
+    {
+      "name": "data-audit.html: local link /reviews/2026-10-15-behavior-audit/data-audit-results.json",
+      "pass": true
+    },
+    {
+      "name": "data-audit.html: local link /reviews/2026-10-15-behavior-audit/training-provenance-results.json",
+      "pass": true
+    },
+    {
+      "name": "data-audit.html: local link /reviews/2026-10-15-behavior-audit/test-static-contract.cjs",
+      "pass": true
+    },
+    {
+      "name": "data-audit.html: local link /reviews/2026-10-15-behavior-audit/test-data-audit.cjs",
+      "pass": true
+    },
+    {
+      "name": "data-audit.html: local link /reviews/2026-10-15-behavior-audit/test-training-provenance.cjs",
+      "pass": true
+    },
+    {
+      "name": "lab-history.html/1200: no horizontal overflow",
+      "pass": true
+    },
+    {
+      "name": "lab-history.html/1200: all images loaded",
+      "pass": true
+    },
+    {
+      "name": "lab-history.html: local link /reviews/2026-10-15-behavior-audit/index.html",
+      "pass": true
+    },
+    {
+      "name": "lab-history.html: local link /reviews/2026-10-15-behavior-audit/lab-history-recovery-before.json",
+      "pass": true
+    },
+    {
+      "name": "lab-history.html: local link /reviews/2026-10-15-behavior-audit/lab-history-recovery-results.json",
+      "pass": true
+    },
+    {
+      "name": "lab-history.html: local link /reviews/2026-10-15-behavior-audit/lab-history-published-results.json",
+      "pass": true
+    },
+    {
+      "name": "lab-history.html: local link /reviews/2026-10-15-behavior-audit/lab-regression-results.json",
+      "pass": true
+    },
+    {
+      "name": "lab-history.html: local link /reviews/2026-10-15-behavior-audit/lab-site-deployment.json",
+      "pass": true
+    },
+    {
+      "name": "no JS errors",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "no external requests or POSTs",
+      "pass": true,
+      "detail": []
+    }
+  ],
+  "errors": [],
+  "remote": [],
+  "passed": 84,
+  "failed": 0
+}
