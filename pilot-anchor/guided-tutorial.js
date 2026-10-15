@@ -331,60 +331,62 @@ window.PILOT_GUIDED_TUTORIAL.createDemo=function({canvas,start,target,onReady,on
 'use strict';
 // 独立試作の初動説明。回答先を描かず、触れてから枠を出る区間だけを見せる。
 window.PILOT_GUIDED_TUTORIAL.createTimeDemo=function({container}){
- const durations={press:650,move:1200,exit:1100,reset:650};
+ const durations={idle:300,press:650,move:1200,exit:1100,reset:650};
  const bounds={x:102,y:88,width:126,height:56},from={x:160,y:109},to={x:205,y:64};
- let frame=0,lastTime=0,s=null,svg=null,finger=null,ghost=null,button=null,buttonText=null,ring=null,exitLabel=null,borderGlow=null;
+ let frame=0,lastTime=0,s=null,svg=null,finger=null,ghost=null,button=null,buttonText=null,ring=null,touchLabel=null,exitLabel=null,borderGlow=null;
  const hand='M22 2 c-3.3 0 -6 2.7 -6 6 v30 c-3 -2.5 -8.5 -3 -11.5 0 c-3 3 -1.5 7.5 1.5 10.5 l9 12 c4.5 7.5 10.5 11.5 20 11.5 h7 c8.5 0 15 -6.5 15 -15 v-18 c0 -3 -2.2 -5 -5 -5 c-2 0 -3.4 1 -4.2 2.6 c-0.4 -3.2 -2.4 -5.6 -5.3 -5.6 c-2 0 -3.4 1 -4.2 2.6 c-0.4 -3.2 -2.4 -5.6 -5.3 -5.6 c-1.6 0 -3 0.7 -4 1.9 V8 c0 -3.3 -2.7 -6 -6 -6 z';
  const eased=t=>t*t*(3-2*t);
  const bezier=(a,b,c,d,t)=>{const u=1-t;return u*u*u*a+3*u*u*t*b+3*u*t*t*c+t*t*t*d;};
  function setHand(el,p,alpha=1){el.setAttribute('transform',`translate(${p.x} ${p.y}) scale(.52) translate(-22 -2)`);el.setAttribute('opacity',String(alpha));}
  function mount(){
   container.classList.add('start-exit-demo');
-  container.innerHTML=`<svg class="start-exit-svg" viewBox="0 0 330 162" role="img" aria-label="スタートボタンに指を置き、指を離さず、3秒以内にボタンの枠の外へ動かします。回答先はこの図には表示していません。">
-   <text class="start-exit-sequence" x="165" y="17" text-anchor="middle">触れる → 枠の外へ出る</text>
-   <text class="start-exit-interval" x="165" y="38" text-anchor="middle">この間が3秒以内</text>
+  container.innerHTML=`<svg class="start-exit-svg" viewBox="70 0 200 180" preserveAspectRatio="xMidYMid meet" role="img" aria-label="スタートボタンに指を置き、指を離さず、3秒以内にボタンの枠の外へ動かします。回答先はこの図には表示していません。">
+   <text class="start-exit-interval" x="165" y="19" text-anchor="middle">この間が3秒以内</text>
    <rect class="start-exit-border-glow" x="99" y="85" width="132" height="62" rx="17" />
    <rect class="start-exit-button" x="102" y="88" width="126" height="56" rx="14" />
    <text class="start-exit-button-text" x="165" y="122" text-anchor="middle">スタート</text>
    <g class="start-exit-ghost" aria-hidden="true"><path d="${hand}" /></g>
    <circle class="start-exit-ring" r="14" />
    <g class="start-exit-finger" aria-hidden="true"><path d="${hand}" /><ellipse class="start-exit-nail" cx="22" cy="9.5" rx="3.6" ry="5.2" /></g>
-   <g class="start-exit-label"><text x="231" y="66">枠の外へ</text><text x="231" y="83">出る</text></g>
+   <text class="start-exit-touch-label" x="165" y="168" text-anchor="middle">触れる</text>
+   <text class="start-exit-label" x="165" y="48" text-anchor="middle">枠の外へ出る</text>
   </svg>`;
-  svg=container.querySelector('svg');finger=svg.querySelector('.start-exit-finger');ghost=svg.querySelector('.start-exit-ghost');button=svg.querySelector('.start-exit-button');buttonText=svg.querySelector('.start-exit-button-text');ring=svg.querySelector('.start-exit-ring');exitLabel=svg.querySelector('.start-exit-label');borderGlow=svg.querySelector('.start-exit-border-glow');
+  svg=container.querySelector('svg');finger=svg.querySelector('.start-exit-finger');ghost=svg.querySelector('.start-exit-ghost');button=svg.querySelector('.start-exit-button');buttonText=svg.querySelector('.start-exit-button-text');ring=svg.querySelector('.start-exit-ring');touchLabel=svg.querySelector('.start-exit-touch-label');exitLabel=svg.querySelector('.start-exit-label');borderGlow=svg.querySelector('.start-exit-border-glow');
  }
  function draw(){
   if(!s)return;
   const t=Math.max(0,Math.min(1,s.elapsed/durations[s.phase]));
-  let p={...from},alpha=1;
+  let p={...from},alpha=s.phase==='idle'?0:1;
   if(s.phase==='move'){
    const e=eased(t);p={x:bezier(from.x,184,200,to.x,e),y:bezier(from.y,106,78,to.y,e)};
   }else if(s.phase==='exit'||s.phase==='reset'){
    p={...to};if(s.phase==='reset')alpha=1-t;
   }
   if(s.reduced)p={...to};
-  const exited=p.y<bounds.y;
-  s.finger=p;s.exited=exited;
+  const contacted=s.phase!=='idle'||s.reduced,exited=contacted&&p.y<bounds.y;
+  s.finger=p;s.exited=exited;s.contacted=contacted;
   setHand(finger,p,alpha);setHand(ghost,from,s.reduced ? .42 : 0);
-  button.classList.toggle('armed',s.phase!=='reset'||s.reduced);
-  buttonText.classList.toggle('armed',s.phase!=='reset'||s.reduced);
-  buttonText.textContent=s.phase==='reset'&&!s.reduced?'スタート':'→';
+  button.classList.toggle('armed',(contacted&&s.phase!=='reset')||s.reduced);
+  buttonText.classList.toggle('armed',(contacted&&s.phase!=='reset')||s.reduced);
+  buttonText.textContent=(s.phase==='idle'||s.phase==='reset')&&!s.reduced?'スタート':'→';
   ring.setAttribute('cx',String(p.x));ring.setAttribute('cy',String(p.y));
   ring.setAttribute('r',String(exited?14+(!s.reduced&&s.phase==='exit'?2*Math.sin(t*Math.PI):0):12));
-  ring.setAttribute('opacity',String(exited?alpha:.45));
+  ring.setAttribute('opacity',String(!contacted?0:exited?alpha:.45));
   ring.classList.toggle('outside',exited);
   borderGlow.style.opacity=String(exited ? .45*alpha : 0);
-  exitLabel.style.opacity=String(exited?alpha:0);
+  touchLabel.style.opacity=String(contacted?1:0);
+  exitLabel.style.opacity=String(exited?1:0);
  }
  function tick(now){
   frame=0;if(!s||!s.running)return;
   s.elapsed+=Math.min(80,Math.max(0,now-lastTime));
   while(s.elapsed>=durations[s.phase]){
    s.elapsed-=durations[s.phase];
-   if(s.phase==='press')s.phase='move';
+   if(s.phase==='idle')s.phase='press';
+   else if(s.phase==='press')s.phase='move';
    else if(s.phase==='move')s.phase='exit';
    else if(s.phase==='exit')s.phase='reset';
-   else{s.phase='press';s.cycles++;}
+   else{s.phase='idle';s.cycles++;}
   }
   lastTime=now;draw();frame=requestAnimationFrame(tick);
  }
@@ -399,7 +401,7 @@ window.PILOT_GUIDED_TUTORIAL.createTimeDemo=function({container}){
  }
  function begin(options={}){
   stop();mount();
-  s={phase:'press',elapsed:0,cycles:0,running:true,reduced:matchMedia('(prefers-reduced-motion: reduce)').matches,captured:false,finger:{...from},exited:false,startBounds:{...bounds}};
+  s={phase:'idle',elapsed:0,cycles:0,running:true,reduced:matchMedia('(prefers-reduced-motion: reduce)').matches,captured:false,finger:{...from},exited:false,startBounds:{...bounds}};
   const captured=options.capture??(new URLSearchParams(location.search).get('capture')==='1');
   if(captured){sample(options.phase||'exit');return;}
   if(s.reduced){s.phase='exit';draw();return;}
@@ -551,7 +553,7 @@ window.PILOT_GUIDED_TUTORIAL.createEngine = function (env) {
       if (e.target.closest('#tutQuiz')) return;
       log('stray'); flash($('tutPopNext').disabled ? '答えを1つ選んでください' : 'このボタンで進みます');
     }, { passive: true });
-    window.addEventListener('resize', () => { if (idx >= 0) { motion.finish(); cancelPointer(); place(); if (current()?.id === 'motor-route') demoPlayer.begin({ key: 'motor-route', kind: 'route', captionInitially: true }); } });
+    window.addEventListener('resize', () => { if (idx >= 0) { motion.finish(); cancelPointer(); place(); if (current()?.id === 'motor-route') demoPlayer.begin({ key: 'motor-route', kind: 'route', captionInitially: true }); else if (current()?.id === 'motor-range') rangePlayer?.begin({ key: 'motor-range', kind: 'range', captionInitially: true }); } });
     built = true;
   }
   function cancelPointer() { if (!held) { clearHint(); return; } held = null; clearHint(); hidePosition(); startBtn.classList.remove('armed'); startBtn.textContent = 'スタート'; if (idx >= 0) { row.classList.remove('hidden'); place(); log('motor_cancel'); } }
@@ -623,14 +625,28 @@ window.PILOT_GUIDED_TUTORIAL.createEngine = function (env) {
     const bh = row.getBoundingClientRect().height || 52, startVisible = startBtn.style.visibility === 'visible';
     const minTop = replay && !$('tutClose').classList.contains('hidden') ? $('tutClose').getBoundingClientRect().bottom + 12 : 8;
     const ph = pop.getBoundingClientRect().height;
+    if (step.id === 'motor-range' || step.id === 'time-rule') {
+      const gap = vh <= 640 ? 10 : 18, top = Math.max(minTop, vh <= 640 ? 24 : 42);
+      const maxNavTop = vh - bh - Math.max(12, vh * .025), graphicTop = top + ph + gap;
+      const available = Math.max(0, maxNavTop - gap - graphicTop);
+      pop.style.left = (innerWidth - pop.getBoundingClientRect().width) / 2 + 'px'; pop.style.top = top + 'px';
+      graphic.style.top = graphicTop + 'px';
+      if (step.id === 'time-rule') graphic.style.setProperty('--time-demo-max-height', available + 'px');
+      else {
+        const caption = graphic.querySelector('.guided-range-caption');
+        const captionHeight = caption ? caption.getBoundingClientRect().height + parseFloat(getComputedStyle(caption).marginBottom) : 0;
+        const height = Math.min(Math.min(innerWidth, vh) * .39, Math.max(0, available - captionHeight - 88));
+        graphic.style.setProperty('--range-target-height', height + 'px');
+        graphic.style.setProperty('--range-target-width', height * 60 / 39 + 'px');
+      }
+      graphic.style.left = (innerWidth - graphic.getBoundingClientRect().width) / 2 + 'px';
+      row.style.top = Math.min(maxNavTop, Math.max(sr.top + sr.height / 2 - bh / 2, graphic.getBoundingClientRect().bottom + gap)) + 'px';
+      return;
+    }
     let navTop = startVisible ? vh - bh - Math.max(12, vh * .025) : sr.top + sr.height / 2 - bh / 2;
     if (startVisible && navTop < sr.bottom + 4) navTop = sr.bottom + 4 + bh <= vh - 6 ? sr.bottom + 4 : Math.max(8, sr.top - bh - 12);
     if (!startVisible) {
       let needed = minTop + ph + 16;
-      if (step.id === 'motor-range' || step.id === 'time-rule') {
-        graphic.style.top = Math.max(44, vh * .08) + 'px';
-        needed = Math.max(needed, graphic.getBoundingClientRect().bottom + (step.id === 'motor-range' && vh <= 640 ? 8 : 18) + ph + 16);
-      }
       navTop = Math.min(vh - bh - 6, Math.max(navTop, needed));
     }
     row.style.top = navTop + 'px';
@@ -643,8 +659,6 @@ window.PILOT_GUIDED_TUTORIAL.createEngine = function (env) {
       if (step.focus === 'choices') top = Math.max(r.bottom + 12, Math.min(top, sr.top - ph - 8));
       if (navTop < sr.top && step.focus === 'start') top = Math.min(top, maxTop);
     } else if (step.id === 'motor-route' || (step.id === 'motor' && !completed.has('motor'))) top = Math.max(42, vh * .06);
-    else if (step.id === 'motor-range') { graphic.style.top = Math.max(44, vh * .08) + 'px'; top = graphic.getBoundingClientRect().bottom + (vh <= 640 ? 8 : 18); }
-    else if (step.id === 'time-rule') { graphic.style.top = Math.max(44, vh * .08) + 'px'; top = graphic.getBoundingClientRect().bottom + 18; }
     else if (step.chapter.startsWith('3 ') && step.kind === 'instruction') top = ruleTop();
     pop.style.top = Math.max(minTop, Math.min(top, maxTop)) + 'px';
     if (step.id === 'motor-route' || step.id === 'motor') {

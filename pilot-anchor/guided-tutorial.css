@@ -33,10 +33,10 @@ body.guided-tutorial .guided-focus{opacity:1;animation:guidedRoleGlow 2.8s ease-
 @keyframes guidedRoleGlow{0%,100%{box-shadow:0 0 0 4px rgba(18,133,90,.17)}50%{box-shadow:0 0 0 9px rgba(18,133,90,.32)}}
 body.guided-tutorial #tutGraphic{position:fixed;z-index:41;left:7%;width:86%;pointer-events:none}
 body.guided-tutorial #tutGraphic[hidden]{display:none!important}
-body.guided-tutorial #tutRangeFigure{position:relative;width:100%;height:calc(39vmin + 88px)}
-body.guided-tutorial #tutRangeTarget{position:absolute;left:calc(50% - 30vmin);top:0;width:60vmin;height:39vmin;border:3px solid #12855a;border-radius:21px;background:rgba(18,133,90,.16);display:flex;align-items:center;justify-content:center;font-size:6.3vmin;font-weight:700;box-sizing:border-box}
+body.guided-tutorial #tutRangeFigure{position:relative;width:100%;height:calc(var(--range-target-height,39vmin) + 88px)}
+body.guided-tutorial #tutRangeTarget{position:absolute;left:50%;transform:translateX(-50%);top:0;width:var(--range-target-width,60vmin);height:var(--range-target-height,39vmin);border:3px solid #12855a;border-radius:21px;background:rgba(18,133,90,.16);display:flex;align-items:center;justify-content:center;font-size:6.3vmin;font-weight:700;box-sizing:border-box}
 body.guided-tutorial #tutRangeTarget.arrived{box-shadow:0 0 0 5px rgba(18,133,90,.18);background:rgba(18,133,90,.23)}
-body.guided-tutorial #tutRangeEntry{position:absolute;top:calc(39vmin + 8px);left:calc(50% - 4px);width:8px;height:8px;opacity:0}
+body.guided-tutorial #tutRangeEntry{position:absolute;top:calc(var(--range-target-height,39vmin) + 8px);left:calc(50% - 4px);width:8px;height:8px;opacity:0}
 body.guided-tutorial #tutRangeInk{position:absolute;inset:0;pointer-events:none}
 body.guided-tutorial .guided-range-caption{font-size:13px;line-height:1.5;color:#237450;text-align:center;font-weight:700;margin:0 0 8px}
 body.guided-tutorial #tutQuiz{display:flex;flex-direction:column;gap:10px;margin-top:16px;pointer-events:auto}
@@ -51,9 +51,8 @@ body.stop-open #tutBackdrop,body.stop-open #tutGraphic,body.stop-open #tutPositi
 @media(prefers-reduced-motion:reduce){body.guided-tutorial .guided-focus{animation:none}}
 
 /* 初動説明の図だけに適用。本番のスタートボタンの寸法・座標は扱わない。 */
-.start-exit-demo{width:100%;max-width:330px;aspect-ratio:330/162;margin:0 auto;line-height:1}
+.start-exit-demo{width:100%;max-width:360px;aspect-ratio:200/180;max-height:var(--time-demo-max-height,none);margin:0 auto;line-height:1}
 .start-exit-demo .start-exit-svg{display:block;width:100%;height:100%;overflow:visible;font-family:'Segoe UI','Meiryo UI',Meiryo,sans-serif;pointer-events:none}
-.start-exit-demo .start-exit-sequence{fill:#40584c;font-size:14px;font-weight:600}
 .start-exit-demo .start-exit-interval{fill:#237450;font-size:15px;font-weight:700}
 .start-exit-demo .start-exit-button{fill:rgba(184,83,26,.07);stroke:#b8531a;stroke-width:2}
 .start-exit-demo .start-exit-button.armed{fill:rgba(18,133,90,.10);stroke:#12855a}
@@ -65,5 +64,4 @@ body.stop-open #tutBackdrop,body.stop-open #tutGraphic,body.stop-open #tutPositi
 .start-exit-demo .start-exit-finger{fill:#f4d7b8;stroke:#5b3a1e;stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round}
 .start-exit-demo .start-exit-nail{fill:#fbece0;stroke-width:1.2}
 .start-exit-demo .start-exit-ghost{fill:#f4d7b8;stroke:#5b3a1e;stroke-width:1.8}
-.start-exit-demo .start-exit-label{fill:#12855a;font-size:13px;font-weight:700;opacity:0}
-@media(max-height:640px){.start-exit-demo{max-width:310px}}
+.start-exit-demo .start-exit-label,.start-exit-demo .start-exit-touch-label{fill:#12855a;font-size:13px;font-weight:700;opacity:0}
