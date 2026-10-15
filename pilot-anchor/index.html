@@ -301,6 +301,7 @@
   <div id="progress"><div id="progressFill"></div></div>
   <div id="surface">
     <canvas id="trace"></canvas>
+    <div id="dragPosition" aria-hidden="true" hidden></div>
     <div id="stem"></div>
     <div class="choice" id="choiceA"><span class="num" id="numA">0</span></div>
     <div class="choice" id="choiceB"><span class="num" id="numB">0</span></div>
@@ -1159,6 +1160,7 @@
     target.focus({ preventScroll: true });
   }
   function show(name) {
+    if (name !== "task") clearDragFeedback();
     if (name !== "task") { hideBanner(); clearIdleCoach(); if (coachDismissTimer || coachEl.classList.contains("ok")) coachHide(); }
     if (consentTiming && !sessionFinished) consentTiming.change(document.hidden ? "background" : name);
     for (const k in screens) screens[k].classList.toggle("active", k === name);
@@ -1718,6 +1720,17 @@
   function clearCanvas() {
     ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.restore();
+    clearDragFeedback();
+  }
+  // 現在の接触位置だけを表示する。計測するeventsやgeomには触れない。
+  function clearDragFeedback() {
+    $("dragPosition").hidden = true;
+    $("choiceA").classList.remove("drag-inside"); $("choiceB").classList.remove("drag-inside");
+  }
+  function showDragFeedback(x, y) {
+    const r = surface.getBoundingClientRect(), point = $("dragPosition");
+    point.hidden = false; point.style.left = (x - r.left) + "px"; point.style.top = (y - r.top) + "px";
+    for (const choice of [choiceA, choiceB]) choice.classList.toggle("drag-inside", inRect(rectOf(choice), x, y));
   }
   window.addEventListener("resize", sizeCanvas);
 
@@ -2200,8 +2213,7 @@
     // 「選択肢のボックスの中で…」(選択肢とスタートの間) はスタートを出た時点で消す (pointermove 側)
     else if (coachEl.classList.contains("pos-top") || coachEl.dataset.kind === "start") coachHide();   // 本番も同じ (2026-09-15)
     clearCanvas();
-    ctx.beginPath();
-    ctx.moveTo(e.clientX - sRect.left, e.clientY - sRect.top);
+    showDragFeedback(e.clientX, e.clientY);
   }, { passive: false });
 
   surface.addEventListener("pointermove", (e) => {
@@ -2221,9 +2233,7 @@
       // チュートリアル後は完全に消す (「選択肢のボックスの中で…」はスタートを出た時点で役目を終える)
       if (phase === "practice" && !dragTutState.done) coachEl.classList.add("dim"); else coachHide();   // 本番のやり直し案内もスタートを出た時点で消す (2026-09-15)
     }
-    const x = e.clientX - trial._sRect.left, y = e.clientY - trial._sRect.top;
-    ctx.lineTo(x, y);
-    ctx.strokeStyle = "#1668c4"; ctx.lineWidth = 2.5; ctx.stroke();   // ライト背景で見える濃い青
+    showDragFeedback(e.clientX, e.clientY);
   }, { passive: false });
 
   function pushEvent(e, type) {
@@ -2236,6 +2246,7 @@
     e.preventDefault();
     pushEvent(e, "up");
     recording = false;
+    clearDragFeedback();
     finalizeDrag(e);
   }, { passive: false });
 
@@ -2243,10 +2254,12 @@
     if (!recording || e.pointerId !== activePointerId) return;
     pushEvent(e, "cancel");
     recording = false;
+    clearDragFeedback();
     retryTrial("中断されました", null, "pointer_cancel", e.timeStamp);
   }, { passive: false });
 
   function retryTrial(msg, coachHtml, reason = "interrupted", endT = performance.now()) {
+    clearDragFeedback();
     if (["outside_choice", "insufficient_points"].includes(reason)) markPracticeRule("release");
     if (trial && !records.includes(trial)) invalidAttempts.push(invalidAttempt(trial, reason, endT));
     aborts++;

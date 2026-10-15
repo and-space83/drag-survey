@@ -159,6 +159,11 @@
   #ratingProgress { top: max(5%, calc(max(9px, env(safe-area-inset-top)) + max(24px, calc(24px * var(--ui-scale))))); }
   #surface { position: absolute; inset: 0; touch-action: none; }
   #trace { position: absolute; top: 0; left: 0; pointer-events: none; z-index: 1; }
+  #dragPosition { position: absolute; width: 48px; height: 48px; border: 3px solid #1668c4;
+    border-radius: 50%; background: rgba(22,104,196,.12); transform: translate(-50%,-50%);
+    pointer-events: none; z-index: 5; }
+  #dragPosition[hidden] { display: none; }
+  .choice.drag-inside { background: rgba(18,133,90,.20); box-shadow: 0 0 0 4px rgba(18,133,90,.25); }
   .guided-intro-card { position: absolute; left: 16px; right: 16px; top: 32%; padding: 20px;
     border: 1px solid #c9dbd1; border-radius: 16px; background: #fff; box-shadow: 0 5px 22px #183d2810; }
   .guided-intro-card h1 { font-size: 23px; line-height: 1.35; margin: 0 0 14px; }
