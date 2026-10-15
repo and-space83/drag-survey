@@ -1,0 +1,105 @@
+{
+  "version": "2026-10-15-ui20",
+  "checkedAt": "2026-10-15T02:23:06.005Z",
+  "scope": "合成回答によるローカルChrome/Node/Python検証。実機Safariと実Driveの原本照合を代替しない。",
+  "source": {
+    "index.html": "0bfe6ce03394e80037fef067059c20c14a9d1ea31eb86dfb4394c0206d9d1357",
+    "app.css": "dc355b1f2426a7f7ad5f73e480154798279a6e35fbb7846c9661328cac1b3e89",
+    "guided-tutorial.js": "cd252e516fb4d4dfca1a1c14683df9a7da3de6aa38e679766285bc4aac3b9e28",
+    "guided-tutorial.css": "d73d3e7373a4602e5258bacbbdbcaad73a00f49ee638094430fe29cb14b146b7",
+    "bank.js": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
+    "session-store.js": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+    "durable-storage.js": "84d006f048e2cc16c4a7a7087ec5815485c0b3a7d2ffa4ce6b7b62905dde967b",
+    "storage-worker.js": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
+    "staged-delivery.js": "7f37d628ce04dc47233b16387d43add674608d278030dd17355621745ab9f7ad",
+    "consent.js": "6dae132f66dc20526ae6e79c59c6ff12049a75a1b11161b6815bfa1339a14bd9",
+    "consent.css": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
+    "data-codec.js": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+    "vendor/pako.min.js": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+    "vendor/pako-LICENSE": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539"
+  },
+  "tests": [
+    {
+      "command": "node tools/pilot-anchor/validate.js",
+      "adapter": "PILOT_PLAYWRIGHT_MODULE (bundled Playwright)",
+      "exitCode": 0,
+      "result": "全チェック通過",
+      "successfulAssertions": 889,
+      "logSha256": "60ceab1a563ed87ae5e25501646a82dddb00758fb640fa77a30916fa15a5828b"
+    },
+    {
+      "command": "node tools/pilot-anchor/test-guided-release.cjs",
+      "record": "results.json",
+      "passed": 255,
+      "failed": 0
+    },
+    {
+      "command": "node tools/pilot-anchor/test-guided-recovery.cjs and existing recovery suites",
+      "record": "recovery-results.json",
+      "result": "all passed"
+    },
+    {
+      "command": "python -m unittest test_audit_fixes.CollectionChecks test_tutorial_log_compat",
+      "record": "audit-results.json",
+      "result": "25 Python checks passed; browser checks recorded separately"
+    },
+    {
+      "command": "node tools/pilot-anchor/test-static-tap-guard.cjs",
+      "passed": 43,
+      "failed": 0,
+      "sourceFinal": true,
+      "logSha256": "54f58107ce59abb76dfba919b51efaafcf1f1f7aff8564a60a3cee6f6c982929"
+    },
+    {
+      "command": "node tools/pilot-anchor/test-session-store.cjs",
+      "passed": 18,
+      "failed": 0
+    },
+    {
+      "command": "node tools/pilot-anchor/test-recovery-storage.cjs",
+      "passed": 34,
+      "failed": 0
+    },
+    {
+      "command": "node tools/pilot-anchor/test-delivery.cjs",
+      "passed": 5,
+      "failed": 0
+    },
+    {
+      "command": "node tools/pilot-anchor/test-security.cjs",
+      "passed": 9,
+      "failed": 0
+    },
+    {
+      "command": "python tools/pilot-anchor/check_bank_sync.py",
+      "result": "passed (bundled Python)"
+    },
+    {
+      "command": "node tools/pilot-anchor/refresh-explanation-review.cjs --check",
+      "record": "../2026-10-12-session-explanations/layout-results.json",
+      "result": "4 dimensions, 488 images; 1994 checks passed"
+    },
+    {
+      "command": "node tools/pilot-anchor/screen-gallery/verify.cjs",
+      "record": "../../screen-gallery/data/verification.json",
+      "result": "747 images / 249 states; 76 checks passed"
+    }
+  ],
+  "physical": {
+    "status": "not_verified",
+    "checklist": "checklist.md",
+    "remaining": [
+      "対象iPhone Safariで全画面・全領域の拡大防止と通常操作",
+      "実機での指の捕捉、ブラウザUI開閉、文字サイズ、回転",
+      "実機の保存・再開・同意とA/B保存原本の照合"
+    ]
+  },
+  "commits": {
+    "tutorial": "542aca7",
+    "contactFeedback": "920af93",
+    "logCompatibility": "efe3ec7",
+    "existingItemReaderFix": "98c22d1",
+    "regressionTests": "8d12ae8",
+    "researchDecision": "77facbe"
+  }
+}

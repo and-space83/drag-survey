@@ -1,0 +1,258 @@
+{
+  "at": "2026-10-15T02:29:28.903Z",
+  "scope": "比較サイトのリンク・3寸法・読み込み・送信先null。実機操作や保存互換は対象外。",
+  "checks": [
+    {
+      "name": "1200: audit has forty-nine sourced functions",
+      "passed": true
+    },
+    {
+      "name": "1200: parent has no horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "1200/375x548: exact viewport and no upload",
+      "passed": true,
+      "detail": [
+        {
+          "version": "before",
+          "w": 375,
+          "h": 548,
+          "go": "tut",
+          "debug": "1",
+          "upload": "0",
+          "uploadUrl": null
+        },
+        {
+          "version": "after",
+          "w": 375,
+          "h": 548,
+          "go": "tut",
+          "debug": "1",
+          "upload": "0",
+          "uploadUrl": null
+        }
+      ]
+    },
+    {
+      "name": "1200/375x700: exact viewport and no upload",
+      "passed": true,
+      "detail": [
+        {
+          "version": "before",
+          "w": 375,
+          "h": 700,
+          "go": "tut",
+          "debug": "1",
+          "upload": "0",
+          "uploadUrl": null
+        },
+        {
+          "version": "after",
+          "w": 375,
+          "h": 700,
+          "go": "tut",
+          "debug": "1",
+          "upload": "0",
+          "uploadUrl": null
+        }
+      ]
+    },
+    {
+      "name": "1200/402x759: exact viewport and no upload",
+      "passed": true,
+      "detail": [
+        {
+          "version": "before",
+          "w": 402,
+          "h": 759,
+          "go": "tut",
+          "debug": "1",
+          "upload": "0",
+          "uploadUrl": null
+        },
+        {
+          "version": "after",
+          "w": 402,
+          "h": 759,
+          "go": "tut",
+          "debug": "1",
+          "upload": "0",
+          "uploadUrl": null
+        }
+      ]
+    },
+    {
+      "name": "chapter motor: both safe previews loaded",
+      "passed": true
+    },
+    {
+      "name": "chapter rules: both safe previews loaded",
+      "passed": true
+    },
+    {
+      "name": "chapter quiz: both safe previews loaded",
+      "passed": true
+    },
+    {
+      "name": "chapter example: both safe previews loaded",
+      "passed": true
+    },
+    {
+      "name": "chapter rating-intro: both safe previews loaded",
+      "passed": true
+    },
+    {
+      "name": "chapter rating-hesitation: both safe previews loaded",
+      "passed": true
+    },
+    {
+      "name": "chapter rating-confidence: both safe previews loaded",
+      "passed": true
+    },
+    {
+      "name": "chapter rating-finish: both safe previews loaded",
+      "passed": true
+    },
+    {
+      "name": "chapter main: both safe previews loaded",
+      "passed": true
+    },
+    {
+      "name": "chapter rating: both safe previews loaded",
+      "passed": true
+    },
+    {
+      "name": "chapter late: both safe previews loaded",
+      "passed": true
+    },
+    {
+      "name": "chapter instructed: both safe previews loaded",
+      "passed": true
+    },
+    {
+      "name": "chapter post: both safe previews loaded",
+      "passed": true
+    },
+    {
+      "name": "chapter done: both safe previews loaded",
+      "passed": true
+    },
+    {
+      "name": "375: audit has forty-nine sourced functions",
+      "passed": true
+    },
+    {
+      "name": "375: parent has no horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "375/375x548: exact viewport and no upload",
+      "passed": true,
+      "detail": [
+        {
+          "version": "before",
+          "w": 375,
+          "h": 548,
+          "go": "tut",
+          "debug": "1",
+          "upload": "0",
+          "uploadUrl": null
+        },
+        {
+          "version": "after",
+          "w": 375,
+          "h": 548,
+          "go": "tut",
+          "debug": "1",
+          "upload": "0",
+          "uploadUrl": null
+        }
+      ]
+    },
+    {
+      "name": "375/375x700: exact viewport and no upload",
+      "passed": true,
+      "detail": [
+        {
+          "version": "before",
+          "w": 375,
+          "h": 700,
+          "go": "tut",
+          "debug": "1",
+          "upload": "0",
+          "uploadUrl": null
+        },
+        {
+          "version": "after",
+          "w": 375,
+          "h": 700,
+          "go": "tut",
+          "debug": "1",
+          "upload": "0",
+          "uploadUrl": null
+        }
+      ]
+    },
+    {
+      "name": "375/402x759: exact viewport and no upload",
+      "passed": true,
+      "detail": [
+        {
+          "version": "before",
+          "w": 402,
+          "h": 759,
+          "go": "tut",
+          "debug": "1",
+          "upload": "0",
+          "uploadUrl": null
+        },
+        {
+          "version": "after",
+          "w": 402,
+          "h": 759,
+          "go": "tut",
+          "debug": "1",
+          "upload": "0",
+          "uploadUrl": null
+        }
+      ]
+    },
+    {
+      "name": "no JavaScript errors",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "no outside-origin or non-GET requests",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "errors": [],
+  "unexpectedRequests": [],
+  "source": {
+    "index.html": "1ea2cb49aa4c21e09bf40c719c1fdac2a04254fac1d8f53ab80901ef926da5f1",
+    "review.js": "9db45981e1b47a1273bc965348fe6b5b0cc516a6b3b7592f909d8adacb469844",
+    "review.css": "e4d8b693d10faf4e3e46285c8a39f484648548b534bd98bf1bfd05ab0b885957",
+    "inheritance.json": "131f4f0a3554598aa68bd26259ad1363473c9eded67d3a12e86d0ce74b627a14"
+  },
+  "afterSource": {
+    "index.html": "0bfe6ce03394e80037fef067059c20c14a9d1ea31eb86dfb4394c0206d9d1357",
+    "app.css": "dc355b1f2426a7f7ad5f73e480154798279a6e35fbb7846c9661328cac1b3e89",
+    "bank.js": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
+    "session-store.js": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+    "durable-storage.js": "84d006f048e2cc16c4a7a7087ec5815485c0b3a7d2ffa4ce6b7b62905dde967b",
+    "storage-worker.js": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
+    "staged-delivery.js": "e7af387be6c7902f7d36f3832d5252a84e2649d35451c9aaca255d2012c19876",
+    "consent.js": "6dae132f66dc20526ae6e79c59c6ff12049a75a1b11161b6815bfa1339a14bd9",
+    "consent.css": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
+    "data-codec.js": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+    "vendor/pako.min.js": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+    "vendor/pako-LICENSE": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539",
+    "guided-tutorial.js": "cd252e516fb4d4dfca1a1c14683df9a7da3de6aa38e679766285bc4aac3b9e28",
+    "guided-tutorial.css": "d73d3e7373a4602e5258bacbbdbcaad73a00f49ee638094430fe29cb14b146b7"
+  },
+  "beforeManifestSha256": "e68e6c32be963fa46244946217db54165080ac99ed807ca4d98d5bf9b7e82821",
+  "passed": true
+}

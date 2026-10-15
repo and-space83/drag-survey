@@ -1,0 +1,19 @@
+{
+  "createdAt": "2026-10-15T01:07:10.679Z",
+  "commit": "3b5b533fff3c101df968f1c157cea460ef28fd59",
+  "source": {
+    "index.html": "56af91d047a8bb3c83ca77e43008a21889535580f664156adbcd0a8f339edb2e",
+    "app.css": "07462d80c069de42d3d80c865d8a765ab0ce2ea44a44c980e19396ff647e65ca",
+    "bank.js": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
+    "session-store.js": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+    "durable-storage.js": "84d006f048e2cc16c4a7a7087ec5815485c0b3a7d2ffa4ce6b7b62905dde967b",
+    "storage-worker.js": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
+    "staged-delivery.js": "e7af387be6c7902f7d36f3832d5252a84e2649d35451c9aaca255d2012c19876",
+    "consent.js": "6dae132f66dc20526ae6e79c59c6ff12049a75a1b11161b6815bfa1339a14bd9",
+    "consent.css": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
+    "data-codec.js": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+    "vendor/pako.min.js": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+    "vendor/pako-LICENSE": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539"
+  },
+  "appVersion": "2026-10-15-ui19"
+}

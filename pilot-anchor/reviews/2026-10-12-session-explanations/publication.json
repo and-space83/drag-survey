@@ -1,0 +1,111 @@
+{
+  "checkedAt": "2026-10-12T01:51:52.636Z",
+  "version": "2026-10-12-ui10",
+  "baseUrl": "https://and-space83.github.io/drag-survey/pilot-anchor/",
+  "normalUrls": true,
+  "checks": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "expectedSha256LF": "a7d0e882f75c298d21f88ca985bbec0e73b1aebedde6ec624ea569594f64ed91",
+      "actualSha256LF": "a7d0e882f75c298d21f88ca985bbec0e73b1aebedde6ec624ea569594f64ed91",
+      "match": true,
+      "version": "2026-10-12-ui10"
+    },
+    {
+      "file": "app.css",
+      "status": 200,
+      "expectedSha256LF": "1c0f3af55c9c9ba7ba7e9dd38d7d2658bcc8d16c65e37fd55aab9b403c1f353a",
+      "actualSha256LF": "1c0f3af55c9c9ba7ba7e9dd38d7d2658bcc8d16c65e37fd55aab9b403c1f353a",
+      "match": true
+    },
+    {
+      "file": "bank.js",
+      "status": 200,
+      "expectedSha256LF": "8a4481ca57261bd60bf2459fce6c48d5fd8ce1c7c4b4010532798688a56dad42",
+      "actualSha256LF": "8a4481ca57261bd60bf2459fce6c48d5fd8ce1c7c4b4010532798688a56dad42",
+      "match": true
+    },
+    {
+      "file": "session-store.js",
+      "status": 200,
+      "expectedSha256LF": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+      "actualSha256LF": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+      "match": true
+    },
+    {
+      "file": "durable-storage.js",
+      "status": 200,
+      "expectedSha256LF": "84d006f048e2cc16c4a7a7087ec5815485c0b3a7d2ffa4ce6b7b62905dde967b",
+      "actualSha256LF": "84d006f048e2cc16c4a7a7087ec5815485c0b3a7d2ffa4ce6b7b62905dde967b",
+      "match": true
+    },
+    {
+      "file": "storage-worker.js",
+      "status": 200,
+      "expectedSha256LF": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
+      "actualSha256LF": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
+      "match": true
+    },
+    {
+      "file": "staged-delivery.js",
+      "status": 200,
+      "expectedSha256LF": "7f37d628ce04dc47233b16387d43add674608d278030dd17355621745ab9f7ad",
+      "actualSha256LF": "7f37d628ce04dc47233b16387d43add674608d278030dd17355621745ab9f7ad",
+      "match": true
+    },
+    {
+      "file": "consent.js",
+      "status": 200,
+      "expectedSha256LF": "6d3ef3b6980e1da3d7152c2004c5a51ac021217f03c61e94bdb16bfa45751378",
+      "actualSha256LF": "6d3ef3b6980e1da3d7152c2004c5a51ac021217f03c61e94bdb16bfa45751378",
+      "match": true
+    },
+    {
+      "file": "consent.css",
+      "status": 200,
+      "expectedSha256LF": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
+      "actualSha256LF": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
+      "match": true
+    },
+    {
+      "file": "data-codec.js",
+      "status": 200,
+      "expectedSha256LF": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+      "actualSha256LF": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+      "match": true
+    },
+    {
+      "file": "vendor/README.md",
+      "status": 200,
+      "expectedSha256LF": "63efa4b7c4d80eeb5e59b16b1ee9e2841909bb342fa2122b711c437b833ac481",
+      "actualSha256LF": "63efa4b7c4d80eeb5e59b16b1ee9e2841909bb342fa2122b711c437b833ac481",
+      "match": true
+    },
+    {
+      "file": "vendor/pako.min.js",
+      "status": 200,
+      "expectedSha256LF": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+      "actualSha256LF": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+      "match": true
+    },
+    {
+      "file": "vendor/pako-LICENSE",
+      "status": 200,
+      "expectedSha256LF": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539",
+      "actualSha256LF": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539",
+      "match": true
+    }
+  ],
+  "sourceCommit": "f0e6c8e4812d332815248ae7945096a83503043c",
+  "publicCommit": "d9dd1287f97679760025b59e8e26d14f56944866",
+  "build": {
+    "commit": "d9dd1287f97679760025b59e8e26d14f56944866",
+    "created_at": "2026-10-12T01:51:10Z",
+    "error": {
+      "message": null
+    },
+    "status": "built",
+    "updated_at": "2026-10-12T01:51:47Z"
+  }
+}

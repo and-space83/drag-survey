@@ -1,0 +1,1775 @@
+{
+  "at": "2026-10-15T01:37:23.405Z",
+  "scope": "Synthetic normal debug sessions with local storage and actual reload/resume; localhost GET only; no GO or external submission",
+  "checks": [
+    {
+      "name": "quiz wrong answer blocks forward navigation",
+      "pass": true
+    },
+    {
+      "name": "quiz order/selections/attempts/index survive reload 0",
+      "pass": true
+    },
+    {
+      "name": "quiz session identity and beginning version survive 0",
+      "pass": true
+    },
+    {
+      "name": "no completion inferred from partial quiz 0",
+      "pass": true
+    },
+    {
+      "name": "quiz order/selections/attempts/index survive reload 1",
+      "pass": true
+    },
+    {
+      "name": "quiz session identity and beginning version survive 1",
+      "pass": true
+    },
+    {
+      "name": "no completion inferred from partial quiz 1",
+      "pass": true
+    },
+    {
+      "name": "exampleIntro restores original practice definition",
+      "pass": true
+    },
+    {
+      "name": "exampleIntro remains a separate persisted stage",
+      "pass": true
+    },
+    {
+      "name": "committed finish ratings/submit time preserved",
+      "pass": true
+    },
+    {
+      "name": "finish submit time never recomputed",
+      "pass": true
+    },
+    {
+      "name": "finish restores index3 without claiming tutorial completion",
+      "pass": true
+    },
+    {
+      "name": "practice intro restores index4 without numbering",
+      "pass": true
+    },
+    {
+      "name": "practice intro keeps one example record and original submit time",
+      "pass": true
+    },
+    {
+      "name": "continuing after restored intro advances once, retains original five",
+      "pass": true
+    },
+    {
+      "name": "UI19 fixture is an actual legacy numeric snapshot",
+      "pass": true
+    },
+    {
+      "name": "UI19 upgrade preserves original sessionId and starting version",
+      "pass": true
+    },
+    {
+      "name": "UI19 upgrade preserves original stimuli definition",
+      "pass": true
+    },
+    {
+      "name": "legacy motor completion maps to motor, with new rules still unfinished",
+      "pass": true
+    },
+    {
+      "name": "upgrade exposure records only pages displayed by new code",
+      "pass": true
+    },
+    {
+      "name": "new schema is complete only after actual seven answers",
+      "pass": true
+    },
+    {
+      "name": "UI19 fixture retains original 3page rating index2",
+      "pass": true
+    },
+    {
+      "name": "UI19 rating upgrade keeps recorded trajectory and values",
+      "pass": true
+    },
+    {
+      "name": "UI19 rating resumes same confidence page under 4page schema",
+      "pass": true
+    },
+    {
+      "name": "legacy completed drag is not forged into new training completion",
+      "pass": true
+    },
+    {
+      "name": "UI19 rating upgrade advances once with one existing example",
+      "pass": true
+    },
+    {
+      "name": "browser page exceptions absent",
+      "pass": true
+    },
+    {
+      "name": "no external or submission requests",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "blockedRequests": [],
+  "source": {
+    "index.html": "24d33e74473c44021240b6ed0e187917efb732e41c1f03afd0c8ce70dda56c0e",
+    "app.css": "bfe2346dcb9dec4775943e400794483a5f0832ce803d50a688d013dc29e2ed38",
+    "guided-tutorial.js": "2b5ca15d6a04825d3c7d0b556b47897a02f1d013aa3dcf96af37c674c73f5a5f",
+    "guided-tutorial.css": "9dc6ee40db00b0e7b5c363b1f654abbc3e99c9768aa53ada7332a7b1381ad268"
+  },
+  "related": {
+    "pre-main": {
+      "checks": [
+        {
+          "name": "[pre-main] 本番への送信を無効化",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] オンライン再開画面にデータ削除/最初からボタンなし",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] 0試行でも入力完了後の読速導入から再開し、氏名・年齢・機種・選択入力を保持",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] 本番時計を開始せず初回説明や情報入力へ戻らない",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] 準備段階の再開ログを本番中の再開ログと分離",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] オンライン再開画面にデータ削除/最初からボタンなし",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] 読速の現在文と測定済み文を重複なく復元",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] 読速の再表示をbaseline全体に記録",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] 中断した文のraw結果にもresumedを記録",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] オンライン再開画面にデータ削除/最初からボタンなし",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] 初回操作説明を同じページから再開し、閲覧済みページを保持",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] 再開しても初回操作説明を見直し扱いにして飛ばさない",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] オンライン再開画面にデータ削除/最初からボタンなし",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] 完了したハンズオンは再開後も完了済み",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] オンライン再開画面にデータ削除/最初からボタンなし",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] 例題導入の単独画面を再開し、新ルールの完了と刺激定義を保持",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] オンライン再開画面にデータ削除/最初からボタンなし",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] 例の1問から再開し、練習キューを作り直さない",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] オンライン再開画面にデータ削除/最初からボタンなし",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] 初回振り返り説明のページ・選択・ドラッグ記録を復元",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] オンライン再開画面にデータ削除/最初からボタンなし",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] 振り返り4枚目を再開し、確定済み評定・所要時間・試行数を変えない",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] オンライン再開画面にデータ削除/最初からボタンなし",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] 番号なしの練習導入を再開し、例題を重複提出しない",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] オンライン再開画面にデータ削除/最初からボタンなし",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] 練習の現在問題・残数・成功数・記録を復元",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] オンライン再開画面にデータ削除/最初からボタンなし",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] 練習終了案内もそのまま再開し、練習を繰り返さない",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] 本番前に再開しても本番第1問にpost_resumeを付けない",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] オンライン再開画面にデータ削除/最初からボタンなし",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] 本番開始後は従来どおり同じ未回答問題から再開",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] 3時間超は新規開始や削除を出さず保存データを保持",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] 別URLは元リンクへ案内し、保存データを削除しない",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] 本番への送信を無効化",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] オンライン再開画面にデータ削除/最初からボタンなし",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] ローカル同意だけでは計測へ進まず同意受領確認へ戻す",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] オンライン再開画面にデータ削除/最初からボタンなし",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] 受領済み同意なら再同意や入力なしで操作説明へ進む",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] 本番への送信を無効化",
+          "pass": true
+        },
+        {
+          "name": "[pre-main] kioskは従来どおり途中データを退避し次の参加者へ",
+          "pass": true
+        }
+      ],
+      "errors": [],
+      "syntheticOnly": true,
+      "network": "localhost GET only"
+    },
+    "stimuli": {
+      "passed": 63,
+      "checks": [
+        "all six adopted texts, labels, IDs and levels are exact",
+        "fixed practice order is M-K-C-M-K",
+        "main moral 49 are unchanged",
+        "reading baseline four are unchanged",
+        "legacy value bank and practice are unchanged",
+        "legacy moral five retain original text and IDs",
+        "example accepts either side without normative score",
+        "only original clear practice stores normative metadata",
+        "all six have breakable phrases and no main/reading duplicates",
+        "bank URL is pinned to UI18",
+        "saved definitions take priority over current code",
+        "restored definition is a copy, not a mutable backup reference",
+        "unexposed old entry adopts new stimuli at first use",
+        "unexposed old consent adopts new stimuli at first use",
+        "unexposed old reading adopts new stimuli at first use",
+        "old combo tutorial pins old future moral practice",
+        "legacy value session does not acquire a moral definition",
+        "old main/post data remain byte-equivalent: task",
+        "old main/post tutorial replay uses legacy definition: task",
+        "old main/post data remain byte-equivalent: postq",
+        "old main/post tutorial replay uses legacy definition: postq",
+        "value example remains holiday question",
+        "anchor example remains holiday question",
+        "practice builder exact order for random 0",
+        "A/B mapping 0/1",
+        "A/B mapping 0/2",
+        "A/B mapping 0/3",
+        "A/B mapping 0/4",
+        "A/B mapping 0/5",
+        "practice builder exact order for random 1",
+        "A/B mapping 1/1",
+        "A/B mapping 1/2",
+        "A/B mapping 1/3",
+        "A/B mapping 1/4",
+        "A/B mapping 1/5",
+        "moral gate is independent of selected answer and five remain fixed",
+        "zero practice count remains empty",
+        "new rules are actually completed before example false",
+        "displayed example text false",
+        "real example options false",
+        "normal example followed by all five adopted items",
+        "opposite example choice is accepted without correctness score",
+        "example accepts arbitrary hesitation/confidence ratings",
+        "real UI17 upgrade preserves session identity and starting version",
+        "real UI17 upgrade pins legacy example and future practice",
+        "new rules are actually completed before example true",
+        "displayed example text true",
+        "real example options true",
+        "old tutorial completes into exact legacy five",
+        "old combo begins value then moral",
+        "new launch initially randomizes the opposite combo order",
+        "new rules are actually completed before example true",
+        "displayed example text true",
+        "real example options true",
+        "resumed combo example belongs to original first value block",
+        "resumed combo keeps the saved block order for all five practice cells",
+        "resumed combo future moral practice uses original first two texts",
+        "zero-practice development entry starts main without tutorial records",
+        "confirmation queue definition moral",
+        "confirmation example choice moral",
+        "confirmation queue definition value",
+        "confirmation example choice value",
+        "no browser JavaScript errors"
+      ],
+      "errors": [],
+      "blockedRequests": [],
+      "priorCommit": "652e232",
+      "appVersion": "2026-10-15-ui20",
+      "charCounts": [
+        55,
+        67,
+        58,
+        55,
+        54,
+        65
+      ],
+      "syntheticOnly": true,
+      "network": "localhost only; external requests aborted"
+    },
+    "provenance": {
+      "passed": 36,
+      "checks": [
+        "upload disabled welcome=1&read=1",
+        "fresh start has no inferred exposure",
+        "visible welcome page2 recorded",
+        "upload disabled welcome=0&read=1",
+        "actual ui7 backup has no exposure array",
+        "old session identity and appVersion preserved",
+        "only newly displayed reading introduction recorded",
+        "new exposure persists across second reload",
+        "upload disabled welcome=0&read=1",
+        "resuming sentence does not claim introduction exposure",
+        "first new tutorial step is recorded",
+        "upload disabled welcome=0&read=0",
+        "old tutorial resumes at equivalent stepId without backfilling old steps",
+        "next tutorial page records its current version and stepId",
+        "upload disabled welcome=0&read=0&tut=0&rtut=0&practice=1",
+        "main reminder shown on practice-complete resume recorded",
+        "main task resume does not infer a main reminder or tutorial",
+        "upload disabled welcome=0&read=0&tut=0&rtut=0&practice=0",
+        "old scope question saved before upgrade",
+        "old answered scope is retained; unanswered scope adopts new wording",
+        "old answer is not reinterpreted or cleared",
+        "updated collection plan preserves old planned keys",
+        "new fields remain missing until presented and answered",
+        "all required post answers permit completion",
+        "all 26 post keys survive final save",
+        "new questions have actual display and main-scope metadata",
+        "post upgrade does not invent earlier displayed items",
+        "upload disabled welcome=0&read=0&tut=0&rtut=0&practice=0",
+        "all required post answers permit completion",
+        "actual completed ui7 has 22 answers and no new measurements",
+        "completed old payload is not migrated or relabelled",
+        "upload disabled welcome=0&go=notice&notice=early_late",
+        "combined notice records kind",
+        "GAS accepts additive exposure and survey metadata",
+        "GAS stores exact exposure and survey metadata",
+        "no page JavaScript errors"
+      ],
+      "errors": [],
+      "oldCommit": "4ca7b6c",
+      "oldVersion": "2026-10-11-ui7",
+      "newVersion": "2026-10-15-ui20",
+      "syntheticOnly": true,
+      "network": "localhost only; external requests aborted"
+    },
+    "round3": {
+      "checks": [
+        {
+          "name": "[round3] 確認セッションは実送信しない",
+          "pass": true
+        },
+        {
+          "name": "[round3/welcome/mini] 最初のページには前へがない",
+          "pass": true
+        },
+        {
+          "name": "[round3/welcome/mini] 1/6: スクロールなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/welcome/mini] 2/6: スクロールなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/welcome/mini] 3/6: スクロールなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/welcome/mini] 4/6: スクロールなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/welcome/mini] 5/6: スクロールなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/welcome/mini] 同意チェックは前へ・次への往復で保持",
+          "pass": true
+        },
+        {
+          "name": "[round3/welcome/mini] 6/6: スクロールなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/welcome/mini] 未回答の別同意ページは飛ばせない",
+          "pass": true
+        },
+        {
+          "name": "[round3/welcome/mini] 戻っても未回答の必須同意は保持",
+          "pass": true
+        },
+        {
+          "name": "[round3/welcome/mini] 5件の同意を揃えて初めて入力画面へ",
+          "pass": true
+        },
+        {
+          "name": "[round3] 確認セッションは実送信しない",
+          "pass": true
+        },
+        {
+          "name": "[round3/read/mini] 初回未読は読了待ちを維持",
+          "pass": true
+        },
+        {
+          "name": "[round3/read/mini] 前へで既読に戻ると再読待ちなし",
+          "pass": true
+        },
+        {
+          "name": "[round3] 確認セッションは実送信しない",
+          "pass": true
+        },
+        {
+          "name": "[round3/read/mini] 評定の初回未読も読了待ちを維持",
+          "pass": true
+        },
+        {
+          "name": "[round3/read/mini] 評定の前へも既読ページに再読待ちなし",
+          "pass": true
+        },
+        {
+          "name": "[round3] 確認セッションは実送信しない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] operation-initial-1: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] operation-initial-2: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] operation-initial-3: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] operation-initial-4: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] operation-initial-5: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] operation-initial-6: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] operation-initial-7: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/hands/mini] 初回7: 前へ往復で未実施の操作確認を飛ばせない",
+          "pass": true
+        },
+        {
+          "name": "[round3/hands/mini] 初回7: 完了済み操作を戻っても再操作・待ち不要",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] operation-initial-8: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] operation-initial-9: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] operation-initial-10: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] operation-initial-11: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] operation-initial-12: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] operation-initial-13: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] operation-initial-14: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/rules/mini] 1: 未選択なら復習を飛ばせない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] operation-rule-check-2: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/rules/mini] 2: 未選択なら復習を飛ばせない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] operation-rule-check-3: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/rules/mini] 3: 未選択なら復習を飛ばせない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] operation-rule-check-4: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/rules/mini] 4: 未選択なら復習を飛ばせない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] operation-rule-check-5: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/rules/mini] 5: 未選択なら復習を飛ばせない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] operation-rule-check-6: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/rules/mini] 6: 未選択なら復習を飛ばせない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] operation-rule-check-7: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/rules/mini] 7: 未選択なら復習を飛ばせない",
+          "pass": true
+        },
+        {
+          "name": "[round3/hands/mini] 初回の説明は最後までXで閉じられない",
+          "pass": true
+        },
+        {
+          "name": "[round3] 確認セッションは実送信しない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] rating-initial-1: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] rating-initial-1: 説明ボックスは回答・質問に重ならない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] rating-initial-2: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] rating-initial-2: 説明ボックスは回答・質問に重ならない",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating-initial/mini] 前へで戻っても迷いの選択は必要",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] rating-initial-3: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] rating-initial-3: 説明ボックスは回答・質問に重ならない",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating-initial/mini] 自信の未選択を飛ばせず初回Xもない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] rating-initial-4: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] rating-initial-4: 説明ボックスは回答・質問に重ならない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] practice-intro: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] practice-intro: 説明ボックスは回答・質問に重ならない",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating-initial/mini] 練習導入は番号と質問なしの単独画面",
+          "pass": true
+        },
+        {
+          "name": "[round3] 確認セッションは実送信しない",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/mini] 迷い・未選択: 見直し中の回答・試行・時計を保全",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/mini] 迷い・未選択: 閉じるは44px以上の画面右上",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/mini] 迷い・未選択: Xで閉じると元の評定へ戻る",
+          "pass": true
+        },
+        {
+          "name": "[round3/timing/mini] 迷い・未選択: 説明時間を評定時間に加えない",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/mini] 迷い・選択済み: 見直し中の回答・試行・時計を保全",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/mini] 迷い・選択済み: 閉じるは44px以上の画面右上",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/mini] 迷い・選択済み: 最後まで進むと元の評定へ戻る",
+          "pass": true
+        },
+        {
+          "name": "[round3/timing/mini] 迷い・選択済み: 説明時間を評定時間に加えない",
+          "pass": true
+        },
+        {
+          "name": "[round3/reload/mini] 評定1見直し中の再読込: 元のページと選択を復旧",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/mini] 自信・未選択: 見直し中の回答・試行・時計を保全",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/mini] 自信・未選択: 閉じるは44px以上の画面右上",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/mini] 自信・未選択: Xで閉じると元の評定へ戻る",
+          "pass": true
+        },
+        {
+          "name": "[round3/timing/mini] 自信・未選択: 説明時間を評定時間に加えない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] rating-review-1: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] rating-review-1: 説明ボックスは回答・質問に重ならない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] rating-review-2: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] rating-review-2: 説明ボックスは回答・質問に重ならない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] rating-review-3: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] rating-review-3: 説明ボックスは回答・質問に重ならない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] rating-review-4: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] rating-review-4: 説明ボックスは回答・質問に重ならない",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/mini] 説明の前へで選択済みの評定と元ページを変えない",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/mini] 自信・選択済み: 見直し中の回答・試行・時計を保全",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/mini] 自信・選択済み: 閉じるは44px以上の画面右上",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/mini] 自信・選択済み: 最後まで進むと元の評定へ戻る",
+          "pass": true
+        },
+        {
+          "name": "[round3/timing/mini] 自信・選択済み: 説明時間を評定時間に加えない",
+          "pass": true
+        },
+        {
+          "name": "[round3/reload/mini] 評定2見直し中の再読込: 元のページと選択を復旧",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/mini] 見直し後も通常の回答の戻る操作が有効",
+          "pass": true
+        },
+        {
+          "name": "[round3/instructed/mini] 全員の経路は専用説明を挟まず追加問題の案内",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] 追加問題導入: 謝礼の追記も画面内に収まる",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] instructed-review-1: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] instructed-review-2: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/instructed/mini] 追加問題専用は2枚・読んでからの逆指示なし",
+          "pass": true
+        },
+        {
+          "name": "[round3/instructed/mini] 専用説明を前後移動して閉じても同じ未回答問題へ",
+          "pass": true
+        },
+        {
+          "name": "[round3/instructed/mini] 専用説明を最後まで進めても同じ問題へ",
+          "pass": true
+        },
+        {
+          "name": "[round3/instructed/mini] 説明後の追加回答を重複なく記録",
+          "pass": true
+        },
+        {
+          "name": "[round3] 確認セッションは実送信しない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] sleep-hours: 区間ラベルとナビが収まる",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] usage-years-hours: 区間ラベルとナビが収まる",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] concentration-scope: 区間ラベルとナビが収まる",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/mini] data-use-scope: 区間ラベルとナビが収まる",
+          "pass": true
+        },
+        {
+          "name": "[round3/survey/mini] 除外注記の繰り返しを削除し謝礼注記と複数選択の案内を表示",
+          "pass": true
+        },
+        {
+          "name": "[round3] 確認セッションは実送信しない",
+          "pass": true
+        },
+        {
+          "name": "[round3/welcome/iphone17] 最初のページには前へがない",
+          "pass": true
+        },
+        {
+          "name": "[round3/welcome/iphone17] 1/6: スクロールなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/welcome/iphone17] 2/6: スクロールなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/welcome/iphone17] 3/6: スクロールなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/welcome/iphone17] 4/6: スクロールなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/welcome/iphone17] 5/6: スクロールなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/welcome/iphone17] 同意チェックは前へ・次への往復で保持",
+          "pass": true
+        },
+        {
+          "name": "[round3/welcome/iphone17] 6/6: スクロールなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/welcome/iphone17] 未回答の別同意ページは飛ばせない",
+          "pass": true
+        },
+        {
+          "name": "[round3/welcome/iphone17] 戻っても未回答の必須同意は保持",
+          "pass": true
+        },
+        {
+          "name": "[round3/welcome/iphone17] 5件の同意を揃えて初めて入力画面へ",
+          "pass": true
+        },
+        {
+          "name": "[round3] 確認セッションは実送信しない",
+          "pass": true
+        },
+        {
+          "name": "[round3/read/iphone17] 初回未読は読了待ちを維持",
+          "pass": true
+        },
+        {
+          "name": "[round3/read/iphone17] 前へで既読に戻ると再読待ちなし",
+          "pass": true
+        },
+        {
+          "name": "[round3] 確認セッションは実送信しない",
+          "pass": true
+        },
+        {
+          "name": "[round3/read/iphone17] 評定の初回未読も読了待ちを維持",
+          "pass": true
+        },
+        {
+          "name": "[round3/read/iphone17] 評定の前へも既読ページに再読待ちなし",
+          "pass": true
+        },
+        {
+          "name": "[round3] 確認セッションは実送信しない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] operation-initial-1: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] operation-initial-2: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] operation-initial-3: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] operation-initial-4: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] operation-initial-5: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] operation-initial-6: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] operation-initial-7: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/hands/iphone17] 初回7: 前へ往復で未実施の操作確認を飛ばせない",
+          "pass": true
+        },
+        {
+          "name": "[round3/hands/iphone17] 初回7: 完了済み操作を戻っても再操作・待ち不要",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] operation-initial-8: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] operation-initial-9: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] operation-initial-10: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] operation-initial-11: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] operation-initial-12: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] operation-initial-13: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] operation-initial-14: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/rules/iphone17] 1: 未選択なら復習を飛ばせない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] operation-rule-check-2: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/rules/iphone17] 2: 未選択なら復習を飛ばせない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] operation-rule-check-3: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/rules/iphone17] 3: 未選択なら復習を飛ばせない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] operation-rule-check-4: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/rules/iphone17] 4: 未選択なら復習を飛ばせない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] operation-rule-check-5: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/rules/iphone17] 5: 未選択なら復習を飛ばせない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] operation-rule-check-6: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/rules/iphone17] 6: 未選択なら復習を飛ばせない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] operation-rule-check-7: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/rules/iphone17] 7: 未選択なら復習を飛ばせない",
+          "pass": true
+        },
+        {
+          "name": "[round3/hands/iphone17] 初回の説明は最後までXで閉じられない",
+          "pass": true
+        },
+        {
+          "name": "[round3] 確認セッションは実送信しない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] rating-initial-1: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] rating-initial-1: 説明ボックスは回答・質問に重ならない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] rating-initial-2: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] rating-initial-2: 説明ボックスは回答・質問に重ならない",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating-initial/iphone17] 前へで戻っても迷いの選択は必要",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] rating-initial-3: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] rating-initial-3: 説明ボックスは回答・質問に重ならない",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating-initial/iphone17] 自信の未選択を飛ばせず初回Xもない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] rating-initial-4: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] rating-initial-4: 説明ボックスは回答・質問に重ならない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] practice-intro: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] practice-intro: 説明ボックスは回答・質問に重ならない",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating-initial/iphone17] 練習導入は番号と質問なしの単独画面",
+          "pass": true
+        },
+        {
+          "name": "[round3] 確認セッションは実送信しない",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/iphone17] 迷い・未選択: 見直し中の回答・試行・時計を保全",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/iphone17] 迷い・未選択: 閉じるは44px以上の画面右上",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/iphone17] 迷い・未選択: Xで閉じると元の評定へ戻る",
+          "pass": true
+        },
+        {
+          "name": "[round3/timing/iphone17] 迷い・未選択: 説明時間を評定時間に加えない",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/iphone17] 迷い・選択済み: 見直し中の回答・試行・時計を保全",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/iphone17] 迷い・選択済み: 閉じるは44px以上の画面右上",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/iphone17] 迷い・選択済み: 最後まで進むと元の評定へ戻る",
+          "pass": true
+        },
+        {
+          "name": "[round3/timing/iphone17] 迷い・選択済み: 説明時間を評定時間に加えない",
+          "pass": true
+        },
+        {
+          "name": "[round3/reload/iphone17] 評定1見直し中の再読込: 元のページと選択を復旧",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/iphone17] 自信・未選択: 見直し中の回答・試行・時計を保全",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/iphone17] 自信・未選択: 閉じるは44px以上の画面右上",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/iphone17] 自信・未選択: Xで閉じると元の評定へ戻る",
+          "pass": true
+        },
+        {
+          "name": "[round3/timing/iphone17] 自信・未選択: 説明時間を評定時間に加えない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] rating-review-1: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] rating-review-1: 説明ボックスは回答・質問に重ならない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] rating-review-2: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] rating-review-2: 説明ボックスは回答・質問に重ならない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] rating-review-3: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] rating-review-3: 説明ボックスは回答・質問に重ならない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] rating-review-4: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] rating-review-4: 説明ボックスは回答・質問に重ならない",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/iphone17] 説明の前へで選択済みの評定と元ページを変えない",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/iphone17] 自信・選択済み: 見直し中の回答・試行・時計を保全",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/iphone17] 自信・選択済み: 閉じるは44px以上の画面右上",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/iphone17] 自信・選択済み: 最後まで進むと元の評定へ戻る",
+          "pass": true
+        },
+        {
+          "name": "[round3/timing/iphone17] 自信・選択済み: 説明時間を評定時間に加えない",
+          "pass": true
+        },
+        {
+          "name": "[round3/reload/iphone17] 評定2見直し中の再読込: 元のページと選択を復旧",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/iphone17] 見直し後も通常の回答の戻る操作が有効",
+          "pass": true
+        },
+        {
+          "name": "[round3/instructed/iphone17] 全員の経路は専用説明を挟まず追加問題の案内",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] 追加問題導入: 謝礼の追記も画面内に収まる",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] instructed-review-1: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] instructed-review-2: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/instructed/iphone17] 追加問題専用は2枚・読んでからの逆指示なし",
+          "pass": true
+        },
+        {
+          "name": "[round3/instructed/iphone17] 専用説明を前後移動して閉じても同じ未回答問題へ",
+          "pass": true
+        },
+        {
+          "name": "[round3/instructed/iphone17] 専用説明を最後まで進めても同じ問題へ",
+          "pass": true
+        },
+        {
+          "name": "[round3/instructed/iphone17] 説明後の追加回答を重複なく記録",
+          "pass": true
+        },
+        {
+          "name": "[round3] 確認セッションは実送信しない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] sleep-hours: 区間ラベルとナビが収まる",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] usage-years-hours: 区間ラベルとナビが収まる",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] concentration-scope: 区間ラベルとナビが収まる",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/iphone17] data-use-scope: 区間ラベルとナビが収まる",
+          "pass": true
+        },
+        {
+          "name": "[round3/survey/iphone17] 除外注記の繰り返しを削除し謝礼注記と複数選択の案内を表示",
+          "pass": true
+        },
+        {
+          "name": "[round3] 確認セッションは実送信しない",
+          "pass": true
+        },
+        {
+          "name": "[round3/welcome/ipad] 最初のページには前へがない",
+          "pass": true
+        },
+        {
+          "name": "[round3/welcome/ipad] 1/6: スクロールなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/welcome/ipad] 2/6: スクロールなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/welcome/ipad] 3/6: スクロールなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/welcome/ipad] 4/6: スクロールなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/welcome/ipad] 5/6: スクロールなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/welcome/ipad] 同意チェックは前へ・次への往復で保持",
+          "pass": true
+        },
+        {
+          "name": "[round3/welcome/ipad] 6/6: スクロールなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/welcome/ipad] 未回答の別同意ページは飛ばせない",
+          "pass": true
+        },
+        {
+          "name": "[round3/welcome/ipad] 戻っても未回答の必須同意は保持",
+          "pass": true
+        },
+        {
+          "name": "[round3/welcome/ipad] 5件の同意を揃えて初めて入力画面へ",
+          "pass": true
+        },
+        {
+          "name": "[round3] 確認セッションは実送信しない",
+          "pass": true
+        },
+        {
+          "name": "[round3/read/ipad] 初回未読は読了待ちを維持",
+          "pass": true
+        },
+        {
+          "name": "[round3/read/ipad] 前へで既読に戻ると再読待ちなし",
+          "pass": true
+        },
+        {
+          "name": "[round3] 確認セッションは実送信しない",
+          "pass": true
+        },
+        {
+          "name": "[round3/read/ipad] 評定の初回未読も読了待ちを維持",
+          "pass": true
+        },
+        {
+          "name": "[round3/read/ipad] 評定の前へも既読ページに再読待ちなし",
+          "pass": true
+        },
+        {
+          "name": "[round3] 確認セッションは実送信しない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] operation-initial-1: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] operation-initial-2: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] operation-initial-3: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] operation-initial-4: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] operation-initial-5: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] operation-initial-6: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] operation-initial-7: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/hands/ipad] 初回7: 前へ往復で未実施の操作確認を飛ばせない",
+          "pass": true
+        },
+        {
+          "name": "[round3/hands/ipad] 初回7: 完了済み操作を戻っても再操作・待ち不要",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] operation-initial-8: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] operation-initial-9: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] operation-initial-10: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] operation-initial-11: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] operation-initial-12: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] operation-initial-13: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] operation-initial-14: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/rules/ipad] 1: 未選択なら復習を飛ばせない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] operation-rule-check-2: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/rules/ipad] 2: 未選択なら復習を飛ばせない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] operation-rule-check-3: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/rules/ipad] 3: 未選択なら復習を飛ばせない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] operation-rule-check-4: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/rules/ipad] 4: 未選択なら復習を飛ばせない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] operation-rule-check-5: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/rules/ipad] 5: 未選択なら復習を飛ばせない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] operation-rule-check-6: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/rules/ipad] 6: 未選択なら復習を飛ばせない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] operation-rule-check-7: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/rules/ipad] 7: 未選択なら復習を飛ばせない",
+          "pass": true
+        },
+        {
+          "name": "[round3/hands/ipad] 初回の説明は最後までXで閉じられない",
+          "pass": true
+        },
+        {
+          "name": "[round3] 確認セッションは実送信しない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] rating-initial-1: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] rating-initial-1: 説明ボックスは回答・質問に重ならない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] rating-initial-2: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] rating-initial-2: 説明ボックスは回答・質問に重ならない",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating-initial/ipad] 前へで戻っても迷いの選択は必要",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] rating-initial-3: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] rating-initial-3: 説明ボックスは回答・質問に重ならない",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating-initial/ipad] 自信の未選択を飛ばせず初回Xもない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] rating-initial-4: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] rating-initial-4: 説明ボックスは回答・質問に重ならない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] practice-intro: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] practice-intro: 説明ボックスは回答・質問に重ならない",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating-initial/ipad] 練習導入は番号と質問なしの単独画面",
+          "pass": true
+        },
+        {
+          "name": "[round3] 確認セッションは実送信しない",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/ipad] 迷い・未選択: 見直し中の回答・試行・時計を保全",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/ipad] 迷い・未選択: 閉じるは44px以上の画面右上",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/ipad] 迷い・未選択: Xで閉じると元の評定へ戻る",
+          "pass": true
+        },
+        {
+          "name": "[round3/timing/ipad] 迷い・未選択: 説明時間を評定時間に加えない",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/ipad] 迷い・選択済み: 見直し中の回答・試行・時計を保全",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/ipad] 迷い・選択済み: 閉じるは44px以上の画面右上",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/ipad] 迷い・選択済み: 最後まで進むと元の評定へ戻る",
+          "pass": true
+        },
+        {
+          "name": "[round3/timing/ipad] 迷い・選択済み: 説明時間を評定時間に加えない",
+          "pass": true
+        },
+        {
+          "name": "[round3/reload/ipad] 評定1見直し中の再読込: 元のページと選択を復旧",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/ipad] 自信・未選択: 見直し中の回答・試行・時計を保全",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/ipad] 自信・未選択: 閉じるは44px以上の画面右上",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/ipad] 自信・未選択: Xで閉じると元の評定へ戻る",
+          "pass": true
+        },
+        {
+          "name": "[round3/timing/ipad] 自信・未選択: 説明時間を評定時間に加えない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] rating-review-1: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] rating-review-1: 説明ボックスは回答・質問に重ならない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] rating-review-2: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] rating-review-2: 説明ボックスは回答・質問に重ならない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] rating-review-3: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] rating-review-3: 説明ボックスは回答・質問に重ならない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] rating-review-4: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] rating-review-4: 説明ボックスは回答・質問に重ならない",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/ipad] 説明の前へで選択済みの評定と元ページを変えない",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/ipad] 自信・選択済み: 見直し中の回答・試行・時計を保全",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/ipad] 自信・選択済み: 閉じるは44px以上の画面右上",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/ipad] 自信・選択済み: 最後まで進むと元の評定へ戻る",
+          "pass": true
+        },
+        {
+          "name": "[round3/timing/ipad] 自信・選択済み: 説明時間を評定時間に加えない",
+          "pass": true
+        },
+        {
+          "name": "[round3/reload/ipad] 評定2見直し中の再読込: 元のページと選択を復旧",
+          "pass": true
+        },
+        {
+          "name": "[round3/rating/ipad] 見直し後も通常の回答の戻る操作が有効",
+          "pass": true
+        },
+        {
+          "name": "[round3/instructed/ipad] 全員の経路は専用説明を挟まず追加問題の案内",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] 追加問題導入: 謝礼の追記も画面内に収まる",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] instructed-review-1: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] instructed-review-2: 画面内・文字欠けとボタン重なりなし",
+          "pass": true
+        },
+        {
+          "name": "[round3/instructed/ipad] 追加問題専用は2枚・読んでからの逆指示なし",
+          "pass": true
+        },
+        {
+          "name": "[round3/instructed/ipad] 専用説明を前後移動して閉じても同じ未回答問題へ",
+          "pass": true
+        },
+        {
+          "name": "[round3/instructed/ipad] 専用説明を最後まで進めても同じ問題へ",
+          "pass": true
+        },
+        {
+          "name": "[round3/instructed/ipad] 説明後の追加回答を重複なく記録",
+          "pass": true
+        },
+        {
+          "name": "[round3] 確認セッションは実送信しない",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] sleep-hours: 区間ラベルとナビが収まる",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] usage-years-hours: 区間ラベルとナビが収まる",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] concentration-scope: 区間ラベルとナビが収まる",
+          "pass": true
+        },
+        {
+          "name": "[round3/layout/ipad] data-use-scope: 区間ラベルとナビが収まる",
+          "pass": true
+        },
+        {
+          "name": "[round3/survey/ipad] 除外注記の繰り返しを削除し謝礼注記と複数選択の案内を表示",
+          "pass": true
+        },
+        {
+          "name": "[round3] 確認セッションは実送信しない",
+          "pass": true
+        },
+        {
+          "name": "[round3/stop] 本番説明中の終了取消: フェーズ・同じ問題・残り問題を保持",
+          "pass": true
+        },
+        {
+          "name": "[round3/stop] 本番説明中の終了取消: 読んだ時間を保ち説明・中断時間を除外",
+          "pass": true
+        },
+        {
+          "name": "[round3/stop] 本番終了取消後は古い見直し状態が残らず時計が進む",
+          "pass": true
+        },
+        {
+          "name": "[round3/stop] 本番終了取消後も再度見直して同じ問題に戻れる",
+          "pass": true
+        },
+        {
+          "name": "[round3/stop] 評定説明中の終了取消: 元のページと回答を復元",
+          "pass": true
+        },
+        {
+          "name": "[round3/stop] 終了取消後も評定説明を再度開け、保存段階が評定のまま",
+          "pass": true
+        },
+        {
+          "name": "[round3/stop] 終了取消後の評定を重複なく確定",
+          "pass": true
+        },
+        {
+          "name": "[round3/stop] 追加問題説明中の終了取消: フェーズ・同じ問題・残り問題を保持",
+          "pass": true
+        },
+        {
+          "name": "[round3/stop] 追加問題説明中の終了取消: 読んだ時間を保ち説明・中断時間を除外",
+          "pass": true
+        },
+        {
+          "name": "[round3/stop] 追加問題終了取消後は古い見直し状態が残らず時計が進む",
+          "pass": true
+        },
+        {
+          "name": "[round3/stop] 追加問題終了取消後も再度見直して同じ問題に戻れる",
+          "pass": true
+        },
+        {
+          "name": "[round3/stop] 終了取消を経ても本番と追加回答を各1件だけ記録",
+          "pass": true
+        },
+        {
+          "name": "[round3] 確認セッションは実送信しない",
+          "pass": true
+        },
+        {
+          "name": "[round3/motion] 動きを減らす設定でも未実施の操作確認は飛ばせない",
+          "pass": true
+        },
+        {
+          "name": "[round3/motion] 動きを減らす設定でも初回の中央ボックス操作を完了できる",
+          "pass": true
+        },
+        {
+          "name": "[round3/motion] 動きを減らす設定でも操作成功を戻って保持できる",
+          "pass": true
+        },
+        {
+          "name": "[round3/motion] 動きを減らす設定でも例題の左右選択肢へ回答できる",
+          "pass": true
+        }
+      ],
+      "errors": []
+    }
+  },
+  "passed": 28,
+  "failed": 0
+}

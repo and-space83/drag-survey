@@ -1,0 +1,28 @@
+{
+  "at": "2026-10-15T02:18:00.994Z",
+  "scope": "部分再撮影による異なる本番ソースの混在・対象外の失敗の隠蔽を拒否し、入力結果を変更しないこと。",
+  "checks": [
+    {
+      "name": "different-source",
+      "passed": true,
+      "expected": "Overlay source, viewport or motion preference differs",
+      "exitCode": 1,
+      "inputUnchanged": true
+    },
+    {
+      "name": "different-viewport",
+      "passed": true,
+      "expected": "Overlay source, viewport or motion preference differs",
+      "exitCode": 1,
+      "inputUnchanged": true
+    },
+    {
+      "name": "unrelated-failure",
+      "passed": true,
+      "expected": "Overlay leaves unrelated failures unresolved",
+      "exitCode": 1,
+      "inputUnchanged": true
+    }
+  ],
+  "passed": true
+}

@@ -1,0 +1,40 @@
+{
+  "recordedAt": "2026-10-12T09:34:50.319Z",
+  "reportedDate": "2026-10-12",
+  "versionContext": "2026-10-12-ui14",
+  "source": {
+    "index.html": "af37632ce72da5d6d7fca36e371bf9561f6a4b91c1340f70586d5ae84f7da7b2",
+    "app.css": "19e50923b61f7bb13b889240227bedfdc69230203961d261f4e87d2a187d2457",
+    "bank.js": "8a4481ca57261bd60bf2459fce6c48d5fd8ce1c7c4b4010532798688a56dad42",
+    "session-store.js": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+    "durable-storage.js": "84d006f048e2cc16c4a7a7087ec5815485c0b3a7d2ffa4ce6b7b62905dde967b",
+    "storage-worker.js": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
+    "staged-delivery.js": "7f37d628ce04dc47233b16387d43add674608d278030dd17355621745ab9f7ad",
+    "consent.js": "66e61d31e6f4c1c12b05b3354bb878fd39048c78e4d4e6b907f7a5398885dc83",
+    "consent.css": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
+    "data-codec.js": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+    "vendor/pako.min.js": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c"
+  },
+  "method": "User-reported iPhone check",
+  "status": "user_reported_complete",
+  "userReport": "上の４つの画面はすべて確認できたと思う。",
+  "checks": [
+    {
+      "area": "チュートリアルの説明と操作",
+      "reportedVerified": true
+    },
+    {
+      "area": "練習後のチェック",
+      "reportedVerified": true
+    },
+    {
+      "area": "注意本文と1ボタンでの復帰",
+      "reportedVerified": true
+    },
+    {
+      "area": "アンケートの複数選択",
+      "reportedVerified": true
+    }
+  ],
+  "scope": "UI14に対するユーザー報告。機種名・OS番号は未記録。UI15の変更後まで実機確認済みとは扱わない。"
+}

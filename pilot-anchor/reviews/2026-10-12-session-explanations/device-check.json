@@ -1,0 +1,35 @@
+{
+  "recordedAt": "2026-10-12T04:24:06.915Z",
+  "reportedDate": "2026-10-12",
+  "method": "User-reported iPhone check",
+  "versionContext": "2026-10-12-ui11",
+  "source": {
+    "index.html": "89ddceafc5b8b4fdf2731cac9f7ad86494fdf66674659d1112e5a0bcb5b157bb",
+    "app.css": "56d3c3989ac6946902ae91f371724eb8178c34004293e04729dc516c8c500f01"
+  },
+  "status": "complete",
+  "checks": [
+    {
+      "area": "notice",
+      "description": "注意画面の本文・余白・押せない戻るボタン",
+      "passed": true
+    },
+    {
+      "area": "instructed",
+      "description": "追加10問の本文から続けるボタンまで",
+      "passed": true
+    },
+    {
+      "area": "post",
+      "description": "事後アンケートの設問の問いの文字",
+      "passed": true
+    },
+    {
+      "area": "practicecheck",
+      "description": "未チェック時の確認して次へボタン",
+      "passed": true
+    }
+  ],
+  "userReport": "ダブルタップの4か所の実機確認はすべて確認が完了したのでこれはもうおしまいでOK",
+  "scope": "上記4領域のダブルタップ拡大防止を完了扱い。機種名・iOS番号は今回報告されていない。"
+}

@@ -1,0 +1,361 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-10-15T02:02:25.9316977Z",
+  "scope": "凍結原本の49参照の存在確認と、初動・生系列・GO送信抑止・見直し時間・再開・長押しコピー例外の読取監査。変更後の動作テストではない。",
+  "beforeManifestSha256": "e68e6c32be963fa46244946217db54165080ac99ed807ca4d98d5bf9b7e82821",
+  "references": [
+    {
+      "id": "screen-layout",
+      "file": "before/index.html",
+      "pattern": "const STEPS =",
+      "line": 2878,
+      "matched": true
+    },
+    {
+      "id": "guide-labels",
+      "file": "before/index.html",
+      "pattern": "const PART_NAME =",
+      "line": 3122,
+      "matched": true
+    },
+    {
+      "id": "part-emphasis",
+      "file": "before/app.css",
+      "pattern": ".choice.tut-dim",
+      "line": 402,
+      "matched": true
+    },
+    {
+      "id": "card-motion",
+      "file": "before/app.css",
+      "pattern": ".tut-pop { position: fixed",
+      "line": 414,
+      "matched": true
+    },
+    {
+      "id": "read-lock",
+      "file": "before/index.html",
+      "pattern": "function minReadMs",
+      "line": 2661,
+      "matched": true
+    },
+    {
+      "id": "read-cue",
+      "file": "before/index.html",
+      "pattern": "function readCueDelay",
+      "line": 2666,
+      "matched": true
+    },
+    {
+      "id": "stray-tap",
+      "file": "before/index.html",
+      "pattern": "function strayTap",
+      "line": 3271,
+      "matched": true
+    },
+    {
+      "id": "disabled-rating-tap",
+      "file": "before/index.html",
+      "pattern": "const unselected =",
+      "line": 2639,
+      "matched": true
+    },
+    {
+      "id": "motor-hint",
+      "file": "before/index.html",
+      "pattern": "function setHint",
+      "line": 3198,
+      "matched": true
+    },
+    {
+      "id": "hint-timer",
+      "file": "before/index.html",
+      "pattern": "clearTimeout(hintTimer)",
+      "line": 3199,
+      "matched": true
+    },
+    {
+      "id": "watch-then-act",
+      "file": "before/index.html",
+      "pattern": "function startHands",
+      "line": 3209,
+      "matched": true
+    },
+    {
+      "id": "varied-demo",
+      "file": "before/index.html",
+      "pattern": "async function playSandbox",
+      "line": 2986,
+      "matched": true
+    },
+    {
+      "id": "release-range",
+      "file": "before/index.html",
+      "pattern": "function hInSbxBox",
+      "line": 3255,
+      "matched": true
+    },
+    {
+      "id": "mandatory-hands",
+      "file": "before/index.html",
+      "pattern": "if (!replayMode && (steps[idx].hands",
+      "line": 3314,
+      "matched": true
+    },
+    {
+      "id": "completion-revisit",
+      "file": "before/index.html",
+      "pattern": "function showHandsComplete",
+      "line": 3215,
+      "matched": true
+    },
+    {
+      "id": "press-reveal",
+      "file": "before/index.html",
+      "pattern": "sbxRevealed = true",
+      "line": 3288,
+      "matched": true
+    },
+    {
+      "id": "continuous-drag",
+      "file": "before/index.html",
+      "pattern": "surface.addEventListener(\"pointerup\"",
+      "line": 2225,
+      "matched": true
+    },
+    {
+      "id": "pointer-guard",
+      "file": "before/index.html",
+      "pattern": "surface.setPointerCapture",
+      "line": 2148,
+      "matched": true
+    },
+    {
+      "id": "pointer-cancel",
+      "file": "before/index.html",
+      "pattern": "surface.addEventListener(\"pointercancel\"",
+      "line": 2233,
+      "matched": true
+    },
+    {
+      "id": "start-rule",
+      "file": "before/index.html",
+      "pattern": "const START_CRITERION_HTML",
+      "line": 1039,
+      "matched": true
+    },
+    {
+      "id": "first-exit-time",
+      "file": "before/index.html",
+      "pattern": "trial.rt_ms = +(trial.initiationT - trial.revealT).toFixed(2);",
+      "line": 2313,
+      "matched": true
+    },
+    {
+      "id": "pace-and-stop",
+      "file": "before/index.html",
+      "pattern": "const STOP_MIN_MS",
+      "line": 1032,
+      "matched": true
+    },
+    {
+      "id": "trajectory-recording",
+      "file": "before/index.html",
+      "pattern": "surface.addEventListener(\"pointermove\"",
+      "line": 2198,
+      "matched": true
+    },
+    {
+      "id": "rule-quiz",
+      "file": "before/index.html",
+      "pattern": "function showPracticeCheck",
+      "line": 2438,
+      "matched": true
+    },
+    {
+      "id": "rating-five",
+      "file": "before/index.html",
+      "pattern": "for (let v = 1; v <= 5; v++)",
+      "line": 2503,
+      "matched": true
+    },
+    {
+      "id": "rating-back",
+      "file": "before/index.html",
+      "pattern": "function ratShowPage",
+      "line": 2529,
+      "matched": true
+    },
+    {
+      "id": "rating-selection-gate",
+      "file": "before/index.html",
+      "pattern": "function selectRating",
+      "line": 2787,
+      "matched": true
+    },
+    {
+      "id": "rating-review-time",
+      "file": "before/index.html",
+      "pattern": "function closeRatingReview",
+      "line": 2575,
+      "matched": true
+    },
+    {
+      "id": "rating-finish-resume",
+      "file": "before/index.html",
+      "pattern": "function normalizedResume",
+      "line": 4725,
+      "matched": true
+    },
+    {
+      "id": "practice-definition",
+      "file": "before/index.html",
+      "pattern": "function restoreMoralPracticeDefinition",
+      "line": 1316,
+      "matched": true
+    },
+    {
+      "id": "formal-practice-gate",
+      "file": "before/index.html",
+      "pattern": "function completePracticeTrial",
+      "line": 2426,
+      "matched": true
+    },
+    {
+      "id": "practice-post-check",
+      "file": "before/index.html",
+      "pattern": "function completePracticeTrial",
+      "line": 2426,
+      "matched": true
+    },
+    {
+      "id": "tutorial-provenance",
+      "file": "before/index.html",
+      "pattern": "function logInstructionExposure",
+      "line": 1325,
+      "matched": true
+    },
+    {
+      "id": "resume-snapshot",
+      "file": "before/index.html",
+      "pattern": "DragTut.snapshot()",
+      "line": 4711,
+      "matched": true
+    },
+    {
+      "id": "same-url-resume",
+      "file": "before/index.html",
+      "pattern": "function canResume",
+      "line": 4741,
+      "matched": true
+    },
+    {
+      "id": "review-reentry-time",
+      "file": "before/index.html",
+      "pattern": "DragTut.run(() => { replayResumeState = null; presentStimulus(retained); }",
+      "line": 5617,
+      "matched": true
+    },
+    {
+      "id": "local-storage",
+      "file": "before/index.html",
+      "pattern": "function saveBackup",
+      "line": 4641,
+      "matched": true
+    },
+    {
+      "id": "visibility-and-lock",
+      "file": "before/index.html",
+      "pattern": "window.addEventListener(\"pageshow\"",
+      "line": 5815,
+      "matched": true
+    },
+    {
+      "id": "preview-no-send",
+      "file": "before/index.html",
+      "pattern": "if (GO || !storeReady)",
+      "line": 4642,
+      "matched": true
+    },
+    {
+      "id": "static-doubletap",
+      "file": "before/index.html",
+      "pattern": "// Safariはクリック対象でない",
+      "line": 5831,
+      "matched": true
+    },
+    {
+      "id": "active-button-doubletap",
+      "file": "before/index.html",
+      "pattern": "const control = target.closest('button",
+      "line": 5857,
+      "matched": true
+    },
+    {
+      "id": "pinch-and-context",
+      "file": "before/index.html",
+      "pattern": "document.addEventListener(\"contextmenu\"",
+      "line": 5829,
+      "matched": true
+    },
+    {
+      "id": "orientation-and-zoom",
+      "file": "before/index.html",
+      "pattern": "function measureZoom",
+      "line": 5172,
+      "matched": true
+    },
+    {
+      "id": "stop-confirm",
+      "file": "before/index.html",
+      "pattern": "endedFrom",
+      "line": 1914,
+      "matched": true
+    },
+    {
+      "id": "rating-progress",
+      "file": "before/index.html",
+      "pattern": "function updateProgress",
+      "line": 2371,
+      "matched": true
+    },
+    {
+      "id": "instructed-trials",
+      "file": "before/index.html",
+      "pattern": "const INSTRUCTED_STEPS",
+      "line": 2896,
+      "matched": true
+    },
+    {
+      "id": "consent-reading",
+      "file": "before/index.html",
+      "pattern": "function requiresConsent",
+      "line": 5285,
+      "matched": true
+    },
+    {
+      "id": "reduced-motion",
+      "file": "before/app.css",
+      "pattern": "@media (prefers-reduced-motion: reduce) { .tut-spot",
+      "line": 435,
+      "matched": true
+    },
+    {
+      "id": "accessibility-focus",
+      "file": "before/index.html",
+      "pattern": "function show(name)",
+      "line": 1152,
+      "matched": true
+    }
+  ],
+  "corrections": [
+    "存在しないfirst_exit_msを記載から除き、initiationT・rt_ms/rt_proxy_ms・lateStart・4pxの遊びの既存定義を参照。",
+    "純操作の描画と本番の系列記録を区別し、軌跡記録の参照を本番pointermoveへ移動。",
+    "受領控え#ccodeの長押しコピー例外を継承条件へ追加。",
+    "カード遷移・必須操作・練習後確認・見直し復帰・本番評定進捗・reduced-motionの参照を該当処理へ移動。"
+  ],
+  "limitations": [
+    "原本との字面一致は変更後の動作合格を意味しない。",
+    "Safari実機・保存/再開/送信互換・参加者の理解度は別の実施証拠が必要。"
+  ]
+}

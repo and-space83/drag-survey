@@ -1,0 +1,1042 @@
+{
+  "at": "2026-10-15T02:05:37.742Z",
+  "source": {
+    "index.html": "0bfe6ce03394e80037fef067059c20c14a9d1ea31eb86dfb4394c0206d9d1357",
+    "app.css": "dc355b1f2426a7f7ad5f73e480154798279a6e35fbb7846c9661328cac1b3e89",
+    "guided-tutorial.js": "cd252e516fb4d4dfca1a1c14683df9a7da3de6aa38e679766285bc4aac3b9e28",
+    "guided-tutorial.css": "d73d3e7373a4602e5258bacbbdbcaad73a00f49ee638094430fe29cb14b146b7"
+  },
+  "checks": [
+    {
+      "name": "375x548 layout-intro 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "375x548 layout-intro 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "375x548 layout-intro スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "375x548 layout-stem 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "375x548 layout-stem 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "375x548 layout-stem スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "375x548 問題文の説明でスタートと選択肢を隠す",
+      "pass": true
+    },
+    {
+      "name": "375x548 layout-start 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "375x548 layout-start 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "375x548 layout-start スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "375x548 layout-choice 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "375x548 layout-choice 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "375x548 layout-choice スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "375x548 motor-route 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "375x548 motor-route 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "375x548 motor-route スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "375x548 motor-range 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "375x548 motor-range 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "375x548 motor-range スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "375x548 motor 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "375x548 motor 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "375x548 motor スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "375x548 失敗案内は中央に出る",
+      "pass": true
+    },
+    {
+      "name": "375x548 失敗案内は4秒で消える",
+      "pass": true
+    },
+    {
+      "name": "375x548 操作成功の案内を保持",
+      "pass": true
+    },
+    {
+      "name": "375x548 motor success 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "375x548 motor success スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "375x548 start-rule 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "375x548 start-rule 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "375x548 start-rule スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "375x548 movement-reason 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "375x548 movement-reason 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "375x548 movement-reason スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "375x548 uncertain 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "375x548 uncertain 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "375x548 uncertain スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "375x548 time-rule 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "375x548 time-rule 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "375x548 time-rule スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "375x548 answer-pace 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "375x548 answer-pace 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "375x548 answer-pace スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "375x548 rule-check-intro 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "375x548 rule-check-intro 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "375x548 rule-check-intro スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "375x548 文字のみのルール箱の上端が一定",
+      "pass": true
+    },
+    {
+      "name": "375x548 実課題の部品位置と寸法を保持",
+      "pass": true
+    },
+    {
+      "name": "375x548 現在位置と枠内到達を表示",
+      "pass": true
+    },
+    {
+      "name": "375x548 軌跡の線を残さない",
+      "pass": true
+    },
+    {
+      "name": "375x548 非表示でも座標・時刻・枠外初動を記録",
+      "pass": true
+    },
+    {
+      "name": "375x548 復習1 誤答では次へ無効",
+      "pass": true
+    },
+    {
+      "name": "375x548 復習1 誤答で進まない",
+      "pass": true
+    },
+    {
+      "name": "375x548 復習1 正答で進行できる",
+      "pass": true
+    },
+    {
+      "name": "375x548 復習1 選び直しても順序を保持",
+      "pass": true
+    },
+    {
+      "name": "375x548 復習2 誤答では次へ無効",
+      "pass": true
+    },
+    {
+      "name": "375x548 復習2 誤答で進まない",
+      "pass": true
+    },
+    {
+      "name": "375x548 復習2 正答で進行できる",
+      "pass": true
+    },
+    {
+      "name": "375x548 復習2 選び直しても順序を保持",
+      "pass": true
+    },
+    {
+      "name": "375x548 復習3 誤答では次へ無効",
+      "pass": true
+    },
+    {
+      "name": "375x548 復習3 誤答で進まない",
+      "pass": true
+    },
+    {
+      "name": "375x548 復習3 正答で進行できる",
+      "pass": true
+    },
+    {
+      "name": "375x548 復習3 選び直しても順序を保持",
+      "pass": true
+    },
+    {
+      "name": "375x548 復習4 誤答では次へ無効",
+      "pass": true
+    },
+    {
+      "name": "375x548 復習4 誤答で進まない",
+      "pass": true
+    },
+    {
+      "name": "375x548 復習4 正答で進行できる",
+      "pass": true
+    },
+    {
+      "name": "375x548 復習4 選び直しても順序を保持",
+      "pass": true
+    },
+    {
+      "name": "375x548 復習5 誤答では次へ無効",
+      "pass": true
+    },
+    {
+      "name": "375x548 復習5 誤答で進まない",
+      "pass": true
+    },
+    {
+      "name": "375x548 復習5 正答で進行できる",
+      "pass": true
+    },
+    {
+      "name": "375x548 復習5 選び直しても順序を保持",
+      "pass": true
+    },
+    {
+      "name": "375x548 復習6 誤答では次へ無効",
+      "pass": true
+    },
+    {
+      "name": "375x548 復習6 誤答で進まない",
+      "pass": true
+    },
+    {
+      "name": "375x548 復習6 正答で進行できる",
+      "pass": true
+    },
+    {
+      "name": "375x548 復習6 選び直しても順序を保持",
+      "pass": true
+    },
+    {
+      "name": "375x548 復習7 誤答では次へ無効",
+      "pass": true
+    },
+    {
+      "name": "375x548 復習7 誤答で進まない",
+      "pass": true
+    },
+    {
+      "name": "375x548 復習7 正答で進行できる",
+      "pass": true
+    },
+    {
+      "name": "375x548 復習7 選び直しても順序を保持",
+      "pass": true
+    },
+    {
+      "name": "375x548 復習の後に例題導入",
+      "pass": true
+    },
+    {
+      "name": "375x548 自信確定後に問題ごとの振り返り",
+      "pass": true
+    },
+    {
+      "name": "375x548 5問の練習導入へ接続",
+      "pass": true
+    },
+    {
+      "name": "375x548 後続説明時間を評定計時に加えない",
+      "pass": true
+    },
+    {
+      "name": "375x548 早い例題開始の既存注意を保持",
+      "pass": true
+    },
+    {
+      "name": "375x548 例題を重複せず練習5問へ",
+      "pass": true
+    },
+    {
+      "name": "375x700 layout-intro 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "375x700 layout-intro 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "375x700 layout-intro スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "375x700 layout-stem 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "375x700 layout-stem 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "375x700 layout-stem スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "375x700 問題文の説明でスタートと選択肢を隠す",
+      "pass": true
+    },
+    {
+      "name": "375x700 layout-start 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "375x700 layout-start 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "375x700 layout-start スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "375x700 layout-choice 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "375x700 layout-choice 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "375x700 layout-choice スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "375x700 motor-route 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "375x700 motor-route 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "375x700 motor-route スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "375x700 motor-range 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "375x700 motor-range 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "375x700 motor-range スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "375x700 motor 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "375x700 motor 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "375x700 motor スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "375x700 失敗案内は中央に出る",
+      "pass": true
+    },
+    {
+      "name": "375x700 失敗案内は4秒で消える",
+      "pass": true
+    },
+    {
+      "name": "375x700 操作成功の案内を保持",
+      "pass": true
+    },
+    {
+      "name": "375x700 motor success 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "375x700 motor success スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "375x700 start-rule 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "375x700 start-rule 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "375x700 start-rule スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "375x700 movement-reason 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "375x700 movement-reason 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "375x700 movement-reason スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "375x700 uncertain 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "375x700 uncertain 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "375x700 uncertain スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "375x700 time-rule 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "375x700 time-rule 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "375x700 time-rule スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "375x700 answer-pace 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "375x700 answer-pace 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "375x700 answer-pace スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "375x700 rule-check-intro 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "375x700 rule-check-intro 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "375x700 rule-check-intro スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "375x700 文字のみのルール箱の上端が一定",
+      "pass": true
+    },
+    {
+      "name": "375x700 実課題の部品位置と寸法を保持",
+      "pass": true
+    },
+    {
+      "name": "375x700 現在位置と枠内到達を表示",
+      "pass": true
+    },
+    {
+      "name": "375x700 軌跡の線を残さない",
+      "pass": true
+    },
+    {
+      "name": "375x700 非表示でも座標・時刻・枠外初動を記録",
+      "pass": true
+    },
+    {
+      "name": "375x700 復習1 誤答では次へ無効",
+      "pass": true
+    },
+    {
+      "name": "375x700 復習1 誤答で進まない",
+      "pass": true
+    },
+    {
+      "name": "375x700 復習1 正答で進行できる",
+      "pass": true
+    },
+    {
+      "name": "375x700 復習1 選び直しても順序を保持",
+      "pass": true
+    },
+    {
+      "name": "375x700 復習2 誤答では次へ無効",
+      "pass": true
+    },
+    {
+      "name": "375x700 復習2 誤答で進まない",
+      "pass": true
+    },
+    {
+      "name": "375x700 復習2 正答で進行できる",
+      "pass": true
+    },
+    {
+      "name": "375x700 復習2 選び直しても順序を保持",
+      "pass": true
+    },
+    {
+      "name": "375x700 復習3 誤答では次へ無効",
+      "pass": true
+    },
+    {
+      "name": "375x700 復習3 誤答で進まない",
+      "pass": true
+    },
+    {
+      "name": "375x700 復習3 正答で進行できる",
+      "pass": true
+    },
+    {
+      "name": "375x700 復習3 選び直しても順序を保持",
+      "pass": true
+    },
+    {
+      "name": "375x700 復習4 誤答では次へ無効",
+      "pass": true
+    },
+    {
+      "name": "375x700 復習4 誤答で進まない",
+      "pass": true
+    },
+    {
+      "name": "375x700 復習4 正答で進行できる",
+      "pass": true
+    },
+    {
+      "name": "375x700 復習4 選び直しても順序を保持",
+      "pass": true
+    },
+    {
+      "name": "375x700 復習5 誤答では次へ無効",
+      "pass": true
+    },
+    {
+      "name": "375x700 復習5 誤答で進まない",
+      "pass": true
+    },
+    {
+      "name": "375x700 復習5 正答で進行できる",
+      "pass": true
+    },
+    {
+      "name": "375x700 復習5 選び直しても順序を保持",
+      "pass": true
+    },
+    {
+      "name": "375x700 復習6 誤答では次へ無効",
+      "pass": true
+    },
+    {
+      "name": "375x700 復習6 誤答で進まない",
+      "pass": true
+    },
+    {
+      "name": "375x700 復習6 正答で進行できる",
+      "pass": true
+    },
+    {
+      "name": "375x700 復習6 選び直しても順序を保持",
+      "pass": true
+    },
+    {
+      "name": "375x700 復習7 誤答では次へ無効",
+      "pass": true
+    },
+    {
+      "name": "375x700 復習7 誤答で進まない",
+      "pass": true
+    },
+    {
+      "name": "375x700 復習7 正答で進行できる",
+      "pass": true
+    },
+    {
+      "name": "375x700 復習7 選び直しても順序を保持",
+      "pass": true
+    },
+    {
+      "name": "375x700 復習の後に例題導入",
+      "pass": true
+    },
+    {
+      "name": "375x700 自信確定後に問題ごとの振り返り",
+      "pass": true
+    },
+    {
+      "name": "375x700 5問の練習導入へ接続",
+      "pass": true
+    },
+    {
+      "name": "375x700 後続説明時間を評定計時に加えない",
+      "pass": true
+    },
+    {
+      "name": "375x700 早い例題開始の既存注意を保持",
+      "pass": true
+    },
+    {
+      "name": "375x700 例題を重複せず練習5問へ",
+      "pass": true
+    },
+    {
+      "name": "402x759 layout-intro 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "402x759 layout-intro 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "402x759 layout-intro スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "402x759 layout-stem 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "402x759 layout-stem 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "402x759 layout-stem スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "402x759 問題文の説明でスタートと選択肢を隠す",
+      "pass": true
+    },
+    {
+      "name": "402x759 layout-start 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "402x759 layout-start 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "402x759 layout-start スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "402x759 layout-choice 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "402x759 layout-choice 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "402x759 layout-choice スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "402x759 motor-route 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "402x759 motor-route 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "402x759 motor-route スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "402x759 motor-range 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "402x759 motor-range 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "402x759 motor-range スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "402x759 motor 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "402x759 motor 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "402x759 motor スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "402x759 失敗案内は中央に出る",
+      "pass": true
+    },
+    {
+      "name": "402x759 失敗案内は4秒で消える",
+      "pass": true
+    },
+    {
+      "name": "402x759 操作成功の案内を保持",
+      "pass": true
+    },
+    {
+      "name": "402x759 motor success 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "402x759 motor success スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "402x759 start-rule 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "402x759 start-rule 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "402x759 start-rule スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "402x759 movement-reason 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "402x759 movement-reason 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "402x759 movement-reason スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "402x759 uncertain 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "402x759 uncertain 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "402x759 uncertain スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "402x759 time-rule 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "402x759 time-rule 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "402x759 time-rule スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "402x759 answer-pace 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "402x759 answer-pace 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "402x759 answer-pace スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "402x759 rule-check-intro 直接確認は送信無効",
+      "pass": true
+    },
+    {
+      "name": "402x759 rule-check-intro 説明と操作が画面内",
+      "pass": true
+    },
+    {
+      "name": "402x759 rule-check-intro スタートと進行ボタンが重ならない",
+      "pass": true
+    },
+    {
+      "name": "402x759 文字のみのルール箱の上端が一定",
+      "pass": true
+    },
+    {
+      "name": "402x759 実課題の部品位置と寸法を保持",
+      "pass": true
+    },
+    {
+      "name": "402x759 現在位置と枠内到達を表示",
+      "pass": true
+    },
+    {
+      "name": "402x759 軌跡の線を残さない",
+      "pass": true
+    },
+    {
+      "name": "402x759 非表示でも座標・時刻・枠外初動を記録",
+      "pass": true
+    },
+    {
+      "name": "402x759 復習1 誤答では次へ無効",
+      "pass": true
+    },
+    {
+      "name": "402x759 復習1 誤答で進まない",
+      "pass": true
+    },
+    {
+      "name": "402x759 復習1 正答で進行できる",
+      "pass": true
+    },
+    {
+      "name": "402x759 復習1 選び直しても順序を保持",
+      "pass": true
+    },
+    {
+      "name": "402x759 復習2 誤答では次へ無効",
+      "pass": true
+    },
+    {
+      "name": "402x759 復習2 誤答で進まない",
+      "pass": true
+    },
+    {
+      "name": "402x759 復習2 正答で進行できる",
+      "pass": true
+    },
+    {
+      "name": "402x759 復習2 選び直しても順序を保持",
+      "pass": true
+    },
+    {
+      "name": "402x759 復習3 誤答では次へ無効",
+      "pass": true
+    },
+    {
+      "name": "402x759 復習3 誤答で進まない",
+      "pass": true
+    },
+    {
+      "name": "402x759 復習3 正答で進行できる",
+      "pass": true
+    },
+    {
+      "name": "402x759 復習3 選び直しても順序を保持",
+      "pass": true
+    },
+    {
+      "name": "402x759 復習4 誤答では次へ無効",
+      "pass": true
+    },
+    {
+      "name": "402x759 復習4 誤答で進まない",
+      "pass": true
+    },
+    {
+      "name": "402x759 復習4 正答で進行できる",
+      "pass": true
+    },
+    {
+      "name": "402x759 復習4 選び直しても順序を保持",
+      "pass": true
+    },
+    {
+      "name": "402x759 復習5 誤答では次へ無効",
+      "pass": true
+    },
+    {
+      "name": "402x759 復習5 誤答で進まない",
+      "pass": true
+    },
+    {
+      "name": "402x759 復習5 正答で進行できる",
+      "pass": true
+    },
+    {
+      "name": "402x759 復習5 選び直しても順序を保持",
+      "pass": true
+    },
+    {
+      "name": "402x759 復習6 誤答では次へ無効",
+      "pass": true
+    },
+    {
+      "name": "402x759 復習6 誤答で進まない",
+      "pass": true
+    },
+    {
+      "name": "402x759 復習6 正答で進行できる",
+      "pass": true
+    },
+    {
+      "name": "402x759 復習6 選び直しても順序を保持",
+      "pass": true
+    },
+    {
+      "name": "402x759 復習7 誤答では次へ無効",
+      "pass": true
+    },
+    {
+      "name": "402x759 復習7 誤答で進まない",
+      "pass": true
+    },
+    {
+      "name": "402x759 復習7 正答で進行できる",
+      "pass": true
+    },
+    {
+      "name": "402x759 復習7 選び直しても順序を保持",
+      "pass": true
+    },
+    {
+      "name": "402x759 復習の後に例題導入",
+      "pass": true
+    },
+    {
+      "name": "402x759 自信確定後に問題ごとの振り返り",
+      "pass": true
+    },
+    {
+      "name": "402x759 5問の練習導入へ接続",
+      "pass": true
+    },
+    {
+      "name": "402x759 後続説明時間を評定計時に加えない",
+      "pass": true
+    },
+    {
+      "name": "402x759 早い例題開始の既存注意を保持",
+      "pass": true
+    },
+    {
+      "name": "402x759 例題を重複せず練習5問へ",
+      "pass": true
+    },
+    {
+      "name": "ブラウザの例外なし",
+      "pass": true
+    },
+    {
+      "name": "外部への通信なし",
+      "pass": true
+    },
+    {
+      "name": "検証中に本番ソースの変更なし",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "remote": [],
+  "scope": "Chrome touch emulation; physical iPhone Safari remains unchecked",
+  "sourceAfter": {
+    "index.html": "0bfe6ce03394e80037fef067059c20c14a9d1ea31eb86dfb4394c0206d9d1357",
+    "app.css": "dc355b1f2426a7f7ad5f73e480154798279a6e35fbb7846c9661328cac1b3e89",
+    "guided-tutorial.js": "cd252e516fb4d4dfca1a1c14683df9a7da3de6aa38e679766285bc4aac3b9e28",
+    "guided-tutorial.css": "d73d3e7373a4602e5258bacbbdbcaad73a00f49ee638094430fe29cb14b146b7"
+  },
+  "passed": 255,
+  "failed": 0
+}

@@ -1,0 +1,2337 @@
+{
+  "generatedAt": "2026-10-15T02:27:55.651Z",
+  "capturedAt": "2026-10-15T02:06:56.371Z",
+  "baselineCommit": "7a73da02482045a6944440aca1fc05eebced4cd2",
+  "copyFinalCommit": "920af93221e70a7c706d5e88d79fa22bf5c6c631",
+  "appVersion": "2026-10-15-ui20",
+  "instructionVersion": "2026-10-15-ui20",
+  "source": {
+    "index.html": "0bfe6ce03394e80037fef067059c20c14a9d1ea31eb86dfb4394c0206d9d1357",
+    "app.css": "dc355b1f2426a7f7ad5f73e480154798279a6e35fbb7846c9661328cac1b3e89",
+    "bank.js": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
+    "session-store.js": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+    "durable-storage.js": "84d006f048e2cc16c4a7a7087ec5815485c0b3a7d2ffa4ce6b7b62905dde967b",
+    "storage-worker.js": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
+    "staged-delivery.js": "7f37d628ce04dc47233b16387d43add674608d278030dd17355621745ab9f7ad",
+    "consent.js": "6dae132f66dc20526ae6e79c59c6ff12049a75a1b11161b6815bfa1339a14bd9",
+    "consent.css": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
+    "data-codec.js": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+    "vendor/pako.min.js": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+    "vendor/pako-LICENSE": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539",
+    "guided-tutorial.js": "cd252e516fb4d4dfca1a1c14683df9a7da3de6aa38e679766285bc4aac3b9e28",
+    "guided-tutorial.css": "d73d3e7373a4602e5258bacbbdbcaad73a00f49ee638094430fe29cb14b146b7"
+  },
+  "viewport": [
+    375,
+    700
+  ],
+  "viewports": {
+    "mini": [
+      375,
+      700
+    ],
+    "iphone17": [
+      402,
+      759
+    ],
+    "ipad": [
+      768,
+      1024
+    ],
+    "miniSmall": [
+      375,
+      548
+    ]
+  },
+  "motionPreference": "no-preference",
+  "limits": "Local synthetic responses; Chrome touch emulation, not physical Safari",
+  "screensPerSize": 122,
+  "pages": [
+    {
+      "id": "welcome-2",
+      "title": "最初の案内：所要時間と進め方",
+      "kind": "変更",
+      "purpose": "回答を急ぐ必要がないことと、中断についての案内を比較します。",
+      "before": {
+        "image": "before/mini/welcome-2.png",
+        "text": "2 / 6\n\n所要時間と進め方\n\n全体で 40分ほど（35〜50分）かかります。時間に余裕があるときに始めてください。\n\n読む速さの計測 → 画面構成と操作方法の説明 → 練習 → 本番 → 実施後のアンケートと進みます。説明は何度でも見直せます。\n急ぐ必要はありません。自分のペースで進めてください。\n本番では 20問ごとに休憩があります。いろいろな箇所で時間を計測しているので、休憩以外では中断せずに続けてください。\n← 前へ\n次へ"
+      },
+      "after": {
+        "image": "after/mini/welcome-2.png",
+        "text": "2 / 6\n\n所要時間と進め方\n\n全体で 40分ほど（35〜50分）かかります。時間に余裕があるときに始めてください。\n\n読む速さの計測 → 画面構成と操作方法の説明 → 練習 → 本番 → 実施後のアンケートと進みます。説明は何度でも見直せます。\n回答を急ぐ必要はありません。読むことや考えることに十分な時間を使って自分のペースで進めてください。\n本番では 20問ごとに休憩があります。休憩以外は、別の作業を挟まずに続けてください。\n← 前へ\n次へ",
+        "sha256": "9cfc84b979e7277d593e8f21def2ebd6199376fa56f44df5d1c828ee75d168d9",
+        "capturedAt": "2026-10-15T02:06:57.419Z"
+      },
+      "review": {
+        "status": "approved",
+        "reason": "「自分のペースで進めてください。」を太字にする修正を承認済み。",
+        "approvedCopySha256": "ad075afb776ccf43960dfd7446888960a9b8f153de2f1d3cd0142442899674d6",
+        "approvedVersion": "2026-10-12-ui14",
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "ad075afb776ccf43960dfd7446888960a9b8f153de2f1d3cd0142442899674d6"
+      }
+    },
+    {
+      "id": "reading-intro",
+      "title": "読む速さの計測：導入",
+      "kind": "変更",
+      "purpose": "普段の読む速さを知る目的と、読み終わった後の操作の案内です。",
+      "before": {
+        "image": "before/mini/reading-intro.png",
+        "text": "文章を読む速さの計測\n\nまず、文章を読む速さを計測します（短い文章を4本）。\n表示された文章を普段通りの速さで読み、読み終えたらすぐ下のボタンを押してください。\n本番の問題文と同じような文です。内容を覚える必要はありません。\n\nはじめる"
+      },
+      "after": {
+        "image": "after/mini/reading-intro.png",
+        "text": "文章を読む速さの計測\n\nまず、あなたの普段の読む速さを知るため、短い文章を4本読んでもらいます。\n速く読む必要はないので普段通りの速さで読み、読み終えたらすぐ下のボタンを押してください。\n\nはじめる",
+        "sha256": "c145dbc6f2cd4f56fc069b34792435a1a368fc1fd3b541fba8d5ecb075cd2775",
+        "capturedAt": "2026-10-15T02:07:41.829Z"
+      },
+      "review": {
+        "status": "approved",
+        "reason": "現行の文案を承認済み。",
+        "approvedCopySha256": "8cc9bc8141068cc6147ba7731e250c839b2b4d229b9efbd8440ad1f59d5046f0",
+        "approvedVersion": "2026-10-12-ui14",
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "8cc9bc8141068cc6147ba7731e250c839b2b4d229b9efbd8440ad1f59d5046f0"
+      }
+    },
+    {
+      "id": "tutorial-0",
+      "title": "チュートリアル：はじめに",
+      "kind": "変更",
+      "purpose": "旧比較IDの履歴を保持しています。現在の画像は新しい「画面の見方」（layout-intro）です。分割された説明全体は、新設・分割の比較と現行画面一覧で確認できます。",
+      "before": {
+        "image": "before/mini/tutorial-0.png",
+        "text": "はじめに\nこれから問題文を読んで、2つの選択肢から あなたの考えに近いほうを選んでもらいます。\n問題文を読んだらスタートに指を置きます。すると選択肢が出るので、指を離さずに選ぶほうのボックスまで運びます。この操作をくり返します。\n読んだら、画面の下の緑の「次へ」ボタンで進みます。\n読んだら「次へ」\n次へ"
+      },
+      "after": {
+        "image": "after/mini/tutorial-0.png",
+        "text": "はじめに\n画面の見方\nまず、画面の見方を説明します。\n読んだら「次へ」\n次へ",
+        "sha256": "c2031dfd268c3ace5a97fdc8c530fb3b3be55ed8776e1539369a201d138e9b87",
+        "capturedAt": "2026-10-15T02:13:01.776Z",
+        "sourceStepId": "layout-intro"
+      },
+      "review": {
+        "status": "approved",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。",
+        "approvedVersion": "2026-10-15-ui20",
+        "approvalHistory": [
+          {
+            "version": "2026-10-12-ui13",
+            "copySha256": "94e18ef29f7f57a0b85cd5b855ceb47c84167ee815be1bab4a50e279d607378b"
+          },
+          {
+            "version": "2026-10-12-ui14",
+            "copySha256": "4fceac0cdc0860af4653bab7bf5462a4c266d2db5882f32326cb1274bea2c2d7",
+            "reason": "今回採用した開始条件「問題文を読み状況が分かったら、答えを決める前に」を共有する説明へ変更する案を承認済み。"
+          },
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "cd97e3ebea801c2533ad616d9f302b39ae2c6f472c306430b26a58c014650edb",
+            "reviewedAt": "2026-10-15",
+            "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。"
+          }
+        ],
+        "approvedCopySha256": "cd97e3ebea801c2533ad616d9f302b39ae2c6f472c306430b26a58c014650edb",
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "cd97e3ebea801c2533ad616d9f302b39ae2c6f472c306430b26a58c014650edb"
+      }
+    },
+    {
+      "id": "tutorial-2",
+      "title": "画面の見方 2 / 4：問題文",
+      "kind": "変更",
+      "purpose": "旧比較IDの履歴を保持しています。現在の画像は新しい「問題文」（layout-stem）です。分割された説明全体は、新設・分割の比較と現行画面一覧で確認できます。",
+      "before": {
+        "image": "before/mini/tutorial-2.png",
+        "text": "画面の見方 2 / 4\nまず、画面の上に出る問題文を読みます。\n読んだら「次へ」\n← 前へ\n次へ"
+      },
+      "after": {
+        "image": "after/mini/tutorial-2.png",
+        "text": "画面の見方　1 / 3\n問題文\nここに表示される問題文を読みます。\n見るだけです。読んだら「次へ」\n戻る\n次へ",
+        "sha256": "aaa3882bde30e86c4ee3ab2cdcb9972359c1a94274f9302de2f9d2177f5f8125",
+        "capturedAt": "2026-10-15T02:13:02.510Z",
+        "sourceStepId": "layout-stem"
+      },
+      "review": {
+        "status": "approved",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。",
+        "approvedCopySha256": "24f53505928dd6bfc9caa6a966c7efae6f4f95364bec7a09db451c72aaabdcbd",
+        "approvedVersion": "2026-10-15-ui20",
+        "approvalHistory": [
+          {
+            "version": "2026-10-12-ui14",
+            "copySha256": "5f5b9808e86fb8a19880a11fc823f297bd5ff7a82bf7adf1a30b667361151d6b",
+            "reason": "現行の文案を承認済み。"
+          },
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "24f53505928dd6bfc9caa6a966c7efae6f4f95364bec7a09db451c72aaabdcbd",
+            "reviewedAt": "2026-10-15",
+            "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。"
+          }
+        ],
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "24f53505928dd6bfc9caa6a966c7efae6f4f95364bec7a09db451c72aaabdcbd"
+      }
+    },
+    {
+      "id": "tutorial-3",
+      "title": "画面の見方 3 / 4：スタート",
+      "kind": "変更",
+      "purpose": "旧比較IDの履歴を保持しています。現在の画像は新しい「スタートボタン」（layout-start）です。分割された説明全体は、新設・分割の比較と現行画面一覧で確認できます。",
+      "before": {
+        "image": "before/mini/tutorial-3.png",
+        "text": "画面の見方 3 / 4\n画面の下にスタートボタンがあります。\n問題文を読み終えてから、このスタートに指を置きます。\n指を置くと、選択肢の内容が表示されます。\n読んだら「次へ」\n← 前へ\n次へ"
+      },
+      "after": {
+        "image": "after/mini/tutorial-3.png",
+        "text": "画面の見方　2 / 3\nスタートボタン\nこのスタートボタンに指を置くと、選択肢が現れます。\n見るだけです。読んだら「次へ」\n戻る\n次へ",
+        "sha256": "c515f75c00c6ec24be428365879900c7026c2f781849e77ea80aa96785375a6b",
+        "capturedAt": "2026-10-15T02:13:03.208Z",
+        "sourceStepId": "layout-start"
+      },
+      "review": {
+        "status": "approved",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。",
+        "approvedVersion": "2026-10-15-ui20",
+        "approvedCopySha256": "144ecdf6f2db8522df519306b452e99ea62fa298e2d832067ab67ea9d74c8605",
+        "approvalHistory": [
+          {
+            "version": "2026-10-12-ui14",
+            "copySha256": "bbc72a604ddb16d049a9ada079c47d7876c788ad76bf95a7412daedc88063be9",
+            "reason": "「問題文を読み状況が分かったら、答えを決める前にスタートボタンに指を置いてください。」への変更を採用済み。"
+          },
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "144ecdf6f2db8522df519306b452e99ea62fa298e2d832067ab67ea9d74c8605",
+            "reviewedAt": "2026-10-15",
+            "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。"
+          }
+        ],
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "144ecdf6f2db8522df519306b452e99ea62fa298e2d832067ab67ea9d74c8605"
+      }
+    },
+    {
+      "id": "tutorial-4",
+      "title": "画面の見方 4 / 4：選択肢",
+      "kind": "変更",
+      "purpose": "旧比較IDの履歴を保持しています。現在の画像は新しい「選択肢」（layout-choice）です。分割された説明全体は、新設・分割の比較と現行画面一覧で確認できます。",
+      "before": {
+        "image": "before/mini/tutorial-4.png",
+        "text": "画面の見方 4 / 4\nここに2つの選択肢が出ます。\n選択肢を見たら、選ぶほうへ指を離さずに運び、ボックスの中で指を離します。\n読んだら「次へ」\n← 前へ\n次へ"
+      },
+      "after": {
+        "image": "after/mini/tutorial-4.png",
+        "text": "画面の見方　3 / 3\n選択肢\nここに2つの選択肢が出ます。選ぶほうへ指を運んで答えます。\n見るだけです。読んだら「操作の方法へ」\n戻る\n操作の方法へ",
+        "sha256": "2457134325531d52f29d870a0d1a112bfcda569f6a232742df4e0db8e7d7e175",
+        "capturedAt": "2026-10-15T02:13:03.953Z",
+        "sourceStepId": "layout-choice"
+      },
+      "review": {
+        "status": "approved",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。",
+        "approvedVersion": "2026-10-15-ui20",
+        "approvedCopySha256": "f48dcfd6a9c885baec1309ae0ab50d871f33a8b0080c0c21208d70634dfc212f",
+        "approvalHistory": [
+          {
+            "version": "2026-10-12-ui14",
+            "copySha256": "677e7dea1db0c211d4adb4df30f4b743894634d91d696b4b110e6a4563284b47",
+            "reason": "選択肢の見方を短くし、「ボックスの内側ならどこで指を離しても大丈夫です。」を加える案を採用済み。 ui15では例の問題文に合う「海でのんびり／山でハイキング」を表示し、指を運ばせる操作練習は汎用ラベルを保持する変更を指定。"
+          },
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "f48dcfd6a9c885baec1309ae0ab50d871f33a8b0080c0c21208d70634dfc212f",
+            "reviewedAt": "2026-10-15",
+            "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。"
+          }
+        ],
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "f48dcfd6a9c885baec1309ae0ab50d871f33a8b0080c0c21208d70634dfc212f"
+      }
+    },
+    {
+      "id": "tutorial-7",
+      "title": "操作の練習 3 / 3：動き始める",
+      "kind": "変更",
+      "purpose": "旧比較IDの履歴を保持しています。現在の画像は新しい「3秒以内にスタートの枠を出る」（time-rule）です。分割された説明全体は、新設・分割の比較と現行画面一覧で確認できます。",
+      "before": {
+        "image": "before/mini/tutorial-7.png",
+        "text": "操作の練習 3 / 3\nスタートに指を置いて選択肢を確認したら、迷っていても指を離さずに運び始めてください。\nゆっくりでよいので、動かしながら選ぶほうを決めてください。\n選んだボックスの中で指を離します。\nスタートに指を置いてから3秒以内に枠の外へ動き出さないと、振り返りの後に注意が出ます。\n実際にスタートから運んでみましょう\n← 前へ\n次へ"
+      },
+      "after": {
+        "image": "after/mini/tutorial-7.png",
+        "text": "ルールを確認する　4 / 5\n3秒以内にスタートの枠を出る\nスタートに触れたら、3秒以内に指をスタートの枠の外へ動かしてください。\n読んだら「次へ」\n戻る\n次へ",
+        "sha256": "fd785dc2840a8df21ef2d720c0a5b7daefb02ad62f0611ca4db603293b194cba",
+        "capturedAt": "2026-10-15T02:13:13.822Z",
+        "sourceStepId": "time-rule"
+      },
+      "review": {
+        "status": "approved",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。",
+        "approvedVersion": "2026-10-15-ui20",
+        "approvedCopySha256": "5e4a7c9fa94633c022d8e12c5e53a363df3382f8268fdd8c62f9d141d462cc21",
+        "approvalHistory": [
+          {
+            "version": "2026-10-12-ui14",
+            "copySha256": "57748cf07f3b7044ae5456a78798b7ba6ef527d13f2908e4d4cb0d7441720f03",
+            "reason": "3秒以内に行う操作を短く示し、「3秒は回答の制限時間ではないので、自分のペースで焦らず回答してください。」と説明する案を採用済み。"
+          },
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "5e4a7c9fa94633c022d8e12c5e53a363df3382f8268fdd8c62f9d141d462cc21",
+            "reviewedAt": "2026-10-15",
+            "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。"
+          }
+        ],
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "5e4a7c9fa94633c022d8e12c5e53a363df3382f8268fdd8c62f9d141d462cc21"
+      }
+    },
+    {
+      "id": "practice-early-coach",
+      "title": "練習中：早くスタートに触れたときの短い案内",
+      "kind": "変更",
+      "purpose": "練習中の早い押下に対する案内です。表示直後を撮影しています。",
+      "before": {
+        "image": "before/mini/practice-early-coach.png",
+        "text": "問題文を読んでから、スタートを押してください"
+      },
+      "after": {
+        "image": "after/mini/practice-early-coach.png",
+        "text": "問題文を読み、状況が分かったらスタートボタンに指を置いてください",
+        "sha256": "65ce6c4124a0f22e16f27462a1800cdd69c185a73b032ad3105abf8d1f299ecb",
+        "capturedAt": "2026-10-15T02:08:13.926Z"
+      },
+      "review": {
+        "status": "approved",
+        "reason": "現行の短い案内を承認済み。",
+        "approvedCopySha256": "3c757db40e0c7b33329ecd8ddafa4f0b1164b60e29a94fbc475b0218a2cda150",
+        "approvedVersion": "2026-10-12-ui14",
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "3c757db40e0c7b33329ecd8ddafa4f0b1164b60e29a94fbc475b0218a2cda150"
+      }
+    },
+    {
+      "id": "practicecheck",
+      "title": "練習：回答・振り返りの後の確認",
+      "kind": "新設",
+      "purpose": "その問題で該当したルールだけを提示し、すべてチェックすると進めます。ここでは文言を全部見られるよう3項目を同時表示しています。チェックは理解の証明や除外基準にしません。",
+      "before": {
+        "image": null,
+        "text": ""
+      },
+      "after": {
+        "image": "after/mini/practicecheck.png",
+        "text": "操作のポイントを確認しましょう\n\n今の練習で確認が必要だった操作です。一つずつ読んで、チェックしてください。\n\n問題文を読んでからスタート\n問題文を読み状況が分かったら、答えを決める前にスタートボタンに指を置いてください。\n3秒以内に指をスタートボタンの外へ動かす\nスタートボタンに指を置いたら、3秒以内に、指をスタートボタンの外へ動かしてください。\n3秒は回答の制限時間ではないので、自分のペースで焦らず回答してください。\n答えを選んでいる間の指の動きを調べるため、答えが決まるのを待たずに指を動かし始めてください。\n迷っているときも、ゆっくりでよいので、指を動かしながら考えてください。\n指を離さずに運ぶ\nスタートボタンを押したら指を離さず選択肢のボックスまで運び、ボックスの中で離してください。\nボックスの内側ならどこで指を離しても大丈夫です。\n確認して次へ",
+        "sha256": "4612a2e57f4c0b357725f8bde5c1f4aa0f93cf21085edf5ad25ea092f7a987b5",
+        "capturedAt": "2026-10-15T02:06:59.521Z"
+      },
+      "review": {
+        "status": "approved",
+        "reason": "開始の条件と3秒の説明を、今回採用した文案に統一する変更を採用済み。",
+        "approvedVersion": "2026-10-12-ui14",
+        "approvedCopySha256": "721257033a772cb59540c45df85afe93380d87a1c8d5854503bdcf9454005780",
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "721257033a772cb59540c45df85afe93380d87a1c8d5854503bdcf9454005780"
+      }
+    },
+    {
+      "id": "practice-complete",
+      "title": "練習完了：本番の直前",
+      "kind": "追加",
+      "purpose": "本番直前に、急ぐ必要がないことと操作方法を見直せる場所を伝えます。",
+      "before": {
+        "image": "before/mini/practice-complete.png",
+        "text": "練習完了です！\n\nここからが本番です。やり方は練習と同じです。\n\n準備ができたら「続ける」を押してください。\n\n続ける"
+      },
+      "after": {
+        "image": "after/mini/practice-complete.png",
+        "text": "練習完了です！\n\nここからが本番です。やり方は練習と同じです。\n\n回答を急ぐ必要はありません。自分のペースで進めてください。\n\n操作を忘れたときは、問題画面の上にある「↻ 操作方法」から説明を見直せます。\n\n準備ができたら「続ける」を押してください。\n\n続ける",
+        "sha256": "59cbb77f73e7618be5c75171e0dbe3aa9b97e6d99e97919f8b4fc14afc05f792",
+        "capturedAt": "2026-10-15T02:08:13.091Z"
+      },
+      "review": {
+        "status": "approved",
+        "reason": "「自分のペースで進めてください。」の太字化と、「スタートボタンに指を置く前に押してください。」の削除を承認済み。",
+        "approvedCopySha256": "a495975ee5c53638e332c905bd6010ae610d404bdd9db5ea58191ae34e1d64c2",
+        "approvedVersion": "2026-10-12-ui14",
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "a495975ee5c53638e332c905bd6010ae610d404bdd9db5ea58191ae34e1d64c2"
+      }
+    },
+    {
+      "id": "main-help",
+      "title": "本番中：「↻ 操作方法」を開いた最初の画面",
+      "kind": "変更・再利用",
+      "purpose": "変更した「はじめに」と同じ本文を見直しでも表示します。通常の任意の見直しは途中で閉じられます。",
+      "before": {
+        "image": "before/mini/main-help.png",
+        "text": "はじめに\nこれから問題文を読んで、2つの選択肢から あなたの考えに近いほうを選んでもらいます。\n問題文を読んだらスタートに指を置きます。すると選択肢が出るので、指を離さずに選ぶほうのボックスまで運びます。この操作をくり返します。\n読んだら、画面の下の緑の「次へ」ボタンで進みます。\n読んだら「次へ」\n× 閉じる\n次へ"
+      },
+      "after": {
+        "image": "after/mini/main-help.png",
+        "text": "はじめに\n画面の見方\nまず、画面の見方を説明します。\n読んだら「次へ」\n× 閉じる\n次へ",
+        "sha256": "c5ca481fc7a73b89cbd3e87e691de2fba7c039cc3f7e04adaae2c8bed608ad5e",
+        "capturedAt": "2026-10-15T02:07:29.000Z"
+      },
+      "review": {
+        "status": "approved",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。同じ説明を本番中も任意に見直せる構成とし、説明を閉じた後は同じ問題へ戻る。ui20の現行表示を採用。",
+        "approvedVersion": "2026-10-15-ui20",
+        "approvalHistory": [
+          {
+            "version": "2026-10-12-ui13",
+            "copySha256": "b2b4369d68f36250d53e82219e47bc738ffcb8678d4aece353239816c97af70c"
+          },
+          {
+            "version": "2026-10-12-ui14",
+            "copySha256": "d62079e53f24ad665d59f9463a3bc873ff4267576dfdf941cf07ddec292d3336",
+            "reason": "今回採用した開始条件「問題文を読み状況が分かったら、答えを決める前に」を共有する説明へ変更する案を承認済み。"
+          },
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "027b3565d974dbf13ec7ada2bfff7ac2b7b3c6cab86a4359a5bdcea9273f145e",
+            "reviewedAt": "2026-10-15",
+            "reason": "ユーザーが仮画面の構成を本番へ採用。同じ説明を本番中も任意に見直せる構成とし、説明を閉じた後は同じ問題へ戻る。ui20の現行表示を採用。"
+          }
+        ],
+        "approvedCopySha256": "027b3565d974dbf13ec7ada2bfff7ac2b7b3c6cab86a4359a5bdcea9273f145e",
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "027b3565d974dbf13ec7ada2bfff7ac2b7b3c6cab86a4359a5bdcea9273f145e"
+      }
+    },
+    {
+      "id": "notice-early",
+      "title": "注意：早いスタート",
+      "kind": "変更",
+      "purpose": "状況が分かったら押すことを再提示。該当する説明へのボタンを主ボタンにし、本番の種類別初回は確認後に戻れます。",
+      "before": {
+        "image": "before/mini/notice-early.png",
+        "text": "お願い\n\n前の問題では、問題文の表示から短い時間でスタートに指が置かれました。\n問題文を最後まで読んでから、スタートに指を置いてください。\n\n操作方法を見る\n問題に戻る"
+      },
+      "after": {
+        "image": "after/mini/notice-early.png",
+        "text": "お願い\n\n前の問題では、問題文の表示から短い時間でスタートボタンに指が置かれました。\n\nスタートのタイミング\n\n問題文を読み状況が分かったら、答えを決める前にスタートボタンに指を置いてください。\n\n確認して問題に戻る",
+        "sha256": "6f7fc3e31615ed3c32f275805f285dc412a2a12eb6a8f15282f6502714f05c7f",
+        "capturedAt": "2026-10-15T02:07:27.181Z"
+      },
+      "review": {
+        "status": "approved",
+        "reason": "注意内で説明を確認するボタン1つにまとめ、操作説明のボタンと初回の必須見直しを削除する案を採用済み。注意画面に新しい待機時間は設けず、画面上部の任意の操作方法を保持します。",
+        "approvedVersion": "2026-10-12-ui14",
+        "approvedCopySha256": "8101554dc518d53a7d832d7d39b23858ac1257ee2c14cad23f36b907382cd334",
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "8101554dc518d53a7d832d7d39b23858ac1257ee2c14cad23f36b907382cd334"
+      }
+    },
+    {
+      "id": "notice-late",
+      "title": "注意：3秒を超えた初動",
+      "kind": "変更",
+      "purpose": "「3秒は答えを決める制限時間ではありません」を追加。動き始める説明へ直接誘導します。",
+      "before": {
+        "image": "before/mini/notice-late.png",
+        "text": "お願い\n\n前の問題では、スタートに指を置いてから3秒以上、スタートの枠の外へ動き出していませんでした。\nスタートに指を置いて選択肢を確認したら、迷っていても指を離さずに運び始めてください。\nゆっくりでよいので、動かしながら選ぶほうを決めてください。\n\n操作方法を見る\n問題に戻る"
+      },
+      "after": {
+        "image": "after/mini/notice-late.png",
+        "text": "お願い\n\n前の問題では、スタートボタンに指を置いてから3秒以上、指がスタートボタンの外へ出ていませんでした。\n\n指を動かし始めるタイミング\n\nスタートボタンに指を置いたら、3秒以内に、指をスタートボタンの外へ動かしてください。\n3秒は回答の制限時間ではないので、自分のペースで焦らず回答してください。\n答えを選んでいる間の指の動きを調べるため、答えが決まるのを待たずに指を動かし始めてください。\n迷っているときも、ゆっくりでよいので、指を動かしながら考えてください。\n\n確認して問題に戻る",
+        "sha256": "4a7ceac8b78e8616dc4826bc485fcbda2906c8b4e21a9097166cb6505e1fbcf9",
+        "capturedAt": "2026-10-15T02:07:27.701Z"
+      },
+      "review": {
+        "status": "approved",
+        "reason": "注意内で説明を確認するボタン1つにまとめ、操作説明のボタンと初回の必須見直しを削除する案を採用済み。注意画面に新しい待機時間は設けず、画面上部の任意の操作方法を保持します。",
+        "approvedVersion": "2026-10-12-ui14",
+        "approvedCopySha256": "812d934c095a85e7c8dc4929493c89511fa16bcac34e4c670c270b64b5e8f7ef",
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "812d934c095a85e7c8dc4929493c89511fa16bcac34e4c670c270b64b5e8f7ef"
+      }
+    },
+    {
+      "id": "notice-early_late",
+      "title": "注意：両方に該当",
+      "kind": "変更",
+      "purpose": "開始基準と初動の説明を1画面で提示。必要な説明を確認してから戻る導線にしました。",
+      "before": {
+        "image": "before/mini/notice-early_late.png",
+        "text": "お願い\n\n前の問題では、次の2点が見られました。\n\n問題文の表示から短い時間でスタートに指が置かれました。\n問題文を最後まで読んでから、スタートに指を置いてください。\n\n指を置いてから3秒以上、スタートの枠の外へ動き出していませんでした。\n選択肢を確認したら、指を離さずに運び始めてください。ゆっくりでよいので、動かしながら選ぶほうを決めてください。\n\n操作方法を見る\n問題に戻る"
+      },
+      "after": {
+        "image": "after/mini/notice-early_late.png",
+        "text": "お願い\n\n前の問題では、問題文の表示から短い時間でスタートボタンに指が置かれ、その後3秒以上、指がスタートボタンの外へ出ていませんでした。\n\nスタートのタイミング\n\n問題文を読み状況が分かったら、答えを決める前にスタートボタンに指を置いてください。\n\n指を動かし始めるタイミング\n\nスタートボタンに指を置いたら、3秒以内に、指をスタートボタンの外へ動かしてください。\n3秒は回答の制限時間ではないので、自分のペースで焦らず回答してください。\n答えを選んでいる間の指の動きを調べるため、答えが決まるのを待たずに指を動かし始めてください。\n迷っているときも、ゆっくりでよいので、指を動かしながら考えてください。\n\n確認して問題に戻る",
+        "sha256": "e58e9d2f5ac9fad49d60e5b040b5cdeca57df6a8aaa6047b81fcdbb60fccf083",
+        "capturedAt": "2026-10-15T02:07:28.301Z"
+      },
+      "review": {
+        "status": "approved",
+        "reason": "注意内で説明を確認するボタン1つにまとめ、操作説明のボタンと初回の必須見直しを削除する案を採用済み。注意画面に新しい待機時間は設けず、画面上部の任意の操作方法を保持します。",
+        "approvedVersion": "2026-10-12-ui14",
+        "approvedCopySha256": "92523f09f5fa0878b41130e5569a920da16a566d31f6bb3a22e74ef5e05d1d06",
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "92523f09f5fa0878b41130e5569a920da16a566d31f6bb3a22e74ef5e05d1d06"
+      }
+    },
+    {
+      "id": "required-early-0",
+      "title": "初回の必須見直し：早いスタート（1枚）",
+      "kind": "新しい表示手順",
+      "purpose": "初回の必須見直しを廃止し、注意画面内で説明を確認する手順にまとめました。廃止前の最後の現行画面を履歴として保持します。",
+      "before": {
+        "image": null,
+        "text": ""
+      },
+      "after": {
+        "image": null,
+        "text": "この画面は廃止しました。\n操作の説明は注意画面内で確認します。別の説明画面を必ず開く手順はありません。\n問題画面の上にある「↻ 操作方法」からは、必要に応じて説明を見直せます。",
+        "retired": true,
+        "retiredSince": "2026-10-12-ui14",
+        "capturedAt": null
+      },
+      "lastActive": {
+        "appVersion": "2026-10-12-ui13",
+        "text": "操作の確認 1 / 1\n問題文を最後まで読み、書かれている状況が分かったら、スタートボタンに指を置いてください。\n答えを決め終えている必要はありません。\n指を置くと、選択肢の内容が表示されます。\n読んだら「次へ」\n確認して案内に戻る",
+        "capturedAt": "2026-10-12T07:09:51.452Z",
+        "images": {
+          "mini": {
+            "image": "retired/2026-10-12-ui13/mini/required-early-0.png",
+            "sha256": "e2b48fb2fa3f5aa9781ec31b3c3a383872615972261023ef437b8d444fa0e376"
+          },
+          "iphone17": {
+            "image": "retired/2026-10-12-ui13/iphone17/required-early-0.png",
+            "sha256": "f118e5aefa9a9a7d159e1685fff75ae6bb6a0efa4e5aab597a72e5047737dcf4"
+          },
+          "ipad": {
+            "image": "retired/2026-10-12-ui13/ipad/required-early-0.png",
+            "sha256": "001181f39d7e3e72a6bca48392064564437f81ccb8ea2c231bce4a4efedc6190"
+          }
+        }
+      },
+      "review": {
+        "status": "approved",
+        "reason": "初回の必須見直し画面を廃止し、注意画面内で説明を確認する手順にまとめる変更を採用済み。",
+        "approvedVersion": "2026-10-12-ui14",
+        "retired": {
+          "sinceVersion": "2026-10-12-ui14",
+          "text": "この画面は廃止しました。\n操作の説明は注意画面内で確認します。別の説明画面を必ず開く手順はありません。\n問題画面の上にある「↻ 操作方法」からは、必要に応じて説明を見直せます。"
+        },
+        "approvedCopySha256": "04eb2ca91c98c4ba2fddeee68b7566a94543ff31ed7f8aad9e5957394d170531",
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "04eb2ca91c98c4ba2fddeee68b7566a94543ff31ed7f8aad9e5957394d170531"
+      }
+    },
+    {
+      "id": "required-late-0",
+      "title": "初回の必須見直し：遅い初動（1枚）",
+      "kind": "新しい表示手順",
+      "purpose": "初回の必須見直しを廃止し、注意画面内で説明を確認する手順にまとめました。廃止前の最後の現行画面を履歴として保持します。",
+      "before": {
+        "image": null,
+        "text": ""
+      },
+      "after": {
+        "image": null,
+        "text": "この画面は廃止しました。\n操作の説明は注意画面内で確認します。別の説明画面を必ず開く手順はありません。\n問題画面の上にある「↻ 操作方法」からは、必要に応じて説明を見直せます。",
+        "retired": true,
+        "retiredSince": "2026-10-12-ui14",
+        "capturedAt": null
+      },
+      "lastActive": {
+        "appVersion": "2026-10-12-ui13",
+        "text": "操作の確認 1 / 1\nスタートボタンに指を置いたら、3秒以内に、指をスタートボタンの外へ動かしてください。\n3秒は、答えを決めたり回答を終えたりする制限時間ではありません。\n答えを選んでいる間の指の動きを調べるため、答えが決まるのを待たずに指を動かし始めてください。\n迷っているときも、ゆっくりでよいので、指を動かしながら考えてください。\n選んだ選択肢のボックスの中で指を離します。\n操作を試すか、「確認して案内に戻る」で進めます。\n確認して案内に戻る",
+        "capturedAt": "2026-10-12T07:09:52.202Z",
+        "images": {
+          "mini": {
+            "image": "retired/2026-10-12-ui13/mini/required-late-0.png",
+            "sha256": "2593c016f9b90c82a633b23ccc38a7370bca00e678986a690a72cb3a69c9fb9b"
+          },
+          "iphone17": {
+            "image": "retired/2026-10-12-ui13/iphone17/required-late-0.png",
+            "sha256": "89832b3484abc6f8d4f87c9932e5a24f38a9adbeff83dfb38f1dff59c1d58196"
+          },
+          "ipad": {
+            "image": "retired/2026-10-12-ui13/ipad/required-late-0.png",
+            "sha256": "3091701fb9a3d00d5aff350803ea696dad33ead997e2eb8a71e81e50e6775d7d"
+          }
+        }
+      },
+      "review": {
+        "status": "approved",
+        "reason": "初回の必須見直し画面を廃止し、注意画面内で説明を確認する手順にまとめる変更を採用済み。",
+        "approvedVersion": "2026-10-12-ui14",
+        "retired": {
+          "sinceVersion": "2026-10-12-ui14",
+          "text": "この画面は廃止しました。\n操作の説明は注意画面内で確認します。別の説明画面を必ず開く手順はありません。\n問題画面の上にある「↻ 操作方法」からは、必要に応じて説明を見直せます。"
+        },
+        "approvedCopySha256": "04eb2ca91c98c4ba2fddeee68b7566a94543ff31ed7f8aad9e5957394d170531",
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "04eb2ca91c98c4ba2fddeee68b7566a94543ff31ed7f8aad9e5957394d170531"
+      }
+    },
+    {
+      "id": "required-early_late-0",
+      "title": "初回の必須見直し：両方の1枚目",
+      "kind": "新しい表示手順",
+      "purpose": "初回の必須見直しを廃止し、注意画面内で説明を確認する手順にまとめました。廃止前の最後の現行画面を履歴として保持します。",
+      "before": {
+        "image": null,
+        "text": ""
+      },
+      "after": {
+        "image": null,
+        "text": "この画面は廃止しました。\n操作の説明は注意画面内で確認します。別の説明画面を必ず開く手順はありません。\n問題画面の上にある「↻ 操作方法」からは、必要に応じて説明を見直せます。",
+        "retired": true,
+        "retiredSince": "2026-10-12-ui14",
+        "capturedAt": null
+      },
+      "lastActive": {
+        "appVersion": "2026-10-12-ui13",
+        "text": "操作の確認 1 / 2\n問題文を最後まで読み、書かれている状況が分かったら、スタートボタンに指を置いてください。\n答えを決め終えている必要はありません。\n指を置くと、選択肢の内容が表示されます。\n読んだら「次へ」\n次へ",
+        "capturedAt": "2026-10-12T07:09:52.969Z",
+        "images": {
+          "mini": {
+            "image": "retired/2026-10-12-ui13/mini/required-early_late-0.png",
+            "sha256": "2f86f8b8a1eff8feb1744bd781b8c7df2e539880b2a4ba7f887d1c2032031a0f"
+          },
+          "iphone17": {
+            "image": "retired/2026-10-12-ui13/iphone17/required-early_late-0.png",
+            "sha256": "9bae14732963454817c791c7024ac114012cedf30477022c4c252643d9bb8a13"
+          },
+          "ipad": {
+            "image": "retired/2026-10-12-ui13/ipad/required-early_late-0.png",
+            "sha256": "3a3b71f6921ca7b1430986f3b9a8c764ffbd6c8859c3d165e6f13f347a1f8a74"
+          }
+        }
+      },
+      "review": {
+        "status": "approved",
+        "reason": "初回の必須見直し画面を廃止し、注意画面内で説明を確認する手順にまとめる変更を採用済み。",
+        "approvedVersion": "2026-10-12-ui14",
+        "retired": {
+          "sinceVersion": "2026-10-12-ui14",
+          "text": "この画面は廃止しました。\n操作の説明は注意画面内で確認します。別の説明画面を必ず開く手順はありません。\n問題画面の上にある「↻ 操作方法」からは、必要に応じて説明を見直せます。"
+        },
+        "approvedCopySha256": "04eb2ca91c98c4ba2fddeee68b7566a94543ff31ed7f8aad9e5957394d170531",
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "04eb2ca91c98c4ba2fddeee68b7566a94543ff31ed7f8aad9e5957394d170531"
+      }
+    },
+    {
+      "id": "required-early_late-1",
+      "title": "初回の必須見直し：両方の2枚目",
+      "kind": "新しい表示手順",
+      "purpose": "初回の必須見直しを廃止し、注意画面内で説明を確認する手順にまとめました。廃止前の最後の現行画面を履歴として保持します。",
+      "before": {
+        "image": null,
+        "text": ""
+      },
+      "after": {
+        "image": null,
+        "text": "この画面は廃止しました。\n操作の説明は注意画面内で確認します。別の説明画面を必ず開く手順はありません。\n問題画面の上にある「↻ 操作方法」からは、必要に応じて説明を見直せます。",
+        "retired": true,
+        "retiredSince": "2026-10-12-ui14",
+        "capturedAt": null
+      },
+      "lastActive": {
+        "appVersion": "2026-10-12-ui13",
+        "text": "操作の確認 2 / 2\nスタートボタンに指を置いたら、3秒以内に、指をスタートボタンの外へ動かしてください。\n3秒は、答えを決めたり回答を終えたりする制限時間ではありません。\n答えを選んでいる間の指の動きを調べるため、答えが決まるのを待たずに指を動かし始めてください。\n迷っているときも、ゆっくりでよいので、指を動かしながら考えてください。\n選んだ選択肢のボックスの中で指を離します。\n操作を試すか、「確認して案内に戻る」で進めます。\n← 前へ\n確認して案内に戻る",
+        "capturedAt": "2026-10-12T07:09:53.086Z",
+        "images": {
+          "mini": {
+            "image": "retired/2026-10-12-ui13/mini/required-early_late-1.png",
+            "sha256": "b183fce9e9ab39270837320240cfcc3d44175b98a720237bd6d4772206a08083"
+          },
+          "iphone17": {
+            "image": "retired/2026-10-12-ui13/iphone17/required-early_late-1.png",
+            "sha256": "613b67f1f1486a5a00d07257954142d87d92c7adb489f613429859743378c711"
+          },
+          "ipad": {
+            "image": "retired/2026-10-12-ui13/ipad/required-early_late-1.png",
+            "sha256": "4ac0fdb81880ba42750c5c91ca2c4538d7122321f82ac150c70b7d8153bff85b"
+          }
+        }
+      },
+      "review": {
+        "status": "approved",
+        "reason": "初回の必須見直し画面を廃止し、注意画面内で説明を確認する手順にまとめる変更を採用済み。",
+        "approvedVersion": "2026-10-12-ui14",
+        "retired": {
+          "sinceVersion": "2026-10-12-ui14",
+          "text": "この画面は廃止しました。\n操作の説明は注意画面内で確認します。別の説明画面を必ず開く手順はありません。\n問題画面の上にある「↻ 操作方法」からは、必要に応じて説明を見直せます。"
+        },
+        "approvedCopySha256": "04eb2ca91c98c4ba2fddeee68b7566a94543ff31ed7f8aad9e5957394d170531",
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "04eb2ca91c98c4ba2fddeee68b7566a94543ff31ed7f8aad9e5957394d170531"
+      }
+    },
+    {
+      "id": "instructed",
+      "title": "追加10問：始める前",
+      "kind": "変更",
+      "purpose": "「読む必要はありません」を「読まずに進めてください」に変更し、枠と太字で強調しました。「内容を考えて答えを選ぶ必要はありません」も追加しています。",
+      "before": {
+        "image": "before/mini/instructed.png",
+        "text": "追加の 10 問（やり方が変わります）\n\nここからの 10 問は、これまでとは逆に、問題文も選択肢も読む必要はありません。適当に指を運んでください。どちらのボックスでも構いません。\n\nこの10問は、指示どおり読まずに答える問題なので、謝礼には影響しません。\n\n集中して答えたときと、読まずに適当に運んだときとで、指の動きがどう違うかを調べるための問題です。すでに答えた問題が出ますが、前の答えを思い出す必要はありません。\n\n操作はこれまでと同じです（スタートに指を置き、選ぶほうへ運びます）。振り返りはありません。このあと実施後のアンケートがあります。\n\n続ける"
+      },
+      "after": {
+        "image": "after/mini/instructed.png",
+        "text": "追加の 10 問\n（やり方が変わります）\n\n問題文も選択肢も、読まずに進めてください。\n内容を考えて答えを選ばず、適当に指を運んでください。どちらの選択肢でも構いません。\n\nこの10問は、指示どおり読まずに答える問題なので、謝礼には影響しません。\n\n操作はこれまでと同じです。振り返りはありません。このあと最後に実施後のアンケートがあります。\n\n続ける",
+        "sha256": "bfa42631bb24dfb1b341e36ac0bfd3ddc41b02c3b47de73fe797dcac33c3d9ff",
+        "capturedAt": "2026-10-15T02:07:39.932Z"
+      },
+      "review": {
+        "status": "approved",
+        "reason": "タイトルを2行にし、問題文も選択肢も読まずに適当に指を運ぶ指示と、振り返りなし・最後に実施後アンケートという案内への変更を承認済み。",
+        "approvedCopySha256": "41ceb04b01ab04630d4ff572cf3a4f0827e691c5dcda75cd8193f19c072aae62",
+        "approvedVersion": "2026-10-12-ui14",
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "41ceb04b01ab04630d4ff572cf3a4f0827e691c5dcda75cd8193f19c072aae62"
+      }
+    },
+    {
+      "id": "post-time_pressure",
+      "title": "事後アンケート：時間圧・焦り",
+      "kind": "変更",
+      "purpose": "課題中の時間圧・焦りを尋ねます。追加10問を除く注記は付けていません。",
+      "before": {
+        "image": "before/mini/post-time_pressure.png",
+        "text": "実施後のアンケート\n\n4 / 14\n\n課題の感じ方\n\n課題中、「急がなければ」と感じましたか\n1\n2\n3\n4\n5\n1 = まったく感じなかった\n5 = 強く感じた\n課題中、指や腕はどのくらい疲れましたか\n1\n2\n3\n4\n5\n1 = 疲れなかった\n5 = とても疲れた\n課題中、いらだちや焦りをどのくらい感じましたか\n1\n2\n3\n4\n5\n1 = まったく感じなかった\n5 = 強く感じた\n戻る\n次へ"
+      },
+      "after": {
+        "image": "after/mini/post-time_pressure.png",
+        "text": "実施後のアンケート\n\n4 / 19\n\n課題の感じ方\n\n課題中、「急がなければ」と感じましたか\n1\n2\n3\n4\n5\n1 = まったく感じなかった\n5 = 強く感じた\n課題中、指や腕はどのくらい疲れましたか\n1\n2\n3\n4\n5\n1 = 疲れなかった\n5 = とても疲れた\n課題中、いらだちや焦りをどのくらい感じましたか\n1\n2\n3\n4\n5\n1 = まったく感じなかった\n5 = 強く感じた\n戻る\n次へ",
+        "sha256": "5efdd42bdf82cc9a8dfc47cbd89c00ac509a8601f2fad58fdc8179525d4c396e",
+        "capturedAt": "2026-10-15T02:07:33.615Z"
+      },
+      "review": {
+        "status": "approved",
+        "reason": "「課題中」に統一し、追加10問を除く注意書きを付けない修正を承認済み。",
+        "approvedCopySha256": "3c29d0946ebbfcb096095176496bcc63410679779d00f70d77eb00b781eec336",
+        "approvedVersion": "2026-10-12-ui14",
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "3c29d0946ebbfcb096095176496bcc63410679779d00f70d77eb00b781eec336"
+      }
+    },
+    {
+      "id": "post-main_start_basis",
+      "title": "事後アンケート：実際のスタートの目安",
+      "kind": "新設",
+      "purpose": "本番で実際に使ったスタートの目安を複数選択で尋ねます。「問題文を読み終えること」と「書かれている状況が分かったと思うこと」の両方を選べます。",
+      "before": {
+        "image": null,
+        "text": ""
+      },
+      "after": {
+        "image": "after/mini/post-main_start_basis.png",
+        "text": "実施後のアンケート\n\n10 / 19\n\n本番での進め方\n\n本番では、何を目安にスタートボタンに指を置いていましたか。\n\n当時の目安として、あてはまるものをすべて選んでください。\n\n問題文を読み終えること\n書かれている状況が分かったと思うこと\n自分ならどうするか、考えがまとまること\n特に目安はなかった\n問題によって目安が違った\n覚えていない\n戻る\n次へ",
+        "sha256": "1461e610c6e03069f28a6f1667d24610696ea07992780597e61ae4057e408c5e",
+        "capturedAt": "2026-10-15T02:07:35.984Z"
+      },
+      "review": {
+        "status": "approved",
+        "reason": "実際に使ったスタートの目安を複数選択で尋ね、「書かれている状況が分かったと思うこと」という選択肢にする案を採用済み。",
+        "approvedVersion": "2026-10-12-ui14",
+        "approvedCopySha256": "efaf548631b9282e6e9b928698d2da2a039c425bcb2f01d7e3d1d27a35eeb9ab",
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "efaf548631b9282e6e9b928698d2da2a039c425bcb2f01d7e3d1d27a35eeb9ab"
+      }
+    },
+    {
+      "id": "post-main_three_second_meaning",
+      "title": "事後アンケート：3秒の意味",
+      "kind": "新設",
+      "purpose": "本番で3秒の指示をどのように理解していたかを、複数選択で尋ねます。第一選択肢を「答えを決める前に、指を外へ動かす」に変更しています。特に意識しなかった・覚えていないは排他です。",
+      "before": {
+        "image": null,
+        "text": ""
+      },
+      "after": {
+        "image": "after/mini/post-main_three_second_meaning.png",
+        "text": "実施後のアンケート\n\n11 / 19\n\n本番での進め方\n\n本番で、3秒以内に指をスタートボタンの外へ動かす指示を、どのように理解していましたか。\n\n当時の受け止めとして、あてはまるものをすべて選んでください。\n\n答えを決める前に、指を外へ動かす\n指を外へ出す前に、答えを決める\n3秒以内に回答を終える\n出た後も、できるだけ速く動かす\n特に意識していなかった\n覚えていない\n戻る\n次へ",
+        "sha256": "0a96960b7c9cff8064a3026f75d80f7bb6da99d5019b7b1ff0a4e8eeefa86a51",
+        "capturedAt": "2026-10-15T02:07:36.349Z"
+      },
+      "review": {
+        "status": "approved",
+        "reason": "第一選択肢を「答えを決める前に、指を外へ動かす」にする案を採用済み。",
+        "approvedVersion": "2026-10-12-ui14",
+        "approvedCopySha256": "e84c37945491fc6465fb12b0630fe1154f4fb22000cf6c54f4bf0333181b1d28",
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "e84c37945491fc6465fb12b0630fe1154f4fb22000cf6c54f4bf0333181b1d28"
+      }
+    },
+    {
+      "id": "legacy-blockintro",
+      "title": "補足：旧経路用の道徳課題の導入文",
+      "kind": "変更・通常経路外",
+      "purpose": "ソースに残る説明も同じ開始基準へ変更しています。現行のmoral本実験の通常経路では出ないため、既存の表示容器に当該本文だけを入れた単独描画です。",
+      "before": {
+        "image": "before/mini/legacy-blockintro.png",
+        "text": "パート 2 / 2\n\n道徳的な判断の2択課題 (パイロット)\n\n問題文を読んでからスタートボタンに指を置くと、2つの選択肢が出ます。指を離さずに、あなたが選ぶ方のボックスへドラッグして、そこで指を離してください。\n\n正解・不正解はありません。あなたの素直な判断で構いません。\n気持ちが揺れる場面が含まれます。答えたくないと感じたら、いつでも中断してかまいません。\n選んだあとに、「自信」と「迷い」の2つを5段階でふりかえります。答え方は練習で説明します。\n急ぐ必要はありません。自分のペースで進められます。\n操作のやり方は、最初の練習で画面の案内にそって覚えられます。"
+      },
+      "after": {
+        "image": "after/mini/legacy-blockintro.png",
+        "text": "パート 2 / 2\n\n道徳的な判断の2択課題 (パイロット)\n\n問題文を最後まで読み、書かれている状況が分かったらスタートボタンに指を置いてください。答えを決め終えている必要はありません。指を置くと2つの選択肢が出ます。指を離さずに、あなたが選ぶ方の選択肢のボックスへドラッグして、そこで指を離してください。\n\n正解・不正解はありません。あなたの素直な判断で構いません。\n気持ちが揺れる場面が含まれます。答えたくないと感じたら、いつでも中断してかまいません。\n選んだあとに、「自信」と「迷い」の2つを5段階でふりかえります。答え方は練習で説明します。\n急ぐ必要はありません。自分のペースで進められます。\n操作のやり方は、最初の練習で画面の案内にそって覚えられます。",
+        "sha256": "1ee14b328801a51457955cad404f2cdf106c4c80e35bc02c72130780e226a630",
+        "capturedAt": "2026-10-15T02:08:14.495Z"
+      },
+      "review": {
+        "status": "approved",
+        "reason": "通常の本番では出ない旧経路の現行文案を承認済み。",
+        "approvedCopySha256": "adfeeff47b3ebd2b266d0d7e1a9f670fa0f502d5869551abfec7d5c7c228b2d4",
+        "approvedVersion": "2026-10-12-ui14",
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "adfeeff47b3ebd2b266d0d7e1a9f670fa0f502d5869551abfec7d5c7c228b2d4"
+      }
+    },
+    {
+      "id": "post-moral_familiar",
+      "title": "事後アンケート：真剣さ・注意がそれた時間",
+      "kind": "変更",
+      "purpose": "追加10問を除く注記を削除し、調査全体について尋ねます。",
+      "before": {
+        "image": "before/mini/post-moral_familiar.png",
+        "text": "実施後のアンケート\n\n8 / 14\n\nあなたについて\n\n「トロッコ問題」のような、どちらを選ぶか迷う道徳的な問題を、以前に見たり考えたりしたことがありますか\nよくある\n少しある\nない\n\n回答のふりかえり\n\nこの調査に、どれくらい真剣に取り組みましたか\n\n最後の追加10問は除きます\n\n1\n2\n3\n4\n5\n1 = 真剣でなかった\n5 = とても真剣に\n回答中に、注意がそれたり他のことをしていた時間はありましたか\n\n最後の追加10問は除きます\n\nなかった\n少しあった\nかなりあった\n戻る\n次へ"
+      },
+      "after": {
+        "image": "after/mini/post-moral_familiar.png",
+        "text": "実施後のアンケート\n\n8 / 19\n\nあなたについて\n\n「トロッコ問題」のような、どちらを選ぶか迷う道徳的な問題を、以前に見たり考えたりしたことがありますか\nよくある\n少しある\nない\n\n回答のふりかえり\n\nこの調査に、どれくらい真剣に取り組みましたか\n1\n2\n3\n4\n5\n1 = 真剣でなかった\n5 = とても真剣に\n回答中に、注意がそれたり他のことをしていた時間はありましたか\nなかった\n少しあった\nかなりあった\n戻る\n次へ",
+        "sha256": "678e6548880df330a13153c6da97cd374b36a16b19fad6dd6ee6fa9a6ffa8a1e",
+        "capturedAt": "2026-10-15T02:07:35.183Z"
+      },
+      "review": {
+        "status": "approved",
+        "reason": "現行の質問を承認済み。",
+        "approvedCopySha256": "10bb80b8987ba87fe007cad3fb94076ce5623c67a4c9201280851ada65a63cf9",
+        "approvedVersion": "2026-10-12-ui14",
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "10bb80b8987ba87fe007cad3fb94076ce5623c67a4c9201280851ada65a63cf9"
+      }
+    },
+    {
+      "id": "post-rating_meaning",
+      "title": "事後アンケート：回答のふりかえり・データ利用",
+      "kind": "変更",
+      "purpose": "データ利用の範囲の注記を削除し、謝礼についての説明は保持します。",
+      "before": {
+        "image": "before/mini/post-rating_meaning.png",
+        "text": "実施後のアンケート\n\n9 / 14\n\n回答のふりかえり\n\n「自信」と「迷い」の違いは分かりやすかったですか\n1\n2\n3\n4\n5\n1 = 分かりにくかった\n5 = 分かりやすかった\n不快に感じた場面はありましたか\nなかった\n少しあった\nかなりあった\n正直なところ、今回のあなたの回答は「集中して取り組んだ回答」として研究のデータに含めてよいと思いますか\n\n最後の追加10問は除きます。この質問への回答だけを理由に、謝礼の有無が変わることはありません。\n\nはい、含めてよい\nいいえ、集中できていなかった\n戻る\n次へ"
+      },
+      "after": {
+        "image": "after/mini/post-rating_meaning.png",
+        "text": "実施後のアンケート\n\n9 / 19\n\n回答のふりかえり\n\n「自信」と「迷い」の違いは分かりやすかったですか\n1\n2\n3\n4\n5\n1 = 分かりにくかった\n5 = 分かりやすかった\n不快に感じた場面はありましたか\nなかった\n少しあった\nかなりあった\n正直なところ、今回のあなたの回答は「集中して取り組んだ回答」として研究のデータに含めてよいと思いますか\n\nこの質問への回答だけを理由に、謝礼の有無が変わることはありません。\n\nはい、含めてよい\nいいえ、集中できていなかった\n戻る\n次へ",
+        "sha256": "30b1018d01cdb26d10431b00a2f0814b2f5434541926dc5c420b08072f571975",
+        "capturedAt": "2026-10-15T02:07:35.582Z"
+      },
+      "review": {
+        "status": "approved",
+        "reason": "現行の質問を承認済み。",
+        "approvedCopySha256": "050fa75553014bddddcdd821e0f5ab1e8a989ed168d223f55cfbacf605ce9839",
+        "approvedVersion": "2026-10-12-ui14",
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "050fa75553014bddddcdd821e0f5ab1e8a989ed168d223f55cfbacf605ce9839"
+      }
+    },
+    {
+      "id": "post-main_release_area",
+      "title": "事後アンケート：指を離す場所の認識",
+      "kind": "新設",
+      "purpose": "必要だと思っていた位置を尋ね、文字や中央を狙った理由を確認します。",
+      "before": {
+        "image": null,
+        "text": ""
+      },
+      "after": {
+        "image": "after/mini/post-main_release_area.png",
+        "text": "実施後のアンケート\n\n12 / 19\n\n本番での進め方\n\n本番では、答えを選ぶとき、選択肢のボックスのどこで指を離す必要があると思っていましたか。\nボックスの内側なら、どこでもよい\n選択肢の文字の上\n文字の位置に関係なく、ボックスの中央付近\n離す場所は特に意識していなかった\n問題によって違った\n覚えていない\n戻る\n次へ",
+        "sha256": "d3952b25c3c8e6a767d8f8486609ae12ac59607677422487b1930d674525455c",
+        "capturedAt": "2026-10-15T02:07:36.716Z"
+      },
+      "review": {
+        "status": "approved",
+        "reason": "現行の質問を承認済み。",
+        "approvedCopySha256": "16e089d2f52cc3a160911259623c40b35a9c68154a81937cc936667d720d3475",
+        "approvedVersion": "2026-10-12-ui14",
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "16e089d2f52cc3a160911259623c40b35a9c68154a81937cc936667d720d3475"
+      }
+    },
+    {
+      "id": "post-main_decision_at_move",
+      "title": "事後アンケート：動き始める時点の決定状況",
+      "kind": "新設",
+      "purpose": "選択肢が出てから動き始める時点で、答えがどの程度決まっていたかを尋ねます。",
+      "before": {
+        "image": null,
+        "text": ""
+      },
+      "after": {
+        "image": "after/mini/post-main_decision_at_move.png",
+        "text": "実施後のアンケート\n\n13 / 19\n\n本番での進め方\n\n本番で、選択肢が出てから指を動かし始めるとき、答えはどのくらい決まっていることが多かったですか。\nどちらを選ぶか決まっていた\n一方に傾いていたが、決めてはいなかった\nどちらを選ぶか、まだ決まっていなかった\n問題によって違い、一つに決められない\n覚えていない\n戻る\n次へ",
+        "sha256": "37751f7a4f95466caf0758a63a9af7e659f8d1dbad1853ae221470b377a7e655",
+        "capturedAt": "2026-10-15T02:07:37.032Z"
+      },
+      "review": {
+        "status": "approved",
+        "reason": "現行の質問を承認済み。",
+        "approvedCopySha256": "ee387f9ce8135d6634bb7374ef177891c1e66ad51b563a9c81eac221b3eaf099",
+        "approvedVersion": "2026-10-12-ui14",
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "ee387f9ce8135d6634bb7374ef177891c1e66ad51b563a9c81eac221b3eaf099"
+      }
+    },
+    {
+      "id": "post-additional_reading",
+      "title": "事後アンケート：追加10問で実際に読んだか",
+      "kind": "新設",
+      "purpose": "最後の追加10問での実際の進め方を尋ねます。",
+      "before": {
+        "image": null,
+        "text": ""
+      },
+      "after": {
+        "image": "after/mini/post-additional_reading.png",
+        "text": "実施後のアンケート\n\n14 / 19\n\n最後の追加10問について\n\n最後の追加10問では、問題文や選択肢の内容を読んでから答えを選んでいましたか。\nほとんど読まずに、指を運んでいた\nときどき読んで、答えを選んでいた\n多くの問題で読んで、答えを選んでいた\n覚えていない\n戻る\n次へ",
+        "sha256": "0b8fa8a6e673a11a7584427925687eb09241f9216fc52fff9fee7244011ca84e",
+        "capturedAt": "2026-10-15T02:07:37.348Z"
+      },
+      "review": {
+        "status": "approved",
+        "reason": "現行の質問を承認済み。",
+        "approvedCopySha256": "abd0bddca3ee287ffa8dabc923e72146ce6ef0cb8050a563fbbd502f2214b647",
+        "approvedVersion": "2026-10-12-ui14",
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "abd0bddca3ee287ffa8dabc923e72146ce6ef0cb8050a563fbbd502f2214b647"
+      }
+    },
+    {
+      "id": "post-problems-1",
+      "title": "事後アンケート：使いにくかった点（1/3）",
+      "kind": "追加の変更",
+      "purpose": "今回の改訂前のUI14を追加比較の基準として保存しています。見出しと負担の表現を整理し、「その他」を最後のページへ移します。",
+      "baselineVersion": "2026-10-12-ui14",
+      "before": {
+        "image": "before-ui14/mini/post-problems-1.png",
+        "text": "実施後のアンケート\n\n15 / 19\n\n使いにくかった点・改善してほしい点\n\n当てはまるものをすべてお選びください（複数選択可）。次の画面にも続きがあります。\n\n振り返りの回答が多くて負担だった\n試行数が多くて疲れた・長く感じた\nドラッグして選ぶ操作がやりにくかった\n文字・ボタン・画面が見づらい／押しにくかった\nチュートリアル・練習の説明がわかりにくかった\nこのページでは該当なし\n戻る\n次へ",
+        "sha256": "68cde48b2ecea54cc6c8be70619ab19c213867ae08771df00e38aeb22c80734a",
+        "capturedAt": "2026-10-12T08:13:49.972Z"
+      },
+      "after": {
+        "image": "after/mini/post-problems-1.png",
+        "text": "実施後のアンケート\n\n15 / 19\n\n使いにくかった点・改善した方がいい点\n\n当てはまるものをすべてお選びください（複数選択可）。次の画面にも続きがあります。\n\n1問ごとの回答の振り返りが負担だった\n問題数が多くて疲れた・長く感じた\n指を離さずに運んで選ぶ操作がやりにくかった\n文字・ボタン・画面が見づらい／押しにくかった\nチュートリアル・練習の説明がわかりにくかった\nこのページでは該当なし\n戻る\n次へ",
+        "sha256": "b08f5c356976afa6b0a5a7a6918f7a9280085ce4f884aa8e87c801d250bdafec",
+        "capturedAt": "2026-10-15T02:07:37.649Z"
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-12-ui15",
+        "reason": "ユーザー指定の見出しと負担の2文言、「その他」を3ページ目へ移す修正。旧アンケートの途中回答は元の定義を保持。 ui17では「ドラッグ」の平易化を指定。",
+        "approvedCopySha256": "891e4cd349acb3e8eed6c525cce51493605a5857290a6319a171c5aa37918d87",
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "891e4cd349acb3e8eed6c525cce51493605a5857290a6319a171c5aa37918d87"
+      }
+    },
+    {
+      "id": "post-problems-2",
+      "title": "事後アンケート：使いにくかった点（2/3）",
+      "kind": "追加の変更",
+      "purpose": "今回の改訂前のUI14を追加比較の基準として保存しています。見出しと負担の表現を整理し、「その他」を最後のページへ移します。",
+      "baselineVersion": "2026-10-12-ui14",
+      "before": {
+        "image": "before-ui14/mini/post-problems-2.png",
+        "text": "実施後のアンケート\n\n16 / 19\n\n使いにくかった点・改善してほしい点\n\n続きです。当てはまるものをすべてお選びください（複数選択可）。\n\n問題文がわかりにくかった\n選択肢がわかりにくかった\n2択のどちらも選びにくいことがあった\nスマホの動作が重い・反応しなかった\nその他\nこのページでは該当なし\n戻る\n次へ",
+        "sha256": "2acc512d4c6a64d96fe7ab6befab0d87a02fdfbed4b6938447cc4ab08b77c016",
+        "capturedAt": "2026-10-12T08:13:50.238Z"
+      },
+      "after": {
+        "image": "after/mini/post-problems-2.png",
+        "text": "実施後のアンケート\n\n16 / 19\n\n使いにくかった点・改善した方がいい点\n\n続きです。当てはまるものをすべてお選びください（複数選択可）。\n\n問題文がわかりにくかった\n選択肢がわかりにくかった\n2択のどちらも選びにくいことがあった\nスマホの動作が重い・反応しなかった\nこのページでは該当なし\n戻る\n次へ",
+        "sha256": "939433b743fe135514492238d9382563b9236a8e281a2d01c8a603b69703bc48",
+        "capturedAt": "2026-10-15T02:07:37.965Z"
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-12-ui15",
+        "reason": "ユーザー指定の見出しと負担の2文言、「その他」を3ページ目へ移す修正。旧アンケートの途中回答は元の定義を保持。",
+        "approvedCopySha256": "3c99019b693ec890312056b249eb22b55793fb1eb3ae16d975e246391022efed",
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "3c99019b693ec890312056b249eb22b55793fb1eb3ae16d975e246391022efed"
+      }
+    },
+    {
+      "id": "post-problems-3",
+      "title": "事後アンケート：使いにくかった点（3/3）",
+      "kind": "追加の変更",
+      "purpose": "今回の改訂前のUI14を追加比較の基準として保存しています。見出しと負担の表現を整理し、「その他」を最後のページへ移します。",
+      "baselineVersion": "2026-10-12-ui14",
+      "before": {
+        "image": "before-ui14/mini/post-problems-3.png",
+        "text": "実施後のアンケート\n\n17 / 19\n\n使いにくかった点・改善してほしい点\n\n続きです。当てはまるものをすべてお選びください（複数選択可）。\n\n問題文を読み終えていたのに、「読んでから」という案内が出た\n説明を読み終えていたのに、「次へ」を押しても進めなかった\nこのページでは該当なし\n戻る\n次へ",
+        "sha256": "dff42946f49f6428b6d198f370207a4fba40d4f9c84d88c5fcd3bd21158f5ad4",
+        "capturedAt": "2026-10-12T08:13:50.506Z"
+      },
+      "after": {
+        "image": "after/mini/post-problems-3.png",
+        "text": "実施後のアンケート\n\n17 / 19\n\n使いにくかった点・改善した方がいい点\n\n続きです。当てはまるものをすべてお選びください（複数選択可）。\n\n問題文を読み終えていたのに、「読んでから」という案内が出た\n説明を読み終えていたのに、「次へ」を押しても進めなかった\nその他\nこのページでは該当なし\n戻る\n次へ",
+        "sha256": "ed6dfe8ae5f17a891279072538523b1a8a035cf5b04b373b7d50043675443508",
+        "capturedAt": "2026-10-15T02:07:38.282Z"
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-12-ui15",
+        "reason": "ユーザー指定の見出しと負担の2文言、「その他」を3ページ目へ移す修正。旧アンケートの途中回答は元の定義を保持。",
+        "approvedCopySha256": "f8e6266b960c458528680b2e11181e49adea4dc46514a529cd7d42ac086c1167",
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "f8e6266b960c458528680b2e11181e49adea4dc46514a529cd7d42ac086c1167"
+      }
+    },
+    {
+      "id": "consent-top",
+      "title": "同意説明：研究の目的と記録内容",
+      "kind": "変更",
+      "purpose": "記録の説明を日常的な表現に変更。正式な研究名は維持。",
+      "before": {
+        "image": "before-ui16/mini/consent-top.png",
+        "text": "研究課題\n\nスマートフォンのドラッグ軌道を用いたアンケート回答時の迷いの推定と不注意回答の検出\n\n研究の目的\n\nスマートフォンで2つの選択肢から1つをドラッグして回答するときの指の軌跡や回答にかかった時間を用いて、回答時の迷いを推定できるか、また、十分に注意を払わずに行われた回答を検出できるかを調べます。各回答の後にご自身で振り返って答えていただく迷いと自信の程度は、推定結果を比較・検証するために用います。\n\n実施することと所要時間\n\n事前の質問、短い文章を読む時間の計測、画面と操作の説明、練習の後に、道徳的な判断を含む仮想的な場面について2つの選択肢から回答していただきます。場面への回答の後には、迷いと自信を5段階で振り返ります。問題文や指示を確認しているかを確かめる項目もあります。その後、画面の指示に従って操作する追加の課題を行い、最後に事後アンケートと研究の説明を行います。全体で40分ほど（35〜50分）を見込んでいます。途中に休憩もあります。\n\n記録する情報\n\n入力した氏名・年齢・性別・利き手・機種名、画面に触れた指の位置と時刻、その軌跡、選択結果、迷いと自信の評定、回答をやり直したときの操作、画面の切り替えと中断・再開、文章を読む時間、説明・課題・振り返り・休憩等にかかった時間、端末・ブラウザと画面表示に関する情報、参加や実施を区別する識別番号、事後アンケートの回答を記録します。性別は「回答しない」を選べます。\n\n氏名とプライバシー\n\n氏名は、参加確認と謝礼のお支払いに関する照合に使用します。研究の分析には、氏名を研究用IDに置き換えたデータを使用します。研究成果に氏名を掲載することはありません。情報は本研究とその連絡に使用し、研究責任者と研究補助者が管理します。\n\n保存と送信\n\n「同意して実験に進む」を押すと、氏名・実施日・同意日時・同意した内容をサーバへ保存し、保存を確認してから実験を始めます。課題の回答データは追加の課題が終わった後に送信を始め、最後のアンケートの回答はその回答を終えた後に送信します。途中でやめた場合も、それまでに届いた同意や回答の記録は残ります。中断からの再開や通信失敗時の再送のため、入力情報と回答の途中経過をこの端末にも一時保存します。通信状況によっては、終了後の送信に時間がかかることがあります。\n\n負担と参加・辞退の自由\n\n生死や家族・人間関係などに関わる仮想的な場面があり、人によっては不快に感じる可能性があります。参加は任意です。いつでも回答を中止でき、同意後も撤回を申し出ることができます。参加しないことや撤回自体によって不利益を受けることはありません。謝礼の支払条件は募集時の案内をご確認ください。気分がすぐれないときは中止し、必要に応じて下記へご相談ください。ご希望に応じて学生相談室等の窓口をご案内します。\n\n質問・同意撤回の連絡先\n\n名古屋市立大学大学院理学研究科 教授 渡邊裕司（研究実施責任者）／ 電話：052-872-5037 ／ メール：yuji@nsc.nagoya-cu.ac.jp。研究補助者：同研究科 修士2年 安藤大翔。質問や同意撤回は、氏名と実施日を添えてご連絡ください。\n\n研究協力承諾書\n\n私は、上記の研究の意義、目的、方法、危険性などを理解し、この研究への協力承諾が私自身の自由意思であること、同意後も随時その同意を撤回できることを理解した上で、被験者として参加・協力することを承諾します。\n\n説明文の版：2026-10-12-v3",
+        "sourceNote": "今回の改訂前のUI16。元の28画面の比較基準は維持。"
+      },
+      "after": {
+        "image": "after/mini/consent-top.png",
+        "text": "研究課題\n\nスマートフォンのドラッグ軌道を用いたアンケート回答時の迷いの推定と不注意回答の検出\n\n研究の目的\n\nスマートフォンで2つの選択肢から1つをドラッグして回答するときに指を動かした道すじや回答にかかった時間を用いて、回答時の迷いを推定できるか、また、十分に注意を払わずに行われた回答を検出できるかを調べます。各回答の後にご自身で振り返って答えていただく迷いと自信の程度は、推定結果を比較・検証するために用います。\n\n実施することと所要時間\n\n事前の質問、短い文章を読む時間の計測、画面と操作の説明、練習の後に、道徳的な判断を含む仮想的な場面について2つの選択肢から回答していただきます。場面への回答の後には、迷いと自信を5段階で振り返ります。問題文や指示を確認しているかを確かめる項目もあります。その後、画面の指示に従って操作する追加の課題を行い、最後に事後アンケートと研究の説明を行います。全体で40分ほど（35〜50分）を見込んでいます。途中に休憩もあります。\n\n記録する情報\n\n入力した氏名・年齢・性別・利き手・機種名、画面に触れた指の位置と時刻、その道すじ、選択結果、迷いと自信への回答、回答をやり直したときの操作、画面の切り替えと中断・再開、文章を読む時間、説明・課題・振り返り・休憩等にかかった時間、端末・ブラウザと画面表示に関する情報、参加や実施を区別する識別番号、事後アンケートの回答を記録します。性別は「回答しない」を選べます。\n\n氏名とプライバシー\n\n氏名は、参加確認と謝礼のお支払いに関する照合に使用します。研究の分析には、氏名を研究用IDに置き換えたデータを使用します。研究成果に氏名を掲載することはありません。情報は本研究とその連絡に使用し、研究責任者と研究補助者が管理します。\n\n保存と送信\n\n「同意して実験に進む」を押すと、氏名・実施日・同意日時・同意した内容をサーバへ保存し、保存を確認してから実験を始めます。課題の回答データは追加の課題が終わった後に送信を始め、最後のアンケートの回答はその回答を終えた後に送信します。途中でやめた場合も、それまでに届いた同意や回答の記録は残ります。中断からの再開や通信失敗時の再送のため、入力情報と回答の途中経過をこの端末にも一時保存します。通信状況によっては、終了後の送信に時間がかかることがあります。\n\n負担と参加・辞退の自由\n\n生死や家族・人間関係などに関わる仮想的な場面があり、人によっては不快に感じる可能性があります。参加は任意です。いつでも回答を中止でき、同意後も撤回を申し出ることができます。参加しないことや撤回自体によって不利益を受けることはありません。謝礼の支払条件は募集時の案内をご確認ください。気分がすぐれないときは中止し、必要に応じて下記へご相談ください。ご希望に応じて学生相談室等の窓口をご案内します。\n\n質問・同意撤回の連絡先\n\n名古屋市立大学大学院理学研究科 教授 渡邊裕司（研究実施責任者）／ 電話：052-872-5037 ／ メール：yuji@nsc.nagoya-cu.ac.jp。研究補助者：同研究科 修士2年 安藤大翔。質問や同意撤回は、氏名と実施日を添えてご連絡ください。\n\n研究協力承諾書\n\n私は、上記の研究の意義、目的、方法、危険性などを理解し、この研究への協力承諾が私自身の自由意思であること、同意後も随時その同意を撤回できることを理解した上で、被験者として参加・協力することを承諾します。\n\n説明文の版：2026-10-12-v4",
+        "sha256": "72d98d913556e42bf21e487dda77106cfc15effd9f8fe94daa7d2888a2cebf21",
+        "capturedAt": "2026-10-15T02:06:58.936Z"
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-12-ui17",
+        "reason": "ユーザーが今回の文言変更を指定。記録の説明を日常的な表現に変更。正式な研究名は維持。",
+        "approvedCopySha256": "fb53862fbe0577f6ff0246d24fbbd8b2750f06119f007ae4b8d1bf058a6767b3",
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "fb53862fbe0577f6ff0246d24fbbd8b2750f06119f007ae4b8d1bf058a6767b3"
+      }
+    },
+    {
+      "id": "consent-end",
+      "title": "同意説明：末尾と版表示",
+      "kind": "変更",
+      "purpose": "同意本文の平易化を新しい本文版に記録。保存済み旧同意は保持。",
+      "before": {
+        "image": "before-ui16/mini/consent-end.png",
+        "text": "研究課題\n\nスマートフォンのドラッグ軌道を用いたアンケート回答時の迷いの推定と不注意回答の検出\n\n研究の目的\n\nスマートフォンで2つの選択肢から1つをドラッグして回答するときの指の軌跡や回答にかかった時間を用いて、回答時の迷いを推定できるか、また、十分に注意を払わずに行われた回答を検出できるかを調べます。各回答の後にご自身で振り返って答えていただく迷いと自信の程度は、推定結果を比較・検証するために用います。\n\n実施することと所要時間\n\n事前の質問、短い文章を読む時間の計測、画面と操作の説明、練習の後に、道徳的な判断を含む仮想的な場面について2つの選択肢から回答していただきます。場面への回答の後には、迷いと自信を5段階で振り返ります。問題文や指示を確認しているかを確かめる項目もあります。その後、画面の指示に従って操作する追加の課題を行い、最後に事後アンケートと研究の説明を行います。全体で40分ほど（35〜50分）を見込んでいます。途中に休憩もあります。\n\n記録する情報\n\n入力した氏名・年齢・性別・利き手・機種名、画面に触れた指の位置と時刻、その軌跡、選択結果、迷いと自信の評定、回答をやり直したときの操作、画面の切り替えと中断・再開、文章を読む時間、説明・課題・振り返り・休憩等にかかった時間、端末・ブラウザと画面表示に関する情報、参加や実施を区別する識別番号、事後アンケートの回答を記録します。性別は「回答しない」を選べます。\n\n氏名とプライバシー\n\n氏名は、参加確認と謝礼のお支払いに関する照合に使用します。研究の分析には、氏名を研究用IDに置き換えたデータを使用します。研究成果に氏名を掲載することはありません。情報は本研究とその連絡に使用し、研究責任者と研究補助者が管理します。\n\n保存と送信\n\n「同意して実験に進む」を押すと、氏名・実施日・同意日時・同意した内容をサーバへ保存し、保存を確認してから実験を始めます。課題の回答データは追加の課題が終わった後に送信を始め、最後のアンケートの回答はその回答を終えた後に送信します。途中でやめた場合も、それまでに届いた同意や回答の記録は残ります。中断からの再開や通信失敗時の再送のため、入力情報と回答の途中経過をこの端末にも一時保存します。通信状況によっては、終了後の送信に時間がかかることがあります。\n\n負担と参加・辞退の自由\n\n生死や家族・人間関係などに関わる仮想的な場面があり、人によっては不快に感じる可能性があります。参加は任意です。いつでも回答を中止でき、同意後も撤回を申し出ることができます。参加しないことや撤回自体によって不利益を受けることはありません。謝礼の支払条件は募集時の案内をご確認ください。気分がすぐれないときは中止し、必要に応じて下記へご相談ください。ご希望に応じて学生相談室等の窓口をご案内します。\n\n質問・同意撤回の連絡先\n\n名古屋市立大学大学院理学研究科 教授 渡邊裕司（研究実施責任者）／ 電話：052-872-5037 ／ メール：yuji@nsc.nagoya-cu.ac.jp。研究補助者：同研究科 修士2年 安藤大翔。質問や同意撤回は、氏名と実施日を添えてご連絡ください。\n\n研究協力承諾書\n\n私は、上記の研究の意義、目的、方法、危険性などを理解し、この研究への協力承諾が私自身の自由意思であること、同意後も随時その同意を撤回できることを理解した上で、被験者として参加・協力することを承諾します。\n\n説明文の版：2026-10-12-v3",
+        "sourceNote": "今回の改訂前のUI16。元の28画面の比較基準は維持。"
+      },
+      "after": {
+        "image": "after/mini/consent-end.png",
+        "text": "研究課題\n\nスマートフォンのドラッグ軌道を用いたアンケート回答時の迷いの推定と不注意回答の検出\n\n研究の目的\n\nスマートフォンで2つの選択肢から1つをドラッグして回答するときに指を動かした道すじや回答にかかった時間を用いて、回答時の迷いを推定できるか、また、十分に注意を払わずに行われた回答を検出できるかを調べます。各回答の後にご自身で振り返って答えていただく迷いと自信の程度は、推定結果を比較・検証するために用います。\n\n実施することと所要時間\n\n事前の質問、短い文章を読む時間の計測、画面と操作の説明、練習の後に、道徳的な判断を含む仮想的な場面について2つの選択肢から回答していただきます。場面への回答の後には、迷いと自信を5段階で振り返ります。問題文や指示を確認しているかを確かめる項目もあります。その後、画面の指示に従って操作する追加の課題を行い、最後に事後アンケートと研究の説明を行います。全体で40分ほど（35〜50分）を見込んでいます。途中に休憩もあります。\n\n記録する情報\n\n入力した氏名・年齢・性別・利き手・機種名、画面に触れた指の位置と時刻、その道すじ、選択結果、迷いと自信への回答、回答をやり直したときの操作、画面の切り替えと中断・再開、文章を読む時間、説明・課題・振り返り・休憩等にかかった時間、端末・ブラウザと画面表示に関する情報、参加や実施を区別する識別番号、事後アンケートの回答を記録します。性別は「回答しない」を選べます。\n\n氏名とプライバシー\n\n氏名は、参加確認と謝礼のお支払いに関する照合に使用します。研究の分析には、氏名を研究用IDに置き換えたデータを使用します。研究成果に氏名を掲載することはありません。情報は本研究とその連絡に使用し、研究責任者と研究補助者が管理します。\n\n保存と送信\n\n「同意して実験に進む」を押すと、氏名・実施日・同意日時・同意した内容をサーバへ保存し、保存を確認してから実験を始めます。課題の回答データは追加の課題が終わった後に送信を始め、最後のアンケートの回答はその回答を終えた後に送信します。途中でやめた場合も、それまでに届いた同意や回答の記録は残ります。中断からの再開や通信失敗時の再送のため、入力情報と回答の途中経過をこの端末にも一時保存します。通信状況によっては、終了後の送信に時間がかかることがあります。\n\n負担と参加・辞退の自由\n\n生死や家族・人間関係などに関わる仮想的な場面があり、人によっては不快に感じる可能性があります。参加は任意です。いつでも回答を中止でき、同意後も撤回を申し出ることができます。参加しないことや撤回自体によって不利益を受けることはありません。謝礼の支払条件は募集時の案内をご確認ください。気分がすぐれないときは中止し、必要に応じて下記へご相談ください。ご希望に応じて学生相談室等の窓口をご案内します。\n\n質問・同意撤回の連絡先\n\n名古屋市立大学大学院理学研究科 教授 渡邊裕司（研究実施責任者）／ 電話：052-872-5037 ／ メール：yuji@nsc.nagoya-cu.ac.jp。研究補助者：同研究科 修士2年 安藤大翔。質問や同意撤回は、氏名と実施日を添えてご連絡ください。\n\n研究協力承諾書\n\n私は、上記の研究の意義、目的、方法、危険性などを理解し、この研究への協力承諾が私自身の自由意思であること、同意後も随時その同意を撤回できることを理解した上で、被験者として参加・協力することを承諾します。\n\n説明文の版：2026-10-12-v4",
+        "sha256": "c41bec19d894c7ea4c305bc2e3546680f0696ca68cbda336666aaa44b2c04485",
+        "capturedAt": "2026-10-15T02:06:59.001Z"
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-12-ui17",
+        "reason": "ユーザーが今回の文言変更を指定。同意本文の平易化を新しい本文版に記録。保存済み旧同意は保持。",
+        "approvedCopySha256": "fb53862fbe0577f6ff0246d24fbbd8b2750f06119f007ae4b8d1bf058a6767b3",
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "fb53862fbe0577f6ff0246d24fbbd8b2750f06119f007ae4b8d1bf058a6767b3"
+      }
+    },
+    {
+      "id": "post-usage_years",
+      "title": "事後アンケート：母国語",
+      "kind": "変更",
+      "purpose": "ユーザー指定で母語から母国語へ変更。旧新版の質問の意味を区別。",
+      "before": {
+        "image": "before-ui16/mini/post-usage_years.png",
+        "text": "実施後のアンケート\n\n7 / 19\n\nあなたについて\n\nスマートフォンを使い始めて何年くらいですか\n1年未満\n1年以上3年未満\n3年以上5年未満\n5年以上10年未満\n10年以上\n1日にスマートフォンを使う時間はどれくらいですか\n1時間未満\n1時間以上3時間未満\n3時間以上5時間未満\n5時間以上\n日本語は母語ですか\nはい\nいいえ\n戻る\n次へ",
+        "sourceNote": "今回の改訂前のUI16。元の28画面の比較基準は維持。"
+      },
+      "after": {
+        "image": "after/mini/post-usage_years.png",
+        "text": "実施後のアンケート\n\n7 / 19\n\nあなたについて\n\nスマートフォンを使い始めて何年くらいですか\n1年未満\n1年以上3年未満\n3年以上5年未満\n5年以上10年未満\n10年以上\n1日にスマートフォンを使う時間はどれくらいですか\n1時間未満\n1時間以上3時間未満\n3時間以上5時間未満\n5時間以上\n日本語は母国語ですか\nはい\nいいえ\n戻る\n次へ",
+        "sha256": "bfbcff9bde244cafc447ff2baacccc6e100821f566668f809187b3d6035cefa9",
+        "capturedAt": "2026-10-15T02:07:34.766Z"
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-12-ui17",
+        "reason": "ユーザーが今回の文言変更を指定。ユーザー指定で母語から母国語へ変更。旧新版の質問の意味を区別。",
+        "approvedCopySha256": "5962cf59c3f81d6ed4eaec13683684266e69677b6365ea5bf0d786ed1acb8dd6",
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "5962cf59c3f81d6ed4eaec13683684266e69677b6365ea5bf0d786ed1acb8dd6"
+      }
+    },
+    {
+      "id": "post-ease",
+      "title": "事後アンケート：操作のしやすさ",
+      "kind": "変更",
+      "purpose": "ドラッグを指を離さずに運んで選ぶ操作と表現。",
+      "before": {
+        "image": "before-ui16/mini/post-ease.png",
+        "text": "実施後のアンケート\n\n18 / 19\n\nドラッグで選ぶ操作はしやすかったですか\nしやすい\n普通\nしにくい\n戻る\n次へ",
+        "sourceNote": "今回の改訂前のUI16。元の28画面の比較基準は維持。"
+      },
+      "after": {
+        "image": "after/mini/post-ease.png",
+        "text": "実施後のアンケート\n\n18 / 19\n\n指を離さずに運んで選ぶ操作はしやすかったですか\nしやすい\n普通\nしにくい\n戻る\n次へ",
+        "sha256": "ff938cf37998dd671c95adee664041215f4ad80ee7891d9c9ab90296a7d22545",
+        "capturedAt": "2026-10-15T02:07:38.597Z"
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-12-ui17",
+        "reason": "ユーザーが今回の文言変更を指定。ドラッグを指を離さずに運んで選ぶ操作と表現。",
+        "approvedCopySha256": "6a4f5bb894ce8828d80a27ef4469e139e964dfffbb79ea076a5597897c21a9fc",
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "6a4f5bb894ce8828d80a27ef4469e139e964dfffbb79ea076a5597897c21a9fc"
+      }
+    },
+    {
+      "id": "example-coach",
+      "title": "例題：スタート前の短い案内",
+      "kind": "変更",
+      "purpose": "例題も状況が分かった後にスタートする説明に統一。",
+      "before": {
+        "image": null,
+        "text": "問題文を読み終えたら\nスタートボタンに指を置いて\nそのまま離さずに運びます",
+        "sourceNote": "UI16のindex.htmlの実際の表示文。押下前の画像は以前の撮影一覧にないため未収録。"
+      },
+      "after": {
+        "image": "after/mini/example-coach.png",
+        "text": "問題文を読み、状況が分かったら\nスタートボタンに指を置いて\nそのまま離さずに運びます",
+        "sha256": "5d735e770b3f9639fab8da35e517c236a54cbd922bc5dc494016352de248f2b6",
+        "capturedAt": "2026-10-15T02:13:24.600Z"
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-12-ui17",
+        "reason": "ユーザーが今回の文言変更を指定。例題も状況が分かった後にスタートする説明に統一。",
+        "approvedCopySha256": "24438fd7df98d7064953b18402fb9213bb52a35a838ee5c9ac0f569f56981ba7",
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "24438fd7df98d7064953b18402fb9213bb52a35a838ee5c9ac0f569f56981ba7"
+      }
+    },
+    {
+      "id": "example-choice",
+      "title": "例題：禁煙中の友人",
+      "kind": "変更",
+      "purpose": "例題を明確な道徳場面へ変更。今回の例題のみ明確として扱い、原バンクの中間分類を維持。",
+      "before": {
+        "image": "before-ui17/mini/example-choice.png",
+        "text": "（例）休日は、どちらで過ごしたいですか？\n海でのんびり\n山でハイキング",
+        "sourceNote": "実装前のUI17をGitから固定して撮影。元の36画面の比較基準と承認記録は維持。"
+      },
+      "after": {
+        "image": "after/mini/example-choice.png",
+        "text": "「禁煙中だから吸おうとしたら止めて」と頼んできた友人が、飲み会の帰りに「1本だけ」とたばこを買おうとしている。\n止める\n見逃す",
+        "sha256": "3cf33cb526aff8ea874aa83e7554d3004954d5166111e97589d887a234004bab",
+        "capturedAt": "2026-10-15T02:13:24.680Z"
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-15-ui18",
+        "reason": "ユーザーが本文・選択肢・順番を確認し「この6問でお願い」と最終採用。例題を明確な道徳場面へ変更。今回の例題のみ明確として扱い、原バンクの中間分類を維持。",
+        "approvedCopySha256": "a1f2b0642f9e8d67f03c34c13f787a5934cf68df47c14d23bc79df70cbd823bd",
+        "approvalHistory": [
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "a1f2b0642f9e8d67f03c34c13f787a5934cf68df47c14d23bc79df70cbd823bd",
+            "reviewedAt": "2026-10-15",
+            "reason": "ui18で既に採用された例題・練習5問の本文と選択肢の順がui19の保存済み画像全文と同一であることを照合。採用済み本文の承認hashを補完し、採用理由とapprovedVersion ui18を保持。"
+          }
+        ],
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "a1f2b0642f9e8d67f03c34c13f787a5934cf68df47c14d23bc79df70cbd823bd"
+      }
+    },
+    {
+      "id": "practice-1-choice",
+      "title": "練習1：兄の借金",
+      "kind": "変更",
+      "purpose": "改稿した借金の場面を中間として採用。",
+      "before": {
+        "image": "before-ui17/mini/practice-1-choice.png",
+        "text": "アンケートに答えたお礼に、係の人から好きなほうを1つ選んでよいと言われた。どちらが欲しいですか？\n10円玉1枚\n1万円札1枚",
+        "sourceNote": "実装前のUI17をGitから固定して撮影。元の36画面の比較基準と承認記録は維持。"
+      },
+      "after": {
+        "image": "after/mini/practice-1-choice.png",
+        "text": "兄は競馬の借金を妻に隠し、返済に追われている。借金を打ち明けられたのはあなただけだ。兄の妻から「夫の様子が最近おかしい」と相談された。\n借金のことを話す\n黙っておく",
+        "sha256": "67038fc095ac13f7379249481fe005b77df049a52e24397e61c16cc5e2a68b45",
+        "capturedAt": "2026-10-15T02:07:44.084Z"
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-15-ui18",
+        "reason": "ユーザーが本文・選択肢・順番を確認し「この6問でお願い」と最終採用。改稿した借金の場面を中間として採用。",
+        "approvedCopySha256": "6f6523f58688a7ff636ea60a954e2d75ea879ada54178499536bf96eb2eba95a",
+        "approvalHistory": [
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "6f6523f58688a7ff636ea60a954e2d75ea879ada54178499536bf96eb2eba95a",
+            "reviewedAt": "2026-10-15",
+            "reason": "ui18で既に採用された例題・練習5問の本文と選択肢の順がui19の保存済み画像全文と同一であることを照合。採用済み本文の承認hashを補完し、採用理由とapprovedVersion ui18を保持。"
+          }
+        ],
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "6f6523f58688a7ff636ea60a954e2d75ea879ada54178499536bf96eb2eba95a"
+      }
+    },
+    {
+      "id": "practice-2-choice",
+      "title": "練習2：親友か無実の人か",
+      "kind": "変更",
+      "purpose": "新作の重い拮抗場面を採用。",
+      "before": {
+        "image": "before-ui17/mini/practice-2-choice.png",
+        "text": "週末に実家へ帰ることにした。交通費は自分で払う。着く時刻に決まりはない。どちらで帰りますか？\n高いが2時間の新幹線\n安いが6時間の夜行バス",
+        "sourceNote": "実装前のUI17をGitから固定して撮影。元の36画面の比較基準と承認記録は維持。"
+      },
+      "after": {
+        "image": "after/mini/practice-2-choice.png",
+        "text": "親友の身代わりに、無実の人が処刑されようとしている。親友の犯行を証言すればその人は助かるが、今度は親友が処刑される。\n証言する\n黙っている",
+        "sha256": "cf9e821ddf327324dee71549ef617af0d87eb06a9c1f212b5f524f74896eb86c",
+        "capturedAt": "2026-10-15T02:07:50.167Z"
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-15-ui18",
+        "reason": "ユーザーが本文・選択肢・順番を確認し「この6問でお願い」と最終採用。新作の重い拮抗場面を採用。",
+        "approvedCopySha256": "9d61d71897e5d63cc6a268d5c996297af6caf5b01ab6d71f92277a9beffb0ddd",
+        "approvalHistory": [
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "9d61d71897e5d63cc6a268d5c996297af6caf5b01ab6d71f92277a9beffb0ddd",
+            "reviewedAt": "2026-10-15",
+            "reason": "ui18で既に採用された例題・練習5問の本文と選択肢の順がui19の保存済み画像全文と同一であることを照合。採用済み本文の承認hashを補完し、採用理由とapprovedVersion ui18を保持。"
+          }
+        ],
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "9d61d71897e5d63cc6a268d5c996297af6caf5b01ab6d71f92277a9beffb0ddd"
+      }
+    },
+    {
+      "id": "practice-3-choice",
+      "title": "練習3：親友の失恋話",
+      "kind": "変更",
+      "purpose": "不採用バンクの明確な約束の場面を原文で採用。",
+      "before": {
+        "image": "before-ui17/mini/practice-3-choice.png",
+        "text": "思いがけず3万円の臨時収入があった。使い道は自由で、誰にも相談しなくてよい。どうしますか？\n来年の旅行に貯める\n今すぐ欲しい物を買う",
+        "sourceNote": "実装前のUI17をGitから固定して撮影。元の36画面の比較基準と承認記録は維持。"
+      },
+      "after": {
+        "image": "after/mini/practice-3-choice.png",
+        "text": "友人たちとの飲み会で話題が途切れた。親友から「誰にも言うな」と打ち明けられた失恋話を明かせば、場は盛り上がる。\n秘密を守る\n飲み会で話す",
+        "sha256": "90c2653da2fa769c2d18e711dc16de9dcf7a614f413b48758e82a9569d4bcd88",
+        "capturedAt": "2026-10-15T02:07:56.253Z"
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-15-ui18",
+        "reason": "ユーザーが本文・選択肢・順番を確認し「この6問でお願い」と最終採用。不採用バンクの明確な約束の場面を原文で採用。",
+        "approvedCopySha256": "e6a63b5829d78732c43e91765d9ff0616d7785580c15c1d990ae83e0ef69fc97",
+        "approvalHistory": [
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "e6a63b5829d78732c43e91765d9ff0616d7785580c15c1d990ae83e0ef69fc97",
+            "reviewedAt": "2026-10-15",
+            "reason": "ui18で既に採用された例題・練習5問の本文と選択肢の順がui19の保存済み画像全文と同一であることを照合。採用済み本文の承認hashを補完し、採用理由とapprovedVersion ui18を保持。"
+          }
+        ],
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "e6a63b5829d78732c43e91765d9ff0616d7785580c15c1d990ae83e0ef69fc97"
+      }
+    },
+    {
+      "id": "practice-4-choice",
+      "title": "練習4：父の墓",
+      "kind": "変更",
+      "purpose": "不採用バンクの中間の約束の場面を原文で採用。",
+      "before": {
+        "image": "before-ui17/mini/practice-4-choice.png",
+        "text": "喫茶店のスタンプがたまり、くじを1回引ける。くじは2種類あり、引く前に選ぶ。はずれのときは何ももらえない。どちらを選びますか？\n2回に1回ケーキセット\n必ずコーヒー1杯",
+        "sourceNote": "実装前のUI17をGitから固定して撮影。元の36画面の比較基準と承認記録は維持。"
+      },
+      "after": {
+        "image": "after/mini/practice-4-choice.png",
+        "text": "年老いた母に「父さんの墓は必ず守る」と約束した。墓は遠方で通うだけで一日がかり。家族は墓じまいを勧めてくる。\n墓を守る\n墓じまいする",
+        "sha256": "63e26b55c6d509c6c7dac007cceb111b7be00c6040591bb9361f40b4c696afb7",
+        "capturedAt": "2026-10-15T02:08:02.344Z"
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-15-ui18",
+        "reason": "ユーザーが本文・選択肢・順番を確認し「この6問でお願い」と最終採用。不採用バンクの中間の約束の場面を原文で採用。",
+        "approvedCopySha256": "c46d5677202ba646bb31b3d95be62e93031f2834e3d1c541e1a7c2ed6db43b7c",
+        "approvalHistory": [
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "c46d5677202ba646bb31b3d95be62e93031f2834e3d1c541e1a7c2ed6db43b7c",
+            "reviewedAt": "2026-10-15",
+            "reason": "ui18で既に採用された例題・練習5問の本文と選択肢の順がui19の保存済み画像全文と同一であることを照合。採用済み本文の承認hashを補完し、採用理由とapprovedVersion ui18を保持。"
+          }
+        ],
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "c46d5677202ba646bb31b3d95be62e93031f2834e3d1c541e1a7c2ed6db43b7c"
+      }
+    },
+    {
+      "id": "practice-5-choice",
+      "title": "練習5：最後の救助ヘリ",
+      "kind": "変更",
+      "purpose": "新作の重い拮抗場面を採用。",
+      "before": {
+        "image": "before-ui17/mini/practice-5-choice.png",
+        "text": "仕事帰りでとても疲れている。夕食は外で食べることにした。店は2軒あり、値段は同じ。どちらにしますか？\n体にいい野菜中心の定食\n体に悪いが大好物の定食",
+        "sourceNote": "実装前のUI17をGitから固定して撮影。元の36画面の比較基準と承認記録は維持。"
+      },
+      "after": {
+        "image": "after/mini/practice-5-choice.png",
+        "text": "洪水で屋上に高齢者と子どもがいる。最後の救助ヘリの空きは1人分。先に助けを求めたのは高齢者だ。あなたが乗せなかった人は助からない。\n子どもを乗せる\n高齢者を乗せる",
+        "sha256": "23d50d96193b3790fa83de320ebc6ff5faac7efbf9673db32e6cd9fda07f7c46",
+        "capturedAt": "2026-10-15T02:08:08.478Z"
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-15-ui18",
+        "reason": "ユーザーが本文・選択肢・順番を確認し「この6問でお願い」と最終採用。新作の重い拮抗場面を採用。",
+        "approvedCopySha256": "ed0c952ecdc13b68b7bbb461502fbf75f3c675368832e907ed5810ecafbc112b",
+        "approvalHistory": [
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "ed0c952ecdc13b68b7bbb461502fbf75f3c675368832e907ed5810ecafbc112b",
+            "reviewedAt": "2026-10-15",
+            "reason": "ui18で既に採用された例題・練習5問の本文と選択肢の順がui19の保存済み画像全文と同一であることを照合。採用済み本文の承認hashを補完し、採用理由とapprovedVersion ui18を保持。"
+          }
+        ],
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "ed0c952ecdc13b68b7bbb461502fbf75f3c675368832e907ed5810ecafbc112b"
+      }
+    },
+    {
+      "id": "tutorial-layout-intro",
+      "title": "画面の見方",
+      "kind": "新設・分割",
+      "purpose": "ui20で分割または新設した実画面です。変更前に同じ独立画面はなく、基準画像は作り直しません。",
+      "before": {
+        "image": null,
+        "text": "",
+        "sourceNote": "新設・分割した状態のため変更前画像なし。",
+        "createdInVersion": "2026-10-15-ui20"
+      },
+      "after": {
+        "image": "after/mini/tutorial-layout-intro.png",
+        "text": "はじめに\n画面の見方\nまず、画面の見方を説明します。\n読んだら「次へ」\n次へ",
+        "sha256": "c2031dfd268c3ace5a97fdc8c530fb3b3be55ed8776e1539369a201d138e9b87",
+        "capturedAt": "2026-10-15T02:13:01.776Z",
+        "sourceStepId": "layout-intro"
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-15-ui20",
+        "approvedCopySha256": "cd97e3ebea801c2533ad616d9f302b39ae2c6f472c306430b26a58c014650edb",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。",
+        "approvalHistory": [
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "cd97e3ebea801c2533ad616d9f302b39ae2c6f472c306430b26a58c014650edb",
+            "reviewedAt": "2026-10-15",
+            "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。"
+          }
+        ],
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "cd97e3ebea801c2533ad616d9f302b39ae2c6f472c306430b26a58c014650edb"
+      }
+    },
+    {
+      "id": "tutorial-layout-stem",
+      "title": "問題文",
+      "kind": "新設・分割",
+      "purpose": "ui20で分割または新設した実画面です。変更前に同じ独立画面はなく、基準画像は作り直しません。",
+      "before": {
+        "image": null,
+        "text": "",
+        "sourceNote": "新設・分割した状態のため変更前画像なし。",
+        "createdInVersion": "2026-10-15-ui20"
+      },
+      "after": {
+        "image": "after/mini/tutorial-layout-stem.png",
+        "text": "画面の見方　1 / 3\n問題文\nここに表示される問題文を読みます。\n見るだけです。読んだら「次へ」\n戻る\n次へ",
+        "sha256": "aaa3882bde30e86c4ee3ab2cdcb9972359c1a94274f9302de2f9d2177f5f8125",
+        "capturedAt": "2026-10-15T02:13:02.510Z",
+        "sourceStepId": "layout-stem"
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-15-ui20",
+        "approvedCopySha256": "24f53505928dd6bfc9caa6a966c7efae6f4f95364bec7a09db451c72aaabdcbd",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。",
+        "approvalHistory": [
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "24f53505928dd6bfc9caa6a966c7efae6f4f95364bec7a09db451c72aaabdcbd",
+            "reviewedAt": "2026-10-15",
+            "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。"
+          }
+        ],
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "24f53505928dd6bfc9caa6a966c7efae6f4f95364bec7a09db451c72aaabdcbd"
+      }
+    },
+    {
+      "id": "tutorial-layout-start",
+      "title": "スタートボタン",
+      "kind": "新設・分割",
+      "purpose": "ui20で分割または新設した実画面です。変更前に同じ独立画面はなく、基準画像は作り直しません。",
+      "before": {
+        "image": null,
+        "text": "",
+        "sourceNote": "新設・分割した状態のため変更前画像なし。",
+        "createdInVersion": "2026-10-15-ui20"
+      },
+      "after": {
+        "image": "after/mini/tutorial-layout-start.png",
+        "text": "画面の見方　2 / 3\nスタートボタン\nこのスタートボタンに指を置くと、選択肢が現れます。\n見るだけです。読んだら「次へ」\n戻る\n次へ",
+        "sha256": "c515f75c00c6ec24be428365879900c7026c2f781849e77ea80aa96785375a6b",
+        "capturedAt": "2026-10-15T02:13:03.208Z",
+        "sourceStepId": "layout-start"
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-15-ui20",
+        "approvedCopySha256": "144ecdf6f2db8522df519306b452e99ea62fa298e2d832067ab67ea9d74c8605",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。",
+        "approvalHistory": [
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "144ecdf6f2db8522df519306b452e99ea62fa298e2d832067ab67ea9d74c8605",
+            "reviewedAt": "2026-10-15",
+            "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。"
+          }
+        ],
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "144ecdf6f2db8522df519306b452e99ea62fa298e2d832067ab67ea9d74c8605"
+      }
+    },
+    {
+      "id": "tutorial-layout-choice",
+      "title": "選択肢",
+      "kind": "新設・分割",
+      "purpose": "ui20で分割または新設した実画面です。変更前に同じ独立画面はなく、基準画像は作り直しません。",
+      "before": {
+        "image": null,
+        "text": "",
+        "sourceNote": "新設・分割した状態のため変更前画像なし。",
+        "createdInVersion": "2026-10-15-ui20"
+      },
+      "after": {
+        "image": "after/mini/tutorial-layout-choice.png",
+        "text": "画面の見方　3 / 3\n選択肢\nここに2つの選択肢が出ます。選ぶほうへ指を運んで答えます。\n見るだけです。読んだら「操作の方法へ」\n戻る\n操作の方法へ",
+        "sha256": "2457134325531d52f29d870a0d1a112bfcda569f6a232742df4e0db8e7d7e175",
+        "capturedAt": "2026-10-15T02:13:03.953Z",
+        "sourceStepId": "layout-choice"
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-15-ui20",
+        "approvedCopySha256": "f48dcfd6a9c885baec1309ae0ab50d871f33a8b0080c0c21208d70634dfc212f",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。",
+        "approvalHistory": [
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "f48dcfd6a9c885baec1309ae0ab50d871f33a8b0080c0c21208d70634dfc212f",
+            "reviewedAt": "2026-10-15",
+            "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。"
+          }
+        ],
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "f48dcfd6a9c885baec1309ae0ab50d871f33a8b0080c0c21208d70634dfc212f"
+      }
+    },
+    {
+      "id": "tutorial-motor-route",
+      "title": "指を離さずに運ぶ",
+      "kind": "新設・分割",
+      "purpose": "ui20で分割または新設した実画面です。変更前に同じ独立画面はなく、基準画像は作り直しません。",
+      "before": {
+        "image": null,
+        "text": "",
+        "sourceNote": "新設・分割した状態のため変更前画像なし。",
+        "createdInVersion": "2026-10-15-ui20"
+      },
+      "after": {
+        "image": "after/mini/tutorial-motor-route.png",
+        "text": "操作の方法　1 / 3\n指を離さずに運ぶ\nスタートに指を置いたらそのまま離さずに運び、選択肢のボックスの中で離します。\n\n道すじは自由です\n\n見るだけです。読んだら「次へ」\n戻る\n次へ",
+        "sha256": "b840269783029329bff18d2717680a7ec5367a5a3f759d7401ec2e126a22ca65",
+        "capturedAt": "2026-10-15T02:13:05.270Z",
+        "sourceStepId": "motor-route"
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-15-ui20",
+        "approvedCopySha256": "3793d655a5ff9c6d344ebf6aa2dfa1932713cb1421c6615b7ac5cd937a3565e2",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。",
+        "approvalHistory": [
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "3793d655a5ff9c6d344ebf6aa2dfa1932713cb1421c6615b7ac5cd937a3565e2",
+            "reviewedAt": "2026-10-15",
+            "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。"
+          }
+        ],
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "3793d655a5ff9c6d344ebf6aa2dfa1932713cb1421c6615b7ac5cd937a3565e2"
+      }
+    },
+    {
+      "id": "tutorial-motor-range",
+      "title": "選択肢の枠内で離す",
+      "kind": "新設・分割",
+      "purpose": "ui20で分割または新設した実画面です。変更前に同じ独立画面はなく、基準画像は作り直しません。",
+      "before": {
+        "image": null,
+        "text": "",
+        "sourceNote": "新設・分割した状態のため変更前画像なし。",
+        "createdInVersion": "2026-10-15-ui20"
+      },
+      "after": {
+        "image": "after/mini/tutorial-motor-range.png",
+        "text": "操作の方法　2 / 3\n選択肢の枠内で離す\nスタートから指を運び、選択肢のボックスの内側で離すと回答できます。\n枠内ならどこでも大丈夫です。\n見るだけです。読んだら「試してみる」へ\n戻る\n試してみる",
+        "sha256": "68692c44269b46350091743234de805a44928680e3a0e02ff7adb2aecef54111",
+        "capturedAt": "2026-10-15T02:13:07.168Z",
+        "sourceStepId": "motor-range"
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-15-ui20",
+        "approvedCopySha256": "283cc978bda38685fa7183ad97a8bdaa3e7de8a5ff16c0d7293b31a8c8440b9d",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。",
+        "approvalHistory": [
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "283cc978bda38685fa7183ad97a8bdaa3e7de8a5ff16c0d7293b31a8c8440b9d",
+            "reviewedAt": "2026-10-15",
+            "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。"
+          }
+        ],
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "283cc978bda38685fa7183ad97a8bdaa3e7de8a5ff16c0d7293b31a8c8440b9d"
+      }
+    },
+    {
+      "id": "tutorial-motor",
+      "title": "実際に運んでみる",
+      "kind": "新設・分割",
+      "purpose": "ui20で分割または新設した実画面です。変更前に同じ独立画面はなく、基準画像は作り直しません。",
+      "before": {
+        "image": null,
+        "text": "",
+        "sourceNote": "新設・分割した状態のため変更前画像なし。",
+        "createdInVersion": "2026-10-15-ui20"
+      },
+      "after": {
+        "image": "after/mini/tutorial-motor.png",
+        "text": "操作の方法　3 / 3\n実際に運んでみる\nスタートに指を置いて指を離さずに運び、選択肢のボックスの中で離してみましょう。\n下のスタートから運んでみてください\n戻る\n次へ",
+        "sha256": "52c1a4e32733991ccba2d05e59993d0a196adbf53dc5daf3bdf7a6dd3ffd0208",
+        "capturedAt": "2026-10-15T02:13:07.868Z",
+        "sourceStepId": "motor"
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-15-ui20",
+        "approvedCopySha256": "07c9b0c91b3f7597866c5f050244ab51511c570c447b0cfe95c379763a54b34e",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。",
+        "approvalHistory": [
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "07c9b0c91b3f7597866c5f050244ab51511c570c447b0cfe95c379763a54b34e",
+            "reviewedAt": "2026-10-15",
+            "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。"
+          }
+        ],
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "07c9b0c91b3f7597866c5f050244ab51511c570c447b0cfe95c379763a54b34e"
+      }
+    },
+    {
+      "id": "tutorial-motor-success",
+      "title": "操作できました",
+      "kind": "新設・分割",
+      "purpose": "ui20で分割または新設した実画面です。変更前に同じ独立画面はなく、基準画像は作り直しません。",
+      "before": {
+        "image": null,
+        "text": "",
+        "sourceNote": "新設・分割した状態のため変更前画像なし。",
+        "createdInVersion": "2026-10-15-ui20"
+      },
+      "after": {
+        "image": "after/mini/tutorial-motor-success.png",
+        "text": "操作の方法　3 / 3\n操作できました\n次は、実際に問題に回答するときのルールを確認します。\n読んだら「ルールを確認する」へ",
+        "sha256": "56616792ae4859de5b2ca32b0d14ddaa1d3eab4fdddcb58ab168feb3a1e771b7",
+        "capturedAt": "2026-10-15T02:13:09.187Z",
+        "sourceStepId": "motor"
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-15-ui20",
+        "approvedCopySha256": "32047f7c0b44f8ab5aad2c4e66a61ee5780518e35dc2ab10a8264643dd7dd5a9",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。",
+        "approvalHistory": [
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "32047f7c0b44f8ab5aad2c4e66a61ee5780518e35dc2ab10a8264643dd7dd5a9",
+            "reviewedAt": "2026-10-15",
+            "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。"
+          }
+        ],
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "32047f7c0b44f8ab5aad2c4e66a61ee5780518e35dc2ab10a8264643dd7dd5a9"
+      }
+    },
+    {
+      "id": "tutorial-start-rule",
+      "title": "スタートに指を置くタイミング",
+      "kind": "新設・分割",
+      "purpose": "ui20で分割または新設した実画面です。変更前に同じ独立画面はなく、基準画像は作り直しません。",
+      "before": {
+        "image": null,
+        "text": "",
+        "sourceNote": "新設・分割した状態のため変更前画像なし。",
+        "createdInVersion": "2026-10-15-ui20"
+      },
+      "after": {
+        "image": "after/mini/tutorial-start-rule.png",
+        "text": "ルールを確認する　1 / 5\nスタートに指を置くタイミング\n問題文を最後まで読み、状況が分かったら、答えを決める前にスタートボタンに指を置きます。\n読んだら「次へ」\n戻る\n次へ",
+        "sha256": "bcc8fe3ef5caf3e663768e622c7c3e37db739c547c0bb4225a90302272a76a2b",
+        "capturedAt": "2026-10-15T02:13:09.934Z",
+        "sourceStepId": "start-rule"
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-15-ui20",
+        "approvedCopySha256": "d36c0c95c3396a929ac6a38906cc37b1acbb10a2b635c4fa3398c9685c246eb9",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。",
+        "approvalHistory": [
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "d36c0c95c3396a929ac6a38906cc37b1acbb10a2b635c4fa3398c9685c246eb9",
+            "reviewedAt": "2026-10-15",
+            "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。"
+          }
+        ],
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "d36c0c95c3396a929ac6a38906cc37b1acbb10a2b635c4fa3398c9685c246eb9"
+      }
+    },
+    {
+      "id": "tutorial-movement-reason",
+      "title": "指を動かし始めるタイミング",
+      "kind": "新設・分割",
+      "purpose": "ui20で分割または新設した実画面です。変更前に同じ独立画面はなく、基準画像は作り直しません。",
+      "before": {
+        "image": null,
+        "text": "",
+        "sourceNote": "新設・分割した状態のため変更前画像なし。",
+        "createdInVersion": "2026-10-15-ui20"
+      },
+      "after": {
+        "image": "after/mini/tutorial-movement-reason.png",
+        "text": "ルールを確認する　2 / 5\n指を動かし始めるタイミング\n選択肢を読んだら、答えが決まるのを待たずに動き始めてください。\n答えを選んでいる間の指の動きを計測するためです。\n読んだら「次へ」\n戻る\n次へ",
+        "sha256": "4ee348f7c195b4010ee2b8c8376d01941b7cadbdf094d1aa720e354a0a8305ac",
+        "capturedAt": "2026-10-15T02:13:10.653Z",
+        "sourceStepId": "movement-reason"
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-15-ui20",
+        "approvedCopySha256": "3635442b4217d73fe6f0340b2034a7fb1e047dede0dc81a59b57fb8087718ec7",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。",
+        "approvalHistory": [
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "3635442b4217d73fe6f0340b2034a7fb1e047dede0dc81a59b57fb8087718ec7",
+            "reviewedAt": "2026-10-15",
+            "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。"
+          }
+        ],
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "3635442b4217d73fe6f0340b2034a7fb1e047dede0dc81a59b57fb8087718ec7"
+      }
+    },
+    {
+      "id": "tutorial-uncertain",
+      "title": "迷っていても動かしながら考える",
+      "kind": "新設・分割",
+      "purpose": "ui20で分割または新設した実画面です。変更前に同じ独立画面はなく、基準画像は作り直しません。",
+      "before": {
+        "image": null,
+        "text": "",
+        "sourceNote": "新設・分割した状態のため変更前画像なし。",
+        "createdInVersion": "2026-10-15-ui20"
+      },
+      "after": {
+        "image": "after/mini/tutorial-uncertain.png",
+        "text": "ルールを確認する　3 / 5\n迷っていても動かしながら考える\nどちらを選ぶか迷っているときも、ゆっくりでよいので指を動かしながら考えてください。\n読んだら「次へ」\n戻る\n次へ",
+        "sha256": "a4f2698174eaa2bade9e77f85d94d2156c7237ac8b08e7b65732ee44ec2ebb8f",
+        "capturedAt": "2026-10-15T02:13:11.366Z",
+        "sourceStepId": "uncertain"
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-15-ui20",
+        "approvedCopySha256": "3acc66a226d6354911583d3e9e68f2c6e56a9b3dbc8a93845833802a4309c530",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。",
+        "approvalHistory": [
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "3acc66a226d6354911583d3e9e68f2c6e56a9b3dbc8a93845833802a4309c530",
+            "reviewedAt": "2026-10-15",
+            "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。"
+          }
+        ],
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "3acc66a226d6354911583d3e9e68f2c6e56a9b3dbc8a93845833802a4309c530"
+      }
+    },
+    {
+      "id": "tutorial-time-rule",
+      "title": "3秒以内にスタートの枠を出る",
+      "kind": "新設・分割",
+      "purpose": "ui20で分割または新設した実画面です。変更前に同じ独立画面はなく、基準画像は作り直しません。",
+      "before": {
+        "image": null,
+        "text": "",
+        "sourceNote": "新設・分割した状態のため変更前画像なし。",
+        "createdInVersion": "2026-10-15-ui20"
+      },
+      "after": {
+        "image": "after/mini/tutorial-time-rule.png",
+        "text": "ルールを確認する　4 / 5\n3秒以内にスタートの枠を出る\nスタートに触れたら、3秒以内に指をスタートの枠の外へ動かしてください。\n読んだら「次へ」\n戻る\n次へ",
+        "sha256": "fd785dc2840a8df21ef2d720c0a5b7daefb02ad62f0611ca4db603293b194cba",
+        "capturedAt": "2026-10-15T02:13:13.822Z",
+        "sourceStepId": "time-rule"
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-15-ui20",
+        "approvedCopySha256": "5e4a7c9fa94633c022d8e12c5e53a363df3382f8268fdd8c62f9d141d462cc21",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。",
+        "approvalHistory": [
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "5e4a7c9fa94633c022d8e12c5e53a363df3382f8268fdd8c62f9d141d462cc21",
+            "reviewedAt": "2026-10-15",
+            "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。"
+          }
+        ],
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "5e4a7c9fa94633c022d8e12c5e53a363df3382f8268fdd8c62f9d141d462cc21"
+      }
+    },
+    {
+      "id": "tutorial-answer-pace",
+      "title": "自分のペースで回答する",
+      "kind": "新設・分割",
+      "purpose": "ui20で分割または新設した実画面です。変更前に同じ独立画面はなく、基準画像は作り直しません。",
+      "before": {
+        "image": null,
+        "text": "",
+        "sourceNote": "新設・分割した状態のため変更前画像なし。",
+        "createdInVersion": "2026-10-15-ui20"
+      },
+      "after": {
+        "image": "after/mini/tutorial-answer-pace.png",
+        "text": "ルールを確認する　5 / 5\n自分のペースで回答する\n3秒は回答の制限時間ではありません。\n枠を出たら、自分のペースで焦らず選んでください。ゆっくりでも大丈夫です。\n読んだら「ルールを復習する」へ\n戻る\nルールを復習する",
+        "sha256": "c867082e02e14233ef77aba9ee10938f3887716588f116d9621143e78d3a021e",
+        "capturedAt": "2026-10-15T02:13:14.552Z",
+        "sourceStepId": "answer-pace"
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-15-ui20",
+        "approvedCopySha256": "f9018fa8c3f943d7eb032f4d86dc7e61959d4c783fcdb1559658c6dd4fdbecb6",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。",
+        "approvalHistory": [
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "f9018fa8c3f943d7eb032f4d86dc7e61959d4c783fcdb1559658c6dd4fdbecb6",
+            "reviewedAt": "2026-10-15",
+            "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。"
+          }
+        ],
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "f9018fa8c3f943d7eb032f4d86dc7e61959d4c783fcdb1559658c6dd4fdbecb6"
+      }
+    },
+    {
+      "id": "tutorial-rule-check-intro",
+      "title": "ルールの復習",
+      "kind": "新設・分割",
+      "purpose": "ui20で分割または新設した実画面です。変更前に同じ独立画面はなく、基準画像は作り直しません。",
+      "before": {
+        "image": null,
+        "text": "",
+        "sourceNote": "新設・分割した状態のため変更前画像なし。",
+        "createdInVersion": "2026-10-15-ui20"
+      },
+      "after": {
+        "image": "after/mini/tutorial-rule-check-intro.png",
+        "text": "ルールの復習\nルールの復習\nここまでのルールを、クイズ形式で確認します。\n正解するまで選びなおしてください。\n読んだら「復習を始める」へ\n戻る\n復習を始める",
+        "sha256": "d811da3991f2cfeb11ab712e3108246812a794e56c025ea3643b3b04b8a3c1eb",
+        "capturedAt": "2026-10-15T02:13:15.251Z",
+        "sourceStepId": "rule-check-intro"
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-15-ui20",
+        "approvedCopySha256": "224fe9f2a527c56d4bd27c09c099a93f831d9a5c59f49ebbd3f028162d120369",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。全ルールの説明後に7問の復習を置き、初回は全正答まで例題へ進めない構成と今回指定した説明箱・ナビ配置をui20で採用。",
+        "approvalHistory": [
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "224fe9f2a527c56d4bd27c09c099a93f831d9a5c59f49ebbd3f028162d120369",
+            "reviewedAt": "2026-10-15",
+            "reason": "ユーザーが仮画面の構成を本番へ採用。全ルールの説明後に7問の復習を置き、初回は全正答まで例題へ進めない構成と今回指定した説明箱・ナビ配置をui20で採用。"
+          }
+        ],
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "224fe9f2a527c56d4bd27c09c099a93f831d9a5c59f49ebbd3f028162d120369"
+      }
+    },
+    {
+      "id": "tutorial-rule-check-01",
+      "title": "いつスタートする？",
+      "kind": "新設・分割",
+      "purpose": "ui20で分割または新設した実画面です。変更前に同じ独立画面はなく、基準画像は作り直しません。",
+      "before": {
+        "image": null,
+        "text": "",
+        "sourceNote": "新設・分割した状態のため変更前画像なし。",
+        "createdInVersion": "2026-10-15-ui20"
+      },
+      "after": {
+        "image": "after/mini/tutorial-rule-check-01.png",
+        "text": "ルールの復習　1 / 7\nいつスタートに指を置きますか？\n自分の答えを決め終えてから\n問題文を最後まで読み、状況が分かったら、答えを決める前に\n問題文を読み始めたらすぐに\n答えを1つ選んで「次へ」\n戻る\n次へ",
+        "sha256": "0af9c77e2549f6f84d1731617f61053199787964adfa37ae3bad07f277f11767",
+        "capturedAt": "2026-10-15T02:13:15.967Z",
+        "sourceStepId": "rule-check",
+        "quizIndex": 0
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-15-ui20",
+        "approvedCopySha256": "1c6566c4d2a885e7d304a917370036a64d94a098367cdf3d48c5d345d8ad037e",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。全ルールの説明後に7問の復習を置き、初回は全正答まで例題へ進めない構成と今回指定した説明箱・ナビ配置をui20で採用。",
+        "approvalHistory": [
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "1c6566c4d2a885e7d304a917370036a64d94a098367cdf3d48c5d345d8ad037e",
+            "reviewedAt": "2026-10-15",
+            "reason": "ユーザーが仮画面の構成を本番へ採用。全ルールの説明後に7問の復習を置き、初回は全正答まで例題へ進めない構成と今回指定した説明箱・ナビ配置をui20で採用。"
+          }
+        ],
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "1c6566c4d2a885e7d304a917370036a64d94a098367cdf3d48c5d345d8ad037e"
+      }
+    },
+    {
+      "id": "tutorial-rule-check-02",
+      "title": "動き始めるとき",
+      "kind": "新設・分割",
+      "purpose": "ui20で分割または新設した実画面です。変更前に同じ独立画面はなく、基準画像は作り直しません。",
+      "before": {
+        "image": null,
+        "text": "",
+        "sourceNote": "新設・分割した状態のため変更前画像なし。",
+        "createdInVersion": "2026-10-15-ui20"
+      },
+      "after": {
+        "image": "after/mini/tutorial-rule-check-02.png",
+        "text": "ルールの復習　2 / 7\n選択肢を読んだあと、いつ動き始めますか？\n選択肢を読んで、答えを決め終えてから動く\n選択肢を読み、3秒がたったら動く\n選択肢を読んだら、答えが決まるのを待たずに動く\n答えを1つ選んで「次へ」\n戻る\n次へ",
+        "sha256": "9c4e079320b406e7103b96b8910712ee63215d0cd5c100a16c0a1499a2299803",
+        "capturedAt": "2026-10-15T02:13:16.850Z",
+        "sourceStepId": "rule-check",
+        "quizIndex": 1
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-15-ui20",
+        "approvedCopySha256": "634a46bdc30a1921ecf1a95a64e66234230835011554d34fac09398c2bd8b2ff",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。全ルールの説明後に7問の復習を置き、初回は全正答まで例題へ進めない構成と今回指定した説明箱・ナビ配置をui20で採用。",
+        "approvalHistory": [
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "634a46bdc30a1921ecf1a95a64e66234230835011554d34fac09398c2bd8b2ff",
+            "reviewedAt": "2026-10-15",
+            "reason": "ユーザーが仮画面の構成を本番へ採用。全ルールの説明後に7問の復習を置き、初回は全正答まで例題へ進めない構成と今回指定した説明箱・ナビ配置をui20で採用。"
+          }
+        ],
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "634a46bdc30a1921ecf1a95a64e66234230835011554d34fac09398c2bd8b2ff"
+      }
+    },
+    {
+      "id": "tutorial-rule-check-03",
+      "title": "まだ迷っているとき",
+      "kind": "新設・分割",
+      "purpose": "ui20で分割または新設した実画面です。変更前に同じ独立画面はなく、基準画像は作り直しません。",
+      "before": {
+        "image": null,
+        "text": "",
+        "sourceNote": "新設・分割した状態のため変更前画像なし。",
+        "createdInVersion": "2026-10-15-ui20"
+      },
+      "after": {
+        "image": "after/mini/tutorial-rule-check-03.png",
+        "text": "ルールの復習　3 / 7\nまだ迷っているときは、どう進めますか？\n答えが決まるまで、スタートの中で待つ\nゆっくりでよいので、指を動かしながら考える\n迷っていても、急いで答えを決める\n答えを1つ選んで「次へ」\n戻る\n次へ",
+        "sha256": "4672ca4acd07235087ff8bf2d7c743c2cf6c010f770ef5717aefde6588d1c6f1",
+        "capturedAt": "2026-10-15T02:13:17.735Z",
+        "sourceStepId": "rule-check",
+        "quizIndex": 2
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-15-ui20",
+        "approvedCopySha256": "77d450dc061a1cbc1da638f1c1e2f34e759aa1a83590da2071d3b76a042e8a5a",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。全ルールの説明後に7問の復習を置き、初回は全正答まで例題へ進めない構成と今回指定した説明箱・ナビ配置をui20で採用。",
+        "approvalHistory": [
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "77d450dc061a1cbc1da638f1c1e2f34e759aa1a83590da2071d3b76a042e8a5a",
+            "reviewedAt": "2026-10-15",
+            "reason": "ユーザーが仮画面の構成を本番へ採用。全ルールの説明後に7問の復習を置き、初回は全正答まで例題へ進めない構成と今回指定した説明箱・ナビ配置をui20で採用。"
+          }
+        ],
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "77d450dc061a1cbc1da638f1c1e2f34e759aa1a83590da2071d3b76a042e8a5a"
+      }
+    },
+    {
+      "id": "tutorial-rule-check-04",
+      "title": "3秒以内にすること",
+      "kind": "新設・分割",
+      "purpose": "ui20で分割または新設した実画面です。変更前に同じ独立画面はなく、基準画像は作り直しません。",
+      "before": {
+        "image": null,
+        "text": "",
+        "sourceNote": "新設・分割した状態のため変更前画像なし。",
+        "createdInVersion": "2026-10-15-ui20"
+      },
+      "after": {
+        "image": "after/mini/tutorial-rule-check-04.png",
+        "text": "ルールの復習　4 / 7\nスタートに触れてから3秒以内にするのは？\n選択肢のボックスに到着する\n指をスタートの枠の外へ動かす\n選択肢で指を離して回答を終える\n答えを1つ選んで「次へ」\n戻る\n次へ",
+        "sha256": "76df48ed2a4836393c8c9d8518a56dafd1151223d3a21cd8475c2e6bf2e00c6a",
+        "capturedAt": "2026-10-15T02:13:18.603Z",
+        "sourceStepId": "rule-check",
+        "quizIndex": 3
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-15-ui20",
+        "approvedCopySha256": "be3f3ab7f38ecd57b479c4c4f9b4c1b865e70d019ca59b5e6262d0585c888a16",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。全ルールの説明後に7問の復習を置き、初回は全正答まで例題へ進めない構成と今回指定した説明箱・ナビ配置をui20で採用。",
+        "approvalHistory": [
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "be3f3ab7f38ecd57b479c4c4f9b4c1b865e70d019ca59b5e6262d0585c888a16",
+            "reviewedAt": "2026-10-15",
+            "reason": "ユーザーが仮画面の構成を本番へ採用。全ルールの説明後に7問の復習を置き、初回は全正答まで例題へ進めない構成と今回指定した説明箱・ナビ配置をui20で採用。"
+          }
+        ],
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "be3f3ab7f38ecd57b479c4c4f9b4c1b865e70d019ca59b5e6262d0585c888a16"
+      }
+    },
+    {
+      "id": "tutorial-rule-check-05",
+      "title": "回答するときのペース",
+      "kind": "新設・分割",
+      "purpose": "ui20で分割または新設した実画面です。変更前に同じ独立画面はなく、基準画像は作り直しません。",
+      "before": {
+        "image": null,
+        "text": "",
+        "sourceNote": "新設・分割した状態のため変更前画像なし。",
+        "createdInVersion": "2026-10-15-ui20"
+      },
+      "after": {
+        "image": "after/mini/tutorial-rule-check-05.png",
+        "text": "ルールの復習　5 / 7\nスタートの枠を出たあとは、どのペースで回答しますか？\n枠を出てから3秒以内に終える\n自分のペースで、焦らずに選ぶ\nスタートに触れてから3秒以内に終える\n答えを1つ選んで「次へ」\n戻る\n次へ",
+        "sha256": "3c338ffd312b7fb02f626d3886d9731283be3b787167d8a232683145fa8fcae6",
+        "capturedAt": "2026-10-15T02:13:19.468Z",
+        "sourceStepId": "rule-check",
+        "quizIndex": 4
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-15-ui20",
+        "approvedCopySha256": "9563fc3c87d73835806259d57d3a65f5e15674e2eef01ff21cd34b84e99532a0",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。全ルールの説明後に7問の復習を置き、初回は全正答まで例題へ進めない構成と今回指定した説明箱・ナビ配置をui20で採用。",
+        "approvalHistory": [
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "9563fc3c87d73835806259d57d3a65f5e15674e2eef01ff21cd34b84e99532a0",
+            "reviewedAt": "2026-10-15",
+            "reason": "ユーザーが仮画面の構成を本番へ採用。全ルールの説明後に7問の復習を置き、初回は全正答まで例題へ進めない構成と今回指定した説明箱・ナビ配置をui20で採用。"
+          }
+        ],
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "9563fc3c87d73835806259d57d3a65f5e15674e2eef01ff21cd34b84e99532a0"
+      }
+    },
+    {
+      "id": "tutorial-rule-check-06",
+      "title": "道すじの選び方",
+      "kind": "新設・分割",
+      "purpose": "ui20で分割または新設した実画面です。変更前に同じ独立画面はなく、基準画像は作り直しません。",
+      "before": {
+        "image": null,
+        "text": "",
+        "sourceNote": "新設・分割した状態のため変更前画像なし。",
+        "createdInVersion": "2026-10-15-ui20"
+      },
+      "after": {
+        "image": "after/mini/tutorial-rule-check-06.png",
+        "text": "ルールの復習　6 / 7\n指を運ぶ道すじは、どうしますか？\n見本と同じ道すじで運ぶ\n自由な道すじで運ぶ\n必ずまっすぐに運ぶ\n答えを1つ選んで「次へ」\n戻る\n次へ",
+        "sha256": "f5d4f54d6d75fed7833b703f42ba3f393d297ac2c4734dcd03eb48e03b3f1604",
+        "capturedAt": "2026-10-15T02:13:20.365Z",
+        "sourceStepId": "rule-check",
+        "quizIndex": 5
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-15-ui20",
+        "approvedCopySha256": "5584ea55e62e843d9cade62c989d252bbe5176edfa9be2ee813f7cd85137048d",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。全ルールの説明後に7問の復習を置き、初回は全正答まで例題へ進めない構成と今回指定した説明箱・ナビ配置をui20で採用。",
+        "approvalHistory": [
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "5584ea55e62e843d9cade62c989d252bbe5176edfa9be2ee813f7cd85137048d",
+            "reviewedAt": "2026-10-15",
+            "reason": "ユーザーが仮画面の構成を本番へ採用。全ルールの説明後に7問の復習を置き、初回は全正答まで例題へ進めない構成と今回指定した説明箱・ナビ配置をui20で採用。"
+          }
+        ],
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "5584ea55e62e843d9cade62c989d252bbe5176edfa9be2ee813f7cd85137048d"
+      }
+    },
+    {
+      "id": "tutorial-rule-check-07",
+      "title": "指を離して回答する",
+      "kind": "新設・分割",
+      "purpose": "ui20で分割または新設した実画面です。変更前に同じ独立画面はなく、基準画像は作り直しません。",
+      "before": {
+        "image": null,
+        "text": "",
+        "sourceNote": "新設・分割した状態のため変更前画像なし。",
+        "createdInVersion": "2026-10-15-ui20"
+      },
+      "after": {
+        "image": "after/mini/tutorial-rule-check-07.png",
+        "text": "ルールの復習　7 / 7\n選択肢へ運んだあと、どうすると回答できますか？\n枠の内側なら、どこで離してもよい\n文字の上で離したときだけ回答できる\n枠に入れば、指を離さなくても回答できる\n答えを1つ選んで「例題へ」\n戻る\n例題へ",
+        "sha256": "c6a9ac953be855e5889157108464d26588150e53828993f3d1e689702af9e756",
+        "capturedAt": "2026-10-15T02:13:21.249Z",
+        "sourceStepId": "rule-check",
+        "quizIndex": 6
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-15-ui20",
+        "approvedCopySha256": "8309b5642d66538d39ef1eaec466b0a2812d88b360610cce01b3ccf21d71bbd5",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。全ルールの説明後に7問の復習を置き、初回は全正答まで例題へ進めない構成と今回指定した説明箱・ナビ配置をui20で採用。",
+        "approvalHistory": [
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "8309b5642d66538d39ef1eaec466b0a2812d88b360610cce01b3ccf21d71bbd5",
+            "reviewedAt": "2026-10-15",
+            "reason": "ユーザーが仮画面の構成を本番へ採用。全ルールの説明後に7問の復習を置き、初回は全正答まで例題へ進めない構成と今回指定した説明箱・ナビ配置をui20で採用。"
+          }
+        ],
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "8309b5642d66538d39ef1eaec466b0a2812d88b360610cce01b3ccf21d71bbd5"
+      }
+    },
+    {
+      "id": "guided-example-intro",
+      "title": "例題の案内",
+      "kind": "新設・分割",
+      "purpose": "ui20で分割または新設した実画面です。変更前に同じ独立画面はなく、基準画像は作り直しません。",
+      "before": {
+        "image": null,
+        "text": "",
+        "sourceNote": "新設・分割した状態のため変更前画像なし。",
+        "createdInVersion": "2026-10-15-ui20"
+      },
+      "after": {
+        "image": "after/mini/guided-example-intro.png",
+        "text": "例題\n\nここからは、実際に問題を1問解いてみましょう。\n\n読んだら「次へ」\n\n次へ",
+        "sha256": "5980001ee515eeb345bf9dc6c7b10288ececfe859775b476c58f6d0948944065",
+        "capturedAt": "2026-10-15T02:13:21.747Z"
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-15-ui20",
+        "approvedCopySha256": "2d317ac51bd177363c4093f3dddae5de2106b153c9a1b805eac5a29686c3ecae",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。部品・操作・ルール・復習のあと、番号や丸ぽちを付けない例題案内から1問試す流れをui20で採用。",
+        "approvalHistory": [
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "2d317ac51bd177363c4093f3dddae5de2106b153c9a1b805eac5a29686c3ecae",
+            "reviewedAt": "2026-10-15",
+            "reason": "ユーザーが仮画面の構成を本番へ採用。部品・操作・ルール・復習のあと、番号や丸ぽちを付けない例題案内から1問試す流れをui20で採用。"
+          }
+        ],
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "2d317ac51bd177363c4093f3dddae5de2106b153c9a1b805eac5a29686c3ecae"
+      }
+    },
+    {
+      "id": "rating-tutorial-0",
+      "title": "感じたことを振り返る",
+      "kind": "新設・分割",
+      "purpose": "ui20で分割または新設した実画面です。変更前に同じ独立画面はなく、基準画像は作り直しません。",
+      "before": {
+        "image": null,
+        "text": "",
+        "sourceNote": "新設・分割した状態のため変更前画像なし。",
+        "createdInVersion": "2026-10-15-ui20"
+      },
+      "after": {
+        "image": "after/mini/rating-tutorial-0.png",
+        "text": "回答の振り返り 1 / 4\n感じたことを振り返る\n回答のあと、毎回「迷い」と「自信」を5段階で振り返ります。2つは別々の質問です。正解はありません。感じたままを選んでください。\n読んだら「次へ」\nあなたの回答: 止める\n答えを決めるまでに、どれくらい迷いましたか1まったく迷わなかった2あまり迷わなかった3少し迷った4迷った5とても迷ったいま選んだ答えに、どれくらい自信がありますか1まったく自信がない2あまり自信がない3少し自信がある4自信がある5とても自信がある\n次へ",
+        "sha256": "b28c36045708515cd3d1bc8c3bebf260b264cd1c426ac65c0532d652c6127c94",
+        "capturedAt": "2026-10-15T02:07:24.200Z"
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-15-ui20",
+        "approvedCopySha256": "b4e4e6be1ccc75e9023db37c97b3dde1879c34066f99e7e2a10155f3bc82b93d",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。迷い・自信を分けた5段階、1問ずつの振り返り、練習導入と今回指定した説明箱・ナビ配置をui20で採用。実機確認・公開一致の記録とは分離する。",
+        "approvalHistory": [
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "b4e4e6be1ccc75e9023db37c97b3dde1879c34066f99e7e2a10155f3bc82b93d",
+            "reviewedAt": "2026-10-15",
+            "reason": "ユーザーが仮画面の構成を本番へ採用。迷い・自信を分けた5段階、1問ずつの振り返り、練習導入と今回指定した説明箱・ナビ配置をui20で採用。実機確認・公開一致の記録とは分離する。"
+          }
+        ],
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "b4e4e6be1ccc75e9023db37c97b3dde1879c34066f99e7e2a10155f3bc82b93d"
+      }
+    },
+    {
+      "id": "rating-tutorial-1",
+      "title": "答えを決めるまでの迷い",
+      "kind": "新設・分割",
+      "purpose": "ui20で分割または新設した実画面です。変更前に同じ独立画面はなく、基準画像は作り直しません。",
+      "before": {
+        "image": null,
+        "text": "",
+        "sourceNote": "新設・分割した状態のため変更前画像なし。",
+        "createdInVersion": "2026-10-15-ui20"
+      },
+      "after": {
+        "image": "after/mini/rating-tutorial-1.png",
+        "text": "回答の振り返り 2 / 4\n答えを決めるまでの迷い\n1つ目は「迷い」。答えを決めるまでに、どれくらい迷ったかを選びます。\nいちばん近いものを1つ押して「次へ」\nあなたの回答: 止める\n答えを決めるまでに、どれくらい迷いましたか\n1\nまったく迷わなかった\n2\nあまり迷わなかった\n3\n少し迷った\n4\n迷った\n5\nとても迷った\n← 戻る\n次へ",
+        "sha256": "a660f88bd0720f5105a0e627460430f1b6ec04c63ee74afe9aa7448429e0b79c",
+        "capturedAt": "2026-10-15T02:07:24.751Z"
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-15-ui20",
+        "approvedCopySha256": "c09c39f1514611d73c1d66905fe8073856b877a057d441b1237f491eadaccb26",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。迷い・自信を分けた5段階、1問ずつの振り返り、練習導入と今回指定した説明箱・ナビ配置をui20で採用。実機確認・公開一致の記録とは分離する。",
+        "approvalHistory": [
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "c09c39f1514611d73c1d66905fe8073856b877a057d441b1237f491eadaccb26",
+            "reviewedAt": "2026-10-15",
+            "reason": "ユーザーが仮画面の構成を本番へ採用。迷い・自信を分けた5段階、1問ずつの振り返り、練習導入と今回指定した説明箱・ナビ配置をui20で採用。実機確認・公開一致の記録とは分離する。"
+          }
+        ],
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "c09c39f1514611d73c1d66905fe8073856b877a057d441b1237f491eadaccb26"
+      }
+    },
+    {
+      "id": "rating-tutorial-2",
+      "title": "選んだ答えへの自信",
+      "kind": "新設・分割",
+      "purpose": "ui20で分割または新設した実画面です。変更前に同じ独立画面はなく、基準画像は作り直しません。",
+      "before": {
+        "image": null,
+        "text": "",
+        "sourceNote": "新設・分割した状態のため変更前画像なし。",
+        "createdInVersion": "2026-10-15-ui20"
+      },
+      "after": {
+        "image": "after/mini/rating-tutorial-2.png",
+        "text": "回答の振り返り 3 / 4\n選んだ答えへの自信\nいま選んだ答えへの自信の強さを選びます。\nいちばん近いものを1つ押して「次へ」\nあなたの回答: 止める\nいま選んだ答えに、どれくらい自信がありますか\n1\nまったく自信がない\n2\nあまり自信がない\n3\n少し自信がある\n4\n自信がある\n5\nとても自信がある\n← 戻る\n次へ",
+        "sha256": "65670ebe154226b3339c1d523df7788fb1487661d33fb69ce7216e3587a4d1fd",
+        "capturedAt": "2026-10-15T02:07:25.335Z"
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-15-ui20",
+        "approvedCopySha256": "6b331e7b8d2f85d9ac105c46eadb54da6ec492f6f816a2b94cfdb65597101bfc",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。迷い・自信を分けた5段階、1問ずつの振り返り、練習導入と今回指定した説明箱・ナビ配置をui20で採用。実機確認・公開一致の記録とは分離する。",
+        "approvalHistory": [
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "6b331e7b8d2f85d9ac105c46eadb54da6ec492f6f816a2b94cfdb65597101bfc",
+            "reviewedAt": "2026-10-15",
+            "reason": "ユーザーが仮画面の構成を本番へ採用。迷い・自信を分けた5段階、1問ずつの振り返り、練習導入と今回指定した説明箱・ナビ配置をui20で採用。実機確認・公開一致の記録とは分離する。"
+          }
+        ],
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "6b331e7b8d2f85d9ac105c46eadb54da6ec492f6f816a2b94cfdb65597101bfc"
+      }
+    },
+    {
+      "id": "rating-tutorial-3",
+      "title": "1問ずつ考え直す",
+      "kind": "新設・分割",
+      "purpose": "ui20で分割または新設した実画面です。変更前に同じ独立画面はなく、基準画像は作り直しません。",
+      "before": {
+        "image": null,
+        "text": "",
+        "sourceNote": "新設・分割した状態のため変更前画像なし。",
+        "createdInVersion": "2026-10-15-ui20"
+      },
+      "after": {
+        "image": "after/mini/rating-tutorial-3.png",
+        "text": "回答の振り返り 4 / 4\n1問ずつ考え直す\n感じ方は問題によって変わります。\n前の問題の選択に引きずられず、その問題で感じたものに近いものをその都度選んでください。\n読んだら「練習問題へ」\nあなたの回答: 止める\n答えを決めるまでに、どれくらい迷いましたか1まったく迷わなかった2あまり迷わなかった3少し迷った4迷った5とても迷ったいま選んだ答えに、どれくらい自信がありますか1まったく自信がない2あまり自信がない3少し自信がある4自信がある5とても自信がある\n練習問題へ",
+        "sha256": "20e197e006abdb3dc08c444d67c2254358064eea6e0f6baae50e6eb43c9b0529",
+        "capturedAt": "2026-10-15T02:07:25.900Z"
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-15-ui20",
+        "approvedCopySha256": "a0c7e94c7fb67abafd3628af83a6534b6512ce884ace1ba55a6d57174d290bde",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。迷い・自信を分けた5段階、1問ずつの振り返り、練習導入と今回指定した説明箱・ナビ配置をui20で採用。実機確認・公開一致の記録とは分離する。",
+        "approvalHistory": [
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "a0c7e94c7fb67abafd3628af83a6534b6512ce884ace1ba55a6d57174d290bde",
+            "reviewedAt": "2026-10-15",
+            "reason": "ユーザーが仮画面の構成を本番へ採用。迷い・自信を分けた5段階、1問ずつの振り返り、練習導入と今回指定した説明箱・ナビ配置をui20で採用。実機確認・公開一致の記録とは分離する。"
+          }
+        ],
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "a0c7e94c7fb67abafd3628af83a6534b6512ce884ace1ba55a6d57174d290bde"
+      }
+    },
+    {
+      "id": "rating-tutorial-4",
+      "title": "練習問題",
+      "kind": "新設・分割",
+      "purpose": "ui20で分割または新設した実画面です。変更前に同じ独立画面はなく、基準画像は作り直しません。",
+      "before": {
+        "image": null,
+        "text": "",
+        "sourceNote": "新設・分割した状態のため変更前画像なし。",
+        "createdInVersion": "2026-10-15-ui20"
+      },
+      "after": {
+        "image": "after/mini/rating-tutorial-4.png",
+        "text": "練習問題\nここから5問、練習問題に回答します。\n読んだら「次へ」\nあなたの回答: 止める\n答えを決めるまでに、どれくらい迷いましたか1まったく迷わなかった2あまり迷わなかった3少し迷った4迷った5とても迷ったいま選んだ答えに、どれくらい自信がありますか1まったく自信がない2あまり自信がない3少し自信がある4自信がある5とても自信がある\n次へ",
+        "sha256": "7f30855879027280a9b5c9cac0c28eee83c17504392ba93fbbcfc62fff0066a6",
+        "capturedAt": "2026-10-15T02:07:26.414Z"
+      },
+      "review": {
+        "status": "approved",
+        "approvedVersion": "2026-10-15-ui20",
+        "approvedCopySha256": "7eddd1007b504aa48f26c73c6834642433ab2686bab62c48751e3cead91df9aa",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。迷い・自信を分けた5段階、1問ずつの振り返り、練習導入と今回指定した説明箱・ナビ配置をui20で採用。実機確認・公開一致の記録とは分離する。",
+        "approvalHistory": [
+          {
+            "version": "2026-10-15-ui20",
+            "copySha256": "7eddd1007b504aa48f26c73c6834642433ab2686bab62c48751e3cead91df9aa",
+            "reviewedAt": "2026-10-15",
+            "reason": "ユーザーが仮画面の構成を本番へ採用。迷い・自信を分けた5段階、1問ずつの振り返り、練習導入と今回指定した説明箱・ナビ配置をui20で採用。実機確認・公開一致の記録とは分離する。"
+          }
+        ],
+        "targetVersion": "2026-10-15-ui20",
+        "display": "complete",
+        "copySha256": "7eddd1007b504aa48f26c73c6834642433ab2686bab62c48751e3cead91df9aa"
+      }
+    }
+  ],
+  "reviewState": {
+    "file": "review-state.json",
+    "targetVersion": "2026-10-15-ui20",
+    "reviewedAt": "2026-10-15",
+    "active": 0,
+    "completed": 69
+  },
+  "publicationRecord": "../2026-10-15-guided-release/publication.json"
+}

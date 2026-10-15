@@ -1,0 +1,101 @@
+{
+  "at": "2026-10-12T01:48:45.373Z",
+  "version": "2026-10-12-ui10",
+  "instructionVersion": "2026-10-11-ui9",
+  "sourceSha256LF": {
+    "index.html": "a7d0e882f75c298d21f88ca985bbec0e73b1aebedde6ec624ea569594f64ed91",
+    "app.css": "1c0f3af55c9c9ba7ba7e9dd38d7d2658bcc8d16c65e37fd55aab9b403c1f353a"
+  },
+  "change": "非操作領域の単指タップをtouchendで取り消す補助処理。通常click/label/inputとスクロールは維持。説明本文と研究上の条件はui9から不変。",
+  "userDeviceReport": {
+    "version": "ui9",
+    "zoomObserved": [
+      "notice text/padding/disabled return",
+      "additional-ten intro body/padding",
+      "post-survey question text",
+      "practice checklist disabled continue"
+    ],
+    "normalOperations": "通常の操作は使えたとユーザー報告。ui10実機は未確認。"
+  },
+  "cause": {
+    "implementation": "全要素へのCSS指定はあるが、課題画面以外の非操作領域ではJS補助なし。",
+    "browser": "Safariの非クリック対象でtouch-actionが効かない既知の挙動と整合する。対象実機の内部判定まで追跡した断定ではない。",
+    "testGap": "ui9で新テストを実行すると10か所の取消確認は失敗する一方、Chromeの倍率確認はすべて成功。Chromeの倍率だけではSafariの漏れを検出できなかった。",
+    "sources": [
+      "https://bugs.webkit.org/show_bug.cgi?id=149854#c25",
+      "https://bugs.webkit.org/show_bug.cgi?id=218015"
+    ]
+  },
+  "checks": {
+    "tap": {
+      "passed": 44,
+      "failed": 0,
+      "record": "tap-guard-results.json"
+    },
+    "layout": {
+      "passed": 335,
+      "failed": 0,
+      "screens": 150,
+      "record": "layout-results.json",
+      "recordAtCommit": "5ac42a7717a8a20e12e102de884527c29d68b222"
+    },
+    "uiFeedback": {
+      "passed": 110,
+      "failed": 0
+    },
+    "full": {
+      "passed": 734,
+      "failed": 0,
+      "exitCode": 0,
+      "command": "node validate.js",
+      "chromeLaunch": "--no-sandbox --disable-gpu"
+    },
+    "consentBrowser": {
+      "passed": true,
+      "collectorMockChecks": 22
+    },
+    "oldUi9Comparison": {
+      "passed": 34,
+      "missingCancellations": 10,
+      "record": "ui9-tap-comparison.json",
+      "expectedFailure": true
+    },
+    "gallery": {
+      "record": "gallery-results.json",
+      "recordAtCommit": "5ac42a7717a8a20e12e102de884527c29d68b222"
+    }
+  },
+  "explanations": {
+    "comparisonGroups": 23,
+    "allFlowScreensCaptured": 50,
+    "viewports": [
+      [
+        375,
+        700
+      ],
+      [
+        402,
+        759
+      ],
+      [
+        768,
+        1024
+      ]
+    ],
+    "baselineCommit": "7a73da02482045a6944440aca1fc05eebced4cd2",
+    "finalCopyCommit": "3374612d2fb393eba785c4d9fe0b83e7b8009f06",
+    "manifest": "copy-manifest.json",
+    "legacyIsolatedRendering": "legacy-blockintroのみ、正本の本文を既存コンテナに注入した描画。通常本実験経路外。",
+    "manifestAtCommit": "5ac42a7717a8a20e12e102de884527c29d68b222"
+  },
+  "limits": "PC Chromeタッチエミュレーション。iPhone Safariのネイティブ拡大防止は公開後の実機再確認が必要。外部の参加者データ送信なし。",
+  "publication": {
+    "status": "published",
+    "sourceCommit": "f0e6c8e4812d332815248ae7945096a83503043c",
+    "publicCommit": "d9dd1287f97679760025b59e8e26d14f56944866",
+    "checkedAt": "2026-10-12T01:51:52.636Z",
+    "filesMatched": 13,
+    "record": "publication.json"
+  },
+  "notionSync": "このセッションに個人Notionのローカル接続がなく未同期。"
+}

@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-10-15T01:20:21.106Z",
+  "checks": [
+    {
+      "id": "before-freeze",
+      "kind": "sha256",
+      "passed": true,
+      "files": [
+        {
+          "name": "index.html",
+          "expected": "56af91d047a8bb3c83ca77e43008a21889535580f664156adbcd0a8f339edb2e",
+          "actual": "56af91d047a8bb3c83ca77e43008a21889535580f664156adbcd0a8f339edb2e",
+          "passed": true
+        },
+        {
+          "name": "app.css",
+          "expected": "07462d80c069de42d3d80c865d8a765ab0ce2ea44a44c980e19396ff647e65ca",
+          "actual": "07462d80c069de42d3d80c865d8a765ab0ce2ea44a44c980e19396ff647e65ca",
+          "passed": true
+        },
+        {
+          "name": "bank.js",
+          "expected": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
+          "actual": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
+          "passed": true
+        },
+        {
+          "name": "session-store.js",
+          "expected": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+          "actual": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+          "passed": true
+        },
+        {
+          "name": "durable-storage.js",
+          "expected": "84d006f048e2cc16c4a7a7087ec5815485c0b3a7d2ffa4ce6b7b62905dde967b",
+          "actual": "84d006f048e2cc16c4a7a7087ec5815485c0b3a7d2ffa4ce6b7b62905dde967b",
+          "passed": true
+        },
+        {
+          "name": "storage-worker.js",
+          "expected": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
+          "actual": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
+          "passed": true
+        },
+        {
+          "name": "staged-delivery.js",
+          "expected": "e7af387be6c7902f7d36f3832d5252a84e2649d35451c9aaca255d2012c19876",
+          "actual": "e7af387be6c7902f7d36f3832d5252a84e2649d35451c9aaca255d2012c19876",
+          "passed": true
+        },
+        {
+          "name": "consent.js",
+          "expected": "6dae132f66dc20526ae6e79c59c6ff12049a75a1b11161b6815bfa1339a14bd9",
+          "actual": "6dae132f66dc20526ae6e79c59c6ff12049a75a1b11161b6815bfa1339a14bd9",
+          "passed": true
+        },
+        {
+          "name": "consent.css",
+          "expected": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
+          "actual": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
+          "passed": true
+        },
+        {
+          "name": "data-codec.js",
+          "expected": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+          "actual": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+          "passed": true
+        },
+        {
+          "name": "vendor/pako.min.js",
+          "expected": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+          "actual": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+          "passed": true
+        },
+        {
+          "name": "vendor/pako-LICENSE",
+          "expected": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539",
+          "actual": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539",
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "unverified": [
+    "after UI",
+    "inheritance operation",
+    "real Safari touch",
+    "save/resume/send compatibility"
+  ],
+  "note": "この結果は凍結原本の一致だけを確認した。"
+}

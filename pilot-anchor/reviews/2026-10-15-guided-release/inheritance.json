@@ -1,0 +1,1801 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-10-15T02:21:02Z",
+  "purpose": "本番UI刷新の機能継承を確認するレビュー資料。研究設計・分析・閾値の正本ではない。",
+  "before": {
+    "manifest": "before-manifest.json",
+    "appVersion": "2026-10-15-ui19",
+    "frozen": true
+  },
+  "after": {
+    "source": "../../index.html",
+    "status": "published_assets_verified",
+    "tests": "Chrome/Node/Pythonのローカル合成検証のうち、各項目に実在する実行証拠がある範囲だけ更新。passedは記載の自動動作範囲に限る。一部確認の残件と全実機未確認を分離。公開先の配信確認は未実施。",
+    "appVersion": "2026-10-15-ui20",
+    "sourceVerification": {
+      "method": "SHA-256 after CRLF→LF, matching final results.json source",
+      "files": {
+        "index.html": {
+          "sha256": "0bfe6ce03394e80037fef067059c20c14a9d1ea31eb86dfb4394c0206d9d1357",
+          "matchesReleaseResult": true
+        },
+        "app.css": {
+          "sha256": "dc355b1f2426a7f7ad5f73e480154798279a6e35fbb7846c9661328cac1b3e89",
+          "matchesReleaseResult": true
+        },
+        "guided-tutorial.js": {
+          "sha256": "cd252e516fb4d4dfca1a1c14683df9a7da3de6aa38e679766285bc4aac3b9e28",
+          "matchesReleaseResult": true
+        },
+        "guided-tutorial.css": {
+          "sha256": "d73d3e7373a4602e5258bacbbdbcaad73a00f49ee638094430fe29cb14b146b7",
+          "matchesReleaseResult": true
+        }
+      },
+      "checkedAt": "2026-10-15T02:21:02Z"
+    },
+    "publication": "publication.json"
+  },
+  "preview": {
+    "requiredQuery": {
+      "debug": "1",
+      "upload": "0"
+    },
+    "requiredGo": true,
+    "saveAndUploadDisabledByGo": true,
+    "neverResetStoredSessions": true
+  },
+  "history": [
+    {
+      "commit": "f0e6c8e",
+      "subject": "Safariの非操作領域の拡大防止を補完し教示比較を収録",
+      "relevance": "新しい本文・余白・disabled要素への補完と、有効clickの例外を継承する。"
+    },
+    {
+      "commit": "3374612",
+      "subject": "練習のルール確認と種類別初回の説明見直しを追加",
+      "relevance": "7問quizと正式練習の確認を別機能として保持する。"
+    },
+    {
+      "commit": "9e2ed84",
+      "subject": "完了済み操作練習の減光と再訪時の進行案内を揃える",
+      "relevance": "戻り・再開で手操作の成功を失わない。"
+    },
+    {
+      "commit": "f79d439",
+      "subject": "採用した道徳例題と練習5問を反映し再開で保持",
+      "relevance": "問題定義と旧版の再開を維持する。"
+    },
+    {
+      "commit": "666f6e6",
+      "subject": "本番の振り返りにも共通の進捗バーを表示",
+      "relevance": "評定の見た目を変えても本番進捗を保つ。"
+    }
+  ],
+  "items": [
+    {
+      "id": "screen-layout",
+      "title": "画面の場所と役割",
+      "group": "導入",
+      "before": "問題文・スタート・選択肢の位置と役割を順に説明する。",
+      "requiredAfter": "本番の部品の幾何と当たり判定を保ち、未紹介の部品は隠す。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "const STEPS =",
+        "line": 2878
+      },
+      "manualCheck": "3サイズで問題文・左右の箱・スタートの位置と寸法を比べる。",
+      "automaticCheck": "DOM矩形・computedStyle比較",
+      "caveat": "説明用拡大図と本番の当たり判定を混同しない。",
+      "status": "passed",
+      "evidence": [
+        "results.json［release］: 3寸法の実課題の部品位置・寸法保持、問題文紹介で未紹介部品を非表示、説明/ナビ収まり。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "passed",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "release"
+        ],
+        "unverified": []
+      }
+    },
+    {
+      "id": "guide-labels",
+      "title": "章名・番号・丸ぽち",
+      "group": "導入",
+      "before": "部ごとのn/N、丸ぽち、単独導入の扱いがある。",
+      "requiredAfter": "6章の名前と進行を一貫させ、単独導入や例題に不要な番号を出さない。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "const PART_NAME =",
+        "line": 3122
+      },
+      "manualCheck": "各章を進み、表示名・番号・点と実際の順が合うか見る。",
+      "automaticCheck": "全ページ巡回・ラベル照合",
+      "caveat": "旧8ページと新ページは一対一対応しない。",
+      "status": "partial",
+      "evidence": [
+        "full-validation.txt［full］: [tut] 導入から7問復習・番号なし例題への順序、[moral] 評定1/4〜4/4と番号なし練習導入。",
+        "recovery-results.json［recovery］: related.round3: 全14段階・復習7問・評定4枚・練習導入を巡回。",
+        "未確認: 6章すべての章名・丸ぽち・ページ番号の表示内容を機械照合した結果はない。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "partial",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "full",
+          "recovery"
+        ],
+        "unverified": [
+          "6章すべての章名・丸ぽち・ページ番号の表示内容を機械照合した結果はない。"
+        ]
+      }
+    },
+    {
+      "id": "part-emphasis",
+      "title": "部品の強調と既知部品の減光",
+      "group": "導入",
+      "before": "紹介対象を囲み、既知部品を薄くする。",
+      "requiredAfter": "対象は位置を変えず周期的に強調し、説明を近くへ置く。",
+      "source": {
+        "file": "before/app.css",
+        "pattern": ".choice.tut-dim",
+        "line": 402
+      },
+      "manualCheck": "部品紹介の各画面で強調対象と説明が一致するか見る。",
+      "automaticCheck": "opacity・矩形検査",
+      "caveat": "強調のtransformで本番パーツを動かさない。",
+      "status": "partial",
+      "evidence": [
+        "results.json［release］: layout-stemでスタート/選択肢非表示、3寸法で部品幾何を保持。",
+        "source-audit-results.json［source］: 原本の減光/強調参照を読取監査。",
+        "未確認: 各紹介画面のopacity値、周期的haloの複数時点での強度は未測定。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "partial",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "release",
+          "source"
+        ],
+        "unverified": [
+          "各紹介画面のopacity値、周期的haloの複数時点での強度は未測定。"
+        ]
+      }
+    },
+    {
+      "id": "card-motion",
+      "title": "説明箱の位置移動",
+      "group": "導入",
+      "before": "説明箱が対象近くへ移動し、対象がfadeで登場する。",
+      "requiredAfter": "前の説明箱の位置から次へ短くつなぎ、実部品は動かさない。",
+      "source": {
+        "file": "before/app.css",
+        "pattern": ".tut-pop { position: fixed",
+        "line": 414
+      },
+      "manualCheck": "前後へ移動し、小画面で箱やボタンが重ならないか見る。",
+      "automaticCheck": "画面巡回・矩形検査",
+      "caveat": "見た目の動きだけで進行を伝えない。",
+      "status": "partial",
+      "evidence": [
+        "results.json［release］: 3寸法で説明/操作/スタート/ナビの矩形とルール箱上端を確認。",
+        "未確認: 遷移途中のFLIP座標、前の箱から次の箱への移動と途中の重なりは未測定。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "partial",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "release"
+        ],
+        "unverified": [
+          "遷移途中のFLIP座標、前の箱から次の箱への移動と途中の重なりは未測定。"
+        ]
+      }
+    },
+    {
+      "id": "read-lock",
+      "title": "次へ最短待機",
+      "group": "進行補助",
+      "before": "minReadMsは固定待機0.96〜5.6秒。早押しは進めない。",
+      "requiredAfter": "正式な最短待機を新ページへ接続し、既読・任意見直しの扱いを保つ。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "function minReadMs",
+        "line": 2661
+      },
+      "manualCheck": "新しい説明を直後に次へで送ろうとし、待機後は進めるか試す。",
+      "automaticCheck": "時計制御による境界検査",
+      "caveat": "読了や理解の証明ではない。",
+      "status": "partial",
+      "evidence": [
+        "recovery-results.json［recovery］: related.round3: 初回未読の説明/評定は待機し、既読ページの戻りには再待機なし。",
+        "audit-results.json［audit］: readOnly: motorは従来のhands例外、required見直しは最短待機を保持。",
+        "未確認: 全読速の最短/最長境界、required見直しの待機を新UI上で動的に網羅していない。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "partial",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "recovery",
+          "audit"
+        ],
+        "unverified": [
+          "全読速の最短/最長境界、required見直しの待機を新UI上で動的に網羅していない。"
+        ]
+      }
+    },
+    {
+      "id": "read-cue",
+      "title": "読む頃の次へ強調",
+      "group": "進行補助",
+      "before": "読速の0.45倍、下限3字/秒、未取得5字/秒。3.5〜11秒の合図。",
+      "requiredAfter": "最短待機とは別に正式な読速計算を接続する。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "function readCueDelay",
+        "line": 2666
+      },
+      "manualCheck": "遅い読速・未取得・既読の条件で合図が変わるか見る。",
+      "automaticCheck": "合成読速と時刻検査",
+      "caveat": "旧仮画面の0.6秒を本番値として使わない。",
+      "status": "partial",
+      "evidence": [
+        "audit-results.json［audit］: measured: 正答→誤答の11.2秒後もdisabled次へを古いcue timerが強調しない。",
+        "source-audit-results.json［source］: 原本readCueDelay参照を読取監査。",
+        "未確認: 遅い読速・未取得・既読すべてのcue発火時刻と読速算式の境界は未測定。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "partial",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "audit",
+          "source"
+        ],
+        "unverified": [
+          "遅い読速・未取得・既読すべてのcue発火時刻と読速算式の境界は未測定。"
+        ]
+      }
+    },
+    {
+      "id": "stray-tap",
+      "title": "説明中の誤タップ案内",
+      "group": "進行補助",
+      "before": "操作対象以外のタッチは進むボタンへ案内。1.2秒で戻し、連打で延長しない。",
+      "requiredAfter": "本文・余白・未操作部品を触っても現在の進行ボタンで案内する。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "function strayTap",
+        "line": 3271
+      },
+      "manualCheck": "本文・余白・対象外のスタート・箱を触り、正規ボタンは妨げないか試す。",
+      "automaticCheck": "全領域イベント巡回",
+      "caveat": "新DOMも正規button/a/input例外に含める。",
+      "status": "partial",
+      "evidence": [
+        "static-tap-results.json［staticTap］: 本文/余白/disabledへのtouch既定動作取消と正規入力の代表経路を43件確認。",
+        "audit-results.json［audit］: 古いcue timerのdisabled強調を阻止。",
+        "未確認: 新説明全領域・対象外start/choiceの誤タップ、1.2秒置換と連打の全組合せは未実行。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "partial",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "staticTap",
+          "audit"
+        ],
+        "unverified": [
+          "新説明全領域・対象外start/choiceの誤タップ、1.2秒置換と連打の全組合せは未実行。"
+        ]
+      }
+    },
+    {
+      "id": "disabled-rating-tap",
+      "title": "評定未選択の案内",
+      "group": "評定",
+      "before": "未選択の次へや余白は1つ選ぶ案内を出す。",
+      "requiredAfter": "未選択なら尺度を案内し、有効な選択・戻る・次へはそのまま動く。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "const unselected =",
+        "line": 2639
+      },
+      "manualCheck": "何も選ばず次へと余白を触り、その後選んで進む。",
+      "automaticCheck": "disabled・cue・値検査",
+      "caveat": "合図と確定処理を混同しない。",
+      "status": "partial",
+      "evidence": [
+        "recovery-results.json［recovery］: related.round3: 迷い/自信の未選択進行を阻止、見直し前後の値を保持。",
+        "static-tap-results.json［staticTap］: 通常評定で選択と次へが機能。",
+        "未確認: 未選択余白/disabledタップ時の案内文・尺度cueの発火と消去は動的に未測定。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "partial",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "recovery",
+          "staticTap"
+        ],
+        "unverified": [
+          "未選択余白/disabledタップ時の案内文・尺度cueの発火と消去は動的に未測定。"
+        ]
+      }
+    },
+    {
+      "id": "motor-hint",
+      "title": "純操作の注意",
+      "group": "操作",
+      "before": "赤いtutHintは自動消去なし。正しい開始・render・teardownで消える。成功だけ2.6秒。",
+      "requiredAfter": "上の説明を保ち、中央の箱なし赤文字を上限4秒で消す。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "function setHint",
+        "line": 3198
+      },
+      "manualCheck": "違う場所と枠外で離し、説明保持・位置・start接触・4秒消去を試す。",
+      "automaticCheck": "fake clock・矩形検査",
+      "caveat": "4秒は承認された新仕様で、旧注意の秒数の移植ではない。",
+      "status": "passed",
+      "evidence": [
+        "results.json［release］: 375×548/375×700/402×759で失敗案内が中央に表示され4秒で消去、成功案内を保持。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "passed",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "release"
+        ],
+        "unverified": []
+      }
+    },
+    {
+      "id": "hint-timer",
+      "title": "注意タイマーの置換と片付け",
+      "group": "操作",
+      "before": "setHintは先にhintTimerを取消し、teardownで消去する。",
+      "requiredAfter": "古いタイマーが次の注意を消さず、画面切替・help・成功・取消で消す。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "clearTimeout(hintTimer)",
+        "line": 3199
+      },
+      "manualCheck": "2回の注意を時間差で出し、helpと戻りで古い注意が出ないか試す。",
+      "automaticCheck": "時計制御・残留DOM検査",
+      "caveat": "例題のエラー画面と成功説明には4秒を適用しない。",
+      "status": "partial",
+      "evidence": [
+        "results.json［release］: 純操作の失敗案内4秒消去。",
+        "audit-results.json［audit］: measured: lostpointercapture/resize取消では新注意を表示しない。",
+        "未確認: 注意の再表示による旧timer置換、help/start/成功/全画面切替の消去条件を本番版で動的に網羅していない。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "partial",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "release",
+          "audit"
+        ],
+        "unverified": [
+          "注意の再表示による旧timer置換、help/start/成功/全画面切替の消去条件を本番版で動的に網羅していない。"
+        ]
+      }
+    },
+    {
+      "id": "watch-then-act",
+      "title": "実演と本人操作の分離",
+      "group": "操作",
+      "before": "旧版は実演と本人の操作を同じ段階で受け付ける。",
+      "requiredAfter": "見本と自分の操作を分け、段階移動前に実演を取消す。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "function startHands",
+        "line": 3209
+      },
+      "manualCheck": "見本では入力せず、試してみる後にだけ運べるか試す。",
+      "automaticCheck": "player停止・入力状態検査",
+      "caveat": "意図して変える機能。旧同時実行をそのまま複写しない。",
+      "status": "partial",
+      "evidence": [
+        "full-validation.txt［full］: [tut] 見本→拡大図→純操作の順序、成功前進行阻止と成功保持を確認。",
+        "未確認: 観察中の全入力無効化、全遷移でのplayer停止/canvas消去を個別assertしていない。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "partial",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "full"
+        ],
+        "unverified": [
+          "観察中の全入力無効化、全遷移でのplayer停止/canvas消去を個別assertしていない。"
+        ]
+      }
+    },
+    {
+      "id": "varied-demo",
+      "title": "経路の異なる見本",
+      "group": "操作",
+      "before": "開始・到達・制御点を変えるBézier実演。",
+      "requiredAfter": "最初2回は異なる曲線、その後も経路を変え、停止操作は設けない。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "async function playSandbox",
+        "line": 2986
+      },
+      "manualCheck": "複数周見て直線固定や同じ経路の反復にならないか見る。",
+      "automaticCheck": "複数周期の座標検査",
+      "caveat": "見本の模倣が減ることまでは未検証。",
+      "status": "partial",
+      "evidence": [
+        "full-validation.txt［full］: [tut] 全体の見本と道すじの自由を先に見せる画面を確認。",
+        "未確認: 最初2周の左右反転と3周以降の曲線座標を本番版で複数周期測定していない。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "partial",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "full"
+        ],
+        "unverified": [
+          "最初2周の左右反転と3周以降の曲線座標を本番版で複数周期測定していない。"
+        ]
+      }
+    },
+    {
+      "id": "release-range",
+      "title": "枠内ならどこでも離せる",
+      "group": "操作",
+      "before": "文字の上でなくても内側で離せば回答できる。",
+      "requiredAfter": "同じ比率の説明用1.5倍図で示し、実入力は本番範囲のまま。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "function hInSbxBox",
+        "line": 3255
+      },
+      "manualCheck": "中央以外の四隅付近で指を離し、枠外では確定しないか試す。",
+      "automaticCheck": "座標の内外境界検査",
+      "caveat": "拡大図で指の下端が切れないことも確認する。",
+      "status": "partial",
+      "evidence": [
+        "full-validation.txt［full］: [tut] 枠内で離す場所の拡大図、[practice] 枠外releaseの案内と同じ課題の継続を確認。",
+        "results.json［release］: 本番部品幾何を3寸法で保持。",
+        "未確認: 説明図の縦横1.5倍を独立計測した結果、四隅/外縁の全座標境界試験はない。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "partial",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "full",
+          "release"
+        ],
+        "unverified": [
+          "説明図の縦横1.5倍を独立計測した結果、四隅/外縁の全座標境界試験はない。"
+        ]
+      }
+    },
+    {
+      "id": "mandatory-hands",
+      "title": "必須操作と任意見直し",
+      "group": "操作",
+      "before": "初回は成功まで次へ無効。任意見直しは操作を再強制しない。",
+      "requiredAfter": "初回の成功条件と見直しの閉じる・戻る先を保つ。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "if (!replayMode && (steps[idx].hands",
+        "line": 3314
+      },
+      "manualCheck": "初回と成功後の戻り、任意見直しを別々に試す。",
+      "automaticCheck": "状態遷移検査",
+      "caveat": "gstep直行はdebug確認用で正式な完了ゲートではない。",
+      "status": "passed",
+      "evidence": [
+        "recovery-results.json［recovery］: related.round3: 初回未実施を前へ往復/Xで飛ばせず、成功後の戻りでは再操作不要。任意見直しは閉じて元の評定へ戻る。",
+        "full-validation.txt［full］: [review] 初回close処理無効、任意見直し20画面を巡回。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "passed",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "recovery",
+          "full"
+        ],
+        "unverified": []
+      }
+    },
+    {
+      "id": "completion-revisit",
+      "title": "成功・既読の保持",
+      "group": "操作",
+      "before": "completedHands/seenを保存し、前へで戻っても成功状態を表示。",
+      "requiredAfter": "成功済みの純操作を再強制せず、旧保存済み状態も対応する。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "function showHandsComplete",
+        "line": 3215
+      },
+      "manualCheck": "成功後に前へで戻り、再操作なしで次へ進めるか見る。",
+      "automaticCheck": "再訪・復元検査",
+      "caveat": "旧numeric indexを新ページとして取り違えない。",
+      "status": "passed",
+      "evidence": [
+        "recovery-results.json［recovery］: 旧UI19 numeric snapshotのmotor成功を復元し、新quiz完了は捏造しない。related.pre-mainの完了motor復元、related.round3の成功後戻り。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "passed",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "recovery"
+        ],
+        "unverified": []
+      }
+    },
+    {
+      "id": "press-reveal",
+      "title": "押した時に選択肢を表示",
+      "group": "回答",
+      "before": "スタートに触れた時点で選択肢が現れる。",
+      "requiredAfter": "touch/mouse/pointerの押下反応と内容表示を保つ。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "sbxRevealed = true",
+        "line": 3288
+      },
+      "manualCheck": "スタート枠内で触れた瞬間、枠外へ出る前に選択肢が出るか見る。",
+      "automaticCheck": "pointerdown・可視性検査",
+      "caveat": "開始点・選択肢の出現時点を変えない。",
+      "status": "passed",
+      "evidence": [
+        "full-validation.txt［full］: [dyn] 押下前に選択肢の中身非表示、START接触瞬間に表示しarmed、startPressT=revealTとrevealイベント1件を記録。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "passed",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "full"
+        ],
+        "unverified": []
+      }
+    },
+    {
+      "id": "continuous-drag",
+      "title": "離さず運び内側で確定",
+      "group": "回答",
+      "before": "途中解放や枠外解放は無効。同じ問題を再呈示する。",
+      "requiredAfter": "到達だけでは確定せず、内側で離した時に1回だけ回答する。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "surface.addEventListener(\"pointerup\"",
+        "line": 2225
+      },
+      "manualCheck": "途中・枠外・内側で離し、同じ問題と記録件数を確認する。",
+      "automaticCheck": "境界・二重記録検査",
+      "caveat": "純操作は正式trialとは別で記録しない。",
+      "status": "passed",
+      "evidence": [
+        "results.json［release］: 到達中の表示とrelease後の座標/時刻/回答記録を確認。",
+        "full-validation.txt［full］: [practice] 枠外release後も同じ課題を保持、[recovery] 記録重複/欠落なし。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "passed",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "release",
+          "full"
+        ],
+        "unverified": []
+      }
+    },
+    {
+      "id": "pointer-guard",
+      "title": "別指・Pointer Capture",
+      "group": "回答",
+      "before": "動作中の別指や遷移中の入力を受け付けず、captureで継続する。",
+      "requiredAfter": "新UIを重ねても別指・ブラウザ境界で追跡を壊さない。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "surface.setPointerCapture",
+        "line": 2148
+      },
+      "manualCheck": "運ぶ途中に2本目の指を置き、対象外へ出て戻る。",
+      "automaticCheck": "合成pointer・実機マルチタッチ",
+      "caveat": "合成イベントだけではSafariの指捕捉を証明できない。",
+      "status": "partial",
+      "evidence": [
+        "static-tap-results.json［staticTap］: 本文の合成multitouch/cancel系列を無視することを確認。",
+        "audit-results.json［audit］: motorのlostpointercapture取消をChromeで確認。",
+        "未確認: 課題中2本目の指、ブラウザ境界の実Pointer Capture、Safari実マルチタッチは未確認。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "partial",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "staticTap",
+          "audit"
+        ],
+        "unverified": [
+          "課題中2本目の指、ブラウザ境界の実Pointer Capture、Safari実マルチタッチは未確認。"
+        ]
+      }
+    },
+    {
+      "id": "pointer-cancel",
+      "title": "入力取消",
+      "group": "回答",
+      "before": "純操作は状態解除だけ。本課題は中断を記録し再試行する。",
+      "requiredAfter": "純操作に新注意を出さず、本課題の取消分類と保存を保つ。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "surface.addEventListener(\"pointercancel\"",
+        "line": 2233
+      },
+      "manualCheck": "運ぶ途中に回転・非表示・pointercancelを起こして再操作する。",
+      "automaticCheck": "取消・abortedレコード検査",
+      "caveat": "通常のpointerup後のlost captureを追加エラー扱いしない。",
+      "status": "partial",
+      "evidence": [
+        "audit-results.json［audit］: measured: motorのlostpointercaptureと押下中resizeで無注意・未完了・非armedへ復帰、実回答記録0件。",
+        "full-validation.txt［full］: [notice] 無効操作後の注意印/aborts保存を確認。",
+        "未確認: 本課題の全取消種別、非表示や実回転によるpointercancelの実機挙動は未確認。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "partial",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "audit",
+          "full"
+        ],
+        "unverified": [
+          "本課題の全取消種別、非表示や実回転によるpointercancelの実機挙動は未確認。"
+        ]
+      }
+    },
+    {
+      "id": "start-rule",
+      "title": "開始基準と教示の意味",
+      "group": "ルール",
+      "before": "最後まで読み、状況理解後、答えを決める前にスタートへ。",
+      "requiredAfter": "短い説明と復習でも意味を変えず、読解前の操作を促さない。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "const START_CRITERION_HTML",
+        "line": 1039
+      },
+      "manualCheck": "開始基準の本文と復習の正答を原文と照合する。",
+      "automaticCheck": "文言・順序の照合",
+      "caveat": "教示の理解改善自体は参加者で確認が必要。",
+      "status": "partial",
+      "evidence": [
+        "full-validation.txt［full］: [tut] 開始ルールを含む7問の誤答阻止/正答履歴保持、[O14/timing] 25字/秒の既存早出し判定を保持。",
+        "source-audit-results.json［source］: 原文/判定参照を読取監査。",
+        "未確認: 短文化した教示が被験者に同じ意味で理解されるかのヒアリングは未実施。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "partial",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "full",
+          "source"
+        ],
+        "unverified": [
+          "短文化した教示が被験者に同じ意味で理解されるかのヒアリングは未実施。"
+        ]
+      }
+    },
+    {
+      "id": "first-exit-time",
+      "title": "初動3秒",
+      "group": "ルール",
+      "before": "スタート押下から枠外へ出るまで3秒。回答の締切ではない。",
+      "requiredAfter": "初回枠外の4pxの遊びとinitiationT、rt_ms/rt_proxy_ms、lateStartの既存定義を維持し、実演は押下から枠外へ出る区間だけを示す。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "trial.rt_ms = +(trial.initiationT - trial.revealT).toFixed(2);",
+        "line": 2313
+      },
+      "manualCheck": "枠内で3秒超待つ場合と、すぐ枠外へ出てゆっくり回答する場合を比べる。",
+      "automaticCheck": "時刻・lateフラグの境界検査",
+      "caveat": "選択肢確認のために3秒待つ指示にしない。",
+      "status": "passed",
+      "evidence": [
+        "full-validation.txt［full］: [round4/notice] 3秒未満は遅い初動なし、枠内微動では初動にせず3秒超を記録。動き出した後の停止は注意にしない。",
+        "full-validation.txt［full］: [dyn] initiation由来rt_ms/rt_proxy_ms・lateStart・reveal・stopsAfterInitを実記録、[moral] 全本番の開始手続き記録。",
+        "source-audit-results.json［source］: 4pxの遊びとinitiationTの定義を読取照合。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "passed",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "full",
+          "source"
+        ],
+        "unverified": []
+      }
+    },
+    {
+      "id": "pace-and-stop",
+      "title": "回答ペースと動作後の停止",
+      "group": "ルール",
+      "before": "自分のペースで焦らず回答。動作後の停止は記録のみ。",
+      "requiredAfter": "ゆっくりでもよいという許可を保ち、停止禁止や速度指定を追加しない。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "const STOP_MIN_MS",
+        "line": 1032
+      },
+      "manualCheck": "枠外で一時停止しても不要な停止注意が出ないか見る。",
+      "automaticCheck": "stopFlag/notice条件検査",
+      "caveat": "停止指標の定義や分析分類は見た目に合わせて変えない。",
+      "status": "passed",
+      "evidence": [
+        "full-validation.txt［full］: [round4/notice] 動き出し後の3秒超停止中/評定後にも案内を出さず、停止は記録のみ。3秒超の初動も回答を受理。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "passed",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "full"
+        ],
+        "unverified": []
+      }
+    },
+    {
+      "id": "trajectory-recording",
+      "title": "軌跡の表示と記録",
+      "group": "計測",
+      "before": "pointermove系列を記録し、軌跡の履歴を画面にも描く。",
+      "requiredAfter": "履歴表示を隠しても現在位置・到達表示と生系列の記録を保持する。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "surface.addEventListener(\"pointermove\"",
+        "line": 2198
+      },
+      "manualCheck": "曲がって動かし、画面の線が出なくても保存eventsが残るか見る。",
+      "automaticCheck": "合成生系列・payload比較",
+      "caveat": "表示なしを記録停止として実装しない。",
+      "status": "passed",
+      "evidence": [
+        "results.json［release］: 3寸法で現在位置/到達を表示し軌跡線を残さず、events座標/時刻/枠外初動を記録。",
+        "full-validation.txt［full］: [moral] 全本番にevents+geom、開始手続きと評定時間を保存。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "passed",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "release",
+          "full"
+        ],
+        "unverified": []
+      }
+    },
+    {
+      "id": "rule-quiz",
+      "title": "7問の復習と誤回答阻止",
+      "group": "ルール",
+      "before": "旧版に独立した7問quizはない。正式練習後のcheckbox確認はある。",
+      "requiredAfter": "7項目を全て正答するまで例題へ進めず、誤答は選び直せる。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "function showPracticeCheck",
+        "line": 2438
+      },
+      "manualCheck": "各問で誤答・未選択・戻るを試し、全正答だけ次へ進めるか見る。",
+      "automaticCheck": "全問ゲート・並び保持検査",
+      "caveat": "正答を実際の読了・順守の証明としない。",
+      "status": "passed",
+      "evidence": [
+        "results.json［release］: 3寸法×7問で誤答無効/誤答進行阻止/正答進行/選び直し後の順序を確認。",
+        "recovery-results.json［recovery］: 並び/選択/試行数/indexを2回reloadで保持し、7問の実回答前に完了を捏造しない。",
+        "audit-results.json［audit］: Space/Enter/ArrowDownで選択、正答→誤答後に古いcueがdisabledを強調しない。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "passed",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "release",
+          "recovery",
+          "audit"
+        ],
+        "unverified": []
+      }
+    },
+    {
+      "id": "rating-five",
+      "title": "5段階の意味と回答表示",
+      "group": "評定",
+      "before": "迷い→自信、全1〜5に言葉を表示し、選んだ回答を残す。",
+      "requiredAfter": "質問・数字・言葉を保持し、導入と実回答画面の役割を分ける。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "for (let v = 1; v <= 5; v++)",
+        "line": 2503
+      },
+      "manualCheck": "質問、全10ラベル、数字、あなたの回答を照合する。",
+      "automaticCheck": "本文・値マッピング検査",
+      "caveat": "見出しの文と計測する質問を取り替えない。",
+      "status": "passed",
+      "evidence": [
+        "full-validation.txt［full］: [moral] 質問・5択強調・1〜5の保存・導入の回答/質問非表示と実回答の表示を確認。",
+        "full-validation.txt［full］: [dyn] あなたの回答に実際の選択行為を表示、[a11y] 質問と選択状態を関連付け。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "passed",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "full"
+        ],
+        "unverified": []
+      }
+    },
+    {
+      "id": "rating-back",
+      "title": "評定の戻ると選び直し",
+      "group": "評定",
+      "before": "自信から戻って迷いを直し、選択値を保持する。",
+      "requiredAfter": "戻る注釈とボタン名を整理しても、確定前の修正・保持を保つ。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "function ratShowPage",
+        "line": 2529
+      },
+      "manualCheck": "迷いを選び、自信から戻り、修正して再び自信へ進む。",
+      "automaticCheck": "値・ratingBacks比較",
+      "caveat": "戻り時間と回答時間の定義を勝手に変えない。",
+      "status": "passed",
+      "evidence": [
+        "full-validation.txt［full］: [moral] 戻っても値保持、[rating-progress] 戻るで回答/完了率を保持。",
+        "recovery-results.json［recovery］: related.round3: 自信→見直し→復帰後も通常の戻る操作が有効、related.pre-main/既存recoveryでページ/選択/戻る回数復元。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "passed",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "full",
+          "recovery"
+        ],
+        "unverified": []
+      }
+    },
+    {
+      "id": "rating-selection-gate",
+      "title": "評定未選択の進行阻止",
+      "group": "評定",
+      "before": "現在項目だけ入力を受け付け、未選択では次へを無効にする。",
+      "requiredAfter": "迷い・自信の両画面で未選択進行と裏面選択を阻止する。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "function selectRating",
+        "line": 2787
+      },
+      "manualCheck": "未選択の次へ連打、非表示項目のタップを試す。",
+      "automaticCheck": "disabled・項目値検査",
+      "caveat": "自信次へで2項目が1回だけ確定する。",
+      "status": "partial",
+      "evidence": [
+        "recovery-results.json［recovery］: related.round3: 初回迷い/自信とも未選択進行阻止、戻っても選択が必要。",
+        "full-validation.txt［full］: [moral] 両項目を1〜5で記録し未評定/重複なし。",
+        "未確認: 非表示の裏面項目へ直接入力する合成イベントと未選択連打の全経路は個別に未検証。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "partial",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "recovery",
+          "full"
+        ],
+        "unverified": [
+          "非表示の裏面項目へ直接入力する合成イベントと未選択連打の全経路は個別に未検証。"
+        ]
+      }
+    },
+    {
+      "id": "rating-review-time",
+      "title": "説明の見直しと計測除外",
+      "group": "計測",
+      "before": "任意の評定説明の閲覧時間をrt_ms/ratingSubmitMsから除外する。",
+      "requiredAfter": "値・ページ・経過時間を戻し、説明時間はtutorialLogへ残す。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "function closeRatingReview",
+        "line": 2575
+      },
+      "manualCheck": "選択途中で説明を読み直し、元の値と画面へ戻る。",
+      "automaticCheck": "時計制御・時刻差比較",
+      "caveat": "見た目だけ戻って計測時計をリセットしない。",
+      "status": "passed",
+      "evidence": [
+        "recovery-results.json［recovery］: related.round3: 迷い/自信×未選択/選択済で値・ratPage・記録を保全、X/最後までの復帰と見直し中reload、説明時間の評定計時除外を確認。",
+        "full-validation.txt［full］: [tut] 滞在tutorialLog、[moral] ratingSubmitMsを保存。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "passed",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "recovery",
+          "full"
+        ],
+        "unverified": []
+      }
+    },
+    {
+      "id": "rating-finish-resume",
+      "title": "4枚目の説明と旧評定再開",
+      "group": "復元",
+      "before": "旧評定は導入0/迷い1/自信2。submit時に完了する。",
+      "requiredAfter": "新finish3の保存・再開と旧0/1/2を両立し、確定の二重処理を防ぐ。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "function normalizedResume",
+        "line": 4725
+      },
+      "manualCheck": "旧3ページと新finishで中断し、値・提出時刻・同じ試行へ戻る。",
+      "automaticCheck": "合成旧snapshot互換検査",
+      "caveat": "finish閲覧時間をratingSubmitMsへ足すかは定義を維持して判断する。",
+      "status": "passed",
+      "evidence": [
+        "recovery-results.json［recovery］: 新finish index3/番号なしintro index4でreloadし、同じratingSubmitMs/評定/1例題を保持。旧UI19 index2も同じ自信画面へ復元し、重複提出なく既存5問へ進む。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "passed",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "recovery"
+        ],
+        "unverified": []
+      }
+    },
+    {
+      "id": "practice-definition",
+      "title": "例題・練習5問の原文と旧版保持",
+      "group": "練習",
+      "before": "ui18の原文とpracticeVersionを開始時にdeviceへ保存し、legacyを再開用に保持。",
+      "requiredAfter": "原本の例題と5問を使い、旧セッションの定義を最新へ差し替えない。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "function restoreMoralPracticeDefinition",
+        "line": 1316
+      },
+      "manualCheck": "新規とui17以前の再開で問題ID・文言・順が意図どおりか確認する。",
+      "automaticCheck": "bank・device定義比較",
+      "caveat": "固定順と各問の左右ランダムは別に照合する。",
+      "status": "passed",
+      "evidence": [
+        "recovery-results.json［recovery］: related.stimuli 63件: 採用6問の原文/ID/ラベル、M-K-C-M-K、main49/reading4/value不変。実UI17/19の刺激定義・ブロック順・旧5問を保持。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "passed",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "recovery"
+        ],
+        "unverified": []
+      }
+    },
+    {
+      "id": "formal-practice-gate",
+      "title": "所定練習と行動ゲート",
+      "group": "練習",
+      "before": "所定練習と有効/正解streak。ゲート不足なら補充する。",
+      "requiredAfter": "復習quiz追加後も正式な練習数・行動条件・補充を保つ。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "function completePracticeTrial",
+        "line": 2426
+      },
+      "manualCheck": "無効操作を混ぜて練習を完了し、正式条件不足では本番に進まないか試す。",
+      "automaticCheck": "所定数・streak境界検査",
+      "caveat": "例題・純操作を正式5問へ誤算入しない。",
+      "status": "passed",
+      "evidence": [
+        "full-validation.txt［full］: [anchor] 不正解でstreakリセット→正解3連続で解錠し所定練習6問完走、無効操作/abortsとgate summaryを保存。",
+        "full-validation.txt［full］: [moral] 規定5問/評定を完走。recovery-results.json related.stimuli: 選択行為の正誤に依存しないmoral gateと固定5問を確認。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "passed",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "full"
+        ],
+        "unverified": []
+      }
+    },
+    {
+      "id": "practice-post-check",
+      "title": "練習後のルール確認",
+      "group": "練習",
+      "before": "早い開始・遅い初動・解放などを評定後に確認する。",
+      "requiredAfter": "種類別の確認と全チェック必須を、前半のquizと別に保持する。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "function completePracticeTrial",
+        "line": 2426
+      },
+      "manualCheck": "練習でearly/late/releaseを発生させ、評定後の確認を試す。",
+      "automaticCheck": "条件別チェック・順序検査",
+      "caveat": "動作後の停止の案内は追加しない。",
+      "status": "partial",
+      "evidence": [
+        "full-validation.txt［full］: [dyn] 練習の遅い初動は両評定後に該当lateのみの必須確認、未チェック進行阻止、確認滞在1件で次問へ。",
+        "static-tap-results.json［staticTap］: practicecheckの全checkbox有効後のみ次へ。",
+        "未確認: early/late/releaseの全組合せと表示順を新UIで動的に網羅した結果はない。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "partial",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "full",
+          "staticTap"
+        ],
+        "unverified": [
+          "early/late/releaseの全組合せと表示順を新UIで動的に網羅した結果はない。"
+        ]
+      }
+    },
+    {
+      "id": "tutorial-provenance",
+      "title": "説明露出・滞在・早押しログ",
+      "group": "計測",
+      "before": "tutorialLogとinstructionExposureへ閲覧・戻る・完了等を記録する。",
+      "requiredAfter": "新ページID/版と旧ログの意味を区別して保存する。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "function logInstructionExposure",
+        "line": 1325
+      },
+      "manualCheck": "説明を戻り・再閲覧し、ページと滞在記録を確認する。",
+      "automaticCheck": "ログschema・旧版保持検査",
+      "caveat": "画面数が変わっても古い履歴を新文面として解釈しない。",
+      "status": "passed",
+      "evidence": [
+        "full-validation.txt［full］: [tut] 新stepId/schemaのstay/rule_answer/motor_complete/completeと評定4枚/練習導入の滞在を記録。",
+        "recovery-results.json［recovery］: related.provenance 36件: 実旧UI7を使い新表示分だけを記録し、旧値/既存payload/開始版を保持、GAS模擬受領で追加metadataを保持。",
+        "audit-results.json［audit］: parserCompatibility 5件: 新進行イベントをやり直し数へ入れず旧レポート/滞在/生ログを保持。stimulusIdRepairは別の既存抽出不具合の修復。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "passed",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "full",
+          "recovery",
+          "audit"
+        ],
+        "unverified": []
+      }
+    },
+    {
+      "id": "resume-snapshot",
+      "title": "DragTut snapshotと旧番号互換",
+      "group": "復元",
+      "before": "index/seen/completedとpreMain.dragを保存する。",
+      "requiredAfter": "新ステップIDと旧数字番号の対応、復習正答・手操作成功を復元する。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "DragTut.snapshot()",
+        "line": 4711
+      },
+      "manualCheck": "旧導入・操作成功・新復習の途中から中断再開する。",
+      "automaticCheck": "旧snapshot移行fixture",
+      "caveat": "新配置へ再開しただけで全部既読・全部成功にしない。",
+      "status": "passed",
+      "evidence": [
+        "recovery-results.json［recovery］: 新quizの並び/選択/attempt/index復元、実UI19旧数値→新stepId/motor成功の互換、未実施完了/露出を補造しない。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "passed",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "recovery"
+        ],
+        "unverified": []
+      }
+    },
+    {
+      "id": "same-url-resume",
+      "title": "同一URL・3時間と再開境界",
+      "group": "復元",
+      "before": "同じsearch、v1/v2、3時間内を通常再開。kioskは別扱い。",
+      "requiredAfter": "見た目の更新で対象URL・期限・kiosk区別を壊さない。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "function canResume",
+        "line": 4741
+      },
+      "manualCheck": "同じURL、異なるURL、3時間超の合成保存を比較する。",
+      "automaticCheck": "既存復元テスト",
+      "caveat": "レビューgoでは保存・再開を検証できない。",
+      "status": "passed",
+      "evidence": [
+        "recovery-results.json［recovery］: related.pre-main: 同一URLで各準備段階を再開、3時間超/別URLはデータを残す、kioskは退避。",
+        "full-validation.txt［full］: [resume] 同一cell/queue/完了数を再開、post_resumeは次の有効回答のみ。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "passed",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "recovery",
+          "full"
+        ],
+        "unverified": []
+      }
+    },
+    {
+      "id": "review-reentry-time",
+      "title": "操作説明から試行へ戻る時計",
+      "group": "計測",
+      "before": "操作見直し後に同じ試行へ戻り、説明時間を読解時間へ混ぜない。",
+      "requiredAfter": "回答前のヘルプの値・刺激・時計を保持する。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "DragTut.run(() => { replayResumeState = null; presentStimulus(retained); }",
+        "line": 5617
+      },
+      "manualCheck": "問題を読んで説明を開き、戻って回答する。",
+      "automaticCheck": "時計制御・同じitemId検査",
+      "caveat": "見直しで刺激再選出や回答二重記録を起こさない。",
+      "status": "passed",
+      "evidence": [
+        "full-validation.txt［full］: [review] 閉じる/末尾から同じ未回答cellへ戻り、注意確認後から次問題文の時計が始まる。",
+        "full-validation.txt［full］: [timing] 見直し前の問題文読時間を保持。recovery-results.json related.round3: 元のitem/queue/clockと説明時間除外を確認。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "passed",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "full"
+        ],
+        "unverified": []
+      }
+    },
+    {
+      "id": "local-storage",
+      "title": "保存・確定payload・失敗保持",
+      "group": "保存",
+      "before": "セッション・IndexedDB・Workerへ保存し、完了payloadを固定。失敗は未送信保持。",
+      "requiredAfter": "UI刷新後も同じ保存契約、分類、圧縮・受領控えを保持する。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "function saveBackup",
+        "line": 4641
+      },
+      "manualCheck": "合成データでcheckpoint、保存失敗、未送信復帰を検証する。",
+      "automaticCheck": "既存storage/provenance suites",
+      "caveat": "この比較サイトから保存先への通信テストは行わない。",
+      "status": "passed",
+      "evidence": [
+        "recovery-results.json［recovery］: 通常保存→reload→再開と旧payload不変を実ブラウザで確認、合成セッションのみ。",
+        "../../test-session-store.cjs［store］: 所有権/移行/容量不足/held不変/受領控え18件（root実行記録）。",
+        "../../test-recovery-storage.cjs［storage］: 保存障害/復元/競合/pagehide34件（root実行記録）。",
+        "../../test-delivery.cjs［delivery］: 確定payload不変/同じ送信body再試行/失敗時保留/受領5件（root実行記録）。",
+        "full-validation.txt［full］: [kiosk] ローカルPOST模擬応答、送信失敗保留と次起動の再送信。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "passed",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "recovery",
+          "store",
+          "storage",
+          "delivery",
+          "full"
+        ],
+        "unverified": []
+      }
+    },
+    {
+      "id": "visibility-and-lock",
+      "title": "タブ非表示・pagehide・所有権",
+      "group": "保存",
+      "before": "非表示で保存、bfcache復帰でWeb Lockとrevisionを確認する。",
+      "requiredAfter": "新説明/quiz/評定でも未保存・別タブ上書きを起こさない。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "window.addEventListener(\"pageshow\"",
+        "line": 5815
+      },
+      "manualCheck": "非表示・復帰と別タブ競合を合成セッションで試す。",
+      "automaticCheck": "既存session-store tests・実機",
+      "caveat": "自動テストと実機タブ破棄は別の証拠にする。",
+      "status": "partial",
+      "evidence": [
+        "../../test-session-store.cjs［store］: 同時writer排除/期限なしlock/移行競合を含む18件（root実行記録）。",
+        "../../test-recovery-storage.cjs［storage］: pagehide未確定commit中の排他、復帰時の更新/削除/所有者競合を含む34件（root実行記録）。",
+        "未確認: 新quiz/評定全段階での実タブ非表示/復帰とSafari pagehideの統合操作は未確認。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "partial",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "store",
+          "storage"
+        ],
+        "unverified": [
+          "新quiz/評定全段階での実タブ非表示/復帰とSafari pagehideの統合操作は未確認。"
+        ]
+      }
+    },
+    {
+      "id": "preview-no-send",
+      "title": "比較画面の送信・保存抑止",
+      "group": "確認環境",
+      "before": "GOでuploadUrl=null、saveBackupはreturn、recovery boot省略。",
+      "requiredAfter": "全比較URLでgo/debug/upload=0を固定し、送信しない。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "if (GO || !storeReady)",
+        "line": 4642
+      },
+      "manualCheck": "前後フレームの確認モード表示とuploadUrl=nullを確認する。",
+      "automaticCheck": "URL/通信intercept・debughook検査",
+      "caveat": "送信互換の試験とは別。実Driveには送らない。",
+      "status": "passed",
+      "evidence": [
+        "site-results.json［site］: 前後3寸法/14入口でgo/debug=1/upload=0とuploadUrl=null、外部origin/non-GET通信0。",
+        "results.json［release］: 全直接入口で送信無効、外部通信0。",
+        "../../test-security.cjs［security］: ローカル限定uploadurl/GO送信無効等9件（root実行記録）。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "passed",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "site",
+          "release",
+          "security"
+        ],
+        "unverified": []
+      }
+    },
+    {
+      "id": "static-doubletap",
+      "title": "全画面の本文・余白・disabled拡大防止",
+      "group": "タッチ",
+      "before": "touch-actionと非操作領域のtouchend補完で拡大を防ぐ。",
+      "requiredAfter": "新しい説明箱・quiz・評定・完了も対象にする。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "// Safariはクリック対象でない",
+        "line": 5831
+      },
+      "manualCheck": "全画面の本文、余白、disabledボタンを各2連打する。",
+      "automaticCheck": "静的ガード検査＋実機",
+      "caveat": "desktop合成イベントでSafari拡大防止を保証しない。",
+      "status": "partial",
+      "evidence": [
+        "static-tap-results.json［staticTap］: 代表本文/余白/disabledで2連打を取消しChrome viewport不変。43 pass、最終ソースより前の時点。",
+        "未確認: 新全説明/quiz/評定/完了の全領域を網羅しておらず、Safari実smart zoomは未確認。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "partial",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "staticTap"
+        ],
+        "unverified": [
+          "新全説明/quiz/評定/完了の全領域を網羅しておらず、Safari実smart zoomは未確認。"
+        ]
+      }
+    },
+    {
+      "id": "active-button-doubletap",
+      "title": "有効ボタンとフォームのタップ",
+      "group": "タッチ",
+      "before": "有効フォーム/label/buttonのnative clickは妨げない。",
+      "requiredAfter": "次へ、戻る、説明、checkbox、入力が拡大防止後も動く。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "const control = target.closest('button",
+        "line": 5857
+      },
+      "manualCheck": "全ての有効ボタン・チェック・入力を1回と連打で試す。",
+      "automaticCheck": "click欠落・重複進行検査＋実機",
+      "caveat": "手動click再送で二重処理を作らない。",
+      "status": "partial",
+      "evidence": [
+        "static-tap-results.json［staticTap］: 確認/追加導入/checkbox/評定/入力/事後次へはChrome touchで機能、縦swipeは維持。",
+        "full-validation.txt［full］: [review] 確認ボタン重複操作で回答/ログ増加なし。",
+        "未確認: 全有効ボタン/フォームの連打による欠落/重複を網羅していない。Safari実機は未確認。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "partial",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "staticTap",
+          "full"
+        ],
+        "unverified": [
+          "全有効ボタン/フォームの連打による欠落/重複を網羅していない。Safari実機は未確認。"
+        ]
+      }
+    },
+    {
+      "id": "pinch-and-context",
+      "title": "pinch・長押し・プルリフレッシュ",
+      "group": "タッチ",
+      "before": "gesturestart、課題touchmove、contextmenuを抑止。説明のスクロールと受領控え#ccodeの長押しコピーは残す。",
+      "requiredAfter": "全領域のpinchと課題の脱線を防ぎ、必要な縦スクロールと受領控えの長押しコピー例外を保つ。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "document.addEventListener(\"contextmenu\"",
+        "line": 5829
+      },
+      "manualCheck": "全画面でpinch、長押し、課題の下引き、長文スクロールを試し、#ccodeでは長押しコピーができるか確認する。",
+      "automaticCheck": "イベント設定の静的照合＋実機",
+      "caveat": "iframe内の動作は単独表示のSafariと同一ではない。",
+      "status": "partial",
+      "evidence": [
+        "static-tap-results.json［staticTap］: Chromeの代表静的領域は縦swipe可能、合成multitouch/cancelを誤って静的tap処理しない。",
+        "source-audit-results.json［source］: 長押し禁止と#ccodeコピー例外の読取照合。",
+        "full-validation.txt［full］: [review] コピー成功/失敗/代替コピー表示を模擬確認。",
+        "未確認: 全画面pinch/長押し/課題pull-to-refresh、Safariの受領控え長押しコピーは実機未確認。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "partial",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "staticTap",
+          "source",
+          "full"
+        ],
+        "unverified": [
+          "全画面pinch/長押し/課題pull-to-refresh、Safariの受領控え長押しコピーは実機未確認。"
+        ]
+      }
+    },
+    {
+      "id": "orientation-and-zoom",
+      "title": "回転・ページ/文字拡大ガード",
+      "group": "タッチ",
+      "before": "100%±3%を外れると案内、入力中は除外。回転中の回答は取消。",
+      "requiredAfter": "新UIでも対象端末・入力中・向きの条件を維持する。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "function measureZoom",
+        "line": 5172
+      },
+      "manualCheck": "Aa拡大、回転、自由記述のキーボードを開いて戻す。",
+      "automaticCheck": "既存guard suite＋実機",
+      "caveat": "比較寸法のiframeは端末条件の合否を代替しない。",
+      "status": "partial",
+      "evidence": [
+        "full-validation.txt［full］: [zoom] 100%でガードなし→ページ125%相当で表示→100%復帰で消去。",
+        "audit-results.json［audit］: motor押下中resize375×700→375×548で安全に取消。",
+        "未確認: Safari Aa文字拡大、実回転、自由記述の実キーボード開閉とガードの組合せは未確認。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "partial",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "full",
+          "audit"
+        ],
+        "unverified": [
+          "Safari Aa文字拡大、実回転、自由記述の実キーボード開閉とガードの組合せは未確認。"
+        ]
+      }
+    },
+    {
+      "id": "stop-confirm",
+      "title": "終了の取消と復帰",
+      "group": "復元",
+      "before": "停止確認中は箱/帯を隠し、取消で元画面を戻す。",
+      "requiredAfter": "quiz・説明・評定・練習中でも値と表示を失わない。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "endedFrom",
+        "line": 1914
+      },
+      "manualCheck": "各段階で終了確認→取り消すを試す。",
+      "automaticCheck": "状態とDOM復帰検査",
+      "caveat": "本当の終了と取消を同じ処理にしない。",
+      "status": "partial",
+      "evidence": [
+        "recovery-results.json［recovery］: related.round3: main/instructedの終了→post→取消でcell/queue/clockを保持、ratingもページ/値を保持。",
+        "full-validation.txt［full］: [tut/stop] 初回導入で終了/続行/最後の質問から取消を確認。",
+        "未確認: 新quizの選択途中および全説明/練習段階の終了取消は個別に網羅していない。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "partial",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "recovery",
+          "full"
+        ],
+        "unverified": [
+          "新quizの選択途中および全説明/練習段階の終了取消は個別に網羅していない。"
+        ]
+      }
+    },
+    {
+      "id": "rating-progress",
+      "title": "本番評定の進捗バー",
+      "group": "本番UI",
+      "before": "ui19で課題と共通の本番進捗を評定にも表示する。",
+      "requiredAfter": "説明刷新後も本番だけ同じ母数/進捗を表示する。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "function updateProgress",
+        "line": 2371
+      },
+      "manualCheck": "本番回答後の迷い・自信の進捗が課題と一致するか見る。",
+      "automaticCheck": "同じcounter/progress値検査",
+      "caveat": "練習・追加課題のカウントと混在させない。",
+      "status": "passed",
+      "evidence": [
+        "full-validation.txt［full］: [rating-progress] 課題→迷い→自信/戻るは同じ母数/完了率、評定確定後のみ進行、見直し非表示→復帰、reload値保持。375×548を含む5寸法で重なりなし、例題/練習には非表示。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "passed",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "full"
+        ],
+        "unverified": []
+      }
+    },
+    {
+      "id": "instructed-trials",
+      "title": "追加10問の特別な指示",
+      "group": "本番UI",
+      "before": "読まずに適当に運ぶ別課題。振り返りなし・謝礼影響なし。",
+      "requiredAfter": "通常教示と区別し、開始・再開・完了の状態を保持する。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "const INSTRUCTED_STEPS",
+        "line": 2896
+      },
+      "manualCheck": "追加課題導入と再開で通常ルールへ誤誘導しないか見る。",
+      "automaticCheck": "instructed既存テスト",
+      "caveat": "通常7問quizを追加課題へ流用しない。",
+      "status": "passed",
+      "evidence": [
+        "recovery-results.json［recovery］: related.round3: 専用2枚で通常の逆指示を混ぜず、閉じる/末尾/終了取消でも同じcell/queue、実回答1件。",
+        "full-validation.txt［full］: [moral] 追加10問のisInstructed/評定nullと水準保持、[recovery] 導入/途中の再開とpost_resumeの有効回答のみ付与。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "passed",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "recovery",
+          "full"
+        ],
+        "unverified": []
+      }
+    },
+    {
+      "id": "consent-reading",
+      "title": "参加案内・同意・読速",
+      "group": "周辺UI",
+      "before": "WELCOME条件・電子同意・読速4本と条件の確認を行う。",
+      "requiredAfter": "導入を刷新しても説明・同意・読速とその記録を保持する。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "function requiresConsent",
+        "line": 5285
+      },
+      "manualCheck": "新規導入から条件・同意・読速の順を確認する。",
+      "automaticCheck": "既存consent/reading suites",
+      "caveat": "go比較はこれらを省略するため別の検証が必要。",
+      "status": "passed",
+      "evidence": [
+        "recovery-results.json［recovery］: related.round3: welcome6枚/必須同意5件を戻りでも保持し未回答を飛ばさない。related.pre-main: 同意受領済/ローカルのみの区別と読速現在文/測定済/再開印保持。",
+        "full-validation.txt［full］: [moral] 元の4文とcharsPerSecを記録、[a11y] 入力/同意/次ページfocusを確認。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "passed",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "recovery",
+          "full"
+        ],
+        "unverified": []
+      }
+    },
+    {
+      "id": "reduced-motion",
+      "title": "動きを減らす設定",
+      "group": "周辺UI",
+      "before": "実演・点滅・移動をprefers-reduced-motionで抑える。",
+      "requiredAfter": "新pulse/slide/実演/注意の揺れも静止で理解できる。",
+      "source": {
+        "file": "before/app.css",
+        "pattern": "@media (prefers-reduced-motion: reduce) { .tut-spot",
+        "line": 435
+      },
+      "manualCheck": "動き軽減ONで各実演と次へ案内を読む。",
+      "automaticCheck": "media emulation＋実機",
+      "caveat": "動きなしでも離せる範囲と段階が分かるようにする。",
+      "status": "partial",
+      "evidence": [
+        "recovery-results.json［recovery］: related.round3.motion: media emulationで必須motorを飛ばせず成功/戻り保持、例題回答を完了。",
+        "source-audit-results.json［source］: reduced-motion参照を読取監査。",
+        "未確認: 新halo/FLIP/実演/注意cueすべての静止表示と理解しやすさは動的/実機で網羅していない。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "partial",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "recovery",
+          "source"
+        ],
+        "unverified": [
+          "新halo/FLIP/実演/注意cueすべての静止表示と理解しやすさは動的/実機で網羅していない。"
+        ]
+      }
+    },
+    {
+      "id": "accessibility-focus",
+      "title": "フォーカスと説明の読上げ",
+      "group": "周辺UI",
+      "before": "通常画面では見出しへ焦点を移し、課題計測では不要な焦点移動をしない。",
+      "requiredAfter": "新見出し/状態/quizに名前を付け、計測を変えない。",
+      "source": {
+        "file": "before/index.html",
+        "pattern": "function show(name)",
+        "line": 1152
+      },
+      "manualCheck": "キーボード・VoiceOverで説明とボタンの順を追う。",
+      "automaticCheck": "アクセシビリティsnapshot＋実機",
+      "caveat": "画面切替の動きだけを進行の合図にしない。",
+      "status": "partial",
+      "evidence": [
+        "audit-results.json［audit］: Space/Enter/ArrowDownでquizのfocusが選択後も有効buttonに残り、checked1件を保持。",
+        "full-validation.txt［full］: [a11y] 見出し遷移focus、radio状態/Tab順、評定質問関連付け、送信status公開と復元評定ariaを確認。",
+        "未確認: 全新画面のアクセシビリティtreeを網羅しておらず、VoiceOver読上げ順/実機操作は未確認。",
+        "実機: 未確認（iPhone/iPad Safari、実タッチ・実回転・VoiceOver等）。"
+      ],
+      "sourceAudited": true,
+      "statusScope": "ローカル自動検証。実機合格を意味しない。",
+      "verification": {
+        "automatedStatus": "partial",
+        "physicalStatus": "not_verified",
+        "evidenceIds": [
+          "audit",
+          "full"
+        ],
+        "unverified": [
+          "全新画面のアクセシビリティtreeを網羅しておらず、VoiceOver読上げ順/実機操作は未確認。"
+        ]
+      }
+    }
+  ],
+  "verificationPolicy": {
+    "automatedEnvironment": "Windows Chrome / Playwright touch emulation、Node/VM、Python合成データ。参加者生データ実行なし。",
+    "passedMeaning": "当該条件を裏付けるローカル動作検証がある。実機/Safari/公開版の合格ではない。",
+    "partialMeaning": "代表動作または読取照合は確認したが、verification.unverifiedの条件は未検証。",
+    "readOnlyIsNotPassed": true,
+    "physicalStatus": "not_verified",
+    "publicationStatus": "assets_verified",
+    "sourceFreshness": "最終freezeのresults/site/staticTapとfullを確認。関連suiteは各記録のsourceを保持し、未検証の実機条件へ転用しない。"
+  },
+  "evidenceCatalog": {
+    "release": {
+      "file": "results.json",
+      "method": "Chrome touch emulation / production ui20",
+      "at": "2026-10-15T02:05:37.742Z",
+      "passed": 255,
+      "failed": 0
+    },
+    "recovery": {
+      "file": "recovery-results.json",
+      "method": "Playwright Chrome; normal synthetic sessions, local GET only",
+      "passed": 28,
+      "failed": 0,
+      "relatedPassed": {
+        "pre-main": 40,
+        "stimuli": 63,
+        "provenance": 36,
+        "round3": 336
+      },
+      "limitation": "関連suiteは最終micro修正より前のソースを含む。sourceを同結果内で区別する。"
+    },
+    "audit": {
+      "file": "audit-results.json",
+      "method": "Chrome実測7件＋Python合成25件。readOnly配列は動作合格ではない。",
+      "passed": 32,
+      "failed": 0
+    },
+    "site": {
+      "file": "site-results.json",
+      "method": "Chrome比較サイト/iframe/通信確認。実保存やSafari操作の検証ではない。",
+      "passed": 26,
+      "failed": 0
+    },
+    "full": {
+      "file": "full-validation.txt",
+      "test": "../../validate.js",
+      "method": "Chrome/Playwright adapter; rootがexit 0を確認",
+      "result": "全チェック通過",
+      "limitation": "合成データ/模擬通信。本番への実送信および実機検証ではない。"
+    },
+    "source": {
+      "file": "source-audit-results.json",
+      "method": "凍結原本49参照の読取照合のみ。動作合格の根拠にはしない。"
+    },
+    "staticTap": {
+      "file": "static-tap-results.json",
+      "test": "../../test-static-tap-guard.cjs",
+      "method": "Chrome touch emulation",
+      "at": "2026-10-15T02:21:40.566Z",
+      "passed": 43,
+      "failed": 0,
+      "limitation": "最終ui20ソースで43件を再実行。代表静的領域のイベント取消と通常操作を確認。Safari smart zoomと新UI全域の検証ではない。"
+    },
+    "store": {
+      "file": "../../test-session-store.cjs",
+      "method": "Node合成テスト。2026-10-15 root実行報告18 pass、独立実行ログ未保存。",
+      "executionRecord": "parent agent /root 2026-10-15 execution attestation",
+      "passed": 18
+    },
+    "storage": {
+      "file": "../../test-recovery-storage.cjs",
+      "method": "Node/VM合成テスト。2026-10-15 root実行報告34 pass、独立実行ログ未保存。",
+      "executionRecord": "parent agent /root 2026-10-15 execution attestation",
+      "passed": 34
+    },
+    "delivery": {
+      "file": "../../test-delivery.cjs",
+      "method": "Node/VM・模擬fetch。2026-10-15 root実行報告5 pass、独立実行ログ未保存。",
+      "executionRecord": "parent agent /root 2026-10-15 execution attestation",
+      "passed": 5
+    },
+    "security": {
+      "file": "../../test-security.cjs",
+      "method": "Node/VM合成テスト。2026-10-15 root実行報告9 pass、独立実行ログ未保存。",
+      "executionRecord": "parent agent /root 2026-10-15 execution attestation",
+      "passed": 9
+    }
+  },
+  "verificationSummary": {
+    "items": 49,
+    "statusCounts": {
+      "passed": 25,
+      "partial": 24
+    },
+    "physicalVerified": 0,
+    "physicalPending": 49,
+    "failedKnown": 0,
+    "scope": "失敗未検出は未検証条件の合格を意味しない。"
+  }
+}
