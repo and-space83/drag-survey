@@ -9,9 +9,9 @@ function writeCapture(target,data){const resolved=path.resolve(target);if(!resol
 const flow=JSON.parse(fs.readFileSync(path.join(out,'data/flow.json'),'utf8')),assets=new Map();
 for(const file of files){const bytes=fs.readFileSync(path.join(root,file)),digest=crypto.createHash('sha256').update(bytes.toString().replace(/\r\n/g,'\n')).digest('hex');if(flow.source[file]!==digest)throw Error('Visual refresh source differs: '+file);assets.set('/'+file,bytes);}
 const observe=function(){window.__galleryPlayers={};for(const key of ['createDemo','createTimeDemo']){const original=PILOT_GUIDED_TUTORIAL[key];PILOT_GUIDED_TUTORIAL[key]=function(options){const api=original.call(this,options);window.__galleryPlayers[key]=api;return api;};}};
-const html=assets.get('/index.html').toString();
+const html=require('../lib/app-source.cjs').readAppSource(root,assets.get('/index.html').toString());
 if(!/const DragTut\s*=/.test(html))throw Error('DragTut connection missing');
-assets.set('/index.html',Buffer.from(html.replace(/const DragTut\s*=/,'('+observe.toString()+')(); const DragTut =')));
+require('../lib/app-source.cjs').transformAppScripts(assets,text=>text.replace(/const DragTut\s*=/,'('+observe.toString()+')(); const DragTut ='));
 const sizes=[{id:'mini',width:375,height:700,sh:812},{id:'iphone17',width:402,height:759,sh:874},{id:'max',width:440,height:841,sh:956}];
 const cases=[
  {step:'motor-route',id:'tutorial-motor-route-moving',factory:'createDemo',phase:'move',cycles:0,title:'操作の見本 — 指を離さずに運ぶ途中'},

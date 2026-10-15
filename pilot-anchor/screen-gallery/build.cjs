@@ -44,7 +44,7 @@ for(const [name,result] of [['flow',flow],['branches',branches]]) {
   assert(result.screens?.length,`No screens: ${name}`);
   assert(!(result.errors?.length),`Capture errors in ${name}: ${JSON.stringify(result.errors)}`);
   assert(!(result.remote?.length),`Unexpected remote requests in ${name}`);
-  assert(sourceFiles.length===14&&Object.keys(result.source||{}).length===14&&sourceFiles.every(f=>result.source[f]),`Missing distribution provenance in ${name}`);
+  assert(Object.keys(result.source||{}).length===sourceFiles.length&&sourceFiles.every(f=>result.source[f]),`Missing distribution provenance in ${name}`);
   for(const [file,digest] of Object.entries(result.source || {})) {
     assert(!source[file] || source[file]===digest,`Captures use different source: ${file}`);
     assert(hash(norm(fs.readFileSync(path.join(app,file))))===digest,`App changed since capture: ${file}`);
@@ -81,7 +81,7 @@ for(const [kind,result] of [['flow',flow],['branches',branches]]) {
 }
 const branchSections=['guard','practice-support','interruption','recovery','storage','delivery','optional'];
 screens.sort((a,b)=>a.kind===b.kind?(a.kind==='branches'?branchSections.indexOf(a.section)-branchSections.indexOf(b.section):0):a.kind==='flow'?-1:1);
-const appText = fs.readFileSync(path.join(app,'index.html'),'utf8');
+const appText = require('../lib/app-source.cjs').readAppSource(app);
 const sourceMatchesWorkingTree=Object.entries(source).every(([file,digest])=>hash(norm(fs.readFileSync(path.join(workingApp,file))))===digest);
 const sourceRefreshes=[...(flow.sourceRefreshes || []),...(branches.sourceRefreshes || [])];
 const publicationPath=path.join(root,'data/publication.json');

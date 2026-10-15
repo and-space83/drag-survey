@@ -4,10 +4,10 @@ const app=path.resolve(process.env.APP_ROOT || path.join(__dirname,'..'));
 const baseUrl='https://and-space83.github.io/drag-survey/pilot-anchor/';
 const files=require('./source-assets.cjs');
 const digest=text=>crypto.createHash('sha256').update(text.replace(/\r\n/g,'\n')).digest('hex');
-const localHtml=fs.readFileSync(path.join(app,'index.html'),'utf8');
+const localHtml=require('../lib/app-source.cjs').readAppSource(app);
 const report={checkedAt:new Date().toISOString(),version:localHtml.match(/appVersion:\s*"([^"]+)"/)[1],baseUrl,normalUrls:true,checks:[],saveNotices:[]};
 if(process.argv.includes('--pending')){
- report.status='pending';report.checkedAt=null;report.expectedFiles=files;report.allMatch=false;report.reason='更新版の公開後に14配布ファイルを照合します。';
+ report.status='pending';report.checkedAt=null;report.expectedFiles=files;report.allMatch=false;report.reason='更新版の公開後に配布ファイル一式を照合します。';
  fs.mkdirSync(path.join(__dirname,'data'),{recursive:true});fs.writeFileSync(path.join(__dirname,'data/publication.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({version:report.version,status:report.status,files:files.length}));
 }else
 (async()=>{

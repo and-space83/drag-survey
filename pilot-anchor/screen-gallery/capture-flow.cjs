@@ -8,11 +8,10 @@ const sourceFiles=require('./source-assets.cjs');
 const priorScreens=fs.existsSync(path.join(out,'data/flow.json'))?JSON.parse(fs.readFileSync(path.join(out,'data/flow.json'),'utf8')).screens:[];
 const sizes=[{id:'mini',width:375,height:700,sh:812},{id:'iphone17',width:402,height:759,sh:874},{id:'max',width:440,height:841,sh:956}];
 const report={screens:[],source:{},errors:[],remote:[],verification:{method:'Local Chromium mobile touch emulation, DPR 1, prefers-reduced-motion: no-preference; actual participant UI; synthetic answers; local protocol-3 mock receipts only.',postPages:{},mainTrials:{},instructedTrials:{}}};
-const assets=new Map();
-for(const dir of ['', 'vendor/'])for(const f of fs.readdirSync(path.join(root,dir))){const p=path.join(root,dir,f);if(fs.statSync(p).isFile()&&/\.(html|css|js)$/.test(f))assets.set('/'+dir+f,fs.readFileSync(p));}
+const assets=require('../lib/app-source.cjs').appAssets(root);
 for(const f of sourceFiles){if(!assets.has('/'+f))assets.set('/'+f,fs.readFileSync(path.join(root,f)));report.source[f]=crypto.createHash('sha256').update(assets.get('/'+f).toString().replace(/\r\n/g,'\n')).digest('hex');}
 const snapshotDir=path.join(require('node:os').tmpdir(),'pilot-gallery-flow-'+crypto.createHash('sha256').update(JSON.stringify(report.source)).digest('hex').slice(0,16));fs.mkdirSync(snapshotDir,{recursive:true});for(const [name,bytes]of assets){const target=path.join(snapshotDir,name.slice(1));fs.mkdirSync(path.dirname(target),{recursive:true});fs.writeFileSync(target,bytes);}
-const source=assets.get('/index.html').toString();
+const source=require('../lib/app-source.cjs').readAppSource(root,assets.get('/index.html').toString());
 report.verification.appVersion=source.match(/appVersion:\s*"([^"]+)"/)[1];
 const server=http.createServer((req,res)=>{const key=new URL(req.url,'http://local').pathname==='/'?'/index.html':new URL(req.url,'http://local').pathname,data=assets.get(key);if(req.method!=='GET'||!data){res.writeHead(404);res.end();return;}res.setHeader('Content-Type',({'html':'text/html;charset=utf-8','css':'text/css','js':'application/javascript'})[key.split('.').at(-1)]||'application/octet-stream');res.end(data);});
 let browser,origin;const screenMap=new Map(),sleep=ms=>new Promise(r=>setTimeout(r,ms));

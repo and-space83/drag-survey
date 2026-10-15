@@ -10,7 +10,7 @@ let browser,server;
 const all=manifest.screens.length,flow=manifest.screens.filter(s=>s.kind==='flow').length,branches=all-flow;
 (async()=>{
   const sourceFiles=require('./source-assets.cjs');
-  check('all 14 distribution assets have provenance',sourceFiles.length===14&&Object.keys(manifest.source).length===14&&sourceFiles.every(f=>manifest.source[f]));
+  check('all '+sourceFiles.length+' distribution assets have provenance',Object.keys(manifest.source).length===sourceFiles.length&&sourceFiles.every(f=>manifest.source[f]));
   const flowCapture=JSON.parse(fs.readFileSync(path.join(root,'data/flow.json'),'utf8'));
   const stepIds=flowCapture.verification.tutorialStepIds||[],quizIds=flowCapture.verification.quizIds||[];
   check('all 14 guided tutorial states captured',stepIds.length===14&&stepIds.filter(id=>id!=='rule-check').every(id=>manifest.screens.some(s=>s.id==='flow-tutorial-'+id)));

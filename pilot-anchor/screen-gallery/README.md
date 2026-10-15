@@ -38,6 +38,6 @@ node tools/pilot-anchor/screen-gallery/verify.cjs
 
 ## 本番との照合と画面更新
 
-`node tools/pilot-anchor/screen-gallery/check-public.cjs` で、通常の本番URLから配布ファイル14点（ui20の `guided-tutorial.js` / `guided-tutorial.css` を含む）を取得し、撮影元と照合する。保存・送信中の注意文の改行と全文太字も検査し、`data/publication.json` に結果を残す。本番へのデータ送信は行わない。全ソースの一致を確認した結果だけを、ビルド時にサイトへ表示する。
+`node tools/pilot-anchor/screen-gallery/check-public.cjs` で、通常の本番URLから `source-assets.cjs` が列挙する配布ファイル一式（分割した `js/`・`css/` とWorker依存を含む）を取得し、撮影元と照合する。保存・送信中の注意文の改行と全文太字も検査し、`data/publication.json` に結果を残す。本番へのデータ送信は行わない。全ソースの一致を確認した結果だけを、ビルド時にサイトへ表示する。
 
 今回の画面変更・再撮影と廃止表示の対応は [画面更新記録](data/update-summary.json) を参照する。説明本文や研究設計の正本はアプリと研究文書のままとし、この記録は画面確認資料の更新範囲を示す。

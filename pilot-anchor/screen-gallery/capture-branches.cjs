@@ -47,12 +47,11 @@ const hooks=function(){/*
         zoom: () => checkZoom(),
       },
 */}.toString().split('/*')[1].split('*/')[0];
-let app=assets.get('/index.html').toString();
-app=app.replace(/if \(debugMode\) \{\s+window\.__pilot = \{/,'if (true) { window.__pilot = {');
-app=app.replace('window.__pilot = {','window.__pilot = {'+hooks);
-// Keep the normal participant UI while enabling the existing same-origin local mock endpoint.
-app=app.replace('local && q.get("debug") === "1" && u', 'local && u');
-assets.set('/index.html',Buffer.from(app));
+require('../lib/app-source.cjs').transformAppScripts(assets,app=>app
+ .replace(/if \(debugMode\) \{\s+window\.__pilot = \{/,'if (true) { window.__pilot = {')
+ .replace('window.__pilot = {','window.__pilot = {'+hooks)
+ // Keep the normal participant UI while enabling the existing same-origin local mock endpoint.
+ .replace('local && q.get("debug") === "1" && u', 'local && u'));
 let mode='success',held=[];
 const server=http.createServer(async(req,res)=>{
  if(req.url==='/collect'){
