@@ -1,26 +1,28 @@
 /* Presentation proposals only. The task, its geometry, and ordinary ratings are untouched. */
-.feedback-candidate #practicecheck .flow-feedback-pad{padding:24px 22px 36px;gap:12px;justify-content:flex-start;overflow:hidden}
+.feedback-candidate #practicecheck .flow-feedback-pad{padding:20px 20px 34px;gap:10px;justify-content:flex-start;overflow:hidden}
 .feedback-candidate #practicecheck .flow-feedback-pad::before,.feedback-candidate #practicecheck .flow-feedback-pad::after,.feedback-candidate #notice .flow-notice-pad::before,.feedback-candidate #notice .flow-notice-pad::after{content:none}
 .feedback-candidate #practicecheck .flow-feedback-pad>.vgap{display:none}
 .feedback-candidate .flow-eyebrow{font-size:13px;font-weight:700;color:#527368;letter-spacing:.04em;margin:0}
-.feedback-candidate .flow-section-heading{padding-top:clamp(0px,3vh,22px)}
+.feedback-candidate .flow-section-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0}
 .feedback-candidate #practiceCheckItems.flow-rule-pages{flex:1;min-height:0;max-height:none;overflow-y:auto;display:block;margin:0;padding:0 1px 2px;border:0;background:transparent}
-.feedback-candidate .flow-rule-panel{background:white;border:1px solid #cbded4;border-radius:18px;padding:20px 20px 17px;box-shadow:0 4px 18px #24463a06}
+.feedback-candidate .flow-rule-panel{background:white;border:1px solid #cbded4;border-radius:18px;padding:18px 18px 16px;box-shadow:0 4px 18px #24463a06}
 .feedback-candidate .flow-rule-panel[hidden]{display:none}
-.feedback-candidate .flow-page-count{font-size:13px;color:#527368;font-weight:600;margin:0 0 8px}
-.feedback-candidate .flow-rule-title{font-size:22px;line-height:1.5;letter-spacing:.01em;margin:0 0 13px;color:#193e32}
-.feedback-candidate .flow-rule-body{font-size:16px;line-height:1.8;white-space:pre-line;margin:0}
+.feedback-candidate .flow-page-count{font-size:13px;color:#527368;font-weight:600;margin:0;white-space:nowrap}
+.feedback-candidate .flow-rule-title{font-size:22px;line-height:1.45;letter-spacing:.01em;margin:0 0 10px;color:#193e32}
+.feedback-candidate .flow-rule-body{font-size:16px;line-height:1.7;white-space:pre-line;margin:0}
 .feedback-candidate .flow-graphic{margin:9px auto 4px;max-width:300px;pointer-events:none}
-.feedback-candidate .flow-graphic.start-exit-demo{width:240px;max-width:100%;height:200px;display:block}
+.feedback-candidate .flow-graphic.start-exit-demo{width:216px;max-width:100%;height:180px;display:block}
 .feedback-candidate .flow-graphic .start-exit-svg{width:100%;height:100%}
-.feedback-candidate .flow-read-sequence{display:flex;align-items:center;justify-content:space-between;gap:4px;padding:12px 0 10px}
+.feedback-candidate .flow-read-sequence{display:flex;align-items:center;justify-content:space-between;gap:4px;padding:8px 0 4px}
 .feedback-candidate .flow-read-sequence div{min-width:0;flex:1;text-align:center}
-.feedback-candidate .flow-read-sequence svg{display:block;width:55px;height:50px;margin:auto;fill:#eff8f3;stroke:#527f6d;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.feedback-candidate .flow-read-sequence svg{display:block;width:48px;height:44px;margin:auto;fill:#eff8f3;stroke:#527f6d;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
 .feedback-candidate .flow-read-sequence span{font-size:11px;font-weight:600;white-space:nowrap;color:#466558}
 .feedback-candidate .flow-read-sequence>b{color:#739383;font-size:18px}
-.feedback-candidate .flow-release-figure svg{display:block;width:100%;height:132px}
+.feedback-candidate .flow-release-figure svg{display:block;width:100%;height:120px}
 .feedback-candidate .flow-support{font-size:14px;line-height:1.75;color:#4a5f55;margin:10px 0 0;white-space:pre-line}
-.feedback-candidate .flow-confirm{display:flex;gap:12px;align-items:center;min-height:52px;border:1px solid #c7d9ce;border-radius:11px;background:#f4faf6;padding:12px;margin-top:17px;font-size:15px;font-weight:600;color:#215542;cursor:pointer}
+.feedback-candidate .flow-confirm{display:flex;gap:12px;align-items:center;min-height:48px;border:1px solid #c7d9ce;border-radius:11px;background:#f4faf6;padding:10px;margin-top:12px;font-size:15px;font-weight:600;color:#215542;cursor:pointer}
+.feedback-candidate #practicecheck .flow-support{font-size:16px;line-height:1.7;margin-top:12px}
+.feedback-candidate .flow-practice-reason{font-size:14px;line-height:1.6;color:#607267;margin:12px 0 0;padding-top:10px;border-top:1px solid #dce6df}
 .feedback-candidate .flow-confirm input{width:22px;height:22px;flex:0 0 22px;accent-color:#12855a}
 .feedback-candidate .flow-operation{font-size:13px;color:#26734f;line-height:1.6;margin:0;min-height:21px}
 .feedback-candidate .flow-scroll-cue{font-size:12px!important;color:#637965!important;line-height:1.45;text-align:center;margin:0;flex-shrink:0}
@@ -41,4 +43,4 @@
 .feedback-candidate .flow-observation p{margin:7px 0;line-height:1.8}
 .feedback-candidate #noticeGo{flex-shrink:0;align-self:center;width:100%;max-width:380px;margin:0!important;min-height:54px;font-size:16px;border-radius:12px;padding:14px 10px}
 .feedback-candidate .flow-break-context{border:1px solid #d7e1da;border-radius:12px;padding:13px 15px;background:white;color:#486252;font-size:15px;line-height:1.7;margin:16px 0 0}
-@media(max-height:620px){.feedback-candidate #practicecheck .flow-feedback-pad,.feedback-candidate #notice .flow-notice-pad{padding:16px 18px 34px;gap:8px}.feedback-candidate .flow-section-heading{padding:0}.feedback-candidate .flow-rule-panel{padding:16px}.feedback-candidate .flow-rule-title{font-size:22px}.feedback-candidate .flow-graphic.start-exit-demo{height:165px}.feedback-candidate .flow-support{font-size:13px}}
+@media(max-height:620px){.feedback-candidate #notice .flow-notice-pad{padding:16px 18px 34px;gap:8px}.feedback-candidate #practicecheck .flow-feedback-pad{padding:12px 16px 32px;gap:8px}.feedback-candidate .flow-rule-panel{padding:14px}.feedback-candidate .flow-rule-title{margin-bottom:8px}.feedback-candidate .flow-rule-body,.feedback-candidate #practicecheck .flow-support{line-height:1.65}.feedback-candidate .flow-graphic.start-exit-demo{width:180px;height:150px}.feedback-candidate .flow-confirm{margin-top:10px;padding:9px}.feedback-candidate #notice .flow-support{font-size:13px}}

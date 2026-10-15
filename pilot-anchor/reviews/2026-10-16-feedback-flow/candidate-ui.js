@@ -23,33 +23,40 @@ window.createFeedbackCandidate=function(env){
  }
  function practice(state){
   stop();checkState=state;activePage=0;panels=[];const screen=$('practicecheck'),pad=screen.querySelector('.pad');pad.classList.add('flow-feedback-pad');
-  let header=$('flowPracticeHeader');if(!header){header=el('header','flow-section-heading');header.id='flowPracticeHeader';pad.prepend(header);}header.replaceChildren(el('p','flow-eyebrow','練習の操作を確認'));
+  let header=$('flowPracticeHeader');if(!header){header=el('header','flow-section-heading');header.id='flowPracticeHeader';pad.prepend(header);}const count=el('p','flow-page-count');count.id='flowPracticeCount';header.replaceChildren(el('p','flow-eyebrow','練習の操作を確認'),count);
   screen.querySelector('h1').hidden=true;const intro=[...pad.children].find(e=>e.tagName==='P');if(intro)intro.hidden=true;
   const items=$('practiceCheckItems');items.classList.add('flow-rule-pages');
   const originalLabels=[...items.querySelectorAll('.rule-check')];
-  for(let i=0;i<originalLabels.length;i++){
-   const label=originalLabels[i],input=label.querySelector('input'),key=input.dataset.rule,c=copy[key],panel=el('article','flow-rule-panel');panel.dataset.rule=key;
-   const count=el('p','flow-page-count',`${i+1} / ${state.keys.length}`),title=el('h2','flow-rule-title',c.title);title.id='flow-rule-title-'+key;panel.setAttribute('aria-labelledby',title.id);
-   const body=el('p','flow-rule-body',c.body.join('\n'));panel.append(count,title,body);
-   const art=el('div','flow-art-slot');art.dataset.graphic=key;panel.append(art);
-   if(c.supporting)panel.append(el('p','flow-support',c.supporting.join('\n')));
-   if(c.reasonText){const why=el('details','flow-observation');why.append(el('summary','','動かしながら考える理由'),el('p','',c.reasonText));panel.append(why);}
-   const confirm=el('label','flow-confirm');input.id='flow-confirm-'+key;confirm.htmlFor=input.id;confirm.append(input,el('span','',proposal.practice.checkbox));panel.append(confirm);label.replaceWith(panel);panels.push(panel);
-   input.addEventListener('change',()=>{updateButtons();});
+  for(const label of originalLabels){
+   const input=label.querySelector('input'),key=input.dataset.rule;
+   const pages=copy[key].pages||[{...copy[key],step:'rule',graphic:key,confirm:true}],replacement=[];
+   for(const c of pages){
+    const panel=el('article','flow-rule-panel');panel.dataset.rule=key;panel.dataset.step=c.step;
+    const title=el('h2','flow-rule-title',c.title);title.id='flow-rule-title-'+key+'-'+c.step;panel.setAttribute('aria-labelledby',title.id);
+    panel.append(title,el('p','flow-rule-body',c.body.join('\n')));
+    if(c.graphic){const art=el('div','flow-art-slot');art.dataset.graphic=c.graphic;panel.append(art);}
+    if(c.supporting)panel.append(el('p','flow-support',c.supporting.join('\n')));
+    if(c.reasonText)panel.append(el('p','flow-practice-reason',c.reasonText));
+    if(c.confirm){const confirm=el('label','flow-confirm');input.id='flow-confirm-'+key;confirm.htmlFor=input.id;confirm.append(input,el('span','',proposal.practice.checkbox));panel.append(confirm);}
+    replacement.push(panel);panels.push(panel);
+   }
+   label.replaceWith(...replacement);input.addEventListener('change',()=>{updateButtons();});
   }
-  let nav=$('flowPracticeNav');if(!nav){nav=el('nav','flow-feedback-nav');nav.id='flowPracticeNav';nav.setAttribute('aria-label','確認の進行');const prev=el('button','btn ghost','戻る');prev.id='flowPracticePrev';prev.type='button';prev.onclick=()=>{if(activePage>0){activePage--;showPage();}};const next=el('button','btn primary','次のポイントへ');next.id='flowPracticeNext';next.type='button';next.onclick=()=>{if(panels[activePage]?.querySelector('input').checked&&activePage<panels.length-1){activePage++;showPage();}};nav.append(prev,next,$('practiceCheckGo'));pad.append(nav);}
+  let nav=$('flowPracticeNav');if(!nav){nav=el('nav','flow-feedback-nav');nav.id='flowPracticeNav';nav.setAttribute('aria-label','確認の進行');const prev=el('button','btn ghost','戻る');prev.id='flowPracticePrev';prev.type='button';prev.onclick=()=>{if(activePage>0){activePage--;showPage();}};const next=el('button','btn primary','次のポイントへ');next.id='flowPracticeNext';next.type='button';next.onclick=()=>{const input=panels[activePage]?.querySelector('input');if((!input||input.checked)&&activePage<panels.length-1){activePage++;showPage();}};nav.append(prev,next,$('practiceCheckGo'));pad.append(nav);}
   $('practiceCheckGo').textContent=proposal.practice.final;
   let op=$('flowPracticeOp');if(!op){op=el('p','flow-operation');op.id='flowPracticeOp';pad.insertBefore(op,nav);}scrollCue(items,'flowPracticeScrollHint',op);showPage();
  }
  function showPage(){
-  stop();panels.forEach((p,i)=>{p.hidden=i!==activePage;p.querySelector('.flow-art-slot').replaceChildren();});
-  const panel=panels[activePage];panel.querySelector('.flow-art-slot').append(graphic(panel.dataset.rule));
+  stop();panels.forEach((p,i)=>{p.hidden=i!==activePage;p.querySelector('.flow-art-slot')?.replaceChildren();});
+  const panel=panels[activePage],slot=panel.querySelector('.flow-art-slot');if(slot)slot.append(graphic(slot.dataset.graphic));
+  $('flowPracticeCount').textContent=`${activePage+1} / ${panels.length}`;
   const heading=panel.querySelector('h2');heading.tabIndex=-1;heading.focus({preventScroll:true});$('practiceCheckItems').scrollTop=0;updateButtons();requestAnimationFrame(()=>scrollUpdates.get($('practiceCheckItems'))?.());
  }
  function updateButtons(){
-  const panel=panels[activePage];if(!panel)return;const last=activePage===panels.length-1,checked=panel.querySelector('input').checked;
-  $('flowPracticePrev').hidden=activePage===0;$('flowPracticeNext').hidden=last;$('flowPracticeNext').disabled=!checked;$('practiceCheckGo').hidden=!last;
-  $('flowPracticeOp').textContent=checked?(last?'確認したら「'+$('practiceCheckGo').textContent+'」へ':'確認したら「次のポイントへ」へ'):'読んだら、下の確認欄にチェックしてください';
+  const panel=panels[activePage];if(!panel)return;const last=activePage===panels.length-1,input=panel.querySelector('input'),checked=!input||input.checked;
+  const next=$('flowPracticeNext');next.textContent=input?proposal.practice.next:'次の説明へ';
+  $('flowPracticePrev').hidden=activePage===0;next.hidden=last;next.disabled=!checked;$('practiceCheckGo').hidden=!last;
+  $('flowPracticeOp').textContent=!input?'見たら「次の説明へ」へ':checked?(last?'確認したら「'+$('practiceCheckGo').textContent+'」へ':'確認したら「次のポイントへ」へ'):'読んだら、確認欄にチェックしてください';
  }
  function notice(kind){
   stop();const screen=$('notice'),pad=screen.querySelector('.pad');pad.classList.add('flow-notice-pad');
@@ -70,5 +77,5 @@ window.createFeedbackCandidate=function(env){
  }
  function onScreen(screen){if(screen===lastScreen)return;lastScreen=screen;if(screen!=='practicecheck')stop();}
  function reset(){stop();activePage=0;panels=[];checkState=null;lastScreen=null;}
- return{practice,notice,break:breakScreen,onScreen,reset,page:()=>({index:activePage,count:panels.length,rule:panels[activePage]?.dataset.rule||null})};
+ return{practice,notice,break:breakScreen,onScreen,reset,page:()=>({index:activePage,count:panels.length,rule:panels[activePage]?.dataset.rule||null,step:panels[activePage]?.dataset.step||null})};
 };
