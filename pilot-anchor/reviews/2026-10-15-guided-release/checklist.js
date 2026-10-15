@@ -3,7 +3,7 @@
   const data = window.PILOT_DEVICE_CHECKS;
   const TOOL = 'pilot-device-checklist', SCHEMA = 1;
   const STATUS = { pending: '未確認', passed: '確認済み', issue: '要修正', hold: '保留' };
-  const MODE = { preview: '確認画面で試す', lab: '保存付き実機確認', synthetic: '追加の合成検証が必要', reference: '資料・設定を見る' };
+  const MODE = { preview: '指操作・表示を試す', lab: 'Safariの保存・復帰を試す' };
   const ENV_FIELDS = { device: 'envDevice', os: 'envOs', browser: 'envBrowser', kind: 'envKind', date: 'envDate', notes: 'envNotes' };
   const $ = id => document.getElementById(id);
   if (!data || !Array.isArray(data.items) || !data.items.length) {
@@ -11,6 +11,8 @@
     $('storageStatus').className = 'warning'; return;
   }
   const items = data.items, ids = new Set(items.map(i => i.id));
+  const legacyItems = Array.isArray(data.legacyItems) ? data.legacyItems : [];
+  const acceptedIds = new Set([...ids, ...legacyItems.map(i => i.id)]);
   if (ids.size !== items.length) throw Error('確認項目のIDが重複しています。');
   const storageKey = TOOL + ':' + data.targetVersion + ':v1';
   let state, lastSavedRaw = null, blocked = false, storageFailure = '', saveAt = null;
@@ -34,7 +36,7 @@
     if (environment.date && !/^\d{4}-\d{2}-\d{2}$/.test(environment.date)) throw Error('確認日の形式が正しくありません。');
     const checks = {};
     for (const [checkId, result] of Object.entries(input.checks)) {
-      if (!ids.has(checkId)) throw Error('このチェック表にない項目が含まれています：' + checkId);
+      if (!acceptedIds.has(checkId)) throw Error('このチェック表にない項目が含まれています：' + checkId);
       if (!plain(result) || !Object.hasOwn(STATUS, result.status)) throw Error('確認状態の形式が正しくありません。');
       checks[checkId] = { status: result.status, note: textField(result.note, 6000, 'メモ'), updatedAt: dateField(result.updatedAt, '項目更新') };
     }
@@ -51,6 +53,9 @@
     $('storageStatus').textContent = storageFailure || (saveAt ? 'このブラウザに自動保存しました。' : '変更すると、このブラウザに自動保存します。');
     $('storageStatus').className = storageFailure ? 'warning' : '';
     $('recordUpdated').textContent = '最終更新：' + formatDate(current().updatedAt);
+    const archived = Object.keys(current().checks).filter(id => !ids.has(id)).length;
+    $('archiveNotice').hidden = archived === 0;
+    $('archiveNotice').textContent = '旧チェック表の ' + archived + ' 件の記録を保管しています。今回の一覧・進捗には含めず、JSON書き出しで元の結果とメモを保存できます。統合後の項目へ確認済みを自動転記しません。';
   }
   function persist() {
     if (blocked) { displayStorage(); return; }
@@ -158,7 +163,7 @@
     for (const b of $('statusSummary').children) { b.setAttribute('aria-pressed', String(status === b.dataset.summaryStatus)); b.querySelector('b').textContent = counts[b.dataset.summaryStatus]; }
     $('visibleCount').textContent = visible + ' / ' + items.length + ' 項目を表示'; $('emptyState').hidden = visible !== 0;
   }
-  function exportRecord() { return JSON.stringify({ schemaVersion: SCHEMA, tool: TOOL, targetVersion: data.targetVersion, exportedAt: now(), record: clone(current()) }, null, 2); }
+  function exportRecord() { return JSON.stringify({ schemaVersion: SCHEMA, tool: TOOL, targetVersion: data.targetVersion, checklistScope: data.scope, itemTitles: Object.fromEntries([...legacyItems, ...items].map(i => [i.id, i.title])), exportedAt: now(), record: clone(current()) }, null, 2); }
   function importRecord(input) {
     if (typeof input === 'string' && input.length > 1000000) throw Error('ファイルが大きすぎます。1MB以下の確認記録を選んでください。');
     let payload;

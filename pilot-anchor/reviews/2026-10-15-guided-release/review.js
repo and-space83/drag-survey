@@ -56,14 +56,14 @@ byId('beforeAdvance').onclick=async()=>{
 };
 function renderAudits(){
  const group=byId('group').value,status=byId('status').value,show=audits.filter(item=>(!group||item.group===group)&&(!status||item.status===status));
- byId('auditList').replaceChildren();byId('auditCount').textContent=audits.length+'機能 · Chrome確認済み '+audits.filter(i=>i.status==='passed').length+' · 一部確認 '+audits.filter(i=>i.status==='partial').length+' · 実機未確認 '+audits.filter(i=>i.verification?.physicalStatus==='not_verified').length;
+ byId('auditList').replaceChildren();byId('auditCount').textContent=audits.length+'機能 · Chrome確認済み '+audits.filter(i=>i.status==='passed').length+' · 一部確認 '+audits.filter(i=>i.status==='partial').length+' · iPhone Safariは専用の実機チェック表で確認';
  for(const item of show){const card=document.createElement('article');card.className='audit-card';
  const head=document.createElement('div');head.className='audit-head';const title=document.createElement('div');const small=document.createElement('small');small.textContent=item.group+' · '+item.id;const h=document.createElement('h3');h.textContent=item.title;title.append(small,h);const badge=document.createElement('span');badge.className='badge status-'+item.status;badge.textContent=statusLabels[item.status]||item.status;head.append(title,badge);card.append(head);
  const columns=document.createElement('div');columns.className='audit-columns';for(const [label,value] of [['変更前の機能',item.before],['変更後に満たす条件',item.requiredAfter]]){const column=document.createElement('div'),strong=document.createElement('strong'),p=document.createElement('p');strong.textContent=label;p.textContent=value;column.append(strong,p);columns.append(column);}card.append(columns);
- const check=document.createElement('div');check.className='audit-check';for(const [label,value] of [['実機で試すこと',item.manualCheck],['自動確認の候補',item.automaticCheck]]){const strong=document.createElement('strong'),p=document.createElement('p');strong.textContent=label;p.textContent=value;check.append(strong,p);}const caveat=document.createElement('p');caveat.className='audit-caveat';caveat.textContent=item.caveat;check.append(caveat);card.append(check);
+ const check=document.createElement('div');check.className='audit-check';for(const [label,value] of [['技術監査の確認観点（実機の作業一覧ではありません）',item.manualCheck],['自動確認の候補',item.automaticCheck]]){const strong=document.createElement('strong'),p=document.createElement('p');strong.textContent=label;p.textContent=value;check.append(strong,p);}const caveat=document.createElement('p');caveat.className='audit-caveat';caveat.textContent=item.caveat;check.append(caveat);card.append(check);
  const source=document.createElement('p');source.className='audit-source';source.textContent='凍結原本 '+item.source.file+':'+(item.source.line||'未特定')+' · '+item.source.pattern;card.append(source);
  if(item.evidence?.length){const p=document.createElement('p');p.className='audit-source';p.textContent='実施証拠: '+item.evidence.map(e=>typeof e==='string'?e:JSON.stringify(e)).join(' / ');card.append(p);}
- const manual=document.createElement('p');manual.className='audit-source';const link=document.createElement('a');link.href='checklist.html#check-'+encodeURIComponent(item.id);link.textContent='この項目の実機チェックを開く';manual.append(link);card.append(manual);
+
  byId('auditList').append(card);}
 }
 byId('group').onchange=renderAudits;byId('status').onchange=renderAudits;
