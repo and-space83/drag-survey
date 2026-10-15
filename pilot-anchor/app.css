@@ -175,6 +175,7 @@
      topbar(5%) と選択肢(--choice-top=27%) の間に収める。 */
   #stem { position: absolute; top: 6%; left: 5%; right: 5%; height: 19%;
     display: flex; align-items: center; justify-content: center; text-align: center;
+    border-radius: 14px;
     font-size: 4.4vmin; line-height: 1.35; font-weight: 600; color: var(--ink);
     z-index: 3; pointer-events: none; visibility: hidden;
     /* 改行は stem 中の "|" ヒント (表示時 ZWSP 変換) の位置だけに制限し、文節の途中で折れるのを防ぐ。

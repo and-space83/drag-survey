@@ -469,7 +469,13 @@ window.PILOT_GUIDED_TUTORIAL.createEngine = function (env) {
   function clearHint() { clearTimeout(hintTimer); hintTimer = null; hintToken++; if (!built) return; hint.classList.add('hidden'); hint.textContent = ''; }
   function setHint(text) {
     clearHint(); hint.textContent = text; hint.className = 'ng'; const token = hintToken;
+    placeMotorHint();
     hintTimer = setTimeout(() => { if (hintToken === token) clearHint(); }, 4000);
+  }
+  function placeMotorHint() {
+    if (!built || idx < 0 || current()?.id !== 'motor' || hint.classList.contains('hidden')) return;
+    const choiceBottom = target.getBoundingClientRect().bottom, startTop = startBtn.getBoundingClientRect().top;
+    hint.style.top = (choiceBottom + startTop) / 2 + 'px';
   }
   function hidePosition() { position.style.display = 'none'; target.classList.remove('arrived'); }
   function pointerPosition(e) {
@@ -644,6 +650,7 @@ window.PILOT_GUIDED_TUTORIAL.createEngine = function (env) {
     if (step.id === 'motor-route' || step.id === 'motor') {
       const sf = surface.getBoundingClientRect(); target.style.top = Math.max(sf.height * .34, pop.getBoundingClientRect().bottom - sf.top + 18) + 'px';
     }
+    placeMotorHint();
   }
   function renderQuiz(withMotion = true) {
     clearTimeout(cueTimer); cueTimer = null; $('tutPopNext').classList.remove('cue');
