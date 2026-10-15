@@ -1,0 +1,174 @@
+{
+  "checkedAt": "2026-10-15T09:22:58.253Z",
+  "url": "https://drag-survey-device-lab.rubyball4.chatgpt.site",
+  "projectId": "appgprj_6ad09558f6908191a501fb9f70b12336",
+  "versionId": "appgprj_6ad09558f6908191a501fb9f70b12336~appgver_9f79a852e20081918c61a0eae927216f",
+  "deploymentId": "appgdep_6ad0988bbd688191ad2fe1d52b1df916",
+  "commitSha": "be6b11e0d0ef4bf4cbae04802f26b5d6a1dea8f0",
+  "audience": "owner-only",
+  "separateOrigin": true,
+  "collector": "browser-only simulation; no GAS or Drive requests",
+  "checks": [
+    {
+      "file": "app/app.css",
+      "status": 200,
+      "match": true,
+      "sourcePreserved": true,
+      "expectedSha256LF": "dc355b1f2426a7f7ad5f73e480154798279a6e35fbb7846c9661328cac1b3e89",
+      "actualSha256LF": "dc355b1f2426a7f7ad5f73e480154798279a6e35fbb7846c9661328cac1b3e89"
+    },
+    {
+      "file": "app/bank.js",
+      "status": 200,
+      "match": true,
+      "sourcePreserved": true,
+      "expectedSha256LF": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
+      "actualSha256LF": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e"
+    },
+    {
+      "file": "app/consent.css",
+      "status": 200,
+      "match": true,
+      "sourcePreserved": true,
+      "expectedSha256LF": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
+      "actualSha256LF": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f"
+    },
+    {
+      "file": "app/consent.js",
+      "status": 200,
+      "match": true,
+      "sourcePreserved": true,
+      "expectedSha256LF": "339a27d039090dd7363a0ce7e8d2a87a1feb66a8a288319f193c096066de620b",
+      "actualSha256LF": "339a27d039090dd7363a0ce7e8d2a87a1feb66a8a288319f193c096066de620b"
+    },
+    {
+      "file": "app/data-codec.js",
+      "status": 200,
+      "match": true,
+      "sourcePreserved": true,
+      "expectedSha256LF": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+      "actualSha256LF": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97"
+    },
+    {
+      "file": "app/durable-storage.js",
+      "status": 200,
+      "match": true,
+      "sourcePreserved": true,
+      "expectedSha256LF": "fcbdade15892c887e6d0886b0878f4cc70126f27cde2bfdf9d1e64267235c004",
+      "actualSha256LF": "fcbdade15892c887e6d0886b0878f4cc70126f27cde2bfdf9d1e64267235c004"
+    },
+    {
+      "file": "app/guided-tutorial.css",
+      "status": 200,
+      "match": true,
+      "sourcePreserved": true,
+      "expectedSha256LF": "d73d3e7373a4602e5258bacbbdbcaad73a00f49ee638094430fe29cb14b146b7",
+      "actualSha256LF": "d73d3e7373a4602e5258bacbbdbcaad73a00f49ee638094430fe29cb14b146b7"
+    },
+    {
+      "file": "app/guided-tutorial.js",
+      "status": 200,
+      "match": true,
+      "sourcePreserved": true,
+      "expectedSha256LF": "cd252e516fb4d4dfca1a1c14683df9a7da3de6aa38e679766285bc4aac3b9e28",
+      "actualSha256LF": "cd252e516fb4d4dfca1a1c14683df9a7da3de6aa38e679766285bc4aac3b9e28"
+    },
+    {
+      "file": "app/index.html",
+      "status": 200,
+      "match": false,
+      "sourcePreserved": true,
+      "expectedSha256LF": "1ddaa0a87c9b8462c2cf9bafe9269f038c2fab88cc66dcda7ac0122993087d7e",
+      "actualSha256LF": "a11eac9b6aaa463ad0821c1deb18f612c9092849d953cb2c90ad2053cde900d8",
+      "headPreserved": true,
+      "bodyPreserved": true,
+      "hostingInsertionBytes": 938,
+      "method": "Original head and complete body verified separately; Sites inserts hosting code outside these original sections, so whole-file byte hash differs"
+    },
+    {
+      "file": "app/session-store.js",
+      "status": 200,
+      "match": true,
+      "sourcePreserved": true,
+      "expectedSha256LF": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+      "actualSha256LF": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd"
+    },
+    {
+      "file": "app/staged-delivery.js",
+      "status": 200,
+      "match": true,
+      "sourcePreserved": true,
+      "expectedSha256LF": "7f37d628ce04dc47233b16387d43add674608d278030dd17355621745ab9f7ad",
+      "actualSha256LF": "7f37d628ce04dc47233b16387d43add674608d278030dd17355621745ab9f7ad"
+    },
+    {
+      "file": "app/storage-worker.js",
+      "status": 200,
+      "match": true,
+      "sourcePreserved": true,
+      "expectedSha256LF": "cdfd77a6ddffeb2a1d7d4de93bd016c16f300563249474a9b7095ee0743bc698",
+      "actualSha256LF": "cdfd77a6ddffeb2a1d7d4de93bd016c16f300563249474a9b7095ee0743bc698"
+    },
+    {
+      "file": "app/vendor/pako-LICENSE",
+      "status": 200,
+      "match": true,
+      "sourcePreserved": true,
+      "expectedSha256LF": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539",
+      "actualSha256LF": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539"
+    },
+    {
+      "file": "app/vendor/pako.min.js",
+      "status": 200,
+      "match": true,
+      "sourcePreserved": true,
+      "expectedSha256LF": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+      "actualSha256LF": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c"
+    },
+    {
+      "file": "build-manifest.json",
+      "status": 200,
+      "match": true,
+      "sourcePreserved": true,
+      "expectedSha256LF": "d627960fcb3373c8936f6281cd9eeecca525debcde328e3aec844ba7d659275d",
+      "actualSha256LF": "d627960fcb3373c8936f6281cd9eeecca525debcde328e3aec844ba7d659275d"
+    },
+    {
+      "file": "index.html",
+      "status": 200,
+      "match": false,
+      "sourcePreserved": true,
+      "expectedSha256LF": "7ce674570c72ff01ec7140100b5ae481a49781957a2b6d74201114e4f30f2931",
+      "actualSha256LF": "a9dacb7f7dc27026bfe69df8203fa48d2afb7cee8b3ff3abf0ebe16f800c7941",
+      "headPreserved": true,
+      "bodyPreserved": true,
+      "hostingInsertionBytes": 938,
+      "method": "Original head and complete body verified separately; Sites inserts hosting code outside these original sections, so whole-file byte hash differs"
+    },
+    {
+      "file": "lab-control.css",
+      "status": 200,
+      "match": true,
+      "sourcePreserved": true,
+      "expectedSha256LF": "7d686a9f3c6aa074c08bbbe0999714631e6e48ed879d8884bac8376741fa563a",
+      "actualSha256LF": "7d686a9f3c6aa074c08bbbe0999714631e6e48ed879d8884bac8376741fa563a"
+    },
+    {
+      "file": "lab-control.js",
+      "status": 200,
+      "match": true,
+      "sourcePreserved": true,
+      "expectedSha256LF": "70f1296ace233762a677815c106a412085275343d055172005df0c034bd72213",
+      "actualSha256LF": "70f1296ace233762a677815c106a412085275343d055172005df0c034bd72213"
+    },
+    {
+      "file": "lab-runtime.js",
+      "status": 200,
+      "match": true,
+      "sourcePreserved": true,
+      "expectedSha256LF": "a75e317c92968f8f92d1ae21346a1f9f404a22eaa91b71c37f71b8f5ceae9435",
+      "actualSha256LF": "a75e317c92968f8f92d1ae21346a1f9f404a22eaa91b71c37f71b8f5ceae9435"
+    }
+  ],
+  "passed": true
+}

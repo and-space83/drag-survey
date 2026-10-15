@@ -1,0 +1,61 @@
+{
+  "site": "https://drag-survey-device-lab.rubyball4.chatgpt.site",
+  "scope": "公開された別originの確認用コピー。実Chrome合成モバイル確認。Safari実機とは別。",
+  "checks": [
+    {
+      "name": "published management loads",
+      "pass": true
+    },
+    {
+      "name": "management at 375px has no horizontal overflow",
+      "pass": true
+    },
+    {
+      "name": "canonical app redirect preserves run and case",
+      "pass": true
+    },
+    {
+      "name": "normal consent uses real Worker and Web Locks",
+      "pass": true
+    },
+    {
+      "name": "synthetic marker present and consent is not preaccepted",
+      "pass": true
+    },
+    {
+      "name": "native consent cannot advance before final scroll",
+      "pass": true
+    },
+    {
+      "name": "menu return preserves published same run",
+      "pass": true
+    },
+    {
+      "name": "real IndexedDB keeps the checkpoint",
+      "pass": true
+    },
+    {
+      "name": "published reopened app restores same native consent session",
+      "pass": true
+    },
+    {
+      "name": "simulated receipt advances only after real consent operation",
+      "pass": true
+    },
+    {
+      "name": "no external application request is sent",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "no JavaScript errors",
+      "pass": true,
+      "detail": []
+    }
+  ],
+  "errors": [],
+  "blocked": [],
+  "canonicalAppUrl": "https://drag-survey-device-lab.rubyball4.chatgpt.site/app/?study=main&block=moral&debug=1&consent=1&mic=0&run=published-smoke&labcase=resume",
+  "status": "passed",
+  "passed": 12
+}
