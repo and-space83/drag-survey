@@ -1,0 +1,57 @@
+{
+  "checks": [
+    {
+      "name": "root normalizes run without error",
+      "pass": true
+    },
+    {
+      "name": "375px management has no horizontal overflow",
+      "pass": true
+    },
+    {
+      "name": "management opens normal non-GO app",
+      "pass": true
+    },
+    {
+      "name": "selected mock mode survives app launch",
+      "pass": true
+    },
+    {
+      "name": "touch badge menu returns to same run",
+      "pass": true
+    },
+    {
+      "name": "reset resets selected case configuration",
+      "pass": true
+    },
+    {
+      "name": "resume starts with real consent and synthetic entry",
+      "pass": true
+    },
+    {
+      "name": "management shows persisted consent-stage metadata",
+      "pass": true
+    },
+    {
+      "name": "management releases DB connection and app can resume",
+      "pass": true
+    },
+    {
+      "name": "continued consent keeps original session",
+      "pass": true
+    },
+    {
+      "name": "no JavaScript errors",
+      "pass": true
+    },
+    {
+      "name": "original device guard still applies",
+      "pass": true
+    },
+    {
+      "name": "test menu remains accessible above device guard",
+      "pass": true
+    }
+  ],
+  "errors": []
+}

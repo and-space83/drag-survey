@@ -1,0 +1,1375 @@
+{
+  "checkedAt": "2026-10-15T09:09:24.464Z",
+  "scope": "確認専用コピーのChrome合成UI検証。実参加者の保存先・本番origin・実GASへアクセスしない。Safari実機確認は別。",
+  "checks": [
+    {
+      "name": "generated lab distribution exists",
+      "pass": true
+    },
+    {
+      "name": "no real collector URL: app/app.css",
+      "pass": true
+    },
+    {
+      "name": "no real collector URL: app/bank.js",
+      "pass": true
+    },
+    {
+      "name": "no real collector URL: app/consent.css",
+      "pass": true
+    },
+    {
+      "name": "no real collector URL: app/consent.js",
+      "pass": true
+    },
+    {
+      "name": "no real collector URL: app/data-codec.js",
+      "pass": true
+    },
+    {
+      "name": "no real collector URL: app/durable-storage.js",
+      "pass": true
+    },
+    {
+      "name": "no real collector URL: app/guided-tutorial.css",
+      "pass": true
+    },
+    {
+      "name": "no real collector URL: app/guided-tutorial.js",
+      "pass": true
+    },
+    {
+      "name": "no real collector URL: app/index.html",
+      "pass": true
+    },
+    {
+      "name": "no real collector URL: app/session-store.js",
+      "pass": true
+    },
+    {
+      "name": "no real collector URL: app/staged-delivery.js",
+      "pass": true
+    },
+    {
+      "name": "no real collector URL: app/storage-worker.js",
+      "pass": true
+    },
+    {
+      "name": "no real collector URL: app/vendor/pako.min.js",
+      "pass": true
+    },
+    {
+      "name": "no real collector URL: index.html",
+      "pass": true
+    },
+    {
+      "name": "no real collector URL: lab-control.css",
+      "pass": true
+    },
+    {
+      "name": "no real collector URL: lab-control.js",
+      "pass": true
+    },
+    {
+      "name": "no real collector URL: lab-runtime.js",
+      "pass": true
+    },
+    {
+      "name": "app copy blocks network and form submission by CSP",
+      "pass": true
+    },
+    {
+      "name": "app copy does not use production DB literal",
+      "pass": true
+    },
+    {
+      "name": "lab and reference origins are different",
+      "pass": true
+    },
+    {
+      "name": "normal application startup uses the mock endpoint",
+      "pass": true
+    },
+    {
+      "name": "consent checkbox and action disabled before final scroll",
+      "pass": true
+    },
+    {
+      "name": "scrolling enables only the checkbox",
+      "pass": true
+    },
+    {
+      "name": "checking enables the consent action",
+      "pass": true
+    },
+    {
+      "name": "failed mock receipt keeps consent without starting measurement",
+      "pass": true
+    },
+    {
+      "name": "consent transport reached the intended simulated failure",
+      "pass": true
+    },
+    {
+      "name": "consent sessionId/consentedAt survive failed receipt and reload",
+      "pass": true
+    },
+    {
+      "name": "unreceived consent resumes the confirmation screen",
+      "pass": true
+    },
+    {
+      "name": "successful mock receipt alone advances to tutorial",
+      "pass": true
+    },
+    {
+      "name": "retry preserves original consent timestamp",
+      "pass": true
+    },
+    {
+      "name": "motor restores unfinished practice",
+      "pass": true
+    },
+    {
+      "name": "wrong quiz answer/order/question survive reload",
+      "pass": true
+    },
+    {
+      "name": "wrong quiz answer still blocks next",
+      "pass": true
+    },
+    {
+      "name": "rating value and original touch events survive reload",
+      "pass": true
+    },
+    {
+      "name": "rating reload does not duplicate the example",
+      "pass": true
+    },
+    {
+      "name": "sentinel localStorage remains untouched: /app/index.html",
+      "pass": true
+    },
+    {
+      "name": "no forbidden storage enumeration or whole-origin clear",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "no production storage key/DB/lock names are used",
+      "pass": true
+    },
+    {
+      "name": "same run in another tab is blocked by real Web Locks",
+      "pass": true
+    },
+    {
+      "name": "blocked duplicate cannot claim stored session",
+      "pass": true
+    },
+    {
+      "name": "closing first writer allows the same session to resume",
+      "pass": true
+    },
+    {
+      "name": "sentinel localStorage remains untouched: /app/index.html",
+      "pass": true
+    },
+    {
+      "name": "no forbidden storage enumeration or whole-origin clear",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "no production storage key/DB/lock names are used",
+      "pass": true
+    },
+    {
+      "name": "different lab run does not offer first run recovery",
+      "pass": true
+    },
+    {
+      "name": "different lab run has a different session",
+      "pass": true
+    },
+    {
+      "name": "sentinel localStorage remains untouched: /app/index.html",
+      "pass": true
+    },
+    {
+      "name": "no forbidden storage enumeration or whole-origin clear",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "no production storage key/DB/lock names are used",
+      "pass": true
+    },
+    {
+      "name": "storage uses a real dedicated Worker with the selected run",
+      "pass": true
+    },
+    {
+      "name": "mock transport rejects arbitrary external endpoints before decoding",
+      "pass": true
+    },
+    {
+      "name": "pending mock receipt keeps the measurement behind the waiting screen",
+      "pass": true
+    },
+    {
+      "name": "reload during pending receipt preserves the original consent",
+      "pass": true
+    },
+    {
+      "name": "pending-receipt recovery advances only after receipt",
+      "pass": true
+    },
+    {
+      "name": "sentinel localStorage remains untouched: /app/index.html",
+      "pass": true
+    },
+    {
+      "name": "no forbidden storage enumeration or whole-origin clear",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "no production storage key/DB/lock names are used",
+      "pass": true
+    },
+    {
+      "name": "reset deletes only the selected lab run",
+      "pass": true
+    },
+    {
+      "name": "reset preserves the other run session",
+      "pass": true
+    },
+    {
+      "name": "reset leaves another run database populated",
+      "pass": true
+    },
+    {
+      "name": "sentinel localStorage remains untouched: /index.html",
+      "pass": true
+    },
+    {
+      "name": "no forbidden storage enumeration or whole-origin clear",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "no production storage key/DB/lock names are used",
+      "pass": true
+    },
+    {
+      "name": "simulated delivery failure retains the queued frozen payload",
+      "pass": true
+    },
+    {
+      "name": "failed-delivery reload preserves immutable tasks",
+      "pass": true
+    },
+    {
+      "name": "failed-delivery reload preserves completion code",
+      "pass": true
+    },
+    {
+      "name": "successful retry alone marks the original session sent",
+      "pass": true,
+      "detail": {
+        "actual": {
+          "id": "52ce670d-76d2-4d97-bdf8-5af02ef7304f",
+          "state": "sent",
+          "receipt": {
+            "sessionId": "52ce670d-76d2-4d97-bdf8-5af02ef7304f",
+            "completionCode": "TJBU-T8WU",
+            "participantId": "確認用 架空の参加者",
+            "exportedAt": "2026-10-15T09:09:38.139Z",
+            "partial": false,
+            "kiosk": false,
+            "file": "device-only:52ce670d-76d2-4d97-bdf8-5af02ef7304f",
+            "receivedAt": "2026-10-15T09:09:38.458Z"
+          },
+          "hasPayload": false
+        },
+        "expectedId": "52ce670d-76d2-4d97-bdf8-5af02ef7304f",
+        "expectedCode": "TJBU-T8WU"
+      }
+    },
+    {
+      "name": "mock receipt verifies the original frozen tasks digest",
+      "pass": true
+    },
+    {
+      "name": "tasks receipt precedes finalize receipt",
+      "pass": true
+    },
+    {
+      "name": "completed-session reload does not create a new answer",
+      "pass": true
+    },
+    {
+      "name": "sentinel localStorage remains untouched: /app/index.html",
+      "pass": true
+    },
+    {
+      "name": "no forbidden storage enumeration or whole-origin clear",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "no production storage key/DB/lock names are used",
+      "pass": true
+    },
+    {
+      "name": "lab-origin sentinel database is unchanged",
+      "pass": true
+    },
+    {
+      "name": "separate-origin reference sentinel database is unchanged",
+      "pass": true
+    },
+    {
+      "name": "separate-origin reference storage is unchanged",
+      "pass": true
+    },
+    {
+      "name": "no network POST or external network request was attempted",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "no JavaScript page exceptions",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "all 14 production distribution assets remain byte-equivalent",
+      "pass": true
+    },
+    {
+      "name": "tested lab artifacts remained stable throughout verification",
+      "pass": true
+    },
+    {
+      "name": "different-origin reference sentinel was prepared",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "requests": [
+    {
+      "url": "http://127.0.0.1:56389/checklist.html",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56389/checklist.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56389/device-checks-data.js?v=1",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56389/checklist.js?v=1",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/app.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/index.html?run=qa-main&debug=1&devguard=0&zoomguard=0&mic=0&read=0&minread=0&readgate=0&block=moral&consent=1&welcome=0",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/app.css?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/guided-tutorial.css?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/consent.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/lab-runtime.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/bank.js?v=2026-10-15-ui18",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/guided-tutorial.js?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/vendor/pako.min.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/data-codec.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/consent.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/session-store.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/durable-storage.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/staged-delivery.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/storage-worker.js?run=qa-main",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/vendor/pako.min.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/data-codec.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/index.html?run=qa-main&debug=1&devguard=0&zoomguard=0&mic=0&read=0&minread=0&readgate=0&block=moral&consent=1&welcome=0",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/app.css?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/guided-tutorial.css?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/consent.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/lab-runtime.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/bank.js?v=2026-10-15-ui18",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/guided-tutorial.js?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/vendor/pako.min.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/data-codec.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/consent.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/session-store.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/durable-storage.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/staged-delivery.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/storage-worker.js?run=qa-main",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/vendor/pako.min.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/data-codec.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/index.html?run=qa-main&debug=1&devguard=0&zoomguard=0&mic=0&read=0&minread=0&readgate=0&block=moral&consent=1&welcome=0",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/app.css?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/guided-tutorial.css?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/consent.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/lab-runtime.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/bank.js?v=2026-10-15-ui18",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/guided-tutorial.js?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/vendor/pako.min.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/data-codec.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/consent.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/session-store.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/durable-storage.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/staged-delivery.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/storage-worker.js?run=qa-main",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/vendor/pako.min.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/data-codec.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/index.html?run=qa-main&debug=1&devguard=0&zoomguard=0&mic=0&read=0&minread=0&readgate=0&block=moral&consent=1&welcome=0",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/app.css?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/guided-tutorial.css?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/consent.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/lab-runtime.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/bank.js?v=2026-10-15-ui18",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/guided-tutorial.js?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/vendor/pako.min.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/data-codec.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/consent.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/session-store.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/durable-storage.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/staged-delivery.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/storage-worker.js?run=qa-main",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/vendor/pako.min.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/data-codec.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/index.html?run=qa-main&debug=1&devguard=0&zoomguard=0&mic=0&read=0&minread=0&readgate=0&block=moral&consent=1&welcome=0",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/app.css?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/guided-tutorial.css?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/consent.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/lab-runtime.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/bank.js?v=2026-10-15-ui18",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/guided-tutorial.js?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/vendor/pako.min.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/data-codec.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/consent.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/session-store.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/durable-storage.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/staged-delivery.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/storage-worker.js?run=qa-main",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/vendor/pako.min.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/data-codec.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/index.html?run=qa-main&debug=1&devguard=0&zoomguard=0&mic=0&read=0&minread=0&readgate=0&block=moral&consent=1&welcome=0",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/app.css?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/guided-tutorial.css?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/consent.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/lab-runtime.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/bank.js?v=2026-10-15-ui18",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/guided-tutorial.js?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/vendor/pako.min.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/data-codec.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/consent.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/session-store.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/durable-storage.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/staged-delivery.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/storage-worker.js?run=qa-main",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/vendor/pako.min.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/data-codec.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/index.html?run=qa-main&debug=1&devguard=0&zoomguard=0&mic=0&read=0&minread=0&readgate=0&block=moral&consent=1&welcome=0",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/app.css?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/guided-tutorial.css?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/consent.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/lab-runtime.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/bank.js?v=2026-10-15-ui18",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/guided-tutorial.js?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/vendor/pako.min.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/data-codec.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/consent.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/session-store.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/durable-storage.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/staged-delivery.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/storage-worker.js?run=qa-main",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/vendor/pako.min.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/data-codec.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/index.html?run=qa-other&debug=1&devguard=0&zoomguard=0&mic=0&read=0&minread=0&readgate=0&block=moral&consent=1&welcome=0",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/app.css?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/guided-tutorial.css?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/consent.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/lab-runtime.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/bank.js?v=2026-10-15-ui18",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/guided-tutorial.js?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/vendor/pako.min.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/data-codec.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/consent.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/session-store.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/durable-storage.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/staged-delivery.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/storage-worker.js?run=qa-other",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/vendor/pako.min.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/data-codec.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/index.html?run=qa-held&debug=1&devguard=0&zoomguard=0&mic=0&read=0&minread=0&readgate=0&block=moral&consent=1&welcome=0",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/app.css?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/guided-tutorial.css?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/consent.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/lab-runtime.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/bank.js?v=2026-10-15-ui18",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/guided-tutorial.js?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/vendor/pako.min.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/data-codec.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/consent.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/session-store.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/durable-storage.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/staged-delivery.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/storage-worker.js?run=qa-held",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/vendor/pako.min.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/data-codec.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/index.html?run=qa-held&debug=1&devguard=0&zoomguard=0&mic=0&read=0&minread=0&readgate=0&block=moral&consent=1&welcome=0",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/app.css?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/guided-tutorial.css?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/consent.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/lab-runtime.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/bank.js?v=2026-10-15-ui18",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/guided-tutorial.js?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/vendor/pako.min.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/data-codec.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/consent.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/session-store.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/durable-storage.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/staged-delivery.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/storage-worker.js?run=qa-held",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/vendor/pako.min.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/data-codec.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/index.html?case=consent&run=qa-main",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/lab-control.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/lab-runtime.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/lab-control.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/index.html?run=qa-delivery&debug=1&devguard=0&zoomguard=0&mic=0&read=0&minread=0&readgate=0&block=moral&consent=1&welcome=0",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/app.css?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/guided-tutorial.css?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/consent.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/lab-runtime.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/bank.js?v=2026-10-15-ui18",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/guided-tutorial.js?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/vendor/pako.min.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/data-codec.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/consent.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/session-store.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/durable-storage.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/staged-delivery.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/storage-worker.js?run=qa-delivery",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/vendor/pako.min.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/data-codec.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/index.html?run=qa-delivery&debug=1&devguard=0&zoomguard=0&mic=0&read=0&minread=0&readgate=0&block=moral&consent=1&welcome=0",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/app.css?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/guided-tutorial.css?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/consent.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/lab-runtime.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/bank.js?v=2026-10-15-ui18",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/guided-tutorial.js?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/vendor/pako.min.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/data-codec.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/consent.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/session-store.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/durable-storage.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/staged-delivery.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/storage-worker.js?run=qa-delivery",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/vendor/pako.min.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/data-codec.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/index.html?run=qa-delivery&debug=1&devguard=0&zoomguard=0&mic=0&read=0&minread=0&readgate=0&block=moral&consent=1&welcome=0",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/app.css?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/guided-tutorial.css?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/consent.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/lab-runtime.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/bank.js?v=2026-10-15-ui18",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/guided-tutorial.js?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/vendor/pako.min.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/data-codec.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/consent.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/session-store.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/durable-storage.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/staged-delivery.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/storage-worker.js?run=qa-delivery",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/vendor/pako.min.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/data-codec.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/index.html?run=qa-delivery&debug=1&devguard=0&zoomguard=0&mic=0&read=0&minread=0&readgate=0&block=moral&consent=1&welcome=0",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/app.css?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/guided-tutorial.css?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/consent.css",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/lab-runtime.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/bank.js?v=2026-10-15-ui18",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/guided-tutorial.js?v=2026-10-15-ui20",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/vendor/pako.min.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/data-codec.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/consent.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/session-store.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/durable-storage.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/staged-delivery.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/storage-worker.js?run=qa-delivery",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/vendor/pako.min.js",
+      "method": "GET"
+    },
+    {
+      "url": "http://127.0.0.1:56388/app/data-codec.js",
+      "method": "GET"
+    }
+  ],
+  "unexpectedRequests": [],
+  "sourceBefore": {
+    "index.html": "0bfe6ce03394e80037fef067059c20c14a9d1ea31eb86dfb4394c0206d9d1357",
+    "app.css": "dc355b1f2426a7f7ad5f73e480154798279a6e35fbb7846c9661328cac1b3e89",
+    "guided-tutorial.js": "cd252e516fb4d4dfca1a1c14683df9a7da3de6aa38e679766285bc4aac3b9e28",
+    "guided-tutorial.css": "d73d3e7373a4602e5258bacbbdbcaad73a00f49ee638094430fe29cb14b146b7",
+    "bank.js": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
+    "session-store.js": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+    "durable-storage.js": "84d006f048e2cc16c4a7a7087ec5815485c0b3a7d2ffa4ce6b7b62905dde967b",
+    "storage-worker.js": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
+    "staged-delivery.js": "7f37d628ce04dc47233b16387d43add674608d278030dd17355621745ab9f7ad",
+    "consent.js": "6dae132f66dc20526ae6e79c59c6ff12049a75a1b11161b6815bfa1339a14bd9",
+    "consent.css": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
+    "data-codec.js": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+    "vendor/pako.min.js": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+    "vendor/pako-LICENSE": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539"
+  },
+  "sourceAfter": {
+    "index.html": "0bfe6ce03394e80037fef067059c20c14a9d1ea31eb86dfb4394c0206d9d1357",
+    "app.css": "dc355b1f2426a7f7ad5f73e480154798279a6e35fbb7846c9661328cac1b3e89",
+    "guided-tutorial.js": "cd252e516fb4d4dfca1a1c14683df9a7da3de6aa38e679766285bc4aac3b9e28",
+    "guided-tutorial.css": "d73d3e7373a4602e5258bacbbdbcaad73a00f49ee638094430fe29cb14b146b7",
+    "bank.js": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
+    "session-store.js": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+    "durable-storage.js": "84d006f048e2cc16c4a7a7087ec5815485c0b3a7d2ffa4ce6b7b62905dde967b",
+    "storage-worker.js": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
+    "staged-delivery.js": "7f37d628ce04dc47233b16387d43add674608d278030dd17355621745ab9f7ad",
+    "consent.js": "6dae132f66dc20526ae6e79c59c6ff12049a75a1b11161b6815bfa1339a14bd9",
+    "consent.css": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
+    "data-codec.js": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+    "vendor/pako.min.js": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+    "vendor/pako-LICENSE": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539"
+  },
+  "labFiles": {
+    "app/app.css": "dc355b1f2426a7f7ad5f73e480154798279a6e35fbb7846c9661328cac1b3e89",
+    "app/bank.js": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
+    "app/consent.css": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
+    "app/consent.js": "339a27d039090dd7363a0ce7e8d2a87a1feb66a8a288319f193c096066de620b",
+    "app/data-codec.js": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+    "app/durable-storage.js": "fcbdade15892c887e6d0886b0878f4cc70126f27cde2bfdf9d1e64267235c004",
+    "app/guided-tutorial.css": "d73d3e7373a4602e5258bacbbdbcaad73a00f49ee638094430fe29cb14b146b7",
+    "app/guided-tutorial.js": "cd252e516fb4d4dfca1a1c14683df9a7da3de6aa38e679766285bc4aac3b9e28",
+    "app/index.html": "1ddaa0a87c9b8462c2cf9bafe9269f038c2fab88cc66dcda7ac0122993087d7e",
+    "app/session-store.js": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+    "app/staged-delivery.js": "7f37d628ce04dc47233b16387d43add674608d278030dd17355621745ab9f7ad",
+    "app/storage-worker.js": "cdfd77a6ddffeb2a1d7d4de93bd016c16f300563249474a9b7095ee0743bc698",
+    "app/vendor/pako-LICENSE": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539",
+    "app/vendor/pako.min.js": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+    "build-manifest.json": "d627960fcb3373c8936f6281cd9eeecca525debcde328e3aec844ba7d659275d",
+    "index.html": "7ce674570c72ff01ec7140100b5ae481a49781957a2b6d74201114e4f30f2931",
+    "lab-control.css": "7d686a9f3c6aa074c08bbbe0999714631e6e48ed879d8884bac8376741fa563a",
+    "lab-control.js": "70f1296ace233762a677815c106a412085275343d055172005df0c034bd72213",
+    "lab-runtime.js": "a75e317c92968f8f92d1ae21346a1f9f404a22eaa91b71c37f71b8f5ceae9435"
+  },
+  "labOrigin": "http://127.0.0.1:56388",
+  "sentinelOrigin": "http://127.0.0.1:56389",
+  "labFilesAfter": {
+    "app/app.css": "dc355b1f2426a7f7ad5f73e480154798279a6e35fbb7846c9661328cac1b3e89",
+    "app/bank.js": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
+    "app/consent.css": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
+    "app/consent.js": "339a27d039090dd7363a0ce7e8d2a87a1feb66a8a288319f193c096066de620b",
+    "app/data-codec.js": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+    "app/durable-storage.js": "fcbdade15892c887e6d0886b0878f4cc70126f27cde2bfdf9d1e64267235c004",
+    "app/guided-tutorial.css": "d73d3e7373a4602e5258bacbbdbcaad73a00f49ee638094430fe29cb14b146b7",
+    "app/guided-tutorial.js": "cd252e516fb4d4dfca1a1c14683df9a7da3de6aa38e679766285bc4aac3b9e28",
+    "app/index.html": "1ddaa0a87c9b8462c2cf9bafe9269f038c2fab88cc66dcda7ac0122993087d7e",
+    "app/session-store.js": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+    "app/staged-delivery.js": "7f37d628ce04dc47233b16387d43add674608d278030dd17355621745ab9f7ad",
+    "app/storage-worker.js": "cdfd77a6ddffeb2a1d7d4de93bd016c16f300563249474a9b7095ee0743bc698",
+    "app/vendor/pako-LICENSE": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539",
+    "app/vendor/pako.min.js": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+    "build-manifest.json": "d627960fcb3373c8936f6281cd9eeecca525debcde328e3aec844ba7d659275d",
+    "index.html": "7ce674570c72ff01ec7140100b5ae481a49781957a2b6d74201114e4f30f2931",
+    "lab-control.css": "7d686a9f3c6aa074c08bbbe0999714631e6e48ed879d8884bac8376741fa563a",
+    "lab-control.js": "70f1296ace233762a677815c106a412085275343d055172005df0c034bd72213",
+    "lab-runtime.js": "a75e317c92968f8f92d1ae21346a1f9f404a22eaa91b71c37f71b8f5ceae9435"
+  },
+  "passed": 82,
+  "failed": 0
+}
