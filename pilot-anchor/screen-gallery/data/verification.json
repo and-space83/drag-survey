@@ -1,0 +1,355 @@
+{
+  "at": "2026-10-15T02:28:30.621Z",
+  "checks": [
+    {
+      "name": "all 14 distribution assets have provenance",
+      "pass": true
+    },
+    {
+      "name": "all 14 guided tutorial states captured",
+      "pass": true
+    },
+    {
+      "name": "all 7 review questions with correction captured",
+      "pass": true
+    },
+    {
+      "name": "example and unnumbered practice introductions captured",
+      "pass": true
+    },
+    {
+      "name": "four rating explanation pages captured",
+      "pass": true
+    },
+    {
+      "name": "motor observation and participant states captured",
+      "pass": true
+    },
+    {
+      "name": "animation stills use named native phases",
+      "pass": true
+    },
+    {
+      "name": "1440 initial normal flow",
+      "pass": true
+    },
+    {
+      "name": "1440 normal screen has no condition badge",
+      "pass": true
+    },
+    {
+      "name": "1440 flow count",
+      "pass": true
+    },
+    {
+      "name": "1440 flow unique DOM ids",
+      "pass": true
+    },
+    {
+      "name": "1440 flow outline targets",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "1440 branches count",
+      "pass": true
+    },
+    {
+      "name": "1440 branches unique DOM ids",
+      "pass": true
+    },
+    {
+      "name": "1440 branches outline targets",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "1440 all count",
+      "pass": true
+    },
+    {
+      "name": "1440 all unique DOM ids",
+      "pass": true
+    },
+    {
+      "name": "1440 all outline targets",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "1440 mini all images switch",
+      "pass": true,
+      "detail": {
+        "count": 249,
+        "bad": 0
+      }
+    },
+    {
+      "name": "1440 mini first image decoded",
+      "pass": true
+    },
+    {
+      "name": "1440 mini no horizontal overflow",
+      "pass": true
+    },
+    {
+      "name": "1440 iphone17 all images switch",
+      "pass": true,
+      "detail": {
+        "count": 249,
+        "bad": 0
+      }
+    },
+    {
+      "name": "1440 iphone17 first image decoded",
+      "pass": true
+    },
+    {
+      "name": "1440 iphone17 no horizontal overflow",
+      "pass": true
+    },
+    {
+      "name": "1440 max all images switch",
+      "pass": true,
+      "detail": {
+        "count": 249,
+        "bad": 0
+      }
+    },
+    {
+      "name": "1440 max first image decoded",
+      "pass": true
+    },
+    {
+      "name": "1440 max no horizontal overflow",
+      "pass": true
+    },
+    {
+      "name": "1440 comparison count",
+      "pass": true
+    },
+    {
+      "name": "1440 comparison same scale",
+      "pass": true,
+      "detail": [
+        0.7376666666666667,
+        0.7380286069651741,
+        0.7384943181818182
+      ]
+    },
+    {
+      "name": "1440 comparison no horizontal overflow",
+      "pass": true
+    },
+    {
+      "name": "1440 opens comparison dialog",
+      "pass": true
+    },
+    {
+      "name": "1440 next screen",
+      "pass": true
+    },
+    {
+      "name": "1440 previous screen",
+      "pass": true
+    },
+    {
+      "name": "1440 dialog device switch",
+      "pass": true
+    },
+    {
+      "name": "1440 Escape closes dialog",
+      "pass": true
+    },
+    {
+      "name": "1440 view change clears stale hash",
+      "pass": true
+    },
+    {
+      "name": "1440 selected view survives reload",
+      "pass": true
+    },
+    {
+      "name": "1440 search returns subset",
+      "pass": true
+    },
+    {
+      "name": "1440 empty search result",
+      "pass": true
+    },
+    {
+      "name": "1440 reset shows all",
+      "pass": true
+    },
+    {
+      "name": "390 initial normal flow",
+      "pass": true
+    },
+    {
+      "name": "390 normal screen has no condition badge",
+      "pass": true
+    },
+    {
+      "name": "390 flow count",
+      "pass": true
+    },
+    {
+      "name": "390 flow unique DOM ids",
+      "pass": true
+    },
+    {
+      "name": "390 flow outline targets",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "390 branches count",
+      "pass": true
+    },
+    {
+      "name": "390 branches unique DOM ids",
+      "pass": true
+    },
+    {
+      "name": "390 branches outline targets",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "390 all count",
+      "pass": true
+    },
+    {
+      "name": "390 all unique DOM ids",
+      "pass": true
+    },
+    {
+      "name": "390 all outline targets",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "390 mini all images switch",
+      "pass": true,
+      "detail": {
+        "count": 249,
+        "bad": 0
+      }
+    },
+    {
+      "name": "390 mini first image decoded",
+      "pass": true
+    },
+    {
+      "name": "390 mini no horizontal overflow",
+      "pass": true
+    },
+    {
+      "name": "390 iphone17 all images switch",
+      "pass": true,
+      "detail": {
+        "count": 249,
+        "bad": 0
+      }
+    },
+    {
+      "name": "390 iphone17 first image decoded",
+      "pass": true
+    },
+    {
+      "name": "390 iphone17 no horizontal overflow",
+      "pass": true
+    },
+    {
+      "name": "390 max all images switch",
+      "pass": true,
+      "detail": {
+        "count": 249,
+        "bad": 0
+      }
+    },
+    {
+      "name": "390 max first image decoded",
+      "pass": true
+    },
+    {
+      "name": "390 max no horizontal overflow",
+      "pass": true
+    },
+    {
+      "name": "390 comparison count",
+      "pass": true
+    },
+    {
+      "name": "390 comparison same scale",
+      "pass": true,
+      "detail": [
+        0.23704166666666668,
+        0.23744558457711443,
+        0.237890625
+      ]
+    },
+    {
+      "name": "390 comparison no horizontal overflow",
+      "pass": true
+    },
+    {
+      "name": "390 opens comparison dialog",
+      "pass": true
+    },
+    {
+      "name": "390 next screen",
+      "pass": true
+    },
+    {
+      "name": "390 previous screen",
+      "pass": true
+    },
+    {
+      "name": "390 dialog device switch",
+      "pass": true
+    },
+    {
+      "name": "390 Escape closes dialog",
+      "pass": true
+    },
+    {
+      "name": "390 view change clears stale hash",
+      "pass": true
+    },
+    {
+      "name": "390 selected view survives reload",
+      "pass": true
+    },
+    {
+      "name": "390 search returns subset",
+      "pass": true
+    },
+    {
+      "name": "390 empty search result",
+      "pass": true
+    },
+    {
+      "name": "390 reset shows all",
+      "pass": true
+    },
+    {
+      "name": "local file opens without fetch",
+      "pass": true
+    },
+    {
+      "name": "no browser JavaScript errors",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "no remote traffic",
+      "pass": true,
+      "detail": []
+    }
+  ],
+  "errors": [],
+  "remote": [],
+  "passed": 76,
+  "failed": 0
+}

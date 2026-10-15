@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>参加画面の一覧とサイズ比較 | pilot-anchor</title>
+<link rel="stylesheet" href="gallery.css">
+</head>
+<body>
+<a class="skip" href="#gallery">画面一覧へ</a>
+<header class="masthead"><a class="brand" href="#top"><span class="brand-icon" aria-hidden="true">▥</span> pilot-anchor <span>SCREEN ATLAS</span></a><span class="local-tag">画面確認用</span></header>
+<div class="shell" id="top">
+<aside class="sidebar" aria-label="画面の目次"><p class="nav-kicker">画面の目次</p><nav id="outline"></nav><div class="sidebar-foot"><span class="small-dot"></span><span id="version">現在の実装から撮影</span><a href="#about">撮影条件・対象サイズ ↗</a></div></aside>
+<main>
+<section class="hero">
+<p class="eyebrow">参加前の案内から、回答の完了まで</p>
+<h1>参加画面を、<br class="mobile-break">順番に。</h1>
+<p class="intro">アプリに表示される画面を、3つのサイズで見比べられます。<br class="desktop-break">画像を押すと、文字を拡大して確認できます。</p>
+<div class="metrics"><div><strong id="flow-count">—</strong><span>通常の流れ・案内</span></div><div><strong id="branch-count">—</strong><span>問題が起きたとき・補助</span></div><div><strong>3</strong><span>画面サイズ</span></div></div>
+</section>
+<div class="toolbar" id="controls">
+<div class="toolbar-top"><div class="tabs" role="group" aria-label="画面の種類"><button data-view="flow" aria-pressed="true">通常の流れ</button><button data-view="branches" aria-pressed="false">問題が起きたとき</button><button data-view="all" aria-pressed="false">すべて</button></div><label class="search"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="画面や文言で検索" aria-label="画面や文言で検索"><kbd>/</kbd></label></div>
+<div class="toolbar-bottom"><div class="device-switch" role="group" aria-label="比較する画面サイズ"><button data-device="mini" aria-pressed="true"><span>最小 · mini</span><small>375 × 700</small></button><button data-device="iphone17" aria-pressed="false"><span>iPhone 17</span><small>402 × 759</small></button><button data-device="max" aria-pressed="false"><span>最大 · Pro Max</span><small>440 × 841</small></button></div><label class="compare-control"><input type="checkbox" id="compare"><span class="switch" aria-hidden="true"></span>3サイズを横に並べる</label></div>
+</div>
+<div class="results-line"><p id="flow-note">表示される順に並んでいます。条件付きの案内には、その条件を添えています。</p><span id="result-count" aria-live="polite"></span></div>
+<div id="gallery" tabindex="-1"></div>
+<div id="empty" hidden><h2>一致する画面がありません</h2><p>別の言葉で検索するか、絞り込みを解除してください。</p><button id="clear">絞り込みを解除</button></div>
+<section id="about" class="about"><p class="eyebrow">この一覧について</p><h2>撮影条件と、画面サイズ</h2><p>画像は撮影時点のローカル実装を Chrome のタッチ画面エミュレーションで表示したものです。iPhone の Safari 実機でのスクリーンショットではありません。ブラウザのバーを除いた表示領域を想定しています。実際の表示領域はブラウザやバーの開閉で変わります。</p><div class="size-table-wrap"><table><thead><tr><th>比較対象</th><th>端末画面（CSS px）</th><th>撮影領域（CSS px）</th></tr></thead><tbody><tr><th>iPhone 12 / 13 mini 相当</th><td>375 × 812</td><td>375 × 700</td></tr><tr><th>iPhone 17 相当</th><td>402 × 874</td><td>402 × 759</td></tr><tr><th>iPhone 17 Pro Max 相当</th><td>440 × 956</td><td>440 × 841</td></tr></tbody></table></div><p>「最小」はこのアプリの参加対象で最小の mini、「最大」は指定された大型の Pro Max を表します。旧 iPhone SE などの対象外端末は、問題が起きたときの一覧に収録しています。横向き・拡大・対象外端末の画面では、その状態を再現するため撮影寸法が異なる場合があります。</p><p>繰り返す本番問題は1問目と特徴の異なる状態を掲載しています。休憩・追加10問・最後のアンケートへ続きます。長い文書や内部スクロールには続きの画像を収録しています。条件付きの画面は毎回出る画面ではありません。</p><p>撮影には合成入力を使い、保存・送信の応答はローカルで再現しています。実参加者の回答や氏名は含みません。画像は実装の描画を撮影しており、画像生成による再現ではありません。</p><p id="capture-stamp"></p><details><summary>版と検証の記録</summary><p id="capture-detail"></p><p><a href="data/manifest.json">全画像の対応表</a> · <a href="data/verification.json">表示・操作の検証結果</a></p><p>機種仕様：<a href="https://support.apple.com/en-bw/111873" target="_blank" rel="noreferrer">Apple / iPhone 13 mini</a> · <a href="https://support.apple.com/en-us/125089" target="_blank" rel="noreferrer">Apple / iPhone 17</a> · <a href="https://support.apple.com/en-la/125091" target="_blank" rel="noreferrer">Apple / iPhone 17 Pro Max</a>。CSSサイズと撮影時の表示領域は確認用の設定値です。</p></details></section>
+<footer><span>pilot-anchor · 画面一覧</span><a href="#top">先頭へ ↑</a></footer>
+</main></div>
+<dialog id="lightbox" aria-labelledby="lightbox-title"><div class="lightbox-header"><div><p id="lightbox-position"></p><h2 id="lightbox-title"></h2></div><button class="close" id="close" aria-label="拡大表示を閉じる">×</button></div><div class="lightbox-controls"><button id="previous" aria-label="前の画面">← 前の画面</button><label>サイズ <select id="lightbox-device"><option value="mini">mini</option><option value="iphone17">iPhone 17</option><option value="max">Pro Max</option><option value="all">3サイズ比較</option></select></label><button id="next" aria-label="次の画面">次の画面 →</button></div><div class="lightbox-content" id="lightbox-content"></div><div class="lightbox-caption"><p id="lightbox-description"></p><details><summary>画面の文字を読む</summary><pre id="lightbox-text"></pre></details></div></dialog>
+<script id="manifest" type="application/json">__MANIFEST__</script>
+<script src="gallery.js"></script>
+</body></html>
