@@ -1,5 +1,5 @@
 diff --git a/tools/pilot-anchor/app.css b/tools/pilot-anchor/app.css
-index ec3b990..b40451c 100644
+index ec3b990..67e95ec 100644
 --- a/tools/pilot-anchor/app.css
 +++ b/tools/pilot-anchor/app.css
 @@ -20 +20,2 @@
@@ -64,7 +64,7 @@ index ec3b990..b40451c 100644
 +  /* 練習の確認と同じ枠で、必要な行動を一項目ずつ示す。確認チェックは追加しない。 */
 +  #noticeText { display: flex; flex-direction: column; gap: 10px; font-size: calc(16px * var(--ui-scale)); line-height: 1.55; padding-bottom: 2px; }
 +  #noticeText .notice-rule-card { flex: none; padding: 12px; border: 2px solid var(--line); border-radius: 10px; background: var(--panel); }
-+  #noticeText .notice-observation { flex: none; font-size: calc(14px * var(--ui-scale)); color: var(--ink-2); margin: 0; }
++  #noticeText .notice-observation { flex: none; font-size: calc(15px * var(--ui-scale)); color: var(--ink-2); margin: 0; }
 +  #noticeText .notice-rule-title { font-size: calc(14px * var(--ui-scale)); color: var(--accent); margin: 0 0 4px; line-height: 1.5; }
 +  #noticeText .notice-rule-body { font-size: calc(15px * var(--ui-scale)); line-height: 1.5; margin: 0; }
 +  #noticeText b { color: var(--ink); }
@@ -135,7 +135,7 @@ index ec3b990..b40451c 100644
 -  #surveyProblemsPage:not([data-part="2"]) #surveyFreeField,
 +  #surveyProblemsPage[data-other-part="2"]:not([data-part="2"]) #surveyFreeField,
 +  #surveyProblemsPage[data-other-part="3"]:not([data-part="3"]) #surveyFreeField,
-@@ -559,2 +650,44 @@
+@@ -559,2 +650,41 @@
 -  #welcome .checks .chk { padding: 10px 10px 10px 38px; font-size: calc(14.5px * var(--ui-scale)); line-height: 1.5; }
 -  #welcome .checks { gap: 6px; }
 +  #welcome .checks .chk { padding: 9px 10px 9px 38px; font-size: calc(14.5px * var(--ui-scale)); line-height: 1.5; }
@@ -144,16 +144,13 @@ index ec3b990..b40451c 100644
 +  .session-explanation-card { border: 1px solid #c9dbd1; border-radius: 16px; background: var(--panel);
 +    box-shadow: 0 5px 22px #183d2810; padding: 20px; }
 +  #welcome .pad { position: relative; padding: 0; overflow: hidden;
-+    --welcome-nav-height: max(57px, calc(27px * var(--ui-scale) + 30px), var(--nav-minh));
-+    --welcome-header-top: max(17px, 3%); --welcome-header-height: calc(31px * var(--ui-scale)); }
++    --welcome-nav-height: max(57px, calc(27px * var(--ui-scale) + 30px), var(--nav-minh)); }
 +  #welcome .pad::before, #welcome .pad::after, #welcome .vgap { display: none; }
-+  #wcHeader { position: absolute; left: 20px; right: 20px; top: var(--welcome-header-top); min-height: var(--welcome-header-height);
-+    display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-+  #welcome #wcStep { color: var(--ink); font-size: calc(22px * var(--ui-scale)); line-height: 1.4; font-weight: 700; margin: 0; }
-+  #wcDots { display: flex; gap: 5px; flex: none; }
++  #welcome #wcStep { flex: none; color: #577062; font-size: calc(12px * var(--ui-scale)); line-height: 1.5; margin: 0 0 8px; }
++  #wcDots { display: flex; justify-content: flex-end; align-self: flex-end; gap: 5px; flex: none; margin-top: 8px; }
 +  #wcDots i { width: 7px; height: 7px; border-radius: 50%; background: #d9e5dc; }
 +  #wcDots i.a { background: var(--go); }
-+  #wcCardArea { position: absolute; left: 18px; right: 18px; top: calc(var(--welcome-header-top) + var(--welcome-header-height) + 10px);
++  #wcCardArea { position: absolute; left: 18px; right: 18px; top: max(20px, 3%);
 +    bottom: calc(max(58px, 8%) + var(--welcome-nav-height) + 8px); display: flex; align-items: center; }
 +  #wcBody { width: 100%; max-height: 100%; flex: none; display: flex; flex-direction: column;
 +    overflow-y: auto; overscroll-behavior: contain; padding: 18px; }
@@ -182,7 +179,7 @@ index ec3b990..b40451c 100644
 +  .session-transition-card > p + p, #blockintroBody.practice-complete-card > p + p, #blockintroBody.instructed-intro-card > p + p { margin-top: 12px; }
 +  #blockintroBody.practice-complete-card ul { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; margin-bottom: 0; }
 +  .pad .session-card-action { color: var(--go); font-weight: 700; font-size: calc(15px * var(--ui-scale)); }
-@@ -562,0 +696,5 @@
+@@ -562,0 +693,5 @@
 +  /* 長い区間ラベルを含む利用年数のページも、小さいiPhoneで下部ナビに重ねない。文字サイズは維持。 */
 +  @media (max-width: 440px) {
 +    #postq #pp-usage_years .field { margin: 6px 0; }
@@ -597,7 +594,7 @@ index 0000000..16e75f6
 +  ]
 +};
 diff --git a/tools/pilot-anchor/index.html b/tools/pilot-anchor/index.html
-index b02688a..92f306e 100644
+index b02688a..5262cdd 100644
 --- a/tools/pilot-anchor/index.html
 +++ b/tools/pilot-anchor/index.html
 @@ -15 +15 @@
@@ -621,25 +618,21 @@ index b02688a..92f306e 100644
 @@ -120 +128,3 @@
 -<link rel="stylesheet" href="app.css">
 +<link rel="stylesheet" href="css/runtime-guards.css?v=2026-10-16-refactor1" onerror="window.pilotAssetLoadFailed = true">
-+  <link rel="stylesheet" href="app.css?v=2026-10-16-ui23">
++  <link rel="stylesheet" href="app.css?v=2026-10-16-ui24">
 +  <link rel="stylesheet" href="guided-tutorial.css?v=2026-10-16-ui22">
-@@ -190,2 +200,5 @@
+@@ -190,2 +200 @@
 -    <p class="opt-note" id="wcStep"></p>
 -    <div id="wcBody"></div>
-+    <div id="wcHeader">
-+      <p id="wcStep">はじめに</p>
-+      <div id="wcDots" role="img" aria-label=""></div>
-+    </div>
 +    <div id="wcCardArea"><div id="wcBody" class="session-explanation-card"></div></div>
-@@ -267 +280 @@
+@@ -267 +276 @@
 -    <h1>研究への参加について</h1>
 +    <h1>研究への参加の同意</h1>
-@@ -286 +299 @@
+@@ -286 +295 @@
 -      <p id="consentSaveNote">通信環境によっては時間がかかる場合があります。ブラウザの更新（再読み込み）や「戻る」は使わず、画面を閉じずにそのままお待ちください。</p>
 +      <p id="consentSaveNote">通信環境によっては時間がかかる場合があります。<br><strong>ブラウザの更新（再読み込み）や「戻る」は使わず、画面を閉じずにそのままお待ちください。</strong></p>
-@@ -298,0 +312 @@
+@@ -298,0 +308 @@
 +    <div id="dragPosition" aria-hidden="true" hidden></div>
-@@ -308 +322,10 @@
+@@ -308 +318,10 @@
 -<!-- ===== RATING (3項目1画面) ===== -->
 +<!-- ===== RATING (迷い・自信を1項目ずつ) ===== -->
 +<section id="guidedintro" class="screen" aria-labelledby="guidedIntroTitle">
@@ -651,20 +644,20 @@ index b02688a..92f306e 100644
 +  <button type="button" class="btn primary" id="guidedIntroGo">次へ</button>
 +</section>
 +
-@@ -311,0 +335 @@
+@@ -311,0 +331 @@
 +  <div id="ratingProgress" aria-hidden="true"><div id="ratingProgressFill"></div></div>
-@@ -315,0 +340 @@
+@@ -315,0 +336 @@
 +    <p id="ratingBackNote" hidden>「戻る」で迷いの回答を直せます。</p>
-@@ -331,3 +356,2 @@
+@@ -331,3 +352,2 @@
 -    <h1>お願い</h1>
 -    <p id="noticeText"></p>
 -    <button type="button" class="btn ghost" id="noticeTut" style="margin:6px auto 14px;display:block">操作方法を見る</button>
 +    <h1>操作のポイントの確認</h1>
 +    <div id="noticeText"></div>
-@@ -335 +359 @@
+@@ -335 +355 @@
 -    <button class="btn primary advance" id="noticeGo">問題に戻る</button>
 +    <button type="button" class="btn primary advance" id="noticeGo">確認して次の問題へ</button>
-@@ -339,0 +364,10 @@
+@@ -339,0 +360,10 @@
 +<section id="practicecheck" class="screen">
 +  <div class="pad">
 +    <h1>操作のポイントの確認</h1>
@@ -675,7 +668,7 @@ index b02688a..92f306e 100644
 +  </div>
 +</section>
 +
-@@ -342,3 +376,6 @@
+@@ -342,3 +372,6 @@
 -    <h1>休憩</h1>
 -    <p id="breakInfo"></p>
 -    <p>準備ができたら続けてください。</p>
@@ -685,49 +678,49 @@ index b02688a..92f306e 100644
 +      <p id="breakInfo"></p>
 +      <p class="session-card-action">準備ができたら「続ける」へ</p>
 +    </div>
-@@ -383 +420 @@
+@@ -383 +416 @@
 -    <p id="readIntro">まず、文章を読む速さを計測します（短い文章を4本）。<br>表示された文章を<b>普段通りの速さ</b>で読み、読み終えたら<b>すぐ</b>下のボタンを押してください。<br>本番の問題文と同じような文です。内容を覚える必要はありません。</p>
 +    <p id="readIntro">まず、あなたの普段の読む速さを知るため、短い文章を4本読んでもらいます。<br><b>速く読む必要はないので普段通りの速さで読み</b>、読み終えたらすぐ下のボタンを押してください。</p>
-@@ -404 +441 @@
+@@ -404 +437 @@
 -    <!-- 1 項目 1 画面 (2026-09-26): 課題と同じくスクロールせず「戻る / 次へ」で進む。ページ = 持ち方 → 拡充分 19 項目 → 使いにくかった点 → 操作のしやすさ -->
 +    <!-- 課題と同じくスクロールせず「戻る / 次へ」で進む。持ち方 → 拡充分 → 使いにくかった点 → 操作のしやすさ → 自由記述 -->
-@@ -409 +446 @@
+@@ -409 +442 @@
 -    <p>最後に、<b>2分ほど</b>で終わるアンケートにお答えください。</p>
 +    <p>最後に、アンケートにお答えください（<b>目安：約8分</b>）。</p>
-@@ -422 +459 @@
+@@ -422 +455 @@
 -    <!-- 事後アンケート 拡充分 (2026-09-06 §6-6 項8): 状態・課題の感じ方・環境・習熟・ふりかえり+自己報告の 22 項目 (2026-09-26 に data_use、2026-09-30 に課題の感じ方 3 問を追加)。POST_ITEMS から描画。
 +    <!-- 事後アンケート拡充分: POST_ITEMSから通常27項目を描画（追加10問OFFでは対応質問を除いて26項目）。
-@@ -424 +461 @@
+@@ -424 +457 @@
 -    <p class="opt-note" id="postLead" style="display:none;margin-top:14px">続けて、いくつか質問にお答えください（約2分）。</p>
 +    <p class="opt-note" id="postLead" style="display:none;margin-top:14px">続けて、いくつか質問にお答えください（目安：約8分）。</p>
-@@ -429,3 +466,3 @@
+@@ -429,3 +462,3 @@
 -      <div class="postpage" data-page="problems" id="surveyProblemsPage">
 -      <!-- 既存10項目の5+5を保ち、案内・待機に関する追加2項目を3ページ目に分ける。各ページに該当なしを設ける -->
 -      <h2 id="surveyProblemsLabel">使いにくかった点・改善してほしい点</h2>
 +      <div class="postpage" data-page="problems" data-other-part="3" id="surveyProblemsPage">
 +      <!-- 5+4+3項目の3ページ。その他は最後に置き、各ページに該当なしを設ける -->
 +      <h2 id="surveyProblemsLabel">使いにくかった点・改善した方がいい点</h2>
-@@ -435,3 +472,3 @@
+@@ -435,3 +468,3 @@
 -        <button type="button" class="chk" data-part="1" data-val="rating_burden">振り返りの回答が多くて負担だった</button>
 -        <button type="button" class="chk" data-part="1" data-val="trial_fatigue">試行数が多くて疲れた・長く感じた</button>
 -        <button type="button" class="chk" data-part="1" data-val="drag_hard">ドラッグして選ぶ操作がやりにくかった</button>
 +        <button type="button" class="chk" data-part="1" data-val="rating_burden">1問ごとの回答の振り返りが負担だった</button>
 +        <button type="button" class="chk" data-part="1" data-val="trial_fatigue">問題数が多くて疲れた・長く感じた</button>
 +        <button type="button" class="chk" data-part="1" data-val="drag_hard">指を離さずに運んで選ぶ操作がやりにくかった</button>
-@@ -445 +481,0 @@
+@@ -445 +477,0 @@
 -        <button type="button" class="chk" data-part="2" data-val="other">その他</button>
-@@ -448,0 +485 @@
+@@ -448,0 +481 @@
 +        <button type="button" class="chk" data-part="3" data-val="other">その他</button>
-@@ -457 +494 @@
+@@ -457 +490 @@
 -      <h2 id="surveyEaseLabel">ドラッグで選ぶ操作はしやすかったですか</h2>
 +      <h2 id="surveyEaseLabel">指を離さずに運んで選ぶ操作はしやすかったですか</h2>
-@@ -481 +518 @@
+@@ -481 +514 @@
 -    <p class="opt-note" id="postMissing" style="text-align:center;margin-top:6px;color:var(--err);font-weight:700"></p>
 +    <p class="opt-note" id="postMissing" data-tap-action style="text-align:center;margin-top:6px;color:var(--err);font-weight:700"></p>
-@@ -493 +530 @@
+@@ -493 +526 @@
 -      <p class="opt-note" id="sendWaitNote">通信環境によっては時間がかかる場合があります。ブラウザの更新（再読み込み）や「戻る」は使わず、画面を閉じずにそのままお待ちください。</p>
 +      <p class="opt-note" id="sendWaitNote">通信環境によっては時間がかかる場合があります。<br><strong>ブラウザの更新（再読み込み）や「戻る」は使わず、画面を閉じずにそのままお待ちください。</strong></p>
-@@ -541 +578,6 @@
+@@ -541 +574,6 @@
 -<script src="bank.js"></script>
 +<script src="js/runtime-guards.js?v=2026-10-16-refactor1"></script>
 +<script src="bank.js?v=2026-10-15-ui18"></script>
@@ -735,7 +728,7 @@ index b02688a..92f306e 100644
 +<script src="js/tutorial-visuals.js?v=2026-10-16-refactor1"></script>
 +<script src="js/tutorial-view.js?v=2026-10-16-ui22"></script>
 +<script src="js/tutorial-controller.js?v=2026-10-16-refactor1"></script>
-@@ -548,4324 +590,8 @@
+@@ -548,4324 +586,8 @@
 -<script>
 -(function () {
 -  "use strict";
@@ -5067,13 +5060,13 @@ index b02688a..92f306e 100644
 +<script src="js/rating-content.js?v=2026-10-16-refactor2"></script>
 +<script src="js/rating-controller.js?v=2026-10-16-refactor2"></script>
 +<script src="js/rating-view.js?v=2026-10-16-refactor2"></script>
-+<script src="js/app.js?v=2026-10-16-ui23" onerror="document.getElementById('wcBody').innerHTML='&lt;h1&gt;読み込みが完了していません&lt;/h1&gt;&lt;p&gt;通信を確認して、もう一度読み込んでください。&lt;/p&gt;'; const next=document.getElementById('wcNext'); next.textContent='再読み込み'; next.disabled=false; next.onclick=function(){location.reload()}"></script>
++<script src="js/app.js?v=2026-10-16-ui24" onerror="document.getElementById('wcBody').innerHTML='&lt;h1&gt;読み込みが完了していません&lt;/h1&gt;&lt;p&gt;通信を確認して、もう一度読み込んでください。&lt;/p&gt;'; const next=document.getElementById('wcNext'); next.textContent='再読み込み'; next.disabled=false; next.onclick=function(){location.reload()}"></script>
 diff --git a/tools/pilot-anchor/js/app.js b/tools/pilot-anchor/js/app.js
 new file mode 100644
-index 0000000..b3b3595
+index 0000000..73f6fe7
 --- /dev/null
 +++ b/tools/pilot-anchor/js/app.js
-@@ -0,0 +1,4285 @@
+@@ -0,0 +1,4283 @@
 +(function () {
 +  "use strict";
 +  if (window.pilotAssetLoadFailed || !window.PILOT_BANK || !window.createSessionStore || !window.PilotConsent || !window.PilotCodec || !window.pako || !window.PilotDurable || !window.createStagedDelivery ||
@@ -5559,21 +5552,21 @@ index 0000000..b3b3595
 +  const HELP_INTRO_HTML = "<b>問題文を読み状況が分かったら、答えを決める前に</b>スタートボタンに指を置きます。すると選択肢が出るので、指を離さずに選ぶほうの選択肢のボックスまで運びます。この操作をくり返します。";
 +  const EARLY_OBSERVATION = "前の問題では、問題文が出てから短い時間でスタートに触れていました。";
 +  const LATE_OBSERVATION = "前の問題では、触れてから枠を出るまで3秒以上かかりました。";
-+  const EARLY_NOTICE_TEXT = START_CRITERION_HTML.replace(/<[^>]*>/g, "") + EARLY_OBSERVATION;
++  const EARLY_NOTICE_TEXT = EARLY_OBSERVATION + START_CRITERION_HTML.replace(/<[^>]*>/g, "");
 +  const MOVEMENT_REASON_HTML = "<b class=\"movement-action\">選択肢を読んだら、答えが決まるのを待たずに動き始めてください。</b>";
 +  const RELEASE_AREA_HTML = "<b>ボックスの内側なら、文字の上でなくても、どこで指を離しても選べます。</b>";
 +  const MAIN_MOVEMENT_HTML = MOVEMENT_REASON_HTML + "<br>3秒は回答の制限時間ではありません。自分のペースで焦らず進めてください。";
-+  const LATE_NOTICE_TEXT = MAIN_MOVEMENT_HTML.replace(/<[^>]*>/g, "") + LATE_OBSERVATION;
++  const LATE_NOTICE_TEXT = LATE_OBSERVATION + MAIN_MOVEMENT_HTML.replace(/<[^>]*>/g, "");
 +  const NOTICE_MAX = { early: 5, late: 5 };   // 案内の上限 (種類ごと・1セッション)。2026-10-09採用: 遅い初動も5回まで
 +  const STOP_NOTICE_TEXT = LATE_NOTICE_TEXT;   // 旧名 (validate.js の互換用)
 +  const NOTICE_TEXTS = { early: EARLY_NOTICE_TEXT, late: LATE_NOTICE_TEXT };
 +  // 表示用 (伝えたい行動を太字に。textContent は上の平文と一致)
 +  const noticeRule = (title, body) => '<div class="notice-rule-card"><h2 class="notice-rule-title">' + title + '</h2><p class="notice-rule-body">' + body + '</p></div>';
 +  const observation = text => '<p class="notice-observation">' + text + '</p>';
-+  const NOTICE_HTML = { early: noticeRule("問題文を読んでからスタート", START_CRITERION_HTML) + observation(EARLY_OBSERVATION),
-+                        late: noticeRule("3秒以内にスタートを出る", MAIN_MOVEMENT_HTML) + observation(LATE_OBSERVATION) };
-+  NOTICE_HTML.early_late = noticeRule("問題文を読んでからスタート", START_CRITERION_HTML) + noticeRule("3秒以内にスタートを出る", MAIN_MOVEMENT_HTML) +
-+    observation("前の問題では、問題文が出てから短い時間でスタートに触れ、触れてから枠を出るまで3秒以上かかりました。");
++  const NOTICE_HTML = { early: observation(EARLY_OBSERVATION) + noticeRule("問題文を読んでからスタート", START_CRITERION_HTML),
++                        late: observation(LATE_OBSERVATION) + noticeRule("3秒以内にスタートを出る", MAIN_MOVEMENT_HTML) };
++  NOTICE_HTML.early_late = observation("前の問題では、問題文が出てから短い時間でスタートに触れ、触れてから枠を出るまで3秒以上かかりました。") +
++    noticeRule("問題文を読んでからスタート", START_CRITERION_HTML) + noticeRule("3秒以内にスタートを出る", MAIN_MOVEMENT_HTML);
 +  for (const kind of ["early", "late"]) NOTICE_TEXTS[kind] = NOTICE_HTML[kind].replace(/<[^>]*>/g, "");
 +  NOTICE_TEXTS.early_late = NOTICE_HTML.early_late.replace(/<[^>]*>/g, "");
 +  const noticeKinds = (kind) => kind === "early_late" ? ["early", "late"] : kind === "early" || kind === "late" ? [kind] : [];
@@ -5710,7 +5703,7 @@ index 0000000..b3b3595
 +    stopNoticesSuppressed: 0, // 上限（種類ごと5回）で非表示にした理由数。両方の抑止なら2
 +    pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
 +    practiceChecks: [], noticeReviews: [], noticeAcknowledgements: [], // 旧別画面見直しと新注意内確認を分ける。読了・理解や除外の判定には用いない
-+    appVersion: "2026-10-16-ui23",  // 開始時の版は再開でも保持する
++    appVersion: "2026-10-16-ui24",  // 開始時の版は再開でも保持する
 +    moralPracticeDefinition: null, // 最初の操作説明・練習開始時に固定する刺激の版と全文。表示・理解の証跡ではない
 +    welcomeAgree: null,       // はじめに 5/6・6/6 の同意チェック {items, pages, ms}
 +    devGuard: null,           // 機種ガード {on,minH,w,h,shown,isIPhone,isIPad,ipadLink,platformOk,sizeOk}
@@ -5720,7 +5713,7 @@ index 0000000..b3b3595
 +
 +  // appVersionは開始時の版を維持するため、教示の表示版は実行中のコードから記録する。
 +  // 未記録の旧画面を推測で埋めず、表示イベントを読了・理解とみなさない。
-+  const INSTRUCTION_VERSION = "2026-10-16-ui23";
++  const INSTRUCTION_VERSION = "2026-10-16-ui24";
 +  function moralPracticeDefinition(legacy = false) {
 +    if (!device.moralPracticeDefinition) {
 +      const source = PILOT_BANK.moral;
@@ -8915,9 +8908,9 @@ index 0000000..b3b3595
 +         '<ul><li>スマートフォンを<b>手で持って</b>操作します（机に置いたままにしないでください）。</li>' +
 +         '<li>通知で中断されないよう、<b>おやすみモード</b>などにしておくと安心です。</li></ul>' },
 +    { h: "氏名とデータの取り扱い",
-+      b: '<ul><li><b>参加確認・謝礼の照合</b><br>氏名を使用します。</li>' +
-+         '<li><b>研究の分析</b><br>氏名を研究用IDに置き換えたデータを使用します。</li>' +
-+         '<li><b>研究成果の公表</b><br>氏名を掲載することはありません。</li></ul>' },
++      b: '<p>氏名は、参加確認と謝礼のお支払いに関する照合に使用します。</p>' +
++         '<p>研究の分析には、氏名を研究用IDに置き換えたデータを使用します。</p>' +
++         '<p>研究成果に氏名を掲載することはありません。</p>' },
 +    // 2026-09-06: 画面切替・再読込の注意 (§6-6 項17)。画面切替の回数・時間の記録は倫理申請 (実施計画書 §3D) に記載済。
 +    // 報酬の承認条件 (非承認の基準) はアプリでなく募集文に書く (身内配布では報酬がないため、ここでは「有効な回答として扱えない」に留める)
 +    // 同意チェックは5/6・6/6。5項目を3+2の2ページに分け、全てにチェックしてから開始する。
@@ -8940,13 +8933,11 @@ index 0000000..b3b3595
 +  const wcAgreed = WELCOME.map(() => []);
 +  function wcRender() {
 +    const p = WELCOME[wcIdx];
-+    $("wcStep").textContent = "はじめに";
-+    $("wcDots").setAttribute("aria-label", `${WELCOME.length}ページ中${wcIdx + 1}ページ目`);
-+    $("wcDots").innerHTML = WELCOME.map((_, i) => `<i${i === wcIdx ? ' class="a"' : ""}></i>`).join("");
-+    $("wcBody").innerHTML = `<h1 id="wcHeading">${p.h}</h1><div class="wc-content">` + p.b + '</div>' +
++    $("wcBody").innerHTML = `<p id="wcStep">はじめに ${wcIdx + 1} / ${WELCOME.length}</p><h1 id="wcHeading">${p.h}</h1><div class="wc-content">` + p.b + '</div>' +
 +      (p.agree ? '<div class="checks" id="wcAgree" aria-labelledby="wcHeading">' + p.agree.map((t, i) => `<button type="button" class="chk" data-val="${i}">${t}</button>`).join("") + '</div>' : "") +
 +      (p.mic && MIC.mode !== "off" ? '<p class="opt-note" style="margin-top:12px">※ 次の画面でマイクの許可をお願いします（測るのは周囲の<b>音量レベルだけ</b>で、会話の内容は記録しません）。</p>' : "") +
-+      (wcIdx === WELCOME.length - 1 ? '<p class="opt-note" style="margin-top:10px">※ 中断からの再開のために、入力した情報と回答の途中経過をこの端末に一時保存します。</p>' : "");
++      (wcIdx === WELCOME.length - 1 ? '<p class="opt-note" style="margin-top:10px">※ 中断からの再開のために、入力した情報と回答の途中経過をこの端末に一時保存します。</p>' : "") +
++      `<div id="wcDots" role="img" aria-label="${WELCOME.length}ページ中${wcIdx + 1}ページ目">` + WELCOME.map((_, i) => `<i${i === wcIdx ? ' class="a"' : ""}></i>`).join("") + '</div>';
 +    if (p.agree) {   // 同意のチェック: 全部にチェックが入るまで「次へ / はじめる」は無効
 +      wcAgreeShownAt = performance.now();
 +      for (const b of $("wcAgree").querySelectorAll("button")) b.classList.toggle("sel", wcAgreed[wcIdx].includes(b.dataset.val));

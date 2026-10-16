@@ -1,10 +1,10 @@
 {
-  "checkedAt": "2026-10-16T06:24:33.029Z",
-  "appVersion": "2026-10-16-ui23",
+  "checkedAt": "2026-10-16T06:57:11.325Z",
+  "appVersion": "2026-10-16-ui24",
   "source": {
-    "index.html": "85c9d6dc46015a02b1328d0dea6ef130b04fa7ed53d4ab544047ba6ce74f49ee",
+    "index.html": "b511f6036d0fc363a3d58fa55da14f17ec368958d935306bdf7045981a7fb65a",
     "css/runtime-guards.css": "da2a02010ec7825568dafae2fb95b6cdc7cf36321f335375ad26ba5281492683",
-    "app.css": "e165d8f7e2933eb5ab92c17ba01bae772a2b35eaa2f10ef768f3a3334fbc7000",
+    "app.css": "5bc6985bab8e2a6b102057ae36d2fb7e8a6da2a261a0526c8ea24642e4f3fd2e",
     "guided-tutorial.css": "044853cf630d434c58190c4cd3072aa7e700619cb16e70a2920f8e89fc7a880d",
     "consent.css": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
     "js/runtime-guards.js": "f7648083aab79c08bdb07e25d041e32b53e8626880f18b4bac8fb9bfca14a26b",
@@ -26,7 +26,7 @@
     "js/rating-content.js": "ade45e7eca8cb6734cc3397962fdb9f14c93c102b1215a638ebf9810b0b019f8",
     "js/rating-controller.js": "4cb1aaac6fe565d4ebed237a3dfc579ea30bfedf23fb9749a182ad6afd868017",
     "js/rating-view.js": "b418cb1ba3ad72baab9b3dc809a367259143b8f7754e8976f41be9e632bef25e",
-    "js/app.js": "097ae4a66ff0cb219dc9a60cfbcd4919d16eea13820d55c0534ba6c3731c4a6d",
+    "js/app.js": "bc4ae54c8be40b1b8e8147546b4525c6486d2f04b0fd0e47a8692580f58e2a84",
     "storage-worker.js": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
     "vendor/pako-LICENSE": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539"
   },
