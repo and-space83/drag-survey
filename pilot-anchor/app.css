@@ -287,6 +287,9 @@
      押せない「次へ」は親 (.rat-btnrow) でタップを受けて案内するため pointer-events を切る */
   #rating .btn.warn { animation: btnNudge .5s ease-in-out; }
   #rating .btn.warn:disabled { opacity: .75; }
+  #rating:not(.tut-front) .btn:disabled { pointer-events: none; }
+  #rating:not(.tut-front) .likert.rating-choice-cue button { border-color: var(--go); box-shadow: 0 0 0 2px rgba(63, 139, 99, .22); }
+  @media (prefers-reduced-motion: reduce) { #rating:not(.tut-front) .btn.warn { animation: none; outline: 3px solid var(--go); outline-offset: 3px; } }
   #rating.tut-front .btn:disabled { pointer-events: none; }
   /* 説明BOXの高さぶん評定行を下げる (全ページ同じ量 = 行の位置は動かない。BOXが自信行に被る対策) */
   #rating.tut-front .qwrap { padding-top: var(--ratReserve, 0px); }

@@ -4,9 +4,11 @@
 window.PilotRatingView = { create(env, model, events) {
   const { $, screens, initChoiceGroup, syncChoiceState, now } = env;
   let ratSpot = null, ratPop = null, ratCueTimer = null, ratFlashTimer = null;
+  let ordinaryHintTimer = null, ordinaryHintButton = null, ordinaryHintChoices = null, ordinaryTap = null;
   const FLASH_MS = 1200;
   const current = model.current, active = model.active;
   function prepare({ practice, answer }) {
+    clearOrdinaryHint();
     $("ratingHead").className = practice ? "practice" : "";
     $("ratingHead").textContent = practice ? "" : "回答について教えてください";
     $("ratingAnswer").hidden = !answer;
@@ -43,6 +45,7 @@ window.PilotRatingView = { create(env, model, events) {
     }
   }
   function showPage(p) {
+    clearOrdinaryHint();
     const items = model.items();
     for (let i = 0; i < items.length; i++) { const el = $("qitem-" + items[i].key); if (el) el.hidden = i !== p; }
     $("ratingBack").style.display = p === 1 ? "" : "none";
@@ -61,6 +64,7 @@ window.PilotRatingView = { create(env, model, events) {
     for (const b of $("ratingItems").querySelectorAll("button")) b.disabled = false;
   }
   function enterReview() {
+    clearOrdinaryHint();
     $("rating").classList.add("rating-review"); document.body.classList.add("tut-review");
     for (const b of $("ratingItems").querySelectorAll("button")) b.disabled = true;
   }
@@ -77,6 +81,28 @@ window.PilotRatingView = { create(env, model, events) {
     btn.style.height = btn.getBoundingClientRect().height + "px";
     btn.textContent = text; btn.classList.add("warn");
     ratFlashTimer = setTimeout(() => { ratFlashTimer = null; btn.classList.remove("warn"); btn.textContent = model.label(btn.id); btn.style.height = btn.dataset.ratHeight || ""; delete btn.dataset.ratHeight; }, Math.max(150, end - at));
+  }
+  // 通常の振り返りでは表示だけを案内する。controllerのstrayは教示ログ専用なので呼ばない。
+  function clearOrdinaryHint() {
+    ordinaryTap = null;
+    if (!ordinaryHintButton) return;
+    clearTimeout(ordinaryHintTimer); ordinaryHintTimer = null;
+    ordinaryHintChoices?.classList.remove("rating-choice-cue"); ordinaryHintChoices = null;
+    ordinaryHintButton.classList.remove("cue"); ordinaryHintButton = null;
+    flashClear();
+  }
+  function showOrdinaryHint() {
+    const button = $(model.page() === 0 ? "ratingNext" : "ratingSubmit");
+    // 合成clickは再送しない。同じ注意の連打で表示時間を延ばさない。
+    if (ordinaryHintButton === button) return;
+    clearOrdinaryHint(); ordinaryHintButton = button;
+    const key = model.items()[model.page()].key, unselected = model.ratings()[key] == null;
+    if (unselected) {
+      ordinaryHintChoices = $("qitem-" + key).querySelector(".likert");
+      ordinaryHintChoices.classList.add("rating-choice-cue");
+    } else button.classList.add("cue");
+    flash(unselected ? "1つ選んでください" : "このボタンで進む", button.id);
+    ordinaryHintTimer = setTimeout(clearOrdinaryHint, FLASH_MS);
   }
   function ensureSpot() {
     if (ratSpot) return;
@@ -181,6 +207,7 @@ window.PilotRatingView = { create(env, model, events) {
     requestAnimationFrame(place);
   }
   function select(key, value) {
+    clearOrdinaryHint();
     const container = $("qitem-" + key).querySelector(".likert"), btn = [...container.children].find(b => Number(b.dataset.val) === value);
     for (const b of container.children) b.classList.toggle("sel", b === btn);
     syncChoiceState(container);
@@ -198,13 +225,36 @@ window.PilotRatingView = { create(env, model, events) {
   $("ratingTutPrev").addEventListener("click", events.previous, { passive: true });
   $("ratingSubmit").addEventListener("click", events.submit, { passive: true });
   $("rating").addEventListener("pointerdown", e => {
-    if (!active()) return;
     const t = e.target;
+    if (e.isPrimary === false) { ordinaryTap = null; return; }
+    if (!screens.rating.classList.contains("active") || document.body.classList.contains("stop-open") || !t?.closest) return;
+    if (!active()) {
+      const goBtn = model.page() === 0 ? $("ratingNext") : $("ratingSubmit");
+      const control = t.closest('button,input,select,textarea,a[href],label,[role="button"],[role="link"],[contenteditable="true"],[data-tap-action]');
+      if (control && (control !== goBtn || !goBtn.disabled)) { clearOrdinaryHint(); return; }
+      ordinaryTap = { id: e.pointerId, x: e.clientX, y: e.clientY, page: model.page() }; return;
+    }
     if ((!model.review() && t.closest(".likert button")) || t.closest("#ratingBack") || t.closest("#ratingTutPrev") || t.closest("#ratingTutClose") || t.closest("#stopBtn")) return;
     const goBtn = model.page() === 0 ? $("ratingNext") : $("ratingSubmit");
     if (t.closest("#" + goBtn.id) && !goBtn.disabled) return;
     events.stray();
   }, { passive: true });
+  $("rating").addEventListener("pointermove", e => {
+    if (ordinaryTap?.id === e.pointerId && Math.hypot(e.clientX - ordinaryTap.x, e.clientY - ordinaryTap.y) > 12) clearOrdinaryHint();
+  }, { passive: true });
+  $("rating").addEventListener("pointerup", e => {
+    const tap = ordinaryTap; ordinaryTap = null;
+    if (!tap || tap.id !== e.pointerId || tap.page !== model.page() || active() || !screens.rating.classList.contains("active") || document.body.classList.contains("stop-open") ||
+        Math.hypot(e.clientX - tap.x, e.clientY - tap.y) > 12) return;
+    showOrdinaryHint();
+  }, { passive: true });
+  $("rating").addEventListener("scroll", clearOrdinaryHint, { capture: true, passive: true });
+  document.addEventListener("pointercancel", clearOrdinaryHint, { passive: true });
+  document.addEventListener("pointerdown", e => { if (!e.target?.closest?.("#rating")) clearOrdinaryHint(); }, { capture: true, passive: true });
+  // 中断・別画面・別アプリへ移った注意を、復帰先へ残さない。
+  new MutationObserver(() => { if (!screens.rating.classList.contains("active")) clearOrdinaryHint(); }).observe(screens.rating, { attributes: true, attributeFilter: ["class"] });
+  document.addEventListener("visibilitychange", () => { if (document.hidden) clearOrdinaryHint(); });
+  window.addEventListener("blur", clearOrdinaryHint);
   window.addEventListener("resize", () => requestAnimationFrame(place), { passive: true });
   return { prepare, restoreSelections, showPage, showOrdinaryHelp, resetScroll, enterReview, exitReview,
     hasItems, prepareTutorial, hideTutorial, renderTutorial, select, flash, addCue: id => $(id).classList.add("cue"), place };
