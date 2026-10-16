@@ -1,5 +1,5 @@
 {
-  "at": "2026-10-16T08:07:54.202Z",
+  "at": "2026-10-16T14:39:43.856Z",
   "checks": [
     {
       "name": "all 27 distribution assets have provenance",
@@ -27,6 +27,34 @@
     },
     {
       "name": "animation stills use named native phases",
+      "pass": true
+    },
+    {
+      "name": "four ordinary rating hint scenes captured",
+      "pass": true
+    },
+    {
+      "name": "mini all native rating hint gates recorded",
+      "pass": true
+    },
+    {
+      "name": "mini hint text and matching phase/counter rendered",
+      "pass": true
+    },
+    {
+      "name": "iphone17 all native rating hint gates recorded",
+      "pass": true
+    },
+    {
+      "name": "iphone17 hint text and matching phase/counter rendered",
+      "pass": true
+    },
+    {
+      "name": "max all native rating hint gates recorded",
+      "pass": true
+    },
+    {
+      "name": "max hint text and matching phase/counter rendered",
       "pass": true
     },
     {
@@ -80,7 +108,7 @@
       "name": "1440 mini all images switch",
       "pass": true,
       "detail": {
-        "count": 248,
+        "count": 252,
         "bad": 0
       }
     },
@@ -96,7 +124,7 @@
       "name": "1440 iphone17 all images switch",
       "pass": true,
       "detail": {
-        "count": 248,
+        "count": 252,
         "bad": 0
       }
     },
@@ -112,7 +140,7 @@
       "name": "1440 max all images switch",
       "pass": true,
       "detail": {
-        "count": 248,
+        "count": 252,
         "bad": 0
       }
     },
@@ -232,7 +260,7 @@
       "name": "390 mini all images switch",
       "pass": true,
       "detail": {
-        "count": 248,
+        "count": 252,
         "bad": 0
       }
     },
@@ -248,7 +276,7 @@
       "name": "390 iphone17 all images switch",
       "pass": true,
       "detail": {
-        "count": 248,
+        "count": 252,
         "bad": 0
       }
     },
@@ -264,7 +292,7 @@
       "name": "390 max all images switch",
       "pass": true,
       "detail": {
-        "count": 248,
+        "count": 252,
         "bad": 0
       }
     },
@@ -350,6 +378,6 @@
   ],
   "errors": [],
   "remote": [],
-  "passed": 76,
+  "passed": 83,
   "failed": 0
 }

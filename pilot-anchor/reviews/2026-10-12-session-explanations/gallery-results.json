@@ -1,10 +1,10 @@
 {
-  "checkedAt": "2026-10-16T08:11:39.137Z",
-  "appVersion": "2026-10-16-ui25",
+  "checkedAt": "2026-10-16T14:43:11.753Z",
+  "appVersion": "2026-10-16-ui26",
   "source": {
-    "index.html": "3cf6e8781be04a66b1963225db1d07d640b010427c2410abb0fe5a449b22a028",
+    "index.html": "e225f652bd8626716e860744b99b6482407babdb9e44fc0ce4df7fc6c08a6752",
     "css/runtime-guards.css": "da2a02010ec7825568dafae2fb95b6cdc7cf36321f335375ad26ba5281492683",
-    "app.css": "7f63ac3d907a88d6799cd7edf38f9b41992595c524be646e40cb272b14616392",
+    "app.css": "ebf1d31ff8587598644d9a5533f5f0177f7dc80dd74848ac7dd27c672ea5f9ed",
     "guided-tutorial.css": "044853cf630d434c58190c4cd3072aa7e700619cb16e70a2920f8e89fc7a880d",
     "consent.css": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
     "js/runtime-guards.js": "f7648083aab79c08bdb07e25d041e32b53e8626880f18b4bac8fb9bfca14a26b",
@@ -25,8 +25,8 @@
     "js/instruction-notice-view.js": "8996b24a2b97aa2a58607006e63d561bdfd0faa23ae8f310ab5740c4919b8a67",
     "js/rating-content.js": "ade45e7eca8cb6734cc3397962fdb9f14c93c102b1215a638ebf9810b0b019f8",
     "js/rating-controller.js": "4cb1aaac6fe565d4ebed237a3dfc579ea30bfedf23fb9749a182ad6afd868017",
-    "js/rating-view.js": "b418cb1ba3ad72baab9b3dc809a367259143b8f7754e8976f41be9e632bef25e",
-    "js/app.js": "990ac9c37b0c6617c3ba503ed07ef137022c14d2a455febf1b3cad76b6e13fb5",
+    "js/rating-view.js": "867b21bb67403f3cd4f7e4ba1a00d1564f88d6c7a10f5d323ca5d6761630a487",
+    "js/app.js": "422c8cc61fe601ea531b2197aeb13e6f06da3f1e90d8a07913bbe24fdc76458e",
     "storage-worker.js": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
     "vendor/pako-LICENSE": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539"
   },

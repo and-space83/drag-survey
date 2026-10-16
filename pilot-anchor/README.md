@@ -12,7 +12,9 @@
 **公開URL**: ① <https://and-space83.github.io/drag-survey/pilot-anchor/> / ② <https://and-space83.github.io/drag-survey/pilot-anchor/?block=value> / ②③統合 <https://and-space83.github.io/drag-survey/pilot-anchor/?block=combo>
 リポ全体のアプリ一覧は [../README.md](../README.md) を参照。
 
-## 現行版の教示・保存・再開 (`2026-10-16-ui25`)
+## 現行版の教示・保存・再開 (`2026-10-16-ui26`)
+
+- ui26では通常の振り返りで空白をタップしたとき、未選択なら選択肢を強調し「1つ選んでください」、選択済みなら進行ボタンを「このボタンで進む」と揺らして案内する。問題画面と同じ段階名・問題番号・総問数も表示する。迷い・自信間では番号を進めず、両方を確定してから次問へ進む。[6状態の旧新3サイズ比較](reviews/2026-10-16-rating-guidance/)と[公開27ファイルの一致](reviews/2026-10-16-rating-guidance/publication.json)を参照。評定値・記録・保存と進行条件を維持する。
 
 - ui25では「はじめに」の所要時間と進め方を2枚へ分け、全7枚にした。ルールの復習は全問・全状態の最大BOXの12px下へ戻る・次へを固定する。読む速さは説明のみBOX化し、4問は元のタイトル横に番号を置き、本文との間隔を保って全体を24px下げた。[33場面の旧新3サイズ比較](reviews/2026-10-16-reading-and-review/)と[公開27ファイルの一致](reviews/2026-10-16-reading-and-review/publication.json)を参照。設問・正誤判定・計測・保存再開・ガードを引き継ぐ。iPhone Safari実機は別途確認する。
 

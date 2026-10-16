@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-10-16T08:10:27.995Z",
-  "version": "2026-10-16-ui25",
+  "checkedAt": "2026-10-16T14:42:11.563Z",
+  "version": "2026-10-16-ui26",
   "baseUrl": "https://and-space83.github.io/drag-survey/pilot-anchor/",
   "normalUrls": true,
   "checks": [
     {
       "file": "index.html",
       "status": 200,
-      "expectedSha256LF": "3cf6e8781be04a66b1963225db1d07d640b010427c2410abb0fe5a449b22a028",
-      "actualSha256LF": "3cf6e8781be04a66b1963225db1d07d640b010427c2410abb0fe5a449b22a028",
+      "expectedSha256LF": "e225f652bd8626716e860744b99b6482407babdb9e44fc0ce4df7fc6c08a6752",
+      "actualSha256LF": "e225f652bd8626716e860744b99b6482407babdb9e44fc0ce4df7fc6c08a6752",
       "match": true
     },
     {
@@ -21,8 +21,8 @@
     {
       "file": "app.css",
       "status": 200,
-      "expectedSha256LF": "7f63ac3d907a88d6799cd7edf38f9b41992595c524be646e40cb272b14616392",
-      "actualSha256LF": "7f63ac3d907a88d6799cd7edf38f9b41992595c524be646e40cb272b14616392",
+      "expectedSha256LF": "ebf1d31ff8587598644d9a5533f5f0177f7dc80dd74848ac7dd27c672ea5f9ed",
+      "actualSha256LF": "ebf1d31ff8587598644d9a5533f5f0177f7dc80dd74848ac7dd27c672ea5f9ed",
       "match": true
     },
     {
@@ -168,15 +168,15 @@
     {
       "file": "js/rating-view.js",
       "status": 200,
-      "expectedSha256LF": "b418cb1ba3ad72baab9b3dc809a367259143b8f7754e8976f41be9e632bef25e",
-      "actualSha256LF": "b418cb1ba3ad72baab9b3dc809a367259143b8f7754e8976f41be9e632bef25e",
+      "expectedSha256LF": "867b21bb67403f3cd4f7e4ba1a00d1564f88d6c7a10f5d323ca5d6761630a487",
+      "actualSha256LF": "867b21bb67403f3cd4f7e4ba1a00d1564f88d6c7a10f5d323ca5d6761630a487",
       "match": true
     },
     {
       "file": "js/app.js",
       "status": 200,
-      "expectedSha256LF": "990ac9c37b0c6617c3ba503ed07ef137022c14d2a455febf1b3cad76b6e13fb5",
-      "actualSha256LF": "990ac9c37b0c6617c3ba503ed07ef137022c14d2a455febf1b3cad76b6e13fb5",
+      "expectedSha256LF": "422c8cc61fe601ea531b2197aeb13e6f06da3f1e90d8a07913bbe24fdc76458e",
+      "actualSha256LF": "422c8cc61fe601ea531b2197aeb13e6f06da3f1e90d8a07913bbe24fdc76458e",
       "match": true
     },
     {

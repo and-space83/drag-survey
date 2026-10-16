@@ -1,5 +1,5 @@
 diff --git a/tools/pilot-anchor/app.css b/tools/pilot-anchor/app.css
-index ec3b990..7c48194 100644
+index ec3b990..51f4df3 100644
 --- a/tools/pilot-anchor/app.css
 +++ b/tools/pilot-anchor/app.css
 @@ -20 +20,2 @@
@@ -31,17 +31,23 @@ index ec3b990..7c48194 100644
 @@ -80,0 +92,2 @@
 +  #postq .post-multiple { gap: 7px; }
 +  #postq .post-multiple .chk { padding-top: 12px; padding-bottom: 12px; }
-@@ -135 +148 @@
+@@ -130 +143 @@
+-  #topbar { position: absolute; top: 0; left: 0; right: 0; height: 5%;
++  #topbar, #ratingTopbar { position: absolute; top: 0; left: 0; right: 0; height: 5%;
+@@ -132,0 +146,2 @@
++  #ratingTopbar { display: none; }
++  #ratingTopbar.on { display: flex; }
+@@ -135 +150 @@
 -  #progress { position: absolute; top: 5%; left: 22%; right: 22%; height: clamp(4px, 1.1vmin, 8px); margin-top: 2px;
 +  #progress, #ratingProgress { position: absolute; top: 5%; left: 22%; right: 22%; height: clamp(4px, 1.1vmin, 8px); margin-top: 2px;
-@@ -137,2 +150,4 @@
+@@ -137,2 +152,4 @@
 -  #progress.on { display: block; }
 -  #progressFill { height: 100%; width: 0; background: var(--go); border-radius: 999px; transition: width .3s ease; }
 +  #progress.on, #ratingProgress.on { display: block; }
 +  #progressFill, #ratingProgressFill { height: 100%; width: 0; background: var(--go); border-radius: 999px; transition: width .3s ease; }
 +  /* 同じ位置を基本とし、低い画面では上部の振り返りヘルプに重ならない高さを確保する。 */
 +  #ratingProgress { top: max(5%, calc(max(9px, env(safe-area-inset-top)) + max(24px, calc(24px * var(--ui-scale))))); }
-@@ -140,0 +156,12 @@
+@@ -140,0 +158,12 @@
 +  #dragPosition { position: absolute; width: var(--contact-diameter); height: var(--contact-diameter); border: 3px solid #1668c4;
 +    border-radius: 50%; background: rgba(22,104,196,.12); transform: translate(-50%,-50%);
 +    pointer-events: none; z-index: 5; }
@@ -54,9 +60,9 @@ index ec3b990..7c48194 100644
 +  .guided-intro-card .guided-intro-op { color: var(--go); font-weight: 700; margin-bottom: 0; }
 +  #guidedIntroGo { position: absolute; left: 16px; right: 16px; top: calc(88% - 8vmin - 28px); }
 +  #guidedIntroGo.flash { animation: btnNudge .5s ease-in-out; }
-@@ -144,0 +172 @@
+@@ -144,0 +174 @@
 +    border-radius: 14px;
-@@ -235,4 +263,8 @@
+@@ -235,4 +265,8 @@
 -  /* 停止・早出しの案内画面 (2026-09-09): 大きめの文字、伝えたい行動は太字 */
 -  #noticeText { font-size: calc(20px * var(--ui-scale)); line-height: 1.7; }
 -  #noticeText b { color: var(--warn); }
@@ -69,7 +75,11 @@ index ec3b990..7c48194 100644
 +  #noticeText .notice-rule-body { font-size: calc(15px * var(--ui-scale)); line-height: 1.5; margin: 0; }
 +  #noticeText b { color: var(--ink); }
 +  .instructed-subtitle { font-size: calc(20px * var(--ui-scale)); }
-@@ -343,0 +376,8 @@
+@@ -255,0 +290,3 @@
++  #rating:not(.tut-front) .btn:disabled { pointer-events: none; }
++  #rating:not(.tut-front) .likert.rating-choice-cue button { border-color: var(--go); box-shadow: 0 0 0 2px rgba(63, 139, 99, .22); }
++  @media (prefers-reduced-motion: reduce) { #rating:not(.tut-front) .btn.warn { animation: none; outline: 3px solid var(--go); outline-offset: 3px; } }
+@@ -343,0 +381,8 @@
 +  #reading .pad { padding-top: 48px; padding-bottom: 0; }
 +  #readContent { display: flex; flex-direction: column; flex: none; }
 +  #readContent.reading-intro-card { padding: 20px; border: 1px solid #c9dbd1; border-radius: 16px; background: var(--panel); box-shadow: 0 5px 22px #183d2810; }
@@ -78,7 +88,9 @@ index ec3b990..7c48194 100644
 +  #readCounter:empty { display: none; }
 +  /* 元の別行カウンターが占めていた高さを間隔に残し、見出しと本文の距離を維持する。 */
 +  #reading #readText { flex: none; margin-top: calc(18px + 24px * var(--ui-scale)); }
-@@ -488,0 +529,58 @@
+@@ -479,0 +525 @@
++  #rating.with-progress #ratingHelp { left: auto; right: max(12px, env(safe-area-inset-right)); transform: none; }
+@@ -488,0 +535,58 @@
 +  /* 回答の振り返りの説明だけをカード化。通常の本番・練習評定の倍率や配置は変更しない。 */
 +  #rating.tut-front { --ui-scale: 1; }
 +  #rating.tut-front .qwrap { padding: 20px 18px 20px; }
@@ -137,14 +149,14 @@ index ec3b990..7c48194 100644
 +    #rating.tut-front .likert.tut-cue button, #rating.tut-front #ratingNext.cue, #rating.tut-front #ratingSubmit.cue { animation: none; }
 +    #rating.tut-front #ratBtnRow .btn.warn { animation: none; outline: 3px solid var(--go); outline-offset: 3px; }
 +  }
-@@ -535 +633 @@
+@@ -535 +639 @@
 -  /* 使いにくかった点は既存5+5と追加2項目の3画面。各画面に「このページでは該当なし」 */
 +  /* 使いにくかった点は3画面。旧保存のその他2ページ目と新版3ページ目を区別する */
-@@ -541 +639,2 @@
+@@ -541 +645,2 @@
 -  #surveyProblemsPage:not([data-part="2"]) #surveyFreeField,
 +  #surveyProblemsPage[data-other-part="2"]:not([data-part="2"]) #surveyFreeField,
 +  #surveyProblemsPage[data-other-part="3"]:not([data-part="3"]) #surveyFreeField,
-@@ -559,2 +658,41 @@
+@@ -559,2 +664,41 @@
 -  #welcome .checks .chk { padding: 10px 10px 10px 38px; font-size: calc(14.5px * var(--ui-scale)); line-height: 1.5; }
 -  #welcome .checks { gap: 6px; }
 +  #welcome .checks .chk { padding: 9px 10px 9px 38px; font-size: calc(14.5px * var(--ui-scale)); line-height: 1.5; }
@@ -188,7 +200,7 @@ index ec3b990..7c48194 100644
 +  .session-transition-card > p + p, #blockintroBody.practice-complete-card > p + p, #blockintroBody.instructed-intro-card > p + p { margin-top: 12px; }
 +  #blockintroBody.practice-complete-card ul { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; margin-bottom: 0; }
 +  .pad .session-card-action { color: var(--go); font-weight: 700; font-size: calc(15px * var(--ui-scale)); }
-@@ -562,0 +701,5 @@
+@@ -562,0 +707,5 @@
 +  /* 長い区間ラベルを含む利用年数のページも、小さいiPhoneで下部ナビに重ねない。文字サイズは維持。 */
 +  @media (max-width: 440px) {
 +    #postq #pp-usage_years .field { margin: 6px 0; }
@@ -603,7 +615,7 @@ index 0000000..16e75f6
 +  ]
 +};
 diff --git a/tools/pilot-anchor/index.html b/tools/pilot-anchor/index.html
-index b02688a..adaad02 100644
+index b02688a..f6428eb 100644
 --- a/tools/pilot-anchor/index.html
 +++ b/tools/pilot-anchor/index.html
 @@ -15 +15 @@
@@ -627,7 +639,7 @@ index b02688a..adaad02 100644
 @@ -120 +128,3 @@
 -<link rel="stylesheet" href="app.css">
 +<link rel="stylesheet" href="css/runtime-guards.css?v=2026-10-16-refactor1" onerror="window.pilotAssetLoadFailed = true">
-+  <link rel="stylesheet" href="app.css?v=2026-10-16-ui25">
++  <link rel="stylesheet" href="app.css?v=2026-10-16-ui26">
 +  <link rel="stylesheet" href="guided-tutorial.css?v=2026-10-16-ui22">
 @@ -190,2 +200 @@
 -    <p class="opt-note" id="wcStep"></p>
@@ -653,20 +665,22 @@ index b02688a..adaad02 100644
 +  <button type="button" class="btn primary" id="guidedIntroGo">次へ</button>
 +</section>
 +
-@@ -311,0 +331 @@
+@@ -309,0 +329 @@
++  <div id="ratingTopbar" role="group" aria-label="問題の進み具合"><span id="ratingPhaseLabel"></span><span id="ratingCounter"></span></div>
+@@ -311,0 +332 @@
 +  <div id="ratingProgress" aria-hidden="true"><div id="ratingProgressFill"></div></div>
-@@ -315,0 +336 @@
+@@ -315,0 +337 @@
 +    <p id="ratingBackNote" hidden>「戻る」で迷いの回答を直せます。</p>
-@@ -331,3 +352,2 @@
+@@ -331,3 +353,2 @@
 -    <h1>お願い</h1>
 -    <p id="noticeText"></p>
 -    <button type="button" class="btn ghost" id="noticeTut" style="margin:6px auto 14px;display:block">操作方法を見る</button>
 +    <h1>操作のポイントの確認</h1>
 +    <div id="noticeText"></div>
-@@ -335 +355 @@
+@@ -335 +356 @@
 -    <button class="btn primary advance" id="noticeGo">問題に戻る</button>
 +    <button type="button" class="btn primary advance" id="noticeGo">確認して次の問題へ</button>
-@@ -339,0 +360,10 @@
+@@ -339,0 +361,10 @@
 +<section id="practicecheck" class="screen">
 +  <div class="pad">
 +    <h1>操作のポイントの確認</h1>
@@ -677,7 +691,7 @@ index b02688a..adaad02 100644
 +  </div>
 +</section>
 +
-@@ -342,3 +372,6 @@
+@@ -342,3 +373,6 @@
 -    <h1>休憩</h1>
 -    <p id="breakInfo"></p>
 -    <p>準備ができたら続けてください。</p>
@@ -687,7 +701,7 @@ index b02688a..adaad02 100644
 +      <p id="breakInfo"></p>
 +      <p class="session-card-action">準備ができたら「続ける」へ</p>
 +    </div>
-@@ -382,4 +415,5 @@
+@@ -382,4 +416,5 @@
 -    <h1>文章を読む速さの計測</h1>
 -    <p id="readIntro">まず、文章を読む速さを計測します（短い文章を4本）。<br>表示された文章を<b>普段通りの速さ</b>で読み、読み終えたら<b>すぐ</b>下のボタンを押してください。<br>本番の問題文と同じような文です。内容を覚える必要はありません。</p>
 -    <p class="opt-note" id="readCounter"></p>
@@ -697,46 +711,46 @@ index b02688a..adaad02 100644
 +      <p id="readIntro">まず、あなたの普段の読む速さを知るため、短い文章を4本読んでもらいます。<br><b>速く読む必要はないので普段通りの速さで読み</b>、読み終えたらすぐ下のボタンを押してください。</p>
 +      <div class="rtext" id="readText" style="display:none"></div>
 +    </div>
-@@ -404 +438 @@
+@@ -404 +439 @@
 -    <!-- 1 項目 1 画面 (2026-09-26): 課題と同じくスクロールせず「戻る / 次へ」で進む。ページ = 持ち方 → 拡充分 19 項目 → 使いにくかった点 → 操作のしやすさ -->
 +    <!-- 課題と同じくスクロールせず「戻る / 次へ」で進む。持ち方 → 拡充分 → 使いにくかった点 → 操作のしやすさ → 自由記述 -->
-@@ -409 +443 @@
+@@ -409 +444 @@
 -    <p>最後に、<b>2分ほど</b>で終わるアンケートにお答えください。</p>
 +    <p>最後に、アンケートにお答えください（<b>目安：約8分</b>）。</p>
-@@ -422 +456 @@
+@@ -422 +457 @@
 -    <!-- 事後アンケート 拡充分 (2026-09-06 §6-6 項8): 状態・課題の感じ方・環境・習熟・ふりかえり+自己報告の 22 項目 (2026-09-26 に data_use、2026-09-30 に課題の感じ方 3 問を追加)。POST_ITEMS から描画。
 +    <!-- 事後アンケート拡充分: POST_ITEMSから通常27項目を描画（追加10問OFFでは対応質問を除いて26項目）。
-@@ -424 +458 @@
+@@ -424 +459 @@
 -    <p class="opt-note" id="postLead" style="display:none;margin-top:14px">続けて、いくつか質問にお答えください（約2分）。</p>
 +    <p class="opt-note" id="postLead" style="display:none;margin-top:14px">続けて、いくつか質問にお答えください（目安：約8分）。</p>
-@@ -429,3 +463,3 @@
+@@ -429,3 +464,3 @@
 -      <div class="postpage" data-page="problems" id="surveyProblemsPage">
 -      <!-- 既存10項目の5+5を保ち、案内・待機に関する追加2項目を3ページ目に分ける。各ページに該当なしを設ける -->
 -      <h2 id="surveyProblemsLabel">使いにくかった点・改善してほしい点</h2>
 +      <div class="postpage" data-page="problems" data-other-part="3" id="surveyProblemsPage">
 +      <!-- 5+4+3項目の3ページ。その他は最後に置き、各ページに該当なしを設ける -->
 +      <h2 id="surveyProblemsLabel">使いにくかった点・改善した方がいい点</h2>
-@@ -435,3 +469,3 @@
+@@ -435,3 +470,3 @@
 -        <button type="button" class="chk" data-part="1" data-val="rating_burden">振り返りの回答が多くて負担だった</button>
 -        <button type="button" class="chk" data-part="1" data-val="trial_fatigue">試行数が多くて疲れた・長く感じた</button>
 -        <button type="button" class="chk" data-part="1" data-val="drag_hard">ドラッグして選ぶ操作がやりにくかった</button>
 +        <button type="button" class="chk" data-part="1" data-val="rating_burden">1問ごとの回答の振り返りが負担だった</button>
 +        <button type="button" class="chk" data-part="1" data-val="trial_fatigue">問題数が多くて疲れた・長く感じた</button>
 +        <button type="button" class="chk" data-part="1" data-val="drag_hard">指を離さずに運んで選ぶ操作がやりにくかった</button>
-@@ -445 +478,0 @@
+@@ -445 +479,0 @@
 -        <button type="button" class="chk" data-part="2" data-val="other">その他</button>
-@@ -448,0 +482 @@
+@@ -448,0 +483 @@
 +        <button type="button" class="chk" data-part="3" data-val="other">その他</button>
-@@ -457 +491 @@
+@@ -457 +492 @@
 -      <h2 id="surveyEaseLabel">ドラッグで選ぶ操作はしやすかったですか</h2>
 +      <h2 id="surveyEaseLabel">指を離さずに運んで選ぶ操作はしやすかったですか</h2>
-@@ -481 +515 @@
+@@ -481 +516 @@
 -    <p class="opt-note" id="postMissing" style="text-align:center;margin-top:6px;color:var(--err);font-weight:700"></p>
 +    <p class="opt-note" id="postMissing" data-tap-action style="text-align:center;margin-top:6px;color:var(--err);font-weight:700"></p>
-@@ -493 +527 @@
+@@ -493 +528 @@
 -      <p class="opt-note" id="sendWaitNote">通信環境によっては時間がかかる場合があります。ブラウザの更新（再読み込み）や「戻る」は使わず、画面を閉じずにそのままお待ちください。</p>
 +      <p class="opt-note" id="sendWaitNote">通信環境によっては時間がかかる場合があります。<br><strong>ブラウザの更新（再読み込み）や「戻る」は使わず、画面を閉じずにそのままお待ちください。</strong></p>
-@@ -541 +575,6 @@
+@@ -541 +576,6 @@
 -<script src="bank.js"></script>
 +<script src="js/runtime-guards.js?v=2026-10-16-refactor1"></script>
 +<script src="bank.js?v=2026-10-15-ui18"></script>
@@ -744,7 +758,7 @@ index b02688a..adaad02 100644
 +<script src="js/tutorial-visuals.js?v=2026-10-16-refactor1"></script>
 +<script src="js/tutorial-view.js?v=2026-10-16-ui25"></script>
 +<script src="js/tutorial-controller.js?v=2026-10-16-ui25"></script>
-@@ -548,4324 +587,8 @@
+@@ -548,4324 +588,8 @@
 -<script>
 -(function () {
 -  "use strict";
@@ -5075,14 +5089,14 @@ index b02688a..adaad02 100644
 +<script src="js/instruction-notice-view.js?v=2026-10-16-refactor2"></script>
 +<script src="js/rating-content.js?v=2026-10-16-refactor2"></script>
 +<script src="js/rating-controller.js?v=2026-10-16-refactor2"></script>
-+<script src="js/rating-view.js?v=2026-10-16-refactor2"></script>
-+<script src="js/app.js?v=2026-10-16-ui25" onerror="document.getElementById('wcBody').innerHTML='&lt;h1&gt;読み込みが完了していません&lt;/h1&gt;&lt;p&gt;通信を確認して、もう一度読み込んでください。&lt;/p&gt;'; const next=document.getElementById('wcNext'); next.textContent='再読み込み'; next.disabled=false; next.onclick=function(){location.reload()}"></script>
++<script src="js/rating-view.js?v=2026-10-16-ui26"></script>
++<script src="js/app.js?v=2026-10-16-ui26" onerror="document.getElementById('wcBody').innerHTML='&lt;h1&gt;読み込みが完了していません&lt;/h1&gt;&lt;p&gt;通信を確認して、もう一度読み込んでください。&lt;/p&gt;'; const next=document.getElementById('wcNext'); next.textContent='再読み込み'; next.disabled=false; next.onclick=function(){location.reload()}"></script>
 diff --git a/tools/pilot-anchor/js/app.js b/tools/pilot-anchor/js/app.js
 new file mode 100644
-index 0000000..dd4a975
+index 0000000..0966dd1
 --- /dev/null
 +++ b/tools/pilot-anchor/js/app.js
-@@ -0,0 +1,4289 @@
+@@ -0,0 +1,4294 @@
 +(function () {
 +  "use strict";
 +  if (window.pilotAssetLoadFailed || !window.PILOT_BANK || !window.createSessionStore || !window.PilotConsent || !window.PilotCodec || !window.pako || !window.PilotDurable || !window.createStagedDelivery ||
@@ -5719,7 +5733,7 @@ index 0000000..dd4a975
 +    stopNoticesSuppressed: 0, // 上限（種類ごと5回）で非表示にした理由数。両方の抑止なら2
 +    pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
 +    practiceChecks: [], noticeReviews: [], noticeAcknowledgements: [], // 旧別画面見直しと新注意内確認を分ける。読了・理解や除外の判定には用いない
-+    appVersion: "2026-10-16-ui25",  // 開始時の版は再開でも保持する
++    appVersion: "2026-10-16-ui26",  // 開始時の版は再開でも保持する
 +    moralPracticeDefinition: null, // 最初の操作説明・練習開始時に固定する刺激の版と全文。表示・理解の証跡ではない
 +    welcomeAgree: null,       // はじめに 6/7・7/7 の同意チェック {items, pages, ms}
 +    devGuard: null,           // 機種ガード {on,minH,w,h,shown,isIPhone,isIPad,ipadLink,platformOk,sizeOk}
@@ -5729,7 +5743,7 @@ index 0000000..dd4a975
 +
 +  // appVersionは開始時の版を維持するため、教示の表示版は実行中のコードから記録する。
 +  // 未記録の旧画面を推測で埋めず、表示イベントを読了・理解とみなさない。
-+  const INSTRUCTION_VERSION = "2026-10-16-ui25";
++  const INSTRUCTION_VERSION = "2026-10-16-ui26";
 +  function moralPracticeDefinition(legacy = false) {
 +    if (!device.moralPracticeDefinition) {
 +      const source = PILOT_BANK.moral;
@@ -6760,7 +6774,12 @@ index 0000000..dd4a975
 +  function updateProgress() {   // 本番 (と末尾の追加 10 問) の進捗バー: 済んだ試行の割合 (2026-09-15)
 +    const on = !dragTutState.active && !(cell && cell.isTutorial) && (phase === "main" || phase === "instructed");
 +    $("progress").classList.toggle("on", on);
-+    $("ratingProgress").classList.toggle("on", on && !tutActive() && !ratingController.isReview());
++    const ratingOn = on && !tutActive() && !ratingController.isReview();
++    $("ratingProgress").classList.toggle("on", ratingOn);
++    $("ratingTopbar").classList.toggle("on", ratingOn);
++    $("rating").classList.toggle("with-progress", ratingOn);
++    $("ratingPhaseLabel").textContent = ratingOn ? (phase === "instructed" ? "追加" : "本番") : "";
++    $("ratingCounter").textContent = ratingOn ? counterText() : "";
 +    if (on) { const done = phase === "main" ? trialIndex : instrIndex, total = phase === "main" ? totalMain : INSTR_N;
 +      const width = (total > 0 ? Math.max(0, Math.min(100, done / total * 100)) : 0) + "%";
 +      $("progressFill").style.width = width; $("ratingProgressFill").style.width = width; }
@@ -9753,19 +9772,21 @@ index 0000000..70367fa
 +});
 diff --git a/tools/pilot-anchor/js/rating-view.js b/tools/pilot-anchor/js/rating-view.js
 new file mode 100644
-index 0000000..9346cea
+index 0000000..f333f85
 --- /dev/null
 +++ b/tools/pilot-anchor/js/rating-view.js
-@@ -0,0 +1,211 @@
+@@ -0,0 +1,261 @@
 +"use strict";
 +
 +// 評定のDOM・配置・装飾と表示用タイマー。判断と記録はmodel/events経由でcontrollerへ委譲する。
 +window.PilotRatingView = { create(env, model, events) {
 +  const { $, screens, initChoiceGroup, syncChoiceState, now } = env;
 +  let ratSpot = null, ratPop = null, ratCueTimer = null, ratFlashTimer = null;
++  let ordinaryHintTimer = null, ordinaryHintButton = null, ordinaryHintChoices = null, ordinaryTap = null;
 +  const FLASH_MS = 1200;
 +  const current = model.current, active = model.active;
 +  function prepare({ practice, answer }) {
++    clearOrdinaryHint();
 +    $("ratingHead").className = practice ? "practice" : "";
 +    $("ratingHead").textContent = practice ? "" : "回答について教えてください";
 +    $("ratingAnswer").hidden = !answer;
@@ -9802,6 +9823,7 @@ index 0000000..9346cea
 +    }
 +  }
 +  function showPage(p) {
++    clearOrdinaryHint();
 +    const items = model.items();
 +    for (let i = 0; i < items.length; i++) { const el = $("qitem-" + items[i].key); if (el) el.hidden = i !== p; }
 +    $("ratingBack").style.display = p === 1 ? "" : "none";
@@ -9820,6 +9842,7 @@ index 0000000..9346cea
 +    for (const b of $("ratingItems").querySelectorAll("button")) b.disabled = false;
 +  }
 +  function enterReview() {
++    clearOrdinaryHint();
 +    $("rating").classList.add("rating-review"); document.body.classList.add("tut-review");
 +    for (const b of $("ratingItems").querySelectorAll("button")) b.disabled = true;
 +  }
@@ -9836,6 +9859,28 @@ index 0000000..9346cea
 +    btn.style.height = btn.getBoundingClientRect().height + "px";
 +    btn.textContent = text; btn.classList.add("warn");
 +    ratFlashTimer = setTimeout(() => { ratFlashTimer = null; btn.classList.remove("warn"); btn.textContent = model.label(btn.id); btn.style.height = btn.dataset.ratHeight || ""; delete btn.dataset.ratHeight; }, Math.max(150, end - at));
++  }
++  // 通常の振り返りでは表示だけを案内する。controllerのstrayは教示ログ専用なので呼ばない。
++  function clearOrdinaryHint() {
++    ordinaryTap = null;
++    if (!ordinaryHintButton) return;
++    clearTimeout(ordinaryHintTimer); ordinaryHintTimer = null;
++    ordinaryHintChoices?.classList.remove("rating-choice-cue"); ordinaryHintChoices = null;
++    ordinaryHintButton.classList.remove("cue"); ordinaryHintButton = null;
++    flashClear();
++  }
++  function showOrdinaryHint() {
++    const button = $(model.page() === 0 ? "ratingNext" : "ratingSubmit");
++    // 合成clickは再送しない。同じ注意の連打で表示時間を延ばさない。
++    if (ordinaryHintButton === button) return;
++    clearOrdinaryHint(); ordinaryHintButton = button;
++    const key = model.items()[model.page()].key, unselected = model.ratings()[key] == null;
++    if (unselected) {
++      ordinaryHintChoices = $("qitem-" + key).querySelector(".likert");
++      ordinaryHintChoices.classList.add("rating-choice-cue");
++    } else button.classList.add("cue");
++    flash(unselected ? "1つ選んでください" : "このボタンで進む", button.id);
++    ordinaryHintTimer = setTimeout(clearOrdinaryHint, FLASH_MS);
 +  }
 +  function ensureSpot() {
 +    if (ratSpot) return;
@@ -9940,6 +9985,7 @@ index 0000000..9346cea
 +    requestAnimationFrame(place);
 +  }
 +  function select(key, value) {
++    clearOrdinaryHint();
 +    const container = $("qitem-" + key).querySelector(".likert"), btn = [...container.children].find(b => Number(b.dataset.val) === value);
 +    for (const b of container.children) b.classList.toggle("sel", b === btn);
 +    syncChoiceState(container);
@@ -9957,13 +10003,36 @@ index 0000000..9346cea
 +  $("ratingTutPrev").addEventListener("click", events.previous, { passive: true });
 +  $("ratingSubmit").addEventListener("click", events.submit, { passive: true });
 +  $("rating").addEventListener("pointerdown", e => {
-+    if (!active()) return;
 +    const t = e.target;
++    if (e.isPrimary === false) { ordinaryTap = null; return; }
++    if (!screens.rating.classList.contains("active") || document.body.classList.contains("stop-open") || !t?.closest) return;
++    if (!active()) {
++      const goBtn = model.page() === 0 ? $("ratingNext") : $("ratingSubmit");
++      const control = t.closest('button,input,select,textarea,a[href],label,[role="button"],[role="link"],[contenteditable="true"],[data-tap-action]');
++      if (control && (control !== goBtn || !goBtn.disabled)) { clearOrdinaryHint(); return; }
++      ordinaryTap = { id: e.pointerId, x: e.clientX, y: e.clientY, page: model.page() }; return;
++    }
 +    if ((!model.review() && t.closest(".likert button")) || t.closest("#ratingBack") || t.closest("#ratingTutPrev") || t.closest("#ratingTutClose") || t.closest("#stopBtn")) return;
 +    const goBtn = model.page() === 0 ? $("ratingNext") : $("ratingSubmit");
 +    if (t.closest("#" + goBtn.id) && !goBtn.disabled) return;
 +    events.stray();
 +  }, { passive: true });
++  $("rating").addEventListener("pointermove", e => {
++    if (ordinaryTap?.id === e.pointerId && Math.hypot(e.clientX - ordinaryTap.x, e.clientY - ordinaryTap.y) > 12) clearOrdinaryHint();
++  }, { passive: true });
++  $("rating").addEventListener("pointerup", e => {
++    const tap = ordinaryTap; ordinaryTap = null;
++    if (!tap || tap.id !== e.pointerId || tap.page !== model.page() || active() || !screens.rating.classList.contains("active") || document.body.classList.contains("stop-open") ||
++        Math.hypot(e.clientX - tap.x, e.clientY - tap.y) > 12) return;
++    showOrdinaryHint();
++  }, { passive: true });
++  $("rating").addEventListener("scroll", clearOrdinaryHint, { capture: true, passive: true });
++  document.addEventListener("pointercancel", clearOrdinaryHint, { passive: true });
++  document.addEventListener("pointerdown", e => { if (!e.target?.closest?.("#rating")) clearOrdinaryHint(); }, { capture: true, passive: true });
++  // 中断・別画面・別アプリへ移った注意を、復帰先へ残さない。
++  new MutationObserver(() => { if (!screens.rating.classList.contains("active")) clearOrdinaryHint(); }).observe(screens.rating, { attributes: true, attributeFilter: ["class"] });
++  document.addEventListener("visibilitychange", () => { if (document.hidden) clearOrdinaryHint(); });
++  window.addEventListener("blur", clearOrdinaryHint);
 +  window.addEventListener("resize", () => requestAnimationFrame(place), { passive: true });
 +  return { prepare, restoreSelections, showPage, showOrdinaryHelp, resetScroll, enterReview, exitReview,
 +    hasItems, prepareTutorial, hideTutorial, renderTutorial, select, flash, addCue: id => $(id).classList.add("cue"), place };
