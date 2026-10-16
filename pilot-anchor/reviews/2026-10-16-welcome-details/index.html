@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'">
+<title>はじめにのBOXと本番の注意を3サイズで比較</title>
+<link rel="stylesheet" href="review.css?v=welcome-details1">
+</head>
+<body>
+<header class="wrap">
+<nav><a href="../../screen-gallery/index.html">← 全画面の3サイズ比較</a><a href="../2026-10-16-intro-cards/index.html">前の変更（ui23）</a></nav>
+<p class="eyebrow">WELCOME DETAILS · 2026.10.16</p>
+<p class="status">ui24 本番反映済み · <a href="publication.json">全27配布ファイルの一致を確認</a></p>
+<h1>進行状況をBOXの中へ。<br>注意の理由は先に。</h1>
+<p class="lead">「はじめに」6枚と本番の注意3種類を、変更前後・対象の3サイズで確認できます。</p>
+<p>画像は架空の回答を使って実際のアプリから撮影しています。画像内のボタンは操作できません。</p>
+</header>
+<main class="wrap">
+<section class="controls" aria-label="比較する画面">
+<label for="screen">確認する画面<select id="screen"></select></label>
+<div class="control-row">
+<label for="size">画面サイズ<select id="size"><option value="all">対象の3サイズを並べる</option><option value="375x700">375 × 700</option><option value="402x759">402 × 759</option><option value="440x841">440 × 841</option></select></label>
+<div><p class="control-label">表示する版</p><div class="segmented" id="versions" role="group" aria-label="表示する版"><button data-version="after" aria-pressed="true">変更後</button><button data-version="before" aria-pressed="false">変更前</button><button data-version="both" aria-pressed="false">前後を並べる</button></div></div>
+</div><p id="selection" class="selection" role="status"></p>
+</section>
+<section class="change" aria-labelledby="changeTitle"><p class="eyebrow" id="group"></p><h2 id="changeTitle"></h2><p id="reason"></p><p class="kept" id="kept"></p></section>
+<section id="comparison" aria-label="画面画像"><p class="caption">画像を押すと原寸で開きます。サイズは撮影用の表示領域です。Safariのバーやセーフエリアを実機再現したものではありません。</p><div class="screens" id="screens"></div></section>
+<section class="copy" aria-labelledby="copyTitle"><h2 id="copyTitle">画面の文章を比較</h2><p class="caption">元の文章への復元と、注意を読む順序も確認できます。</p><div class="copy-grid"><article><h3>変更前</h3><div id="beforeCopy"></div></article><article><h3>変更後</h3><div id="afterCopy"></div></article></div></section>
+<section class="notes"><h2>今回変更したこと</h2><dl>
+<dt>タイトルとページ番号</dt><dd>説明BOXの左上に「はじめに 1 / 6」のように表示します。各ページの内容を示す見出しは、その下に置いています。</dd>
+<dt>丸ぽち</dt><dd>説明BOXの右下へ移動。本文や確認ボタンに重ならない領域を確保しています。</dd>
+<dt>氏名とデータの取り扱い</dt><dd>箇条書きの小見出しを取り除き、元の3つの文章へ戻しました。</dd>
+<dt>本番の注意</dt><dd>「操作のポイントの確認」の直下に、前の問題で起きたことを表示。その下にルールカードを置き、確認が出た理由と次にすることの順に読める形にしました。</dd>
+</dl><p>BOXの中心位置、内容に応じた高さ、進行ボタンの位置と確認条件は維持しています。進行表示と文章量に合わせ、BOXを中央に置くための利用可能領域は調整しています。</p></section>
+<section class="verification"><h2>確認した範囲</h2><p id="verification">検証結果を読み込んでいます。</p><p>Chromeのタッチ操作エミュレーションによる自動確認です。iPhone Safari実機は未確認です。参加者データを使わず、同意の送信試験はlocalhostの模擬受け口だけを使います。</p><div class="links"><a href="results.json">動作・記録・復帰の検証結果</a><a href="regression.json">回帰確認の範囲</a><a href="review-ui-results.json">比較サイトの操作検査</a><a href="before/capture.json">変更前の撮影元</a><a href="review-data.js">文章・画像・撮影元の対応</a></div></section>
+<p><a href="../../?block=moral&amp;debug=1&amp;upload=0&amp;go=welcome" target="_blank" rel="noopener">現在の画面を試す（送信なし）</a></p>
+<footer><a href="../2026-10-12-session-explanations/index.html">説明の全変更と現行画面</a><a href="#">先頭へ ↑</a></footer>
+</main><script src="review-data.js?v=welcome-details1"></script><script src="review.js?v=welcome-details1"></script>
+</body></html>

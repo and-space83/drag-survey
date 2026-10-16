@@ -1,0 +1,66 @@
+{
+  "at": "2026-10-16T06:55:01.271Z",
+  "version": "2026-10-16-ui24",
+  "files": 27,
+  "changed": [
+    "index.html",
+    "app.css",
+    "js/app.js"
+  ],
+  "unchanged": [
+    "css/runtime-guards.css",
+    "guided-tutorial.css",
+    "consent.css",
+    "js/runtime-guards.js",
+    "bank.js",
+    "guided-tutorial.js",
+    "js/tutorial-visuals.js",
+    "js/tutorial-view.js",
+    "js/tutorial-controller.js",
+    "vendor/pako.min.js",
+    "data-codec.js",
+    "consent.js",
+    "session-store.js",
+    "durable-storage.js",
+    "staged-delivery.js",
+    "js/trial-recorder.js",
+    "js/reading-policy.js",
+    "js/choice-controls.js",
+    "js/instruction-notice-view.js",
+    "js/rating-content.js",
+    "js/rating-controller.js",
+    "js/rating-view.js",
+    "storage-worker.js",
+    "vendor/pako-LICENSE"
+  ],
+  "checks": [
+    {
+      "script": "test-session-guidance.cjs",
+      "passed": 688,
+      "failed": 0,
+      "result": "results.json"
+    },
+    {
+      "script": "test-refactor-contract.cjs",
+      "passed": 9,
+      "failed": 0
+    },
+    {
+      "script": "review UI",
+      "passed": 223,
+      "failed": 0,
+      "result": "review-ui-results.json"
+    }
+  ],
+  "preserved": [
+    "同意の文書・版・末尾まで読む条件と本人確認",
+    "5つの確認項目と進行条件",
+    "注意の種類・判定・種類別5回上限・保存復帰",
+    "課題の記録・保存・送信の資産と評定内容"
+  ],
+  "limitations": [
+    "Chromeの自動操作による検証。iPhone Safari実機は未確認。",
+    "確認用の前問は合成記録。送信試験はlocalhostの模擬同意受け口のみ。",
+    "版・表示マークアップ・CSSだけをcontract fixtureで更新。保存・同意・転送・評定のハッシュは維持。"
+  ]
+}

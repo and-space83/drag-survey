@@ -12,7 +12,9 @@
 **公開URL**: ① <https://and-space83.github.io/drag-survey/pilot-anchor/> / ② <https://and-space83.github.io/drag-survey/pilot-anchor/?block=value> / ②③統合 <https://and-space83.github.io/drag-survey/pilot-anchor/?block=combo>
 リポ全体のアプリ一覧は [../README.md](../README.md) を参照。
 
-## 現行版の教示・保存・再開 (`2026-10-16-ui23`)
+## 現行版の教示・保存・再開 (`2026-10-16-ui24`)
+
+- ui24では「はじめに」のパート名・ページ番号をBOX左上、丸ぽちを右下へ移動。氏名とデータの取り扱いは元の3段落へ戻した。本番の注意は前問の観測事実をタイトル直下へ置き、本文と同じ15pxで表示する。[9場面の旧新3サイズ比較](reviews/2026-10-16-welcome-details/)と[公開照合](reviews/2026-10-16-welcome-details/publication.json)を参照。BOX中心・ナビ・チェック・注意の上限・保存処理は維持する。
 
 - ui23では「はじめに」のBOX中心とナビ位置をそろえ、本文量に応じた高さと6つの丸ぽちを採用。初回の「次へ」を中央へ寄せた。練習・本番の「操作のポイントの確認」は短文のカードにそろえ、同意の見出しを明確にし、追加10問の説明もBOXにまとめた。[20場面の旧新3サイズ比較](reviews/2026-10-16-intro-cards/)、[公開27ファイルの一致](reviews/2026-10-16-intro-cards/publication.json)、[進行・同意・追加課題の回帰確認](reviews/2026-10-16-intro-cards/regression.json)を参照。チェックと注意上限、同意文書、保存処理は維持。iPhone Safari実機は別途確認する。
 

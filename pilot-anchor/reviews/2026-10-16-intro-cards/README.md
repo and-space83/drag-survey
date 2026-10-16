@@ -1,6 +1,6 @@
 # はじめに・操作の確認・同意と追加10問の比較（ui23）
 
-本番反映済み。[全27ファイルの公開照合](publication.json)と[回帰確認の範囲](regression.json)、[比較サイトの操作検査](review-ui-results.json)を参照する。実機Safariの確認は未実施。
+ui23の採用時点の比較を保持する。後続の変更・現在の公開状況は [ui24](../2026-10-16-welcome-details/index.html)、ui23公開時点の [全27ファイルの公開照合](publication.json)と[回帰確認の範囲](regression.json)、[比較サイトの操作検査](review-ui-results.json)を参照する。実機Safariの確認は未実施。
 
 [比較ページ](index.html)で20場面を375×700・402×759・440×841の3サイズ、変更前ui22・変更後ui23で見比べられる。画像は合成データによる実際のアプリの撮影で、画像内のボタンは操作できない。iPhone Safari実機の確認とは区別する。
 
