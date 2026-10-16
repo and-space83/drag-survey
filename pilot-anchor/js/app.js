@@ -634,9 +634,9 @@
     stopNoticesSuppressed: 0, // 上限（種類ごと5回）で非表示にした理由数。両方の抑止なら2
     pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
     practiceChecks: [], noticeReviews: [], noticeAcknowledgements: [], // 旧別画面見直しと新注意内確認を分ける。読了・理解や除外の判定には用いない
-    appVersion: "2026-10-16-ui24",  // 開始時の版は再開でも保持する
+    appVersion: "2026-10-16-ui25",  // 開始時の版は再開でも保持する
     moralPracticeDefinition: null, // 最初の操作説明・練習開始時に固定する刺激の版と全文。表示・理解の証跡ではない
-    welcomeAgree: null,       // はじめに 5/6・6/6 の同意チェック {items, pages, ms}
+    welcomeAgree: null,       // はじめに 6/7・7/7 の同意チェック {items, pages, ms}
     devGuard: null,           // 機種ガード {on,minH,w,h,shown,isIPhone,isIPad,ipadLink,platformOk,sizeOk}
     exportedAt: null,
   };
@@ -644,7 +644,7 @@
 
   // appVersionは開始時の版を維持するため、教示の表示版は実行中のコードから記録する。
   // 未記録の旧画面を推測で埋めず、表示イベントを読了・理解とみなさない。
-  const INSTRUCTION_VERSION = "2026-10-16-ui24";
+  const INSTRUCTION_VERSION = "2026-10-16-ui25";
   function moralPracticeDefinition(legacy = false) {
     if (!device.moralPracticeDefinition) {
       const source = PILOT_BANK.moral;
@@ -3828,11 +3828,12 @@
       b: '<p>この調査では、<b>短い問題文</b>を読んで、<b>2つの選択肢から あなたの考えに近いほう</b>を選んでいきます。</p>' +
          '<ul><li><b>正解・不正解はありません。</b>あなたの素直な判断で構いません。</li>' +
          '<li>選んだあとに「迷い」と「自信」を5段階でふりかえります。</li></ul>' },
-    { h: "所要時間と進め方",
+    { h: "所要時間と回答のペース",
       b: '<p>全体で <b>40分ほど</b>（35〜50分）かかります。時間に余裕があるときに始めてください。</p>' +
-         '<div class="wc-flow"><p>進める順番</p><ol><li>読む速さの計測</li><li>画面・操作の説明</li><li>練習</li><li>本番</li><li>実施後のアンケート</li></ol></div>' +
+         '<p><b>回答を急ぐ必要はありません。</b>読むことや考えることに十分な時間を使い、自分のペースで進めてください。</p>' },
+    { h: "進む順番と休憩",
+      b: '<div class="wc-flow"><p>進める順番</p><ol><li>読む速さの計測</li><li>画面・操作の説明</li><li>練習</li><li>本番</li><li>実施後のアンケート</li></ol></div>' +
          '<ul><li>説明は何度でも見直せます。</li>' +
-         '<li><b>回答を急ぐ必要はありません。</b>読むことや考えることに十分な時間を使い、自分のペースで進めてください。</li>' +
          '<li>本番は<b>20問ごとに休憩</b>があります。休憩以外は、別の作業を挟まずに続けてください。</li></ul>' },
     { h: "実施する環境について",
       b: '<p><b>静かな場所</b>で、落ち着いて取り組める時に始めてください。</p>' +
@@ -3844,7 +3845,7 @@
          '<p>研究成果に氏名を掲載することはありません。</p>' },
     // 2026-09-06: 画面切替・再読込の注意 (§6-6 項17)。画面切替の回数・時間の記録は倫理申請 (実施計画書 §3D) に記載済。
     // 報酬の承認条件 (非承認の基準) はアプリでなく募集文に書く (身内配布では報酬がないため、ここでは「有効な回答として扱えない」に留める)
-    // 同意チェックは5/6・6/6。5項目を3+2の2ページに分け、全てにチェックしてから開始する。
+    // 同意チェックは6/7・7/7。5項目を3+2の2ページに分け、全てにチェックしてから開始する。
     { h: "進めるうえでのお願い", mic: true,
       b: '<p>次の項目を確認して、<b>すべてにチェック</b>を入れてください。</p>',
       agree: [
@@ -3883,7 +3884,8 @@
     wcCueTimer = setTimeout(() => { if (wcIdx === page) $("wcNext").classList.add("cue"); }, readCueDelay(p.b));
     $("welcome").querySelector(".pad").scrollTop = 0;
     focusScreenHeading("welcome");
-    if (!KIOSK && wcIdx === 1 && screens.welcome.classList.contains("active")) logInstructionExposure("welcome", { page: 2 });
+    // 分割した所要時間・進行手順の両方を表示記録として残す。読了・理解の判定には使わない。
+    if (!KIOSK && (wcIdx === 1 || wcIdx === 2) && screens.welcome.classList.contains("active")) logInstructionExposure("welcome", { page: wcIdx + 1 });
   }
   let wcAgreeShownAt = null, wcAgreeMs = 0;
   function finishWelcomeDwell() {
