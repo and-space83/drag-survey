@@ -12,7 +12,9 @@
 **公開URL**: ① <https://and-space83.github.io/drag-survey/pilot-anchor/> / ② <https://and-space83.github.io/drag-survey/pilot-anchor/?block=value> / ②③統合 <https://and-space83.github.io/drag-survey/pilot-anchor/?block=combo>
 リポ全体のアプリ一覧は [../README.md](../README.md) を参照。
 
-## 現行版の教示・保存・再開 (`2026-10-16-ui21`)
+## 現行版の教示・保存・再開 (`2026-10-16-ui22`)
+
+- ui22では復習BOXの上端と進行位置を保ち、表示内容に応じて下端だけ伸縮する。練習・本番の案内は「選択肢を読んだら動き始める」を先に示す短文へ整理し、最初の6枚はBOXとナビを固定、練習完了と休憩もBOXへ統一した。[18場面の旧新3サイズ比較](reviews/2026-10-16-session-guidance/)、[公開27ファイルの一致](reviews/2026-10-16-session-guidance/publication.json)、[動作・保存・同意の回帰確認](reviews/2026-10-16-session-guidance/regression.json)を参照。iPhone Safari実機の確認とは区別する。
 
 - ui21で実演の指の倍率・接触前の1秒待機、復習カードの位置と誤答表示、振り返りの本文・進行表示・説明見直しの誘導を調整した。青い接触円は直径72px。到達と回答確定は従来どおり中心の接触座標で判定する。[今回の修正と確認画像](reviews/2026-10-16-tutorial-feedback/)と[公開照合記録](reviews/2026-10-16-tutorial-feedback/publication.json)を参照。
 

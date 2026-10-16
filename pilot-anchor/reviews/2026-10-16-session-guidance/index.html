@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'">
+<title>開始前・練習・本番の案内を3サイズで比較</title>
+<link rel="stylesheet" href="review.css?v=session-guidance1">
+</head>
+<body>
+<header class="wrap">
+<nav><a href="../../screen-gallery/index.html">← 全画面の3サイズ比較</a><a href="../2026-10-16-quiz-box/index.html">復習BOXの変更</a></nav>
+<p class="eyebrow">SESSION GUIDANCE · 2026.10.16</p>
+<p class="status">ui22 本番反映済み · <a href="publication.json">全27配布ファイルの一致を確認</a></p>
+<h1>必要な行動を、<br>短く、同じ場所で。</h1>
+<p class="lead">開始前の6枚、練習の確認、本番の注意、練習完了と休憩を、変更前後・対象の3サイズで確認できます。</p>
+<p>画像は同じ条件の架空の回答から、実際のアプリ画面を撮影したものです。画像内のボタンは操作できません。問題数・判定・確認チェック・記録の処理は保ち、説明の見せ方を整理しています。</p>
+</header>
+<main class="wrap">
+<section class="controls" aria-label="比較する画面">
+<label for="screen">確認する画面<select id="screen"></select></label>
+<div class="control-row">
+<label for="size">画面サイズ<select id="size"><option value="all">対象の3サイズを並べる</option><option value="375x700">375 × 700</option><option value="402x759">402 × 759</option><option value="440x841">440 × 841</option></select></label>
+<div><p class="control-label">表示する版</p><div class="segmented" id="versions" role="group" aria-label="表示する版"><button data-version="after" aria-pressed="true">変更後</button><button data-version="before" aria-pressed="false">変更前</button><button data-version="both" aria-pressed="false">前後を並べる</button></div></div>
+</div>
+<p id="selection" class="selection" role="status"></p>
+</section>
+<section class="change" aria-labelledby="changeTitle"><p class="eyebrow" id="group"></p><h2 id="changeTitle"></h2><p id="reason"></p><p class="kept" id="kept"></p></section>
+<section id="comparison" aria-label="画面画像"><p class="caption">各画像を押すと原寸で開きます。サイズは端末全体の寸法ではなく、Safariのバーなどを除く表示領域の想定値です。SEを対象として追加したものではありません。</p><div class="screens" id="screens"></div></section>
+<section class="copy" aria-labelledby="copyTitle"><h2 id="copyTitle">画面の文章を比較</h2><p class="caption">下は画面内の文章です。強調や改行も確認できます。</p><div class="copy-grid"><article><h3>変更前</h3><div id="beforeCopy"></div></article><article><h3>変更後</h3><div id="afterCopy"></div></article></div></section>
+<section class="notes"><h2>変更の意図と、残した条件</h2>
+<dl><dt>最初の6枚</dt><dd>説明BOXと進行ボタンの位置を6枚で統一。長い手順は縦の番号リスト、データの用途は箇条書きにしました。6ページの順序と、5つの確認項目・チェック解除時の進行禁止は保っています。</dd>
+<dt>練習での操作確認</dt><dd>「3秒以内にスタートを出る」と短くし、選択肢を読んだら答えが決まるのを待たずに動き始める行動を強調しました。3秒が回答の期限ではないことと、自分のペースで進めてよいことは残しています。</dd>
+<dt>本番の注意</dt><dd>次にする行動を先に表示。前の問題の観測事実は短くして後に置き、注意を受けた瞬間に読まなければならない量を減らしました。出現条件・種類別の上限・確認記録は同じです。</dd>
+<dt>練習完了・休憩</dt><dd>説明をBOXの中へそろえ、次のボタンを押すタイミングを緑の文で案内します。本人が進めるまで次問に移らず、休憩時間の記録も保っています。</dd></dl>
+<p>「選択肢を読んだら」を強調しても、選択肢を読む前に急いで動く意味にはしません。3秒の区間・答えが決まる前に動き始める行動・回答のペースを、一緒に確認できる説明にしています。</p>
+</section>
+<section class="verification"><h2>確認した範囲</h2><p id="verification">検証結果を読み込んでいます。</p><p>自動確認はChromeのタッチ操作エミュレーションです。iPhone Safari実機での読みやすさ・押しやすさは別途の確認です。撮影は架空の回答だけを使い、本番の収集先への送信はありません。保存復帰・電子同意の検査は、このPCの一時的なlocalhostと模擬受け口だけを用いています。</p><div class="links"><a href="results.json">変更後の動作・記録・復帰の検証結果</a><a href="before/capture.json">変更前の撮影元</a><a href="review-data.js">表示文と撮影元の照合データ</a></div></section>
+<p><a href="regression.json">既存の動作・保存機能の回帰確認</a> · <a href="../../?block=moral&amp;debug=1&amp;upload=0&amp;go=welcome" target="_blank" rel="noopener">現在の画面を試す（送信なし）</a></p>
+<footer><a href="../2026-10-12-session-explanations/index.html">説明の全変更と現行画面</a><a href="#">先頭へ ↑</a></footer>
+</main>
+<script src="review-data.js?v=session-guidance1"></script><script src="review.js?v=session-guidance1"></script>
+</body></html>

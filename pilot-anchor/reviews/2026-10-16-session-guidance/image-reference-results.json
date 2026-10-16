@@ -1,0 +1,496 @@
+{
+  "at": "2026-10-16T05:51:50.179Z",
+  "scope": "Static generated gallery image references against the latest focused QA screens, plus before image existence.",
+  "screens": 18,
+  "afterReferences": 54,
+  "allAfterReferencesInLatestQA": true,
+  "allFilesExist": true,
+  "refs": [
+    {
+      "id": "welcome-1",
+      "size": "375x700",
+      "after": "375x700/welcome-1.png",
+      "before": "before/375x700/welcome-1.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "welcome-1",
+      "size": "402x759",
+      "after": "402x759/welcome-1.png",
+      "before": "before/402x759/welcome-1.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "welcome-1",
+      "size": "440x841",
+      "after": "440x841/welcome-1.png",
+      "before": "before/440x841/welcome-1.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "welcome-2",
+      "size": "375x700",
+      "after": "375x700/welcome-2.png",
+      "before": "before/375x700/welcome-2.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "welcome-2",
+      "size": "402x759",
+      "after": "402x759/welcome-2.png",
+      "before": "before/402x759/welcome-2.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "welcome-2",
+      "size": "440x841",
+      "after": "440x841/welcome-2.png",
+      "before": "before/440x841/welcome-2.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "welcome-3",
+      "size": "375x700",
+      "after": "375x700/welcome-3.png",
+      "before": "before/375x700/welcome-3.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "welcome-3",
+      "size": "402x759",
+      "after": "402x759/welcome-3.png",
+      "before": "before/402x759/welcome-3.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "welcome-3",
+      "size": "440x841",
+      "after": "440x841/welcome-3.png",
+      "before": "before/440x841/welcome-3.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "welcome-4",
+      "size": "375x700",
+      "after": "375x700/welcome-4.png",
+      "before": "before/375x700/welcome-4.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "welcome-4",
+      "size": "402x759",
+      "after": "402x759/welcome-4.png",
+      "before": "before/402x759/welcome-4.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "welcome-4",
+      "size": "440x841",
+      "after": "440x841/welcome-4.png",
+      "before": "before/440x841/welcome-4.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "welcome-5",
+      "size": "375x700",
+      "after": "375x700/welcome-5.png",
+      "before": "before/375x700/welcome-5.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "welcome-5",
+      "size": "402x759",
+      "after": "402x759/welcome-5.png",
+      "before": "before/402x759/welcome-5.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "welcome-5",
+      "size": "440x841",
+      "after": "440x841/welcome-5.png",
+      "before": "before/440x841/welcome-5.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "welcome-6",
+      "size": "375x700",
+      "after": "375x700/welcome-6.png",
+      "before": "before/375x700/welcome-6.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "welcome-6",
+      "size": "402x759",
+      "after": "402x759/welcome-6.png",
+      "before": "before/402x759/welcome-6.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "welcome-6",
+      "size": "440x841",
+      "after": "440x841/welcome-6.png",
+      "before": "before/440x841/welcome-6.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "practice-early",
+      "size": "375x700",
+      "after": "375x700/practice-early.png",
+      "before": "before/375x700/practice-early.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "practice-early",
+      "size": "402x759",
+      "after": "402x759/practice-early.png",
+      "before": "before/402x759/practice-early.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "practice-early",
+      "size": "440x841",
+      "after": "440x841/practice-early.png",
+      "before": "before/440x841/practice-early.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "practice-late",
+      "size": "375x700",
+      "after": "375x700/practice-late.png",
+      "before": "before/375x700/practice-late.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "practice-late",
+      "size": "402x759",
+      "after": "402x759/practice-late.png",
+      "before": "before/402x759/practice-late.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "practice-late",
+      "size": "440x841",
+      "after": "440x841/practice-late.png",
+      "before": "before/440x841/practice-late.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "practice-release",
+      "size": "375x700",
+      "after": "375x700/practice-release.png",
+      "before": "before/375x700/practice-release.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "practice-release",
+      "size": "402x759",
+      "after": "402x759/practice-release.png",
+      "before": "before/402x759/practice-release.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "practice-release",
+      "size": "440x841",
+      "after": "440x841/practice-release.png",
+      "before": "before/440x841/practice-release.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "practice-all",
+      "size": "375x700",
+      "after": "375x700/practice-all.png",
+      "before": "before/375x700/practice-all.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "practice-all",
+      "size": "402x759",
+      "after": "402x759/practice-all.png",
+      "before": "before/402x759/practice-all.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "practice-all",
+      "size": "440x841",
+      "after": "440x841/practice-all.png",
+      "before": "before/440x841/practice-all.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "practice-last",
+      "size": "375x700",
+      "after": "375x700/practice-last.png",
+      "before": "before/375x700/practice-last.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "practice-last",
+      "size": "402x759",
+      "after": "402x759/practice-last.png",
+      "before": "before/402x759/practice-last.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "practice-last",
+      "size": "440x841",
+      "after": "440x841/practice-last.png",
+      "before": "before/440x841/practice-last.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "main-early",
+      "size": "375x700",
+      "after": "375x700/main-early.png",
+      "before": "before/375x700/main-early.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "main-early",
+      "size": "402x759",
+      "after": "402x759/main-early.png",
+      "before": "before/402x759/main-early.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "main-early",
+      "size": "440x841",
+      "after": "440x841/main-early.png",
+      "before": "before/440x841/main-early.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "main-late",
+      "size": "375x700",
+      "after": "375x700/main-late.png",
+      "before": "before/375x700/main-late.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "main-late",
+      "size": "402x759",
+      "after": "402x759/main-late.png",
+      "before": "before/402x759/main-late.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "main-late",
+      "size": "440x841",
+      "after": "440x841/main-late.png",
+      "before": "before/440x841/main-late.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "main-both",
+      "size": "375x700",
+      "after": "375x700/main-both.png",
+      "before": "before/375x700/main-both.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "main-both",
+      "size": "402x759",
+      "after": "402x759/main-both.png",
+      "before": "before/402x759/main-both.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "main-both",
+      "size": "440x841",
+      "after": "440x841/main-both.png",
+      "before": "before/440x841/main-both.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "practice-complete",
+      "size": "375x700",
+      "after": "375x700/practice-complete.png",
+      "before": "before/375x700/practice-complete.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "practice-complete",
+      "size": "402x759",
+      "after": "402x759/practice-complete.png",
+      "before": "before/402x759/practice-complete.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "practice-complete",
+      "size": "440x841",
+      "after": "440x841/practice-complete.png",
+      "before": "before/440x841/practice-complete.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "break-clear",
+      "size": "375x700",
+      "after": "375x700/break-clear.png",
+      "before": "before/375x700/break-clear.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "break-clear",
+      "size": "402x759",
+      "after": "402x759/break-clear.png",
+      "before": "before/402x759/break-clear.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "break-clear",
+      "size": "440x841",
+      "after": "440x841/break-clear.png",
+      "before": "before/440x841/break-clear.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "break-both",
+      "size": "375x700",
+      "after": "375x700/break-both.png",
+      "before": "before/375x700/break-both.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "break-both",
+      "size": "402x759",
+      "after": "402x759/break-both.png",
+      "before": "before/402x759/break-both.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "break-both",
+      "size": "440x841",
+      "after": "440x841/break-both.png",
+      "before": "before/440x841/break-both.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "break-both-capped",
+      "size": "375x700",
+      "after": "375x700/break-both-history-5-early_late.png",
+      "before": "before/375x700/break-both-capped.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "break-both-capped",
+      "size": "402x759",
+      "after": "402x759/break-both-history-5-early_late.png",
+      "before": "before/402x759/break-both-capped.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    },
+    {
+      "id": "break-both-capped",
+      "size": "440x841",
+      "after": "440x841/break-both-history-5-early_late.png",
+      "before": "before/440x841/break-both-capped.png",
+      "inLatestScreens": true,
+      "afterExists": true,
+      "beforeExists": true
+    }
+  ]
+}
