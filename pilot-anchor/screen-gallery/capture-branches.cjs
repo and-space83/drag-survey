@@ -64,7 +64,14 @@ const server=http.createServer(async(req,res)=>{
  if(!data){res.writeHead(404).end();return;}res.setHeader('Content-Type',({'.html':'text/html;charset=utf-8','.js':'application/javascript','.css':'text/css'})[path.extname(key)]||'application/octet-stream');res.end(data);
 });
 let browser,origin,current,contexts=[];
-function writeCapturedFile(target,data){for(let attempt=0;;attempt++){try{fs.writeFileSync(target,data);return;}catch(error){if(error.code!=='UNKNOWN'||attempt>=19)throw error;Atomics.wait(new Int32Array(new SharedArrayBuffer(4)),0,0,200);}}}
+function writeCapturedFile(target,data){
+ const resolved=path.resolve(target);if(!resolved.startsWith(path.resolve(out)+path.sep))throw Error('Capture output outside gallery');
+ writeCapturedFile.sequence=(writeCapturedFile.sequence||0)+1;
+ const temp=resolved+'.tmp-'+process.pid+'-'+writeCapturedFile.sequence;
+ const retry=operation=>{for(let attempt=0;;attempt++){try{return operation();}catch(error){if(!['UNKNOWN','EPERM','EACCES','EBUSY'].includes(error.code)||attempt>=19)throw error;Atomics.wait(new Int32Array(new SharedArrayBuffer(4)),0,0,200);}}};
+ try{retry(()=>fs.writeFileSync(temp,data));retry(()=>fs.renameSync(temp,resolved));}
+ finally{if(fs.existsSync(temp))fs.unlinkSync(temp);}
+}
 function save(){if(previousOrder.length)manifest.screens.sort((a,b)=>{const ai=previousOrder.indexOf(a.id),bi=previousOrder.indexOf(b.id);return(ai<0?1e6:ai)-(bi<0?1e6:bi);});manifest.screens.forEach((s,i)=>s.order=i+1);writeCapturedFile(path.join(out,'data','branches.json'),JSON.stringify(manifest,null,2));}
 async function open(extra='',opts={}){
  const q=new URLSearchParams('block=moral&upload=0&welcome=0&read=0&attn=1&instr=1&devguard=0&zoomguard=0&minread=0');

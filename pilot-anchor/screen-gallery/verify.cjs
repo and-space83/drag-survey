@@ -19,6 +19,15 @@ const all=manifest.screens.length,flow=manifest.screens.filter(s=>s.kind==='flow
   check('four rating explanation pages captured',[1,2,3,4].every(i=>manifest.screens.some(s=>s.id==='flow-rating-tutorial-'+i)));
   check('motor observation and participant states captured',['motor-route-moving','motor-route-another','motor-range-inside','motor-press','motor-drag','motor-success','motor-stray','motor-retry','motor-outside'].every(id=>manifest.screens.some(s=>s.id==='flow-tutorial-'+id)));
   check('animation stills use named native phases',flowCapture.verification.animationStills?.captured?.length===15&&flowCapture.verification.animationStills.errors.length===0&&flowCapture.verification.animationStills.remote.length===0);
+  if(Number((manifest.appVersion.match(/ui(\d+)/)||[])[1]||0)>=26){
+    const hints=['hesitation','confidence'].flatMap(key=>['choose','next'].map(kind=>({id:'flow-main-'+key+'-'+kind+'-hint',key,unselected:kind==='choose'})));
+    check('four ordinary rating hint scenes captured',hints.every(h=>manifest.screens.some(s=>s.id===h.id)));
+    for(const device of Object.keys(manifest.devices)){
+      const records=flowCapture.verification.ordinaryRatingHints?.[device]||[];
+      check(device+' all native rating hint gates recorded',records.length===4&&hints.every(h=>{const r=records.find(x=>x.id===h.id);return r&&r.screen==='rating'&&r.phase==='main'&&r.page===(h.key==='hesitation'?0:1)&&r.unselected===h.unselected&&r.disabled===h.unselected&&r.button===(h.key==='hesitation'?'ratingNext':'ratingSubmit')&&r.buttonWarn&&(h.unselected?r.choicesCue:r.buttonCue)&&r.recordStateUnchanged&&r.clockStateUnchanged&&r.clockElapsedMs>=0&&r.elapsedMs>=0&&r.elapsedMs<1200;}));
+      check(device+' hint text and matching phase/counter rendered',hints.every(h=>{const r=records.find(x=>x.id===h.id),s=manifest.screens.find(x=>x.id===h.id),text=s.text[device];return r.hintText===(h.unselected?'1つ選んでください':'このボタンで進む')&&r.phaseLabel==='本番'&&r.topbarVisible&&r.counter===r.taskCounter&&/^\d+ \/ \d+$/.test(r.counter)&&text.includes(r.hintText)&&text.includes(r.phaseLabel)&&text.includes(r.counter);}));
+    }
+  }
   server=http.createServer((req,res)=>{const file=path.resolve(root,'.'+new URL(req.url,'http://localhost').pathname);if(!file.startsWith(root+path.sep)){res.writeHead(403).end();return;}fs.readFile(file,(err,data)=>{res.writeHead(err?404:200,{'Content-Type':({'.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png'})[path.extname(file)]||'text/plain'});res.end(err?'missing':data);});});
   await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
   const base=`http://127.0.0.1:${server.address().port}`;

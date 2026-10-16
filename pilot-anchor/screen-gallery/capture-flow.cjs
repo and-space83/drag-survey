@@ -55,7 +55,41 @@ async function suite(size){
    for(let i=1;i<=16;i++){const t=i/16;await touch('touchMove',{x:g.s.x+(g.t.x-g.s.x)*t+Math.sin(t*Math.PI)*10,y:g.s.y+(g.t.y-g.s.y)*t});if(i===8&&capture&&capture.move)await shot(...capture.move);await sleep(8);}
    await touch('touchEnd');await sleep(160);
  };
- const rate=async(prefix,section,order,capture)=>{await p.waitForFunction(()=>__pilot.activeScreen()==='rating');if(capture)await shot(prefix+'-hesitation','振り返り 1 / 2 — 迷い',section,order,section==='main'?'迷いの程度を5段階から選択。本番中は問題画面と同じ進捗バーを上部に表示。':'迷いの程度を5段階から選択。');await tap('#qitem-hesitation button:nth-child(3)');await p.clock.fastForward(350);await tap('#ratingNext');if(capture)await shot(prefix+'-confidence','振り返り 2 / 2 — 自信',section,order+1,section==='main'?'選んだ答えへの自信を5段階から選択。本番中は問題画面と同じ進捗バーを上部に表示。':'選んだ答えへの自信を5段階から選択。');await tap('#qitem-confidence button:nth-child(4)');await p.clock.fastForward(350);await tap('#ratingSubmit');await sleep(160);};
+ const ratingStable=()=>p.evaluate(()=>{const payload=__pilot.buildPayload(),t=payload.trials.at(-1),timing=__pilot.recoveryState().rating;return{screen:__pilot.activeScreen(),page:__pilot.ratPage(),phase:__pilot.phase(),trialIndex:__pilot.trialIndex(),records:__pilot.recordCount(),ratings:t.ratings,ratingBacks:t.ratingBacks,ratingSubmitMs:t.ratingSubmitMs,tutorialLog:payload.device.tutorialLog,counter:document.getElementById('ratingCounter').textContent,taskCounter:document.getElementById('counter').textContent,phaseLabel:document.getElementById('ratingPhaseLabel').textContent,topbarVisible:!!document.getElementById('ratingTopbar').offsetParent,clock:{now:performance.now(),elapsedMs:timing.elapsedMs,pageElapsedMs:timing.pageElapsedMs}};});
+ const ratingHint=async(key,unselected,order)=>{
+   // Native touch creates the hint. Hold only the capture clock so screenshot I/O
+   // cannot consume its 1200ms lifetime; source controls and timers remain intact.
+   await p.clock.pauseAt(await p.evaluate(()=>Date.now()+60000));screenshotClockHeld=true;
+   try{
+     const before=await ratingStable(),button=key==='hesitation'?'ratingNext':'ratingSubmit';
+     if(before.screen!=='rating'||before.phase!=='main'||before.page!==(key==='hesitation'?0:1)||before.counter!==before.taskCounter||before.phaseLabel!=='本番'||!before.topbarVisible||(await p.locator('#'+button).isDisabled())!==unselected)throw Error('Unexpected rating hint gate: '+key);
+     await p.locator('#ratingHead').tap();
+     const at=await p.evaluate(()=>performance.now());
+     const state=await p.evaluate(({key,button})=>{const b=document.getElementById(button);return{text:b.textContent,warn:b.classList.contains('warn'),cue:b.classList.contains('cue'),choices:document.querySelector('#qitem-'+key+' .likert').classList.contains('rating-choice-cue')};},{key,button});
+     const expected=unselected?'1つ選んでください':'このボタンで進む';
+     if(!state.warn||state.text!==expected||(unselected?!state.choices:!state.cue))throw Error('Native touch did not show rating hint: '+key+' '+expected);
+     const id='main-'+key+(unselected?'-choose-hint':'-next-hint'),label=key==='hesitation'?'迷い':'自信';
+     await shot(id,'本番の振り返り — '+label+(unselected?'を選ぶ案内':'から次へ進む案内'),'main',order,unselected?'選択肢以外を触ると、5段階の選択肢を強調して1つ選ぶよう案内します。':'選択後にボタン以外を触ると、進むボタンが揺れて場所を案内します。','本番の振り返りで選択肢・有効な操作ボタン以外を触った場合');
+     const after=await ratingStable(),elapsed=await p.evaluate(()=>performance.now())-at;
+     const {clock:beforeClock,...beforeState}=before,{clock:afterClock,...afterState}=after,clockElapsed=afterClock.now-beforeClock.now;
+     const clockUnchanged=Math.abs(afterClock.elapsedMs-beforeClock.elapsedMs-clockElapsed)<1&&Math.abs(afterClock.pageElapsedMs-beforeClock.pageElapsedMs-clockElapsed)<1;
+     if(JSON.stringify(beforeState)!==JSON.stringify(afterState)||!clockUnchanged||(await p.locator('#'+button).isDisabled())!==unselected||elapsed>=1200)throw Error('Rating hint changed recorded state or expired during capture: '+id);
+     (report.verification.ordinaryRatingHints??={})[size.id]??=[];report.verification.ordinaryRatingHints[size.id].push({id:'flow-'+id,screen:before.screen,phase:before.phase,page:before.page,counter:before.counter,taskCounter:before.taskCounter,phaseLabel:before.phaseLabel,topbarVisible:before.topbarVisible,button,disabled:unselected,unselected,hintText:state.text,buttonWarn:state.warn,buttonCue:state.cue,choicesCue:state.choices,elapsedMs:elapsed,recordStateUnchanged:true,clockStateUnchanged:clockUnchanged,clockElapsedMs:clockElapsed,method:'Native touchscreen tap; screenshot clock held within the 1200ms hint.'});
+   }finally{screenshotClockHeld=false;await p.clock.resume();}
+ };
+ const rate=async(prefix,section,order,capture)=>{
+   await p.waitForFunction(()=>__pilot.activeScreen()==='rating');
+   if(capture)await shot(prefix+'-hesitation','振り返り 1 / 2 — 迷い',section,order,section==='main'?'迷いの程度を5段階から選択。本番中は問題画面と同じ問題数と進捗バーを上部に表示。':'迷いの程度を5段階から選択。');
+   if(capture&&section==='main')await ratingHint('hesitation',true,order+.1);
+   await tap('#qitem-hesitation button:nth-child(3)');
+   if(capture&&section==='main')await ratingHint('hesitation',false,order+.2);
+   await p.clock.fastForward(350);await tap('#ratingNext');
+   if(capture)await shot(prefix+'-confidence','振り返り 2 / 2 — 自信',section,order+1,section==='main'?'選んだ答えへの自信を5段階から選択。本番中は問題画面と同じ問題数と進捗バーを上部に表示。':'選んだ答えへの自信を5段階から選択。');
+   if(capture&&section==='main')await ratingHint('confidence',true,order+1.1);
+   await tap('#qitem-confidence button:nth-child(4)');
+   if(capture&&section==='main')await ratingHint('confidence',false,order+1.2);
+   await p.clock.fastForward(350);await tap('#ratingSubmit');await sleep(160);
+ };
  const mainHelp=async()=>{const before=await p.evaluate(()=>({trial:__pilot.trialIndex(),records:__pilot.buildPayload().trials.length}));await tap('#tutAgain');for(let i=1;i<=35&&await p.evaluate(()=>__pilot.helpState().drag.index>=0);i++){const state=await p.evaluate(()=>__pilot.helpState().drag),key=state.stepId==='rule-check'?'quiz-'+await p.evaluate(n=>PILOT_GUIDED_TUTORIAL.checks[n].id,state.quiz.index):state.stepId;await shot('main-help-'+key,'本番の操作方法を見直す — '+await p.locator('#tutPopTitle').innerText(),'main',706+i*.01,'本番中にも説明と復習を読み直し、同じ問題へ戻れます。見直しは本人の操作・再回答を要求しません。','本番で「操作方法」を押した場合');await helpWait();await tap('#tutPopNext');}const after=await p.evaluate(()=>({trial:__pilot.trialIndex(),records:__pilot.buildPayload().trials.length}));if(JSON.stringify(before)!==JSON.stringify(after))throw Error('Main help changed the trial or answers');};
  try{
  await p.goto(origin+'/?block=moral&debug=1&consent=1&mic=0&uploadurl=/mock-receipt');await p.waitForFunction(()=>window.__pilot?.storeReady());
