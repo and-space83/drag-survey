@@ -1,17 +1,17 @@
 {
-  "checkedAt": "2026-10-16T01:22:02.550Z",
-  "appVersion": "2026-10-16-ui21",
+  "checkedAt": "2026-10-16T05:52:03.937Z",
+  "appVersion": "2026-10-16-ui22",
   "source": {
-    "index.html": "9a0da41ee5bc744b09c2aa2207e4422299dea499fc8b0d5ffae365f97f86ddc9",
+    "index.html": "98dcbf5f6949af3762599ae11f77ef08d160d83e7f65d1d2f2ed5c0e41638f69",
     "css/runtime-guards.css": "da2a02010ec7825568dafae2fb95b6cdc7cf36321f335375ad26ba5281492683",
-    "app.css": "34de5ef3438209140a97cd49b2fe4522284abb5be856230e4e8c696a7ed606ad",
-    "guided-tutorial.css": "34877bdee768a1b29967224592af13f3efb982fa53922882f4083493d81d2976",
+    "app.css": "8cb9493ad5e6fedf086ccb8f73187fc4d4d25eb800219d2d1235ffacfd147b4b",
+    "guided-tutorial.css": "044853cf630d434c58190c4cd3072aa7e700619cb16e70a2920f8e89fc7a880d",
     "consent.css": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
     "js/runtime-guards.js": "f7648083aab79c08bdb07e25d041e32b53e8626880f18b4bac8fb9bfca14a26b",
     "bank.js": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
-    "guided-tutorial.js": "7797a930b80425f315b412e5adbfe02c908af44cb36598b8c9f3e2728c93d3fe",
+    "guided-tutorial.js": "f2ece5f2457364f8072796585ac8e42b49c84aa2070f5bc25e35c497b2209841",
     "js/tutorial-visuals.js": "5770c5068e42fb23a25935b7396a88a540f204998ad48362464a14d05551deef",
-    "js/tutorial-view.js": "00c7d45fa74ded6ded64d8a06e6a294b493eb2d47100d42707bee5ac35b87a0f",
+    "js/tutorial-view.js": "dcff770423cdffc7b6f354f5fa111b4f0e0e8f2c2b033176319a1b7bd2239ac6",
     "js/tutorial-controller.js": "753eaab83e4199c451356c7b8a6f40fa46c0ae26aa74404b0f01406fbd110e88",
     "vendor/pako.min.js": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
     "data-codec.js": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
@@ -26,14 +26,14 @@
     "js/rating-content.js": "ade45e7eca8cb6734cc3397962fdb9f14c93c102b1215a638ebf9810b0b019f8",
     "js/rating-controller.js": "4cb1aaac6fe565d4ebed237a3dfc579ea30bfedf23fb9749a182ad6afd868017",
     "js/rating-view.js": "b418cb1ba3ad72baab9b3dc809a367259143b8f7754e8976f41be9e632bef25e",
-    "js/app.js": "7585a580154d19e36e3a9ec72477d1843e883a162345929eee0b3c66d439acf0",
+    "js/app.js": "2d6d0d66cc7a2cc15bc491a986b0f8ca3d112534f595ed6d5007421f5ad4450d",
     "storage-worker.js": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
     "vendor/pako-LICENSE": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539"
   },
   "screenshots": 488,
   "reviewCounts": {
-    "active": 8,
-    "completed": 61
+    "active": 10,
+    "completed": 59
   },
   "sharedCopy": [
     {
@@ -57,7 +57,8 @@
           "答えを決める前"
         ],
         [
-          "スタートボタンに指を置"
+          "スタートボタンに指を置",
+          "スタートに指を置"
         ]
       ]
     },
@@ -75,7 +76,8 @@
           "答えを決める前"
         ],
         [
-          "スタートボタンに指を置"
+          "スタートボタンに指を置",
+          "スタートに指を置"
         ]
       ]
     },
@@ -93,13 +95,14 @@
           "答えを決める前"
         ],
         [
-          "スタートボタンに指を置"
+          "スタートボタンに指を置",
+          "スタートに指を置"
         ]
       ]
     },
     {
       "size": "mini",
-      "source": "スタートに触れたら、3秒以内に指をスタートの枠の外へ動かしてください。3秒は回答の制限時間ではありません。\n枠を出たら、自分のペースで焦らず選んでください。ゆっくりでも大丈夫です。",
+      "source": "選択肢を読んだら動き始め、スタートに触れてから3秒以内に枠の外へ動かします。3秒は回答の制限時間ではありません。\n枠を出たら、自分のペースで焦らず選んでください。ゆっくりでも大丈夫です。",
       "target": "practicecheck",
       "mode": "same-rule-meaning-after-splitting",
       "pass": true,
@@ -112,7 +115,8 @@
           "スタートボタンの外"
         ],
         [
-          "回答の制限時間では"
+          "回答の制限時間では",
+          "回答の期限では"
         ],
         [
           "自分のペース"
@@ -121,7 +125,7 @@
     },
     {
       "size": "mini",
-      "source": "スタートに触れたら、3秒以内に指をスタートの枠の外へ動かしてください。3秒は回答の制限時間ではありません。\n枠を出たら、自分のペースで焦らず選んでください。ゆっくりでも大丈夫です。",
+      "source": "選択肢を読んだら動き始め、スタートに触れてから3秒以内に枠の外へ動かします。3秒は回答の制限時間ではありません。\n枠を出たら、自分のペースで焦らず選んでください。ゆっくりでも大丈夫です。",
       "target": "notice-late",
       "mode": "same-rule-meaning-after-splitting",
       "pass": true,
@@ -134,7 +138,8 @@
           "スタートボタンの外"
         ],
         [
-          "回答の制限時間では"
+          "回答の制限時間では",
+          "回答の期限では"
         ],
         [
           "自分のペース"
@@ -143,7 +148,7 @@
     },
     {
       "size": "mini",
-      "source": "スタートに触れたら、3秒以内に指をスタートの枠の外へ動かしてください。3秒は回答の制限時間ではありません。\n枠を出たら、自分のペースで焦らず選んでください。ゆっくりでも大丈夫です。",
+      "source": "選択肢を読んだら動き始め、スタートに触れてから3秒以内に枠の外へ動かします。3秒は回答の制限時間ではありません。\n枠を出たら、自分のペースで焦らず選んでください。ゆっくりでも大丈夫です。",
       "target": "notice-early_late",
       "mode": "same-rule-meaning-after-splitting",
       "pass": true,
@@ -156,7 +161,8 @@
           "スタートボタンの外"
         ],
         [
-          "回答の制限時間では"
+          "回答の制限時間では",
+          "回答の期限では"
         ],
         [
           "自分のペース"
@@ -165,8 +171,29 @@
     },
     {
       "size": "mini",
-      "source": "tutorial-motor-range",
+      "source": "tutorial-motor",
       "target": "practicecheck",
+      "mode": "same-rule-meaning-after-splitting",
+      "pass": true,
+      "clauses": [
+        [
+          "スタート"
+        ],
+        [
+          "指を離さず"
+        ],
+        [
+          "選択肢のボックス"
+        ],
+        [
+          "ボックスの中で離"
+        ]
+      ]
+    },
+    {
+      "size": "mini",
+      "source": "tutorial-motor-range",
+      "target": "tutorial-rule-check-07",
       "mode": "same-rule-meaning-after-splitting",
       "pass": true,
       "clauses": [
@@ -230,7 +257,8 @@
           "答えを決める前"
         ],
         [
-          "スタートボタンに指を置"
+          "スタートボタンに指を置",
+          "スタートに指を置"
         ]
       ]
     },
@@ -248,7 +276,8 @@
           "答えを決める前"
         ],
         [
-          "スタートボタンに指を置"
+          "スタートボタンに指を置",
+          "スタートに指を置"
         ]
       ]
     },
@@ -266,13 +295,14 @@
           "答えを決める前"
         ],
         [
-          "スタートボタンに指を置"
+          "スタートボタンに指を置",
+          "スタートに指を置"
         ]
       ]
     },
     {
       "size": "iphone17",
-      "source": "スタートに触れたら、3秒以内に指をスタートの枠の外へ動かしてください。3秒は回答の制限時間ではありません。\n枠を出たら、自分のペースで焦らず選んでください。ゆっくりでも大丈夫です。",
+      "source": "選択肢を読んだら動き始め、スタートに触れてから3秒以内に枠の外へ動かします。3秒は回答の制限時間ではありません。\n枠を出たら、自分のペースで焦らず選んでください。ゆっくりでも大丈夫です。",
       "target": "practicecheck",
       "mode": "same-rule-meaning-after-splitting",
       "pass": true,
@@ -285,7 +315,8 @@
           "スタートボタンの外"
         ],
         [
-          "回答の制限時間では"
+          "回答の制限時間では",
+          "回答の期限では"
         ],
         [
           "自分のペース"
@@ -294,7 +325,7 @@
     },
     {
       "size": "iphone17",
-      "source": "スタートに触れたら、3秒以内に指をスタートの枠の外へ動かしてください。3秒は回答の制限時間ではありません。\n枠を出たら、自分のペースで焦らず選んでください。ゆっくりでも大丈夫です。",
+      "source": "選択肢を読んだら動き始め、スタートに触れてから3秒以内に枠の外へ動かします。3秒は回答の制限時間ではありません。\n枠を出たら、自分のペースで焦らず選んでください。ゆっくりでも大丈夫です。",
       "target": "notice-late",
       "mode": "same-rule-meaning-after-splitting",
       "pass": true,
@@ -307,7 +338,8 @@
           "スタートボタンの外"
         ],
         [
-          "回答の制限時間では"
+          "回答の制限時間では",
+          "回答の期限では"
         ],
         [
           "自分のペース"
@@ -316,7 +348,7 @@
     },
     {
       "size": "iphone17",
-      "source": "スタートに触れたら、3秒以内に指をスタートの枠の外へ動かしてください。3秒は回答の制限時間ではありません。\n枠を出たら、自分のペースで焦らず選んでください。ゆっくりでも大丈夫です。",
+      "source": "選択肢を読んだら動き始め、スタートに触れてから3秒以内に枠の外へ動かします。3秒は回答の制限時間ではありません。\n枠を出たら、自分のペースで焦らず選んでください。ゆっくりでも大丈夫です。",
       "target": "notice-early_late",
       "mode": "same-rule-meaning-after-splitting",
       "pass": true,
@@ -329,7 +361,8 @@
           "スタートボタンの外"
         ],
         [
-          "回答の制限時間では"
+          "回答の制限時間では",
+          "回答の期限では"
         ],
         [
           "自分のペース"
@@ -338,8 +371,29 @@
     },
     {
       "size": "iphone17",
-      "source": "tutorial-motor-range",
+      "source": "tutorial-motor",
       "target": "practicecheck",
+      "mode": "same-rule-meaning-after-splitting",
+      "pass": true,
+      "clauses": [
+        [
+          "スタート"
+        ],
+        [
+          "指を離さず"
+        ],
+        [
+          "選択肢のボックス"
+        ],
+        [
+          "ボックスの中で離"
+        ]
+      ]
+    },
+    {
+      "size": "iphone17",
+      "source": "tutorial-motor-range",
+      "target": "tutorial-rule-check-07",
       "mode": "same-rule-meaning-after-splitting",
       "pass": true,
       "clauses": [
@@ -403,7 +457,8 @@
           "答えを決める前"
         ],
         [
-          "スタートボタンに指を置"
+          "スタートボタンに指を置",
+          "スタートに指を置"
         ]
       ]
     },
@@ -421,7 +476,8 @@
           "答えを決める前"
         ],
         [
-          "スタートボタンに指を置"
+          "スタートボタンに指を置",
+          "スタートに指を置"
         ]
       ]
     },
@@ -439,13 +495,14 @@
           "答えを決める前"
         ],
         [
-          "スタートボタンに指を置"
+          "スタートボタンに指を置",
+          "スタートに指を置"
         ]
       ]
     },
     {
       "size": "ipad",
-      "source": "スタートに触れたら、3秒以内に指をスタートの枠の外へ動かしてください。3秒は回答の制限時間ではありません。\n枠を出たら、自分のペースで焦らず選んでください。ゆっくりでも大丈夫です。",
+      "source": "選択肢を読んだら動き始め、スタートに触れてから3秒以内に枠の外へ動かします。3秒は回答の制限時間ではありません。\n枠を出たら、自分のペースで焦らず選んでください。ゆっくりでも大丈夫です。",
       "target": "practicecheck",
       "mode": "same-rule-meaning-after-splitting",
       "pass": true,
@@ -458,7 +515,8 @@
           "スタートボタンの外"
         ],
         [
-          "回答の制限時間では"
+          "回答の制限時間では",
+          "回答の期限では"
         ],
         [
           "自分のペース"
@@ -467,7 +525,7 @@
     },
     {
       "size": "ipad",
-      "source": "スタートに触れたら、3秒以内に指をスタートの枠の外へ動かしてください。3秒は回答の制限時間ではありません。\n枠を出たら、自分のペースで焦らず選んでください。ゆっくりでも大丈夫です。",
+      "source": "選択肢を読んだら動き始め、スタートに触れてから3秒以内に枠の外へ動かします。3秒は回答の制限時間ではありません。\n枠を出たら、自分のペースで焦らず選んでください。ゆっくりでも大丈夫です。",
       "target": "notice-late",
       "mode": "same-rule-meaning-after-splitting",
       "pass": true,
@@ -480,7 +538,8 @@
           "スタートボタンの外"
         ],
         [
-          "回答の制限時間では"
+          "回答の制限時間では",
+          "回答の期限では"
         ],
         [
           "自分のペース"
@@ -489,7 +548,7 @@
     },
     {
       "size": "ipad",
-      "source": "スタートに触れたら、3秒以内に指をスタートの枠の外へ動かしてください。3秒は回答の制限時間ではありません。\n枠を出たら、自分のペースで焦らず選んでください。ゆっくりでも大丈夫です。",
+      "source": "選択肢を読んだら動き始め、スタートに触れてから3秒以内に枠の外へ動かします。3秒は回答の制限時間ではありません。\n枠を出たら、自分のペースで焦らず選んでください。ゆっくりでも大丈夫です。",
       "target": "notice-early_late",
       "mode": "same-rule-meaning-after-splitting",
       "pass": true,
@@ -502,7 +561,8 @@
           "スタートボタンの外"
         ],
         [
-          "回答の制限時間では"
+          "回答の制限時間では",
+          "回答の期限では"
         ],
         [
           "自分のペース"
@@ -511,8 +571,29 @@
     },
     {
       "size": "ipad",
-      "source": "tutorial-motor-range",
+      "source": "tutorial-motor",
       "target": "practicecheck",
+      "mode": "same-rule-meaning-after-splitting",
+      "pass": true,
+      "clauses": [
+        [
+          "スタート"
+        ],
+        [
+          "指を離さず"
+        ],
+        [
+          "選択肢のボックス"
+        ],
+        [
+          "ボックスの中で離"
+        ]
+      ]
+    },
+    {
+      "size": "ipad",
+      "source": "tutorial-motor-range",
+      "target": "tutorial-rule-check-07",
       "mode": "same-rule-meaning-after-splitting",
       "pass": true,
       "clauses": [
@@ -576,7 +657,8 @@
           "答えを決める前"
         ],
         [
-          "スタートボタンに指を置"
+          "スタートボタンに指を置",
+          "スタートに指を置"
         ]
       ]
     },
@@ -594,7 +676,8 @@
           "答えを決める前"
         ],
         [
-          "スタートボタンに指を置"
+          "スタートボタンに指を置",
+          "スタートに指を置"
         ]
       ]
     },
@@ -612,13 +695,14 @@
           "答えを決める前"
         ],
         [
-          "スタートボタンに指を置"
+          "スタートボタンに指を置",
+          "スタートに指を置"
         ]
       ]
     },
     {
       "size": "miniSmall",
-      "source": "スタートに触れたら、3秒以内に指をスタートの枠の外へ動かしてください。3秒は回答の制限時間ではありません。\n枠を出たら、自分のペースで焦らず選んでください。ゆっくりでも大丈夫です。",
+      "source": "選択肢を読んだら動き始め、スタートに触れてから3秒以内に枠の外へ動かします。3秒は回答の制限時間ではありません。\n枠を出たら、自分のペースで焦らず選んでください。ゆっくりでも大丈夫です。",
       "target": "practicecheck",
       "mode": "same-rule-meaning-after-splitting",
       "pass": true,
@@ -631,7 +715,8 @@
           "スタートボタンの外"
         ],
         [
-          "回答の制限時間では"
+          "回答の制限時間では",
+          "回答の期限では"
         ],
         [
           "自分のペース"
@@ -640,7 +725,7 @@
     },
     {
       "size": "miniSmall",
-      "source": "スタートに触れたら、3秒以内に指をスタートの枠の外へ動かしてください。3秒は回答の制限時間ではありません。\n枠を出たら、自分のペースで焦らず選んでください。ゆっくりでも大丈夫です。",
+      "source": "選択肢を読んだら動き始め、スタートに触れてから3秒以内に枠の外へ動かします。3秒は回答の制限時間ではありません。\n枠を出たら、自分のペースで焦らず選んでください。ゆっくりでも大丈夫です。",
       "target": "notice-late",
       "mode": "same-rule-meaning-after-splitting",
       "pass": true,
@@ -653,7 +738,8 @@
           "スタートボタンの外"
         ],
         [
-          "回答の制限時間では"
+          "回答の制限時間では",
+          "回答の期限では"
         ],
         [
           "自分のペース"
@@ -662,7 +748,7 @@
     },
     {
       "size": "miniSmall",
-      "source": "スタートに触れたら、3秒以内に指をスタートの枠の外へ動かしてください。3秒は回答の制限時間ではありません。\n枠を出たら、自分のペースで焦らず選んでください。ゆっくりでも大丈夫です。",
+      "source": "選択肢を読んだら動き始め、スタートに触れてから3秒以内に枠の外へ動かします。3秒は回答の制限時間ではありません。\n枠を出たら、自分のペースで焦らず選んでください。ゆっくりでも大丈夫です。",
       "target": "notice-early_late",
       "mode": "same-rule-meaning-after-splitting",
       "pass": true,
@@ -675,7 +761,8 @@
           "スタートボタンの外"
         ],
         [
-          "回答の制限時間では"
+          "回答の制限時間では",
+          "回答の期限では"
         ],
         [
           "自分のペース"
@@ -684,8 +771,29 @@
     },
     {
       "size": "miniSmall",
-      "source": "tutorial-motor-range",
+      "source": "tutorial-motor",
       "target": "practicecheck",
+      "mode": "same-rule-meaning-after-splitting",
+      "pass": true,
+      "clauses": [
+        [
+          "スタート"
+        ],
+        [
+          "指を離さず"
+        ],
+        [
+          "選択肢のボックス"
+        ],
+        [
+          "ボックスの中で離"
+        ]
+      ]
+    },
+    {
+      "size": "miniSmall",
+      "source": "tutorial-motor-range",
+      "target": "tutorial-rule-check-07",
       "mode": "same-rule-meaning-after-splitting",
       "pass": true,
       "clauses": [
