@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'">
+<title>本番の振り返り · 操作の案内と問題番号を3サイズで比較</title>
+<link rel="stylesheet" href="review.css?v=rating-guidance1"></head><body>
+<header class="wrap">
+<nav><a href="../../screen-gallery/index.html">← 全画面の3サイズ比較</a><a href="../2026-10-16-reading-and-review/index.html">前の変更（ui25）</a></nav>
+<p class="eyebrow">RATING GUIDANCE · 2026.10.16</p>
+<p class="status">ui26 本番反映済み · 全27配布ファイルの一致を確認</p>
+<h1>振り返りでも、<br>次の操作を見失わない。</h1>
+<p class="lead">本番の迷い・自信の画面に、枠外を触ったときの操作案内と、問題画面と共通の進捗表示を加えます。</p>
+<p>画像は架空の回答から実際のアプリを撮影しています。画像内のボタンは操作できません。振り返りの見出し・質問文・5段階の選択肢は変更していません。</p></header>
+<main class="wrap">
+<section class="controls" aria-label="比較する画面">
+<label for="screen">確認する状態<select id="screen"></select></label>
+<div class="control-row"><label for="size">画面サイズ<select id="size"><option value="all">対象の3サイズを並べる</option><option value="375x700">375 × 700</option><option value="402x759">402 × 759</option><option value="440x841">440 × 841</option></select></label>
+<div><p class="control-label">表示する版</p><div class="segmented" id="versions" role="group" aria-label="表示する版"><button data-version="after" aria-pressed="true">変更後</button><button data-version="before" aria-pressed="false">変更前</button><button data-version="both" aria-pressed="false">前後を並べる</button></div></div></div>
+<p id="selection" class="selection" role="status"></p></section>
+<section class="change" aria-labelledby="changeTitle"><p class="eyebrow" id="group"></p><h2 id="changeTitle"></h2><p id="reason"></p><p class="kept" id="kept"></p></section>
+<section id="comparison" aria-label="画面画像"><p class="caption">押すと原寸で開きます。変更前は迷い・自信の通常表示を各状態の参考として共通で使います。旧版の外タップ後・選択済み状態を別々に撮影したものではありません。サイズはSafariの表示領域の近似で、実機のバー・セーフエリアの再現ではありません。</p><div class="screens" id="screens"></div></section>
+<section class="copy" aria-labelledby="copyTitle"><h2 id="copyTitle">画面の文章を比較</h2><p class="caption">変更前の通常表示と、選んだ状態の変更後の全文です。前問の回答は撮影用の架空の回答です。</p><div class="copy-grid"><article><h3>変更前 · 通常表示</h3><div id="beforeCopy"></div></article><article><h3>変更後 · 選んだ状態</h3><div id="afterCopy"></div></article></div></section>
+<section class="notes"><h2>どこを、なぜ変えたか</h2><dl>
+<dt>まだ選んでいないとき</dt><dd>回答する場所が分からず画面の空白を触った場合に、進行ボタンで「1つ選んでください」と示し、選択肢を強調します。空白を触っても回答したことにはせず、選択肢を選ぶ操作へ案内します。</dd>
+<dt>選んだあとの外タップ</dt><dd>「このボタンで進む」と進行ボタンを案内します。選んだ値を保ち、意図せず次へ進めないようにしています。</dd>
+<dt>本番の進み具合</dt><dd>問題画面と同じ段階名・現在の問題番号・全体の問題数を表示。迷いから自信へ進んでも同じ問題の番号で示します。</dd>
+</dl><p>選択肢を選ぶ → 迷いの「次へ」 → 自信の「決定して次へ」という流れ、選択の保持、時間の記録方法、保存・再開は引き継ぎます。案内は追加の質問や回答操作にはしません。</p></section>
+<section class="notes"><h2>iPhoneで確認する操作</h2><ol><li>下の送信なしリンクから1問回答し、迷いの画面へ進みます。</li><li>何も選ばず空白を1回触り、選択肢を選ぶ案内が見えるか確認します。</li><li>1つ選んでから空白を触り、選択を保って「次へ」が案内されるか確認します。</li><li>自信の画面でも同じ操作を試し、問題番号が迷いの画面と一致するか確認します。</li></ol><p><a href="../../?block=moral&amp;debug=1&amp;upload=0&amp;mic=0&amp;go=task" target="_blank" rel="noopener">1問答えて振り返りを試す（送信なし）</a></p></section>
+<section class="verification"><h2>確認した範囲</h2><p id="verification">検証結果を読み込んでいます。</p><p>自動確認はChromeのタッチ操作エミュレーションです。iPhone Safari実機での指の当たり方・案内の見やすさは未確認です。参加者データを使わず、本番の収集先への送信もありません。</p><p>動作検査の確認条件には、研究者用の「終了」を出す設定も含みます。通常のクラウド配布では表示しません。比較画像はgalleryの本番条件から取り込んでいます。</p><div class="links"><a href="publication.json">公開27ファイルとの一致結果</a><a href="regression.json">動作・計測・ガードの回帰検査</a><a href="results.json">案内・問題番号・記録の検証結果</a><a href="parity.json">計測・進行処理との照合結果</a><a href="review-ui-results.json">比較サイトの操作検査</a><a href="before/capture.json">変更前の撮影元</a><a href="review-data.js">全文・画像・撮影元の対応</a><a href="verify-review.cjs">比較サイト検査の再現コード</a></div></section>
+<footer><a href="../2026-10-12-session-explanations/index.html">説明の全変更と現行画面</a><a href="#">先頭へ ↑</a></footer></main>
+<script src="review-data.js?v=rating-guidance1"></script><script src="review.js?v=rating-guidance1"></script></body></html>

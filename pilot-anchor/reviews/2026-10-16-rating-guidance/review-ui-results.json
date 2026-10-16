@@ -1,0 +1,5418 @@
+{
+  "at": "2026-10-16T14:40:34.732Z",
+  "scope": "Local static comparison page only. Desktop 1200 and phone 375; no participant app execution or external traffic.",
+  "checks": [
+    {
+      "name": "迷い/自信各3状態を収録",
+      "pass": true
+    },
+    {
+      "name": "変更前代表 375x700/rating-hesitation.png",
+      "pass": true
+    },
+    {
+      "name": "変更前代表 402x759/rating-hesitation.png",
+      "pass": true
+    },
+    {
+      "name": "変更前代表 440x841/rating-hesitation.png",
+      "pass": true
+    },
+    {
+      "name": "変更前代表 375x700/rating-confidence.png",
+      "pass": true
+    },
+    {
+      "name": "変更前代表 402x759/rating-confidence.png",
+      "pass": true
+    },
+    {
+      "name": "変更前代表 440x841/rating-confidence.png",
+      "pass": true
+    },
+    {
+      "name": "変更後画像 375x700/rating-hesitation-empty.png",
+      "pass": true
+    },
+    {
+      "name": "変更後画像 402x759/rating-hesitation-empty.png",
+      "pass": true
+    },
+    {
+      "name": "変更後画像 440x841/rating-hesitation-empty.png",
+      "pass": true
+    },
+    {
+      "name": "変更後画像 375x700/rating-hesitation-hint.png",
+      "pass": true
+    },
+    {
+      "name": "変更後画像 402x759/rating-hesitation-hint.png",
+      "pass": true
+    },
+    {
+      "name": "変更後画像 440x841/rating-hesitation-hint.png",
+      "pass": true
+    },
+    {
+      "name": "変更後画像 375x700/rating-hesitation-selected-hint.png",
+      "pass": true
+    },
+    {
+      "name": "変更後画像 402x759/rating-hesitation-selected-hint.png",
+      "pass": true
+    },
+    {
+      "name": "変更後画像 440x841/rating-hesitation-selected-hint.png",
+      "pass": true
+    },
+    {
+      "name": "変更後画像 375x700/rating-confidence-empty.png",
+      "pass": true
+    },
+    {
+      "name": "変更後画像 402x759/rating-confidence-empty.png",
+      "pass": true
+    },
+    {
+      "name": "変更後画像 440x841/rating-confidence-empty.png",
+      "pass": true
+    },
+    {
+      "name": "変更後画像 375x700/rating-confidence-hint.png",
+      "pass": true
+    },
+    {
+      "name": "変更後画像 402x759/rating-confidence-hint.png",
+      "pass": true
+    },
+    {
+      "name": "変更後画像 440x841/rating-confidence-hint.png",
+      "pass": true
+    },
+    {
+      "name": "変更後画像 375x700/rating-confidence-selected-hint.png",
+      "pass": true
+    },
+    {
+      "name": "変更後画像 402x759/rating-confidence-selected-hint.png",
+      "pass": true
+    },
+    {
+      "name": "変更後画像 440x841/rating-confidence-selected-hint.png",
+      "pass": true
+    },
+    {
+      "name": "1200 6状態を選べる",
+      "pass": true
+    },
+    {
+      "name": "1200 rating-hesitation-empty all after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-empty",
+        "size": "all",
+        "version": "after",
+        "title": "迷い · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "375x700/rating-hesitation-empty.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-hesitation-empty.png"
+          },
+          {
+            "src": "402x759/rating-hesitation-empty.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-hesitation-empty.png"
+          },
+          {
+            "src": "440x841/rating-hesitation-empty.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-hesitation-empty.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-hesitation-empty all before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-empty",
+        "size": "all",
+        "version": "before",
+        "title": "迷い · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-hesitation.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-hesitation.png"
+          },
+          {
+            "src": "before/402x759/rating-hesitation.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-hesitation.png"
+          },
+          {
+            "src": "before/440x841/rating-hesitation.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-hesitation.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-hesitation-empty all both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-empty",
+        "size": "all",
+        "version": "both",
+        "title": "迷い · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-hesitation.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-hesitation.png"
+          },
+          {
+            "src": "375x700/rating-hesitation-empty.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-hesitation-empty.png"
+          },
+          {
+            "src": "before/402x759/rating-hesitation.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-hesitation.png"
+          },
+          {
+            "src": "402x759/rating-hesitation-empty.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-hesitation-empty.png"
+          },
+          {
+            "src": "before/440x841/rating-hesitation.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-hesitation.png"
+          },
+          {
+            "src": "440x841/rating-hesitation-empty.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-hesitation-empty.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-hesitation-empty 375x700 after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-empty",
+        "size": "375x700",
+        "version": "after",
+        "title": "迷い · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "375x700/rating-hesitation-empty.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-hesitation-empty.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-hesitation-empty 375x700 before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-empty",
+        "size": "375x700",
+        "version": "before",
+        "title": "迷い · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-hesitation.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-hesitation.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-hesitation-empty 375x700 both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-empty",
+        "size": "375x700",
+        "version": "both",
+        "title": "迷い · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-hesitation.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-hesitation.png"
+          },
+          {
+            "src": "375x700/rating-hesitation-empty.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-hesitation-empty.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-hesitation-empty 402x759 after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-empty",
+        "size": "402x759",
+        "version": "after",
+        "title": "迷い · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "402x759/rating-hesitation-empty.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-hesitation-empty.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-hesitation-empty 402x759 before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-empty",
+        "size": "402x759",
+        "version": "before",
+        "title": "迷い · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/402x759/rating-hesitation.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-hesitation.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-hesitation-empty 402x759 both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-empty",
+        "size": "402x759",
+        "version": "both",
+        "title": "迷い · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/402x759/rating-hesitation.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-hesitation.png"
+          },
+          {
+            "src": "402x759/rating-hesitation-empty.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-hesitation-empty.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-hesitation-empty 440x841 after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-empty",
+        "size": "440x841",
+        "version": "after",
+        "title": "迷い · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "440x841/rating-hesitation-empty.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-hesitation-empty.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-hesitation-empty 440x841 before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-empty",
+        "size": "440x841",
+        "version": "before",
+        "title": "迷い · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/440x841/rating-hesitation.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-hesitation.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-hesitation-empty 440x841 both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-empty",
+        "size": "440x841",
+        "version": "both",
+        "title": "迷い · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/440x841/rating-hesitation.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-hesitation.png"
+          },
+          {
+            "src": "440x841/rating-hesitation-empty.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-hesitation-empty.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-hesitation-hint all after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-hint",
+        "size": "all",
+        "version": "after",
+        "title": "迷い · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "375x700/rating-hesitation-hint.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-hesitation-hint.png"
+          },
+          {
+            "src": "402x759/rating-hesitation-hint.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-hesitation-hint.png"
+          },
+          {
+            "src": "440x841/rating-hesitation-hint.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-hesitation-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-hesitation-hint all before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-hint",
+        "size": "all",
+        "version": "before",
+        "title": "迷い · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-hesitation.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-hesitation.png"
+          },
+          {
+            "src": "before/402x759/rating-hesitation.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-hesitation.png"
+          },
+          {
+            "src": "before/440x841/rating-hesitation.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-hesitation.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-hesitation-hint all both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-hint",
+        "size": "all",
+        "version": "both",
+        "title": "迷い · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-hesitation.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-hesitation.png"
+          },
+          {
+            "src": "375x700/rating-hesitation-hint.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-hesitation-hint.png"
+          },
+          {
+            "src": "before/402x759/rating-hesitation.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-hesitation.png"
+          },
+          {
+            "src": "402x759/rating-hesitation-hint.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-hesitation-hint.png"
+          },
+          {
+            "src": "before/440x841/rating-hesitation.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-hesitation.png"
+          },
+          {
+            "src": "440x841/rating-hesitation-hint.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-hesitation-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-hesitation-hint 375x700 after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-hint",
+        "size": "375x700",
+        "version": "after",
+        "title": "迷い · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "375x700/rating-hesitation-hint.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-hesitation-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-hesitation-hint 375x700 before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-hint",
+        "size": "375x700",
+        "version": "before",
+        "title": "迷い · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-hesitation.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-hesitation.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-hesitation-hint 375x700 both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-hint",
+        "size": "375x700",
+        "version": "both",
+        "title": "迷い · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-hesitation.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-hesitation.png"
+          },
+          {
+            "src": "375x700/rating-hesitation-hint.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-hesitation-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-hesitation-hint 402x759 after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-hint",
+        "size": "402x759",
+        "version": "after",
+        "title": "迷い · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "402x759/rating-hesitation-hint.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-hesitation-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-hesitation-hint 402x759 before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-hint",
+        "size": "402x759",
+        "version": "before",
+        "title": "迷い · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/402x759/rating-hesitation.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-hesitation.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-hesitation-hint 402x759 both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-hint",
+        "size": "402x759",
+        "version": "both",
+        "title": "迷い · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/402x759/rating-hesitation.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-hesitation.png"
+          },
+          {
+            "src": "402x759/rating-hesitation-hint.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-hesitation-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-hesitation-hint 440x841 after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-hint",
+        "size": "440x841",
+        "version": "after",
+        "title": "迷い · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "440x841/rating-hesitation-hint.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-hesitation-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-hesitation-hint 440x841 before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-hint",
+        "size": "440x841",
+        "version": "before",
+        "title": "迷い · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/440x841/rating-hesitation.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-hesitation.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-hesitation-hint 440x841 both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-hint",
+        "size": "440x841",
+        "version": "both",
+        "title": "迷い · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/440x841/rating-hesitation.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-hesitation.png"
+          },
+          {
+            "src": "440x841/rating-hesitation-hint.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-hesitation-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-hesitation-selected-hint all after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-selected-hint",
+        "size": "all",
+        "version": "after",
+        "title": "迷い · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "375x700/rating-hesitation-selected-hint.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-hesitation-selected-hint.png"
+          },
+          {
+            "src": "402x759/rating-hesitation-selected-hint.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-hesitation-selected-hint.png"
+          },
+          {
+            "src": "440x841/rating-hesitation-selected-hint.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-hesitation-selected-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-hesitation-selected-hint all before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-selected-hint",
+        "size": "all",
+        "version": "before",
+        "title": "迷い · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-hesitation.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-hesitation.png"
+          },
+          {
+            "src": "before/402x759/rating-hesitation.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-hesitation.png"
+          },
+          {
+            "src": "before/440x841/rating-hesitation.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-hesitation.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-hesitation-selected-hint all both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-selected-hint",
+        "size": "all",
+        "version": "both",
+        "title": "迷い · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-hesitation.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-hesitation.png"
+          },
+          {
+            "src": "375x700/rating-hesitation-selected-hint.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-hesitation-selected-hint.png"
+          },
+          {
+            "src": "before/402x759/rating-hesitation.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-hesitation.png"
+          },
+          {
+            "src": "402x759/rating-hesitation-selected-hint.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-hesitation-selected-hint.png"
+          },
+          {
+            "src": "before/440x841/rating-hesitation.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-hesitation.png"
+          },
+          {
+            "src": "440x841/rating-hesitation-selected-hint.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-hesitation-selected-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-hesitation-selected-hint 375x700 after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-selected-hint",
+        "size": "375x700",
+        "version": "after",
+        "title": "迷い · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "375x700/rating-hesitation-selected-hint.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-hesitation-selected-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-hesitation-selected-hint 375x700 before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-selected-hint",
+        "size": "375x700",
+        "version": "before",
+        "title": "迷い · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-hesitation.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-hesitation.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-hesitation-selected-hint 375x700 both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-selected-hint",
+        "size": "375x700",
+        "version": "both",
+        "title": "迷い · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-hesitation.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-hesitation.png"
+          },
+          {
+            "src": "375x700/rating-hesitation-selected-hint.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-hesitation-selected-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-hesitation-selected-hint 402x759 after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-selected-hint",
+        "size": "402x759",
+        "version": "after",
+        "title": "迷い · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "402x759/rating-hesitation-selected-hint.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-hesitation-selected-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-hesitation-selected-hint 402x759 before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-selected-hint",
+        "size": "402x759",
+        "version": "before",
+        "title": "迷い · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/402x759/rating-hesitation.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-hesitation.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-hesitation-selected-hint 402x759 both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-selected-hint",
+        "size": "402x759",
+        "version": "both",
+        "title": "迷い · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/402x759/rating-hesitation.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-hesitation.png"
+          },
+          {
+            "src": "402x759/rating-hesitation-selected-hint.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-hesitation-selected-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-hesitation-selected-hint 440x841 after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-selected-hint",
+        "size": "440x841",
+        "version": "after",
+        "title": "迷い · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "440x841/rating-hesitation-selected-hint.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-hesitation-selected-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-hesitation-selected-hint 440x841 before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-selected-hint",
+        "size": "440x841",
+        "version": "before",
+        "title": "迷い · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/440x841/rating-hesitation.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-hesitation.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-hesitation-selected-hint 440x841 both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-selected-hint",
+        "size": "440x841",
+        "version": "both",
+        "title": "迷い · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/440x841/rating-hesitation.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-hesitation.png"
+          },
+          {
+            "src": "440x841/rating-hesitation-selected-hint.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-hesitation-selected-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-confidence-empty all after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-empty",
+        "size": "all",
+        "version": "after",
+        "title": "自信 · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "375x700/rating-confidence-empty.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-confidence-empty.png"
+          },
+          {
+            "src": "402x759/rating-confidence-empty.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-confidence-empty.png"
+          },
+          {
+            "src": "440x841/rating-confidence-empty.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-confidence-empty.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-confidence-empty all before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-empty",
+        "size": "all",
+        "version": "before",
+        "title": "自信 · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-confidence.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-confidence.png"
+          },
+          {
+            "src": "before/402x759/rating-confidence.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-confidence.png"
+          },
+          {
+            "src": "before/440x841/rating-confidence.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-confidence.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-confidence-empty all both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-empty",
+        "size": "all",
+        "version": "both",
+        "title": "自信 · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-confidence.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-confidence.png"
+          },
+          {
+            "src": "375x700/rating-confidence-empty.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-confidence-empty.png"
+          },
+          {
+            "src": "before/402x759/rating-confidence.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-confidence.png"
+          },
+          {
+            "src": "402x759/rating-confidence-empty.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-confidence-empty.png"
+          },
+          {
+            "src": "before/440x841/rating-confidence.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-confidence.png"
+          },
+          {
+            "src": "440x841/rating-confidence-empty.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-confidence-empty.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-confidence-empty 375x700 after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-empty",
+        "size": "375x700",
+        "version": "after",
+        "title": "自信 · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "375x700/rating-confidence-empty.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-confidence-empty.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-confidence-empty 375x700 before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-empty",
+        "size": "375x700",
+        "version": "before",
+        "title": "自信 · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-confidence.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-confidence.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-confidence-empty 375x700 both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-empty",
+        "size": "375x700",
+        "version": "both",
+        "title": "自信 · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-confidence.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-confidence.png"
+          },
+          {
+            "src": "375x700/rating-confidence-empty.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-confidence-empty.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-confidence-empty 402x759 after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-empty",
+        "size": "402x759",
+        "version": "after",
+        "title": "自信 · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "402x759/rating-confidence-empty.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-confidence-empty.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-confidence-empty 402x759 before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-empty",
+        "size": "402x759",
+        "version": "before",
+        "title": "自信 · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/402x759/rating-confidence.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-confidence.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-confidence-empty 402x759 both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-empty",
+        "size": "402x759",
+        "version": "both",
+        "title": "自信 · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/402x759/rating-confidence.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-confidence.png"
+          },
+          {
+            "src": "402x759/rating-confidence-empty.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-confidence-empty.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-confidence-empty 440x841 after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-empty",
+        "size": "440x841",
+        "version": "after",
+        "title": "自信 · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "440x841/rating-confidence-empty.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-confidence-empty.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-confidence-empty 440x841 before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-empty",
+        "size": "440x841",
+        "version": "before",
+        "title": "自信 · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/440x841/rating-confidence.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-confidence.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-confidence-empty 440x841 both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-empty",
+        "size": "440x841",
+        "version": "both",
+        "title": "自信 · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/440x841/rating-confidence.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-confidence.png"
+          },
+          {
+            "src": "440x841/rating-confidence-empty.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-confidence-empty.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-confidence-hint all after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-hint",
+        "size": "all",
+        "version": "after",
+        "title": "自信 · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "375x700/rating-confidence-hint.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-confidence-hint.png"
+          },
+          {
+            "src": "402x759/rating-confidence-hint.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-confidence-hint.png"
+          },
+          {
+            "src": "440x841/rating-confidence-hint.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-confidence-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-confidence-hint all before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-hint",
+        "size": "all",
+        "version": "before",
+        "title": "自信 · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-confidence.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-confidence.png"
+          },
+          {
+            "src": "before/402x759/rating-confidence.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-confidence.png"
+          },
+          {
+            "src": "before/440x841/rating-confidence.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-confidence.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-confidence-hint all both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-hint",
+        "size": "all",
+        "version": "both",
+        "title": "自信 · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-confidence.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-confidence.png"
+          },
+          {
+            "src": "375x700/rating-confidence-hint.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-confidence-hint.png"
+          },
+          {
+            "src": "before/402x759/rating-confidence.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-confidence.png"
+          },
+          {
+            "src": "402x759/rating-confidence-hint.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-confidence-hint.png"
+          },
+          {
+            "src": "before/440x841/rating-confidence.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-confidence.png"
+          },
+          {
+            "src": "440x841/rating-confidence-hint.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-confidence-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-confidence-hint 375x700 after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-hint",
+        "size": "375x700",
+        "version": "after",
+        "title": "自信 · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "375x700/rating-confidence-hint.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-confidence-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-confidence-hint 375x700 before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-hint",
+        "size": "375x700",
+        "version": "before",
+        "title": "自信 · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-confidence.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-confidence.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-confidence-hint 375x700 both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-hint",
+        "size": "375x700",
+        "version": "both",
+        "title": "自信 · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-confidence.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-confidence.png"
+          },
+          {
+            "src": "375x700/rating-confidence-hint.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-confidence-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-confidence-hint 402x759 after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-hint",
+        "size": "402x759",
+        "version": "after",
+        "title": "自信 · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "402x759/rating-confidence-hint.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-confidence-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-confidence-hint 402x759 before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-hint",
+        "size": "402x759",
+        "version": "before",
+        "title": "自信 · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/402x759/rating-confidence.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-confidence.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-confidence-hint 402x759 both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-hint",
+        "size": "402x759",
+        "version": "both",
+        "title": "自信 · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/402x759/rating-confidence.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-confidence.png"
+          },
+          {
+            "src": "402x759/rating-confidence-hint.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-confidence-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-confidence-hint 440x841 after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-hint",
+        "size": "440x841",
+        "version": "after",
+        "title": "自信 · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "440x841/rating-confidence-hint.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-confidence-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-confidence-hint 440x841 before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-hint",
+        "size": "440x841",
+        "version": "before",
+        "title": "自信 · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/440x841/rating-confidence.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-confidence.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-confidence-hint 440x841 both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-hint",
+        "size": "440x841",
+        "version": "both",
+        "title": "自信 · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/440x841/rating-confidence.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-confidence.png"
+          },
+          {
+            "src": "440x841/rating-confidence-hint.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-confidence-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-confidence-selected-hint all after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-selected-hint",
+        "size": "all",
+        "version": "after",
+        "title": "自信 · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "375x700/rating-confidence-selected-hint.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-confidence-selected-hint.png"
+          },
+          {
+            "src": "402x759/rating-confidence-selected-hint.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-confidence-selected-hint.png"
+          },
+          {
+            "src": "440x841/rating-confidence-selected-hint.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-confidence-selected-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-confidence-selected-hint all before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-selected-hint",
+        "size": "all",
+        "version": "before",
+        "title": "自信 · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-confidence.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-confidence.png"
+          },
+          {
+            "src": "before/402x759/rating-confidence.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-confidence.png"
+          },
+          {
+            "src": "before/440x841/rating-confidence.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-confidence.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-confidence-selected-hint all both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-selected-hint",
+        "size": "all",
+        "version": "both",
+        "title": "自信 · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-confidence.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-confidence.png"
+          },
+          {
+            "src": "375x700/rating-confidence-selected-hint.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-confidence-selected-hint.png"
+          },
+          {
+            "src": "before/402x759/rating-confidence.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-confidence.png"
+          },
+          {
+            "src": "402x759/rating-confidence-selected-hint.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-confidence-selected-hint.png"
+          },
+          {
+            "src": "before/440x841/rating-confidence.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-confidence.png"
+          },
+          {
+            "src": "440x841/rating-confidence-selected-hint.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-confidence-selected-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-confidence-selected-hint 375x700 after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-selected-hint",
+        "size": "375x700",
+        "version": "after",
+        "title": "自信 · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "375x700/rating-confidence-selected-hint.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-confidence-selected-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-confidence-selected-hint 375x700 before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-selected-hint",
+        "size": "375x700",
+        "version": "before",
+        "title": "自信 · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-confidence.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-confidence.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-confidence-selected-hint 375x700 both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-selected-hint",
+        "size": "375x700",
+        "version": "both",
+        "title": "自信 · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-confidence.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-confidence.png"
+          },
+          {
+            "src": "375x700/rating-confidence-selected-hint.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-confidence-selected-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-confidence-selected-hint 402x759 after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-selected-hint",
+        "size": "402x759",
+        "version": "after",
+        "title": "自信 · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "402x759/rating-confidence-selected-hint.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-confidence-selected-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-confidence-selected-hint 402x759 before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-selected-hint",
+        "size": "402x759",
+        "version": "before",
+        "title": "自信 · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/402x759/rating-confidence.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-confidence.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-confidence-selected-hint 402x759 both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-selected-hint",
+        "size": "402x759",
+        "version": "both",
+        "title": "自信 · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/402x759/rating-confidence.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-confidence.png"
+          },
+          {
+            "src": "402x759/rating-confidence-selected-hint.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-confidence-selected-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-confidence-selected-hint 440x841 after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-selected-hint",
+        "size": "440x841",
+        "version": "after",
+        "title": "自信 · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "440x841/rating-confidence-selected-hint.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-confidence-selected-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-confidence-selected-hint 440x841 before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-selected-hint",
+        "size": "440x841",
+        "version": "before",
+        "title": "自信 · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/440x841/rating-confidence.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-confidence.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 rating-confidence-selected-hint 440x841 both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-selected-hint",
+        "size": "440x841",
+        "version": "both",
+        "title": "自信 · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/440x841/rating-confidence.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-confidence.png"
+          },
+          {
+            "src": "440x841/rating-confidence-selected-hint.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-confidence-selected-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "1200 URLから状態を復元",
+      "pass": true
+    },
+    {
+      "name": "1200 原寸リンクで画像が開く",
+      "pass": true
+    },
+    {
+      "name": "1200 リンク先が実在",
+      "pass": true,
+      "detail": [
+        {
+          "href": "http://127.0.0.1:52944/screen-gallery/index.html",
+          "label": "← 全画面の3サイズ比較",
+          "local": true,
+          "inside": true,
+          "exists": true
+        },
+        {
+          "href": "http://127.0.0.1:52944/reviews/2026-10-16-reading-and-review/index.html",
+          "label": "前の変更（ui25）",
+          "local": true,
+          "inside": true,
+          "exists": true
+        },
+        {
+          "href": "http://127.0.0.1:52944/reviews/2026-10-16-rating-guidance/before/375x700/rating-hesitation.png",
+          "label": "",
+          "local": true,
+          "inside": true,
+          "exists": true
+        },
+        {
+          "href": "http://127.0.0.1:52944/reviews/2026-10-16-rating-guidance/375x700/rating-hesitation-hint.png",
+          "label": "",
+          "local": true,
+          "inside": true,
+          "exists": true
+        },
+        {
+          "href": "http://127.0.0.1:52944/reviews/2026-10-16-rating-guidance/before/402x759/rating-hesitation.png",
+          "label": "",
+          "local": true,
+          "inside": true,
+          "exists": true
+        },
+        {
+          "href": "http://127.0.0.1:52944/reviews/2026-10-16-rating-guidance/402x759/rating-hesitation-hint.png",
+          "label": "",
+          "local": true,
+          "inside": true,
+          "exists": true
+        },
+        {
+          "href": "http://127.0.0.1:52944/reviews/2026-10-16-rating-guidance/before/440x841/rating-hesitation.png",
+          "label": "",
+          "local": true,
+          "inside": true,
+          "exists": true
+        },
+        {
+          "href": "http://127.0.0.1:52944/reviews/2026-10-16-rating-guidance/440x841/rating-hesitation-hint.png",
+          "label": "",
+          "local": true,
+          "inside": true,
+          "exists": true
+        },
+        {
+          "href": "http://127.0.0.1:52944/?block=moral&debug=1&upload=0&mic=0&go=task",
+          "label": "1問答えて振り返りを試す（送信なし）",
+          "local": true,
+          "inside": true,
+          "exists": true
+        },
+        {
+          "href": "http://127.0.0.1:52944/reviews/2026-10-16-rating-guidance/results.json",
+          "label": "案内・問題番号・記録の検証結果",
+          "local": true,
+          "inside": true,
+          "exists": true
+        },
+        {
+          "href": "http://127.0.0.1:52944/reviews/2026-10-16-rating-guidance/parity.json",
+          "label": "計測・進行処理との照合結果",
+          "local": true,
+          "inside": true,
+          "exists": true
+        },
+        {
+          "href": "http://127.0.0.1:52944/reviews/2026-10-16-rating-guidance/review-ui-results.json",
+          "label": "比較サイトの操作検査",
+          "local": true,
+          "inside": true,
+          "exists": true
+        },
+        {
+          "href": "http://127.0.0.1:52944/reviews/2026-10-16-rating-guidance/before/capture.json",
+          "label": "変更前の撮影元",
+          "local": true,
+          "inside": true,
+          "exists": true
+        },
+        {
+          "href": "http://127.0.0.1:52944/reviews/2026-10-16-rating-guidance/review-data.js",
+          "label": "全文・画像・撮影元の対応",
+          "local": true,
+          "inside": true,
+          "exists": true
+        },
+        {
+          "href": "http://127.0.0.1:52944/reviews/2026-10-16-rating-guidance/verify-review.cjs",
+          "label": "比較サイト検査の再現コード",
+          "local": true,
+          "inside": true,
+          "exists": true
+        },
+        {
+          "href": "http://127.0.0.1:52944/reviews/2026-10-12-session-explanations/index.html",
+          "label": "説明の全変更と現行画面",
+          "local": true,
+          "inside": true,
+          "exists": true
+        },
+        {
+          "href": "http://127.0.0.1:52944/reviews/2026-10-16-rating-guidance/index.html?screen=rating-hesitation-hint&size=all&version=both#",
+          "label": "先頭へ ↑",
+          "local": true,
+          "inside": true,
+          "exists": true
+        }
+      ]
+    },
+    {
+      "name": "375 6状態を選べる",
+      "pass": true
+    },
+    {
+      "name": "375 rating-hesitation-empty all after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-empty",
+        "size": "all",
+        "version": "after",
+        "title": "迷い · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "375x700/rating-hesitation-empty.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-hesitation-empty.png"
+          },
+          {
+            "src": "402x759/rating-hesitation-empty.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-hesitation-empty.png"
+          },
+          {
+            "src": "440x841/rating-hesitation-empty.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-hesitation-empty.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-hesitation-empty all before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-empty",
+        "size": "all",
+        "version": "before",
+        "title": "迷い · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-hesitation.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-hesitation.png"
+          },
+          {
+            "src": "before/402x759/rating-hesitation.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-hesitation.png"
+          },
+          {
+            "src": "before/440x841/rating-hesitation.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-hesitation.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-hesitation-empty all both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-empty",
+        "size": "all",
+        "version": "both",
+        "title": "迷い · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-hesitation.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-hesitation.png"
+          },
+          {
+            "src": "375x700/rating-hesitation-empty.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-hesitation-empty.png"
+          },
+          {
+            "src": "before/402x759/rating-hesitation.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-hesitation.png"
+          },
+          {
+            "src": "402x759/rating-hesitation-empty.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-hesitation-empty.png"
+          },
+          {
+            "src": "before/440x841/rating-hesitation.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-hesitation.png"
+          },
+          {
+            "src": "440x841/rating-hesitation-empty.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-hesitation-empty.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-hesitation-empty 375x700 after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-empty",
+        "size": "375x700",
+        "version": "after",
+        "title": "迷い · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "375x700/rating-hesitation-empty.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-hesitation-empty.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-hesitation-empty 375x700 before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-empty",
+        "size": "375x700",
+        "version": "before",
+        "title": "迷い · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-hesitation.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-hesitation.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-hesitation-empty 375x700 both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-empty",
+        "size": "375x700",
+        "version": "both",
+        "title": "迷い · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-hesitation.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-hesitation.png"
+          },
+          {
+            "src": "375x700/rating-hesitation-empty.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-hesitation-empty.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-hesitation-empty 402x759 after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-empty",
+        "size": "402x759",
+        "version": "after",
+        "title": "迷い · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "402x759/rating-hesitation-empty.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-hesitation-empty.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-hesitation-empty 402x759 before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-empty",
+        "size": "402x759",
+        "version": "before",
+        "title": "迷い · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/402x759/rating-hesitation.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-hesitation.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-hesitation-empty 402x759 both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-empty",
+        "size": "402x759",
+        "version": "both",
+        "title": "迷い · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/402x759/rating-hesitation.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-hesitation.png"
+          },
+          {
+            "src": "402x759/rating-hesitation-empty.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-hesitation-empty.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-hesitation-empty 440x841 after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-empty",
+        "size": "440x841",
+        "version": "after",
+        "title": "迷い · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "440x841/rating-hesitation-empty.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-hesitation-empty.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-hesitation-empty 440x841 before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-empty",
+        "size": "440x841",
+        "version": "before",
+        "title": "迷い · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/440x841/rating-hesitation.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-hesitation.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-hesitation-empty 440x841 both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-empty",
+        "size": "440x841",
+        "version": "both",
+        "title": "迷い · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/440x841/rating-hesitation.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-hesitation.png"
+          },
+          {
+            "src": "440x841/rating-hesitation-empty.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-hesitation-empty.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-hesitation-hint all after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-hint",
+        "size": "all",
+        "version": "after",
+        "title": "迷い · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "375x700/rating-hesitation-hint.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-hesitation-hint.png"
+          },
+          {
+            "src": "402x759/rating-hesitation-hint.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-hesitation-hint.png"
+          },
+          {
+            "src": "440x841/rating-hesitation-hint.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-hesitation-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-hesitation-hint all before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-hint",
+        "size": "all",
+        "version": "before",
+        "title": "迷い · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-hesitation.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-hesitation.png"
+          },
+          {
+            "src": "before/402x759/rating-hesitation.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-hesitation.png"
+          },
+          {
+            "src": "before/440x841/rating-hesitation.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-hesitation.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-hesitation-hint all both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-hint",
+        "size": "all",
+        "version": "both",
+        "title": "迷い · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-hesitation.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-hesitation.png"
+          },
+          {
+            "src": "375x700/rating-hesitation-hint.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-hesitation-hint.png"
+          },
+          {
+            "src": "before/402x759/rating-hesitation.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-hesitation.png"
+          },
+          {
+            "src": "402x759/rating-hesitation-hint.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-hesitation-hint.png"
+          },
+          {
+            "src": "before/440x841/rating-hesitation.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-hesitation.png"
+          },
+          {
+            "src": "440x841/rating-hesitation-hint.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-hesitation-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-hesitation-hint 375x700 after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-hint",
+        "size": "375x700",
+        "version": "after",
+        "title": "迷い · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "375x700/rating-hesitation-hint.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-hesitation-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-hesitation-hint 375x700 before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-hint",
+        "size": "375x700",
+        "version": "before",
+        "title": "迷い · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-hesitation.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-hesitation.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-hesitation-hint 375x700 both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-hint",
+        "size": "375x700",
+        "version": "both",
+        "title": "迷い · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-hesitation.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-hesitation.png"
+          },
+          {
+            "src": "375x700/rating-hesitation-hint.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-hesitation-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-hesitation-hint 402x759 after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-hint",
+        "size": "402x759",
+        "version": "after",
+        "title": "迷い · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "402x759/rating-hesitation-hint.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-hesitation-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-hesitation-hint 402x759 before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-hint",
+        "size": "402x759",
+        "version": "before",
+        "title": "迷い · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/402x759/rating-hesitation.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-hesitation.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-hesitation-hint 402x759 both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-hint",
+        "size": "402x759",
+        "version": "both",
+        "title": "迷い · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/402x759/rating-hesitation.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-hesitation.png"
+          },
+          {
+            "src": "402x759/rating-hesitation-hint.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-hesitation-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-hesitation-hint 440x841 after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-hint",
+        "size": "440x841",
+        "version": "after",
+        "title": "迷い · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "440x841/rating-hesitation-hint.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-hesitation-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-hesitation-hint 440x841 before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-hint",
+        "size": "440x841",
+        "version": "before",
+        "title": "迷い · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/440x841/rating-hesitation.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-hesitation.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-hesitation-hint 440x841 both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-hint",
+        "size": "440x841",
+        "version": "both",
+        "title": "迷い · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/440x841/rating-hesitation.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-hesitation.png"
+          },
+          {
+            "src": "440x841/rating-hesitation-hint.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-hesitation-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-hesitation-selected-hint all after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-selected-hint",
+        "size": "all",
+        "version": "after",
+        "title": "迷い · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "375x700/rating-hesitation-selected-hint.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-hesitation-selected-hint.png"
+          },
+          {
+            "src": "402x759/rating-hesitation-selected-hint.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-hesitation-selected-hint.png"
+          },
+          {
+            "src": "440x841/rating-hesitation-selected-hint.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-hesitation-selected-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-hesitation-selected-hint all before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-selected-hint",
+        "size": "all",
+        "version": "before",
+        "title": "迷い · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-hesitation.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-hesitation.png"
+          },
+          {
+            "src": "before/402x759/rating-hesitation.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-hesitation.png"
+          },
+          {
+            "src": "before/440x841/rating-hesitation.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-hesitation.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-hesitation-selected-hint all both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-selected-hint",
+        "size": "all",
+        "version": "both",
+        "title": "迷い · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-hesitation.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-hesitation.png"
+          },
+          {
+            "src": "375x700/rating-hesitation-selected-hint.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-hesitation-selected-hint.png"
+          },
+          {
+            "src": "before/402x759/rating-hesitation.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-hesitation.png"
+          },
+          {
+            "src": "402x759/rating-hesitation-selected-hint.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-hesitation-selected-hint.png"
+          },
+          {
+            "src": "before/440x841/rating-hesitation.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-hesitation.png"
+          },
+          {
+            "src": "440x841/rating-hesitation-selected-hint.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-hesitation-selected-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-hesitation-selected-hint 375x700 after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-selected-hint",
+        "size": "375x700",
+        "version": "after",
+        "title": "迷い · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "375x700/rating-hesitation-selected-hint.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-hesitation-selected-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-hesitation-selected-hint 375x700 before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-selected-hint",
+        "size": "375x700",
+        "version": "before",
+        "title": "迷い · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-hesitation.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-hesitation.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-hesitation-selected-hint 375x700 both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-selected-hint",
+        "size": "375x700",
+        "version": "both",
+        "title": "迷い · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-hesitation.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-hesitation.png"
+          },
+          {
+            "src": "375x700/rating-hesitation-selected-hint.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-hesitation-selected-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-hesitation-selected-hint 402x759 after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-selected-hint",
+        "size": "402x759",
+        "version": "after",
+        "title": "迷い · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "402x759/rating-hesitation-selected-hint.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-hesitation-selected-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-hesitation-selected-hint 402x759 before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-selected-hint",
+        "size": "402x759",
+        "version": "before",
+        "title": "迷い · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/402x759/rating-hesitation.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-hesitation.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-hesitation-selected-hint 402x759 both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-selected-hint",
+        "size": "402x759",
+        "version": "both",
+        "title": "迷い · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/402x759/rating-hesitation.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-hesitation.png"
+          },
+          {
+            "src": "402x759/rating-hesitation-selected-hint.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-hesitation-selected-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-hesitation-selected-hint 440x841 after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-selected-hint",
+        "size": "440x841",
+        "version": "after",
+        "title": "迷い · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "440x841/rating-hesitation-selected-hint.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-hesitation-selected-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-hesitation-selected-hint 440x841 before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-selected-hint",
+        "size": "440x841",
+        "version": "before",
+        "title": "迷い · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/440x841/rating-hesitation.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-hesitation.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-hesitation-selected-hint 440x841 both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-hesitation-selected-hint",
+        "size": "440x841",
+        "version": "both",
+        "title": "迷い · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/440x841/rating-hesitation.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-hesitation.png"
+          },
+          {
+            "src": "440x841/rating-hesitation-selected-hint.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-hesitation-selected-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-confidence-empty all after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-empty",
+        "size": "all",
+        "version": "after",
+        "title": "自信 · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "375x700/rating-confidence-empty.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-confidence-empty.png"
+          },
+          {
+            "src": "402x759/rating-confidence-empty.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-confidence-empty.png"
+          },
+          {
+            "src": "440x841/rating-confidence-empty.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-confidence-empty.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-confidence-empty all before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-empty",
+        "size": "all",
+        "version": "before",
+        "title": "自信 · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-confidence.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-confidence.png"
+          },
+          {
+            "src": "before/402x759/rating-confidence.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-confidence.png"
+          },
+          {
+            "src": "before/440x841/rating-confidence.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-confidence.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-confidence-empty all both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-empty",
+        "size": "all",
+        "version": "both",
+        "title": "自信 · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-confidence.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-confidence.png"
+          },
+          {
+            "src": "375x700/rating-confidence-empty.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-confidence-empty.png"
+          },
+          {
+            "src": "before/402x759/rating-confidence.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-confidence.png"
+          },
+          {
+            "src": "402x759/rating-confidence-empty.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-confidence-empty.png"
+          },
+          {
+            "src": "before/440x841/rating-confidence.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-confidence.png"
+          },
+          {
+            "src": "440x841/rating-confidence-empty.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-confidence-empty.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-confidence-empty 375x700 after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-empty",
+        "size": "375x700",
+        "version": "after",
+        "title": "自信 · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "375x700/rating-confidence-empty.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-confidence-empty.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-confidence-empty 375x700 before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-empty",
+        "size": "375x700",
+        "version": "before",
+        "title": "自信 · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-confidence.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-confidence.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-confidence-empty 375x700 both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-empty",
+        "size": "375x700",
+        "version": "both",
+        "title": "自信 · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-confidence.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-confidence.png"
+          },
+          {
+            "src": "375x700/rating-confidence-empty.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-confidence-empty.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-confidence-empty 402x759 after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-empty",
+        "size": "402x759",
+        "version": "after",
+        "title": "自信 · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "402x759/rating-confidence-empty.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-confidence-empty.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-confidence-empty 402x759 before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-empty",
+        "size": "402x759",
+        "version": "before",
+        "title": "自信 · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/402x759/rating-confidence.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-confidence.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-confidence-empty 402x759 both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-empty",
+        "size": "402x759",
+        "version": "both",
+        "title": "自信 · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/402x759/rating-confidence.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-confidence.png"
+          },
+          {
+            "src": "402x759/rating-confidence-empty.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-confidence-empty.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-confidence-empty 440x841 after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-empty",
+        "size": "440x841",
+        "version": "after",
+        "title": "自信 · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "440x841/rating-confidence-empty.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-confidence-empty.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-confidence-empty 440x841 before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-empty",
+        "size": "440x841",
+        "version": "before",
+        "title": "自信 · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/440x841/rating-confidence.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-confidence.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-confidence-empty 440x841 both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-empty",
+        "size": "440x841",
+        "version": "both",
+        "title": "自信 · まだ選んでいない",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/440x841/rating-confidence.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-confidence.png"
+          },
+          {
+            "src": "440x841/rating-confidence-empty.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-confidence-empty.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-confidence-hint all after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-hint",
+        "size": "all",
+        "version": "after",
+        "title": "自信 · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "375x700/rating-confidence-hint.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-confidence-hint.png"
+          },
+          {
+            "src": "402x759/rating-confidence-hint.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-confidence-hint.png"
+          },
+          {
+            "src": "440x841/rating-confidence-hint.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-confidence-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-confidence-hint all before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-hint",
+        "size": "all",
+        "version": "before",
+        "title": "自信 · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-confidence.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-confidence.png"
+          },
+          {
+            "src": "before/402x759/rating-confidence.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-confidence.png"
+          },
+          {
+            "src": "before/440x841/rating-confidence.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-confidence.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-confidence-hint all both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-hint",
+        "size": "all",
+        "version": "both",
+        "title": "自信 · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-confidence.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-confidence.png"
+          },
+          {
+            "src": "375x700/rating-confidence-hint.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-confidence-hint.png"
+          },
+          {
+            "src": "before/402x759/rating-confidence.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-confidence.png"
+          },
+          {
+            "src": "402x759/rating-confidence-hint.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-confidence-hint.png"
+          },
+          {
+            "src": "before/440x841/rating-confidence.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-confidence.png"
+          },
+          {
+            "src": "440x841/rating-confidence-hint.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-confidence-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-confidence-hint 375x700 after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-hint",
+        "size": "375x700",
+        "version": "after",
+        "title": "自信 · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "375x700/rating-confidence-hint.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-confidence-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-confidence-hint 375x700 before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-hint",
+        "size": "375x700",
+        "version": "before",
+        "title": "自信 · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-confidence.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-confidence.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-confidence-hint 375x700 both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-hint",
+        "size": "375x700",
+        "version": "both",
+        "title": "自信 · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-confidence.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-confidence.png"
+          },
+          {
+            "src": "375x700/rating-confidence-hint.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-confidence-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-confidence-hint 402x759 after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-hint",
+        "size": "402x759",
+        "version": "after",
+        "title": "自信 · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "402x759/rating-confidence-hint.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-confidence-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-confidence-hint 402x759 before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-hint",
+        "size": "402x759",
+        "version": "before",
+        "title": "自信 · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/402x759/rating-confidence.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-confidence.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-confidence-hint 402x759 both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-hint",
+        "size": "402x759",
+        "version": "both",
+        "title": "自信 · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/402x759/rating-confidence.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-confidence.png"
+          },
+          {
+            "src": "402x759/rating-confidence-hint.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-confidence-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-confidence-hint 440x841 after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-hint",
+        "size": "440x841",
+        "version": "after",
+        "title": "自信 · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "440x841/rating-confidence-hint.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-confidence-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-confidence-hint 440x841 before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-hint",
+        "size": "440x841",
+        "version": "before",
+        "title": "自信 · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/440x841/rating-confidence.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-confidence.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-confidence-hint 440x841 both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-hint",
+        "size": "440x841",
+        "version": "both",
+        "title": "自信 · 未選択で空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/440x841/rating-confidence.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-confidence.png"
+          },
+          {
+            "src": "440x841/rating-confidence-hint.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-confidence-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-confidence-selected-hint all after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-selected-hint",
+        "size": "all",
+        "version": "after",
+        "title": "自信 · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "375x700/rating-confidence-selected-hint.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-confidence-selected-hint.png"
+          },
+          {
+            "src": "402x759/rating-confidence-selected-hint.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-confidence-selected-hint.png"
+          },
+          {
+            "src": "440x841/rating-confidence-selected-hint.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-confidence-selected-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-confidence-selected-hint all before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-selected-hint",
+        "size": "all",
+        "version": "before",
+        "title": "自信 · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-confidence.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-confidence.png"
+          },
+          {
+            "src": "before/402x759/rating-confidence.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-confidence.png"
+          },
+          {
+            "src": "before/440x841/rating-confidence.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-confidence.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-confidence-selected-hint all both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-selected-hint",
+        "size": "all",
+        "version": "both",
+        "title": "自信 · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-confidence.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-confidence.png"
+          },
+          {
+            "src": "375x700/rating-confidence-selected-hint.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-confidence-selected-hint.png"
+          },
+          {
+            "src": "before/402x759/rating-confidence.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-confidence.png"
+          },
+          {
+            "src": "402x759/rating-confidence-selected-hint.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-confidence-selected-hint.png"
+          },
+          {
+            "src": "before/440x841/rating-confidence.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-confidence.png"
+          },
+          {
+            "src": "440x841/rating-confidence-selected-hint.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-confidence-selected-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-confidence-selected-hint 375x700 after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-selected-hint",
+        "size": "375x700",
+        "version": "after",
+        "title": "自信 · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "375x700/rating-confidence-selected-hint.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-confidence-selected-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-confidence-selected-hint 375x700 before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-selected-hint",
+        "size": "375x700",
+        "version": "before",
+        "title": "自信 · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-confidence.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-confidence.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-confidence-selected-hint 375x700 both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-selected-hint",
+        "size": "375x700",
+        "version": "both",
+        "title": "自信 · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/375x700/rating-confidence.png",
+            "w": 375,
+            "h": 700,
+            "href": "before/375x700/rating-confidence.png"
+          },
+          {
+            "src": "375x700/rating-confidence-selected-hint.png",
+            "w": 375,
+            "h": 700,
+            "href": "375x700/rating-confidence-selected-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-confidence-selected-hint 402x759 after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-selected-hint",
+        "size": "402x759",
+        "version": "after",
+        "title": "自信 · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "402x759/rating-confidence-selected-hint.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-confidence-selected-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-confidence-selected-hint 402x759 before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-selected-hint",
+        "size": "402x759",
+        "version": "before",
+        "title": "自信 · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/402x759/rating-confidence.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-confidence.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-confidence-selected-hint 402x759 both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-selected-hint",
+        "size": "402x759",
+        "version": "both",
+        "title": "自信 · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/402x759/rating-confidence.png",
+            "w": 402,
+            "h": 759,
+            "href": "before/402x759/rating-confidence.png"
+          },
+          {
+            "src": "402x759/rating-confidence-selected-hint.png",
+            "w": 402,
+            "h": 759,
+            "href": "402x759/rating-confidence-selected-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-confidence-selected-hint 440x841 after",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-selected-hint",
+        "size": "440x841",
+        "version": "after",
+        "title": "自信 · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "440x841/rating-confidence-selected-hint.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-confidence-selected-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-confidence-selected-hint 440x841 before",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-selected-hint",
+        "size": "440x841",
+        "version": "before",
+        "title": "自信 · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/440x841/rating-confidence.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-confidence.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 rating-confidence-selected-hint 440x841 both",
+      "pass": true,
+      "detail": {
+        "overflow": 0,
+        "selected": "rating-confidence-selected-hint",
+        "size": "440x841",
+        "version": "both",
+        "title": "自信 · 選択してから空白を触ったあと",
+        "copies": true,
+        "images": [
+          {
+            "src": "before/440x841/rating-confidence.png",
+            "w": 440,
+            "h": 841,
+            "href": "before/440x841/rating-confidence.png"
+          },
+          {
+            "src": "440x841/rating-confidence-selected-hint.png",
+            "w": 440,
+            "h": 841,
+            "href": "440x841/rating-confidence-selected-hint.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "375 URLから状態を復元",
+      "pass": true
+    },
+    {
+      "name": "375 原寸リンクで画像が開く",
+      "pass": true
+    },
+    {
+      "name": "375 リンク先が実在",
+      "pass": true,
+      "detail": [
+        {
+          "href": "http://127.0.0.1:52944/screen-gallery/index.html",
+          "label": "← 全画面の3サイズ比較",
+          "local": true,
+          "inside": true,
+          "exists": true
+        },
+        {
+          "href": "http://127.0.0.1:52944/reviews/2026-10-16-reading-and-review/index.html",
+          "label": "前の変更（ui25）",
+          "local": true,
+          "inside": true,
+          "exists": true
+        },
+        {
+          "href": "http://127.0.0.1:52944/reviews/2026-10-16-rating-guidance/before/375x700/rating-hesitation.png",
+          "label": "",
+          "local": true,
+          "inside": true,
+          "exists": true
+        },
+        {
+          "href": "http://127.0.0.1:52944/reviews/2026-10-16-rating-guidance/375x700/rating-hesitation-hint.png",
+          "label": "",
+          "local": true,
+          "inside": true,
+          "exists": true
+        },
+        {
+          "href": "http://127.0.0.1:52944/?block=moral&debug=1&upload=0&mic=0&go=task",
+          "label": "1問答えて振り返りを試す（送信なし）",
+          "local": true,
+          "inside": true,
+          "exists": true
+        },
+        {
+          "href": "http://127.0.0.1:52944/reviews/2026-10-16-rating-guidance/results.json",
+          "label": "案内・問題番号・記録の検証結果",
+          "local": true,
+          "inside": true,
+          "exists": true
+        },
+        {
+          "href": "http://127.0.0.1:52944/reviews/2026-10-16-rating-guidance/parity.json",
+          "label": "計測・進行処理との照合結果",
+          "local": true,
+          "inside": true,
+          "exists": true
+        },
+        {
+          "href": "http://127.0.0.1:52944/reviews/2026-10-16-rating-guidance/review-ui-results.json",
+          "label": "比較サイトの操作検査",
+          "local": true,
+          "inside": true,
+          "exists": true
+        },
+        {
+          "href": "http://127.0.0.1:52944/reviews/2026-10-16-rating-guidance/before/capture.json",
+          "label": "変更前の撮影元",
+          "local": true,
+          "inside": true,
+          "exists": true
+        },
+        {
+          "href": "http://127.0.0.1:52944/reviews/2026-10-16-rating-guidance/review-data.js",
+          "label": "全文・画像・撮影元の対応",
+          "local": true,
+          "inside": true,
+          "exists": true
+        },
+        {
+          "href": "http://127.0.0.1:52944/reviews/2026-10-16-rating-guidance/verify-review.cjs",
+          "label": "比較サイト検査の再現コード",
+          "local": true,
+          "inside": true,
+          "exists": true
+        },
+        {
+          "href": "http://127.0.0.1:52944/reviews/2026-10-12-session-explanations/index.html",
+          "label": "説明の全変更と現行画面",
+          "local": true,
+          "inside": true,
+          "exists": true
+        },
+        {
+          "href": "http://127.0.0.1:52944/reviews/2026-10-16-rating-guidance/index.html?screen=rating-hesitation-hint&size=375x700&version=both#",
+          "label": "先頭へ ↑",
+          "local": true,
+          "inside": true,
+          "exists": true
+        }
+      ]
+    },
+    {
+      "name": "ブラウザ例外0",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "外部通信0",
+      "pass": true,
+      "detail": []
+    }
+  ],
+  "states": [
+    {
+      "width": 1200,
+      "scene": "rating-hesitation-empty",
+      "size": "all",
+      "version": "after",
+      "images": 3,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-hesitation-empty",
+      "size": "all",
+      "version": "before",
+      "images": 3,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-hesitation-empty",
+      "size": "all",
+      "version": "both",
+      "images": 6,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-hesitation-empty",
+      "size": "375x700",
+      "version": "after",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-hesitation-empty",
+      "size": "375x700",
+      "version": "before",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-hesitation-empty",
+      "size": "375x700",
+      "version": "both",
+      "images": 2,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-hesitation-empty",
+      "size": "402x759",
+      "version": "after",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-hesitation-empty",
+      "size": "402x759",
+      "version": "before",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-hesitation-empty",
+      "size": "402x759",
+      "version": "both",
+      "images": 2,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-hesitation-empty",
+      "size": "440x841",
+      "version": "after",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-hesitation-empty",
+      "size": "440x841",
+      "version": "before",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-hesitation-empty",
+      "size": "440x841",
+      "version": "both",
+      "images": 2,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-hesitation-hint",
+      "size": "all",
+      "version": "after",
+      "images": 3,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-hesitation-hint",
+      "size": "all",
+      "version": "before",
+      "images": 3,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-hesitation-hint",
+      "size": "all",
+      "version": "both",
+      "images": 6,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-hesitation-hint",
+      "size": "375x700",
+      "version": "after",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-hesitation-hint",
+      "size": "375x700",
+      "version": "before",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-hesitation-hint",
+      "size": "375x700",
+      "version": "both",
+      "images": 2,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-hesitation-hint",
+      "size": "402x759",
+      "version": "after",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-hesitation-hint",
+      "size": "402x759",
+      "version": "before",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-hesitation-hint",
+      "size": "402x759",
+      "version": "both",
+      "images": 2,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-hesitation-hint",
+      "size": "440x841",
+      "version": "after",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-hesitation-hint",
+      "size": "440x841",
+      "version": "before",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-hesitation-hint",
+      "size": "440x841",
+      "version": "both",
+      "images": 2,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-hesitation-selected-hint",
+      "size": "all",
+      "version": "after",
+      "images": 3,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-hesitation-selected-hint",
+      "size": "all",
+      "version": "before",
+      "images": 3,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-hesitation-selected-hint",
+      "size": "all",
+      "version": "both",
+      "images": 6,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-hesitation-selected-hint",
+      "size": "375x700",
+      "version": "after",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-hesitation-selected-hint",
+      "size": "375x700",
+      "version": "before",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-hesitation-selected-hint",
+      "size": "375x700",
+      "version": "both",
+      "images": 2,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-hesitation-selected-hint",
+      "size": "402x759",
+      "version": "after",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-hesitation-selected-hint",
+      "size": "402x759",
+      "version": "before",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-hesitation-selected-hint",
+      "size": "402x759",
+      "version": "both",
+      "images": 2,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-hesitation-selected-hint",
+      "size": "440x841",
+      "version": "after",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-hesitation-selected-hint",
+      "size": "440x841",
+      "version": "before",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-hesitation-selected-hint",
+      "size": "440x841",
+      "version": "both",
+      "images": 2,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-confidence-empty",
+      "size": "all",
+      "version": "after",
+      "images": 3,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-confidence-empty",
+      "size": "all",
+      "version": "before",
+      "images": 3,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-confidence-empty",
+      "size": "all",
+      "version": "both",
+      "images": 6,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-confidence-empty",
+      "size": "375x700",
+      "version": "after",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-confidence-empty",
+      "size": "375x700",
+      "version": "before",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-confidence-empty",
+      "size": "375x700",
+      "version": "both",
+      "images": 2,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-confidence-empty",
+      "size": "402x759",
+      "version": "after",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-confidence-empty",
+      "size": "402x759",
+      "version": "before",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-confidence-empty",
+      "size": "402x759",
+      "version": "both",
+      "images": 2,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-confidence-empty",
+      "size": "440x841",
+      "version": "after",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-confidence-empty",
+      "size": "440x841",
+      "version": "before",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-confidence-empty",
+      "size": "440x841",
+      "version": "both",
+      "images": 2,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-confidence-hint",
+      "size": "all",
+      "version": "after",
+      "images": 3,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-confidence-hint",
+      "size": "all",
+      "version": "before",
+      "images": 3,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-confidence-hint",
+      "size": "all",
+      "version": "both",
+      "images": 6,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-confidence-hint",
+      "size": "375x700",
+      "version": "after",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-confidence-hint",
+      "size": "375x700",
+      "version": "before",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-confidence-hint",
+      "size": "375x700",
+      "version": "both",
+      "images": 2,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-confidence-hint",
+      "size": "402x759",
+      "version": "after",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-confidence-hint",
+      "size": "402x759",
+      "version": "before",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-confidence-hint",
+      "size": "402x759",
+      "version": "both",
+      "images": 2,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-confidence-hint",
+      "size": "440x841",
+      "version": "after",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-confidence-hint",
+      "size": "440x841",
+      "version": "before",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-confidence-hint",
+      "size": "440x841",
+      "version": "both",
+      "images": 2,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-confidence-selected-hint",
+      "size": "all",
+      "version": "after",
+      "images": 3,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-confidence-selected-hint",
+      "size": "all",
+      "version": "before",
+      "images": 3,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-confidence-selected-hint",
+      "size": "all",
+      "version": "both",
+      "images": 6,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-confidence-selected-hint",
+      "size": "375x700",
+      "version": "after",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-confidence-selected-hint",
+      "size": "375x700",
+      "version": "before",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-confidence-selected-hint",
+      "size": "375x700",
+      "version": "both",
+      "images": 2,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-confidence-selected-hint",
+      "size": "402x759",
+      "version": "after",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-confidence-selected-hint",
+      "size": "402x759",
+      "version": "before",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-confidence-selected-hint",
+      "size": "402x759",
+      "version": "both",
+      "images": 2,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-confidence-selected-hint",
+      "size": "440x841",
+      "version": "after",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-confidence-selected-hint",
+      "size": "440x841",
+      "version": "before",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 1200,
+      "scene": "rating-confidence-selected-hint",
+      "size": "440x841",
+      "version": "both",
+      "images": 2,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-hesitation-empty",
+      "size": "all",
+      "version": "after",
+      "images": 3,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-hesitation-empty",
+      "size": "all",
+      "version": "before",
+      "images": 3,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-hesitation-empty",
+      "size": "all",
+      "version": "both",
+      "images": 6,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-hesitation-empty",
+      "size": "375x700",
+      "version": "after",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-hesitation-empty",
+      "size": "375x700",
+      "version": "before",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-hesitation-empty",
+      "size": "375x700",
+      "version": "both",
+      "images": 2,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-hesitation-empty",
+      "size": "402x759",
+      "version": "after",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-hesitation-empty",
+      "size": "402x759",
+      "version": "before",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-hesitation-empty",
+      "size": "402x759",
+      "version": "both",
+      "images": 2,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-hesitation-empty",
+      "size": "440x841",
+      "version": "after",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-hesitation-empty",
+      "size": "440x841",
+      "version": "before",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-hesitation-empty",
+      "size": "440x841",
+      "version": "both",
+      "images": 2,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-hesitation-hint",
+      "size": "all",
+      "version": "after",
+      "images": 3,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-hesitation-hint",
+      "size": "all",
+      "version": "before",
+      "images": 3,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-hesitation-hint",
+      "size": "all",
+      "version": "both",
+      "images": 6,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-hesitation-hint",
+      "size": "375x700",
+      "version": "after",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-hesitation-hint",
+      "size": "375x700",
+      "version": "before",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-hesitation-hint",
+      "size": "375x700",
+      "version": "both",
+      "images": 2,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-hesitation-hint",
+      "size": "402x759",
+      "version": "after",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-hesitation-hint",
+      "size": "402x759",
+      "version": "before",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-hesitation-hint",
+      "size": "402x759",
+      "version": "both",
+      "images": 2,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-hesitation-hint",
+      "size": "440x841",
+      "version": "after",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-hesitation-hint",
+      "size": "440x841",
+      "version": "before",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-hesitation-hint",
+      "size": "440x841",
+      "version": "both",
+      "images": 2,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-hesitation-selected-hint",
+      "size": "all",
+      "version": "after",
+      "images": 3,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-hesitation-selected-hint",
+      "size": "all",
+      "version": "before",
+      "images": 3,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-hesitation-selected-hint",
+      "size": "all",
+      "version": "both",
+      "images": 6,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-hesitation-selected-hint",
+      "size": "375x700",
+      "version": "after",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-hesitation-selected-hint",
+      "size": "375x700",
+      "version": "before",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-hesitation-selected-hint",
+      "size": "375x700",
+      "version": "both",
+      "images": 2,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-hesitation-selected-hint",
+      "size": "402x759",
+      "version": "after",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-hesitation-selected-hint",
+      "size": "402x759",
+      "version": "before",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-hesitation-selected-hint",
+      "size": "402x759",
+      "version": "both",
+      "images": 2,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-hesitation-selected-hint",
+      "size": "440x841",
+      "version": "after",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-hesitation-selected-hint",
+      "size": "440x841",
+      "version": "before",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-hesitation-selected-hint",
+      "size": "440x841",
+      "version": "both",
+      "images": 2,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-confidence-empty",
+      "size": "all",
+      "version": "after",
+      "images": 3,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-confidence-empty",
+      "size": "all",
+      "version": "before",
+      "images": 3,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-confidence-empty",
+      "size": "all",
+      "version": "both",
+      "images": 6,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-confidence-empty",
+      "size": "375x700",
+      "version": "after",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-confidence-empty",
+      "size": "375x700",
+      "version": "before",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-confidence-empty",
+      "size": "375x700",
+      "version": "both",
+      "images": 2,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-confidence-empty",
+      "size": "402x759",
+      "version": "after",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-confidence-empty",
+      "size": "402x759",
+      "version": "before",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-confidence-empty",
+      "size": "402x759",
+      "version": "both",
+      "images": 2,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-confidence-empty",
+      "size": "440x841",
+      "version": "after",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-confidence-empty",
+      "size": "440x841",
+      "version": "before",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-confidence-empty",
+      "size": "440x841",
+      "version": "both",
+      "images": 2,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-confidence-hint",
+      "size": "all",
+      "version": "after",
+      "images": 3,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-confidence-hint",
+      "size": "all",
+      "version": "before",
+      "images": 3,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-confidence-hint",
+      "size": "all",
+      "version": "both",
+      "images": 6,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-confidence-hint",
+      "size": "375x700",
+      "version": "after",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-confidence-hint",
+      "size": "375x700",
+      "version": "before",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-confidence-hint",
+      "size": "375x700",
+      "version": "both",
+      "images": 2,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-confidence-hint",
+      "size": "402x759",
+      "version": "after",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-confidence-hint",
+      "size": "402x759",
+      "version": "before",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-confidence-hint",
+      "size": "402x759",
+      "version": "both",
+      "images": 2,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-confidence-hint",
+      "size": "440x841",
+      "version": "after",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-confidence-hint",
+      "size": "440x841",
+      "version": "before",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-confidence-hint",
+      "size": "440x841",
+      "version": "both",
+      "images": 2,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-confidence-selected-hint",
+      "size": "all",
+      "version": "after",
+      "images": 3,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-confidence-selected-hint",
+      "size": "all",
+      "version": "before",
+      "images": 3,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-confidence-selected-hint",
+      "size": "all",
+      "version": "both",
+      "images": 6,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-confidence-selected-hint",
+      "size": "375x700",
+      "version": "after",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-confidence-selected-hint",
+      "size": "375x700",
+      "version": "before",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-confidence-selected-hint",
+      "size": "375x700",
+      "version": "both",
+      "images": 2,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-confidence-selected-hint",
+      "size": "402x759",
+      "version": "after",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-confidence-selected-hint",
+      "size": "402x759",
+      "version": "before",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-confidence-selected-hint",
+      "size": "402x759",
+      "version": "both",
+      "images": 2,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-confidence-selected-hint",
+      "size": "440x841",
+      "version": "after",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-confidence-selected-hint",
+      "size": "440x841",
+      "version": "before",
+      "images": 1,
+      "copyMatches": true,
+      "overflow": 0
+    },
+    {
+      "width": 375,
+      "scene": "rating-confidence-selected-hint",
+      "size": "440x841",
+      "version": "both",
+      "images": 2,
+      "copyMatches": true,
+      "overflow": 0
+    }
+  ],
+  "errors": [],
+  "blocked": [],
+  "screenshots": [
+    {
+      "file": "review-1200.png",
+      "width": 1200
+    },
+    {
+      "file": "review-375.png",
+      "width": 375
+    }
+  ],
+  "passed": 179,
+  "failed": 0
+}
