@@ -260,13 +260,13 @@
   .rating-answer { text-align: center; font-size: calc(16px * var(--ui-scale)); color: var(--ink-2); margin-bottom: 14px; line-height: 1.5; }
   .rating-answer b { color: var(--go); font-size: calc(18px * var(--ui-scale)); }
   .rating-answer[hidden] { display: none; }
-  /* 注意の見出し、観測した操作、必要な手順に文字の強弱をつける。 */
-  #noticeText { font-size: calc(16px * var(--ui-scale)); line-height: 1.55; }
-  #noticeText p { margin: 0 0 10px; }
-  #noticeText .notice-observation { font-size: calc(14px * var(--ui-scale)); color: var(--ink-2); }
-  #noticeText .notice-rule-title { font-size: calc(17px * var(--ui-scale)); color: var(--go); margin: 12px 0 5px; line-height: 1.4; }
+  /* 練習の確認と同じ枠で、必要な行動を一項目ずつ示す。確認チェックは追加しない。 */
+  #noticeText { display: flex; flex-direction: column; gap: 10px; font-size: calc(16px * var(--ui-scale)); line-height: 1.55; padding-bottom: 2px; }
+  #noticeText .notice-rule-card { flex: none; padding: 12px; border: 2px solid var(--line); border-radius: 10px; background: var(--panel); }
+  #noticeText .notice-observation { flex: none; font-size: calc(14px * var(--ui-scale)); color: var(--ink-2); margin: 0; }
+  #noticeText .notice-rule-title { font-size: calc(14px * var(--ui-scale)); color: var(--accent); margin: 0 0 4px; line-height: 1.5; }
+  #noticeText .notice-rule-body { font-size: calc(15px * var(--ui-scale)); line-height: 1.5; margin: 0; }
   #noticeText b { color: var(--ink); }
-  #noticeText .notice-rule-body:last-child { margin-bottom: 2px; }
   .instructed-subtitle { font-size: calc(20px * var(--ui-scale)); }
   .anchors { display: flex; justify-content: space-between; margin-top: 6px;
     font-size: calc(14px * var(--ui-scale)); color: var(--ink-2); }  /* 2026-07-15 高齢者配慮: 端点の意味が読める大きさ・明度に */
@@ -682,13 +682,13 @@
   #welcome #wcPrev[hidden] { display: none; }
   /* 2ボタン時の「次へ」幅 (全幅から前へ32%とgap8pxを引いた幅) を初回も使う。 */
   #welcome #wcNav:has(> [hidden]) { left: 50%; right: auto; width: calc(68% - 32.48px); transform: translateX(-50%); }
-  #break .session-transition-card, #blockintroBody.practice-complete-card { flex: none; }
-  #blockintroBody.practice-complete-card { border: 1px solid #c9dbd1; border-radius: 16px; background: var(--panel);
+  #break .session-transition-card, #blockintroBody.practice-complete-card, #blockintroBody.instructed-intro-card { flex: none; }
+  #blockintroBody.practice-complete-card, #blockintroBody.instructed-intro-card { border: 1px solid #c9dbd1; border-radius: 16px; background: var(--panel);
     box-shadow: 0 5px 22px #183d2810; padding: 20px; }
-  #break .session-transition-card h1, #blockintroBody.practice-complete-card h1 {
+  #break .session-transition-card h1, #blockintroBody.practice-complete-card h1, #blockintroBody.instructed-intro-card h1 {
     color: var(--ink); font-size: calc(22px * var(--ui-scale)); line-height: 1.4; margin: 0 0 16px; }
   .pad .session-card-step { color: var(--go); font-weight: 700; font-size: calc(13px * var(--ui-scale)); margin-bottom: 8px; }
-  .session-transition-card > p + p, #blockintroBody.practice-complete-card > p + p { margin-top: 12px; }
+  .session-transition-card > p + p, #blockintroBody.practice-complete-card > p + p, #blockintroBody.instructed-intro-card > p + p { margin-top: 12px; }
   #blockintroBody.practice-complete-card ul { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; margin-bottom: 0; }
   .pad .session-card-action { color: var(--go); font-weight: 700; font-size: calc(15px * var(--ui-scale)); }
   #postq .seg.seg-v button { padding: 11px 12px; }

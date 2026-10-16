@@ -126,7 +126,7 @@
   受け口の実装とデプロイ手順は gas-collector.gs / DEPLOY.md を参照。
 -->
 <link rel="stylesheet" href="css/runtime-guards.css?v=2026-10-16-refactor1" onerror="window.pilotAssetLoadFailed = true">
-  <link rel="stylesheet" href="app.css?v=2026-10-16-ui22">
+  <link rel="stylesheet" href="app.css?v=2026-10-16-ui23">
   <link rel="stylesheet" href="guided-tutorial.css?v=2026-10-16-ui22">
 <link rel="stylesheet" href="consent.css">
 </head>
@@ -277,7 +277,7 @@
 
 <section id="consent" class="screen">
   <div class="pad">
-    <h1>研究への参加について</h1>
+    <h1>研究への参加の同意</h1>
     <p id="consentIdentity"></p>
     <div id="consentDocument" role="region" aria-label="研究の説明と協力承諾書" tabindex="0"></div>
     <p id="consentStatus" role="status" aria-live="polite">枠の中を最後までスクロールしてお読みください。</p>
@@ -353,7 +353,7 @@
 <!-- ===== STOP NOTICE (動的スタート: 3 秒以上止まった試行の後、次の問題を出す前に案内だけの画面。§6-6 項19。2026-09-09、閾値 3 秒は 2026-09-12) ===== -->
 <section id="notice" class="screen">
   <div class="pad">
-    <h1>操作のポイントを確認</h1>
+    <h1>操作のポイントの確認</h1>
     <div id="noticeText"></div>
     <div class="vgap"></div>
     <button type="button" class="btn primary advance" id="noticeGo">確認して次の問題へ</button>
@@ -363,7 +363,7 @@
 <!-- ===== BREAK ===== -->
 <section id="practicecheck" class="screen">
   <div class="pad">
-    <h1>練習の操作を確認</h1>
+    <h1>操作のポイントの確認</h1>
     <p>説明を読んで、確認欄にチェックしてください。</p>
     <div id="practiceCheckItems" class="rule-checks"></div>
     <div class="vgap"></div>
@@ -594,6 +594,6 @@
 <script src="js/rating-content.js?v=2026-10-16-refactor2"></script>
 <script src="js/rating-controller.js?v=2026-10-16-refactor2"></script>
 <script src="js/rating-view.js?v=2026-10-16-refactor2"></script>
-<script src="js/app.js?v=2026-10-16-ui22" onerror="document.getElementById('wcBody').innerHTML='&lt;h1&gt;読み込みが完了していません&lt;/h1&gt;&lt;p&gt;通信を確認して、もう一度読み込んでください。&lt;/p&gt;'; const next=document.getElementById('wcNext'); next.textContent='再読み込み'; next.disabled=false; next.onclick=function(){location.reload()}"></script>
+<script src="js/app.js?v=2026-10-16-ui23" onerror="document.getElementById('wcBody').innerHTML='&lt;h1&gt;読み込みが完了していません&lt;/h1&gt;&lt;p&gt;通信を確認して、もう一度読み込んでください。&lt;/p&gt;'; const next=document.getElementById('wcNext'); next.textContent='再読み込み'; next.disabled=false; next.onclick=function(){location.reload()}"></script>
 </body>
 </html>

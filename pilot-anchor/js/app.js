@@ -486,13 +486,13 @@
   const EARLY_NOTICE_TEXT = START_CRITERION_HTML.replace(/<[^>]*>/g, "") + EARLY_OBSERVATION;
   const MOVEMENT_REASON_HTML = "<b class=\"movement-action\">選択肢を読んだら、答えが決まるのを待たずに動き始めてください。</b>";
   const RELEASE_AREA_HTML = "<b>ボックスの内側なら、文字の上でなくても、どこで指を離しても選べます。</b>";
-  const MAIN_MOVEMENT_HTML = MOVEMENT_REASON_HTML + "<br>触れてから3秒以内に、スタートの枠の外へ。<br>3秒は回答の期限ではありません。自分のペースで、ゆっくりでも大丈夫です。";
+  const MAIN_MOVEMENT_HTML = MOVEMENT_REASON_HTML + "<br>3秒は回答の制限時間ではありません。自分のペースで焦らず進めてください。";
   const LATE_NOTICE_TEXT = MAIN_MOVEMENT_HTML.replace(/<[^>]*>/g, "") + LATE_OBSERVATION;
   const NOTICE_MAX = { early: 5, late: 5 };   // 案内の上限 (種類ごと・1セッション)。2026-10-09採用: 遅い初動も5回まで
   const STOP_NOTICE_TEXT = LATE_NOTICE_TEXT;   // 旧名 (validate.js の互換用)
   const NOTICE_TEXTS = { early: EARLY_NOTICE_TEXT, late: LATE_NOTICE_TEXT };
   // 表示用 (伝えたい行動を太字に。textContent は上の平文と一致)
-  const noticeRule = (title, body) => '<h2 class="notice-rule-title">' + title + '</h2><p class="notice-rule-body">' + body + '</p>';
+  const noticeRule = (title, body) => '<div class="notice-rule-card"><h2 class="notice-rule-title">' + title + '</h2><p class="notice-rule-body">' + body + '</p></div>';
   const observation = text => '<p class="notice-observation">' + text + '</p>';
   const NOTICE_HTML = { early: noticeRule("問題文を読んでからスタート", START_CRITERION_HTML) + observation(EARLY_OBSERVATION),
                         late: noticeRule("3秒以内にスタートを出る", MAIN_MOVEMENT_HTML) + observation(LATE_OBSERVATION) };
@@ -634,7 +634,7 @@
     stopNoticesSuppressed: 0, // 上限（種類ごと5回）で非表示にした理由数。両方の抑止なら2
     pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
     practiceChecks: [], noticeReviews: [], noticeAcknowledgements: [], // 旧別画面見直しと新注意内確認を分ける。読了・理解や除外の判定には用いない
-    appVersion: "2026-10-16-ui22",  // 開始時の版は再開でも保持する
+    appVersion: "2026-10-16-ui23",  // 開始時の版は再開でも保持する
     moralPracticeDefinition: null, // 最初の操作説明・練習開始時に固定する刺激の版と全文。表示・理解の証跡ではない
     welcomeAgree: null,       // はじめに 5/6・6/6 の同意チェック {items, pages, ms}
     devGuard: null,           // 機種ガード {on,minH,w,h,shown,isIPhone,isIPad,ipadLink,platformOk,sizeOk}
@@ -644,7 +644,7 @@
 
   // appVersionは開始時の版を維持するため、教示の表示版は実行中のコードから記録する。
   // 未記録の旧画面を推測で埋めず、表示イベントを読了・理解とみなさない。
-  const INSTRUCTION_VERSION = "2026-10-16-ui22";
+  const INSTRUCTION_VERSION = "2026-10-16-ui23";
   function moralPracticeDefinition(legacy = false) {
     if (!device.moralPracticeDefinition) {
       const source = PILOT_BANK.moral;
@@ -1325,6 +1325,7 @@
   function showInstructedIntro() {
     pendingInstructedStart = true;
     $("blockintroBody").classList.remove("practice-complete-card");
+    $("blockintroBody").classList.add("instructed-intro-card");
     $("blockintroBody").innerHTML =
       '<h1>追加の 10 問<br><span class="instructed-subtitle">（やり方が変わります）</span></h1>' +
       '<p class="instruction-key"><b>問題文も選択肢も、読まずに進めてください。</b><br>内容を考えて答えを選ばず、<b>適当に指を運んでください。</b>どちらの選択肢でも構いません。</p>' +
@@ -1357,7 +1358,7 @@
     nextTrial();
   }
   function showBlockIntro() {
-    $("blockintroBody").classList.remove("practice-complete-card");
+    $("blockintroBody").classList.remove("practice-complete-card", "instructed-intro-card");
     $("blockintroBody").innerHTML =
       `<p class="opt-note">パート ${seqIndex + 1} / ${SEQ.length}</p>` +
       ((UNIFIED && BLOCK.transitionHtml) ? BLOCK.transitionHtml : BLOCK.introHtml);
@@ -1932,6 +1933,7 @@
     setCoach(null);
     coachHide();
     pendingMainStart = true;
+    $("blockintroBody").classList.remove("instructed-intro-card");
     $("blockintroBody").classList.add("practice-complete-card");
     $("blockintroBody").innerHTML =
       '<p class="session-card-step">練習 → 本番</p>' +
