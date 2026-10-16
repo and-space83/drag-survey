@@ -479,22 +479,25 @@
   // 両方の時間条件を満たした場合は1画面にまとめる。種類ごとの上限は独立に適用する。
   const EARLY_CPS = 25;
   const READGATE_ON = QS.get("readgate") !== "0";   // 練習の読了ゲート (2026-09-13)。validate/開発用に無効化可
-  const START_CRITERION_HTML = "<b>問題文を読み状況が分かったら、答えを決める前に</b>スタートボタンに指を置いてください。";
+  const START_CRITERION_HTML = "問題文を読み、状況が分かったら、<b>答えを決める前に</b>スタートに指を置いてください。";
   const HELP_INTRO_HTML = "<b>問題文を読み状況が分かったら、答えを決める前に</b>スタートボタンに指を置きます。すると選択肢が出るので、指を離さずに選ぶほうの選択肢のボックスまで運びます。この操作をくり返します。";
-  const EARLY_NOTICE_TEXT = "前の問題では、問題文の表示から短い時間でスタートボタンに指が置かれました。" + START_CRITERION_HTML.replace(/<[^>]*>/g, "");
-  const MOVEMENT_REASON_HTML = "答えを選んでいる間の指の動きを調べるため、<b>答えが決まるのを待たずに指を動かし始めてください。</b><br>迷っているときも、<b>ゆっくりでよいので、指を動かしながら考えてください。</b>";
+  const EARLY_OBSERVATION = "前の問題では、問題文が出てから短い時間でスタートに触れていました。";
+  const LATE_OBSERVATION = "前の問題では、触れてから枠を出るまで3秒以上かかりました。";
+  const EARLY_NOTICE_TEXT = START_CRITERION_HTML.replace(/<[^>]*>/g, "") + EARLY_OBSERVATION;
+  const MOVEMENT_REASON_HTML = "<b class=\"movement-action\">選択肢を読んだら、答えが決まるのを待たずに動き始めてください。</b>";
   const RELEASE_AREA_HTML = "<b>ボックスの内側なら、文字の上でなくても、どこで指を離しても選べます。</b>";
-  const MAIN_MOVEMENT_HTML = "スタートボタンに指を置いたら、<b>3秒以内に、指をスタートボタンの外へ動かしてください。</b><br><b>3秒は回答の制限時間ではないので、自分のペースで焦らず回答してください。</b><br>" + MOVEMENT_REASON_HTML;
-  const LATE_NOTICE_TEXT = "前の問題では、スタートボタンに指を置いてから3秒以上、指がスタートボタンの外へ出ていませんでした。" + MAIN_MOVEMENT_HTML.replace(/<[^>]*>/g, "");
+  const MAIN_MOVEMENT_HTML = MOVEMENT_REASON_HTML + "<br>触れてから3秒以内に、スタートの枠の外へ。<br>3秒は回答の期限ではありません。自分のペースで、ゆっくりでも大丈夫です。";
+  const LATE_NOTICE_TEXT = MAIN_MOVEMENT_HTML.replace(/<[^>]*>/g, "") + LATE_OBSERVATION;
   const NOTICE_MAX = { early: 5, late: 5 };   // 案内の上限 (種類ごと・1セッション)。2026-10-09採用: 遅い初動も5回まで
   const STOP_NOTICE_TEXT = LATE_NOTICE_TEXT;   // 旧名 (validate.js の互換用)
   const NOTICE_TEXTS = { early: EARLY_NOTICE_TEXT, late: LATE_NOTICE_TEXT };
   // 表示用 (伝えたい行動を太字に。textContent は上の平文と一致)
   const noticeRule = (title, body) => '<h2 class="notice-rule-title">' + title + '</h2><p class="notice-rule-body">' + body + '</p>';
-  const NOTICE_HTML = { early: '<p class="notice-observation">前の問題では、<b class="why">問題文の表示から短い時間で</b>スタートボタンに指が置かれました。</p>' + noticeRule("スタートのタイミング", START_CRITERION_HTML),
-                        late: '<p class="notice-observation">前の問題では、スタートボタンに指を置いてから<b class="why">3秒以上、指がスタートボタンの外へ出ていませんでした</b>。</p>' + noticeRule("指を動かし始めるタイミング", MAIN_MOVEMENT_HTML) };
-  NOTICE_HTML.early_late = '<p class="notice-observation">前の問題では、<b class="why">問題文の表示から短い時間でスタートボタンに指が置かれ</b>、<b class="why">その後3秒以上、指がスタートボタンの外へ出ていませんでした</b>。</p>' +
-    noticeRule("スタートのタイミング", START_CRITERION_HTML) + noticeRule("指を動かし始めるタイミング", MAIN_MOVEMENT_HTML);
+  const observation = text => '<p class="notice-observation">' + text + '</p>';
+  const NOTICE_HTML = { early: noticeRule("問題文を読んでからスタート", START_CRITERION_HTML) + observation(EARLY_OBSERVATION),
+                        late: noticeRule("3秒以内にスタートを出る", MAIN_MOVEMENT_HTML) + observation(LATE_OBSERVATION) };
+  NOTICE_HTML.early_late = noticeRule("問題文を読んでからスタート", START_CRITERION_HTML) + noticeRule("3秒以内にスタートを出る", MAIN_MOVEMENT_HTML) +
+    observation("前の問題では、問題文が出てから短い時間でスタートに触れ、触れてから枠を出るまで3秒以上かかりました。");
   for (const kind of ["early", "late"]) NOTICE_TEXTS[kind] = NOTICE_HTML[kind].replace(/<[^>]*>/g, "");
   NOTICE_TEXTS.early_late = NOTICE_HTML.early_late.replace(/<[^>]*>/g, "");
   const noticeKinds = (kind) => kind === "early_late" ? ["early", "late"] : kind === "early" || kind === "late" ? [kind] : [];
@@ -631,7 +634,7 @@
     stopNoticesSuppressed: 0, // 上限（種類ごと5回）で非表示にした理由数。両方の抑止なら2
     pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
     practiceChecks: [], noticeReviews: [], noticeAcknowledgements: [], // 旧別画面見直しと新注意内確認を分ける。読了・理解や除外の判定には用いない
-    appVersion: "2026-10-16-ui21",  // 実演の倍率・待機と復習・振り返りの表示調整。開始時の版は再開でも保持する
+    appVersion: "2026-10-16-ui22",  // 開始時の版は再開でも保持する
     moralPracticeDefinition: null, // 最初の操作説明・練習開始時に固定する刺激の版と全文。表示・理解の証跡ではない
     welcomeAgree: null,       // はじめに 5/6・6/6 の同意チェック {items, pages, ms}
     devGuard: null,           // 機種ガード {on,minH,w,h,shown,isIPhone,isIPad,ipadLink,platformOk,sizeOk}
@@ -641,7 +644,7 @@
 
   // appVersionは開始時の版を維持するため、教示の表示版は実行中のコードから記録する。
   // 未記録の旧画面を推測で埋めず、表示イベントを読了・理解とみなさない。
-  const INSTRUCTION_VERSION = "2026-10-16-ui21";
+  const INSTRUCTION_VERSION = "2026-10-16-ui22";
   function moralPracticeDefinition(legacy = false) {
     if (!device.moralPracticeDefinition) {
       const source = PILOT_BANK.moral;
@@ -1711,8 +1714,8 @@
   let practiceRuleFlags = [], practiceCheckState = null, practiceCheckShownAt = null;
   const PRACTICE_RULES = {
     early: { title: "問題文を読んでからスタート", html: START_CRITERION_HTML },
-    late: { title: "3秒以内に指をスタートボタンの外へ動かす", html: MAIN_MOVEMENT_HTML },
-    release: { title: "指を離さずに運ぶ", html: "スタートボタンを押したら<b>指を離さず</b>選択肢のボックスまで運び、<b>ボックスの中で離してください。</b><br>ボックスの内側ならどこで指を離しても大丈夫です。" },
+    late: { title: "3秒以内にスタートを出る", html: MAIN_MOVEMENT_HTML },
+    release: { title: "指を離さずに運ぶ", html: "スタートから<b>指を離さず</b>選択肢のボックスまで運び、<b>ボックスの中で離してください。</b>" },
   };
   function markPracticeRule(key) {
     if (phase === "practice" && BLOCK.id === "moral" && cell && !cell.isTutorial && !practiceRuleFlags.includes(key)) { practiceRuleFlags.push(key); scheduleCheckpoint(); }
