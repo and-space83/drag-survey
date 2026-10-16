@@ -1,18 +1,18 @@
 {
-  "checkedAt": "2026-10-16T06:55:30.936Z",
-  "toVersion": "2026-10-16-ui24",
+  "checkedAt": "2026-10-16T08:11:26.191Z",
+  "toVersion": "2026-10-16-ui25",
   "sourceSha256LF": {
-    "index.html": "b511f6036d0fc363a3d58fa55da14f17ec368958d935306bdf7045981a7fb65a",
+    "index.html": "3cf6e8781be04a66b1963225db1d07d640b010427c2410abb0fe5a449b22a028",
     "css/runtime-guards.css": "da2a02010ec7825568dafae2fb95b6cdc7cf36321f335375ad26ba5281492683",
-    "app.css": "5bc6985bab8e2a6b102057ae36d2fb7e8a6da2a261a0526c8ea24642e4f3fd2e",
+    "app.css": "7f63ac3d907a88d6799cd7edf38f9b41992595c524be646e40cb272b14616392",
     "guided-tutorial.css": "044853cf630d434c58190c4cd3072aa7e700619cb16e70a2920f8e89fc7a880d",
     "consent.css": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
     "js/runtime-guards.js": "f7648083aab79c08bdb07e25d041e32b53e8626880f18b4bac8fb9bfca14a26b",
     "bank.js": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
     "guided-tutorial.js": "f2ece5f2457364f8072796585ac8e42b49c84aa2070f5bc25e35c497b2209841",
     "js/tutorial-visuals.js": "5770c5068e42fb23a25935b7396a88a540f204998ad48362464a14d05551deef",
-    "js/tutorial-view.js": "dcff770423cdffc7b6f354f5fa111b4f0e0e8f2c2b033176319a1b7bd2239ac6",
-    "js/tutorial-controller.js": "753eaab83e4199c451356c7b8a6f40fa46c0ae26aa74404b0f01406fbd110e88",
+    "js/tutorial-view.js": "cbc3bf2aad09f51465df407b20e6295d8ab8289eadfc175c421514debacceda7",
+    "js/tutorial-controller.js": "2c456143767793e9fd4d961893836939a8ea548b381bd5f2910d2460745ef577",
     "vendor/pako.min.js": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
     "data-codec.js": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
     "consent.js": "6dae132f66dc20526ae6e79c59c6ff12049a75a1b11161b6815bfa1339a14bd9",
@@ -26,13 +26,13 @@
     "js/rating-content.js": "ade45e7eca8cb6734cc3397962fdb9f14c93c102b1215a638ebf9810b0b019f8",
     "js/rating-controller.js": "4cb1aaac6fe565d4ebed237a3dfc579ea30bfedf23fb9749a182ad6afd868017",
     "js/rating-view.js": "b418cb1ba3ad72baab9b3dc809a367259143b8f7754e8976f41be9e632bef25e",
-    "js/app.js": "bc4ae54c8be40b1b8e8147546b4525c6486d2f04b0fd0e47a8692580f58e2a84",
+    "js/app.js": "990ac9c37b0c6617c3ba503ed07ef137022c14d2a455febf1b3cad76b6e13fb5",
     "storage-worker.js": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
     "vendor/pako-LICENSE": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539"
   },
   "allScreensRecaptured": true,
-  "screens": 247,
-  "images": 741,
+  "screens": 248,
+  "images": 744,
   "devices": {
     "mini": {
       "short": "mini",
@@ -92,6 +92,8 @@
     "practiceIntroNumbered": false,
     "practiceTrials": 5
   },
-  "retiredFlowScreens": [],
+  "retiredFlowScreens": [
+    "flow-welcome-5-checked"
+  ],
   "scope": "現行画面の索引を3サイズで再撮影。合成データのみ使用。Safari実機の検証ではありません。"
 }

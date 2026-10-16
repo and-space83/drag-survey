@@ -1,5 +1,5 @@
 diff --git a/tools/pilot-anchor/app.css b/tools/pilot-anchor/app.css
-index ec3b990..67e95ec 100644
+index ec3b990..7c48194 100644
 --- a/tools/pilot-anchor/app.css
 +++ b/tools/pilot-anchor/app.css
 @@ -20 +20,2 @@
@@ -69,7 +69,16 @@ index ec3b990..67e95ec 100644
 +  #noticeText .notice-rule-body { font-size: calc(15px * var(--ui-scale)); line-height: 1.5; margin: 0; }
 +  #noticeText b { color: var(--ink); }
 +  .instructed-subtitle { font-size: calc(20px * var(--ui-scale)); }
-@@ -488,0 +521,58 @@
+@@ -343,0 +376,8 @@
++  #reading .pad { padding-top: 48px; padding-bottom: 0; }
++  #readContent { display: flex; flex-direction: column; flex: none; }
++  #readContent.reading-intro-card { padding: 20px; border: 1px solid #c9dbd1; border-radius: 16px; background: var(--panel); box-shadow: 0 5px 22px #183d2810; }
++  #readHeading { display: flex; align-items: baseline; gap: 12px; }
++  #readCounter { font-size: calc(15px * var(--ui-scale)); line-height: 1.6; font-weight: 400; white-space: nowrap; }
++  #readCounter:empty { display: none; }
++  /* 元の別行カウンターが占めていた高さを間隔に残し、見出しと本文の距離を維持する。 */
++  #reading #readText { flex: none; margin-top: calc(18px + 24px * var(--ui-scale)); }
+@@ -488,0 +529,58 @@
 +  /* 回答の振り返りの説明だけをカード化。通常の本番・練習評定の倍率や配置は変更しない。 */
 +  #rating.tut-front { --ui-scale: 1; }
 +  #rating.tut-front .qwrap { padding: 20px 18px 20px; }
@@ -128,14 +137,14 @@ index ec3b990..67e95ec 100644
 +    #rating.tut-front .likert.tut-cue button, #rating.tut-front #ratingNext.cue, #rating.tut-front #ratingSubmit.cue { animation: none; }
 +    #rating.tut-front #ratBtnRow .btn.warn { animation: none; outline: 3px solid var(--go); outline-offset: 3px; }
 +  }
-@@ -535 +625 @@
+@@ -535 +633 @@
 -  /* 使いにくかった点は既存5+5と追加2項目の3画面。各画面に「このページでは該当なし」 */
 +  /* 使いにくかった点は3画面。旧保存のその他2ページ目と新版3ページ目を区別する */
-@@ -541 +631,2 @@
+@@ -541 +639,2 @@
 -  #surveyProblemsPage:not([data-part="2"]) #surveyFreeField,
 +  #surveyProblemsPage[data-other-part="2"]:not([data-part="2"]) #surveyFreeField,
 +  #surveyProblemsPage[data-other-part="3"]:not([data-part="3"]) #surveyFreeField,
-@@ -559,2 +650,41 @@
+@@ -559,2 +658,41 @@
 -  #welcome .checks .chk { padding: 10px 10px 10px 38px; font-size: calc(14.5px * var(--ui-scale)); line-height: 1.5; }
 -  #welcome .checks { gap: 6px; }
 +  #welcome .checks .chk { padding: 9px 10px 9px 38px; font-size: calc(14.5px * var(--ui-scale)); line-height: 1.5; }
@@ -179,7 +188,7 @@ index ec3b990..67e95ec 100644
 +  .session-transition-card > p + p, #blockintroBody.practice-complete-card > p + p, #blockintroBody.instructed-intro-card > p + p { margin-top: 12px; }
 +  #blockintroBody.practice-complete-card ul { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; margin-bottom: 0; }
 +  .pad .session-card-action { color: var(--go); font-weight: 700; font-size: calc(15px * var(--ui-scale)); }
-@@ -562,0 +693,5 @@
+@@ -562,0 +701,5 @@
 +  /* 長い区間ラベルを含む利用年数のページも、小さいiPhoneで下部ナビに重ねない。文字サイズは維持。 */
 +  @media (max-width: 440px) {
 +    #postq #pp-usage_years .field { margin: 6px 0; }
@@ -594,7 +603,7 @@ index 0000000..16e75f6
 +  ]
 +};
 diff --git a/tools/pilot-anchor/index.html b/tools/pilot-anchor/index.html
-index b02688a..5262cdd 100644
+index b02688a..adaad02 100644
 --- a/tools/pilot-anchor/index.html
 +++ b/tools/pilot-anchor/index.html
 @@ -15 +15 @@
@@ -618,7 +627,7 @@ index b02688a..5262cdd 100644
 @@ -120 +128,3 @@
 -<link rel="stylesheet" href="app.css">
 +<link rel="stylesheet" href="css/runtime-guards.css?v=2026-10-16-refactor1" onerror="window.pilotAssetLoadFailed = true">
-+  <link rel="stylesheet" href="app.css?v=2026-10-16-ui24">
++  <link rel="stylesheet" href="app.css?v=2026-10-16-ui25">
 +  <link rel="stylesheet" href="guided-tutorial.css?v=2026-10-16-ui22">
 @@ -190,2 +200 @@
 -    <p class="opt-note" id="wcStep"></p>
@@ -678,57 +687,64 @@ index b02688a..5262cdd 100644
 +      <p id="breakInfo"></p>
 +      <p class="session-card-action">準備ができたら「続ける」へ</p>
 +    </div>
-@@ -383 +416 @@
+@@ -382,4 +415,5 @@
+-    <h1>文章を読む速さの計測</h1>
 -    <p id="readIntro">まず、文章を読む速さを計測します（短い文章を4本）。<br>表示された文章を<b>普段通りの速さ</b>で読み、読み終えたら<b>すぐ</b>下のボタンを押してください。<br>本番の問題文と同じような文です。内容を覚える必要はありません。</p>
-+    <p id="readIntro">まず、あなたの普段の読む速さを知るため、短い文章を4本読んでもらいます。<br><b>速く読む必要はないので普段通りの速さで読み</b>、読み終えたらすぐ下のボタンを押してください。</p>
-@@ -404 +437 @@
+-    <p class="opt-note" id="readCounter"></p>
+-    <div class="rtext" id="readText" style="display:none"></div>
++    <div id="readContent" class="reading-intro-card">
++      <h1 id="readHeading"><span id="readTitle">文章を読む速さの計測</span><span id="readCounter"></span></h1>
++      <p id="readIntro">まず、あなたの普段の読む速さを知るため、短い文章を4本読んでもらいます。<br><b>速く読む必要はないので普段通りの速さで読み</b>、読み終えたらすぐ下のボタンを押してください。</p>
++      <div class="rtext" id="readText" style="display:none"></div>
++    </div>
+@@ -404 +438 @@
 -    <!-- 1 項目 1 画面 (2026-09-26): 課題と同じくスクロールせず「戻る / 次へ」で進む。ページ = 持ち方 → 拡充分 19 項目 → 使いにくかった点 → 操作のしやすさ -->
 +    <!-- 課題と同じくスクロールせず「戻る / 次へ」で進む。持ち方 → 拡充分 → 使いにくかった点 → 操作のしやすさ → 自由記述 -->
-@@ -409 +442 @@
+@@ -409 +443 @@
 -    <p>最後に、<b>2分ほど</b>で終わるアンケートにお答えください。</p>
 +    <p>最後に、アンケートにお答えください（<b>目安：約8分</b>）。</p>
-@@ -422 +455 @@
+@@ -422 +456 @@
 -    <!-- 事後アンケート 拡充分 (2026-09-06 §6-6 項8): 状態・課題の感じ方・環境・習熟・ふりかえり+自己報告の 22 項目 (2026-09-26 に data_use、2026-09-30 に課題の感じ方 3 問を追加)。POST_ITEMS から描画。
 +    <!-- 事後アンケート拡充分: POST_ITEMSから通常27項目を描画（追加10問OFFでは対応質問を除いて26項目）。
-@@ -424 +457 @@
+@@ -424 +458 @@
 -    <p class="opt-note" id="postLead" style="display:none;margin-top:14px">続けて、いくつか質問にお答えください（約2分）。</p>
 +    <p class="opt-note" id="postLead" style="display:none;margin-top:14px">続けて、いくつか質問にお答えください（目安：約8分）。</p>
-@@ -429,3 +462,3 @@
+@@ -429,3 +463,3 @@
 -      <div class="postpage" data-page="problems" id="surveyProblemsPage">
 -      <!-- 既存10項目の5+5を保ち、案内・待機に関する追加2項目を3ページ目に分ける。各ページに該当なしを設ける -->
 -      <h2 id="surveyProblemsLabel">使いにくかった点・改善してほしい点</h2>
 +      <div class="postpage" data-page="problems" data-other-part="3" id="surveyProblemsPage">
 +      <!-- 5+4+3項目の3ページ。その他は最後に置き、各ページに該当なしを設ける -->
 +      <h2 id="surveyProblemsLabel">使いにくかった点・改善した方がいい点</h2>
-@@ -435,3 +468,3 @@
+@@ -435,3 +469,3 @@
 -        <button type="button" class="chk" data-part="1" data-val="rating_burden">振り返りの回答が多くて負担だった</button>
 -        <button type="button" class="chk" data-part="1" data-val="trial_fatigue">試行数が多くて疲れた・長く感じた</button>
 -        <button type="button" class="chk" data-part="1" data-val="drag_hard">ドラッグして選ぶ操作がやりにくかった</button>
 +        <button type="button" class="chk" data-part="1" data-val="rating_burden">1問ごとの回答の振り返りが負担だった</button>
 +        <button type="button" class="chk" data-part="1" data-val="trial_fatigue">問題数が多くて疲れた・長く感じた</button>
 +        <button type="button" class="chk" data-part="1" data-val="drag_hard">指を離さずに運んで選ぶ操作がやりにくかった</button>
-@@ -445 +477,0 @@
+@@ -445 +478,0 @@
 -        <button type="button" class="chk" data-part="2" data-val="other">その他</button>
-@@ -448,0 +481 @@
+@@ -448,0 +482 @@
 +        <button type="button" class="chk" data-part="3" data-val="other">その他</button>
-@@ -457 +490 @@
+@@ -457 +491 @@
 -      <h2 id="surveyEaseLabel">ドラッグで選ぶ操作はしやすかったですか</h2>
 +      <h2 id="surveyEaseLabel">指を離さずに運んで選ぶ操作はしやすかったですか</h2>
-@@ -481 +514 @@
+@@ -481 +515 @@
 -    <p class="opt-note" id="postMissing" style="text-align:center;margin-top:6px;color:var(--err);font-weight:700"></p>
 +    <p class="opt-note" id="postMissing" data-tap-action style="text-align:center;margin-top:6px;color:var(--err);font-weight:700"></p>
-@@ -493 +526 @@
+@@ -493 +527 @@
 -      <p class="opt-note" id="sendWaitNote">通信環境によっては時間がかかる場合があります。ブラウザの更新（再読み込み）や「戻る」は使わず、画面を閉じずにそのままお待ちください。</p>
 +      <p class="opt-note" id="sendWaitNote">通信環境によっては時間がかかる場合があります。<br><strong>ブラウザの更新（再読み込み）や「戻る」は使わず、画面を閉じずにそのままお待ちください。</strong></p>
-@@ -541 +574,6 @@
+@@ -541 +575,6 @@
 -<script src="bank.js"></script>
 +<script src="js/runtime-guards.js?v=2026-10-16-refactor1"></script>
 +<script src="bank.js?v=2026-10-15-ui18"></script>
 +<script src="guided-tutorial.js?v=2026-10-16-ui22"></script>
 +<script src="js/tutorial-visuals.js?v=2026-10-16-refactor1"></script>
-+<script src="js/tutorial-view.js?v=2026-10-16-ui22"></script>
-+<script src="js/tutorial-controller.js?v=2026-10-16-refactor1"></script>
-@@ -548,4324 +586,8 @@
++<script src="js/tutorial-view.js?v=2026-10-16-ui25"></script>
++<script src="js/tutorial-controller.js?v=2026-10-16-ui25"></script>
+@@ -548,4324 +587,8 @@
 -<script>
 -(function () {
 -  "use strict";
@@ -5060,13 +5076,13 @@ index b02688a..5262cdd 100644
 +<script src="js/rating-content.js?v=2026-10-16-refactor2"></script>
 +<script src="js/rating-controller.js?v=2026-10-16-refactor2"></script>
 +<script src="js/rating-view.js?v=2026-10-16-refactor2"></script>
-+<script src="js/app.js?v=2026-10-16-ui24" onerror="document.getElementById('wcBody').innerHTML='&lt;h1&gt;読み込みが完了していません&lt;/h1&gt;&lt;p&gt;通信を確認して、もう一度読み込んでください。&lt;/p&gt;'; const next=document.getElementById('wcNext'); next.textContent='再読み込み'; next.disabled=false; next.onclick=function(){location.reload()}"></script>
++<script src="js/app.js?v=2026-10-16-ui25" onerror="document.getElementById('wcBody').innerHTML='&lt;h1&gt;読み込みが完了していません&lt;/h1&gt;&lt;p&gt;通信を確認して、もう一度読み込んでください。&lt;/p&gt;'; const next=document.getElementById('wcNext'); next.textContent='再読み込み'; next.disabled=false; next.onclick=function(){location.reload()}"></script>
 diff --git a/tools/pilot-anchor/js/app.js b/tools/pilot-anchor/js/app.js
 new file mode 100644
-index 0000000..73f6fe7
+index 0000000..dd4a975
 --- /dev/null
 +++ b/tools/pilot-anchor/js/app.js
-@@ -0,0 +1,4283 @@
+@@ -0,0 +1,4289 @@
 +(function () {
 +  "use strict";
 +  if (window.pilotAssetLoadFailed || !window.PILOT_BANK || !window.createSessionStore || !window.PilotConsent || !window.PilotCodec || !window.pako || !window.PilotDurable || !window.createStagedDelivery ||
@@ -5703,9 +5719,9 @@ index 0000000..73f6fe7
 +    stopNoticesSuppressed: 0, // 上限（種類ごと5回）で非表示にした理由数。両方の抑止なら2
 +    pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
 +    practiceChecks: [], noticeReviews: [], noticeAcknowledgements: [], // 旧別画面見直しと新注意内確認を分ける。読了・理解や除外の判定には用いない
-+    appVersion: "2026-10-16-ui24",  // 開始時の版は再開でも保持する
++    appVersion: "2026-10-16-ui25",  // 開始時の版は再開でも保持する
 +    moralPracticeDefinition: null, // 最初の操作説明・練習開始時に固定する刺激の版と全文。表示・理解の証跡ではない
-+    welcomeAgree: null,       // はじめに 5/6・6/6 の同意チェック {items, pages, ms}
++    welcomeAgree: null,       // はじめに 6/7・7/7 の同意チェック {items, pages, ms}
 +    devGuard: null,           // 機種ガード {on,minH,w,h,shown,isIPhone,isIPad,ipadLink,platformOk,sizeOk}
 +    exportedAt: null,
 +  };
@@ -5713,7 +5729,7 @@ index 0000000..73f6fe7
 +
 +  // appVersionは開始時の版を維持するため、教示の表示版は実行中のコードから記録する。
 +  // 未記録の旧画面を推測で埋めず、表示イベントを読了・理解とみなさない。
-+  const INSTRUCTION_VERSION = "2026-10-16-ui24";
++  const INSTRUCTION_VERSION = "2026-10-16-ui25";
 +  function moralPracticeDefinition(legacy = false) {
 +    if (!device.moralPracticeDefinition) {
 +      const source = PILOT_BANK.moral;
@@ -6064,6 +6080,8 @@ index 0000000..73f6fe7
 +    readResumed = !!restored && readIdx >= 0;
 +    if (!restored || !device.readingBaseline) device.readingBaseline = { trials: [], charsPerSec: null };
 +    if (readResumed) device.readingBaseline.resumed = true;
++    $("readContent").classList.add("reading-intro-card");
++    $("readTitle").textContent = "文章を読む速さの計測";
 +    $("readCounter").textContent = "";
 +    $("readText").style.display = "none";
 +    $("readIntro").style.display = "";
@@ -6075,6 +6093,8 @@ index 0000000..73f6fe7
 +    resumeStage = "reading"; saveBackup();
 +  }
 +  function renderReading(elapsedMs = 0) {
++    $("readContent").classList.remove("reading-intro-card");
++    $("readTitle").textContent = "文章を読む速さの計測";
 +    $("readIntro").style.display = "none";
 +    $("readCounter").textContent = `${readIdx + 1} / ${READ_SENTENCES.length}`;
 +    $("readText").innerHTML = nbText(READ_SENTENCES[readIdx]);
@@ -8897,11 +8917,12 @@ index 0000000..73f6fe7
 +      b: '<p>この調査では、<b>短い問題文</b>を読んで、<b>2つの選択肢から あなたの考えに近いほう</b>を選んでいきます。</p>' +
 +         '<ul><li><b>正解・不正解はありません。</b>あなたの素直な判断で構いません。</li>' +
 +         '<li>選んだあとに「迷い」と「自信」を5段階でふりかえります。</li></ul>' },
-+    { h: "所要時間と進め方",
++    { h: "所要時間と回答のペース",
 +      b: '<p>全体で <b>40分ほど</b>（35〜50分）かかります。時間に余裕があるときに始めてください。</p>' +
-+         '<div class="wc-flow"><p>進める順番</p><ol><li>読む速さの計測</li><li>画面・操作の説明</li><li>練習</li><li>本番</li><li>実施後のアンケート</li></ol></div>' +
++         '<p><b>回答を急ぐ必要はありません。</b>読むことや考えることに十分な時間を使い、自分のペースで進めてください。</p>' },
++    { h: "進む順番と休憩",
++      b: '<div class="wc-flow"><p>進める順番</p><ol><li>読む速さの計測</li><li>画面・操作の説明</li><li>練習</li><li>本番</li><li>実施後のアンケート</li></ol></div>' +
 +         '<ul><li>説明は何度でも見直せます。</li>' +
-+         '<li><b>回答を急ぐ必要はありません。</b>読むことや考えることに十分な時間を使い、自分のペースで進めてください。</li>' +
 +         '<li>本番は<b>20問ごとに休憩</b>があります。休憩以外は、別の作業を挟まずに続けてください。</li></ul>' },
 +    { h: "実施する環境について",
 +      b: '<p><b>静かな場所</b>で、落ち着いて取り組める時に始めてください。</p>' +
@@ -8913,7 +8934,7 @@ index 0000000..73f6fe7
 +         '<p>研究成果に氏名を掲載することはありません。</p>' },
 +    // 2026-09-06: 画面切替・再読込の注意 (§6-6 項17)。画面切替の回数・時間の記録は倫理申請 (実施計画書 §3D) に記載済。
 +    // 報酬の承認条件 (非承認の基準) はアプリでなく募集文に書く (身内配布では報酬がないため、ここでは「有効な回答として扱えない」に留める)
-+    // 同意チェックは5/6・6/6。5項目を3+2の2ページに分け、全てにチェックしてから開始する。
++    // 同意チェックは6/7・7/7。5項目を3+2の2ページに分け、全てにチェックしてから開始する。
 +    { h: "進めるうえでのお願い", mic: true,
 +      b: '<p>次の項目を確認して、<b>すべてにチェック</b>を入れてください。</p>',
 +      agree: [
@@ -8952,7 +8973,8 @@ index 0000000..73f6fe7
 +    wcCueTimer = setTimeout(() => { if (wcIdx === page) $("wcNext").classList.add("cue"); }, readCueDelay(p.b));
 +    $("welcome").querySelector(".pad").scrollTop = 0;
 +    focusScreenHeading("welcome");
-+    if (!KIOSK && wcIdx === 1 && screens.welcome.classList.contains("active")) logInstructionExposure("welcome", { page: 2 });
++    // 分割した所要時間・進行手順の両方を表示記録として残す。読了・理解の判定には使わない。
++    if (!KIOSK && (wcIdx === 1 || wcIdx === 2) && screens.welcome.classList.contains("active")) logInstructionExposure("welcome", { page: wcIdx + 1 });
 +  }
 +  let wcAgreeShownAt = null, wcAgreeMs = 0;
 +  function finishWelcomeDwell() {
@@ -10222,7 +10244,7 @@ index 0000000..60ace94
 +});
 diff --git a/tools/pilot-anchor/js/tutorial-controller.js b/tools/pilot-anchor/js/tutorial-controller.js
 new file mode 100644
-index 0000000..f7e3355
+index 0000000..5989fe6
 --- /dev/null
 +++ b/tools/pilot-anchor/js/tutorial-controller.js
 @@ -0,0 +1,165 @@
@@ -10281,8 +10303,8 @@ index 0000000..f7e3355
 +    return { label: required ? '操作の確認' : step.chapter.replace(/^\d\s/, ''), index: peers.indexOf(step) + 1, total: peers.length };
 +  }
 +  function label(step) { const p = pageInfo(step); return p.label + (p.total ? '　' + p.index + ' / ' + p.total : ''); }
-+  function nextLabel() {
-+    if (current()?.id === 'rule-check') return quizIndex === config.checks.length - 1 ? (replay ? returnLabel : '例題へ') : '次へ';
++  function nextLabel(questionIndex = quizIndex) {
++    if (current()?.id === 'rule-check') return questionIndex === config.checks.length - 1 ? (replay ? returnLabel : '例題へ') : '次へ';
 +    if ((required ? idx === required.at(-1) : idx === steps.length - 1) && replay) return returnLabel;
 +    return current()?.button || '次へ';
 +  }
@@ -10393,10 +10415,10 @@ index 0000000..f7e3355
 +};
 diff --git a/tools/pilot-anchor/js/tutorial-view.js b/tools/pilot-anchor/js/tutorial-view.js
 new file mode 100644
-index 0000000..24e9529
+index 0000000..d8ac380
 --- /dev/null
 +++ b/tools/pilot-anchor/js/tutorial-view.js
-@@ -0,0 +1,292 @@
+@@ -0,0 +1,311 @@
 +'use strict';
 +
 +// DOM・配置・実演の表示を担当する。進行・合格・保存状態はcontrollerの読取getterと
@@ -10562,16 +10584,16 @@ index 0000000..24e9529
 +    $('tutPopTitle').textContent = title; $('tutPopTxt').textContent = text; $('tutExtra').textContent = extra; $('tutExtra').hidden = extraHidden; $('tutPopStep').textContent = stepText;
 +    return Math.max(48, Math.min((innerHeight - largest) / 2, row.getBoundingClientRect().top - largest - 18));
 +  }
-+  function quizAnchorHeight() {
-+    // 従来の最大高は上端を決めるためだけに測り、表示中のカードには予約しない。
-+    // 問題や解説が変わっても上端は保ち、実際の下端は内容の高さに合わせる。
++  function quizHeights() {
++    // 従来の予約高は既存の上端を保つためだけに使う。
++    // ナビには、各問の本文とその問の解説を組み合わせた実最大高を使う。
 +    const measure = pop.cloneNode(true);
 +    measure.setAttribute('aria-hidden', 'true'); measure.inert = true;
 +    Object.assign(measure.style, { left: '-10000px', top: '0', width: pop.getBoundingClientRect().width + 'px', height: 'auto', maxHeight: 'none', overflow: 'visible', visibility: 'hidden', transform: 'none' });
 +    document.body.append(measure);
-+    const title = measure.querySelector('#tutPopTitle'), choices = measure.querySelector('#tutQuiz'), feedback = measure.querySelector('#tutQuizFeedback'), op = measure.querySelector('#tutPopOp');
++    const title = measure.querySelector('#tutPopTitle'), choices = measure.querySelector('#tutQuiz'), feedback = measure.querySelector('#tutQuizFeedback'), op = measure.querySelector('#tutPopOp'), stepLabel = measure.querySelector('#tutPopStep');
 +    feedback.style.display = 'block'; feedback.style.minHeight = '0px';
-+    let feedbackHeight = 0, cardHeight = 0;
++    let feedbackHeight = 0, anchorHeight = 0, maximumHeight = 0;
 +    for (const q of config.checks) {
 +      for (const text of [q.right, q.wrong]) { feedback.textContent = text; feedbackHeight = Math.max(feedbackHeight, feedback.getBoundingClientRect().height); }
 +    }
@@ -10579,10 +10601,28 @@ index 0000000..24e9529
 +    for (const q of config.checks) {
 +      title.textContent = q.copy; choices.replaceChildren();
 +      for (const label of q.labels) { const button = document.createElement('button'); button.textContent = label; choices.append(button); }
-+      for (const text of ['もう一度選びなおしてください', '答えを1つ選んで「' + model.nextLabel() + '」']) { op.textContent = text; cardHeight = Math.max(cardHeight, measure.getBoundingClientRect().height); }
++      for (const text of ['もう一度選びなおしてください', '答えを1つ選んで「' + model.nextLabel(0) + '」']) { op.textContent = text; anchorHeight = Math.max(anchorHeight, measure.getBoundingClientRect().height); }
++    }
++    feedback.style.display = ''; feedback.style.minHeight = '0px';
++    for (const [index, q] of config.checks.entries()) {
++      title.textContent = q.copy;
++      const page = model.pageInfo(current()); stepLabel.textContent = page.label + '　' + (index + 1) + ' / ' + page.total;
++      const wrong = q.labels.findIndex((_, i) => i !== q.correctIndex);
++      for (const chosen of [null, wrong, q.correctIndex]) {
++        const good = chosen === q.correctIndex; choices.replaceChildren();
++        for (const [answerIndex, label] of q.labels.entries()) {
++          const button = document.createElement('button'); button.textContent = label;
++          if (chosen === answerIndex) button.className = 'selected ' + (good ? 'correct' : 'wrong');
++          choices.append(button);
++        }
++        feedback.textContent = chosen == null ? '' : good ? q.right : q.wrong;
++        feedback.classList.toggle('wrong', chosen != null && !good);
++        op.textContent = chosen != null && !good ? 'もう一度選びなおしてください' : '答えを1つ選んで「' + model.nextLabel(index) + '」';
++        maximumHeight = Math.max(maximumHeight, measure.getBoundingClientRect().height);
++      }
 +    }
 +    measure.remove();
-+    return cardHeight;
++    return { anchorHeight, maximumHeight };
 +  }
 +  function place() {
 +    const idx = model.index();
@@ -10591,13 +10631,14 @@ index 0000000..24e9529
 +    const bh = row.getBoundingClientRect().height || 52, startVisible = startBtn.style.visibility === 'visible';
 +    const minTop = model.replay() && !$('tutClose').classList.contains('hidden') ? $('tutClose').getBoundingClientRect().bottom + 12 : 8;
 +    if (step.kind === 'quiz') {
-+      const navTop = vh - bh - Math.max(12, vh * .025), gap = 12;
-+      pop.style.maxHeight = Math.max(0, navTop - gap - minTop) + 'px';
-+      const height = Math.min(quizAnchorHeight(), navTop - gap - minTop);
-+      const top = Math.max(minTop, Math.min((vh - height) / 2, navTop - height - gap));
++      const maxNavTop = vh - bh - Math.max(12, vh * .025), gap = 12;
++      const { anchorHeight, maximumHeight } = quizHeights(), available = Math.max(0, maxNavTop - gap - minTop);
++      const anchor = Math.min(anchorHeight, available), height = Math.min(maximumHeight, available);
++      const previousTop = Math.max(minTop, Math.min((vh - anchor) / 2, maxNavTop - anchor - gap));
++      const top = Math.max(minTop, Math.min(previousTop, maxNavTop - height - gap)), navTop = top + height + gap;
 +      pop.style.left = (innerWidth - pop.getBoundingClientRect().width) / 2 + 'px';
 +      pop.style.top = top + 'px';
-+      pop.style.maxHeight = Math.max(0, navTop - gap - top) + 'px';
++      pop.style.maxHeight = height + 'px';
 +      row.style.top = navTop + 'px'; return;
 +    }
 +    pop.style.maxHeight = '';

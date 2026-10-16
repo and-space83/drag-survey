@@ -12,7 +12,9 @@
 **公開URL**: ① <https://and-space83.github.io/drag-survey/pilot-anchor/> / ② <https://and-space83.github.io/drag-survey/pilot-anchor/?block=value> / ②③統合 <https://and-space83.github.io/drag-survey/pilot-anchor/?block=combo>
 リポ全体のアプリ一覧は [../README.md](../README.md) を参照。
 
-## 現行版の教示・保存・再開 (`2026-10-16-ui24`)
+## 現行版の教示・保存・再開 (`2026-10-16-ui25`)
+
+- ui25では「はじめに」の所要時間と進め方を2枚へ分け、全7枚にした。ルールの復習は全問・全状態の最大BOXの12px下へ戻る・次へを固定する。読む速さは説明のみBOX化し、4問は元のタイトル横に番号を置き、本文との間隔を保って全体を24px下げた。[33場面の旧新3サイズ比較](reviews/2026-10-16-reading-and-review/)と[公開27ファイルの一致](reviews/2026-10-16-reading-and-review/publication.json)を参照。設問・正誤判定・計測・保存再開・ガードを引き継ぐ。iPhone Safari実機は別途確認する。
 
 - ui24では「はじめに」のパート名・ページ番号をBOX左上、丸ぽちを右下へ移動。氏名とデータの取り扱いは元の3段落へ戻した。本番の注意は前問の観測事実をタイトル直下へ置き、本文と同じ15pxで表示する。[9場面の旧新3サイズ比較](reviews/2026-10-16-welcome-details/)と[公開照合](reviews/2026-10-16-welcome-details/publication.json)を参照。BOX中心・ナビ・チェック・注意の上限・保存処理は維持する。
 
