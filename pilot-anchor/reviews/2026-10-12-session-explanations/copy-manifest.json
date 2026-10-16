@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-10-15T18:24:03.003Z",
+  "generatedAt": "2026-10-16T01:21:52.855Z",
   "capturedAt": "2026-10-15T18:18:48.558Z",
   "baselineCommit": "7a73da02482045a6944440aca1fc05eebced4cd2",
-  "copyFinalCommit": "8a714319c20fbdc74d690cccea4d9fd8542e67f6",
+  "copyFinalCommit": "6530580c401a270fa05d6861a59ae6caf60b5481",
   "appVersion": "2026-10-16-ui21",
   "instructionVersion": "2026-10-16-ui21",
   "source": {
@@ -77,11 +77,11 @@
       },
       "review": {
         "status": "approved",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "「自分のペースで進めてください。」を太字にする修正を承認済み。",
         "approvedCopySha256": "ad075afb776ccf43960dfd7446888960a9b8f153de2f1d3cd0142442899674d6",
         "approvedVersion": "2026-10-12-ui14",
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "ad075afb776ccf43960dfd7446888960a9b8f153de2f1d3cd0142442899674d6"
       }
     },
@@ -102,11 +102,11 @@
       },
       "review": {
         "status": "approved",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "現行の文案を承認済み。",
         "approvedCopySha256": "8cc9bc8141068cc6147ba7731e250c839b2b4d229b9efbd8440ad1f59d5046f0",
         "approvedVersion": "2026-10-12-ui14",
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "8cc9bc8141068cc6147ba7731e250c839b2b4d229b9efbd8440ad1f59d5046f0"
       }
     },
@@ -128,7 +128,7 @@
       },
       "review": {
         "status": "approved",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。",
         "approvedVersion": "2026-10-15-ui20",
         "approvalHistory": [
           {
@@ -149,7 +149,7 @@
         ],
         "approvedCopySha256": "cd97e3ebea801c2533ad616d9f302b39ae2c6f472c306430b26a58c014650edb",
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "cd97e3ebea801c2533ad616d9f302b39ae2c6f472c306430b26a58c014650edb"
       }
     },
@@ -171,7 +171,7 @@
       },
       "review": {
         "status": "approved",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。",
         "approvedCopySha256": "24f53505928dd6bfc9caa6a966c7efae6f4f95364bec7a09db451c72aaabdcbd",
         "approvedVersion": "2026-10-15-ui20",
         "approvalHistory": [
@@ -188,7 +188,7 @@
           }
         ],
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "24f53505928dd6bfc9caa6a966c7efae6f4f95364bec7a09db451c72aaabdcbd"
       }
     },
@@ -210,7 +210,7 @@
       },
       "review": {
         "status": "approved",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。",
         "approvedVersion": "2026-10-15-ui20",
         "approvedCopySha256": "144ecdf6f2db8522df519306b452e99ea62fa298e2d832067ab67ea9d74c8605",
         "approvalHistory": [
@@ -227,7 +227,7 @@
           }
         ],
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "144ecdf6f2db8522df519306b452e99ea62fa298e2d832067ab67ea9d74c8605"
       }
     },
@@ -249,7 +249,7 @@
       },
       "review": {
         "status": "approved",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。",
         "approvedVersion": "2026-10-15-ui20",
         "approvedCopySha256": "f48dcfd6a9c885baec1309ae0ab50d871f33a8b0080c0c21208d70634dfc212f",
         "approvalHistory": [
@@ -266,7 +266,7 @@
           }
         ],
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "f48dcfd6a9c885baec1309ae0ab50d871f33a8b0080c0c21208d70634dfc212f"
       }
     },
@@ -288,7 +288,7 @@
       },
       "review": {
         "status": "approved",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。",
         "approvedVersion": "2026-10-15-ui20",
         "approvedCopySha256": "5e4a7c9fa94633c022d8e12c5e53a363df3382f8268fdd8c62f9d141d462cc21",
         "approvalHistory": [
@@ -305,7 +305,7 @@
           }
         ],
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "5e4a7c9fa94633c022d8e12c5e53a363df3382f8268fdd8c62f9d141d462cc21"
       }
     },
@@ -326,11 +326,11 @@
       },
       "review": {
         "status": "approved",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "現行の短い案内を承認済み。",
         "approvedCopySha256": "3c757db40e0c7b33329ecd8ddafa4f0b1164b60e29a94fbc475b0218a2cda150",
         "approvedVersion": "2026-10-12-ui14",
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "3c757db40e0c7b33329ecd8ddafa4f0b1164b60e29a94fbc475b0218a2cda150"
       }
     },
@@ -351,11 +351,11 @@
       },
       "review": {
         "status": "approved",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "開始の条件と3秒の説明を、今回採用した文案に統一する変更を採用済み。",
         "approvedVersion": "2026-10-12-ui14",
         "approvedCopySha256": "721257033a772cb59540c45df85afe93380d87a1c8d5854503bdcf9454005780",
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "721257033a772cb59540c45df85afe93380d87a1c8d5854503bdcf9454005780"
       }
     },
@@ -376,11 +376,11 @@
       },
       "review": {
         "status": "approved",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "「自分のペースで進めてください。」の太字化と、「スタートボタンに指を置く前に押してください。」の削除を承認済み。",
         "approvedCopySha256": "a495975ee5c53638e332c905bd6010ae610d404bdd9db5ea58191ae34e1d64c2",
         "approvedVersion": "2026-10-12-ui14",
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "a495975ee5c53638e332c905bd6010ae610d404bdd9db5ea58191ae34e1d64c2"
       }
     },
@@ -401,7 +401,7 @@
       },
       "review": {
         "status": "approved",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。同じ説明を本番中も任意に見直せる構成とし、説明を閉じた後は同じ問題へ戻る。ui20の現行表示を採用。",
         "approvedVersion": "2026-10-15-ui20",
         "approvalHistory": [
           {
@@ -422,7 +422,7 @@
         ],
         "approvedCopySha256": "027b3565d974dbf13ec7ada2bfff7ac2b7b3c6cab86a4359a5bdcea9273f145e",
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "027b3565d974dbf13ec7ada2bfff7ac2b7b3c6cab86a4359a5bdcea9273f145e"
       }
     },
@@ -443,11 +443,11 @@
       },
       "review": {
         "status": "approved",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "注意内で説明を確認するボタン1つにまとめ、操作説明のボタンと初回の必須見直しを削除する案を採用済み。注意画面に新しい待機時間は設けず、画面上部の任意の操作方法を保持します。",
         "approvedVersion": "2026-10-12-ui14",
         "approvedCopySha256": "8101554dc518d53a7d832d7d39b23858ac1257ee2c14cad23f36b907382cd334",
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "8101554dc518d53a7d832d7d39b23858ac1257ee2c14cad23f36b907382cd334"
       }
     },
@@ -468,11 +468,11 @@
       },
       "review": {
         "status": "approved",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "注意内で説明を確認するボタン1つにまとめ、操作説明のボタンと初回の必須見直しを削除する案を採用済み。注意画面に新しい待機時間は設けず、画面上部の任意の操作方法を保持します。",
         "approvedVersion": "2026-10-12-ui14",
         "approvedCopySha256": "812d934c095a85e7c8dc4929493c89511fa16bcac34e4c670c270b64b5e8f7ef",
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "812d934c095a85e7c8dc4929493c89511fa16bcac34e4c670c270b64b5e8f7ef"
       }
     },
@@ -493,11 +493,11 @@
       },
       "review": {
         "status": "approved",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "注意内で説明を確認するボタン1つにまとめ、操作説明のボタンと初回の必須見直しを削除する案を採用済み。注意画面に新しい待機時間は設けず、画面上部の任意の操作方法を保持します。",
         "approvedVersion": "2026-10-12-ui14",
         "approvedCopySha256": "92523f09f5fa0878b41130e5569a920da16a566d31f6bb3a22e74ef5e05d1d06",
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "92523f09f5fa0878b41130e5569a920da16a566d31f6bb3a22e74ef5e05d1d06"
       }
     },
@@ -538,7 +538,7 @@
       },
       "review": {
         "status": "approved",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "初回の必須見直し画面を廃止し、注意画面内で説明を確認する手順にまとめる変更を採用済み。",
         "approvedVersion": "2026-10-12-ui14",
         "retired": {
           "sinceVersion": "2026-10-12-ui14",
@@ -546,7 +546,7 @@
         },
         "approvedCopySha256": "04eb2ca91c98c4ba2fddeee68b7566a94543ff31ed7f8aad9e5957394d170531",
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "04eb2ca91c98c4ba2fddeee68b7566a94543ff31ed7f8aad9e5957394d170531"
       }
     },
@@ -587,7 +587,7 @@
       },
       "review": {
         "status": "approved",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "初回の必須見直し画面を廃止し、注意画面内で説明を確認する手順にまとめる変更を採用済み。",
         "approvedVersion": "2026-10-12-ui14",
         "retired": {
           "sinceVersion": "2026-10-12-ui14",
@@ -595,7 +595,7 @@
         },
         "approvedCopySha256": "04eb2ca91c98c4ba2fddeee68b7566a94543ff31ed7f8aad9e5957394d170531",
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "04eb2ca91c98c4ba2fddeee68b7566a94543ff31ed7f8aad9e5957394d170531"
       }
     },
@@ -636,7 +636,7 @@
       },
       "review": {
         "status": "approved",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "初回の必須見直し画面を廃止し、注意画面内で説明を確認する手順にまとめる変更を採用済み。",
         "approvedVersion": "2026-10-12-ui14",
         "retired": {
           "sinceVersion": "2026-10-12-ui14",
@@ -644,7 +644,7 @@
         },
         "approvedCopySha256": "04eb2ca91c98c4ba2fddeee68b7566a94543ff31ed7f8aad9e5957394d170531",
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "04eb2ca91c98c4ba2fddeee68b7566a94543ff31ed7f8aad9e5957394d170531"
       }
     },
@@ -685,7 +685,7 @@
       },
       "review": {
         "status": "approved",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "初回の必須見直し画面を廃止し、注意画面内で説明を確認する手順にまとめる変更を採用済み。",
         "approvedVersion": "2026-10-12-ui14",
         "retired": {
           "sinceVersion": "2026-10-12-ui14",
@@ -693,7 +693,7 @@
         },
         "approvedCopySha256": "04eb2ca91c98c4ba2fddeee68b7566a94543ff31ed7f8aad9e5957394d170531",
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "04eb2ca91c98c4ba2fddeee68b7566a94543ff31ed7f8aad9e5957394d170531"
       }
     },
@@ -714,11 +714,11 @@
       },
       "review": {
         "status": "approved",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "タイトルを2行にし、問題文も選択肢も読まずに適当に指を運ぶ指示と、振り返りなし・最後に実施後アンケートという案内への変更を承認済み。",
         "approvedCopySha256": "41ceb04b01ab04630d4ff572cf3a4f0827e691c5dcda75cd8193f19c072aae62",
         "approvedVersion": "2026-10-12-ui14",
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "41ceb04b01ab04630d4ff572cf3a4f0827e691c5dcda75cd8193f19c072aae62"
       }
     },
@@ -739,11 +739,11 @@
       },
       "review": {
         "status": "approved",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "「課題中」に統一し、追加10問を除く注意書きを付けない修正を承認済み。",
         "approvedCopySha256": "3c29d0946ebbfcb096095176496bcc63410679779d00f70d77eb00b781eec336",
         "approvedVersion": "2026-10-12-ui14",
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "3c29d0946ebbfcb096095176496bcc63410679779d00f70d77eb00b781eec336"
       }
     },
@@ -764,11 +764,11 @@
       },
       "review": {
         "status": "approved",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "実際に使ったスタートの目安を複数選択で尋ね、「書かれている状況が分かったと思うこと」という選択肢にする案を採用済み。",
         "approvedVersion": "2026-10-12-ui14",
         "approvedCopySha256": "efaf548631b9282e6e9b928698d2da2a039c425bcb2f01d7e3d1d27a35eeb9ab",
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "efaf548631b9282e6e9b928698d2da2a039c425bcb2f01d7e3d1d27a35eeb9ab"
       }
     },
@@ -789,11 +789,11 @@
       },
       "review": {
         "status": "approved",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "第一選択肢を「答えを決める前に、指を外へ動かす」にする案を採用済み。",
         "approvedVersion": "2026-10-12-ui14",
         "approvedCopySha256": "e84c37945491fc6465fb12b0630fe1154f4fb22000cf6c54f4bf0333181b1d28",
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "e84c37945491fc6465fb12b0630fe1154f4fb22000cf6c54f4bf0333181b1d28"
       }
     },
@@ -814,11 +814,11 @@
       },
       "review": {
         "status": "approved",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "通常の本番では出ない旧経路の現行文案を承認済み。",
         "approvedCopySha256": "adfeeff47b3ebd2b266d0d7e1a9f670fa0f502d5869551abfec7d5c7c228b2d4",
         "approvedVersion": "2026-10-12-ui14",
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "adfeeff47b3ebd2b266d0d7e1a9f670fa0f502d5869551abfec7d5c7c228b2d4"
       }
     },
@@ -839,11 +839,11 @@
       },
       "review": {
         "status": "approved",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "現行の質問を承認済み。",
         "approvedCopySha256": "10bb80b8987ba87fe007cad3fb94076ce5623c67a4c9201280851ada65a63cf9",
         "approvedVersion": "2026-10-12-ui14",
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "10bb80b8987ba87fe007cad3fb94076ce5623c67a4c9201280851ada65a63cf9"
       }
     },
@@ -864,11 +864,11 @@
       },
       "review": {
         "status": "approved",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "現行の質問を承認済み。",
         "approvedCopySha256": "050fa75553014bddddcdd821e0f5ab1e8a989ed168d223f55cfbacf605ce9839",
         "approvedVersion": "2026-10-12-ui14",
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "050fa75553014bddddcdd821e0f5ab1e8a989ed168d223f55cfbacf605ce9839"
       }
     },
@@ -889,11 +889,11 @@
       },
       "review": {
         "status": "approved",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "現行の質問を承認済み。",
         "approvedCopySha256": "16e089d2f52cc3a160911259623c40b35a9c68154a81937cc936667d720d3475",
         "approvedVersion": "2026-10-12-ui14",
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "16e089d2f52cc3a160911259623c40b35a9c68154a81937cc936667d720d3475"
       }
     },
@@ -914,11 +914,11 @@
       },
       "review": {
         "status": "approved",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "現行の質問を承認済み。",
         "approvedCopySha256": "ee387f9ce8135d6634bb7374ef177891c1e66ad51b563a9c81eac221b3eaf099",
         "approvedVersion": "2026-10-12-ui14",
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "ee387f9ce8135d6634bb7374ef177891c1e66ad51b563a9c81eac221b3eaf099"
       }
     },
@@ -939,11 +939,11 @@
       },
       "review": {
         "status": "approved",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "現行の質問を承認済み。",
         "approvedCopySha256": "abd0bddca3ee287ffa8dabc923e72146ce6ef0cb8050a563fbbd502f2214b647",
         "approvedVersion": "2026-10-12-ui14",
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "abd0bddca3ee287ffa8dabc923e72146ce6ef0cb8050a563fbbd502f2214b647"
       }
     },
@@ -968,10 +968,10 @@
       "review": {
         "status": "approved",
         "approvedVersion": "2026-10-12-ui15",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザー指定の見出しと負担の2文言、「その他」を3ページ目へ移す修正。旧アンケートの途中回答は元の定義を保持。 ui17では「ドラッグ」の平易化を指定。",
         "approvedCopySha256": "891e4cd349acb3e8eed6c525cce51493605a5857290a6319a171c5aa37918d87",
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "891e4cd349acb3e8eed6c525cce51493605a5857290a6319a171c5aa37918d87"
       }
     },
@@ -996,10 +996,10 @@
       "review": {
         "status": "approved",
         "approvedVersion": "2026-10-12-ui15",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザー指定の見出しと負担の2文言、「その他」を3ページ目へ移す修正。旧アンケートの途中回答は元の定義を保持。",
         "approvedCopySha256": "3c99019b693ec890312056b249eb22b55793fb1eb3ae16d975e246391022efed",
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "3c99019b693ec890312056b249eb22b55793fb1eb3ae16d975e246391022efed"
       }
     },
@@ -1024,10 +1024,10 @@
       "review": {
         "status": "approved",
         "approvedVersion": "2026-10-12-ui15",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザー指定の見出しと負担の2文言、「その他」を3ページ目へ移す修正。旧アンケートの途中回答は元の定義を保持。",
         "approvedCopySha256": "f8e6266b960c458528680b2e11181e49adea4dc46514a529cd7d42ac086c1167",
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "f8e6266b960c458528680b2e11181e49adea4dc46514a529cd7d42ac086c1167"
       }
     },
@@ -1050,10 +1050,10 @@
       "review": {
         "status": "approved",
         "approvedVersion": "2026-10-12-ui17",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザーが今回の文言変更を指定。記録の説明を日常的な表現に変更。正式な研究名は維持。",
         "approvedCopySha256": "fb53862fbe0577f6ff0246d24fbbd8b2750f06119f007ae4b8d1bf058a6767b3",
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "fb53862fbe0577f6ff0246d24fbbd8b2750f06119f007ae4b8d1bf058a6767b3"
       }
     },
@@ -1076,10 +1076,10 @@
       "review": {
         "status": "approved",
         "approvedVersion": "2026-10-12-ui17",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザーが今回の文言変更を指定。同意本文の平易化を新しい本文版に記録。保存済み旧同意は保持。",
         "approvedCopySha256": "fb53862fbe0577f6ff0246d24fbbd8b2750f06119f007ae4b8d1bf058a6767b3",
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "fb53862fbe0577f6ff0246d24fbbd8b2750f06119f007ae4b8d1bf058a6767b3"
       }
     },
@@ -1102,10 +1102,10 @@
       "review": {
         "status": "approved",
         "approvedVersion": "2026-10-12-ui17",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザーが今回の文言変更を指定。ユーザー指定で母語から母国語へ変更。旧新版の質問の意味を区別。",
         "approvedCopySha256": "5962cf59c3f81d6ed4eaec13683684266e69677b6365ea5bf0d786ed1acb8dd6",
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "5962cf59c3f81d6ed4eaec13683684266e69677b6365ea5bf0d786ed1acb8dd6"
       }
     },
@@ -1128,10 +1128,10 @@
       "review": {
         "status": "approved",
         "approvedVersion": "2026-10-12-ui17",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザーが今回の文言変更を指定。ドラッグを指を離さずに運んで選ぶ操作と表現。",
         "approvedCopySha256": "6a4f5bb894ce8828d80a27ef4469e139e964dfffbb79ea076a5597897c21a9fc",
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "6a4f5bb894ce8828d80a27ef4469e139e964dfffbb79ea076a5597897c21a9fc"
       }
     },
@@ -1154,10 +1154,10 @@
       "review": {
         "status": "approved",
         "approvedVersion": "2026-10-12-ui17",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザーが今回の文言変更を指定。例題も状況が分かった後にスタートする説明に統一。",
         "approvedCopySha256": "24438fd7df98d7064953b18402fb9213bb52a35a838ee5c9ac0f569f56981ba7",
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "24438fd7df98d7064953b18402fb9213bb52a35a838ee5c9ac0f569f56981ba7"
       }
     },
@@ -1180,7 +1180,7 @@
       "review": {
         "status": "approved",
         "approvedVersion": "2026-10-15-ui18",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザーが本文・選択肢・順番を確認し「この6問でお願い」と最終採用。例題を明確な道徳場面へ変更。今回の例題のみ明確として扱い、原バンクの中間分類を維持。",
         "approvedCopySha256": "a1f2b0642f9e8d67f03c34c13f787a5934cf68df47c14d23bc79df70cbd823bd",
         "approvalHistory": [
           {
@@ -1191,7 +1191,7 @@
           }
         ],
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "a1f2b0642f9e8d67f03c34c13f787a5934cf68df47c14d23bc79df70cbd823bd"
       }
     },
@@ -1214,7 +1214,7 @@
       "review": {
         "status": "approved",
         "approvedVersion": "2026-10-15-ui18",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザーが本文・選択肢・順番を確認し「この6問でお願い」と最終採用。改稿した借金の場面を中間として採用。",
         "approvedCopySha256": "6f6523f58688a7ff636ea60a954e2d75ea879ada54178499536bf96eb2eba95a",
         "approvalHistory": [
           {
@@ -1225,7 +1225,7 @@
           }
         ],
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "6f6523f58688a7ff636ea60a954e2d75ea879ada54178499536bf96eb2eba95a"
       }
     },
@@ -1248,7 +1248,7 @@
       "review": {
         "status": "approved",
         "approvedVersion": "2026-10-15-ui18",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザーが本文・選択肢・順番を確認し「この6問でお願い」と最終採用。新作の重い拮抗場面を採用。",
         "approvedCopySha256": "9d61d71897e5d63cc6a268d5c996297af6caf5b01ab6d71f92277a9beffb0ddd",
         "approvalHistory": [
           {
@@ -1259,7 +1259,7 @@
           }
         ],
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "9d61d71897e5d63cc6a268d5c996297af6caf5b01ab6d71f92277a9beffb0ddd"
       }
     },
@@ -1282,7 +1282,7 @@
       "review": {
         "status": "approved",
         "approvedVersion": "2026-10-15-ui18",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザーが本文・選択肢・順番を確認し「この6問でお願い」と最終採用。不採用バンクの明確な約束の場面を原文で採用。",
         "approvedCopySha256": "e6a63b5829d78732c43e91765d9ff0616d7785580c15c1d990ae83e0ef69fc97",
         "approvalHistory": [
           {
@@ -1293,7 +1293,7 @@
           }
         ],
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "e6a63b5829d78732c43e91765d9ff0616d7785580c15c1d990ae83e0ef69fc97"
       }
     },
@@ -1316,7 +1316,7 @@
       "review": {
         "status": "approved",
         "approvedVersion": "2026-10-15-ui18",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザーが本文・選択肢・順番を確認し「この6問でお願い」と最終採用。不採用バンクの中間の約束の場面を原文で採用。",
         "approvedCopySha256": "c46d5677202ba646bb31b3d95be62e93031f2834e3d1c541e1a7c2ed6db43b7c",
         "approvalHistory": [
           {
@@ -1327,7 +1327,7 @@
           }
         ],
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "c46d5677202ba646bb31b3d95be62e93031f2834e3d1c541e1a7c2ed6db43b7c"
       }
     },
@@ -1350,7 +1350,7 @@
       "review": {
         "status": "approved",
         "approvedVersion": "2026-10-15-ui18",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザーが本文・選択肢・順番を確認し「この6問でお願い」と最終採用。新作の重い拮抗場面を採用。",
         "approvedCopySha256": "ed0c952ecdc13b68b7bbb461502fbf75f3c675368832e907ed5810ecafbc112b",
         "approvalHistory": [
           {
@@ -1361,7 +1361,7 @@
           }
         ],
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "ed0c952ecdc13b68b7bbb461502fbf75f3c675368832e907ed5810ecafbc112b"
       }
     },
@@ -1387,7 +1387,7 @@
         "status": "approved",
         "approvedVersion": "2026-10-15-ui20",
         "approvedCopySha256": "cd97e3ebea801c2533ad616d9f302b39ae2c6f472c306430b26a58c014650edb",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。",
         "approvalHistory": [
           {
             "version": "2026-10-15-ui20",
@@ -1397,7 +1397,7 @@
           }
         ],
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "cd97e3ebea801c2533ad616d9f302b39ae2c6f472c306430b26a58c014650edb"
       }
     },
@@ -1423,7 +1423,7 @@
         "status": "approved",
         "approvedVersion": "2026-10-15-ui20",
         "approvedCopySha256": "24f53505928dd6bfc9caa6a966c7efae6f4f95364bec7a09db451c72aaabdcbd",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。",
         "approvalHistory": [
           {
             "version": "2026-10-15-ui20",
@@ -1433,7 +1433,7 @@
           }
         ],
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "24f53505928dd6bfc9caa6a966c7efae6f4f95364bec7a09db451c72aaabdcbd"
       }
     },
@@ -1459,7 +1459,7 @@
         "status": "approved",
         "approvedVersion": "2026-10-15-ui20",
         "approvedCopySha256": "144ecdf6f2db8522df519306b452e99ea62fa298e2d832067ab67ea9d74c8605",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。",
         "approvalHistory": [
           {
             "version": "2026-10-15-ui20",
@@ -1469,7 +1469,7 @@
           }
         ],
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "144ecdf6f2db8522df519306b452e99ea62fa298e2d832067ab67ea9d74c8605"
       }
     },
@@ -1495,7 +1495,7 @@
         "status": "approved",
         "approvedVersion": "2026-10-15-ui20",
         "approvedCopySha256": "f48dcfd6a9c885baec1309ae0ab50d871f33a8b0080c0c21208d70634dfc212f",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。",
         "approvalHistory": [
           {
             "version": "2026-10-15-ui20",
@@ -1505,7 +1505,7 @@
           }
         ],
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "f48dcfd6a9c885baec1309ae0ab50d871f33a8b0080c0c21208d70634dfc212f"
       }
     },
@@ -1531,7 +1531,7 @@
         "status": "approved",
         "approvedVersion": "2026-10-15-ui20",
         "approvedCopySha256": "3793d655a5ff9c6d344ebf6aa2dfa1932713cb1421c6615b7ac5cd937a3565e2",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。",
         "approvalHistory": [
           {
             "version": "2026-10-15-ui20",
@@ -1541,7 +1541,7 @@
           }
         ],
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "3793d655a5ff9c6d344ebf6aa2dfa1932713cb1421c6615b7ac5cd937a3565e2"
       }
     },
@@ -1567,7 +1567,7 @@
         "status": "approved",
         "approvedVersion": "2026-10-15-ui20",
         "approvedCopySha256": "283cc978bda38685fa7183ad97a8bdaa3e7de8a5ff16c0d7293b31a8c8440b9d",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。",
         "approvalHistory": [
           {
             "version": "2026-10-15-ui20",
@@ -1577,7 +1577,7 @@
           }
         ],
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "283cc978bda38685fa7183ad97a8bdaa3e7de8a5ff16c0d7293b31a8c8440b9d"
       }
     },
@@ -1603,7 +1603,7 @@
         "status": "approved",
         "approvedVersion": "2026-10-15-ui20",
         "approvedCopySha256": "07c9b0c91b3f7597866c5f050244ab51511c570c447b0cfe95c379763a54b34e",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。",
         "approvalHistory": [
           {
             "version": "2026-10-15-ui20",
@@ -1613,7 +1613,7 @@
           }
         ],
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "07c9b0c91b3f7597866c5f050244ab51511c570c447b0cfe95c379763a54b34e"
       }
     },
@@ -1639,7 +1639,7 @@
         "status": "approved",
         "approvedVersion": "2026-10-15-ui20",
         "approvedCopySha256": "32047f7c0b44f8ab5aad2c4e66a61ee5780518e35dc2ab10a8264643dd7dd5a9",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。",
         "approvalHistory": [
           {
             "version": "2026-10-15-ui20",
@@ -1649,7 +1649,7 @@
           }
         ],
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "32047f7c0b44f8ab5aad2c4e66a61ee5780518e35dc2ab10a8264643dd7dd5a9"
       }
     },
@@ -1675,7 +1675,7 @@
         "status": "approved",
         "approvedVersion": "2026-10-15-ui20",
         "approvedCopySha256": "d36c0c95c3396a929ac6a38906cc37b1acbb10a2b635c4fa3398c9685c246eb9",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。",
         "approvalHistory": [
           {
             "version": "2026-10-15-ui20",
@@ -1685,7 +1685,7 @@
           }
         ],
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "d36c0c95c3396a929ac6a38906cc37b1acbb10a2b635c4fa3398c9685c246eb9"
       }
     },
@@ -1711,7 +1711,7 @@
         "status": "approved",
         "approvedVersion": "2026-10-15-ui20",
         "approvedCopySha256": "3635442b4217d73fe6f0340b2034a7fb1e047dede0dc81a59b57fb8087718ec7",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。",
         "approvalHistory": [
           {
             "version": "2026-10-15-ui20",
@@ -1721,7 +1721,7 @@
           }
         ],
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "3635442b4217d73fe6f0340b2034a7fb1e047dede0dc81a59b57fb8087718ec7"
       }
     },
@@ -1747,7 +1747,7 @@
         "status": "approved",
         "approvedVersion": "2026-10-15-ui20",
         "approvedCopySha256": "3acc66a226d6354911583d3e9e68f2c6e56a9b3dbc8a93845833802a4309c530",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。",
         "approvalHistory": [
           {
             "version": "2026-10-15-ui20",
@@ -1757,7 +1757,7 @@
           }
         ],
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "3acc66a226d6354911583d3e9e68f2c6e56a9b3dbc8a93845833802a4309c530"
       }
     },
@@ -1783,7 +1783,7 @@
         "status": "approved",
         "approvedVersion": "2026-10-15-ui20",
         "approvedCopySha256": "5e4a7c9fa94633c022d8e12c5e53a363df3382f8268fdd8c62f9d141d462cc21",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。",
         "approvalHistory": [
           {
             "version": "2026-10-15-ui20",
@@ -1793,7 +1793,7 @@
           }
         ],
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "5e4a7c9fa94633c022d8e12c5e53a363df3382f8268fdd8c62f9d141d462cc21"
       }
     },
@@ -1819,7 +1819,7 @@
         "status": "approved",
         "approvedVersion": "2026-10-15-ui20",
         "approvedCopySha256": "f9018fa8c3f943d7eb032f4d86dc7e61959d4c783fcdb1559658c6dd4fdbecb6",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。一画面一要点、部品の順次紹介、見る段階と自分で動かす段階の区別、曲線の見本・枠内の拡大図・初動3秒の実演・ルールを段階的に伝える構成と今回指定した説明箱・ナビ配置をui20で採用。",
         "approvalHistory": [
           {
             "version": "2026-10-15-ui20",
@@ -1829,7 +1829,7 @@
           }
         ],
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "f9018fa8c3f943d7eb032f4d86dc7e61959d4c783fcdb1559658c6dd4fdbecb6"
       }
     },
@@ -1855,7 +1855,7 @@
         "status": "approved",
         "approvedVersion": "2026-10-15-ui20",
         "approvedCopySha256": "224fe9f2a527c56d4bd27c09c099a93f831d9a5c59f49ebbd3f028162d120369",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。全ルールの説明後に7問の復習を置き、初回は全正答まで例題へ進めない構成と今回指定した説明箱・ナビ配置をui20で採用。",
         "approvalHistory": [
           {
             "version": "2026-10-15-ui20",
@@ -1865,7 +1865,7 @@
           }
         ],
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "224fe9f2a527c56d4bd27c09c099a93f831d9a5c59f49ebbd3f028162d120369"
       }
     },
@@ -1892,7 +1892,7 @@
         "status": "approved",
         "approvedVersion": "2026-10-15-ui20",
         "approvedCopySha256": "1c6566c4d2a885e7d304a917370036a64d94a098367cdf3d48c5d345d8ad037e",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "承認時の説明から変わっています。改めて確認が必要です。",
         "approvalHistory": [
           {
             "version": "2026-10-15-ui20",
@@ -1929,7 +1929,7 @@
         "status": "approved",
         "approvedVersion": "2026-10-15-ui20",
         "approvedCopySha256": "634a46bdc30a1921ecf1a95a64e66234230835011554d34fac09398c2bd8b2ff",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "承認時の説明から変わっています。改めて確認が必要です。",
         "approvalHistory": [
           {
             "version": "2026-10-15-ui20",
@@ -1966,7 +1966,7 @@
         "status": "approved",
         "approvedVersion": "2026-10-15-ui20",
         "approvedCopySha256": "77d450dc061a1cbc1da638f1c1e2f34e759aa1a83590da2071d3b76a042e8a5a",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "承認時の説明から変わっています。改めて確認が必要です。",
         "approvalHistory": [
           {
             "version": "2026-10-15-ui20",
@@ -2003,7 +2003,7 @@
         "status": "approved",
         "approvedVersion": "2026-10-15-ui20",
         "approvedCopySha256": "be3f3ab7f38ecd57b479c4c4f9b4c1b865e70d019ca59b5e6262d0585c888a16",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "承認時の説明から変わっています。改めて確認が必要です。",
         "approvalHistory": [
           {
             "version": "2026-10-15-ui20",
@@ -2040,7 +2040,7 @@
         "status": "approved",
         "approvedVersion": "2026-10-15-ui20",
         "approvedCopySha256": "9563fc3c87d73835806259d57d3a65f5e15674e2eef01ff21cd34b84e99532a0",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "承認時の説明から変わっています。改めて確認が必要です。",
         "approvalHistory": [
           {
             "version": "2026-10-15-ui20",
@@ -2077,7 +2077,7 @@
         "status": "approved",
         "approvedVersion": "2026-10-15-ui20",
         "approvedCopySha256": "5584ea55e62e843d9cade62c989d252bbe5176edfa9be2ee813f7cd85137048d",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "承認時の説明から変わっています。改めて確認が必要です。",
         "approvalHistory": [
           {
             "version": "2026-10-15-ui20",
@@ -2114,7 +2114,7 @@
         "status": "approved",
         "approvedVersion": "2026-10-15-ui20",
         "approvedCopySha256": "8309b5642d66538d39ef1eaec466b0a2812d88b360610cce01b3ccf21d71bbd5",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "承認時の説明から変わっています。改めて確認が必要です。",
         "approvalHistory": [
           {
             "version": "2026-10-15-ui20",
@@ -2149,7 +2149,7 @@
         "status": "approved",
         "approvedVersion": "2026-10-15-ui20",
         "approvedCopySha256": "2d317ac51bd177363c4093f3dddae5de2106b153c9a1b805eac5a29686c3ecae",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。部品・操作・ルール・復習のあと、番号や丸ぽちを付けない例題案内から1問試す流れをui20で採用。",
         "approvalHistory": [
           {
             "version": "2026-10-15-ui20",
@@ -2159,7 +2159,7 @@
           }
         ],
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "2d317ac51bd177363c4093f3dddae5de2106b153c9a1b805eac5a29686c3ecae"
       }
     },
@@ -2184,7 +2184,7 @@
         "status": "approved",
         "approvedVersion": "2026-10-15-ui20",
         "approvedCopySha256": "b4e4e6be1ccc75e9023db37c97b3dde1879c34066f99e7e2a10155f3bc82b93d",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。迷い・自信を分けた5段階、1問ずつの振り返り、練習導入と今回指定した説明箱・ナビ配置をui20で採用。実機確認・公開一致の記録とは分離する。",
         "approvalHistory": [
           {
             "version": "2026-10-15-ui20",
@@ -2194,7 +2194,7 @@
           }
         ],
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "b4e4e6be1ccc75e9023db37c97b3dde1879c34066f99e7e2a10155f3bc82b93d"
       }
     },
@@ -2219,7 +2219,7 @@
         "status": "approved",
         "approvedVersion": "2026-10-15-ui20",
         "approvedCopySha256": "c09c39f1514611d73c1d66905fe8073856b877a057d441b1237f491eadaccb26",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。迷い・自信を分けた5段階、1問ずつの振り返り、練習導入と今回指定した説明箱・ナビ配置をui20で採用。実機確認・公開一致の記録とは分離する。",
         "approvalHistory": [
           {
             "version": "2026-10-15-ui20",
@@ -2229,7 +2229,7 @@
           }
         ],
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "c09c39f1514611d73c1d66905fe8073856b877a057d441b1237f491eadaccb26"
       }
     },
@@ -2254,7 +2254,7 @@
         "status": "approved",
         "approvedVersion": "2026-10-15-ui20",
         "approvedCopySha256": "6b331e7b8d2f85d9ac105c46eadb54da6ec492f6f816a2b94cfdb65597101bfc",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。迷い・自信を分けた5段階、1問ずつの振り返り、練習導入と今回指定した説明箱・ナビ配置をui20で採用。実機確認・公開一致の記録とは分離する。",
         "approvalHistory": [
           {
             "version": "2026-10-15-ui20",
@@ -2264,7 +2264,7 @@
           }
         ],
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "6b331e7b8d2f85d9ac105c46eadb54da6ec492f6f816a2b94cfdb65597101bfc"
       }
     },
@@ -2289,7 +2289,7 @@
         "status": "approved",
         "approvedVersion": "2026-10-15-ui20",
         "approvedCopySha256": "a0c7e94c7fb67abafd3628af83a6534b6512ce884ace1ba55a6d57174d290bde",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "承認時の説明から変わっています。改めて確認が必要です。",
         "approvalHistory": [
           {
             "version": "2026-10-15-ui20",
@@ -2324,7 +2324,7 @@
         "status": "approved",
         "approvedVersion": "2026-10-15-ui20",
         "approvedCopySha256": "7eddd1007b504aa48f26c73c6834642433ab2686bab62c48751e3cead91df9aa",
-        "reason": "修正・承認済み。撮影した版の公開一致を確認するまで、この一覧に残します。",
+        "reason": "ユーザーが仮画面の構成を本番へ採用。迷い・自信を分けた5段階、1問ずつの振り返り、練習導入と今回指定した説明箱・ナビ配置をui20で採用。実機確認・公開一致の記録とは分離する。",
         "approvalHistory": [
           {
             "version": "2026-10-15-ui20",
@@ -2334,7 +2334,7 @@
           }
         ],
         "targetVersion": "2026-10-15-ui20",
-        "display": "pending",
+        "display": "complete",
         "copySha256": "7eddd1007b504aa48f26c73c6834642433ab2686bab62c48751e3cead91df9aa"
       }
     }
@@ -2343,8 +2343,8 @@
     "file": "review-state.json",
     "targetVersion": "2026-10-15-ui20",
     "reviewedAt": "2026-10-15",
-    "active": 69,
-    "completed": 0
+    "active": 8,
+    "completed": 61
   },
-  "publicationRecord": null
+  "publicationRecord": "../2026-10-16-rating-refactor/publication.json"
 }

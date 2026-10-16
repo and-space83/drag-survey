@@ -1,6 +1,6 @@
 {
   "checkedAt": "2026-10-15T18:30:54.831Z",
-  "scope": "ローカルChromeの合成回答とNodeの検証。Safari実機・公開配信の確認は含まない。",
+  "scope": "ローカルChromeの合成回答とNodeの検証。公開配信の確認はpublication.jsonを参照。Safari実機での確認は含まない。",
   "baselineCommit": "ab4c83171d7e979b7789c6895a6ae45db3005c6d",
   "appVersion": "2026-10-16-ui21",
   "instructionVersion": "2026-10-16-ui21",
@@ -148,7 +148,13 @@
     "表示用modelから回答と説明定義を直接変更できない"
   ],
   "publication": {
-    "status": "local",
-    "pushed": false
+    "status": "published",
+    "pushed": true,
+    "checkedAt": "2026-10-16T01:19:16.447Z",
+    "deploymentCommit": "7004c8cc7ca976ae725c2aa91c5914a22e6bb14a",
+    "assets": 27,
+    "allMatch": true,
+    "browserChecks": 24,
+    "evidence": "publication.json"
   }
 }
