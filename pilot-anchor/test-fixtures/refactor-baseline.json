@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Pre-refactor behavior contract; update deliberately for an approved future change.",
+  "appVersion": "2026-10-16-ui25",
+  "instructionVersion": "2026-10-16-ui25",
+  "markupSha256": "d01586797c96fa6b55b2483e6e6dd7f52d297b0357be26ef6ceb1f2cb547c520",
+  "stylesheetRulesSha256": "617dd61db3658b77fa8907bd0607ba2f1980ce0d1aab17512de7249e1387624a",
+  "ratingContentSha256": "44a01f425452fc2bf191fa9bd7aa674735a13f9e79479006ae0c120a4e31054d",
+  "immutableAssets": {
+    "bank.js": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
+    "consent.js": "6dae132f66dc20526ae6e79c59c6ff12049a75a1b11161b6815bfa1339a14bd9",
+    "consent.css": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
+    "session-store.js": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+    "durable-storage.js": "84d006f048e2cc16c4a7a7087ec5815485c0b3a7d2ffa4ce6b7b62905dde967b",
+    "storage-worker.js": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
+    "staged-delivery.js": "7f37d628ce04dc47233b16387d43add674608d278030dd17355621745ab9f7ad",
+    "data-codec.js": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+    "vendor/pako.min.js": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+    "vendor/pako-LICENSE": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539"
+  }
+}
