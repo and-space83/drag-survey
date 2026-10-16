@@ -1,0 +1,722 @@
+{
+  "at": "2026-10-16T05:20:57.064Z",
+  "scope": "Local review UI and no-send quiz; Chrome, not physical Safari",
+  "checks": [
+    {
+      "name": "Review source equals tested app",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/375x700/quiz-1-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/375x700/quiz-1-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/375x700/quiz-1-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/375x700/quiz-2-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/375x700/quiz-2-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/375x700/quiz-2-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/375x700/quiz-3-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/375x700/quiz-3-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/375x700/quiz-3-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/375x700/quiz-4-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/375x700/quiz-4-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/375x700/quiz-4-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/375x700/quiz-5-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/375x700/quiz-5-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/375x700/quiz-5-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/375x700/quiz-6-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/375x700/quiz-6-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/375x700/quiz-6-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/375x700/quiz-7-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/375x700/quiz-7-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/375x700/quiz-7-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/402x759/quiz-1-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/402x759/quiz-1-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/402x759/quiz-1-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/402x759/quiz-2-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/402x759/quiz-2-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/402x759/quiz-2-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/402x759/quiz-3-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/402x759/quiz-3-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/402x759/quiz-3-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/402x759/quiz-4-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/402x759/quiz-4-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/402x759/quiz-4-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/402x759/quiz-5-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/402x759/quiz-5-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/402x759/quiz-5-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/402x759/quiz-6-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/402x759/quiz-6-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/402x759/quiz-6-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/402x759/quiz-7-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/402x759/quiz-7-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/402x759/quiz-7-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/440x841/quiz-1-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/440x841/quiz-1-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/440x841/quiz-1-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/440x841/quiz-2-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/440x841/quiz-2-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/440x841/quiz-2-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/440x841/quiz-3-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/440x841/quiz-3-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/440x841/quiz-3-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/440x841/quiz-4-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/440x841/quiz-4-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/440x841/quiz-4-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/440x841/quiz-5-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/440x841/quiz-5-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/440x841/quiz-5-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/440x841/quiz-6-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/440x841/quiz-6-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/440x841/quiz-6-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/440x841/quiz-7-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/440x841/quiz-7-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity before/440x841/quiz-7-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 375x700/quiz-1-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 375x700/quiz-1-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 375x700/quiz-1-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 375x700/quiz-2-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 375x700/quiz-2-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 375x700/quiz-2-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 375x700/quiz-3-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 375x700/quiz-3-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 375x700/quiz-3-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 375x700/quiz-4-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 375x700/quiz-4-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 375x700/quiz-4-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 375x700/quiz-5-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 375x700/quiz-5-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 375x700/quiz-5-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 375x700/quiz-6-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 375x700/quiz-6-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 375x700/quiz-6-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 375x700/quiz-7-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 375x700/quiz-7-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 375x700/quiz-7-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 402x759/quiz-1-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 402x759/quiz-1-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 402x759/quiz-1-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 402x759/quiz-2-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 402x759/quiz-2-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 402x759/quiz-2-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 402x759/quiz-3-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 402x759/quiz-3-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 402x759/quiz-3-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 402x759/quiz-4-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 402x759/quiz-4-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 402x759/quiz-4-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 402x759/quiz-5-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 402x759/quiz-5-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 402x759/quiz-5-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 402x759/quiz-6-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 402x759/quiz-6-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 402x759/quiz-6-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 402x759/quiz-7-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 402x759/quiz-7-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 402x759/quiz-7-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 440x841/quiz-1-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 440x841/quiz-1-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 440x841/quiz-1-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 440x841/quiz-2-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 440x841/quiz-2-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 440x841/quiz-2-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 440x841/quiz-3-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 440x841/quiz-3-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 440x841/quiz-3-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 440x841/quiz-4-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 440x841/quiz-4-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 440x841/quiz-4-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 440x841/quiz-5-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 440x841/quiz-5-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 440x841/quiz-5-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 440x841/quiz-6-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 440x841/quiz-6-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 440x841/quiz-6-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 440x841/quiz-7-unselected.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 440x841/quiz-7-wrong.png",
+      "pass": true
+    },
+    {
+      "name": "Image integrity 440x841/quiz-7-correct.png",
+      "pass": true
+    },
+    {
+      "name": "Three target sizes displayed",
+      "pass": true
+    },
+    {
+      "name": "after question 1 unselected loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "after question 1 wrong loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "after question 1 correct loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "after question 2 unselected loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "after question 2 wrong loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "after question 2 correct loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "after question 3 unselected loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "after question 3 wrong loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "after question 3 correct loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "after question 4 unselected loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "after question 4 wrong loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "after question 4 correct loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "after question 5 unselected loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "after question 5 wrong loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "after question 5 correct loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "after question 6 unselected loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "after question 6 wrong loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "after question 6 correct loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "after question 7 unselected loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "after question 7 wrong loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "after question 7 correct loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "before question 1 unselected loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "before question 1 wrong loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "before question 1 correct loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "before question 2 unselected loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "before question 2 wrong loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "before question 2 correct loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "before question 3 unselected loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "before question 3 wrong loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "before question 3 correct loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "before question 4 unselected loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "before question 4 wrong loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "before question 4 correct loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "before question 5 unselected loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "before question 5 wrong loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "before question 5 correct loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "before question 6 unselected loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "before question 6 wrong loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "before question 6 correct loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "before question 7 unselected loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "before question 7 wrong loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "before question 7 correct loads three correct screenshots",
+      "pass": true
+    },
+    {
+      "name": "Desktop has no horizontal overflow",
+      "pass": true
+    },
+    {
+      "name": "Mobile controls and image comparison fit horizontally",
+      "pass": true
+    },
+    {
+      "name": "Try link uses no-send quiz mode",
+      "pass": true
+    },
+    {
+      "name": "Direct link opens the actual rule review without a tutorial fixture",
+      "pass": true
+    },
+    {
+      "name": "Preview is isolated from persistent data and collection",
+      "pass": true
+    },
+    {
+      "name": "Isolated interactive preview keeps top and nav while expanding downward",
+      "pass": true
+    },
+    {
+      "name": "Direct preview entry also forces no-send mode before app startup",
+      "pass": true
+    },
+    {
+      "name": "No exceptions or external requests",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "remote": [],
+  "passed": 178,
+  "failed": 0
+}

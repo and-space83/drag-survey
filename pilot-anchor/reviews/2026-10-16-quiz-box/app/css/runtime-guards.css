@@ -1,0 +1,7 @@
+  /* 全要素にダブルタップ拡大防止を指定する (manipulation は通常のtap/clickを保つ)。
+     Safariの非操作領域ではCSSだけで効かない場合があるため、本文・余白・無効ボタンは
+     js/runtime-guards.js のtouchend処理でも補完する。動的要素も同じ対象になる。
+     app.css の .pad / #rating .qwrap の pan-y と #task / #surface の none は優先され、
+     必要な縦スクロールとドラッグ中のブラウザ操作抑止を維持する。 */
+  * { touch-action: manipulation; }
+
