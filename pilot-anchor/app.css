@@ -140,9 +140,11 @@
      --choice-top/--start-bottom は value と同一＝軌道幾何を揃える (§6-2)。 */
   body.block-moral #stem, body.block-attn #stem { font-size: 4vmin; line-height: 1.3; }
   #task { background: var(--task-bg); touch-action: none; --ui-scale: 1; }   /* 課題画面は倍率を掛けない (vmin で拡大済み・軌跡幾何を変えない) */
-  #topbar { position: absolute; top: 0; left: 0; right: 0; height: 5%;
+  #topbar, #ratingTopbar { position: absolute; top: 0; left: 0; right: 0; height: 5%;
     display: flex; align-items: center; justify-content: center; gap: 14px;
     font-size: clamp(12px, 3.3vmin, 24px); color: var(--ink-3); pointer-events: none; z-index: 3; }   /* 画面サイズに追従 (375px → 12px、iPad 820px → 24px。2026-09-15) */
+  #ratingTopbar { display: none; }
+  #ratingTopbar.on { display: flex; }
   #calDb { color: var(--warn); font-weight: 700; }   /* 較正モード (?miccal=1) の現在レベル表示 */
   /* 本番の進捗バー (2026-09-15): 上の「本番 n / N」の直下。済んだ分は「次へ」と同じ緑 (--go)。練習・例の 1 問では出さない */
   #progress, #ratingProgress { position: absolute; top: 5%; left: 22%; right: 22%; height: clamp(4px, 1.1vmin, 8px); margin-top: 2px;
@@ -517,6 +519,7 @@
   /* 見た目と課題の座標を保ち、上部入口の透明なタップ領域だけを広げる。 */
   #tutAgain::before, #ratingHelp::before { content: ""; position: absolute; top: -12px; bottom: -20px; left: -8px; right: -8px; }
   #ratingHelp { position: absolute; z-index: 10; top: max(9px, env(safe-area-inset-top)); left: 50%; transform: translateX(-50%); white-space: nowrap; }
+  #rating.with-progress #ratingHelp { left: auto; right: max(12px, env(safe-area-inset-right)); transform: none; }
   #tutAgain.hidden, #ratingHelp.hidden { display: none; }
   /* 開き直した説明は、全ページで画面右上から閉じられる。説明ボックスとは独立 */
   #tutClose, #ratingTutClose { position: fixed; z-index: 44; top: max(8px, env(safe-area-inset-top)); right: max(12px, env(safe-area-inset-right));

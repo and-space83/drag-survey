@@ -634,7 +634,7 @@
     stopNoticesSuppressed: 0, // 上限（種類ごと5回）で非表示にした理由数。両方の抑止なら2
     pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
     practiceChecks: [], noticeReviews: [], noticeAcknowledgements: [], // 旧別画面見直しと新注意内確認を分ける。読了・理解や除外の判定には用いない
-    appVersion: "2026-10-16-ui25",  // 開始時の版は再開でも保持する
+    appVersion: "2026-10-16-ui26",  // 開始時の版は再開でも保持する
     moralPracticeDefinition: null, // 最初の操作説明・練習開始時に固定する刺激の版と全文。表示・理解の証跡ではない
     welcomeAgree: null,       // はじめに 6/7・7/7 の同意チェック {items, pages, ms}
     devGuard: null,           // 機種ガード {on,minH,w,h,shown,isIPhone,isIPad,ipadLink,platformOk,sizeOk}
@@ -644,7 +644,7 @@
 
   // appVersionは開始時の版を維持するため、教示の表示版は実行中のコードから記録する。
   // 未記録の旧画面を推測で埋めず、表示イベントを読了・理解とみなさない。
-  const INSTRUCTION_VERSION = "2026-10-16-ui25";
+  const INSTRUCTION_VERSION = "2026-10-16-ui26";
   function moralPracticeDefinition(legacy = false) {
     if (!device.moralPracticeDefinition) {
       const source = PILOT_BANK.moral;
@@ -1675,7 +1675,12 @@
   function updateProgress() {   // 本番 (と末尾の追加 10 問) の進捗バー: 済んだ試行の割合 (2026-09-15)
     const on = !dragTutState.active && !(cell && cell.isTutorial) && (phase === "main" || phase === "instructed");
     $("progress").classList.toggle("on", on);
-    $("ratingProgress").classList.toggle("on", on && !tutActive() && !ratingController.isReview());
+    const ratingOn = on && !tutActive() && !ratingController.isReview();
+    $("ratingProgress").classList.toggle("on", ratingOn);
+    $("ratingTopbar").classList.toggle("on", ratingOn);
+    $("rating").classList.toggle("with-progress", ratingOn);
+    $("ratingPhaseLabel").textContent = ratingOn ? (phase === "instructed" ? "追加" : "本番") : "";
+    $("ratingCounter").textContent = ratingOn ? counterText() : "";
     if (on) { const done = phase === "main" ? trialIndex : instrIndex, total = phase === "main" ? totalMain : INSTR_N;
       const width = (total > 0 ? Math.max(0, Math.min(100, done / total * 100)) : 0) + "%";
       $("progressFill").style.width = width; $("ratingProgressFill").style.width = width; }

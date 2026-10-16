@@ -126,7 +126,7 @@
   受け口の実装とデプロイ手順は gas-collector.gs / DEPLOY.md を参照。
 -->
 <link rel="stylesheet" href="css/runtime-guards.css?v=2026-10-16-refactor1" onerror="window.pilotAssetLoadFailed = true">
-  <link rel="stylesheet" href="app.css?v=2026-10-16-ui25">
+  <link rel="stylesheet" href="app.css?v=2026-10-16-ui26">
   <link rel="stylesheet" href="guided-tutorial.css?v=2026-10-16-ui22">
 <link rel="stylesheet" href="consent.css">
 </head>
@@ -326,6 +326,7 @@
 </section>
 
 <section id="rating" class="screen">
+  <div id="ratingTopbar" role="group" aria-label="問題の進み具合"><span id="ratingPhaseLabel"></span><span id="ratingCounter"></span></div>
   <button type="button" id="ratingHelp" class="hidden">↻ 振り返りの説明</button>
   <button type="button" id="ratingTutClose" class="hidden" aria-label="振り返りの説明を閉じる">× 閉じる</button>
   <div id="ratingProgress" aria-hidden="true"><div id="ratingProgressFill"></div></div>
@@ -591,6 +592,6 @@
 <script src="js/rating-content.js?v=2026-10-16-refactor2"></script>
 <script src="js/rating-controller.js?v=2026-10-16-refactor2"></script>
 <script src="js/rating-view.js?v=2026-10-16-refactor2"></script>
-<script src="js/app.js?v=2026-10-16-ui25" onerror="document.getElementById('wcBody').innerHTML='&lt;h1&gt;読み込みが完了していません&lt;/h1&gt;&lt;p&gt;通信を確認して、もう一度読み込んでください。&lt;/p&gt;'; const next=document.getElementById('wcNext'); next.textContent='再読み込み'; next.disabled=false; next.onclick=function(){location.reload()}"></script>
+<script src="js/app.js?v=2026-10-16-ui26" onerror="document.getElementById('wcBody').innerHTML='&lt;h1&gt;読み込みが完了していません&lt;/h1&gt;&lt;p&gt;通信を確認して、もう一度読み込んでください。&lt;/p&gt;'; const next=document.getElementById('wcNext'); next.textContent='再読み込み'; next.disabled=false; next.onclick=function(){location.reload()}"></script>
 </body>
 </html>
