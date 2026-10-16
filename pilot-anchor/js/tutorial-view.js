@@ -163,25 +163,26 @@ window.PILOT_GUIDED_TUTORIAL.createView = function (env, model, events) {
     $('tutPopTitle').textContent = title; $('tutPopTxt').textContent = text; $('tutExtra').textContent = extra; $('tutExtra').hidden = extraHidden; $('tutPopStep').textContent = stepText;
     return Math.max(48, Math.min((innerHeight - largest) / 2, row.getBoundingClientRect().top - largest - 18));
   }
-  function reserveQuizSpace() {
-    // 全問を同じ表示幅で測る。正誤の解説が出てもカードと進行ボタンを移動させない。
+  function quizAnchorHeight() {
+    // 従来の最大高は上端を決めるためだけに測り、表示中のカードには予約しない。
+    // 問題や解説が変わっても上端は保ち、実際の下端は内容の高さに合わせる。
     const measure = pop.cloneNode(true);
     measure.setAttribute('aria-hidden', 'true'); measure.inert = true;
     Object.assign(measure.style, { left: '-10000px', top: '0', width: pop.getBoundingClientRect().width + 'px', height: 'auto', maxHeight: 'none', overflow: 'visible', visibility: 'hidden', transform: 'none' });
-    measure.style.setProperty('--quiz-card-height', '0px'); measure.style.setProperty('--quiz-feedback-height', '0px');
     document.body.append(measure);
     const title = measure.querySelector('#tutPopTitle'), choices = measure.querySelector('#tutQuiz'), feedback = measure.querySelector('#tutQuizFeedback'), op = measure.querySelector('#tutPopOp');
+    feedback.style.display = 'block'; feedback.style.minHeight = '0px';
     let feedbackHeight = 0, cardHeight = 0;
     for (const q of config.checks) {
       for (const text of [q.right, q.wrong]) { feedback.textContent = text; feedbackHeight = Math.max(feedbackHeight, feedback.getBoundingClientRect().height); }
     }
-    measure.style.setProperty('--quiz-feedback-height', feedbackHeight + 'px'); feedback.textContent = '';
+    feedback.style.minHeight = feedbackHeight + 'px'; feedback.textContent = '';
     for (const q of config.checks) {
       title.textContent = q.copy; choices.replaceChildren();
       for (const label of q.labels) { const button = document.createElement('button'); button.textContent = label; choices.append(button); }
       for (const text of ['もう一度選びなおしてください', '答えを1つ選んで「' + model.nextLabel() + '」']) { op.textContent = text; cardHeight = Math.max(cardHeight, measure.getBoundingClientRect().height); }
     }
-    measure.remove(); pop.style.setProperty('--quiz-feedback-height', feedbackHeight + 'px'); pop.style.setProperty('--quiz-card-height', cardHeight + 'px');
+    measure.remove();
     return cardHeight;
   }
   function place() {
@@ -193,9 +194,11 @@ window.PILOT_GUIDED_TUTORIAL.createView = function (env, model, events) {
     if (step.kind === 'quiz') {
       const navTop = vh - bh - Math.max(12, vh * .025), gap = 12;
       pop.style.maxHeight = Math.max(0, navTop - gap - minTop) + 'px';
-      const height = Math.min(reserveQuizSpace(), navTop - gap - minTop);
+      const height = Math.min(quizAnchorHeight(), navTop - gap - minTop);
+      const top = Math.max(minTop, Math.min((vh - height) / 2, navTop - height - gap));
       pop.style.left = (innerWidth - pop.getBoundingClientRect().width) / 2 + 'px';
-      pop.style.top = Math.max(minTop, Math.min((vh - height) / 2, navTop - height - gap)) + 'px';
+      pop.style.top = top + 'px';
+      pop.style.maxHeight = Math.max(0, navTop - gap - top) + 'px';
       row.style.top = navTop + 'px'; return;
     }
     pop.style.maxHeight = '';

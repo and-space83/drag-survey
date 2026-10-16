@@ -48,8 +48,7 @@ body.guided-tutorial #tutQuiz button.selected.wrong::after{content:'×';color:#a
 body.guided-tutorial #tutQuizFeedback{font-size:14px;line-height:1.5;color:#237450;white-space:pre-line;margin:13px 0 0}
 body.guided-tutorial #tutQuizFeedback.wrong{color:#94482a}
 body.guided-tutorial #tutQuizFeedback:empty{display:none}
-body.guided-tutorial.guided-quiz #tutPop{height:var(--quiz-card-height,auto);overflow-y:auto;overscroll-behavior:contain;pointer-events:auto;scrollbar-width:thin}
-body.guided-tutorial.guided-quiz #tutQuizFeedback{display:block;min-height:var(--quiz-feedback-height,0px)}
+body.guided-tutorial.guided-quiz #tutPop{height:auto;overflow-y:auto;overscroll-behavior:contain;pointer-events:auto;scrollbar-width:thin}
 body.stop-open #tutBackdrop,body.stop-open #tutGraphic,body.stop-open #tutPosition{display:none!important}
 @media(max-height:640px){body.guided-tutorial #tutPop{padding:12px 15px}body.guided-tutorial #tutPopTitle{font-size:21px;line-height:1.3;margin-bottom:9px}body.guided-tutorial #tutPopStep{margin-bottom:7px}body.guided-tutorial #tutPopTxt{font-size:15px;line-height:1.5}body.guided-tutorial .guided-meta{margin-top:9px}body.guided-tutorial #tutExtra{font-size:14px}body.guided-tutorial #tutQuiz{gap:8px;margin-top:12px}body.guided-tutorial #tutQuiz button{font-size:14px;padding:9px 32px 9px 11px;min-height:46px}body.guided-tutorial #tutQuizFeedback{font-size:13px;margin-top:10px}}
 @media(prefers-reduced-motion:reduce){body.guided-tutorial .guided-focus{animation:none}}
