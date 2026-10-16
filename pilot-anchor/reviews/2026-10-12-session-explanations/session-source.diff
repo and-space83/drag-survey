@@ -551,7 +551,7 @@ index 0000000..3b15550
 +  ]
 +};
 diff --git a/tools/pilot-anchor/index.html b/tools/pilot-anchor/index.html
-index b02688a..21bb1cf 100644
+index b02688a..8d43569 100644
 --- a/tools/pilot-anchor/index.html
 +++ b/tools/pilot-anchor/index.html
 @@ -15 +15 @@
@@ -666,7 +666,7 @@ index b02688a..21bb1cf 100644
 +<script src="js/tutorial-visuals.js?v=2026-10-16-refactor1"></script>
 +<script src="js/tutorial-view.js?v=2026-10-16-refactor1"></script>
 +<script src="js/tutorial-controller.js?v=2026-10-16-refactor1"></script>
-@@ -548,4324 +584,2 @@
+@@ -548,4324 +584,8 @@
 -<script>
 -(function () {
 -  "use strict";
@@ -4992,17 +4992,26 @@ index b02688a..21bb1cf 100644
 -})();
 -</script>
 +<script src="js/trial-recorder.js?v=2026-10-16-refactor1"></script>
-+<script src="js/app.js?v=2026-10-16-refactor1" onerror="document.getElementById('wcBody').innerHTML='&lt;h1&gt;読み込みが完了していません&lt;/h1&gt;&lt;p&gt;通信を確認して、もう一度読み込んでください。&lt;/p&gt;'; const next=document.getElementById('wcNext'); next.textContent='再読み込み'; next.disabled=false; next.onclick=function(){location.reload()}"></script>
++<script src="js/reading-policy.js?v=2026-10-16-refactor2"></script>
++<script src="js/choice-controls.js?v=2026-10-16-refactor2"></script>
++<script src="js/instruction-notice-view.js?v=2026-10-16-refactor2"></script>
++<script src="js/rating-content.js?v=2026-10-16-refactor2"></script>
++<script src="js/rating-controller.js?v=2026-10-16-refactor2"></script>
++<script src="js/rating-view.js?v=2026-10-16-refactor2"></script>
++<script src="js/app.js?v=2026-10-16-refactor2" onerror="document.getElementById('wcBody').innerHTML='&lt;h1&gt;読み込みが完了していません&lt;/h1&gt;&lt;p&gt;通信を確認して、もう一度読み込んでください。&lt;/p&gt;'; const next=document.getElementById('wcNext'); next.textContent='再読み込み'; next.disabled=false; next.onclick=function(){location.reload()}"></script>
 diff --git a/tools/pilot-anchor/js/app.js b/tools/pilot-anchor/js/app.js
 new file mode 100644
-index 0000000..adb5031
+index 0000000..93192ad
 --- /dev/null
 +++ b/tools/pilot-anchor/js/app.js
-@@ -0,0 +1,4700 @@
+@@ -0,0 +1,4272 @@
 +(function () {
 +  "use strict";
 +  if (window.pilotAssetLoadFailed || !window.PILOT_BANK || !window.createSessionStore || !window.PilotConsent || !window.PilotCodec || !window.pako || !window.PilotDurable || !window.createStagedDelivery ||
 +      typeof window.PilotTrialRecorder?.create !== "function" || typeof window.PilotRuntimeGuards?.create !== "function" || typeof window.PilotRuntimeGuards?.installTouchGuards !== "function" ||
++      typeof window.PilotReadingPolicy?.create !== "function" || typeof window.PilotChoiceControls?.create !== "function" || typeof window.PilotInstructionNoticeView?.create !== "function" ||
++      !Array.isArray(window.PilotRatingContent?.items) || !Array.isArray(window.PilotRatingContent?.tutorialPages) || !window.PilotRatingContent?.practiceIntro || typeof window.PilotRatingContent.practiceIntro !== "object" ||
++      typeof window.PilotRating?.createController !== "function" || typeof window.PilotRatingView?.create !== "function" ||
 +      ["createEngine", "createView", "createDemo", "createTimeDemo", "createCardMotion"].some(name => typeof window.PILOT_GUIDED_TUTORIAL?.[name] !== "function")) {
 +    const body = document.getElementById("wcBody");
 +    body.innerHTML = '<h1>読み込みが完了していません</h1><p>通信を確認して、もう一度読み込んでください。</p>';
@@ -5534,41 +5543,6 @@ index 0000000..adb5031
 +  if (GO) CONFIG.uploadUrl = null;
 +  loadBlock(SEQ[0]);
 +
-+  // 評定 2 項目 (experiment-design.md §3-1。2026-07-15 改訂: 難しさ削除・迷い主軸・文言プロセス係留)。
-+  // 表示順は迷い→自信 (2026-09-06 反転、decisions-log): 主ターゲットの迷いを先に答えさせ、質問順序効果 (2つ目は1つ目に
-+  // 引きずられる) と過程の記憶の減衰から守る。チュートリアルの教授順も同じ。変数名は英語で統一
-+  // 2026-09-08: 全点に言葉 (数字併記)。中央は「どちらともいえない」にしない (量の尺度に逃げ場を作らない)。
-+  // 文言の正本 = experiment-design §3-1 / 決定 = decisions-log 2026-09-08
-+  const ITEMS = [
-+    { key: "hesitation", q: "答えを決めるまでに、どれくらい迷いましたか",
-+      labels: ["まったく迷わなかった", "あまり迷わなかった", "少し迷った", "迷った", "とても迷った"] },
-+    { key: "confidence", q: "いま選んだ答えに、どれくらい自信がありますか",
-+      labels: ["まったく自信がない", "あまり自信がない", "少し自信がある", "自信がある", "とても自信がある"] },
-+  ];
-+  // 評定チュートリアル v2 (2026-07-22 改訂+同日実機FB反映、練習1問目の評定画面。§6-2)。
-+  // 旧 Step1-3 (ヘッダに長文一括) をページ分割: 「次へ」ボタン/実操作で1ページずつ進み、
-+  // 説明は枠付きボックス (tutBox) +ステップ表示「説明 n/N」で常に評定の上の同じ位置に置く。
-+  // ページ2 = 5段階の中立な使い方説明 (具体例は回答分布を誘導するため出さない。2026-07-22 ユーザー決定)。
-+  // 実機FB (2026-07-22) の反映:
-+  //   - 「次へ」はボックス内でなく確定ボタンと同じ位置 (進む操作の場所を1箇所に固定)
-+  //   - 迷いページは当初の「自信を覆い隠す」方式をやめ全ページ同一レイアウト (自信は減光・迷いを強調) =
-+  //     迷いの評定位置がページでずれない
-+  //   - 旧「変更練習」ページ (自信を別の値へ変更させる) は削除し、最終ページで「決定して次へを押すまで
-+  //     何度でも変更できる」を明示的に説明する方式へ (変更の実施有無は tutChanged で観察記録)
-+  // 2026-09-08 (§6-6 項18): 1 項目 1 画面に合わせて 2 ページ。段の意味はボタンの言葉が担うので説明しない。
-+  // 残す役割 = 「別々の質問」「過程と結果の違い」「問題ごとにふりかえる」「2 画面の流れ」。具体例は出さない (2026-07-22)。
-+  // act: hes=迷いを選んで「次へ」 / conf=自信を選んで「次へ」(確定)
-+  const TUT_PAGES = [
-+    { act: "intro", title: "感じたことを振り返る", op: '読んだら「次へ」',
-+      text: '回答のあと、毎回「迷い」と「自信」を5段階で振り返ります。2つは別々の質問です。正解はありません。感じたままを選んでください。' },
-+    { act: "hes", title: "答えを決めるまでの迷い", focus: "hesitation", op: 'いちばん近いものを1つ押して「次へ」',
-+      text: '1つ目は「迷い」。答えを決めるまでに、どれくらい迷ったかを選びます。' },
-+    { act: "conf", title: "選んだ答えへの自信", focus: "confidence", op: 'いちばん近いものを1つ押して「次へ」',
-+      text: 'いま選んだ答えへの自信の強さを選びます。' },
-+    { act: "finish", title: "1問ずつ考え直す", op: '読んだら「練習問題へ」',
-+      text: '感じ方は問題によって変わります。前の問題の選択に引きずられず、その問題で感じたものに近いものをその都度選んでください。' },
-+  ];
-+
 +  const $ = (id) => document.getElementById(id);
 +  const screens = { welcome: $("welcome"), intro: $("intro"), consent: $("consent"), "consent-save": $("consent-save"), task: $("task"), rating: $("rating"),
 +    break: $("break"), blockintro: $("blockintro"), postq: $("postq"), done: $("done"),
@@ -5599,68 +5573,11 @@ index 0000000..adb5031
 +    if (name !== "postq") focusScreenHeading(name);   // postq は postGoto のページ確定後
 +  }
 +
-+  // 表示の .sel と支援技術へ渡す状態を常に同じにする（復元時にも利用）。
-+  function syncChoiceState(c) {
-+    if (!c) return;
-+    const buttons = [...c.querySelectorAll("button")];
-+    const single = c.getAttribute("role") === "radiogroup";
-+    const tabStop = buttons.find((b) => b.classList.contains("sel")) || buttons[0];
-+    for (const b of buttons) {
-+      b.setAttribute("aria-checked", String(b.classList.contains("sel")));
-+      b.tabIndex = single && b !== tabStop ? -1 : 0;
-+    }
-+  }
-+  function initChoiceGroup(c, multiple) {
-+    c.setAttribute("role", multiple ? "group" : "radiogroup");
-+    if (!c.hasAttribute("aria-labelledby")) {
-+      const field = c.closest(".field"), label = field && field.querySelector("label");
-+      if (label) { if (!label.id) label.id = c.id + "-label"; c.setAttribute("aria-labelledby", label.id); }
-+    }
-+    for (const b of c.querySelectorAll("button")) b.setAttribute("role", multiple ? "checkbox" : "radio");
-+    syncChoiceState(c);
-+    if (!multiple) c.addEventListener("keydown", (e) => {
-+      if (!["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp", "Home", "End"].includes(e.key)) return;
-+      const buttons = [...c.querySelectorAll("button")].filter((b) => !b.disabled && b.getClientRects().length);
-+      const at = buttons.indexOf(e.target);
-+      if (at < 0) return;
-+      e.preventDefault();
-+      const next = e.key === "Home" ? 0 : e.key === "End" ? buttons.length - 1 :
-+        (at + (["ArrowRight", "ArrowDown"].includes(e.key) ? 1 : buttons.length - 1)) % buttons.length;
-+      buttons[next].focus({ preventScroll: true }); buttons[next].click();
-+    });
-+  }
-+
-+  // セグメント選択 (性別・利き手・事後質問)。クリックで data-val を onPick に渡す。
-+  function wireSeg(containerId, onPick) {
-+    const c = $(containerId);
-+    initChoiceGroup(c, false);
-+    for (const b of c.querySelectorAll("button")) {
-+      b.addEventListener("click", () => {
-+        for (const o of c.children) o.classList.toggle("sel", o === b);
-+        syncChoiceState(c);
-+        onPick(b.dataset.val);
-+      }, { passive: true });
-+    }
-+  }
-+  // 複数選択チェック。data-part がある場合は、そのページ内だけ「該当なし」と排他にする。
-+  function wireChecks(containerId, onChange) {
-+    const c = $(containerId);
-+    initChoiceGroup(c, true);
-+    for (const b of c.querySelectorAll("button")) {
-+      b.addEventListener("click", () => {
-+        const peers = [...c.querySelectorAll("button")].filter(o => o.dataset.part === b.dataset.part);
-+        if (b.dataset.none === "1") {
-+          const willSel = !b.classList.contains("sel");
-+          for (const o of peers) o.classList.toggle("sel", o === b && willSel);
-+        } else {                                  // 問題: トグル + 中立を外す
-+          b.classList.toggle("sel");
-+          for (const o of peers) if (o.dataset.none === "1") o.classList.remove("sel");
-+        }
-+        syncChoiceState(c);
-+        onChange([...c.querySelectorAll("button.sel")].map((o) => o.dataset.val));
-+      }, { passive: true });
-+    }
-+  }
++  const choiceControls = window.PilotChoiceControls.create({ $ });
++  function syncChoiceState(c) { return choiceControls.syncChoiceState(c); }
++  function initChoiceGroup(c, multiple) { return choiceControls.initChoiceGroup(c, multiple); }
++  function wireSeg(containerId, onPick) { return choiceControls.wireSeg(containerId, onPick); }
++  function wireChecks(containerId, onChange) { return choiceControls.wireChecks(containerId, onChange); }
 +
 +  // ===== 端末情報・リフレッシュレート推定 =====
 +  const device = {
@@ -6385,8 +6302,8 @@ index 0000000..adb5031
 +      if (reviewing) dragTutState.done = true;
 +      if (endedFrom) endedFrom.screen = reviewing ? endedFrom.resume.stage : "tutorial";
 +    }
-+    if (ratingReview) closeRatingReview();
-+    else if (tutActive()) { tutIdx = -1; tutRender(); if (endedFrom) endedFrom.screen = "ratingTut"; }
++    if (ratingController.isReview()) closeRatingReview();
++    else if (tutActive()) { ratingController.endTutorial(); if (endedFrom) endedFrom.screen = "ratingTut"; }
 +    device.partial = true;
 +    device.endedBy = reason;
 +    device.endedPhase = phase;
@@ -6475,14 +6392,15 @@ index 0000000..adb5031
 +    bannerTimer = setTimeout(() => { if (token !== bannerToken) return; hideBanner(); if (onHidden) onHidden(); }, 2200);
 +  }
 +  // 停止の案内画面 (§6-6 項19): 表示〜「次へ」の滞在を device.stopNotices に記録し、直後の試行に stopNotice=true を付ける
++  const instructionNoticeView = window.PilotInstructionNoticeView.create({ $, document });
 +  let noticeShownAt = null, noticeKind = null;
 +  function showStopNotice(kind) {
-+    $("notice").dataset.kind = kind;
-+    noticeKind = kind; $("noticeText").innerHTML = NOTICE_HTML[kind] || NOTICE_HTML.late;   // 文言は内部定数のみ
++    instructionNoticeView.setNoticeKind(kind);
++    noticeKind = kind; instructionNoticeView.setNoticeBody(NOTICE_HTML[kind] || NOTICE_HTML.late);   // 文言は内部定数のみ
 +    noticeShownAt = performance.now();
 +    show("notice");
 +    logInstructionExposure("notice", { kind });
-+    $("notice").querySelector(".pad").scrollTop = 0; $("noticeText").scrollTop = 0;
++    instructionNoticeView.resetNoticeScroll();
 +    resumeStage = "notice"; saveBackup();
 +  }
 +  $("noticeGo").addEventListener("click", () => {
@@ -6754,7 +6672,7 @@ index 0000000..adb5031
 +  function updateProgress() {   // 本番 (と末尾の追加 10 問) の進捗バー: 済んだ試行の割合 (2026-09-15)
 +    const on = !dragTutState.active && !(cell && cell.isTutorial) && (phase === "main" || phase === "instructed");
 +    $("progress").classList.toggle("on", on);
-+    $("ratingProgress").classList.toggle("on", on && !tutActive() && !ratingReview);
++    $("ratingProgress").classList.toggle("on", on && !tutActive() && !ratingController.isReview());
 +    if (on) { const done = phase === "main" ? trialIndex : instrIndex, total = phase === "main" ? totalMain : INSTR_N;
 +      const width = (total > 0 ? Math.max(0, Math.min(100, done / total * 100)) : 0) + "%";
 +      $("progressFill").style.width = width; $("ratingProgressFill").style.width = width; }
@@ -6822,19 +6740,14 @@ index 0000000..adb5031
 +    practiceCheckState = state;
 +    practiceCheckShownAt = performance.now() - (state.elapsedMs || 0);
 +    uiLocked = true; coachHide(); setCoach(null);
-+    $("practiceCheckItems").replaceChildren();
-+    for (const key of state.keys) {
-+      const rule = PRACTICE_RULES[key], label = document.createElement("label");
-+      label.className = "rule-check";
-+      const input = document.createElement("input"); input.type = "checkbox"; input.dataset.rule = key; input.checked = state.checked.includes(key);
-+      const text = document.createElement("span"); text.innerHTML = '<b class="rule-title">' + rule.title + '</b><span>' + rule.html + '</span>';
-+      label.append(input, text); $("practiceCheckItems").appendChild(label);
-+      input.addEventListener("change", () => {
-+        state.checked = [...$("practiceCheckItems").querySelectorAll("input:checked")].map(e => e.dataset.rule);
-+        $("practiceCheckGo").disabled = !state.keys.every(k => state.checked.includes(k)); saveBackup();
-+      });
-+    }
-+    $("practiceCheckGo").disabled = !state.keys.every(k => state.checked.includes(k));
++    instructionNoticeView.renderPracticeCheck({
++      keys: state.keys, checked: state.checked, rules: PRACTICE_RULES,
++      onCheckedChange: checked => {
++        state.checked = checked;
++        instructionNoticeView.setPracticeCheckEnabled(state.keys.every(k => state.checked.includes(k))); saveBackup();
++      }
++    });
++    instructionNoticeView.setPracticeCheckEnabled(state.keys.every(k => state.checked.includes(k)));
 +    show("practicecheck"); $("practicecheck").querySelector(".pad").scrollTop = 0;
 +    logInstructionExposure("practiceCheck", { rules: state.keys.slice() });
 +    resumeStage = "practiceCheck"; saveBackup();
@@ -6848,377 +6761,45 @@ index 0000000..adb5031
 +    practiceDone() ? endPractice() : nextTrial();
 +  });
 +
-+  // ===== 評定 (2項目を1画面に提示。2026-07-15 2項目化+チュートリアル) =====
-+  let ratingOnset = 0;
-+  function beginRating(restored) {
-+    ratingOnset = performance.now() - (restored && restored.elapsedMs || 0);
-+    // 練習中は評定リハーサル (2026-07-07 v2): 本番と同じ画面を使い、位置づけだけヘッダで明示。
-+    // ヘッダは2行以内に抑える (SE の実効 viewport で送信ボタンが fold 下に落ちないため)
-+    if (phase === "practice" && RTUT_ON && !ratingTutorialDone) {
-+      // 評定チュートリアル v2 (2026-07-22): 説明はヘッダでなく tutBox (対象評定の直上) に出す
-+      // 旧3枚のindex 0/1/2は同じページへ戻す。新3=締め、4=番号なしの練習導入。
-+      const savedIndex = restored && restored.tutorial && restored.tutorial.index;
-+      tutIdx = Number.isInteger(savedIndex) ? Math.max(0, Math.min(4, savedIndex)) : 0;
-+      tutIntroDone = restored && restored.tutorial ? !!restored.tutorial.introDone : false;
-+      ratingSeenPages.clear();
-+      for (const page of restored && restored.tutorial && restored.tutorial.seen || []) ratingSeenPages.add(page);
-+      $("ratingHead").className = "practice";
-+      $("ratingHead").textContent = "";
-+    } else if (phase === "practice") {
-+      $("ratingHead").className = "practice";
-+      $("ratingHead").textContent = "";   // 2026-09-06: 練習でも見出しは出さない (チュートリアルで説明済み)
-+    } else {
-+      $("ratingHead").className = "";
-+      $("ratingHead").textContent = "回答について教えてください";
-+    }
-+    // あなたの回答 (2026-09-09): 自信の質問 (「いま選んだ答えに」) の指示対象を画面に残す
-+    const ans = trial.choiceSide === "left" ? trial.leftLabel : (trial.choiceSide === "right" ? trial.rightLabel : null);
-+    $("ratingAnswer").hidden = !ans;
-+    if (ans) { $("ratingAnswer").innerHTML = ""; const l = document.createElement("span"); l.textContent = "あなたの回答: "; const b = document.createElement("b"); b.textContent = ans; $("ratingAnswer").append(l, b); }
-+    const host = $("ratingItems");
-+    host.innerHTML = "";
-+    for (const item of ITEMS) {
-+      const wrap = document.createElement("div");
-+      wrap.className = "qitem";
-+      wrap.id = "qitem-" + item.key;
-+      const q = document.createElement("div");
-+      q.className = "qi-text"; q.id = "rating-label-" + item.key; q.textContent = item.q;
-+      const lk = document.createElement("div");
-+      lk.className = "likert"; lk.setAttribute("aria-labelledby", q.id);
-+      for (let v = 1; v <= 5; v++) {   // 縦 5 行・数字+言葉 (2026-09-08)
-+        const b = document.createElement("button");
-+        b.type = "button"; b.dataset.val = String(v);
-+        const num = document.createElement("b"); num.textContent = v;
-+        const lab = document.createElement("span"); lab.textContent = item.labels[v - 1];
-+        b.append(num, lab);
-+        b.addEventListener("click", () => selectRating(item.key, v, lk, b), { passive: true });
-+        lk.appendChild(b);
-+      }
-+      initChoiceGroup(lk, false);
-+      wrap.append(q, lk);
-+      host.appendChild(wrap);
-+    }
-+    if (!restored) { trial.ratings = { confidence: null, hesitation: null }; trial.ratingBacks = 0; }
-+    else for (const item of ITEMS) {
-+      const group = $("qitem-" + item.key).querySelector(".likert");
-+      for (const b of group.children) b.classList.toggle("sel", !!trial.ratings[item.key] && Number(b.dataset.val) === trial.ratings[item.key].value);
-+      syncChoiceState(group);
-+    }
-+    ratShowPage(restored ? restored.page : 0, tutActive() ? tutIdx : undefined);
-+    if (restored) ratPageAt = performance.now() - (restored.pageElapsedMs || 0);
-+    show("rating");
-+    resumeStage = "rating"; saveBackup();
-+  }
-+  // 1 項目 1 画面 (2026-09-08 §6-6 項18): ratPage 0=迷い / 1=自信。項目の rt_ms はその画面が出てからの時間
-+  let ratPage = 0, ratPageAt = 0;
-+  function ratShowPage(p, explanationIndex) {
-+    ratPage = p; ratPageAt = performance.now();
-+    for (let i = 0; i < ITEMS.length; i++) { const el = $("qitem-" + ITEMS[i].key); if (el) el.hidden = i !== p; }
-+    $("ratingBack").style.display = p === 1 ? "" : "none";
-+    $("ratBtnRow").classList.toggle("with-back", p === 1);   // 戻るがある行は広げる (2026-09-15)
-+    $("ratingNext").style.display = p === 0 ? "" : "none";
-+    $("ratingSubmit").style.display = p === 1 ? "" : "none";
-+    $("ratingNext").disabled = trial.ratings[ITEMS[0].key] == null;
-+    $("ratingSubmit").disabled = trial.ratings[ITEMS[1].key] == null;
-+    $("ratingNext").classList.remove("cue"); $("ratingSubmit").classList.remove("cue");
-+    if (tutActive()) { tutIdx = explanationIndex == null ? (p === 0 ? (tutIntroDone ? 1 : 0) : 2) : explanationIndex; tutRender(); }
-+    else { $("ratingTutPrev").hidden = true; $("ratingHelp").classList.remove("hidden"); }
-+    updateProgress();
-+    $("rating").querySelector(".qwrap").scrollTop = 0;
-+    focusScreenHeading("rating");
-+    if (resumeStage === "rating") scheduleCheckpoint();
-+  }
-+  $("ratingNext").addEventListener("click", () => {
-+    if (ratPage !== 0) return;
-+    if (ratingReview) { showRatingExplanationPage(tutIdx + 1); return; }
-+    if (tutActive() && TUT_PAGES[tutIdx].act === "intro") {   // 導入ページ → 迷いのページ (評定画面は 0 のまま。2026-09-12 後刻)
-+      if (ratTooEarly($("ratingNext"))) return;
-+      tutIntroDone = true; showRatingExplanationPage(1); return;
-+    }
-+    if (trial.ratings[ITEMS[0].key] == null) return;
-+    if (tutActive() && ratTooEarly($("ratingNext"))) return;   // 読み終わる前の「次へ」 (2026-09-12)
-+    ratShowPage(1);
-+  }, { passive: true });
-+  $("ratingBack").addEventListener("click", () => {   // 自信の画面 → 迷いの画面 (選択は保持)
-+    if (ratPage !== 1) return;
-+    trial.ratingBacks = (trial.ratingBacks || 0) + 1;
-+    if (tutActive()) device.tutorialLog.push({ kind: "rating", event: "back" });
-+    ratShowPage(0);
-+  }, { passive: true });
-+  // 評定チュートリアルの状態 (例題に回答した後のみ)。
-+  // tutChanged = チュートリアル中に評定を変更したか (旧・変更練習の行動ゲートに代わる観察記録)
-+  let ratingTutorialDone = false, tutIdx = -1, tutChanged = false, tutRenderedAt = 0;
-+  let ratingReview = null;   // 見直し前の評定ページ・経過時間。回答値は trial に保ち、説明中は変更しない
-+  const ratingSeenPages = new Set();
-+  let tutIntroDone = false;   // 0=導入、1=迷い、2=自信、3=締め、4=番号なしの練習導入。
-+  const RATING_PRACTICE_INTRO = { act: "practiceIntro", title: "練習問題", text: "ここから5問、練習問題に回答します。", op: '読んだら「次へ」' };
-+  const ratingTutorialPage = () => TUT_PAGES[tutIdx] || (tutIdx === TUT_PAGES.length ? RATING_PRACTICE_INTRO : null);
-+  const tutActive = () => tutIdx >= 0;
-+  function showRatingExplanationPage(index) {
-+    if (index < 0 || index > TUT_PAGES.length || (ratingReview && index >= TUT_PAGES.length)) return;
-+    tutIdx = index; tutIntroDone = index > 0;
-+    ratShowPage(index >= 2 ? 1 : 0, index);
-+    if (resumeStage === "rating") saveBackup();
-+  }
-+  function closeRatingReview() {
-+    if (!ratingReview) return;
-+    const retained = ratingReview;
-+    device.tutorialLog.push({ kind: "rating", event: "close", page: tutIdx + 1 });
-+    tutIdx = -1; tutRender(); ratingReview = null; replayResumeState = null;
-+    document.body.classList.remove("tut-review");
-+    $("rating").classList.remove("rating-review");
-+    for (const b of $("ratingItems").querySelectorAll("button")) b.disabled = false;
-+    ratShowPage(retained.page);
-+    ratingOnset = performance.now() - retained.elapsedMs;
-+    ratPageAt = performance.now() - retained.pageElapsedMs;
-+    saveBackup();
-+  }
-+  $("ratingHelp").addEventListener("click", () => {
-+    if (tutActive() || !trial || resumeStage !== "rating") return;
-+    replayResumeState = JSON.parse(JSON.stringify(resumeState()));
-+    ratingReview = { ...replayResumeState.rating };
-+    device.tutorialLog.push({ kind: "rating", event: "again", phase, trial: phase === "main" ? trialIndex + 1 : null, ratingPage: ratPage + 1 });
-+    $("rating").classList.add("rating-review"); document.body.classList.add("tut-review");
-+    for (const b of $("ratingItems").querySelectorAll("button")) b.disabled = true;
-+    showRatingExplanationPage(0);
-+    saveBackup();
-+  }, { passive: true });
-+  $("ratingTutClose").addEventListener("click", closeRatingReview, { passive: true });
-+  $("ratingTutPrev").addEventListener("click", () => {
-+    if (!tutActive() || tutIdx <= 0) return;
-+    device.tutorialLog.push({ kind: "rating", event: "back", page: tutIdx + 1 });
-+    if (!ratingReview && tutIdx === 2) trial.ratingBacks = (trial.ratingBacks || 0) + 1;
-+    showRatingExplanationPage(tutIdx - 1);
-+  }, { passive: true });
-+  // 説明カード→あなたの回答→1項目の5択→ナビの順。通常評定と保存・尺度を共用する。
-+  let ratSpot = null, ratPop = null, ratCueTimer = null, ratFlashTimer = null;
-+  let ratLockUntil = 0;   // 最小読了時間 (2026-09-12): これより早い「次へ」/確定は受け付けず注意
-+  const FLASH_MS = 1200;  // ボタンの注意の表示時間 (2026-09-14: 2.5 → 1.2 秒。表示中の連打では延長せず、ロックが切れる瞬間には必ず「次へ」に戻す)
-+  // 進むボタン自体に短い注意を出す (ドラッグ導入の btnFlash と同じ: 緑のまま文言を変えて揺らす。2026-09-14: 浮遊する赤い文字 (ratNudge) は廃止)
-+  function ratBtnLabel(btn) {
-+    if (tutActive()) {
-+      const p = ratingTutorialPage();
-+      if (ratingReview && p.act === "finish") return "回答に戻る";
-+      if (!ratingReview && p.act === "finish") return "練習問題へ";
-+      return "次へ";
-+    }
-+    return btn.id === "ratingSubmit" ? "決定して次へ" : "次へ";
-+  }
-+  function ratFlashClear() {
-+    if (ratFlashTimer) { clearTimeout(ratFlashTimer); ratFlashTimer = null; }
-+    for (const id of ["ratingNext", "ratingSubmit"]) { const b = $(id); if (b.classList.contains("warn")) { b.classList.remove("warn"); b.textContent = ratBtnLabel(b); b.style.height = b.dataset.ratHeight || ""; delete b.dataset.ratHeight; } }
-+  }
-+  function ratBtnFlash(text, btn, maxUntil) {   // maxUntil: これより後には残さない (早押しの注意はロックが切れたら消す)
-+    btn = btn || (ratPage === 0 ? $("ratingNext") : $("ratingSubmit"));
-+    if (ratFlashTimer && btn.classList.contains("warn") && btn.textContent === text) return;   // 表示中の連打では延長しない
-+    ratFlashClear();
-+    const now = performance.now(); let end = now + FLASH_MS; if (maxUntil) end = Math.min(end, maxUntil);
-+    btn.dataset.ratHeight = btn.style.height;
-+    btn.style.height = btn.getBoundingClientRect().height + "px";
-+    btn.textContent = text; btn.classList.add("warn");
-+    ratFlashTimer = setTimeout(() => { ratFlashTimer = null; btn.classList.remove("warn"); btn.textContent = ratBtnLabel(btn); btn.style.height = btn.dataset.ratHeight || ""; delete btn.dataset.ratHeight; }, Math.max(150, end - now));
-+  }
-+  function ratTooEarly(btn) {
-+    if (performance.now() >= ratLockUntil) return false;
-+    device.tutorialLog.push({ kind: "rating", page: tutIdx + 1, event: "early" });
-+    ratBtnFlash("読んでから押してください", btn, ratLockUntil);
-+    return true;
-+  }
-+  // 説明中に「次へ」以外の場所を押した人への案内 (ドラッグ導入の strayTap と同じ。2026-09-14)。評定ボタン・「戻る」・押せる「次へ」は本来の操作なので除く。
-+  // 押せない (未選択の) 「次へ」は pointer-events:none (app.css) にして親で受ける → 「上から1つ選んでください」
-+  $("rating").addEventListener("pointerdown", (e) => {
-+    if (!tutActive()) return;
-+    const t = e.target;
-+    if ((!ratingReview && t.closest(".likert button")) || t.closest("#ratingBack") || t.closest("#ratingTutPrev") || t.closest("#ratingTutClose") || t.closest("#stopBtn")) return;
-+    const goBtn = ratPage === 0 ? $("ratingNext") : $("ratingSubmit");
-+    if (t.closest("#" + goBtn.id) && !goBtn.disabled) return;   // 押せる「次へ」: click 側 (早押し判定) に任せる
-+    const p = ratingTutorialPage();
-+    const unselected = !ratingReview && ["hes", "conf"].includes(p.act) && trial.ratings[ITEMS[ratPage].key] == null;
-+    device.tutorialLog.push({ kind: "rating", page: tutIdx + 1, event: "stray" });
-+    ratBtnFlash(unselected ? "1つ選んでください" : "このボタンで進みます", goBtn);
-+    if (!unselected) goBtn.classList.add("cue");
-+  }, { passive: true });
-+  // 説明文の長さからボタンを強調する合図の時刻を見積もる（固定待機時間とは別）。
-+  // ボタンの合図は読速ベースラインがあればその0.45倍（下限3字/秒）、なければ5字/秒で見積もる。
-+  // 最小読了時間は説明表示から設ける固定の待機時間で、実際に読み終えたかの判定ではない。
-+  // これより早い「次へ」は進めずに案内を出す。?minread=0で無効 (validate/開発用)
-+  const MINREAD_ON = QS.get("minread") !== "0";
-+  function minReadMs(text) {
-+    if (!MINREAD_ON) return 0;
-+    const chars = String(text || "").replace(/<[^>]*>/g, "").replace(/\|/g, "").length;
-+    return Math.round(0.8 * Math.max(1200, Math.min(7000, Math.round((chars / 22) * 1000) + 500)));   // 2026-09-14: 実機で長く感じたので 0.8 倍 (実効 27.5 字/秒 + 0.4 s、0.96–5.6 s)
-+  }
-+  function readCueDelay(text) {
-+    const chars = String(text || "").replace(/<[^>]*>/g, "").replace(/\|/g, "").length;
-+    const base = (device.readingBaseline && device.readingBaseline.charsPerSec) || null;
-+    const cps = base ? Math.max(3, base * 0.45) : 5;   // 遅い読み手基準 (2026-09-04: 光るのが早すぎたので緩めた)
-+    return Math.max(3500, Math.min(11000, Math.round((chars / cps) * 1000) + 1200));
-+  }
-+  function ensureRatSpot() {
-+    if (ratSpot) return;
-+    ratSpot = document.createElement("div"); ratSpot.id = "ratSpot"; ratSpot.className = "tut-spot hidden";
-+    document.body.appendChild(ratSpot);
-+    ratPop = document.createElement("div"); ratPop.id = "ratPop"; ratPop.className = "tut-pop hidden";
-+    ratPop.innerHTML = '<div class="s" id="tutStepLabel"></div><h1 id="ratTutTitle"></h1><div class="t" id="ratTutText"></div>' +
-+      '<div class="rat-card-meta"><div class="g hidden" id="ratPopOp"></div><div class="dots" id="ratPopDots"></div></div>';
-+    $("rating").querySelector(".qwrap").prepend(ratPop);
-+    // ボタン行 [↻ もう一度] [戻る] [次へ/確定] は HTML に静的に置いてある (2026-09-08)。ここでは「もう一度」だけ結線
-+    $("ratReplay").addEventListener("click", () => {   // 説明だけを最初から。選んだ評定は保持する。
-+      device.tutorialLog.push({ kind: "rating", event: "replay" });
-+      showRatingExplanationPage(0);   // 回答値は消さず、説明だけを最初から見直す。
-+    }, { passive: true });
-+  }
-+  function placeRatingTutorial() {
-+    if (!tutActive() || !ratPop || !screens.rating.classList.contains("active")) return;
-+    const p = ratingTutorialPage();
-+    ratPop.classList.add("on");
-+    ratPop.style.top = ""; ratPop.style.left = ""; ratPop.style.marginTop = "0px";
-+    const wrap = $("rating").querySelector(".qwrap"), row = $("ratBtnRow");
-+    if (ratingReview || ["intro", "finish", "practiceIntro"].includes(p.act)) {
-+      row.style.bottom = "auto";
-+      row.style.top = Math.max(12, innerHeight * .88 - Math.min(innerWidth, innerHeight) * .08 - row.getBoundingClientRect().height / 2) + "px";
-+    } else { row.style.bottom = ""; row.style.top = ""; }
-+    const buttons = row.getBoundingClientRect();
-+    const top = ratingReview ? $("ratingTutClose").getBoundingClientRect().bottom + 8 : parseFloat(getComputedStyle(wrap).paddingTop);
-+    if (ratingReview || !["hes", "conf"].includes(p.act)) {
-+      const natural = ratPop.getBoundingClientRect().top;
-+      ratPop.style.marginTop = Math.max(0, top + (buttons.top - 20 - top - ratPop.offsetHeight) / 2 - natural) + "px";
-+    } else {
-+      const natural = ratPop.getBoundingClientRect().top, total = buttons.bottom - natural;
-+      ratPop.style.marginTop = Math.max(0, top - natural, (innerHeight - 20 - top - total) / 2 + top - natural) + "px";
-+    }
-+    wrap.scrollTop = 0;
-+  }
-+  window.addEventListener("resize", () => requestAnimationFrame(placeRatingTutorial), { passive: true });
-+  let ratPageShownAt = null, ratPageShownIdx = -1;   // 説明ページの滞在時間の記録用 (device.tutorialLog)
-+  function tutRender() {
-+    const qc = $("qitem-confidence"), qh = $("qitem-hesitation");
-+    if (!qc || !qh) return;
-+    if (ratPageShownIdx >= 0 && ratPageShownAt != null)   // 直前のページの滞在時間を記録 (ページ送り・やり直し・完遂のたび)
-+      device.tutorialLog.push({ kind: "rating", page: ratPageShownIdx + 1, ms: Math.round(performance.now() - ratPageShownAt) });
-+    ratPageShownIdx = tutActive() ? tutIdx : -1; ratPageShownAt = tutActive() ? performance.now() : null;
-+    ensureRatSpot();
-+    const oldBox = $("tutBox"); if (oldBox) oldBox.remove();
-+    qc.classList.remove("dim", "tfocus"); qh.classList.remove("dim", "tfocus");
-+    const lkC = qc.querySelector(".likert"), lkH = qh.querySelector(".likert");
-+    $("ratingHelp").classList.toggle("hidden", tutActive());
-+    $("ratingTutClose").classList.toggle("hidden", !tutActive() || !ratingReview);
-+    $("ratingTutPrev").hidden = !tutActive() || tutIdx === 0;
-+    if (!tutActive()) {   // 完遂/解除: オーバーレイを外し通常の評定画面へ復帰
-+      ratSpot.classList.remove("on", "strong"); ratPop.classList.remove("on");
-+      ratSpot.classList.add("hidden"); ratPop.classList.add("hidden");
-+      if (lkC) lkC.classList.remove("tut-cue"); if (lkH) lkH.classList.remove("tut-cue");
-+      ratFlashClear();
-+      $("ratReplay").classList.add("hidden");
-+      $("rating").classList.remove("tut-front", "rat-intro", "rat-static");
-+      $("ratBtnRow").style.top = ""; $("ratBtnRow").style.bottom = "";
-+      $("ratingBackNote").hidden = true;
-+      ratPop.style.marginTop = "";
-+      $("ratingNext").classList.remove("cue"); $("ratingSubmit").classList.remove("cue");
-+      if (ratCueTimer) { clearTimeout(ratCueTimer); ratCueTimer = null; }
-+      $("ratingSubmit").textContent = "決定して次へ";   // 本番の表記に戻す
-+      return;
-+    }
-+    const p = ratingTutorialPage();
-+    const seen = ratingSeenPages.has(tutIdx); ratingSeenPages.add(tutIdx);
-+    $("rating").style.removeProperty("--ratReserve");
-+    ratFlashClear();
-+    $("tutStepLabel").textContent = tutIdx < TUT_PAGES.length ? `回答の振り返り ${tutIdx + 1} / ${TUT_PAGES.length}` : "";
-+    $("tutStepLabel").hidden = tutIdx >= TUT_PAGES.length;
-+    $("ratTutTitle").textContent = p.title;
-+    const rdots = $("ratPopDots"); rdots.innerHTML = "";
-+    if (tutIdx < TUT_PAGES.length) for (let i = 0; i < TUT_PAGES.length; i++) { const d = document.createElement("i"); if (i === tutIdx) d.className = "a"; rdots.appendChild(d); }
-+    $("ratTutText").textContent = p.text;
-+    $("ratReplay").classList.add("hidden");   // 「もう一度」は出さない (「戻る」と役割が同じ。2026-09-09)
-+    const operation = ratingReview ? (tutIdx === TUT_PAGES.length - 1 ? "確認したら「回答に戻る」" : "確認したら「次へ」") : p.op;
-+    $("ratPopOp").textContent = operation || ""; $("ratPopOp").classList.toggle("hidden", !operation);
-+    $("ratingBack").style.display = "none";
-+    $("ratingTutPrev").hidden = tutIdx === 0 || (!ratingReview && ["finish", "practiceIntro"].includes(p.act));
-+    $("ratingTutPrev").textContent = "← 戻る";
-+    $("ratingBackNote").hidden = ratingReview || p.act !== "conf";
-+    $("ratBtnRow").classList.toggle("with-back", !$("ratingTutPrev").hidden);
-+    $("rating").classList.add("tut-front");   // 次へ/確定/もう一度 を暗幕より手前に
-+    if (ratCueTimer) { clearTimeout(ratCueTimer); ratCueTimer = null; }
-+    $("ratingNext").textContent = ratBtnLabel($("ratingNext"));
-+    $("ratingSubmit").textContent = ratBtnLabel($("ratingSubmit"));
-+    // 押す対象の評定行を鼓動 (まだ選んでいないときだけ。選んだら進むボタンへ合図が移る)
-+    const key = p.act === "conf" ? "confidence" : "hesitation", lk = $("qitem-" + key).querySelector(".likert");
-+    if (lkC) lkC.classList.remove("tut-cue"); if (lkH) lkH.classList.remove("tut-cue");
-+    const staticPage = !!ratingReview || !["hes", "conf"].includes(p.act);
-+    $("rating").classList.toggle("rat-intro", staticPage);
-+    $("rating").classList.toggle("rat-static", staticPage);
-+    if (ratingReview) {
-+      $("ratingNext").disabled = false; $("ratingSubmit").disabled = false;
-+    } else if (staticPage) {
-+      const goBtn = ratPage === 0 ? $("ratingNext") : $("ratingSubmit");
-+      goBtn.disabled = false;
-+      ratCueTimer = setTimeout(() => { if (tutActive() && ratingTutorialPage() === p) goBtn.classList.add("cue"); }, readCueDelay(p.text));
-+    } else {
-+      if (p.act === "hes") $("ratingNext").disabled = trial.ratings[key] == null;   // 導入で有効にした「次へ」を評定待ちに戻す
-+      if (trial.ratings[key] == null) lk.classList.add("tut-cue");
-+      else (p.act === "conf" ? $("ratingSubmit") : $("ratingNext")).classList.add("cue");
-+    }
-+    $("rating").querySelector(".qwrap").scrollTop = 0;
-+    // show後のrAFで自然な高さを測り、内容全体を収まる範囲で中央へ寄せる。
-+    ratSpot.classList.remove("strong", "on"); ratSpot.classList.add("hidden"); ratPop.classList.remove("hidden");
-+    requestAnimationFrame(placeRatingTutorial);
-+    tutRenderedAt = performance.now();   // 連打デバウンスの基準時刻
-+    ratLockUntil = (ratingReview || seen) ? 0 : tutRenderedAt + minReadMs(p.text);
-+  }
-+  function selectRating(key, value, container, btn) {
-+    if (ratingReview) return;
-+    if (tutActive() && !["hes", "conf"].includes(ratingTutorialPage().act)) return;
-+    if (key !== ITEMS[ratPage].key) return;   // 表示中の項目だけ受け付ける (保険。他方の項目は hidden)
-+    if (tutActive() && trial.ratings[key] && trial.ratings[key].value !== value) tutChanged = true;   // 変更の観察記録
-+    // rt_ms = この項目の画面が出てから押すまで (2026-09-08: 1 項目 1 画面)
-+    trial.ratings[key] = { value, rt_ms: +(performance.now() - ratPageAt).toFixed(1) };
-+    for (const b of container.children) b.classList.toggle("sel", b === btn);
-+    syncChoiceState(container);
-+    $("ratingNext").disabled = trial.ratings[ITEMS[0].key] == null;
-+    $("ratingSubmit").disabled = trial.ratings[ITEMS[1].key] == null;
-+    if (tutActive()) {   // 選んだら鼓動を進むボタンへ (押す場所は 1 箇所)
-+      container.classList.remove("tut-cue");
-+      (ratPage === 0 ? $("ratingNext") : $("ratingSubmit")).classList.add("cue");
-+    }
-+    scheduleCheckpoint();
-+  }
-+  function submitRating() {
-+    if (ratingReview) {
-+      if (tutIdx === TUT_PAGES.length - 1) closeRatingReview();
-+      else showRatingExplanationPage(tutIdx + 1);
-+      return;
-+    }
-+    if (tutActive() && ratingTutorialPage().act === "finish") {
-+      if (ratTooEarly($("ratingSubmit"))) return;
-+      showRatingExplanationPage(TUT_PAGES.length); return;
-+    }
-+    if (tutActive() && ratingTutorialPage().act === "practiceIntro") {
-+      if (ratTooEarly($("ratingSubmit"))) return;
-+      tutIdx = -1; ratingTutorialDone = true; tutRender();
-+      device.ratingTutorial = { changed: tutChanged, completed: true, pages: TUT_PAGES.length };
-+      completePracticeTrial(); return;
-+    }
-+    if (ITEMS.some((it) => trial.ratings[it.key] == null)) return;
-+    if (ratPage !== 1) return;   // 自信の画面でのみ確定 (保険)
-+    if (tutActive() && ratTooEarly($("ratingSubmit"))) return;   // 読み終わる前の確定 (2026-09-12)
-+    trial.ratingSubmitMs = +(performance.now() - ratingOnset).toFixed(1); // 2項目合計の所要時間 (負担指標)
-+    stampMonitors(trial);   // 評定時間も含めた試行窓で環境音要約を上書き (§6-6 項10: 評定中も計測)
-+    if (tutActive()) {   // 2つの回答はここで確定し、後続の説明時間は評定所要時間へ加えない。
-+      showRatingExplanationPage(TUT_PAGES.length - 1);
-+      return;
-+    }
++  // ===== 評定: 状態/記録と表示を別APIで接続 =====
++  const ratingController = window.PilotRating.createController({
++    content: window.PilotRatingContent, now: () => performance.now(),
++    tutorialEnabled: () => RTUT_ON, getTrial: () => trial, getDevice: () => device,
++    getPhase: () => phase, getTrialIndex: () => trialIndex, getResumeStage: () => resumeStage,
++    setResumeStage: value => { resumeStage = value; }, saveBackup, scheduleCheckpoint,
++    updateProgress, focusRating: () => focusScreenHeading("rating"), showRating: () => show("rating"),
++    captureReviewState: () => { replayResumeState = JSON.parse(JSON.stringify(resumeState())); return replayResumeState.rating; },
++    clearReviewState: () => { replayResumeState = null; },
++    stampMonitors, onSubmitted: finishRating, onPracticeComplete: completePracticeTrial,
++    minReadMs, readCueDelay,
++  });
++  const ratingView = window.PilotRatingView.create({ $, screens, initChoiceGroup, syncChoiceState, now: () => performance.now() }, ratingController.model, ratingController.events);
++  ratingController.attachView(ratingView);
++  function beginRating(restored) { ratingController.begin(restored); }
++  function tutActive() { return ratingController.isActive(); }
++  function showRatingExplanationPage(index) { ratingController.showExplanation(index); }
++  function closeRatingReview() { ratingController.closeReview(); }
++  function submitRating() { ratingController.submit(); }
++  function ratingHelpState() { const { index, review, lockRemainingMs } = ratingController.state(); return { index, review, lockRemainingMs }; }
++  function finishRating() {
 +    if (phase === "main") {
 +      trialIndex++;
 +      if (!queue.length && seqIndex >= SEQ.length - 1) freezeMainClock();
 +      resumeStage = "next"; saveBackup();
-+      micCheckpoint(nextTrial);   // 騒音アラートは評定「送信後」のみ (迷い評定を汚染しない位置。§6-6 項10)
++      micCheckpoint(nextTrial);   // 評定を確定した後の試行境界だけで環境音を確認する。
 +    } else {
-+      // 練習 (評定リハーサル後): 行動ゲート判定 (streak は showPracticeFeedback で更新済み)。
-+      // 2026-09-05: チュートリアル後は練習キュー (practiceTrials 問) を必ず完走してから本番へ。
-+      // ゲート未達なら nextTrial が補充するので、実質「5問やって、かつ操作を理解できたら本番」になる
 +      completePracticeTrial();
 +    }
 +  }
++
++  // 説明文の長さからボタンを強調する合図の時刻を見積もる（固定待機時間とは別）。
++  // ボタンの合図は読速ベースラインがあればその0.45倍（下限3字/秒）、なければ5字/秒で見積もる。
++  // 最小読了時間は説明表示から設ける固定の待機時間で、実際に読み終えたかの判定ではない。
++  // これより早い「次へ」は進めずに案内を出す。?minread=0で無効 (validate/開発用)
++  const readingPolicy = window.PilotReadingPolicy.create({ minReadEnabled: QS.get("minread") !== "0", getBaseline: () => device.readingBaseline });
++  function minReadMs(text) { return readingPolicy.minReadMs(text); }
++  function readCueDelay(text) { return readingPolicy.readCueDelay(text); }
++
 +
 +  // ===== フェーズ遷移 =====
 +  function validAge() {
@@ -8622,17 +8203,16 @@ index 0000000..adb5031
 +  let resumePending = false;   // 再開直後の本試行に post_resume を立てる
 +  let resumeOffered = false;   // 起動時に再開画面を出したか (検証用)
 +  function resumeState() {
-+    if (replayResumeState && (dragTutState.active || ratingReview)) return JSON.parse(JSON.stringify(replayResumeState));
++    if (replayResumeState && (dragTutState.active || ratingController.isReview())) return JSON.parse(JSON.stringify(replayResumeState));
 +    const now = performance.now();
 +    return {
 +      v: 2, search: location.search, seq: SEQ.slice(), seqIndex, block: CONFIG.block,
 +      stage: resumeStage, phase, queue, totalMain, trialIndex, instrIndex, instructedDone,
 +      currentCell: ["task", "rating", "break", "notice", "practiceCheck"].includes(resumeStage) ? cell : null,
 +      trialRecordIndex: resumeStage === "rating" ? records.indexOf(trial) : null,
-+      rating: resumeStage === "rating" ? { page: ratPage, elapsedMs: now - ratingOnset, pageElapsedMs: now - ratPageAt,
-+        tutorial: tutActive() && !ratingReview ? { version: 2, pages: TUT_PAGES.length, index: tutIdx, introDone: tutIntroDone, seen: [...ratingSeenPages] } : null } : null,
++      rating: resumeStage === "rating" ? ratingController.snapshot(now) : null,
 +      preMain: mainStartedAt == null ? {
-+        dragDone: dragTutState.done, dragSchema: dragTutState.schema || null, ratingDone: ratingTutorialDone, streak, exampleIntroRead,
++        dragDone: dragTutState.done, dragSchema: dragTutState.schema || null, ratingDone: ratingController.isDone(), streak, exampleIntroRead,
 +        reading: resumeStage === "reading" ? { index: readIdx, elapsedMs: readIdx < 0 ? 0 : Math.max(0, now - readShownAt) } : null,
 +        drag: resumeStage === "dragTutorial" ? DragTut.snapshot() : null,
 +      } : null,
@@ -8644,7 +8224,7 @@ index 0000000..adb5031
 +      noticeElapsedMs: noticeShownAt == null ? 0 : now - noticeShownAt,
 +      breakElapsedMs: breakShownAt == null ? 0 : now - breakShownAt, breakAtTrial,
 +      stemElapsedMs: resumeStage === "task" ? Math.max(0, now - stemShownT) : 0,
-+      aborts, monitors: { noise: { ...noiseAcc }, vis: { ...visAcc } }, tutChanged,
++      aborts, monitors: { noise: { ...noiseAcc }, vis: { ...visAcc } }, tutChanged: ratingController.changed(),
 +      mainStarted: mainStartedAt != null, mainElapsedMs: getMainElapsedMs() || 0, mainElapsedAtEnd,
 +    };
 +  }
@@ -8782,8 +8362,7 @@ index 0000000..adb5031
 +    mainElapsedAtEnd = r.mainElapsedAtEnd == null ? null : r.mainElapsedAtEnd;
 +    trialShownAt = null; lastTrialMs = null;
 +    const pre = r.preMain || {};
-+    ratingTutorialDone = r.mainStarted || !!pre.ratingDone || !!(device.ratingTutorial && device.ratingTutorial.completed);
-+    tutIdx = -1; tutChanged = !!r.tutChanged;
++    ratingController.restoreSession({ done: r.mainStarted || !!pre.ratingDone || !!(device.ratingTutorial && device.ratingTutorial.completed), changed: r.tutChanged });
 +    dragTutState.done = r.mainStarted || !!pre.dragDone || (!r.preMain && (b.trials.length > 0 || ["task", "rating"].includes(r.stage)));
 +    dragTutState.schema = pre.dragSchema || null; // 旧完了を新しい教示の完了証跡にしない。
 +    exampleIntroRead = !!pre.exampleIntroRead || b.trials.some(t => t.phase === "tutorial") || ["task", "rating"].includes(r.stage);
@@ -9487,7 +9066,6 @@ index 0000000..adb5031
 +    const retained = replayResumeState;
 +    DragTut.run(() => { replayResumeState = null; presentStimulus(retained); }, { replay: true, instructed: phase === "instructed" });   // 説明の滞在だけを読解時間から除く
 +  }, { passive: true });
-+  $("ratingSubmit").addEventListener("click", submitRating, { passive: true });
 +  $("breakContinue").addEventListener("click", () => {
 +    if (breakShownAt != null) {
 +      device.breaks.push({ block: CONFIG.block, atTrial: breakAtTrial,
@@ -9574,9 +9152,9 @@ index 0000000..adb5031
 +      hasBackup: () => loadBackup() != null,
 +      block: () => CONFIG.block,
 +      ratingsOn: () => CONFIG.ratings,
-+      ratPage: () => ratPage,          // 評定のページ (0=迷い / 1=自信。2026-09-08)
++      ratPage: () => ratingController.model.page(),          // 評定のページ (0=迷い / 1=自信。2026-09-08)
 +      ratTut: () => tutActive(),       // 評定チュートリアル中か (validate.js の判定用。同期値)
-+      helpState: () => ({ drag: DragTut.state(), rating: { index: tutIdx, review: !!ratingReview, lockRemainingMs: Math.max(0, ratLockUntil - performance.now()) } }),
++      helpState: () => ({ drag: DragTut.state(), rating: ratingHelpState() }),
 +      instructedOn: () => INSTR_ON,    // 教示誘導ブロックの有無 (2026-09-09)
 +      stopNoticeText: () => STOP_NOTICE_TEXT,
 +      noticeText: (k) => NOTICE_TEXTS[k],
@@ -9602,7 +9180,7 @@ index 0000000..adb5031
 +      recoveryState: () => JSON.parse(JSON.stringify(resumeState())),
 +      recoveryCheckpoint: () => saveBackup(),
 +      recoveryReady: () => storeReady,
-+      recoveryStartMain: () => { dragTutState.done = true; ratingTutorialDone = true; device.participantId = "synthetic-recovery"; startMain(); },
++      recoveryStartMain: () => { dragTutState.done = true; ratingController.setTutorialDone(true); device.participantId = "synthetic-recovery"; startMain(); },
 +      mainElapsedMs: () => getMainElapsedMs(),
 +      uploadUrl: () => CONFIG.uploadUrl,
 +      backdateBackup: (ms) => {   // チェックポイントの中断時刻を ms だけ過去にずらす (3時間超の判定を検証)
@@ -9625,7 +9203,7 @@ index 0000000..adb5031
 +    badge.textContent = "確認モード（送信しません）: " + GO; document.body.appendChild(badge);
 +    const tutorialCell = () => makeTutorialCell(); // 例の1問 (startPractice と同じ内容)
 +    const ratingAt = (withTutorial) => {   // 例の1問を答えた直後の評定画面を作る
-+      dragTutState.done = true; ratingTutorialDone = !withTutorial; phase = "practice"; streak = 0;
++      dragTutState.done = true; ratingController.setTutorialDone(!withTutorial); phase = "practice"; streak = 0;
 +      queue = BLOCK.buildPractice(CONFIG.practiceTrials);
 +      cell = tutorialCell();
 +      trial = { phase: "tutorial", block: CONFIG.block, stimulusType: BLOCK.stimulusType, ...BLOCK.trialMeta(cell),
@@ -9635,13 +9213,13 @@ index 0000000..adb5031
 +    const jump = {
 +      tut: () => startPractice(),                       // 操作説明 → 例の1問 → 評定の説明 → 練習 (→ 本番へ続く)
 +      exampleintro: () => { dragTutState.done = true; showGuidedIntro(); },
-+      task: () => { dragTutState.done = true; ratingTutorialDone = true; phase = "main";
++      task: () => { dragTutState.done = true; ratingController.setTutorialDone(true); phase = "main";
 +        queue = ATTN_ON ? insertDqs(BLOCK.buildMain()) : BLOCK.buildMain(); totalMain = queue.length; trialIndex = 0;
 +        mainStartedAt = performance.now(); cell = queue.shift(); sizeCanvas(); presentStimulus(); },
 +      rtut: () => { ratingAt(true); const step = Number(QS.get("rtstep")); if (QS.has("rtstep") && Number.isInteger(step) && step >= 0 && step <= 4) showRatingExplanationPage(step); },
 +      rating: () => ratingAt(false),                    // 通常の評定画面
 +      practicecheck: () => {
-+        dragTutState.done = true; ratingTutorialDone = true; phase = "practice";
++        dragTutState.done = true; ratingController.setTutorialDone(true); phase = "practice";
 +        queue = BLOCK.buildPractice(CONFIG.practiceTrials); cell = queue.shift();
 +        trial = { phase: "practice", block: CONFIG.block, previewOnly: true, ...BLOCK.trialMeta(cell), ratings: { hesitation: { value: 3 }, confidence: { value: 3 } }, events: [] };
 +        records.push(trial);
@@ -9651,15 +9229,15 @@ index 0000000..adb5031
 +        if (CONFIG.block !== "moral") loadBlock("moral");
 +        // この確認専用入口では本番を省略する。通常の水準別選出に必要な項目情報だけを用意する。
 +        for (const previewCell of BLOCK.buildMain()) records.push({ phase: "main", block: "moral", previewOnly: true, ...BLOCK.trialMeta(previewCell) });
-+        dragTutState.done = true; ratingTutorialDone = true; phase = "main";
++        dragTutState.done = true; ratingController.setTutorialDone(true); phase = "main";
 +        showInstructedIntro();
 +      },
 +      post: () => { phase = "main"; showPostQuestions(); },   // 最後のアンケート (完了で完了画面へ)
 +      done: () => { phase = "main"; finishSession(); },       // 完了画面 (完了コード・保存ボタン)
-+      break: () => { dragTutState.done = true; ratingTutorialDone = true; phase = "main";
++      break: () => { dragTutState.done = true; ratingController.setTutorialDone(true); phase = "main";
 +        queue = ATTN_ON ? insertDqs(BLOCK.buildMain()) : BLOCK.buildMain(); totalMain = queue.length; trialIndex = CONFIG.breakEvery || 20; cell = queue.shift(); sizeCanvas(); showBreak(); },   // 本番と同じ 53 問 (DQS 込み。2026-09-27)
 +      micgate: () => showMicGate("precheck"),           // 環境音チェック (マイクは実物)
-+      notice: () => { dragTutState.done = true; ratingTutorialDone = true; phase = "main";   // 案内画面 (遅い初動)。「次へ」で本番の課題画面へ (2026-09-26)
++      notice: () => { dragTutState.done = true; ratingController.setTutorialDone(true); phase = "main";   // 案内画面 (遅い初動)。「次へ」で本番の課題画面へ (2026-09-26)
 +        queue = ATTN_ON ? insertDqs(BLOCK.buildMain()) : BLOCK.buildMain(); totalMain = queue.length; trialIndex = 3; cell = queue.shift(); sizeCanvas(); showStopNotice(["early", "late", "early_late"].includes(QS.get("notice")) ? QS.get("notice") : "late"); },
 +      sending: () => { phase = "main"; finishSession(); sendUiStart(1); $("exportRow").style.display = "none"; $("uploadStatus").textContent = ""; },   // 送信中の画面 (見た目の確認用。送信はしない。本番と同じく保存ボタンは出さない)
 +    };
@@ -10575,3 +10153,621 @@ index 0000000..bd77dc6
 + }
 + return{snapshot,run,finish,state:()=>JSON.parse(JSON.stringify(current))};
 +};
+diff --git a/tools/pilot-anchor/js/reading-policy.js b/tools/pilot-anchor/js/reading-policy.js
+new file mode 100644
+--- /dev/null
++++ b/tools/pilot-anchor/js/reading-policy.js
+@@ -0,0 +1,22 @@
++(function (root) {
++  "use strict";
++  // Shared instruction timing. These are presentation gates/cues, not a reading-completion measurement.
++  function create(options) {
++    const enabled = options.minReadEnabled;
++    const getBaseline = options.getBaseline;
++    function minReadMs(text) {
++      if (!enabled) return 0;
++      const chars = String(text || "").replace(/<[^>]*>/g, "").replace(/\|/g, "").length;
++      return Math.round(0.8 * Math.max(1200, Math.min(7000, Math.round((chars / 22) * 1000) + 500)));
++    }
++    function readCueDelay(text) {
++      const chars = String(text || "").replace(/<[^>]*>/g, "").replace(/\|/g, "").length;
++      const baseline = getBaseline();
++      const base = (baseline && baseline.charsPerSec) || null;
++      const cps = base ? Math.max(3, base * 0.45) : 5;
++      return Math.max(3500, Math.min(11000, Math.round((chars / cps) * 1000) + 1200));
++    }
++    return { minReadMs, readCueDelay };
++  }
++  root.PilotReadingPolicy = { create };
++})(window);
+diff --git a/tools/pilot-anchor/js/choice-controls.js b/tools/pilot-anchor/js/choice-controls.js
+new file mode 100644
+--- /dev/null
++++ b/tools/pilot-anchor/js/choice-controls.js
+@@ -0,0 +1,69 @@
++// 選択部品の見た目・ARIA・キーボード操作。回答の保存と画面進行は呼び出し側で行う。
++(function (root, factory) {
++  if (typeof module === "object" && module.exports) module.exports = factory();
++  else root.PilotChoiceControls = factory();
++})(typeof window === "object" ? window : globalThis, function () {
++  "use strict";
++  function create({ $ }) {
++    function syncChoiceState(c) {
++      if (!c) return;
++      const buttons = [...c.querySelectorAll("button")];
++      const single = c.getAttribute("role") === "radiogroup";
++      const tabStop = buttons.find((b) => b.classList.contains("sel")) || buttons[0];
++      for (const b of buttons) {
++        b.setAttribute("aria-checked", String(b.classList.contains("sel")));
++        b.tabIndex = single && b !== tabStop ? -1 : 0;
++      }
++    }
++    function initChoiceGroup(c, multiple) {
++      c.setAttribute("role", multiple ? "group" : "radiogroup");
++      if (!c.hasAttribute("aria-labelledby")) {
++        const field = c.closest(".field"), label = field && field.querySelector("label");
++        if (label) { if (!label.id) label.id = c.id + "-label"; c.setAttribute("aria-labelledby", label.id); }
++      }
++      for (const b of c.querySelectorAll("button")) b.setAttribute("role", multiple ? "checkbox" : "radio");
++      syncChoiceState(c);
++      if (!multiple) c.addEventListener("keydown", (e) => {
++        if (!["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp", "Home", "End"].includes(e.key)) return;
++        const buttons = [...c.querySelectorAll("button")].filter((b) => !b.disabled && b.getClientRects().length);
++        const at = buttons.indexOf(e.target);
++        if (at < 0) return;
++        e.preventDefault();
++        const next = e.key === "Home" ? 0 : e.key === "End" ? buttons.length - 1 :
++          (at + (["ArrowRight", "ArrowDown"].includes(e.key) ? 1 : buttons.length - 1)) % buttons.length;
++        buttons[next].focus({ preventScroll: true }); buttons[next].click();
++      });
++    }
++    function wireSeg(containerId, onPick) {
++      const c = $(containerId);
++      initChoiceGroup(c, false);
++      for (const b of c.querySelectorAll("button")) {
++        b.addEventListener("click", () => {
++          for (const o of c.children) o.classList.toggle("sel", o === b);
++          syncChoiceState(c);
++          onPick(b.dataset.val);
++        }, { passive: true });
++      }
++    }
++    function wireChecks(containerId, onChange) {
++      const c = $(containerId);
++      initChoiceGroup(c, true);
++      for (const b of c.querySelectorAll("button")) {
++        b.addEventListener("click", () => {
++          const peers = [...c.querySelectorAll("button")].filter(o => o.dataset.part === b.dataset.part);
++          if (b.dataset.none === "1") {
++            const willSel = !b.classList.contains("sel");
++            for (const o of peers) o.classList.toggle("sel", o === b && willSel);
++          } else {
++            b.classList.toggle("sel");
++            for (const o of peers) if (o.dataset.none === "1") o.classList.remove("sel");
++          }
++          syncChoiceState(c);
++          onChange([...c.querySelectorAll("button.sel")].map((o) => o.dataset.val));
++        }, { passive: true });
++      }
++    }
++    return { syncChoiceState, initChoiceGroup, wireSeg, wireChecks };
++  }
++  return { create };
++});
+diff --git a/tools/pilot-anchor/js/instruction-notice-view.js b/tools/pilot-anchor/js/instruction-notice-view.js
+new file mode 100644
+--- /dev/null
++++ b/tools/pilot-anchor/js/instruction-notice-view.js
+@@ -0,0 +1,28 @@
++// 練習確認・注意画面のDOM。確認条件・時刻・記録・保存・次画面は呼び出し側で扱う。
++(function (root, factory) {
++  if (typeof module === "object" && module.exports) module.exports = factory();
++  else root.PilotInstructionNoticeView = factory();
++})(typeof window === "object" ? window : globalThis, function () {
++  "use strict";
++  function create({ $, document }) {
++    function renderPracticeCheck({ keys, checked, rules, onCheckedChange }) {
++      $("practiceCheckItems").replaceChildren();
++      for (const key of keys) {
++        const rule = rules[key], label = document.createElement("label");
++        label.className = "rule-check";
++        const input = document.createElement("input"); input.type = "checkbox"; input.dataset.rule = key; input.checked = checked.includes(key);
++        const text = document.createElement("span"); text.innerHTML = '<b class="rule-title">' + rule.title + '</b><span>' + rule.html + '</span>';
++        label.append(input, text); $("practiceCheckItems").appendChild(label);
++        input.addEventListener("change", () => {
++          onCheckedChange([...$("practiceCheckItems").querySelectorAll("input:checked")].map(e => e.dataset.rule));
++        });
++      }
++    }
++    function setPracticeCheckEnabled(enabled) { $("practiceCheckGo").disabled = !enabled; }
++    function setNoticeKind(kind) { $("notice").dataset.kind = kind; }
++    function setNoticeBody(html) { $("noticeText").innerHTML = html; }
++    function resetNoticeScroll() { $("notice").querySelector(".pad").scrollTop = 0; $("noticeText").scrollTop = 0; }
++    return { renderPracticeCheck, setPracticeCheckEnabled, setNoticeKind, setNoticeBody, resetNoticeScroll };
++  }
++  return { create };
++});
+diff --git a/tools/pilot-anchor/js/rating-content.js b/tools/pilot-anchor/js/rating-content.js
+new file mode 100644
+--- /dev/null
++++ b/tools/pilot-anchor/js/rating-content.js
+@@ -0,0 +1,44 @@
++// 迷い・自信の項目と、説明4ページ＋練習導入の文言。
++(function (root, factory) {
++  if (typeof module === "object" && module.exports) module.exports = factory();
++  else root.PilotRatingContent = factory();
++})(typeof window === "object" ? window : globalThis, function () {
++  "use strict";
++  // 評定 2 項目 (experiment-design.md §3-1。2026-07-15 改訂: 難しさ削除・迷い主軸・文言プロセス係留)。
++  // 表示順は迷い→自信 (2026-09-06 反転、decisions-log): 主ターゲットの迷いを先に答えさせ、質問順序効果 (2つ目は1つ目に
++  // 引きずられる) と過程の記憶の減衰から守る。チュートリアルの教授順も同じ。変数名は英語で統一
++  // 2026-09-08: 全点に言葉 (数字併記)。中央は「どちらともいえない」にしない (量の尺度に逃げ場を作らない)。
++  // 文言の正本 = experiment-design §3-1 / 決定 = decisions-log 2026-09-08
++  const ITEMS = [
++    { key: "hesitation", q: "答えを決めるまでに、どれくらい迷いましたか",
++      labels: ["まったく迷わなかった", "あまり迷わなかった", "少し迷った", "迷った", "とても迷った"] },
++    { key: "confidence", q: "いま選んだ答えに、どれくらい自信がありますか",
++      labels: ["まったく自信がない", "あまり自信がない", "少し自信がある", "自信がある", "とても自信がある"] },
++  ];
++  // 評定チュートリアル v2 (2026-07-22 改訂+同日実機FB反映、練習1問目の評定画面。§6-2)。
++  // 旧 Step1-3 (ヘッダに長文一括) をページ分割: 「次へ」ボタン/実操作で1ページずつ進み、
++  // 説明は枠付きボックス (tutBox) +ステップ表示「説明 n/N」で常に評定の上の同じ位置に置く。
++  // ページ2 = 5段階の中立な使い方説明 (具体例は回答分布を誘導するため出さない。2026-07-22 ユーザー決定)。
++  // 実機FB (2026-07-22) の反映:
++  //   - 「次へ」はボックス内でなく確定ボタンと同じ位置 (進む操作の場所を1箇所に固定)
++  //   - 迷いページは当初の「自信を覆い隠す」方式をやめ全ページ同一レイアウト (自信は減光・迷いを強調) =
++  //     迷いの評定位置がページでずれない
++  //   - 旧「変更練習」ページ (自信を別の値へ変更させる) は削除し、最終ページで「決定して次へを押すまで
++  //     何度でも変更できる」を明示的に説明する方式へ (変更の実施有無は tutChanged で観察記録)
++  // 2026-09-08 (§6-6 項18): 1 項目 1 画面に合わせて 2 ページ。段の意味はボタンの言葉が担うので説明しない。
++  // 残す役割 = 「別々の質問」「過程と結果の違い」「問題ごとにふりかえる」「2 画面の流れ」。具体例は出さない (2026-07-22)。
++  // act: hes=迷いを選んで「次へ」 / conf=自信を選んで「次へ」(確定)
++  const TUT_PAGES = [
++    { act: "intro", title: "感じたことを振り返る", op: '読んだら「次へ」',
++      text: '回答のあと、毎回「迷い」と「自信」を5段階で振り返ります。2つは別々の質問です。正解はありません。感じたままを選んでください。' },
++    { act: "hes", title: "答えを決めるまでの迷い", focus: "hesitation", op: 'いちばん近いものを1つ押して「次へ」',
++      text: '1つ目は「迷い」。答えを決めるまでに、どれくらい迷ったかを選びます。' },
++    { act: "conf", title: "選んだ答えへの自信", focus: "confidence", op: 'いちばん近いものを1つ押して「次へ」',
++      text: 'いま選んだ答えへの自信の強さを選びます。' },
++    { act: "finish", title: "1問ずつ考え直す", op: '読んだら「練習問題へ」',
++      text: '感じ方は問題によって変わります。前の問題の選択に引きずられず、その問題で感じたものに近いものをその都度選んでください。' },
++  ];
++
++  const RATING_PRACTICE_INTRO = { act: "practiceIntro", title: "練習問題", text: "ここから5問、練習問題に回答します。", op: '読んだら「次へ」' };
++  return { items: ITEMS, tutorialPages: TUT_PAGES, practiceIntro: RATING_PRACTICE_INTRO };
++});
+diff --git a/tools/pilot-anchor/js/rating-controller.js b/tools/pilot-anchor/js/rating-controller.js
+new file mode 100644
+--- /dev/null
++++ b/tools/pilot-anchor/js/rating-controller.js
+@@ -0,0 +1,214 @@
++// 評定の状態・進行条件・時刻・教示ログ。DOMや保存/送信の実装を持たない。
++(function (root, factory) {
++  if (typeof module === "object" && module.exports) module.exports = factory();
++  else root.PilotRating = factory();
++})(typeof window === "object" ? window : globalThis, function () {
++  "use strict";
++  function immutableCopy(value) {
++    if (Array.isArray(value)) return Object.freeze(value.map(immutableCopy));
++    if (value && typeof value === "object") return Object.freeze(Object.fromEntries(Object.entries(value).map(([key, child]) => [key, immutableCopy(child)])));
++    return value;
++  }
++  function createController(env) {
++    // Keep content identities stable for delayed view callbacks while preventing
++    // either a view or the caller's source object from rewriting progress rules.
++    const { items: ITEMS, tutorialPages: TUT_PAGES, practiceIntro: RATING_PRACTICE_INTRO } = immutableCopy(env.content);
++    const now = env.now, trial = env.getTrial, device = env.getDevice;
++    let ratingOnset = 0, ratPage = 0, ratPageAt = 0;
++    let ratingTutorialDone = false, tutIdx = -1, tutChanged = false, tutRenderedAt = 0;
++    let ratingReview = null, tutIntroDone = false, ratLockUntil = 0;
++    let ratPageShownAt = null, ratPageShownIdx = -1;
++    let nextDisabled = true, submitDisabled = true;
++    const ratingSeenPages = new Set();
++    const noop = () => {};
++    // No view is needed for state/recording tests. attachView replaces only presentation calls.
++    const emptyView = { hasItems: () => true, prepare: noop, restoreSelections: noop, showPage: noop,
++      showOrdinaryHelp: noop, resetScroll: noop, prepareTutorial: noop, hideTutorial: noop,
++      renderTutorial: noop, select: noop, enterReview: noop, exitReview: noop, flash: noop, addCue: noop };
++    let view = emptyView;
++    const tutActive = () => tutIdx >= 0;
++    const ratingTutorialPage = () => TUT_PAGES[tutIdx] || (tutIdx === TUT_PAGES.length ? RATING_PRACTICE_INTRO : null);
++    function label(buttonId) {
++      if (tutActive()) {
++        const p = ratingTutorialPage();
++        if (ratingReview && p.act === "finish") return "回答に戻る";
++        if (!ratingReview && p.act === "finish") return "練習問題へ";
++        return "次へ";
++      }
++      return buttonId === "ratingSubmit" ? "決定して次へ" : "次へ";
++    }
++    const model = Object.freeze({
++      items: () => ITEMS, tutorialPages: () => TUT_PAGES, active: tutActive, current: ratingTutorialPage,
++      page: () => ratPage, index: () => tutIdx, review: () => !!ratingReview,
++      ratings: () => immutableCopy(trial()?.ratings || {}), nextDisabled: () => nextDisabled, submitDisabled: () => submitDisabled,
++      label, cueDelay: text => env.readCueDelay(text),
++    });
++    function attachView(nextView) { view = { ...emptyView, ...nextView }; }
++    function begin(restored) {
++      ratingOnset = now() - (restored && restored.elapsedMs || 0);
++      if (env.getPhase() === "practice" && env.tutorialEnabled() && !ratingTutorialDone) {
++        // Keep old indices 0/1/2; 3 is the closing explanation, 4 the unnumbered practice intro.
++        const savedIndex = restored && restored.tutorial && restored.tutorial.index;
++        tutIdx = Number.isInteger(savedIndex) ? Math.max(0, Math.min(4, savedIndex)) : 0;
++        tutIntroDone = restored && restored.tutorial ? !!restored.tutorial.introDone : false;
++        ratingSeenPages.clear();
++        for (const page of restored && restored.tutorial && restored.tutorial.seen || []) ratingSeenPages.add(page);
++      }
++      const t = trial(), answer = t.choiceSide === "left" ? t.leftLabel : (t.choiceSide === "right" ? t.rightLabel : null);
++      view.prepare({ practice: env.getPhase() === "practice", answer });
++      if (!restored) { t.ratings = { confidence: null, hesitation: null }; t.ratingBacks = 0; }
++      else view.restoreSelections();
++      showPage(restored ? restored.page : 0, tutActive() ? tutIdx : undefined);
++      if (restored) ratPageAt = now() - (restored.pageElapsedMs || 0);
++      env.showRating();
++      env.setResumeStage("rating"); env.saveBackup();
++    }
++    function showPage(p, explanationIndex) {
++      ratPage = p; ratPageAt = now();
++      nextDisabled = trial().ratings[ITEMS[0].key] == null;
++      submitDisabled = trial().ratings[ITEMS[1].key] == null;
++      view.showPage(p);
++      if (tutActive()) { tutIdx = explanationIndex == null ? (p === 0 ? (tutIntroDone ? 1 : 0) : 2) : explanationIndex; renderTutorial(); }
++      else view.showOrdinaryHelp();
++      env.updateProgress();
++      view.resetScroll();
++      env.focusRating();
++      if (env.getResumeStage() === "rating") env.scheduleCheckpoint();
++    }
++    function next() {
++      if (ratPage !== 0) return;
++      if (ratingReview) { showExplanation(tutIdx + 1); return; }
++      if (tutActive() && TUT_PAGES[tutIdx].act === "intro") {
++        if (tooEarly("ratingNext")) return;
++        tutIntroDone = true; showExplanation(1); return;
++      }
++      if (trial().ratings[ITEMS[0].key] == null) return;
++      if (tutActive() && tooEarly("ratingNext")) return;
++      showPage(1);
++    }
++    function back() {
++      if (ratPage !== 1) return;
++      trial().ratingBacks = (trial().ratingBacks || 0) + 1;
++      if (tutActive()) device().tutorialLog.push({ kind: "rating", event: "back" });
++      showPage(0);
++    }
++    function showExplanation(index) {
++      if (index < 0 || index > TUT_PAGES.length || (ratingReview && index >= TUT_PAGES.length)) return;
++      tutIdx = index; tutIntroDone = index > 0;
++      showPage(index >= 2 ? 1 : 0, index);
++      if (env.getResumeStage() === "rating") env.saveBackup();
++    }
++    function closeReview() {
++      if (!ratingReview) return;
++      const retained = ratingReview;
++      device().tutorialLog.push({ kind: "rating", event: "close", page: tutIdx + 1 });
++      tutIdx = -1; renderTutorial(); ratingReview = null; env.clearReviewState();
++      view.exitReview();
++      showPage(retained.page);
++      ratingOnset = now() - retained.elapsedMs;
++      ratPageAt = now() - retained.pageElapsedMs;
++      env.saveBackup();
++    }
++    function openReview() {
++      if (tutActive() || !trial() || env.getResumeStage() !== "rating") return;
++      ratingReview = { ...env.captureReviewState() };
++      device().tutorialLog.push({ kind: "rating", event: "again", phase: env.getPhase(), trial: env.getPhase() === "main" ? env.getTrialIndex() + 1 : null, ratingPage: ratPage + 1 });
++      view.enterReview();
++      showExplanation(0);
++      env.saveBackup();
++    }
++    function previousExplanation() {
++      if (!tutActive() || tutIdx <= 0) return;
++      device().tutorialLog.push({ kind: "rating", event: "back", page: tutIdx + 1 });
++      if (!ratingReview && tutIdx === 2) trial().ratingBacks = (trial().ratingBacks || 0) + 1;
++      showExplanation(tutIdx - 1);
++    }
++    function replay() {
++      device().tutorialLog.push({ kind: "rating", event: "replay" });
++      showExplanation(0);
++    }
++    function tooEarly(buttonId) {
++      if (now() >= ratLockUntil) return false;
++      device().tutorialLog.push({ kind: "rating", page: tutIdx + 1, event: "early" });
++      view.flash("読んでから押してください", buttonId, ratLockUntil);
++      return true;
++    }
++    function stray() {
++      if (!tutActive()) return;
++      const p = ratingTutorialPage();
++      const unselected = !ratingReview && ["hes", "conf"].includes(p.act) && trial().ratings[ITEMS[ratPage].key] == null;
++      device().tutorialLog.push({ kind: "rating", page: tutIdx + 1, event: "stray" });
++      const buttonId = ratPage === 0 ? "ratingNext" : "ratingSubmit";
++      view.flash(unselected ? "1つ選んでください" : "このボタンで進みます", buttonId);
++      if (!unselected) view.addCue(buttonId);
++    }
++    function renderTutorial() {
++      // Presentation availability must never skip the reading lock or the recorded state.
++      if (ratPageShownIdx >= 0 && ratPageShownAt != null)
++        device().tutorialLog.push({ kind: "rating", page: ratPageShownIdx + 1, ms: Math.round(now() - ratPageShownAt) });
++      ratPageShownIdx = tutActive() ? tutIdx : -1; ratPageShownAt = tutActive() ? now() : null;
++      view.prepareTutorial();
++      if (!tutActive()) { view.hideTutorial(); return; }
++      const p = ratingTutorialPage();
++      const seen = ratingSeenPages.has(tutIdx); ratingSeenPages.add(tutIdx);
++      const key = p.act === "conf" ? "confidence" : "hesitation";
++      const staticPage = !!ratingReview || !["hes", "conf"].includes(p.act);
++      if (ratingReview) { nextDisabled = false; submitDisabled = false; }
++      else if (staticPage) { if (ratPage === 0) nextDisabled = false; else submitDisabled = false; }
++      else if (p.act === "hes") nextDisabled = trial().ratings[key] == null;
++      view.renderTutorial(p);
++      tutRenderedAt = now();
++      ratLockUntil = (ratingReview || seen) ? 0 : tutRenderedAt + env.minReadMs(p.text);
++    }
++    function select(key, value) {
++      if (ratingReview) return;
++      if (tutActive() && !["hes", "conf"].includes(ratingTutorialPage().act)) return;
++      if (key !== ITEMS[ratPage].key) return;
++      if (tutActive() && trial().ratings[key] && trial().ratings[key].value !== value) tutChanged = true;
++      trial().ratings[key] = { value, rt_ms: +(now() - ratPageAt).toFixed(1) };
++      nextDisabled = trial().ratings[ITEMS[0].key] == null;
++      submitDisabled = trial().ratings[ITEMS[1].key] == null;
++      view.select(key, value);
++      env.scheduleCheckpoint();
++    }
++    function submit() {
++      if (ratingReview) {
++        if (tutIdx === TUT_PAGES.length - 1) closeReview();
++        else showExplanation(tutIdx + 1);
++        return;
++      }
++      if (tutActive() && ratingTutorialPage().act === "finish") {
++        if (tooEarly("ratingSubmit")) return;
++        showExplanation(TUT_PAGES.length); return;
++      }
++      if (tutActive() && ratingTutorialPage().act === "practiceIntro") {
++        if (tooEarly("ratingSubmit")) return;
++        tutIdx = -1; ratingTutorialDone = true; renderTutorial();
++        device().ratingTutorial = { changed: tutChanged, completed: true, pages: TUT_PAGES.length };
++        env.onPracticeComplete(); return;
++      }
++      if (ITEMS.some(it => trial().ratings[it.key] == null)) return;
++      if (ratPage !== 1) return;
++      if (tutActive() && tooEarly("ratingSubmit")) return;
++      trial().ratingSubmitMs = +(now() - ratingOnset).toFixed(1);
++      env.stampMonitors(trial());
++      if (tutActive()) { showExplanation(TUT_PAGES.length - 1); return; }
++      env.onSubmitted();
++    }
++    function endTutorial() { tutIdx = -1; renderTutorial(); }
++    function restoreSession({ done, changed }) { ratingTutorialDone = done; tutIdx = -1; tutChanged = !!changed; }
++    function snapshot(at = now()) {
++      return { page: ratPage, elapsedMs: at - ratingOnset, pageElapsedMs: at - ratPageAt,
++        tutorial: tutActive() && !ratingReview ? { version: 2, pages: TUT_PAGES.length, index: tutIdx, introDone: tutIntroDone, seen: [...ratingSeenPages] } : null };
++    }
++    const events = Object.freeze({ next, back, submit, select, help: openReview, close: closeReview, previous: previousExplanation, replay, stray });
++    return { attachView, model, events, begin, next, back, select, submit, openReview, closeReview, previousExplanation,
++      replay, showExplanation, endTutorial, restoreSession, snapshot,
++      setTutorialDone: value => { ratingTutorialDone = value; },
++      isActive: tutActive, isReview: () => !!ratingReview, isDone: () => ratingTutorialDone, changed: () => tutChanged,
++      state: () => ({ page: ratPage, index: tutIdx, review: !!ratingReview, lockRemainingMs: Math.max(0, ratLockUntil - now()),
++        done: ratingTutorialDone, changed: tutChanged, nextDisabled, submitDisabled }),
++    };
++  }
++  return { createController };
++});
+diff --git a/tools/pilot-anchor/js/rating-view.js b/tools/pilot-anchor/js/rating-view.js
+new file mode 100644
+--- /dev/null
++++ b/tools/pilot-anchor/js/rating-view.js
+@@ -0,0 +1,211 @@
++"use strict";
++
++// 評定のDOM・配置・装飾と表示用タイマー。判断と記録はmodel/events経由でcontrollerへ委譲する。
++window.PilotRatingView = { create(env, model, events) {
++  const { $, screens, initChoiceGroup, syncChoiceState, now } = env;
++  let ratSpot = null, ratPop = null, ratCueTimer = null, ratFlashTimer = null;
++  const FLASH_MS = 1200;
++  const current = model.current, active = model.active;
++  function prepare({ practice, answer }) {
++    $("ratingHead").className = practice ? "practice" : "";
++    $("ratingHead").textContent = practice ? "" : "回答について教えてください";
++    $("ratingAnswer").hidden = !answer;
++    if (answer) { $("ratingAnswer").innerHTML = ""; const l = document.createElement("span"); l.textContent = "あなたの回答: "; const b = document.createElement("b"); b.textContent = answer; $("ratingAnswer").append(l, b); }
++    const host = $("ratingItems");
++    host.innerHTML = "";
++    for (const item of model.items()) {
++      const wrap = document.createElement("div");
++      wrap.className = "qitem";
++      wrap.id = "qitem-" + item.key;
++      const q = document.createElement("div");
++      q.className = "qi-text"; q.id = "rating-label-" + item.key; q.textContent = item.q;
++      const lk = document.createElement("div");
++      lk.className = "likert"; lk.setAttribute("aria-labelledby", q.id);
++      for (let v = 1; v <= 5; v++) {
++        const b = document.createElement("button");
++        b.type = "button"; b.dataset.val = String(v);
++        const num = document.createElement("b"); num.textContent = v;
++        const lab = document.createElement("span"); lab.textContent = item.labels[v - 1];
++        b.append(num, lab);
++        b.addEventListener("click", () => events.select(item.key, v), { passive: true });
++        lk.appendChild(b);
++      }
++      initChoiceGroup(lk, false);
++      wrap.append(q, lk);
++      host.appendChild(wrap);
++    }
++  }
++  function restoreSelections() {
++    for (const item of model.items()) {
++      const group = $("qitem-" + item.key).querySelector(".likert");
++      for (const b of group.children) b.classList.toggle("sel", !!model.ratings()[item.key] && Number(b.dataset.val) === model.ratings()[item.key].value);
++      syncChoiceState(group);
++    }
++  }
++  function showPage(p) {
++    const items = model.items();
++    for (let i = 0; i < items.length; i++) { const el = $("qitem-" + items[i].key); if (el) el.hidden = i !== p; }
++    $("ratingBack").style.display = p === 1 ? "" : "none";
++    $("ratBtnRow").classList.toggle("with-back", p === 1);
++    $("ratingNext").style.display = p === 0 ? "" : "none";
++    $("ratingSubmit").style.display = p === 1 ? "" : "none";
++    $("ratingNext").disabled = model.nextDisabled();
++    $("ratingSubmit").disabled = model.submitDisabled();
++    $("ratingNext").classList.remove("cue"); $("ratingSubmit").classList.remove("cue");
++  }
++  function showOrdinaryHelp() { $("ratingTutPrev").hidden = true; $("ratingHelp").classList.remove("hidden"); }
++  function resetScroll() { $("rating").querySelector(".qwrap").scrollTop = 0; }
++  function exitReview() {
++    document.body.classList.remove("tut-review");
++    $("rating").classList.remove("rating-review");
++    for (const b of $("ratingItems").querySelectorAll("button")) b.disabled = false;
++  }
++  function enterReview() {
++    $("rating").classList.add("rating-review"); document.body.classList.add("tut-review");
++    for (const b of $("ratingItems").querySelectorAll("button")) b.disabled = true;
++  }
++  function flashClear() {
++    if (ratFlashTimer) { clearTimeout(ratFlashTimer); ratFlashTimer = null; }
++    for (const id of ["ratingNext", "ratingSubmit"]) { const b = $(id); if (b.classList.contains("warn")) { b.classList.remove("warn"); b.textContent = model.label(id); b.style.height = b.dataset.ratHeight || ""; delete b.dataset.ratHeight; } }
++  }
++  function flash(text, buttonId, maxUntil) {
++    const btn = $(buttonId || (model.page() === 0 ? "ratingNext" : "ratingSubmit"));
++    if (ratFlashTimer && btn.classList.contains("warn") && btn.textContent === text) return;
++    flashClear();
++    const at = now(); let end = at + FLASH_MS; if (maxUntil) end = Math.min(end, maxUntil);
++    btn.dataset.ratHeight = btn.style.height;
++    btn.style.height = btn.getBoundingClientRect().height + "px";
++    btn.textContent = text; btn.classList.add("warn");
++    ratFlashTimer = setTimeout(() => { ratFlashTimer = null; btn.classList.remove("warn"); btn.textContent = model.label(btn.id); btn.style.height = btn.dataset.ratHeight || ""; delete btn.dataset.ratHeight; }, Math.max(150, end - at));
++  }
++  function ensureSpot() {
++    if (ratSpot) return;
++    ratSpot = document.createElement("div"); ratSpot.id = "ratSpot"; ratSpot.className = "tut-spot hidden";
++    document.body.appendChild(ratSpot);
++    ratPop = document.createElement("div"); ratPop.id = "ratPop"; ratPop.className = "tut-pop hidden";
++    ratPop.innerHTML = '<div class="s" id="tutStepLabel"></div><h1 id="ratTutTitle"></h1><div class="t" id="ratTutText"></div>' +
++      '<div class="rat-card-meta"><div class="g hidden" id="ratPopOp"></div><div class="dots" id="ratPopDots"></div></div>';
++    $("rating").querySelector(".qwrap").prepend(ratPop);
++    $("ratReplay").addEventListener("click", events.replay, { passive: true });
++  }
++  function place() {
++    if (!active() || !ratPop || !screens.rating.classList.contains("active")) return;
++    const p = current();
++    ratPop.classList.add("on");
++    ratPop.style.top = ""; ratPop.style.left = ""; ratPop.style.marginTop = "0px";
++    const wrap = $("rating").querySelector(".qwrap"), row = $("ratBtnRow");
++    if (model.review() || ["intro", "finish", "practiceIntro"].includes(p.act)) {
++      row.style.bottom = "auto";
++      row.style.top = Math.max(12, innerHeight * .88 - Math.min(innerWidth, innerHeight) * .08 - row.getBoundingClientRect().height / 2) + "px";
++    } else { row.style.bottom = ""; row.style.top = ""; }
++    const buttons = row.getBoundingClientRect();
++    const top = model.review() ? $("ratingTutClose").getBoundingClientRect().bottom + 8 : parseFloat(getComputedStyle(wrap).paddingTop);
++    if (model.review() || !["hes", "conf"].includes(p.act)) {
++      const natural = ratPop.getBoundingClientRect().top;
++      ratPop.style.marginTop = Math.max(0, top + (buttons.top - 20 - top - ratPop.offsetHeight) / 2 - natural) + "px";
++    } else {
++      const natural = ratPop.getBoundingClientRect().top, total = buttons.bottom - natural;
++      ratPop.style.marginTop = Math.max(0, top - natural, (innerHeight - 20 - top - total) / 2 + top - natural) + "px";
++    }
++    wrap.scrollTop = 0;
++  }
++  function hasItems() { return !!$("qitem-confidence") && !!$("qitem-hesitation"); }
++  function prepareTutorial() {
++    if (!hasItems()) return;
++    const qc = $("qitem-confidence"), qh = $("qitem-hesitation");
++    ensureSpot();
++    const oldBox = $("tutBox"); if (oldBox) oldBox.remove();
++    qc.classList.remove("dim", "tfocus"); qh.classList.remove("dim", "tfocus");
++    $("ratingHelp").classList.toggle("hidden", active());
++    $("ratingTutClose").classList.toggle("hidden", !active() || !model.review());
++    $("ratingTutPrev").hidden = !active() || model.index() === 0;
++  }
++  function hideTutorial() {
++    if (!hasItems() || !ratSpot || !ratPop) return;
++    const lkC = $("qitem-confidence").querySelector(".likert"), lkH = $("qitem-hesitation").querySelector(".likert");
++    ratSpot.classList.remove("on", "strong"); ratPop.classList.remove("on");
++    ratSpot.classList.add("hidden"); ratPop.classList.add("hidden");
++    if (lkC) lkC.classList.remove("tut-cue"); if (lkH) lkH.classList.remove("tut-cue");
++    flashClear();
++    $("ratReplay").classList.add("hidden");
++    $("rating").classList.remove("tut-front", "rat-intro", "rat-static");
++    $("ratBtnRow").style.top = ""; $("ratBtnRow").style.bottom = "";
++    $("ratingBackNote").hidden = true;
++    ratPop.style.marginTop = "";
++    $("ratingNext").classList.remove("cue"); $("ratingSubmit").classList.remove("cue");
++    if (ratCueTimer) { clearTimeout(ratCueTimer); ratCueTimer = null; }
++    $("ratingSubmit").textContent = "決定して次へ";
++  }
++  function renderTutorial(p) {
++    if (!hasItems() || !ratSpot || !ratPop) return;
++    const idx = model.index(), pages = model.tutorialPages(), review = model.review();
++    $("rating").style.removeProperty("--ratReserve");
++    flashClear();
++    $("tutStepLabel").textContent = idx < pages.length ? `回答の振り返り ${idx + 1} / ${pages.length}` : "";
++    $("tutStepLabel").hidden = idx >= pages.length;
++    $("ratTutTitle").textContent = p.title;
++    const rdots = $("ratPopDots"); rdots.innerHTML = "";
++    if (idx < pages.length) for (let i = 0; i < pages.length; i++) { const d = document.createElement("i"); if (i === idx) d.className = "a"; rdots.appendChild(d); }
++    $("ratTutText").textContent = p.text;
++    $("ratReplay").classList.add("hidden");
++    const operation = review ? (idx === pages.length - 1 ? "確認したら「回答に戻る」" : "確認したら「次へ」") : p.op;
++    $("ratPopOp").textContent = operation || ""; $("ratPopOp").classList.toggle("hidden", !operation);
++    $("ratingBack").style.display = "none";
++    $("ratingTutPrev").hidden = idx === 0 || (!review && ["finish", "practiceIntro"].includes(p.act));
++    $("ratingTutPrev").textContent = "← 戻る";
++    $("ratingBackNote").hidden = review || p.act !== "conf";
++    $("ratBtnRow").classList.toggle("with-back", !$("ratingTutPrev").hidden);
++    $("rating").classList.add("tut-front");
++    if (ratCueTimer) { clearTimeout(ratCueTimer); ratCueTimer = null; }
++    $("ratingNext").textContent = model.label("ratingNext");
++    $("ratingSubmit").textContent = model.label("ratingSubmit");
++    const key = p.act === "conf" ? "confidence" : "hesitation", lk = $("qitem-" + key).querySelector(".likert");
++    const lkC = $("qitem-confidence").querySelector(".likert"), lkH = $("qitem-hesitation").querySelector(".likert");
++    if (lkC) lkC.classList.remove("tut-cue"); if (lkH) lkH.classList.remove("tut-cue");
++    const staticPage = !!review || !["hes", "conf"].includes(p.act);
++    $("rating").classList.toggle("rat-intro", staticPage);
++    $("rating").classList.toggle("rat-static", staticPage);
++    if (review) {
++      $("ratingNext").disabled = model.nextDisabled(); $("ratingSubmit").disabled = model.submitDisabled();
++    } else if (staticPage) {
++      const goBtn = model.page() === 0 ? $("ratingNext") : $("ratingSubmit");
++      goBtn.disabled = model.page() === 0 ? model.nextDisabled() : model.submitDisabled();
++      ratCueTimer = setTimeout(() => { if (active() && current() === p) goBtn.classList.add("cue"); }, model.cueDelay(p.text));
++    } else {
++      if (p.act === "hes") $("ratingNext").disabled = model.nextDisabled();
++      if (model.ratings()[key] == null) lk.classList.add("tut-cue");
++      else (p.act === "conf" ? $("ratingSubmit") : $("ratingNext")).classList.add("cue");
++    }
++    resetScroll();
++    ratSpot.classList.remove("strong", "on"); ratSpot.classList.add("hidden"); ratPop.classList.remove("hidden");
++    requestAnimationFrame(place);
++  }
++  function select(key, value) {
++    const container = $("qitem-" + key).querySelector(".likert"), btn = [...container.children].find(b => Number(b.dataset.val) === value);
++    for (const b of container.children) b.classList.toggle("sel", b === btn);
++    syncChoiceState(container);
++    $("ratingNext").disabled = model.nextDisabled();
++    $("ratingSubmit").disabled = model.submitDisabled();
++    if (active()) {
++      container.classList.remove("tut-cue");
++      (model.page() === 0 ? $("ratingNext") : $("ratingSubmit")).classList.add("cue");
++    }
++  }
++  $("ratingNext").addEventListener("click", events.next, { passive: true });
++  $("ratingBack").addEventListener("click", events.back, { passive: true });
++  $("ratingHelp").addEventListener("click", events.help, { passive: true });
++  $("ratingTutClose").addEventListener("click", events.close, { passive: true });
++  $("ratingTutPrev").addEventListener("click", events.previous, { passive: true });
++  $("ratingSubmit").addEventListener("click", events.submit, { passive: true });
++  $("rating").addEventListener("pointerdown", e => {
++    if (!active()) return;
++    const t = e.target;
++    if ((!model.review() && t.closest(".likert button")) || t.closest("#ratingBack") || t.closest("#ratingTutPrev") || t.closest("#ratingTutClose") || t.closest("#stopBtn")) return;
++    const goBtn = model.page() === 0 ? $("ratingNext") : $("ratingSubmit");
++    if (t.closest("#" + goBtn.id) && !goBtn.disabled) return;
++    events.stray();
++  }, { passive: true });
++  window.addEventListener("resize", () => requestAnimationFrame(place), { passive: true });
++  return { prepare, restoreSelections, showPage, showOrdinaryHelp, resetScroll, enterReview, exitReview,
++    hasItems, prepareTutorial, hideTutorial, renderTutorial, select, flash, addCue: id => $(id).classList.add("cue"), place };
++} };

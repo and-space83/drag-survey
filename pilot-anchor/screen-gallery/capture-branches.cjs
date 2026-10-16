@@ -28,8 +28,8 @@ if(caseFilter && fs.existsSync(path.join(out,'data','branches.json'))){
 // These hooks call actual app functions; they do not alter visible markup or copy.
 const hooks=function(){/*
       gallery: {
-        main: () => { dragTutState.done=true; ratingTutorialDone=true; device.participantId="画面確認用（架空）"; startMain(); },
-        practice: () => { dragTutState.done=true; ratingTutorialDone=true;phase="practice";streak=0;queue=BLOCK.buildPractice(CONFIG.practiceTrials);sizeCanvas();nextTrial(); },
+        main: () => { dragTutState.done=true; ratingController.setTutorialDone(true); device.participantId="画面確認用（架空）"; startMain(); },
+        practice: () => { dragTutState.done=true; ratingController.setTutorialDone(true);phase="practice";streak=0;queue=BLOCK.buildPractice(CONFIG.practiceTrials);sizeCanvas();nextTrial(); },
         tutorial: () => startPractice(),
         storage: (kind,legacy) => { if(legacy){localStorage.setItem(BACKUP_KEY,"synthetic legacy checkpoint");localStorage.setItem(OUTBOX_KEY,"synthetic legacy outbox");} storageProblem(new Error(kind)); },
         resume: (stage,main=true) => { const b={...buildPayload(),resume:{...resumeState(),stage,mainStarted:main,trialIndex:20,totalMain:55,instrIndex:3,phase:stage==="instructedIntro"?"instructed":"main"}};showResume(b); },

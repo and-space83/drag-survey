@@ -83,6 +83,14 @@
 
 配布物は `index.html`・`app.css`・`guided-tutorial.js`・`guided-tutorial.css`・`bank.js`・`session-store.js`・`durable-storage.js`・`storage-worker.js`・`staged-delivery.js`・`consent.js`・`consent.css`・`data-codec.js` と `js/`・`css/`・`vendor/`。開発元の `lib/app-source.cjs` が列挙する一式をそろえる。`js/app.js` が実験全体を接続し、`js/trial-recorder.js` が計測、`js/runtime-guards.js` が共通ガード、`js/tutorial-controller.js` が教示の進行・保存再開、`js/tutorial-view.js` / `js/tutorial-visuals.js` が表示と実演を担当する。更新時は旧版のタブを閉じてから開き直す。旧保存形式は元データを保全しながら移行する。先にGAS受け口を更新し、3段階方式を確認してから静的サイトを更新する。GASはエディタ保存だけでなく、既存デプロイの新バージョンへの切り替えが必要。
 
+## 表示と処理の構成
+
+迷い・自信の質問・尺度・説明文は [js/rating-content.js](js/rating-content.js)、画面の描画・配置は [js/rating-view.js](js/rating-view.js)、回答・計時・読了待機・見直し・保存復元は [js/rating-controller.js](js/rating-controller.js) が担当する。見た目を変える際は主にviewとapp.cssを編集し、controllerのmodel/events経由で接続する。modelは読み取り専用で、表示側から内部の回答や説明定義を直接変更できない。保存・次問・環境音チェックへの接続はapp.jsに残す。
+
+共通の選択ボタン・ARIA・キー操作は js/choice-controls.js、練習確認・注意画面の描画は js/instruction-notice-view.js、説明の待機時間と合図時刻の計算は js/reading-policy.js に分離している。既存の端末・向き・拡大防止ガード、保存形式、評定の順序と時間の定義は維持する。
+
+この整理の確認範囲は [検証記録](reviews/2026-10-16-rating-refactor/results.json)、全画面と全文は [固定の確認ページ](reviews/2026-10-12-session-explanations/index.html) を参照。
+
 ## このアプリの目的
 
 研究全体の主問いは「ドラッグ軌道から各設問への主観的確信度を機械学習で予測できるか」。本アプリはその前段で、**「Web × モバイル × ドラッグ」という取得系が、先行研究で確立した『難易度 → 運動指標』の効果を再現するかを実機で確認**するためのもの。アンカー課題は客観難易度が既知なので、本実験の本筋 (主観確信度予測) に進む前の妥当性確認として使う。
