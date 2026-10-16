@@ -126,7 +126,7 @@
   受け口の実装とデプロイ手順は gas-collector.gs / DEPLOY.md を参照。
 -->
 <link rel="stylesheet" href="css/runtime-guards.css?v=2026-10-16-refactor1" onerror="window.pilotAssetLoadFailed = true">
-  <link rel="stylesheet" href="app.css?v=2026-10-16-ui24">
+  <link rel="stylesheet" href="app.css?v=2026-10-16-ui25">
   <link rel="stylesheet" href="guided-tutorial.css?v=2026-10-16-ui22">
 <link rel="stylesheet" href="consent.css">
 </head>
@@ -412,10 +412,11 @@
 <!-- ===== READING (読速ベースライン: 中立短文3本を「読み終えたらタップ」で計測。moral 含むセッションで実施 §6-6 項13) ===== -->
 <section id="reading" class="screen">
   <div class="pad">
-    <h1>文章を読む速さの計測</h1>
-    <p id="readIntro">まず、あなたの普段の読む速さを知るため、短い文章を4本読んでもらいます。<br><b>速く読む必要はないので普段通りの速さで読み</b>、読み終えたらすぐ下のボタンを押してください。</p>
-    <p class="opt-note" id="readCounter"></p>
-    <div class="rtext" id="readText" style="display:none"></div>
+    <div id="readContent" class="reading-intro-card">
+      <h1 id="readHeading"><span id="readTitle">文章を読む速さの計測</span><span id="readCounter"></span></h1>
+      <p id="readIntro">まず、あなたの普段の読む速さを知るため、短い文章を4本読んでもらいます。<br><b>速く読む必要はないので普段通りの速さで読み</b>、読み終えたらすぐ下のボタンを押してください。</p>
+      <div class="rtext" id="readText" style="display:none"></div>
+    </div>
     <div class="vgap"></div>
     <button class="btn primary advance" id="readDone">はじめる</button>
   </div>

@@ -995,6 +995,8 @@
     readResumed = !!restored && readIdx >= 0;
     if (!restored || !device.readingBaseline) device.readingBaseline = { trials: [], charsPerSec: null };
     if (readResumed) device.readingBaseline.resumed = true;
+    $("readContent").classList.add("reading-intro-card");
+    $("readTitle").textContent = "文章を読む速さの計測";
     $("readCounter").textContent = "";
     $("readText").style.display = "none";
     $("readIntro").style.display = "";
@@ -1006,6 +1008,8 @@
     resumeStage = "reading"; saveBackup();
   }
   function renderReading(elapsedMs = 0) {
+    $("readContent").classList.remove("reading-intro-card");
+    $("readTitle").textContent = "文章を読む速さの計測";
     $("readIntro").style.display = "none";
     $("readCounter").textContent = `${readIdx + 1} / ${READ_SENTENCES.length}`;
     $("readText").innerHTML = nbText(READ_SENTENCES[readIdx]);

@@ -373,6 +373,14 @@
   .micstatus { font-size: calc(14px * var(--ui-scale)); color: #9cf; min-height: 1.6em; }
   /* ---- 読速ベースライン (2026-07-22 §6-6 項13) ---- */
   #reading .rtext { font-size: calc(19px * var(--ui-scale)); line-height: 1.9; color: var(--ink); margin: 16px 0 4px; }
+  #reading .pad { padding-top: 48px; padding-bottom: 0; }
+  #readContent { display: flex; flex-direction: column; flex: none; }
+  #readContent.reading-intro-card { padding: 20px; border: 1px solid #c9dbd1; border-radius: 16px; background: var(--panel); box-shadow: 0 5px 22px #183d2810; }
+  #readHeading { display: flex; align-items: baseline; gap: 12px; }
+  #readCounter { font-size: calc(15px * var(--ui-scale)); line-height: 1.6; font-weight: 400; white-space: nowrap; }
+  #readCounter:empty { display: none; }
+  /* 元の別行カウンターが占めていた高さを間隔に残し、見出しと本文の距離を維持する。 */
+  #reading #readText { flex: none; margin-top: calc(18px + 24px * var(--ui-scale)); }
 
   /* 完了コード (done 画面。募集サイト納品欄との照合用 §6-6 項12) */
   .ccode { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
