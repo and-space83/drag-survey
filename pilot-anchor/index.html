@@ -197,8 +197,11 @@
 <!-- ===== WELCOME (入力の前に説明を分割提示。2026-09-05: 小さい注記の羅列は読まれないため) ===== -->
 <section id="welcome" class="screen active">
   <div class="pad">
-    <p class="opt-note" id="wcStep"></p>
-    <div id="wcBody" class="session-explanation-card"></div>
+    <div id="wcHeader">
+      <p id="wcStep">はじめに</p>
+      <div id="wcDots" role="img" aria-label=""></div>
+    </div>
+    <div id="wcCardArea"><div id="wcBody" class="session-explanation-card"></div></div>
     <div class="vgap"></div>
     <div class="explain-nav" id="wcNav">
       <button type="button" class="btn ghost" id="wcPrev" hidden>← 前へ</button>

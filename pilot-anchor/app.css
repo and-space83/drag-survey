@@ -649,30 +649,39 @@
   /* はじめに (同意チェック)・実施後のアンケート・完了画面を mini + ツールバー (375×700) に収める (2026-09-30) */
   #welcome .checks .chk { padding: 9px 10px 9px 38px; font-size: calc(14.5px * var(--ui-scale)); line-height: 1.5; }
   #welcome .checks { gap: 5px; }
-  /* 参加前の6枚は説明量にかかわらず、カードと進行ボタンの位置をそろえる。 */
+  /* 参加前の6枚は内容に合わせて伸縮し、BOXの中心と進行ボタンの縦位置をそろえる。 */
   .session-explanation-card { border: 1px solid #c9dbd1; border-radius: 16px; background: var(--panel);
     box-shadow: 0 5px 22px #183d2810; padding: 20px; }
   #welcome .pad { position: relative; padding: 0; overflow: hidden;
-    --welcome-nav-height: max(57px, calc(27px * var(--ui-scale) + 30px), var(--nav-minh)); }
+    --welcome-nav-height: max(57px, calc(27px * var(--ui-scale) + 30px), var(--nav-minh));
+    --welcome-header-top: max(17px, 3%); --welcome-header-height: calc(31px * var(--ui-scale)); }
   #welcome .pad::before, #welcome .pad::after, #welcome .vgap { display: none; }
-  #wcStep { position: absolute; left: 20px; right: 20px; top: max(17px, 3.5%); color: var(--go); font-weight: 700; }
-  #wcBody { position: absolute; left: 18px; right: 18px; top: max(56px, 8%); bottom: calc(max(58px, 8%) + var(--welcome-nav-height) + 8px);
-    display: flex; flex-direction: column; overflow-y: auto; overscroll-behavior: contain; padding: 18px; }
-  #welcome #wcHeading { flex: none; color: var(--ink); font-size: calc(22px * var(--ui-scale)); line-height: 1.4; margin: 0 0 14px; }
-  #welcome .wc-content { display: flex; flex-direction: column; gap: 14px; flex: none; }
+  #wcHeader { position: absolute; left: 20px; right: 20px; top: var(--welcome-header-top); min-height: var(--welcome-header-height);
+    display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  #welcome #wcStep { color: var(--ink); font-size: calc(22px * var(--ui-scale)); line-height: 1.4; font-weight: 700; margin: 0; }
+  #wcDots { display: flex; gap: 5px; flex: none; }
+  #wcDots i { width: 7px; height: 7px; border-radius: 50%; background: #d9e5dc; }
+  #wcDots i.a { background: var(--go); }
+  #wcCardArea { position: absolute; left: 18px; right: 18px; top: calc(var(--welcome-header-top) + var(--welcome-header-height) + 10px);
+    bottom: calc(max(58px, 8%) + var(--welcome-nav-height) + 8px); display: flex; align-items: center; }
+  #wcBody { width: 100%; max-height: 100%; flex: none; display: flex; flex-direction: column;
+    overflow-y: auto; overscroll-behavior: contain; padding: 18px; }
+  #welcome #wcHeading { flex: none; color: var(--ink); font-size: calc(22px * var(--ui-scale)); line-height: 1.4; margin: 0 0 12px; }
+  #welcome .wc-content { display: flex; flex-direction: column; gap: 12px; flex: none; }
   #welcome .wc-content p, #welcome .wc-content li { font-size: calc(15px * var(--ui-scale)); line-height: 1.6; }
-  #welcome .wc-content ul { display: flex; flex-direction: column; gap: 12px; margin: 0 0 0 20px; }
+  #welcome .wc-content ul { display: flex; flex-direction: column; gap: 10px; margin: 0 0 0 20px; }
   #welcome .wc-content ol { display: flex; flex-direction: column; gap: 2px; margin: 0 0 0 22px; }
   #welcome .wc-content ol li { padding-left: 1px; font-weight: 600; line-height: 1.45; }
   #welcome .wc-content .wc-flow { padding: 10px 14px; border-radius: 10px; background: #f0f7f3; }
   #welcome .wc-flow p { margin-bottom: 6px; color: var(--go); font-weight: 700; }
   #welcome .wc-content .opt-note { color: var(--ink-2); font-size: calc(13px * var(--ui-scale)); line-height: 1.5; }
-  #welcome .checks { margin-top: 12px; }
+  #welcome .checks { margin-top: 8px; }
   #welcome #wcNav { position: absolute; left: 18px; right: 18px; bottom: max(58px, 8%);
     width: auto; margin: 0; }
   #welcome #wcNav .btn { min-height: var(--welcome-nav-height); }
-  #welcome #wcPrev[hidden] { display: flex; visibility: hidden; pointer-events: none; }
-  #welcome #wcNav:has(> [hidden]) { width: auto; }
+  #welcome #wcPrev[hidden] { display: none; }
+  /* 2ボタン時の「次へ」幅 (全幅から前へ32%とgap8pxを引いた幅) を初回も使う。 */
+  #welcome #wcNav:has(> [hidden]) { left: 50%; right: auto; width: calc(68% - 32.48px); transform: translateX(-50%); }
   #break .session-transition-card, #blockintroBody.practice-complete-card { flex: none; }
   #blockintroBody.practice-complete-card { border: 1px solid #c9dbd1; border-radius: 16px; background: var(--panel);
     box-shadow: 0 5px 22px #183d2810; padding: 20px; }

@@ -3862,7 +3862,9 @@
   const wcAgreed = WELCOME.map(() => []);
   function wcRender() {
     const p = WELCOME[wcIdx];
-    $("wcStep").textContent = `${wcIdx + 1} / ${WELCOME.length}`;
+    $("wcStep").textContent = "はじめに";
+    $("wcDots").setAttribute("aria-label", `${WELCOME.length}ページ中${wcIdx + 1}ページ目`);
+    $("wcDots").innerHTML = WELCOME.map((_, i) => `<i${i === wcIdx ? ' class="a"' : ""}></i>`).join("");
     $("wcBody").innerHTML = `<h1 id="wcHeading">${p.h}</h1><div class="wc-content">` + p.b + '</div>' +
       (p.agree ? '<div class="checks" id="wcAgree" aria-labelledby="wcHeading">' + p.agree.map((t, i) => `<button type="button" class="chk" data-val="${i}">${t}</button>`).join("") + '</div>' : "") +
       (p.mic && MIC.mode !== "off" ? '<p class="opt-note" style="margin-top:12px">※ 次の画面でマイクの許可をお願いします（測るのは周囲の<b>音量レベルだけ</b>で、会話の内容は記録しません）。</p>' : "") +
