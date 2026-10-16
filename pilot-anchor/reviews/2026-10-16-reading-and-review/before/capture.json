@@ -1,0 +1,796 @@
+{
+  "at": "2026-10-16T07:57:44.898Z",
+  "version": "2026-10-16-ui24",
+  "source": {
+    "index.html": "b511f6036d0fc363a3d58fa55da14f17ec368958d935306bdf7045981a7fb65a",
+    "css/runtime-guards.css": "da2a02010ec7825568dafae2fb95b6cdc7cf36321f335375ad26ba5281492683",
+    "app.css": "5bc6985bab8e2a6b102057ae36d2fb7e8a6da2a261a0526c8ea24642e4f3fd2e",
+    "guided-tutorial.css": "044853cf630d434c58190c4cd3072aa7e700619cb16e70a2920f8e89fc7a880d",
+    "consent.css": "4d0be0745d50ebdde249c7c7908ce50372066762d4c6db529dc859db722d920f",
+    "js/runtime-guards.js": "f7648083aab79c08bdb07e25d041e32b53e8626880f18b4bac8fb9bfca14a26b",
+    "bank.js": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
+    "guided-tutorial.js": "f2ece5f2457364f8072796585ac8e42b49c84aa2070f5bc25e35c497b2209841",
+    "js/tutorial-visuals.js": "5770c5068e42fb23a25935b7396a88a540f204998ad48362464a14d05551deef",
+    "js/tutorial-view.js": "dcff770423cdffc7b6f354f5fa111b4f0e0e8f2c2b033176319a1b7bd2239ac6",
+    "js/tutorial-controller.js": "753eaab83e4199c451356c7b8a6f40fa46c0ae26aa74404b0f01406fbd110e88",
+    "vendor/pako.min.js": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+    "data-codec.js": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+    "consent.js": "6dae132f66dc20526ae6e79c59c6ff12049a75a1b11161b6815bfa1339a14bd9",
+    "session-store.js": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+    "durable-storage.js": "84d006f048e2cc16c4a7a7087ec5815485c0b3a7d2ffa4ce6b7b62905dde967b",
+    "staged-delivery.js": "7f37d628ce04dc47233b16387d43add674608d278030dd17355621745ab9f7ad",
+    "js/trial-recorder.js": "301d83a0128f3be3f21fb306504d570c2c65148e5820c6dd6c0cf2d721446946",
+    "js/reading-policy.js": "20a99e9b828608fb5202fb10ee894c093f6606ec066548f98ca3e9bc411b7731",
+    "js/choice-controls.js": "8512245653df94475a9d121dac340cd13dd1460ee96af3b85b9e95ad26e5f70e",
+    "js/instruction-notice-view.js": "8996b24a2b97aa2a58607006e63d561bdfd0faa23ae8f310ab5740c4919b8a67",
+    "js/rating-content.js": "ade45e7eca8cb6734cc3397962fdb9f14c93c102b1215a638ebf9810b0b019f8",
+    "js/rating-controller.js": "4cb1aaac6fe565d4ebed237a3dfc579ea30bfedf23fb9749a182ad6afd868017",
+    "js/rating-view.js": "b418cb1ba3ad72baab9b3dc809a367259143b8f7754e8976f41be9e632bef25e",
+    "js/app.js": "bc4ae54c8be40b1b8e8147546b4525c6486d2f04b0fd0e47a8692580f58e2a84",
+    "storage-worker.js": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
+    "vendor/pako-LICENSE": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539"
+  },
+  "scenes": [
+    {
+      "id": "welcome-1",
+      "beforeId": "flow-welcome-1",
+      "afterId": "flow-welcome-1",
+      "group": "はじめに",
+      "beforeTitle": "はじめに 1 / 6",
+      "beforeText": "はじめに 1 / 6\n\nご参加ありがとうございます\n\nこの調査では、短い問題文を読んで、2つの選択肢から あなたの考えに近いほうを選んでいきます。\n\n正解・不正解はありません。あなたの素直な判断で構いません。\n選んだあとに「迷い」と「自信」を5段階でふりかえります。\n次へ"
+    },
+    {
+      "id": "welcome-2",
+      "beforeId": "flow-welcome-2",
+      "afterId": "flow-welcome-2",
+      "group": "はじめに",
+      "beforeTitle": "はじめに 2 / 6",
+      "beforeText": "はじめに 2 / 6\n\n所要時間と進め方\n\n全体で 40分ほど（35〜50分）かかります。時間に余裕があるときに始めてください。\n\n進める順番\n\n読む速さの計測\n画面・操作の説明\n練習\n本番\n実施後のアンケート\n説明は何度でも見直せます。\n回答を急ぐ必要はありません。読むことや考えることに十分な時間を使い、自分のペースで進めてください。\n本番は20問ごとに休憩があります。休憩以外は、別の作業を挟まずに続けてください。\n← 前へ\n次へ"
+    },
+    {
+      "id": "welcome-3",
+      "beforeId": "flow-welcome-2",
+      "afterId": "flow-welcome-3",
+      "group": "はじめに",
+      "beforeTitle": "はじめに 2 / 6",
+      "beforeText": "はじめに 2 / 6\n\n所要時間と進め方\n\n全体で 40分ほど（35〜50分）かかります。時間に余裕があるときに始めてください。\n\n進める順番\n\n読む速さの計測\n画面・操作の説明\n練習\n本番\n実施後のアンケート\n説明は何度でも見直せます。\n回答を急ぐ必要はありません。読むことや考えることに十分な時間を使い、自分のペースで進めてください。\n本番は20問ごとに休憩があります。休憩以外は、別の作業を挟まずに続けてください。\n← 前へ\n次へ"
+    },
+    {
+      "id": "welcome-4",
+      "beforeId": "flow-welcome-3",
+      "afterId": "flow-welcome-4",
+      "group": "はじめに",
+      "beforeTitle": "はじめに 3 / 6",
+      "beforeText": "はじめに 3 / 6\n\n実施する環境について\n\n静かな場所で、落ち着いて取り組める時に始めてください。\n\nスマートフォンを手で持って操作します（机に置いたままにしないでください）。\n通知で中断されないよう、おやすみモードなどにしておくと安心です。\n← 前へ\n次へ"
+    },
+    {
+      "id": "welcome-5",
+      "beforeId": "flow-welcome-4",
+      "afterId": "flow-welcome-5",
+      "group": "はじめに",
+      "beforeTitle": "はじめに 4 / 6",
+      "beforeText": "はじめに 4 / 6\n\n氏名とデータの取り扱い\n\n氏名は、参加確認と謝礼のお支払いに関する照合に使用します。\n\n研究の分析には、氏名を研究用IDに置き換えたデータを使用します。\n\n研究成果に氏名を掲載することはありません。\n\n← 前へ\n次へ"
+    },
+    {
+      "id": "welcome-6",
+      "beforeId": "flow-welcome-5",
+      "afterId": "flow-welcome-6",
+      "group": "はじめに",
+      "beforeTitle": "はじめに 5 / 6",
+      "beforeText": "はじめに 5 / 6\n\n進めるうえでのお願い\n\n次の項目を確認して、すべてにチェックを入れてください。\n\n途中で他のアプリや別の画面に切り替えません。切り替えた回数と時間は記録されます。\nブラウザの更新や「戻る」は使いません。\nできるだけ中断せずに進めてください。やむを得ず中断した場合は、同じ端末・ブラウザで早めに戻ってください。時間がたつと続きから再開できないことがあります。\n← 前へ\n次へ"
+    },
+    {
+      "id": "welcome-7",
+      "beforeId": "flow-welcome-6",
+      "afterId": "flow-welcome-7",
+      "group": "はじめに",
+      "beforeTitle": "はじめに 6 / 6",
+      "beforeText": "はじめに 6 / 6\n\n参加の条件\n\n次の項目を確認して、すべてにチェックを入れてください。\n\nこの調査は1回だけ参加できます。\n謝礼の支払条件は募集時の案内をご確認ください。\n\n※ 中断からの再開のために、入力した情報と回答の途中経過をこの端末に一時保存します。\n\n← 前へ\nはじめる"
+    },
+    {
+      "id": "reading-intro",
+      "beforeId": "flow-reading-intro",
+      "afterId": "flow-reading-intro",
+      "group": "文章を読む速さの計測",
+      "beforeTitle": "読む速さの計測 — 説明",
+      "beforeText": "文章を読む速さの計測\n\nまず、あなたの普段の読む速さを知るため、短い文章を4本読んでもらいます。\n速く読む必要はないので普段通りの速さで読み、読み終えたらすぐ下のボタンを押してください。\n\nはじめる"
+    },
+    {
+      "id": "reading-1",
+      "beforeId": "flow-reading-1",
+      "afterId": "flow-reading-1",
+      "group": "文章を読む速さの計測",
+      "beforeTitle": "読む速さの計測 — 文章 1 / 4",
+      "beforeText": "文章を読む速さの計測\n\n1 / 4\n\n雨の中、目の前で高齢者が転んで立ち上がれずにいる。あなたは特に急いでいない。\n読み終えた"
+    },
+    {
+      "id": "reading-2",
+      "beforeId": "flow-reading-2",
+      "afterId": "flow-reading-2",
+      "group": "文章を読む速さの計測",
+      "beforeTitle": "読む速さの計測 — 文章 2 / 4",
+      "beforeText": "文章を読む速さの計測\n\n2 / 4\n\nセルフジャッジのテニスの試合で、相手の打球がラインに入ったのが見えたのは自分だけだった。\n読み終えた"
+    },
+    {
+      "id": "reading-3",
+      "beforeId": "flow-reading-3",
+      "afterId": "flow-reading-3",
+      "group": "文章を読む速さの計測",
+      "beforeTitle": "読む速さの計測 — 文章 3 / 4",
+      "beforeText": "文章を読む速さの計測\n\n3 / 4\n\nコンビニで、見知らぬ客が商品をバッグに入れてそのまま店を出ようとしているのに気づいた。\n読み終えた"
+    },
+    {
+      "id": "reading-4",
+      "beforeId": "flow-reading-4",
+      "afterId": "flow-reading-4",
+      "group": "文章を読む速さの計測",
+      "beforeTitle": "読む速さの計測 — 文章 4 / 4",
+      "beforeText": "文章を読む速さの計測\n\n4 / 4\n\n工事現場でクレーンの荷物が作業員3人の頭上に落ちそうだ。警報ボタンを押せば全員が退避でき、誰もケガをしない。\n読み終えた"
+    },
+    {
+      "id": "quiz-1-unselected",
+      "beforeId": "flow-quiz-start-trigger",
+      "afterId": "flow-quiz-start-trigger",
+      "group": "ルールの復習",
+      "beforeTitle": "ルールの復習 1 / 7 — いつスタートする？",
+      "beforeText": "ルールを確認する\nルールの復習　1 / 7\nいつスタートに指を置きますか？\n自分の答えを決め終えてから\n問題文を最後まで読み、状況が分かったら、答えを決める前に\n問題文を読み始めたらすぐに\n答えを1つ選んで「次へ」\n戻る\n次へ"
+    },
+    {
+      "id": "quiz-1-wrong",
+      "beforeId": "flow-quiz-start-trigger-wrong",
+      "afterId": "flow-quiz-start-trigger-wrong",
+      "group": "ルールの復習",
+      "beforeTitle": "ルールの復習 1 / 7 — 選びなおす",
+      "beforeText": "ルールを確認する\nルールの復習　1 / 7\nいつスタートに指を置きますか？\n自分の答えを決め終えてから\n問題文を最後まで読み、状況が分かったら、答えを決める前に\n問題文を読み始めたらすぐに\n\n最後まで読み、状況が分かったら始めます。\n答えを決め終えるまで待ちません。\n\nもう一度選びなおしてください\n戻る\n次へ"
+    },
+    {
+      "id": "quiz-1-correct",
+      "beforeId": "flow-quiz-start-trigger-correct",
+      "afterId": "flow-quiz-start-trigger-correct",
+      "group": "ルールの復習",
+      "beforeTitle": "ルールの復習 1 / 7 — 正解を確認",
+      "beforeText": "ルールを確認する\nルールの復習　1 / 7\nいつスタートに指を置きますか？\n自分の答えを決め終えてから\n問題文を最後まで読み、状況が分かったら、答えを決める前に\n問題文を読み始めたらすぐに\n\n状況が分かったら、答えを決める前にスタートへ。\n\n答えを1つ選んで「次へ」\n戻る\n次へ"
+    },
+    {
+      "id": "quiz-2-unselected",
+      "beforeId": "flow-quiz-move-decision",
+      "afterId": "flow-quiz-move-decision",
+      "group": "ルールの復習",
+      "beforeTitle": "ルールの復習 2 / 7 — 動き始めるとき",
+      "beforeText": "ルールを確認する\nルールの復習　2 / 7\n選択肢を読んだあと、いつ動き始めますか？\n選択肢を読んで、答えを決め終えてから動く\n選択肢を読み、3秒がたったら動く\n選択肢を読んだら、答えが決まるのを待たずに動く\n答えを1つ選んで「次へ」\n戻る\n次へ"
+    },
+    {
+      "id": "quiz-2-wrong",
+      "beforeId": "flow-quiz-move-decision-wrong",
+      "afterId": "flow-quiz-move-decision-wrong",
+      "group": "ルールの復習",
+      "beforeTitle": "ルールの復習 2 / 7 — 選びなおす",
+      "beforeText": "ルールを確認する\nルールの復習　2 / 7\n選択肢を読んだあと、いつ動き始めますか？\n選択肢を読んで、答えを決め終えてから動く\n選択肢を読み、3秒がたったら動く\n選択肢を読んだら、答えが決まるのを待たずに動く\n\n答えが決まるのを待たずに動き始めてください。\n答えを選んでいる間の動きを計測するためです。\n\nもう一度選びなおしてください\n戻る\n次へ"
+    },
+    {
+      "id": "quiz-2-correct",
+      "beforeId": "flow-quiz-move-decision-correct",
+      "afterId": "flow-quiz-move-decision-correct",
+      "group": "ルールの復習",
+      "beforeTitle": "ルールの復習 2 / 7 — 正解を確認",
+      "beforeText": "ルールを確認する\nルールの復習　2 / 7\n選択肢を読んだあと、いつ動き始めますか？\n選択肢を読んで、答えを決め終えてから動く\n選択肢を読み、3秒がたったら動く\n選択肢を読んだら、答えが決まるのを待たずに動く\n\n選択肢を読んだら、答えが決まるのを待たずに動き始めます。\n\n答えを1つ選んで「次へ」\n戻る\n次へ"
+    },
+    {
+      "id": "quiz-3-unselected",
+      "beforeId": "flow-quiz-uncertain",
+      "afterId": "flow-quiz-uncertain",
+      "group": "ルールの復習",
+      "beforeTitle": "ルールの復習 3 / 7 — まだ迷っているとき",
+      "beforeText": "ルールを確認する\nルールの復習　3 / 7\nまだ迷っているときは、どう進めますか？\n答えが決まるまで、スタートの中で待つ\nゆっくりでよいので、指を動かしながら考える\n迷っていても、急いで答えを決める\n答えを1つ選んで「次へ」\n戻る\n次へ"
+    },
+    {
+      "id": "quiz-3-wrong",
+      "beforeId": "flow-quiz-uncertain-wrong",
+      "afterId": "flow-quiz-uncertain-wrong",
+      "group": "ルールの復習",
+      "beforeTitle": "ルールの復習 3 / 7 — 選びなおす",
+      "beforeText": "ルールを確認する\nルールの復習　3 / 7\nまだ迷っているときは、どう進めますか？\n答えが決まるまで、スタートの中で待つ\nゆっくりでよいので、指を動かしながら考える\n迷っていても、急いで答えを決める\n\n迷っていても、急いで答えを決める必要はありません。ゆっくりでよいので、動かしながら考えてください。\n\nもう一度選びなおしてください\n戻る\n次へ"
+    },
+    {
+      "id": "quiz-3-correct",
+      "beforeId": "flow-quiz-uncertain-correct",
+      "afterId": "flow-quiz-uncertain-correct",
+      "group": "ルールの復習",
+      "beforeTitle": "ルールの復習 3 / 7 — 正解を確認",
+      "beforeText": "ルールを確認する\nルールの復習　3 / 7\nまだ迷っているときは、どう進めますか？\n答えが決まるまで、スタートの中で待つ\nゆっくりでよいので、指を動かしながら考える\n迷っていても、急いで答えを決める\n\nどちらを選ぶか迷っているときも、ゆっくりでよいので指を動かしながら考えます。\n\n答えを1つ選んで「次へ」\n戻る\n次へ"
+    },
+    {
+      "id": "quiz-4-unselected",
+      "beforeId": "flow-quiz-exit-time",
+      "afterId": "flow-quiz-exit-time",
+      "group": "ルールの復習",
+      "beforeTitle": "ルールの復習 4 / 7 — 3秒以内にすること",
+      "beforeText": "ルールを確認する\nルールの復習　4 / 7\nスタートに触れてから3秒以内にするのは？\n選択肢のボックスに到着する\n指をスタートの枠の外へ動かす\n選択肢で指を離して回答を終える\n答えを1つ選んで「次へ」\n戻る\n次へ"
+    },
+    {
+      "id": "quiz-4-wrong",
+      "beforeId": "flow-quiz-exit-time-wrong",
+      "afterId": "flow-quiz-exit-time-wrong",
+      "group": "ルールの復習",
+      "beforeTitle": "ルールの復習 4 / 7 — 選びなおす",
+      "beforeText": "ルールを確認する\nルールの復習　4 / 7\nスタートに触れてから3秒以内にするのは？\n選択肢のボックスに到着する\n指をスタートの枠の外へ動かす\n選択肢で指を離して回答を終える\n\n3秒以内にするのは、指をスタートの枠の外へ動かすことです。\n回答を終える制限時間ではありません。\n\nもう一度選びなおしてください\n戻る\n次へ"
+    },
+    {
+      "id": "quiz-4-correct",
+      "beforeId": "flow-quiz-exit-time-correct",
+      "afterId": "flow-quiz-exit-time-correct",
+      "group": "ルールの復習",
+      "beforeTitle": "ルールの復習 4 / 7 — 正解を確認",
+      "beforeText": "ルールを確認する\nルールの復習　4 / 7\nスタートに触れてから3秒以内にするのは？\n選択肢のボックスに到着する\n指をスタートの枠の外へ動かす\n選択肢で指を離して回答を終える\n\n3秒は、スタートに触れてからスタートの枠の外へ出るまでの制限時間です。\n\n答えを1つ選んで「次へ」\n戻る\n次へ"
+    },
+    {
+      "id": "quiz-5-unselected",
+      "beforeId": "flow-quiz-answer-pace",
+      "afterId": "flow-quiz-answer-pace",
+      "group": "ルールの復習",
+      "beforeTitle": "ルールの復習 5 / 7 — 回答するときのペース",
+      "beforeText": "ルールを確認する\nルールの復習　5 / 7\nスタートの枠を出たあとは、どのペースで回答しますか？\n枠を出てから3秒以内に終える\n自分のペースで、焦らずに選ぶ\nスタートに触れてから3秒以内に終える\n答えを1つ選んで「次へ」\n戻る\n次へ"
+    },
+    {
+      "id": "quiz-5-wrong",
+      "beforeId": "flow-quiz-answer-pace-wrong",
+      "afterId": "flow-quiz-answer-pace-wrong",
+      "group": "ルールの復習",
+      "beforeTitle": "ルールの復習 5 / 7 — 選びなおす",
+      "beforeText": "ルールを確認する\nルールの復習　5 / 7\nスタートの枠を出たあとは、どのペースで回答しますか？\n枠を出てから3秒以内に終える\n自分のペースで、焦らずに選ぶ\nスタートに触れてから3秒以内に終える\n\n3秒は回答の制限時間ではありません。\n枠を出たら、自分のペースで焦らず選んでください。ゆっくりでも大丈夫です。\n\nもう一度選びなおしてください\n戻る\n次へ"
+    },
+    {
+      "id": "quiz-5-correct",
+      "beforeId": "flow-quiz-answer-pace-correct",
+      "afterId": "flow-quiz-answer-pace-correct",
+      "group": "ルールの復習",
+      "beforeTitle": "ルールの復習 5 / 7 — 正解を確認",
+      "beforeText": "ルールを確認する\nルールの復習　5 / 7\nスタートの枠を出たあとは、どのペースで回答しますか？\n枠を出てから3秒以内に終える\n自分のペースで、焦らずに選ぶ\nスタートに触れてから3秒以内に終える\n\n回答は、自分のペースで焦らず選んでください。ゆっくりでも大丈夫です。\n\n答えを1つ選んで「次へ」\n戻る\n次へ"
+    },
+    {
+      "id": "quiz-6-unselected",
+      "beforeId": "flow-quiz-path",
+      "afterId": "flow-quiz-path",
+      "group": "ルールの復習",
+      "beforeTitle": "ルールの復習 6 / 7 — 道すじの選び方",
+      "beforeText": "ルールを確認する\nルールの復習　6 / 7\n指を運ぶ道すじは、どうしますか？\n見本と同じ道すじで運ぶ\n自由な道すじで運ぶ\n必ずまっすぐに運ぶ\n答えを1つ選んで「次へ」\n戻る\n次へ"
+    },
+    {
+      "id": "quiz-6-wrong",
+      "beforeId": "flow-quiz-path-wrong",
+      "afterId": "flow-quiz-path-wrong",
+      "group": "ルールの復習",
+      "beforeTitle": "ルールの復習 6 / 7 — 選びなおす",
+      "beforeText": "ルールを確認する\nルールの復習　6 / 7\n指を運ぶ道すじは、どうしますか？\n見本と同じ道すじで運ぶ\n自由な道すじで運ぶ\n必ずまっすぐに運ぶ\n\n道すじは自由です。まっすぐでも回り道でもかまいません。\n見本や毎回同じ道すじを意識せず、自然に指を動かしてください。\n\nもう一度選びなおしてください\n戻る\n次へ"
+    },
+    {
+      "id": "quiz-6-correct",
+      "beforeId": "flow-quiz-path-correct",
+      "afterId": "flow-quiz-path-correct",
+      "group": "ルールの復習",
+      "beforeTitle": "ルールの復習 6 / 7 — 正解を確認",
+      "beforeText": "ルールを確認する\nルールの復習　6 / 7\n指を運ぶ道すじは、どうしますか？\n見本と同じ道すじで運ぶ\n自由な道すじで運ぶ\n必ずまっすぐに運ぶ\n\n道すじは自由です。\n毎回同じ道すじを意識せず、自然に指を動かしてください。\n\n答えを1つ選んで「次へ」\n戻る\n次へ"
+    },
+    {
+      "id": "quiz-7-unselected",
+      "beforeId": "flow-quiz-release",
+      "afterId": "flow-quiz-release",
+      "group": "ルールの復習",
+      "beforeTitle": "ルールの復習 7 / 7 — 指を離して回答する",
+      "beforeText": "ルールを確認する\nルールの復習　7 / 7\n選択肢へ運んだあと、どうすると回答できますか？\n枠の内側なら、どこで離してもよい\n文字の上で離したときだけ回答できる\n枠に入れば、指を離さなくても回答できる\n答えを1つ選んで「例題へ」\n戻る\n例題へ"
+    },
+    {
+      "id": "quiz-7-wrong",
+      "beforeId": "flow-quiz-release-wrong",
+      "afterId": "flow-quiz-release-wrong",
+      "group": "ルールの復習",
+      "beforeTitle": "ルールの復習 7 / 7 — 選びなおす",
+      "beforeText": "ルールを確認する\nルールの復習　7 / 7\n選択肢へ運んだあと、どうすると回答できますか？\n枠の内側なら、どこで離してもよい\n文字の上で離したときだけ回答できる\n枠に入れば、指を離さなくても回答できる\n\n枠の内側に入るだけでは、まだ回答は決まりません。\n枠の内側ならどこでも、指を離すと回答できます。\n\nもう一度選びなおしてください\n戻る\n例題へ"
+    },
+    {
+      "id": "quiz-7-correct",
+      "beforeId": "flow-quiz-release-correct",
+      "afterId": "flow-quiz-release-correct",
+      "group": "ルールの復習",
+      "beforeTitle": "ルールの復習 7 / 7 — 正解を確認",
+      "beforeText": "ルールを確認する\nルールの復習　7 / 7\n選択肢へ運んだあと、どうすると回答できますか？\n枠の内側なら、どこで離してもよい\n文字の上で離したときだけ回答できる\n枠に入れば、指を離さなくても回答できる\n\n枠の内側ならどこでも、指を離すと回答できます。\n\n答えを1つ選んで「例題へ」\n戻る\n例題へ"
+    }
+  ],
+  "files": [
+    {
+      "file": "375x700/welcome-1.png",
+      "sha256": "643c201ef231e5b3043cd10f67224fafd9b7c59c6b401e761144416a2c666513",
+      "original": "images/mini/flow-welcome-1.png"
+    },
+    {
+      "file": "402x759/welcome-1.png",
+      "sha256": "d7031398e96d4f3ad779cba05559da6104b7d46e53231cc7164675bdac2157ae",
+      "original": "images/iphone17/flow-welcome-1.png"
+    },
+    {
+      "file": "440x841/welcome-1.png",
+      "sha256": "02c8944dbf0f65f6f2795bc51840aab01006a77dc4e69ab4238809407b9ded9f",
+      "original": "images/max/flow-welcome-1.png"
+    },
+    {
+      "file": "375x700/welcome-2.png",
+      "sha256": "6f1a4111a15b9b0becec116012aa8525c5025dab4175236572318c527eadec84",
+      "original": "images/mini/flow-welcome-2.png"
+    },
+    {
+      "file": "402x759/welcome-2.png",
+      "sha256": "8b7ebc05d49c885c9ca37cc883fdc0e33ccf9ad34da290cd8239085129f058eb",
+      "original": "images/iphone17/flow-welcome-2.png"
+    },
+    {
+      "file": "440x841/welcome-2.png",
+      "sha256": "0aef36f371ae4c0bee2a86cad1362a19688a294f3b939a0de49badb7f2de1507",
+      "original": "images/max/flow-welcome-2.png"
+    },
+    {
+      "file": "375x700/welcome-3.png",
+      "sha256": "6f1a4111a15b9b0becec116012aa8525c5025dab4175236572318c527eadec84",
+      "original": "images/mini/flow-welcome-2.png"
+    },
+    {
+      "file": "402x759/welcome-3.png",
+      "sha256": "8b7ebc05d49c885c9ca37cc883fdc0e33ccf9ad34da290cd8239085129f058eb",
+      "original": "images/iphone17/flow-welcome-2.png"
+    },
+    {
+      "file": "440x841/welcome-3.png",
+      "sha256": "0aef36f371ae4c0bee2a86cad1362a19688a294f3b939a0de49badb7f2de1507",
+      "original": "images/max/flow-welcome-2.png"
+    },
+    {
+      "file": "375x700/welcome-4.png",
+      "sha256": "bd3aabfe81fa0e537c4ffcff2ae825123d5c2775d7c9510b7f2d4abcd5835a59",
+      "original": "images/mini/flow-welcome-3.png"
+    },
+    {
+      "file": "402x759/welcome-4.png",
+      "sha256": "5b4ca83714d580a975084a4d8649fef169808e8c33c6b4376b5d13b10f2dd6cb",
+      "original": "images/iphone17/flow-welcome-3.png"
+    },
+    {
+      "file": "440x841/welcome-4.png",
+      "sha256": "e3861aa70230be0b388c4c24c39c93dd717bea5300f96f382bd0b5f24b1c59d8",
+      "original": "images/max/flow-welcome-3.png"
+    },
+    {
+      "file": "375x700/welcome-5.png",
+      "sha256": "8df0d65659548a8836815c45d848b6c90d387774ef03c5bc788025da8f804853",
+      "original": "images/mini/flow-welcome-4.png"
+    },
+    {
+      "file": "402x759/welcome-5.png",
+      "sha256": "c143d272f785268dc03a38d7edbdc0151e929d6ce8e3bb353ec4919cd87d049b",
+      "original": "images/iphone17/flow-welcome-4.png"
+    },
+    {
+      "file": "440x841/welcome-5.png",
+      "sha256": "179a4c9021022b823df6ec56cad010edbeeeafe934c5c0c923ee264ba8d01b5b",
+      "original": "images/max/flow-welcome-4.png"
+    },
+    {
+      "file": "375x700/welcome-6.png",
+      "sha256": "59bdec354dd5a8f5f76ad3f7ab19508fb8c57525a1196822df4a5949d45a38f2",
+      "original": "images/mini/flow-welcome-5.png"
+    },
+    {
+      "file": "402x759/welcome-6.png",
+      "sha256": "042c6b5ee468ce8c8575394b6c6022cdecd8464feb0a4a6c17cf4ba1f33f6311",
+      "original": "images/iphone17/flow-welcome-5.png"
+    },
+    {
+      "file": "440x841/welcome-6.png",
+      "sha256": "2f8f64ce9f6ad64cfcb8a246a40259296c065ec1d7c7353381827483ed6959dc",
+      "original": "images/max/flow-welcome-5.png"
+    },
+    {
+      "file": "375x700/welcome-7.png",
+      "sha256": "1b41220eefce155a1cd4c850b170a701bd7478c9d9cbd11696057502b4534632",
+      "original": "images/mini/flow-welcome-6.png"
+    },
+    {
+      "file": "402x759/welcome-7.png",
+      "sha256": "d45273bea8f8c6937a61a9477fbc14cc2cd4e2aaa31d2fcc7d99a2a04bd4459a",
+      "original": "images/iphone17/flow-welcome-6.png"
+    },
+    {
+      "file": "440x841/welcome-7.png",
+      "sha256": "bcd82fb633c6387f57cb93c4bb47c73d7aff122f7e928334f8944d463ab386a9",
+      "original": "images/max/flow-welcome-6.png"
+    },
+    {
+      "file": "375x700/reading-intro.png",
+      "sha256": "c145dbc6f2cd4f56fc069b34792435a1a368fc1fd3b541fba8d5ecb075cd2775",
+      "original": "images/mini/flow-reading-intro.png"
+    },
+    {
+      "file": "402x759/reading-intro.png",
+      "sha256": "8d3806873eadafa4f56db997db4111bec2e836720339c6d86174117c7c352b42",
+      "original": "images/iphone17/flow-reading-intro.png"
+    },
+    {
+      "file": "440x841/reading-intro.png",
+      "sha256": "153fb18c9c27d45fefc4c2267907a2a933849546d6e35854dd9e7cb26f20659f",
+      "original": "images/max/flow-reading-intro.png"
+    },
+    {
+      "file": "375x700/reading-1.png",
+      "sha256": "fa5c01aeae9a9323514f03feadd5db863f1332cfa9d29a6d0b9bd0c80cdea55a",
+      "original": "images/mini/flow-reading-1.png"
+    },
+    {
+      "file": "402x759/reading-1.png",
+      "sha256": "2f6b1b3c0f860e98f421df6391146d99e20e4e721b05839b9224b4b1dd2fb023",
+      "original": "images/iphone17/flow-reading-1.png"
+    },
+    {
+      "file": "440x841/reading-1.png",
+      "sha256": "072621f5dc21b3443fd69a59e41c3d2c8635e2b9be1b7a7a94063d2524569c7f",
+      "original": "images/max/flow-reading-1.png"
+    },
+    {
+      "file": "375x700/reading-2.png",
+      "sha256": "7e9be1934c1974eb2391a03d9001e979f818ee227ac105d34891141c53f87d42",
+      "original": "images/mini/flow-reading-2.png"
+    },
+    {
+      "file": "402x759/reading-2.png",
+      "sha256": "cdcb2a9ac06f640d5e985685bba312b69951d0bf215a07af48fac8db27fb6993",
+      "original": "images/iphone17/flow-reading-2.png"
+    },
+    {
+      "file": "440x841/reading-2.png",
+      "sha256": "c301ea1ff4686c86e71489afecd9dac8a459fd3a68b5bf03d0e2836ecc96db19",
+      "original": "images/max/flow-reading-2.png"
+    },
+    {
+      "file": "375x700/reading-3.png",
+      "sha256": "39e23352b3487b431a04a65981847add930a03fad2763a5986f242caca86dcf5",
+      "original": "images/mini/flow-reading-3.png"
+    },
+    {
+      "file": "402x759/reading-3.png",
+      "sha256": "409df3d0fecb59f35d548101860c382c44dc7ff2c2a8ba79e44edbbc850f55ce",
+      "original": "images/iphone17/flow-reading-3.png"
+    },
+    {
+      "file": "440x841/reading-3.png",
+      "sha256": "ac84d9165252aad73f38303b6e62b960ffeb5982815d4badfa632cdcb6e0c0f5",
+      "original": "images/max/flow-reading-3.png"
+    },
+    {
+      "file": "375x700/reading-4.png",
+      "sha256": "5a549b7f9138d9657ba1d9016060672c4202953a23d9cac03b231289898291fd",
+      "original": "images/mini/flow-reading-4.png"
+    },
+    {
+      "file": "402x759/reading-4.png",
+      "sha256": "20b02a8a83ae4699b35d8644293080c4338132aac3c165fd4171a9fc42d875f7",
+      "original": "images/iphone17/flow-reading-4.png"
+    },
+    {
+      "file": "440x841/reading-4.png",
+      "sha256": "f5a6288a3da94de487fab58084d60f7d9f95c3f6829491155ef15a0200008215",
+      "original": "images/max/flow-reading-4.png"
+    },
+    {
+      "file": "375x700/quiz-1-unselected.png",
+      "sha256": "4f3eb76c39145021cf601d0aa7e8e4d6333538e285b23d5aec56907f51ab252b",
+      "original": "images/mini/flow-quiz-start-trigger.png"
+    },
+    {
+      "file": "402x759/quiz-1-unselected.png",
+      "sha256": "663c93989e54a164ff3411dfd75001675f9c49cb1874bd4fc6bcfd062f37fe5b",
+      "original": "images/iphone17/flow-quiz-start-trigger.png"
+    },
+    {
+      "file": "440x841/quiz-1-unselected.png",
+      "sha256": "b367721ac77f09d330216b0d22bdf0d227b411f30d3931fd2c2c59f97c2ff3e2",
+      "original": "images/max/flow-quiz-start-trigger.png"
+    },
+    {
+      "file": "375x700/quiz-1-wrong.png",
+      "sha256": "741e3d5c107a7d0f912b26a85c9516823761b9fe0096b4a2ed483f4f14741897",
+      "original": "images/mini/flow-quiz-start-trigger-wrong.png"
+    },
+    {
+      "file": "402x759/quiz-1-wrong.png",
+      "sha256": "604c837ef5e344a7acca5974aa94098eec5d4320155f63ff81891cc959b17026",
+      "original": "images/iphone17/flow-quiz-start-trigger-wrong.png"
+    },
+    {
+      "file": "440x841/quiz-1-wrong.png",
+      "sha256": "a9552d9655312caaaccc76ab2eb88999c68a084c33d5f87450bfb2147d84511c",
+      "original": "images/max/flow-quiz-start-trigger-wrong.png"
+    },
+    {
+      "file": "375x700/quiz-1-correct.png",
+      "sha256": "8a83cbf6e2e64ab6ddc3fa864824c6403dd3b41a5995f9cef0e971b054283247",
+      "original": "images/mini/flow-quiz-start-trigger-correct.png"
+    },
+    {
+      "file": "402x759/quiz-1-correct.png",
+      "sha256": "1e4c0626be2a5d0bee39287f2ffa2c325813c015b80903aedb34ebc0406f3621",
+      "original": "images/iphone17/flow-quiz-start-trigger-correct.png"
+    },
+    {
+      "file": "440x841/quiz-1-correct.png",
+      "sha256": "ee31a9e1dd1c9a0b98de5d7f9687e33be99e695614d189520384367c06b82dc8",
+      "original": "images/max/flow-quiz-start-trigger-correct.png"
+    },
+    {
+      "file": "375x700/quiz-2-unselected.png",
+      "sha256": "3cf7e0789eb8a853f132434cb172cc6dacbb69b30fc24720d16c92257854ba95",
+      "original": "images/mini/flow-quiz-move-decision.png"
+    },
+    {
+      "file": "402x759/quiz-2-unselected.png",
+      "sha256": "ece472eff710276af931a4e05c624a14fe1f8cf0a856e34d23959d8e80d00240",
+      "original": "images/iphone17/flow-quiz-move-decision.png"
+    },
+    {
+      "file": "440x841/quiz-2-unselected.png",
+      "sha256": "d5a19e83c6f82a3e1de764582f03efed80f7f7c0f05593a4eeec91a4ed5bb688",
+      "original": "images/max/flow-quiz-move-decision.png"
+    },
+    {
+      "file": "375x700/quiz-2-wrong.png",
+      "sha256": "ed44c10d6e76a0d9ad8ebfa4f29d968699c09eadff51c32d612b35cfd8880671",
+      "original": "images/mini/flow-quiz-move-decision-wrong.png"
+    },
+    {
+      "file": "402x759/quiz-2-wrong.png",
+      "sha256": "ca6ca91751fed9c04568ee196e4e38a00fd78bc515e5a39082e12cbebb1486a7",
+      "original": "images/iphone17/flow-quiz-move-decision-wrong.png"
+    },
+    {
+      "file": "440x841/quiz-2-wrong.png",
+      "sha256": "5b5b0ce381a67c50fe931f6e0226ca70ff32185cfc6a4b4081898e3abbe760be",
+      "original": "images/max/flow-quiz-move-decision-wrong.png"
+    },
+    {
+      "file": "375x700/quiz-2-correct.png",
+      "sha256": "6743547effc06cb478fc2ca2ff70f6f12163f83cf11c4a07597222b71c3087d7",
+      "original": "images/mini/flow-quiz-move-decision-correct.png"
+    },
+    {
+      "file": "402x759/quiz-2-correct.png",
+      "sha256": "1965b97e5d8270cd90dbe6fd7205fc34cc23fdce1d730b5998d38329b042ff66",
+      "original": "images/iphone17/flow-quiz-move-decision-correct.png"
+    },
+    {
+      "file": "440x841/quiz-2-correct.png",
+      "sha256": "9994ace4e77c6c74af4883bf16655cad6dc8a963a33637160fd6046883599611",
+      "original": "images/max/flow-quiz-move-decision-correct.png"
+    },
+    {
+      "file": "375x700/quiz-3-unselected.png",
+      "sha256": "85d14ab34fe04063ed676106f2db2d3a86006e752f7c71873c1528a4e2c0c8a4",
+      "original": "images/mini/flow-quiz-uncertain.png"
+    },
+    {
+      "file": "402x759/quiz-3-unselected.png",
+      "sha256": "c4f659b845a01d8d3169a26577a4655c3459e04f063219e11bd29dd88e180917",
+      "original": "images/iphone17/flow-quiz-uncertain.png"
+    },
+    {
+      "file": "440x841/quiz-3-unselected.png",
+      "sha256": "e8af4e129edf866f383c8df27f13efa800fe7d4383d8ddac29cae5ec8b8f39c6",
+      "original": "images/max/flow-quiz-uncertain.png"
+    },
+    {
+      "file": "375x700/quiz-3-wrong.png",
+      "sha256": "6d7191886271581bda9f9b07dc06392db22a1010345a5f4bbb660b493d43657e",
+      "original": "images/mini/flow-quiz-uncertain-wrong.png"
+    },
+    {
+      "file": "402x759/quiz-3-wrong.png",
+      "sha256": "3620a980b325273eabbd15adc2274d9af47d2d381c16cc7ea67d990725db12c7",
+      "original": "images/iphone17/flow-quiz-uncertain-wrong.png"
+    },
+    {
+      "file": "440x841/quiz-3-wrong.png",
+      "sha256": "3158c7d920e85df706b53eac2a760dcdb696a2dd5ad48a3266a32bf105712256",
+      "original": "images/max/flow-quiz-uncertain-wrong.png"
+    },
+    {
+      "file": "375x700/quiz-3-correct.png",
+      "sha256": "e3a662c7bd108027de22c400b8f21d180e5a79f058761d9d98ce6c41ffdb5a17",
+      "original": "images/mini/flow-quiz-uncertain-correct.png"
+    },
+    {
+      "file": "402x759/quiz-3-correct.png",
+      "sha256": "312f6e2ed98e54cff72b5068cbff5fbd4148f014fdbf8c41af26472f6713877d",
+      "original": "images/iphone17/flow-quiz-uncertain-correct.png"
+    },
+    {
+      "file": "440x841/quiz-3-correct.png",
+      "sha256": "9eff1f0495c7340439b1345f113149ffc1d280c9f836e60ab15cb9a65f88ef1d",
+      "original": "images/max/flow-quiz-uncertain-correct.png"
+    },
+    {
+      "file": "375x700/quiz-4-unselected.png",
+      "sha256": "26ac36572ddc15f1c9b7db94b28d9bac0e65b4f28d4344bcc37039d5eb5c132b",
+      "original": "images/mini/flow-quiz-exit-time.png"
+    },
+    {
+      "file": "402x759/quiz-4-unselected.png",
+      "sha256": "1b552f8a5d0c0a7c6cede3200bea2b91e18c218e8512ebc042fe4e7e520693c8",
+      "original": "images/iphone17/flow-quiz-exit-time.png"
+    },
+    {
+      "file": "440x841/quiz-4-unselected.png",
+      "sha256": "01ebdcde19f9515247d55bae79020e1937b32fddc0a21f1c0718c01c022758cb",
+      "original": "images/max/flow-quiz-exit-time.png"
+    },
+    {
+      "file": "375x700/quiz-4-wrong.png",
+      "sha256": "fb247a1a07518e9c5867dbea6a598778952ac9b1de552367b2d1c0f381275b03",
+      "original": "images/mini/flow-quiz-exit-time-wrong.png"
+    },
+    {
+      "file": "402x759/quiz-4-wrong.png",
+      "sha256": "fff8ab3e3b8473d955dca778477fb87d710705ed098c6f450e3bf30c8c99b3bf",
+      "original": "images/iphone17/flow-quiz-exit-time-wrong.png"
+    },
+    {
+      "file": "440x841/quiz-4-wrong.png",
+      "sha256": "2dbf2b40494904c7e9b71ad8547254a1bb5a3b5ff33fed1781f5fbd18b965ad6",
+      "original": "images/max/flow-quiz-exit-time-wrong.png"
+    },
+    {
+      "file": "375x700/quiz-4-correct.png",
+      "sha256": "e6af05f5408b695d14149dbafe8a7694deac3ff5c52b6b570633a3e545024bb4",
+      "original": "images/mini/flow-quiz-exit-time-correct.png"
+    },
+    {
+      "file": "402x759/quiz-4-correct.png",
+      "sha256": "b10f585aca7ef364f6dd2f859cbf906acf7e8e2e54c22e14b7a6bf84ec83f6cb",
+      "original": "images/iphone17/flow-quiz-exit-time-correct.png"
+    },
+    {
+      "file": "440x841/quiz-4-correct.png",
+      "sha256": "1b9c35879f596aa4fca26b07367005bc9aebfd80d8e0fe0040c8eadfcf02b106",
+      "original": "images/max/flow-quiz-exit-time-correct.png"
+    },
+    {
+      "file": "375x700/quiz-5-unselected.png",
+      "sha256": "bfbe5b811efd89d36da8a6b459657d5a8b13125ea4f7a359d18c2f10756f359e",
+      "original": "images/mini/flow-quiz-answer-pace.png"
+    },
+    {
+      "file": "402x759/quiz-5-unselected.png",
+      "sha256": "e4e0e97c9f9612cf3d92c3bf51bb03415c514377a893c275e351e1bce6d872a4",
+      "original": "images/iphone17/flow-quiz-answer-pace.png"
+    },
+    {
+      "file": "440x841/quiz-5-unselected.png",
+      "sha256": "bd8920e1f7fb71516b6c3912287a6eb8d05d164f3f2e4974f0f12c4da8fec892",
+      "original": "images/max/flow-quiz-answer-pace.png"
+    },
+    {
+      "file": "375x700/quiz-5-wrong.png",
+      "sha256": "587a74e0c6703d230f749efe85bcdd4352919cdd9ad8b6ea9e6a01842306c90a",
+      "original": "images/mini/flow-quiz-answer-pace-wrong.png"
+    },
+    {
+      "file": "402x759/quiz-5-wrong.png",
+      "sha256": "d16503484d859a99d7172e1f53bb1a593fe94e46fd676c44ff66ed3fc5556b1c",
+      "original": "images/iphone17/flow-quiz-answer-pace-wrong.png"
+    },
+    {
+      "file": "440x841/quiz-5-wrong.png",
+      "sha256": "8aee05484f8bc7e03fd71ee6d13afbfcf6359b01cbb1aec3c05c8e1bef2ef2ab",
+      "original": "images/max/flow-quiz-answer-pace-wrong.png"
+    },
+    {
+      "file": "375x700/quiz-5-correct.png",
+      "sha256": "ddbfe7ec978c352583f51796c12ab1185b967627cea86cecafd7378372b65215",
+      "original": "images/mini/flow-quiz-answer-pace-correct.png"
+    },
+    {
+      "file": "402x759/quiz-5-correct.png",
+      "sha256": "63ad352f3111000cab14034005194e2f9b9da7e218fb4df94a662623dfceb530",
+      "original": "images/iphone17/flow-quiz-answer-pace-correct.png"
+    },
+    {
+      "file": "440x841/quiz-5-correct.png",
+      "sha256": "208109efc60a92947ef8dd822d0486cac8334400b1d671b7c8f33af881e9d2bf",
+      "original": "images/max/flow-quiz-answer-pace-correct.png"
+    },
+    {
+      "file": "375x700/quiz-6-unselected.png",
+      "sha256": "470e19eb238eee80ef26172b4b3e34e8eba1dbc0b6114d6a56182d8850213df8",
+      "original": "images/mini/flow-quiz-path.png"
+    },
+    {
+      "file": "402x759/quiz-6-unselected.png",
+      "sha256": "a440893bcdc836b53e57e6a1a76545d4376fc482ebb90324c92bafdbb56dec2e",
+      "original": "images/iphone17/flow-quiz-path.png"
+    },
+    {
+      "file": "440x841/quiz-6-unselected.png",
+      "sha256": "858d1db45c589ea2afa36571c813df19217fd872548adc80da637651a666ac90",
+      "original": "images/max/flow-quiz-path.png"
+    },
+    {
+      "file": "375x700/quiz-6-wrong.png",
+      "sha256": "5b2306cee89770309299e8f441c90f603c27658f16790f3c18236e8befc31e2d",
+      "original": "images/mini/flow-quiz-path-wrong.png"
+    },
+    {
+      "file": "402x759/quiz-6-wrong.png",
+      "sha256": "cda1f9831f9f7251fdfd9824f059591e6748df08d9b0ea668b925a4dbcef9849",
+      "original": "images/iphone17/flow-quiz-path-wrong.png"
+    },
+    {
+      "file": "440x841/quiz-6-wrong.png",
+      "sha256": "46915fa2ae943061482ff7e72ebc7c0f5329cc29311c20471ba0b5b9f216dfa4",
+      "original": "images/max/flow-quiz-path-wrong.png"
+    },
+    {
+      "file": "375x700/quiz-6-correct.png",
+      "sha256": "0060b738e7314d1b211af07c187187ed7fd42d50a60ba8beeda7690d86fcc943",
+      "original": "images/mini/flow-quiz-path-correct.png"
+    },
+    {
+      "file": "402x759/quiz-6-correct.png",
+      "sha256": "826eb481a75579479270fac6453d3850ca6d5797b4888335b915e774cdab73b9",
+      "original": "images/iphone17/flow-quiz-path-correct.png"
+    },
+    {
+      "file": "440x841/quiz-6-correct.png",
+      "sha256": "e9a657dae6b11e3ea8374a4d4cd9da392ba677dc56e168db366e12712990387f",
+      "original": "images/max/flow-quiz-path-correct.png"
+    },
+    {
+      "file": "375x700/quiz-7-unselected.png",
+      "sha256": "8d15478a7ef5607374436003d162c20254eb9d75d19b26d67cad5b0359e5d802",
+      "original": "images/mini/flow-quiz-release.png"
+    },
+    {
+      "file": "402x759/quiz-7-unselected.png",
+      "sha256": "f8644aa70543cce48d0193eb97656dfd26eac89a1f529186f3521c17db54a482",
+      "original": "images/iphone17/flow-quiz-release.png"
+    },
+    {
+      "file": "440x841/quiz-7-unselected.png",
+      "sha256": "488a79cde2c4c6bbebb67b7665eb833a4983959104c5fbe9706346524717e3d1",
+      "original": "images/max/flow-quiz-release.png"
+    },
+    {
+      "file": "375x700/quiz-7-wrong.png",
+      "sha256": "4643c5f20128c44c7e0e78c6aa2d7086f2e5ecc838ea518aaa66c0808d727cac",
+      "original": "images/mini/flow-quiz-release-wrong.png"
+    },
+    {
+      "file": "402x759/quiz-7-wrong.png",
+      "sha256": "00e467ce3564447e073dba411578d54f37e535f6cc8dc2ffdfbcffa98f109f0f",
+      "original": "images/iphone17/flow-quiz-release-wrong.png"
+    },
+    {
+      "file": "440x841/quiz-7-wrong.png",
+      "sha256": "0c55f67e58d46cc2c35c84f7b45d3fe7605b304ad3ed972486b0b0e92c6afa34",
+      "original": "images/max/flow-quiz-release-wrong.png"
+    },
+    {
+      "file": "375x700/quiz-7-correct.png",
+      "sha256": "dd7b9a1d0cdec7490fbcc77be5a5432dc0882aac2ad29ad6e4abd5216b50c5b4",
+      "original": "images/mini/flow-quiz-release-correct.png"
+    },
+    {
+      "file": "402x759/quiz-7-correct.png",
+      "sha256": "491d025cbac0a0954b372d1c5f5a8795d88158e1de578708f2e6dd9814ccede1",
+      "original": "images/iphone17/flow-quiz-release-correct.png"
+    },
+    {
+      "file": "440x841/quiz-7-correct.png",
+      "sha256": "171cdb80bb3150d035824a8ab74440a2ec6e2bff5bf29b4ee286c520f15e3491",
+      "original": "images/max/flow-quiz-release-correct.png"
+    }
+  ]
+}

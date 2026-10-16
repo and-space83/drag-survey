@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'">
+<title>はじめに・ルールの復習・読む速さの計測を3サイズで比較</title>
+<link rel="stylesheet" href="review.css?v=reading-review1"></head><body>
+<header class="wrap">
+<nav><a href="../../screen-gallery/index.html">← 全画面の3サイズ比較</a><a href="../2026-10-16-welcome-details/index.html">前の変更（ui24）</a></nav>
+<p class="eyebrow">READING AND REVIEW · 2026.10.16</p>
+<p class="status">ui25 本番反映済み · <a href="publication.json">全27配布ファイルの一致を確認</a></p>
+<h1>説明を分けて、<br>進むボタンを近くへ。</h1>
+<p class="lead">「はじめに」7枚、読む速さの説明と4問、ルールの復習7問の未選択・誤答・正解を、変更前後・対象の3サイズで確認できます。</p>
+<p>画像は架空の回答を使って実際のアプリから撮影しています。画像内のボタンは操作できません。</p></header>
+<main class="wrap">
+<section class="controls" aria-label="比較する画面">
+<label for="screen">確認する画面<select id="screen"></select></label>
+<div class="control-row"><label for="size">画面サイズ<select id="size"><option value="all">対象の3サイズを並べる</option><option value="375x700">375 × 700</option><option value="402x759">402 × 759</option><option value="440x841">440 × 841</option></select></label>
+<div><p class="control-label">表示する版</p><div class="segmented" id="versions" role="group" aria-label="表示する版"><button data-version="after" aria-pressed="true">変更後</button><button data-version="before" aria-pressed="false">変更前</button><button data-version="both" aria-pressed="false">前後を並べる</button></div></div></div>
+<p id="selection" class="selection" role="status"></p></section>
+<section class="change" aria-labelledby="changeTitle"><p class="eyebrow" id="group"></p><h2 id="changeTitle"></h2><p id="reason"></p><p class="kept" id="kept"></p></section>
+<section id="comparison" aria-label="画面画像"><p class="caption">画像を押すと原寸で開きます。対象端末の表示領域に近い3サイズです。Safariのバーやセーフエリアを実機再現したものではありません。</p><div class="screens" id="screens"></div></section>
+<section class="copy" aria-labelledby="copyTitle"><h2 id="copyTitle">画面の文章を比較</h2><p class="caption">旧2枚目は新2・3枚目に分割したため、その2枚では同じ変更前画面を表示します。</p><div class="copy-grid"><article><h3>変更前</h3><div id="beforeCopy"></div></article><article><h3>変更後</h3><div id="afterCopy"></div></article></div></section>
+<section class="notes"><h2>今回変更したこと</h2><dl>
+<dt>所要時間と進め方を2枚に</dt><dd>「所要時間と回答のペース」「進む順番と休憩」に分けました。説明の意味や確認項目は保ち、全7枚の進行表示にしています。</dd>
+<dt>ルールの復習のボタン</dt><dd>全7問の未選択・誤答・正解で最も高くなるBOXを測り、その直下へ戻る・次へを置きます。パート内で位置は固定。BOXの上端を保ち、未選択では説明用の空白を確保せず、注意・解説が出た分だけ下へ広げます。</dd>
+<dt>読む速さの計測</dt><dd>説明画面だけにBOXを付けました。4つの文章画面にはBOXを付けず、番号をタイトルの横へ移動。元の「文章を読む速さの計測」という見出しと本文との間隔を保って、全体を24px下げています。</dd>
+</dl><p>設問・正誤判定・誤答時の進行制限、読む文章・字数・時間の記録と保存、再開後の集計は引き継いでいます。</p></section>
+<section class="verification"><h2>確認した範囲</h2><p id="verification">検証結果を読み込んでいます。</p><p>Chromeのタッチ操作エミュレーションによる自動確認です。iPhone Safari実機は未確認です。参加者データは使わず、送信試験はlocalhostの模擬受け口だけを使います。</p><div class="links"><a href="results.json">動作・位置・記録の検証結果</a><a href="review-ui-results.json">比較サイトの操作検査</a><a href="before/capture.json">変更前の撮影元</a><a href="review-data.js">文章・画像・撮影元の対応</a></div></section>
+<p><a href="../../?block=moral&amp;debug=1&amp;upload=0&amp;go=welcome" target="_blank" rel="noopener">現在の画面を試す（送信なし）</a></p>
+<footer><a href="../2026-10-12-session-explanations/index.html">説明の全変更と現行画面</a><a href="#">先頭へ ↑</a></footer></main>
+<script src="review-data.js?v=reading-review1"></script><script src="review.js?v=reading-review1"></script></body></html>
