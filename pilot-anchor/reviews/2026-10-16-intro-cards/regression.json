@@ -1,0 +1,70 @@
+{
+  "at": "2026-10-16T06:23:28.364Z",
+  "version": "2026-10-16-ui23",
+  "files": 27,
+  "changed": [
+    "index.html",
+    "app.css",
+    "js/app.js"
+  ],
+  "unchanged": [
+    "css/runtime-guards.css",
+    "guided-tutorial.css",
+    "consent.css",
+    "js/runtime-guards.js",
+    "bank.js",
+    "guided-tutorial.js",
+    "js/tutorial-visuals.js",
+    "js/tutorial-view.js",
+    "js/tutorial-controller.js",
+    "vendor/pako.min.js",
+    "data-codec.js",
+    "consent.js",
+    "session-store.js",
+    "durable-storage.js",
+    "staged-delivery.js",
+    "js/trial-recorder.js",
+    "js/reading-policy.js",
+    "js/choice-controls.js",
+    "js/instruction-notice-view.js",
+    "js/rating-content.js",
+    "js/rating-controller.js",
+    "js/rating-view.js",
+    "storage-worker.js",
+    "vendor/pako-LICENSE"
+  ],
+  "checks": [
+    {
+      "script": "test-session-guidance.cjs",
+      "passed": 601,
+      "failed": 0,
+      "result": "results.json"
+    },
+    {
+      "script": "validate-round4-copy.js",
+      "passed": 74,
+      "failed": 0,
+      "result": "round4-results.json"
+    },
+    {
+      "script": "test-refactor-contract.cjs",
+      "passed": 9,
+      "failed": 0
+    },
+    {
+      "script": "test-tutorial-controller.cjs",
+      "passed": 6,
+      "failed": 0
+    },
+    {
+      "script": "test-adjacent-views.cjs",
+      "passed": 9,
+      "failed": 0
+    }
+  ],
+  "limitations": [
+    "Chromeのタッチ操作エミュレーション。iPhone Safari実機は未確認。",
+    "合成データとlocalhostの模擬同意受け口のみを使用。実参加者や本番の保存先のデータには触れない。",
+    "contract fixtureは版・表示マークアップ・CSSだけを更新。同意・保存・転送資産と評定内容のハッシュは維持。"
+  ]
+}

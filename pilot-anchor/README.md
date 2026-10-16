@@ -12,7 +12,9 @@
 **公開URL**: ① <https://and-space83.github.io/drag-survey/pilot-anchor/> / ② <https://and-space83.github.io/drag-survey/pilot-anchor/?block=value> / ②③統合 <https://and-space83.github.io/drag-survey/pilot-anchor/?block=combo>
 リポ全体のアプリ一覧は [../README.md](../README.md) を参照。
 
-## 現行版の教示・保存・再開 (`2026-10-16-ui22`)
+## 現行版の教示・保存・再開 (`2026-10-16-ui23`)
+
+- ui23では「はじめに」のBOX中心とナビ位置をそろえ、本文量に応じた高さと6つの丸ぽちを採用。初回の「次へ」を中央へ寄せた。練習・本番の「操作のポイントの確認」は短文のカードにそろえ、同意の見出しを明確にし、追加10問の説明もBOXにまとめた。[20場面の旧新3サイズ比較](reviews/2026-10-16-intro-cards/)、[公開27ファイルの一致](reviews/2026-10-16-intro-cards/publication.json)、[進行・同意・追加課題の回帰確認](reviews/2026-10-16-intro-cards/regression.json)を参照。チェックと注意上限、同意文書、保存処理は維持。iPhone Safari実機は別途確認する。
 
 - ui22では復習BOXの上端と進行位置を保ち、表示内容に応じて下端だけ伸縮する。練習・本番の案内は「選択肢を読んだら動き始める」を先に示す短文へ整理し、最初の6枚はBOXとナビを固定、練習完了と休憩もBOXへ統一した。[18場面の旧新3サイズ比較](reviews/2026-10-16-session-guidance/)、[公開27ファイルの一致](reviews/2026-10-16-session-guidance/publication.json)、[動作・保存・同意の回帰確認](reviews/2026-10-16-session-guidance/regression.json)を参照。iPhone Safari実機の確認とは区別する。
 
