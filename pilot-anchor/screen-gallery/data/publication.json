@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-10-16T05:48:55.170Z",
-  "version": "2026-10-16-ui22",
+  "checkedAt": "2026-10-16T06:22:11.949Z",
+  "version": "2026-10-16-ui23",
   "baseUrl": "https://and-space83.github.io/drag-survey/pilot-anchor/",
   "normalUrls": true,
   "checks": [
     {
       "file": "index.html",
       "status": 200,
-      "expectedSha256LF": "98dcbf5f6949af3762599ae11f77ef08d160d83e7f65d1d2f2ed5c0e41638f69",
-      "actualSha256LF": "98dcbf5f6949af3762599ae11f77ef08d160d83e7f65d1d2f2ed5c0e41638f69",
+      "expectedSha256LF": "85c9d6dc46015a02b1328d0dea6ef130b04fa7ed53d4ab544047ba6ce74f49ee",
+      "actualSha256LF": "85c9d6dc46015a02b1328d0dea6ef130b04fa7ed53d4ab544047ba6ce74f49ee",
       "match": true
     },
     {
@@ -21,8 +21,8 @@
     {
       "file": "app.css",
       "status": 200,
-      "expectedSha256LF": "8cb9493ad5e6fedf086ccb8f73187fc4d4d25eb800219d2d1235ffacfd147b4b",
-      "actualSha256LF": "8cb9493ad5e6fedf086ccb8f73187fc4d4d25eb800219d2d1235ffacfd147b4b",
+      "expectedSha256LF": "e165d8f7e2933eb5ab92c17ba01bae772a2b35eaa2f10ef768f3a3334fbc7000",
+      "actualSha256LF": "e165d8f7e2933eb5ab92c17ba01bae772a2b35eaa2f10ef768f3a3334fbc7000",
       "match": true
     },
     {
@@ -175,8 +175,8 @@
     {
       "file": "js/app.js",
       "status": 200,
-      "expectedSha256LF": "2d6d0d66cc7a2cc15bc491a986b0f8ca3d112534f595ed6d5007421f5ad4450d",
-      "actualSha256LF": "2d6d0d66cc7a2cc15bc491a986b0f8ca3d112534f595ed6d5007421f5ad4450d",
+      "expectedSha256LF": "097ae4a66ff0cb219dc9a60cfbcd4919d16eea13820d55c0534ba6c3731c4a6d",
+      "actualSha256LF": "097ae4a66ff0cb219dc9a60cfbcd4919d16eea13820d55c0534ba6c3731c4a6d",
       "match": true
     },
     {
