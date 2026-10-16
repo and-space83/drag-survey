@@ -263,7 +263,7 @@
   /* 練習の確認と同じ枠で、必要な行動を一項目ずつ示す。確認チェックは追加しない。 */
   #noticeText { display: flex; flex-direction: column; gap: 10px; font-size: calc(16px * var(--ui-scale)); line-height: 1.55; padding-bottom: 2px; }
   #noticeText .notice-rule-card { flex: none; padding: 12px; border: 2px solid var(--line); border-radius: 10px; background: var(--panel); }
-  #noticeText .notice-observation { flex: none; font-size: calc(14px * var(--ui-scale)); color: var(--ink-2); margin: 0; }
+  #noticeText .notice-observation { flex: none; font-size: calc(15px * var(--ui-scale)); color: var(--ink-2); margin: 0; }
   #noticeText .notice-rule-title { font-size: calc(14px * var(--ui-scale)); color: var(--accent); margin: 0 0 4px; line-height: 1.5; }
   #noticeText .notice-rule-body { font-size: calc(15px * var(--ui-scale)); line-height: 1.5; margin: 0; }
   #noticeText b { color: var(--ink); }
