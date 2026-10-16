@@ -653,16 +653,13 @@
   .session-explanation-card { border: 1px solid #c9dbd1; border-radius: 16px; background: var(--panel);
     box-shadow: 0 5px 22px #183d2810; padding: 20px; }
   #welcome .pad { position: relative; padding: 0; overflow: hidden;
-    --welcome-nav-height: max(57px, calc(27px * var(--ui-scale) + 30px), var(--nav-minh));
-    --welcome-header-top: max(17px, 3%); --welcome-header-height: calc(31px * var(--ui-scale)); }
+    --welcome-nav-height: max(57px, calc(27px * var(--ui-scale) + 30px), var(--nav-minh)); }
   #welcome .pad::before, #welcome .pad::after, #welcome .vgap { display: none; }
-  #wcHeader { position: absolute; left: 20px; right: 20px; top: var(--welcome-header-top); min-height: var(--welcome-header-height);
-    display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-  #welcome #wcStep { color: var(--ink); font-size: calc(22px * var(--ui-scale)); line-height: 1.4; font-weight: 700; margin: 0; }
-  #wcDots { display: flex; gap: 5px; flex: none; }
+  #welcome #wcStep { flex: none; color: #577062; font-size: calc(12px * var(--ui-scale)); line-height: 1.5; margin: 0 0 8px; }
+  #wcDots { display: flex; justify-content: flex-end; align-self: flex-end; gap: 5px; flex: none; margin-top: 8px; }
   #wcDots i { width: 7px; height: 7px; border-radius: 50%; background: #d9e5dc; }
   #wcDots i.a { background: var(--go); }
-  #wcCardArea { position: absolute; left: 18px; right: 18px; top: calc(var(--welcome-header-top) + var(--welcome-header-height) + 10px);
+  #wcCardArea { position: absolute; left: 18px; right: 18px; top: max(20px, 3%);
     bottom: calc(max(58px, 8%) + var(--welcome-nav-height) + 8px); display: flex; align-items: center; }
   #wcBody { width: 100%; max-height: 100%; flex: none; display: flex; flex-direction: column;
     overflow-y: auto; overscroll-behavior: contain; padding: 18px; }

@@ -3839,9 +3839,9 @@
          '<ul><li>スマートフォンを<b>手で持って</b>操作します（机に置いたままにしないでください）。</li>' +
          '<li>通知で中断されないよう、<b>おやすみモード</b>などにしておくと安心です。</li></ul>' },
     { h: "氏名とデータの取り扱い",
-      b: '<ul><li><b>参加確認・謝礼の照合</b><br>氏名を使用します。</li>' +
-         '<li><b>研究の分析</b><br>氏名を研究用IDに置き換えたデータを使用します。</li>' +
-         '<li><b>研究成果の公表</b><br>氏名を掲載することはありません。</li></ul>' },
+      b: '<p>氏名は、参加確認と謝礼のお支払いに関する照合に使用します。</p>' +
+         '<p>研究の分析には、氏名を研究用IDに置き換えたデータを使用します。</p>' +
+         '<p>研究成果に氏名を掲載することはありません。</p>' },
     // 2026-09-06: 画面切替・再読込の注意 (§6-6 項17)。画面切替の回数・時間の記録は倫理申請 (実施計画書 §3D) に記載済。
     // 報酬の承認条件 (非承認の基準) はアプリでなく募集文に書く (身内配布では報酬がないため、ここでは「有効な回答として扱えない」に留める)
     // 同意チェックは5/6・6/6。5項目を3+2の2ページに分け、全てにチェックしてから開始する。
@@ -3864,13 +3864,11 @@
   const wcAgreed = WELCOME.map(() => []);
   function wcRender() {
     const p = WELCOME[wcIdx];
-    $("wcStep").textContent = "はじめに";
-    $("wcDots").setAttribute("aria-label", `${WELCOME.length}ページ中${wcIdx + 1}ページ目`);
-    $("wcDots").innerHTML = WELCOME.map((_, i) => `<i${i === wcIdx ? ' class="a"' : ""}></i>`).join("");
-    $("wcBody").innerHTML = `<h1 id="wcHeading">${p.h}</h1><div class="wc-content">` + p.b + '</div>' +
+    $("wcBody").innerHTML = `<p id="wcStep">はじめに ${wcIdx + 1} / ${WELCOME.length}</p><h1 id="wcHeading">${p.h}</h1><div class="wc-content">` + p.b + '</div>' +
       (p.agree ? '<div class="checks" id="wcAgree" aria-labelledby="wcHeading">' + p.agree.map((t, i) => `<button type="button" class="chk" data-val="${i}">${t}</button>`).join("") + '</div>' : "") +
       (p.mic && MIC.mode !== "off" ? '<p class="opt-note" style="margin-top:12px">※ 次の画面でマイクの許可をお願いします（測るのは周囲の<b>音量レベルだけ</b>で、会話の内容は記録しません）。</p>' : "") +
-      (wcIdx === WELCOME.length - 1 ? '<p class="opt-note" style="margin-top:10px">※ 中断からの再開のために、入力した情報と回答の途中経過をこの端末に一時保存します。</p>' : "");
+      (wcIdx === WELCOME.length - 1 ? '<p class="opt-note" style="margin-top:10px">※ 中断からの再開のために、入力した情報と回答の途中経過をこの端末に一時保存します。</p>' : "") +
+      `<div id="wcDots" role="img" aria-label="${WELCOME.length}ページ中${wcIdx + 1}ページ目">` + WELCOME.map((_, i) => `<i${i === wcIdx ? ' class="a"' : ""}></i>`).join("") + '</div>';
     if (p.agree) {   // 同意のチェック: 全部にチェックが入るまで「次へ / はじめる」は無効
       wcAgreeShownAt = performance.now();
       for (const b of $("wcAgree").querySelectorAll("button")) b.classList.toggle("sel", wcAgreed[wcIdx].includes(b.dataset.val));
