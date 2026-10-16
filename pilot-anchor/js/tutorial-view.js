@@ -163,16 +163,16 @@ window.PILOT_GUIDED_TUTORIAL.createView = function (env, model, events) {
     $('tutPopTitle').textContent = title; $('tutPopTxt').textContent = text; $('tutExtra').textContent = extra; $('tutExtra').hidden = extraHidden; $('tutPopStep').textContent = stepText;
     return Math.max(48, Math.min((innerHeight - largest) / 2, row.getBoundingClientRect().top - largest - 18));
   }
-  function quizAnchorHeight() {
-    // 従来の最大高は上端を決めるためだけに測り、表示中のカードには予約しない。
-    // 問題や解説が変わっても上端は保ち、実際の下端は内容の高さに合わせる。
+  function quizHeights() {
+    // 従来の予約高は既存の上端を保つためだけに使う。
+    // ナビには、各問の本文とその問の解説を組み合わせた実最大高を使う。
     const measure = pop.cloneNode(true);
     measure.setAttribute('aria-hidden', 'true'); measure.inert = true;
     Object.assign(measure.style, { left: '-10000px', top: '0', width: pop.getBoundingClientRect().width + 'px', height: 'auto', maxHeight: 'none', overflow: 'visible', visibility: 'hidden', transform: 'none' });
     document.body.append(measure);
-    const title = measure.querySelector('#tutPopTitle'), choices = measure.querySelector('#tutQuiz'), feedback = measure.querySelector('#tutQuizFeedback'), op = measure.querySelector('#tutPopOp');
+    const title = measure.querySelector('#tutPopTitle'), choices = measure.querySelector('#tutQuiz'), feedback = measure.querySelector('#tutQuizFeedback'), op = measure.querySelector('#tutPopOp'), stepLabel = measure.querySelector('#tutPopStep');
     feedback.style.display = 'block'; feedback.style.minHeight = '0px';
-    let feedbackHeight = 0, cardHeight = 0;
+    let feedbackHeight = 0, anchorHeight = 0, maximumHeight = 0;
     for (const q of config.checks) {
       for (const text of [q.right, q.wrong]) { feedback.textContent = text; feedbackHeight = Math.max(feedbackHeight, feedback.getBoundingClientRect().height); }
     }
@@ -180,10 +180,28 @@ window.PILOT_GUIDED_TUTORIAL.createView = function (env, model, events) {
     for (const q of config.checks) {
       title.textContent = q.copy; choices.replaceChildren();
       for (const label of q.labels) { const button = document.createElement('button'); button.textContent = label; choices.append(button); }
-      for (const text of ['もう一度選びなおしてください', '答えを1つ選んで「' + model.nextLabel() + '」']) { op.textContent = text; cardHeight = Math.max(cardHeight, measure.getBoundingClientRect().height); }
+      for (const text of ['もう一度選びなおしてください', '答えを1つ選んで「' + model.nextLabel(0) + '」']) { op.textContent = text; anchorHeight = Math.max(anchorHeight, measure.getBoundingClientRect().height); }
+    }
+    feedback.style.display = ''; feedback.style.minHeight = '0px';
+    for (const [index, q] of config.checks.entries()) {
+      title.textContent = q.copy;
+      const page = model.pageInfo(current()); stepLabel.textContent = page.label + '　' + (index + 1) + ' / ' + page.total;
+      const wrong = q.labels.findIndex((_, i) => i !== q.correctIndex);
+      for (const chosen of [null, wrong, q.correctIndex]) {
+        const good = chosen === q.correctIndex; choices.replaceChildren();
+        for (const [answerIndex, label] of q.labels.entries()) {
+          const button = document.createElement('button'); button.textContent = label;
+          if (chosen === answerIndex) button.className = 'selected ' + (good ? 'correct' : 'wrong');
+          choices.append(button);
+        }
+        feedback.textContent = chosen == null ? '' : good ? q.right : q.wrong;
+        feedback.classList.toggle('wrong', chosen != null && !good);
+        op.textContent = chosen != null && !good ? 'もう一度選びなおしてください' : '答えを1つ選んで「' + model.nextLabel(index) + '」';
+        maximumHeight = Math.max(maximumHeight, measure.getBoundingClientRect().height);
+      }
     }
     measure.remove();
-    return cardHeight;
+    return { anchorHeight, maximumHeight };
   }
   function place() {
     const idx = model.index();
@@ -192,13 +210,14 @@ window.PILOT_GUIDED_TUTORIAL.createView = function (env, model, events) {
     const bh = row.getBoundingClientRect().height || 52, startVisible = startBtn.style.visibility === 'visible';
     const minTop = model.replay() && !$('tutClose').classList.contains('hidden') ? $('tutClose').getBoundingClientRect().bottom + 12 : 8;
     if (step.kind === 'quiz') {
-      const navTop = vh - bh - Math.max(12, vh * .025), gap = 12;
-      pop.style.maxHeight = Math.max(0, navTop - gap - minTop) + 'px';
-      const height = Math.min(quizAnchorHeight(), navTop - gap - minTop);
-      const top = Math.max(minTop, Math.min((vh - height) / 2, navTop - height - gap));
+      const maxNavTop = vh - bh - Math.max(12, vh * .025), gap = 12;
+      const { anchorHeight, maximumHeight } = quizHeights(), available = Math.max(0, maxNavTop - gap - minTop);
+      const anchor = Math.min(anchorHeight, available), height = Math.min(maximumHeight, available);
+      const previousTop = Math.max(minTop, Math.min((vh - anchor) / 2, maxNavTop - anchor - gap));
+      const top = Math.max(minTop, Math.min(previousTop, maxNavTop - height - gap)), navTop = top + height + gap;
       pop.style.left = (innerWidth - pop.getBoundingClientRect().width) / 2 + 'px';
       pop.style.top = top + 'px';
-      pop.style.maxHeight = Math.max(0, navTop - gap - top) + 'px';
+      pop.style.maxHeight = height + 'px';
       row.style.top = navTop + 'px'; return;
     }
     pop.style.maxHeight = '';

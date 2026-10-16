@@ -53,8 +53,8 @@ window.PILOT_GUIDED_TUTORIAL.createEngine = function (env) {
     return { label: required ? '操作の確認' : step.chapter.replace(/^\d\s/, ''), index: peers.indexOf(step) + 1, total: peers.length };
   }
   function label(step) { const p = pageInfo(step); return p.label + (p.total ? '　' + p.index + ' / ' + p.total : ''); }
-  function nextLabel() {
-    if (current()?.id === 'rule-check') return quizIndex === config.checks.length - 1 ? (replay ? returnLabel : '例題へ') : '次へ';
+  function nextLabel(questionIndex = quizIndex) {
+    if (current()?.id === 'rule-check') return questionIndex === config.checks.length - 1 ? (replay ? returnLabel : '例題へ') : '次へ';
     if ((required ? idx === required.at(-1) : idx === steps.length - 1) && replay) return returnLabel;
     return current()?.button || '次へ';
   }
