@@ -1,0 +1,880 @@
+{
+  "at": "2026-10-16T05:55:16.727Z",
+  "files": [
+    {
+      "file": "reviews/2026-10-16-session-guidance/375x700/break-both-history-5-early_late.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/375x700/break-clear.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/375x700/main-both-history-5-late-notice.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/375x700/main-both-history-4-early_late-notice.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/375x700/main-both-history-5-early-notice.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/375x700/break-both.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/375x700/break-both-notice.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/375x700/main-both.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/375x700/main-late.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/375x700/practice-all.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/375x700/practice-complete.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/375x700/practice-last.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/375x700/practice-early.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/375x700/practice-late.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/375x700/main-early.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/375x700/practice-release.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/375x700/welcome-1.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/375x700/welcome-2.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/375x700/welcome-4.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/375x700/welcome-5.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/375x700/welcome-6.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/375x700/welcome-3.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/402x759/break-both-history-5-early_late.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/402x759/break-both-notice.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/402x759/break-clear.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/402x759/main-early.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/402x759/main-both.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/402x759/main-late.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/402x759/practice-all.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/402x759/break-both.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/402x759/practice-complete.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/402x759/practice-early.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/402x759/practice-last.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/402x759/practice-late.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/402x759/practice-release.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/402x759/welcome-1.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/402x759/welcome-2.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/402x759/welcome-4.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/402x759/welcome-3.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/402x759/welcome-5.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/402x759/welcome-6.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/440x841/break-both-history-5-early_late.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/440x841/break-both.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/440x841/break-clear.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/440x841/break-both-notice.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/440x841/main-both.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/440x841/main-early.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/440x841/main-late.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/440x841/practice-early.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/440x841/practice-complete.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/440x841/practice-all.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/440x841/practice-last.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/440x841/practice-late.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/440x841/practice-release.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/440x841/welcome-1.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/440x841/welcome-2.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/440x841/welcome-4.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/440x841/welcome-5.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/440x841/welcome-3.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/440x841/welcome-6.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/375x700/break-both-capped.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/375x700/break-both.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/375x700/break-both-notice.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/375x700/break-clear.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/375x700/main-early.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/375x700/main-both-capped-notice.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/375x700/main-late.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/375x700/practice-complete.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/375x700/practice-early.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/375x700/practice-all.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/375x700/main-both.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/375x700/practice-last.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/375x700/practice-late.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/375x700/welcome-1.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/375x700/welcome-4.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/375x700/welcome-2.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/375x700/practice-release.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/375x700/welcome-3.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/375x700/welcome-5.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/375x700/welcome-6.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/402x759/break-both-capped.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/402x759/break-clear.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/402x759/break-both.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/402x759/main-both.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/402x759/break-both-notice.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/402x759/main-early.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/402x759/main-late.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/402x759/practice-all.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/402x759/practice-complete.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/402x759/practice-early.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/402x759/practice-last.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/402x759/practice-late.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/402x759/welcome-2.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/402x759/welcome-1.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/402x759/practice-release.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/402x759/welcome-3.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/402x759/welcome-4.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/402x759/welcome-5.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/402x759/welcome-6.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/440x841/break-both-capped.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/440x841/break-both.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/440x841/break-both-notice.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/440x841/break-clear.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/440x841/main-both.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/440x841/main-early.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/440x841/main-late.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/440x841/practice-all.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/440x841/practice-complete.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/440x841/practice-last.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/440x841/practice-early.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/440x841/practice-late.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/440x841/practice-release.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/440x841/welcome-1.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/440x841/welcome-3.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/440x841/welcome-4.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/440x841/welcome-6.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/capture.json",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/440x841/welcome-2.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/index.html",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/before/440x841/welcome-5.png",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/build-review.cjs",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/image-reference-results.json",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/README.md",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/regression.json",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/publication.json",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/review-data.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/results.json",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/review.css",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/review.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-quiz-box/index.html",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-quiz-box/README.md",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-16-session-guidance/round4-results.json",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "screen-gallery/data/publication.json",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "screen-gallery/data/manifest.json",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "screen-gallery/index.html",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-12-session-explanations/index.html",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-12-session-explanations/copy-manifest.json",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reviews/2026-10-12-session-explanations/publication.json",
+      "status": 200,
+      "match": true
+    }
+  ],
+  "ui": [
+    {
+      "width": 1200,
+      "id": "welcome-1",
+      "pass": true
+    },
+    {
+      "width": 1200,
+      "id": "welcome-2",
+      "pass": true
+    },
+    {
+      "width": 1200,
+      "id": "welcome-3",
+      "pass": true
+    },
+    {
+      "width": 1200,
+      "id": "welcome-4",
+      "pass": true
+    },
+    {
+      "width": 1200,
+      "id": "welcome-5",
+      "pass": true
+    },
+    {
+      "width": 1200,
+      "id": "welcome-6",
+      "pass": true
+    },
+    {
+      "width": 1200,
+      "id": "practice-early",
+      "pass": true
+    },
+    {
+      "width": 1200,
+      "id": "practice-late",
+      "pass": true
+    },
+    {
+      "width": 1200,
+      "id": "practice-release",
+      "pass": true
+    },
+    {
+      "width": 1200,
+      "id": "practice-all",
+      "pass": true
+    },
+    {
+      "width": 1200,
+      "id": "practice-last",
+      "pass": true
+    },
+    {
+      "width": 1200,
+      "id": "main-early",
+      "pass": true
+    },
+    {
+      "width": 1200,
+      "id": "main-late",
+      "pass": true
+    },
+    {
+      "width": 1200,
+      "id": "main-both",
+      "pass": true
+    },
+    {
+      "width": 1200,
+      "id": "practice-complete",
+      "pass": true
+    },
+    {
+      "width": 1200,
+      "id": "break-clear",
+      "pass": true
+    },
+    {
+      "width": 1200,
+      "id": "break-both",
+      "pass": true
+    },
+    {
+      "width": 1200,
+      "id": "break-both-capped",
+      "pass": true
+    },
+    {
+      "width": 402,
+      "id": "welcome-1",
+      "pass": true
+    },
+    {
+      "width": 402,
+      "id": "welcome-2",
+      "pass": true
+    },
+    {
+      "width": 402,
+      "id": "welcome-3",
+      "pass": true
+    },
+    {
+      "width": 402,
+      "id": "welcome-4",
+      "pass": true
+    },
+    {
+      "width": 402,
+      "id": "welcome-5",
+      "pass": true
+    },
+    {
+      "width": 402,
+      "id": "welcome-6",
+      "pass": true
+    },
+    {
+      "width": 402,
+      "id": "practice-early",
+      "pass": true
+    },
+    {
+      "width": 402,
+      "id": "practice-late",
+      "pass": true
+    },
+    {
+      "width": 402,
+      "id": "practice-release",
+      "pass": true
+    },
+    {
+      "width": 402,
+      "id": "practice-all",
+      "pass": true
+    },
+    {
+      "width": 402,
+      "id": "practice-last",
+      "pass": true
+    },
+    {
+      "width": 402,
+      "id": "main-early",
+      "pass": true
+    },
+    {
+      "width": 402,
+      "id": "main-late",
+      "pass": true
+    },
+    {
+      "width": 402,
+      "id": "main-both",
+      "pass": true
+    },
+    {
+      "width": 402,
+      "id": "practice-complete",
+      "pass": true
+    },
+    {
+      "width": 402,
+      "id": "break-clear",
+      "pass": true
+    },
+    {
+      "width": 402,
+      "id": "break-both",
+      "pass": true
+    },
+    {
+      "width": 402,
+      "id": "break-both-capped",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "remote": [],
+  "passed": true
+}
