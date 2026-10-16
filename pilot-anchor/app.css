@@ -647,8 +647,41 @@
   /* 最後の自由記述 (任意。2026-09-29) */
   #postq textarea { width: 100%; max-width: 100%; box-sizing: border-box; padding: 12px; font-size: calc(16px * var(--ui-scale)); line-height: 1.5; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); color: var(--ink); font-family: inherit; resize: none; }
   /* はじめに (同意チェック)・実施後のアンケート・完了画面を mini + ツールバー (375×700) に収める (2026-09-30) */
-  #welcome .checks .chk { padding: 10px 10px 10px 38px; font-size: calc(14.5px * var(--ui-scale)); line-height: 1.5; }
-  #welcome .checks { gap: 6px; }
+  #welcome .checks .chk { padding: 9px 10px 9px 38px; font-size: calc(14.5px * var(--ui-scale)); line-height: 1.5; }
+  #welcome .checks { gap: 5px; }
+  /* 参加前の6枚は説明量にかかわらず、カードと進行ボタンの位置をそろえる。 */
+  .session-explanation-card { border: 1px solid #c9dbd1; border-radius: 16px; background: var(--panel);
+    box-shadow: 0 5px 22px #183d2810; padding: 20px; }
+  #welcome .pad { position: relative; padding: 0; overflow: hidden;
+    --welcome-nav-height: max(57px, calc(27px * var(--ui-scale) + 30px), var(--nav-minh)); }
+  #welcome .pad::before, #welcome .pad::after, #welcome .vgap { display: none; }
+  #wcStep { position: absolute; left: 20px; right: 20px; top: max(17px, 3.5%); color: var(--go); font-weight: 700; }
+  #wcBody { position: absolute; left: 18px; right: 18px; top: max(56px, 8%); bottom: calc(max(58px, 8%) + var(--welcome-nav-height) + 8px);
+    display: flex; flex-direction: column; overflow-y: auto; overscroll-behavior: contain; padding: 18px; }
+  #welcome #wcHeading { flex: none; color: var(--ink); font-size: calc(22px * var(--ui-scale)); line-height: 1.4; margin: 0 0 14px; }
+  #welcome .wc-content { display: flex; flex-direction: column; gap: 14px; flex: none; }
+  #welcome .wc-content p, #welcome .wc-content li { font-size: calc(15px * var(--ui-scale)); line-height: 1.6; }
+  #welcome .wc-content ul { display: flex; flex-direction: column; gap: 12px; margin: 0 0 0 20px; }
+  #welcome .wc-content ol { display: flex; flex-direction: column; gap: 2px; margin: 0 0 0 22px; }
+  #welcome .wc-content ol li { padding-left: 1px; font-weight: 600; line-height: 1.45; }
+  #welcome .wc-content .wc-flow { padding: 10px 14px; border-radius: 10px; background: #f0f7f3; }
+  #welcome .wc-flow p { margin-bottom: 6px; color: var(--go); font-weight: 700; }
+  #welcome .wc-content .opt-note { color: var(--ink-2); font-size: calc(13px * var(--ui-scale)); line-height: 1.5; }
+  #welcome .checks { margin-top: 12px; }
+  #welcome #wcNav { position: absolute; left: 18px; right: 18px; bottom: max(58px, 8%);
+    width: auto; margin: 0; }
+  #welcome #wcNav .btn { min-height: var(--welcome-nav-height); }
+  #welcome #wcPrev[hidden] { display: flex; visibility: hidden; pointer-events: none; }
+  #welcome #wcNav:has(> [hidden]) { width: auto; }
+  #break .session-transition-card, #blockintroBody.practice-complete-card { flex: none; }
+  #blockintroBody.practice-complete-card { border: 1px solid #c9dbd1; border-radius: 16px; background: var(--panel);
+    box-shadow: 0 5px 22px #183d2810; padding: 20px; }
+  #break .session-transition-card h1, #blockintroBody.practice-complete-card h1 {
+    color: var(--ink); font-size: calc(22px * var(--ui-scale)); line-height: 1.4; margin: 0 0 16px; }
+  .pad .session-card-step { color: var(--go); font-weight: 700; font-size: calc(13px * var(--ui-scale)); margin-bottom: 8px; }
+  .session-transition-card > p + p, #blockintroBody.practice-complete-card > p + p { margin-top: 12px; }
+  #blockintroBody.practice-complete-card ul { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; margin-bottom: 0; }
+  .pad .session-card-action { color: var(--go); font-weight: 700; font-size: calc(15px * var(--ui-scale)); }
   #postq .seg.seg-v button { padding: 11px 12px; }
   #postq .field { margin: 8px 0; }
   /* 長い区間ラベルを含む利用年数のページも、小さいiPhoneで下部ナビに重ねない。文字サイズは維持。 */

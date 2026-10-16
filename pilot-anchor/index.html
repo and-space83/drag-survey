@@ -198,7 +198,7 @@
 <section id="welcome" class="screen active">
   <div class="pad">
     <p class="opt-note" id="wcStep"></p>
-    <div id="wcBody"></div>
+    <div id="wcBody" class="session-explanation-card"></div>
     <div class="vgap"></div>
     <div class="explain-nav" id="wcNav">
       <button type="button" class="btn ghost" id="wcPrev" hidden>← 前へ</button>
@@ -370,9 +370,12 @@
 
 <section id="break" class="screen">
   <div class="pad">
-    <h1>休憩</h1>
-    <p id="breakInfo"></p>
-    <p>準備ができたら続けてください。</p>
+    <div class="session-explanation-card session-transition-card">
+      <p class="session-card-step">本番の途中です</p>
+      <h1>休憩</h1>
+      <p id="breakInfo"></p>
+      <p class="session-card-action">準備ができたら「続ける」へ</p>
+    </div>
     <div class="vgap"></div>
     <button class="btn primary advance" id="breakContinue">続ける</button>
   </div>

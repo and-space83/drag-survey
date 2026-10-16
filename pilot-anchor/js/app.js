@@ -1324,6 +1324,7 @@
   // 本番で答えた③の項目から水準 1:3:6 (≈1:2:4) で 10 問を再提示し、「読まずに速く」の教示で不注意回答を模す。評定なし。
   function showInstructedIntro() {
     pendingInstructedStart = true;
+    $("blockintroBody").classList.remove("practice-complete-card");
     $("blockintroBody").innerHTML =
       '<h1>追加の 10 問<br><span class="instructed-subtitle">（やり方が変わります）</span></h1>' +
       '<p class="instruction-key"><b>問題文も選択肢も、読まずに進めてください。</b><br>内容を考えて答えを選ばず、<b>適当に指を運んでください。</b>どちらの選択肢でも構いません。</p>' +
@@ -1356,6 +1357,7 @@
     nextTrial();
   }
   function showBlockIntro() {
+    $("blockintroBody").classList.remove("practice-complete-card");
     $("blockintroBody").innerHTML =
       `<p class="opt-note">パート ${seqIndex + 1} / ${SEQ.length}</p>` +
       ((UNIFIED && BLOCK.transitionHtml) ? BLOCK.transitionHtml : BLOCK.introHtml);
@@ -1930,12 +1932,15 @@
     setCoach(null);
     coachHide();
     pendingMainStart = true;
+    $("blockintroBody").classList.add("practice-complete-card");
     $("blockintroBody").innerHTML =
+      '<p class="session-card-step">練習 → 本番</p>' +
       '<h1>練習完了です！</h1>' +
-      '<p>ここからが<b>本番</b>です。やり方は練習と同じです。</p>' +
-      '<p><b>回答を急ぐ必要はありません。</b><b>自分のペースで進めてください。</b></p>' +
-      '<p>操作を忘れたときは、<b>問題画面の上にある「↻ 操作方法」</b>から説明を見直せます。</p>' +
-      '<p>準備ができたら「続ける」を押してください。</p>';
+      '<p>ここからが<b>本番</b>です。</p>' +
+      '<ul><li>やり方は練習と同じです。</li>' +
+      '<li><b>回答を急ぐ必要はありません。</b>自分のペースで進めてください。</li>' +
+      '<li>操作を忘れたら、問題画面の上にある<b>「↻ 操作方法」</b>から見直せます。</li></ul>' +
+      '<p class="session-card-action">準備ができたら「続ける」へ</p>';
     show("blockintro");
     logInstructionExposure("practiceComplete");
     $("blockintro").querySelector(".pad").scrollTop = 0;
@@ -3823,17 +3828,18 @@
          '<li>選んだあとに「迷い」と「自信」を5段階でふりかえります。</li></ul>' },
     { h: "所要時間と進め方",
       b: '<p>全体で <b>40分ほど</b>（35〜50分）かかります。時間に余裕があるときに始めてください。</p>' +
-         '<ul><li><b>読む速さの計測</b> → <b>画面構成と操作方法の説明</b> → <b>練習</b> → <b>本番</b> → <b>実施後のアンケート</b>と進みます。説明は何度でも見直せます。</li>' +
-         '<li><b>回答を急ぐ必要はありません。</b>読むことや考えることに十分な時間を使って<b>自分のペースで進めてください。</b></li>' +
-         '<li>本番では <b>20問ごとに休憩</b>があります。休憩以外は、別の作業を挟まずに続けてください。</li></ul>' },
+         '<div class="wc-flow"><p>進める順番</p><ol><li>読む速さの計測</li><li>画面・操作の説明</li><li>練習</li><li>本番</li><li>実施後のアンケート</li></ol></div>' +
+         '<ul><li>説明は何度でも見直せます。</li>' +
+         '<li><b>回答を急ぐ必要はありません。</b>読むことや考えることに十分な時間を使い、自分のペースで進めてください。</li>' +
+         '<li>本番は<b>20問ごとに休憩</b>があります。休憩以外は、別の作業を挟まずに続けてください。</li></ul>' },
     { h: "実施する環境について",
       b: '<p><b>静かな場所</b>で、落ち着いて取り組める時に始めてください。</p>' +
          '<ul><li>スマートフォンを<b>手で持って</b>操作します（机に置いたままにしないでください）。</li>' +
          '<li>通知で中断されないよう、<b>おやすみモード</b>などにしておくと安心です。</li></ul>' },
     { h: "氏名とデータの取り扱い",
-      b: '<p>氏名は、参加確認と謝礼のお支払いに関する照合に使用します。</p>' +
-         '<p>研究の分析には、氏名を研究用IDに置き換えたデータを使用します。</p>' +
-         '<p>研究成果に氏名を掲載することはありません。</p>' },
+      b: '<ul><li><b>参加確認・謝礼の照合</b><br>氏名を使用します。</li>' +
+         '<li><b>研究の分析</b><br>氏名を研究用IDに置き換えたデータを使用します。</li>' +
+         '<li><b>研究成果の公表</b><br>氏名を掲載することはありません。</li></ul>' },
     // 2026-09-06: 画面切替・再読込の注意 (§6-6 項17)。画面切替の回数・時間の記録は倫理申請 (実施計画書 §3D) に記載済。
     // 報酬の承認条件 (非承認の基準) はアプリでなく募集文に書く (身内配布では報酬がないため、ここでは「有効な回答として扱えない」に留める)
     // 同意チェックは5/6・6/6。5項目を3+2の2ページに分け、全てにチェックしてから開始する。
@@ -3857,7 +3863,7 @@
   function wcRender() {
     const p = WELCOME[wcIdx];
     $("wcStep").textContent = `${wcIdx + 1} / ${WELCOME.length}`;
-    $("wcBody").innerHTML = `<h1 id="wcHeading">${p.h}</h1>` + p.b +
+    $("wcBody").innerHTML = `<h1 id="wcHeading">${p.h}</h1><div class="wc-content">` + p.b + '</div>' +
       (p.agree ? '<div class="checks" id="wcAgree" aria-labelledby="wcHeading">' + p.agree.map((t, i) => `<button type="button" class="chk" data-val="${i}">${t}</button>`).join("") + '</div>' : "") +
       (p.mic && MIC.mode !== "off" ? '<p class="opt-note" style="margin-top:12px">※ 次の画面でマイクの許可をお願いします（測るのは周囲の<b>音量レベルだけ</b>で、会話の内容は記録しません）。</p>' : "") +
       (wcIdx === WELCOME.length - 1 ? '<p class="opt-note" style="margin-top:10px">※ 中断からの再開のために、入力した情報と回答の途中経過をこの端末に一時保存します。</p>' : "");
