@@ -1,5 +1,7 @@
 # pilot-anchor (Stage 1 ① / Stage 2 ②③)
 
+参加者向けの名称は[さまざまな場面での選択と判断に関する調査](https://and-space83.github.io/drag-survey/pilot-anchor/?block=moral&study=main)。ブラウザとリンクプレビューのタイトルを統一した[確認記録](reviews/2026-10-17-app-title/README.md)を参照する。
+
 **現在の参加者向け配布は③道徳ジレンマ**（[`?block=moral&study=main`](https://and-space83.github.io/drag-survey/pilot-anchor/?block=moral&study=main)）。旧①アンカーを今後参加者へ配布しない。以下の旧ブロックとURLは過去の検証・再現用に残している。
 
 リーチデシジョン (指を離さず2択へドラッグ) 課題。研究名「スマートフォンのドラッグ軌道を用いたアンケート回答時の迷いの推定と不注意回答の検出」。**ブロック駆動**で、同じアプリを `?block=` で切り替える:

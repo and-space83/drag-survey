@@ -615,45 +615,49 @@ index 0000000..16e75f6
 +  ]
 +};
 diff --git a/tools/pilot-anchor/index.html b/tools/pilot-anchor/index.html
-index b02688a..f6428eb 100644
+index b02688a..caaa164 100644
 --- a/tools/pilot-anchor/index.html
 +++ b/tools/pilot-anchor/index.html
-@@ -15 +15 @@
+@@ -6 +6,2 @@
+-<title>パイロット課題 (ドラッグ)</title>
++<title>さまざまな場面での選択と判断に関する調査</title>
++<meta property="og:title" content="さまざまな場面での選択と判断に関する調査">
+@@ -15 +16 @@
 -  下記 BLOCKS レジストリに分離 (BLOCKS.anchor / BLOCKS.value / BLOCKS.moral / BLOCKS.attn)。
 +  js/app.js の BLOCKS レジストリに分離 (BLOCKS.anchor / BLOCKS.value / BLOCKS.moral / BLOCKS.attn)。
-@@ -18 +18,5 @@
+@@ -18 +19,5 @@
 -    index.html  … マークアップ + エンジン (設定/クエリ・BLOCKS・課題・評定・チュートリアル・環境音・回収・再開)
 +    index.html  … マークアップ・データ仕様・同期scriptの読込順
 +    js/app.js   … 設定/クエリ・BLOCKS・画面遷移・課題/評定・同意/保存/回収/再開の接続と起動
 +    js/trial-recorder.js … DOMに依存しない座標・時刻・geometry・時間/停止/レート集計
 +    js/runtime-guards.js / css/runtime-guards.css … 端末・向き・拡大・タッチの共通ガード
 +    guided-tutorial.js … 教示の定義。js/tutorial-controller.js が進行/記録/再開、tutorial-view.js / tutorial-visuals.js が表示
-@@ -31 +35,4 @@
+@@ -31 +36,4 @@
 -             collectionPlan: {postKeys, instructedEnabled, attentionEnabled}, // そのセッションで収集を予定した事後項目と追加/注意チェックの有効状態。旧データでは省略あり
 +             collectionPlan: {postKeys, originalPostKeys?, instructedEnabled, attentionEnabled}, // 現在収集予定の事後項目。未完了の旧版再開で項目が変わる場合は元のpostKeysも保持
 +             postPresentedKeys: [key], // ui8以降のコードで実際に表示した事後項目。旧履歴は補完しない
 +             postQuestionMeta: {[key]: {version, scope, definition}}, // 実表示時の質問版・範囲・本文・選択肢・選択形式。旧単一回答と旧範囲を復元時にも保持
 +             surveyProblemDefinition: {version, title, choices:[{value,label,part}]} | null, // ui15以降の困りごとの固定定義。旧postq途中は旧文言・所属を保持。閲覧完了の指標ではない
-@@ -56,0 +64 @@
+@@ -56,0 +65 @@
 +             instructionExposure: [{version, at, screen, page|step|kind, phase, block, afterTrial}], // ui8以降の教示表示履歴。読了・理解の証明ではない。旧データの欠如は未測定
-@@ -120 +128,3 @@
+@@ -120 +129,3 @@
 -<link rel="stylesheet" href="app.css">
 +<link rel="stylesheet" href="css/runtime-guards.css?v=2026-10-16-refactor1" onerror="window.pilotAssetLoadFailed = true">
 +  <link rel="stylesheet" href="app.css?v=2026-10-16-ui26">
 +  <link rel="stylesheet" href="guided-tutorial.css?v=2026-10-16-ui22">
-@@ -190,2 +200 @@
+@@ -190,2 +201 @@
 -    <p class="opt-note" id="wcStep"></p>
 -    <div id="wcBody"></div>
 +    <div id="wcCardArea"><div id="wcBody" class="session-explanation-card"></div></div>
-@@ -267 +276 @@
+@@ -267 +277 @@
 -    <h1>研究への参加について</h1>
 +    <h1>研究への参加の同意</h1>
-@@ -286 +295 @@
+@@ -286 +296 @@
 -      <p id="consentSaveNote">通信環境によっては時間がかかる場合があります。ブラウザの更新（再読み込み）や「戻る」は使わず、画面を閉じずにそのままお待ちください。</p>
 +      <p id="consentSaveNote">通信環境によっては時間がかかる場合があります。<br><strong>ブラウザの更新（再読み込み）や「戻る」は使わず、画面を閉じずにそのままお待ちください。</strong></p>
-@@ -298,0 +308 @@
+@@ -298,0 +309 @@
 +    <div id="dragPosition" aria-hidden="true" hidden></div>
-@@ -308 +318,10 @@
+@@ -308 +319,10 @@
 -<!-- ===== RATING (3項目1画面) ===== -->
 +<!-- ===== RATING (迷い・自信を1項目ずつ) ===== -->
 +<section id="guidedintro" class="screen" aria-labelledby="guidedIntroTitle">
@@ -665,22 +669,22 @@ index b02688a..f6428eb 100644
 +  <button type="button" class="btn primary" id="guidedIntroGo">次へ</button>
 +</section>
 +
-@@ -309,0 +329 @@
+@@ -309,0 +330 @@
 +  <div id="ratingTopbar" role="group" aria-label="問題の進み具合"><span id="ratingPhaseLabel"></span><span id="ratingCounter"></span></div>
-@@ -311,0 +332 @@
+@@ -311,0 +333 @@
 +  <div id="ratingProgress" aria-hidden="true"><div id="ratingProgressFill"></div></div>
-@@ -315,0 +337 @@
+@@ -315,0 +338 @@
 +    <p id="ratingBackNote" hidden>「戻る」で迷いの回答を直せます。</p>
-@@ -331,3 +353,2 @@
+@@ -331,3 +354,2 @@
 -    <h1>お願い</h1>
 -    <p id="noticeText"></p>
 -    <button type="button" class="btn ghost" id="noticeTut" style="margin:6px auto 14px;display:block">操作方法を見る</button>
 +    <h1>操作のポイントの確認</h1>
 +    <div id="noticeText"></div>
-@@ -335 +356 @@
+@@ -335 +357 @@
 -    <button class="btn primary advance" id="noticeGo">問題に戻る</button>
 +    <button type="button" class="btn primary advance" id="noticeGo">確認して次の問題へ</button>
-@@ -339,0 +361,10 @@
+@@ -339,0 +362,10 @@
 +<section id="practicecheck" class="screen">
 +  <div class="pad">
 +    <h1>操作のポイントの確認</h1>
@@ -691,7 +695,7 @@ index b02688a..f6428eb 100644
 +  </div>
 +</section>
 +
-@@ -342,3 +373,6 @@
+@@ -342,3 +374,6 @@
 -    <h1>休憩</h1>
 -    <p id="breakInfo"></p>
 -    <p>準備ができたら続けてください。</p>
@@ -701,7 +705,7 @@ index b02688a..f6428eb 100644
 +      <p id="breakInfo"></p>
 +      <p class="session-card-action">準備ができたら「続ける」へ</p>
 +    </div>
-@@ -382,4 +416,5 @@
+@@ -382,4 +417,5 @@
 -    <h1>文章を読む速さの計測</h1>
 -    <p id="readIntro">まず、文章を読む速さを計測します（短い文章を4本）。<br>表示された文章を<b>普段通りの速さ</b>で読み、読み終えたら<b>すぐ</b>下のボタンを押してください。<br>本番の問題文と同じような文です。内容を覚える必要はありません。</p>
 -    <p class="opt-note" id="readCounter"></p>
@@ -711,46 +715,46 @@ index b02688a..f6428eb 100644
 +      <p id="readIntro">まず、あなたの普段の読む速さを知るため、短い文章を4本読んでもらいます。<br><b>速く読む必要はないので普段通りの速さで読み</b>、読み終えたらすぐ下のボタンを押してください。</p>
 +      <div class="rtext" id="readText" style="display:none"></div>
 +    </div>
-@@ -404 +439 @@
+@@ -404 +440 @@
 -    <!-- 1 項目 1 画面 (2026-09-26): 課題と同じくスクロールせず「戻る / 次へ」で進む。ページ = 持ち方 → 拡充分 19 項目 → 使いにくかった点 → 操作のしやすさ -->
 +    <!-- 課題と同じくスクロールせず「戻る / 次へ」で進む。持ち方 → 拡充分 → 使いにくかった点 → 操作のしやすさ → 自由記述 -->
-@@ -409 +444 @@
+@@ -409 +445 @@
 -    <p>最後に、<b>2分ほど</b>で終わるアンケートにお答えください。</p>
 +    <p>最後に、アンケートにお答えください（<b>目安：約8分</b>）。</p>
-@@ -422 +457 @@
+@@ -422 +458 @@
 -    <!-- 事後アンケート 拡充分 (2026-09-06 §6-6 項8): 状態・課題の感じ方・環境・習熟・ふりかえり+自己報告の 22 項目 (2026-09-26 に data_use、2026-09-30 に課題の感じ方 3 問を追加)。POST_ITEMS から描画。
 +    <!-- 事後アンケート拡充分: POST_ITEMSから通常27項目を描画（追加10問OFFでは対応質問を除いて26項目）。
-@@ -424 +459 @@
+@@ -424 +460 @@
 -    <p class="opt-note" id="postLead" style="display:none;margin-top:14px">続けて、いくつか質問にお答えください（約2分）。</p>
 +    <p class="opt-note" id="postLead" style="display:none;margin-top:14px">続けて、いくつか質問にお答えください（目安：約8分）。</p>
-@@ -429,3 +464,3 @@
+@@ -429,3 +465,3 @@
 -      <div class="postpage" data-page="problems" id="surveyProblemsPage">
 -      <!-- 既存10項目の5+5を保ち、案内・待機に関する追加2項目を3ページ目に分ける。各ページに該当なしを設ける -->
 -      <h2 id="surveyProblemsLabel">使いにくかった点・改善してほしい点</h2>
 +      <div class="postpage" data-page="problems" data-other-part="3" id="surveyProblemsPage">
 +      <!-- 5+4+3項目の3ページ。その他は最後に置き、各ページに該当なしを設ける -->
 +      <h2 id="surveyProblemsLabel">使いにくかった点・改善した方がいい点</h2>
-@@ -435,3 +470,3 @@
+@@ -435,3 +471,3 @@
 -        <button type="button" class="chk" data-part="1" data-val="rating_burden">振り返りの回答が多くて負担だった</button>
 -        <button type="button" class="chk" data-part="1" data-val="trial_fatigue">試行数が多くて疲れた・長く感じた</button>
 -        <button type="button" class="chk" data-part="1" data-val="drag_hard">ドラッグして選ぶ操作がやりにくかった</button>
 +        <button type="button" class="chk" data-part="1" data-val="rating_burden">1問ごとの回答の振り返りが負担だった</button>
 +        <button type="button" class="chk" data-part="1" data-val="trial_fatigue">問題数が多くて疲れた・長く感じた</button>
 +        <button type="button" class="chk" data-part="1" data-val="drag_hard">指を離さずに運んで選ぶ操作がやりにくかった</button>
-@@ -445 +479,0 @@
+@@ -445 +480,0 @@
 -        <button type="button" class="chk" data-part="2" data-val="other">その他</button>
-@@ -448,0 +483 @@
+@@ -448,0 +484 @@
 +        <button type="button" class="chk" data-part="3" data-val="other">その他</button>
-@@ -457 +492 @@
+@@ -457 +493 @@
 -      <h2 id="surveyEaseLabel">ドラッグで選ぶ操作はしやすかったですか</h2>
 +      <h2 id="surveyEaseLabel">指を離さずに運んで選ぶ操作はしやすかったですか</h2>
-@@ -481 +516 @@
+@@ -481 +517 @@
 -    <p class="opt-note" id="postMissing" style="text-align:center;margin-top:6px;color:var(--err);font-weight:700"></p>
 +    <p class="opt-note" id="postMissing" data-tap-action style="text-align:center;margin-top:6px;color:var(--err);font-weight:700"></p>
-@@ -493 +528 @@
+@@ -493 +529 @@
 -      <p class="opt-note" id="sendWaitNote">通信環境によっては時間がかかる場合があります。ブラウザの更新（再読み込み）や「戻る」は使わず、画面を閉じずにそのままお待ちください。</p>
 +      <p class="opt-note" id="sendWaitNote">通信環境によっては時間がかかる場合があります。<br><strong>ブラウザの更新（再読み込み）や「戻る」は使わず、画面を閉じずにそのままお待ちください。</strong></p>
-@@ -541 +576,6 @@
+@@ -541 +577,6 @@
 -<script src="bank.js"></script>
 +<script src="js/runtime-guards.js?v=2026-10-16-refactor1"></script>
 +<script src="bank.js?v=2026-10-15-ui18"></script>
@@ -758,7 +762,7 @@ index b02688a..f6428eb 100644
 +<script src="js/tutorial-visuals.js?v=2026-10-16-refactor1"></script>
 +<script src="js/tutorial-view.js?v=2026-10-16-ui25"></script>
 +<script src="js/tutorial-controller.js?v=2026-10-16-ui25"></script>
-@@ -548,4324 +588,8 @@
+@@ -548,4324 +589,8 @@
 -<script>
 -(function () {
 -  "use strict";
@@ -5090,10 +5094,10 @@ index b02688a..f6428eb 100644
 +<script src="js/rating-content.js?v=2026-10-16-refactor2"></script>
 +<script src="js/rating-controller.js?v=2026-10-16-refactor2"></script>
 +<script src="js/rating-view.js?v=2026-10-16-ui26"></script>
-+<script src="js/app.js?v=2026-10-16-ui26" onerror="document.getElementById('wcBody').innerHTML='&lt;h1&gt;読み込みが完了していません&lt;/h1&gt;&lt;p&gt;通信を確認して、もう一度読み込んでください。&lt;/p&gt;'; const next=document.getElementById('wcNext'); next.textContent='再読み込み'; next.disabled=false; next.onclick=function(){location.reload()}"></script>
++<script src="js/app.js?v=2026-10-17-title1" onerror="document.getElementById('wcBody').innerHTML='&lt;h1&gt;読み込みが完了していません&lt;/h1&gt;&lt;p&gt;通信を確認して、もう一度読み込んでください。&lt;/p&gt;'; const next=document.getElementById('wcNext'); next.textContent='再読み込み'; next.disabled=false; next.onclick=function(){location.reload()}"></script>
 diff --git a/tools/pilot-anchor/js/app.js b/tools/pilot-anchor/js/app.js
 new file mode 100644
-index 0000000..0966dd1
+index 0000000..0eb114a
 --- /dev/null
 +++ b/tools/pilot-anchor/js/app.js
 @@ -0,0 +1,4294 @@
@@ -9018,7 +9022,7 @@ index 0000000..0966dd1
 +  // 1画面に (スクロール解消)。全体像は welcome 1枚目、操作方法はチュートリアル (実演+ハンズオン) が
 +  // 担う = 同じ内容を3箇所で繰り返さない。BLOCK.introHtml は blockintro (パート切替) で引き続き使用
 +  $("introInstructions").innerHTML = "";   // 2026-09-06: パート数の予告も出さない (入力画面は入力だけ)
-+  document.title = "調査: " + (SEQ.length > 1 ? "価値・選好 と 道徳判断" : BLOCK.title);   // 2026-09-26: 本実験なので「パイロット」を外す
++  // 参加者向けのタイトルは index.html の <title> を維持する。
 +
 +  // 事前アンケート (特性): 性別・利き手。選択で開始ボタンの有効/無効を再評価
 +  wireSeg("ageBandSeg", (v) => { device.ageBand = v; refreshIntro(); });   // 年代タップ (?ageband=1 / kiosk)

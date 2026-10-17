@@ -1,0 +1,46 @@
+{
+  "checkedAt": "2026-10-17T09:03:03.253Z",
+  "scope": "Local browser in fresh contexts; upload=0; every non-GET or off-origin request blocked",
+  "title": "さまざまな場面での選択と判断に関する調査",
+  "errors": [],
+  "blocked": [],
+  "results": [
+    {
+      "query": "block=moral&study=main",
+      "status": 200,
+      "htmlTitle": "さまざまな場面での選択と判断に関する調査",
+      "runtimeTitle": "さまざまな場面での選択と判断に関する調査",
+      "ogTitle": "さまざまな場面での選択と判断に関する調査",
+      "activeScreen": "welcome",
+      "passed": true
+    },
+    {
+      "query": "block=anchor",
+      "status": 200,
+      "htmlTitle": "さまざまな場面での選択と判断に関する調査",
+      "runtimeTitle": "さまざまな場面での選択と判断に関する調査",
+      "ogTitle": "さまざまな場面での選択と判断に関する調査",
+      "activeScreen": "welcome",
+      "passed": true
+    },
+    {
+      "query": "block=value",
+      "status": 200,
+      "htmlTitle": "さまざまな場面での選択と判断に関する調査",
+      "runtimeTitle": "さまざまな場面での選択と判断に関する調査",
+      "ogTitle": "さまざまな場面での選択と判断に関する調査",
+      "activeScreen": "welcome",
+      "passed": true
+    },
+    {
+      "query": "block=combo",
+      "status": 200,
+      "htmlTitle": "さまざまな場面での選択と判断に関する調査",
+      "runtimeTitle": "さまざまな場面での選択と判断に関する調査",
+      "ogTitle": "さまざまな場面での選択と判断に関する調査",
+      "activeScreen": "welcome",
+      "passed": true
+    }
+  ],
+  "passed": true
+}
