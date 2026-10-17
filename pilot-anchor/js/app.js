@@ -3919,7 +3919,7 @@
   // 1画面に (スクロール解消)。全体像は welcome 1枚目、操作方法はチュートリアル (実演+ハンズオン) が
   // 担う = 同じ内容を3箇所で繰り返さない。BLOCK.introHtml は blockintro (パート切替) で引き続き使用
   $("introInstructions").innerHTML = "";   // 2026-09-06: パート数の予告も出さない (入力画面は入力だけ)
-  document.title = "調査: " + (SEQ.length > 1 ? "価値・選好 と 道徳判断" : BLOCK.title);   // 2026-09-26: 本実験なので「パイロット」を外す
+  // 参加者向けのタイトルは index.html の <title> を維持する。
 
   // 事前アンケート (特性): 性別・利き手。選択で開始ボタンの有効/無効を再評価
   wireSeg("ageBandSeg", (v) => { device.ageBand = v; refreshIntro(); });   // 年代タップ (?ageband=1 / kiosk)
