@@ -651,7 +651,6 @@
   #sendBox { display: flex; flex-direction: column; align-items: center; gap: 12px; margin: 8px 0 16px; }
   #sendBox .spin { width: 40px; height: 40px; border-radius: 50%; border: 4px solid var(--line); border-top-color: var(--go); animation: spin 0.9s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
-  @media (prefers-reduced-motion: reduce) { #sendBox .spin { animation: none; border-top-color: var(--go); } }
   #sendBox #sendMsg { font-size: calc(16px * var(--ui-scale)); font-weight: 700; margin: 0; text-align: center; }
   #done .hidden-until-sent { display: none !important; }
   /* 完了画面の事後説明 (IMC): 明るい背景で読める配色 (2026-09-27。旧 #9cf/#467) */

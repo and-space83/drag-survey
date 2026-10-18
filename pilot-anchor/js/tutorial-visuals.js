@@ -1,5 +1,6 @@
 'use strict';
-// 独立試作の実演。座標は描画用のみ。経路の線は描かず、現在の指を動かす。
+// 操作を伝える実演は動作を減らす設定でも再生する。座標は描画用のみ。
+// 経路の線は描かず、現在の指を動かす。撮影用の静止APIは別に保持する。
 window.PILOT_GUIDED_TUTORIAL.createDemo=function({canvas,start,target,onReady,onChange,fingerScale}){
  const g=canvas.getContext('2d'),seen=new Set(),durations={press:350,move:1300,release:500,wait:600};
  let frame=0,lastTime=0,s=null,extraReady=null,changed=null;
@@ -33,27 +34,25 @@ window.PILOT_GUIDED_TUTORIAL.createDemo=function({canvas,start,target,onReady,on
  function draw(){
   if(!s)return;clear();const p=s.path,t=s.elapsed/durations[s.phase];
   start.classList.toggle('armed',s.phase==='press'||s.phase==='move');start.textContent='スタート';target.classList.toggle('arrived',s.phase==='release'||s.phase==='wait');
-  if(s.reduced){const a=center(start),b=center(target);ring(a.x,a.y,18,.9,'#b8531a');ring(b.x-b.w*.29,b.y-b.h*.22,17,.9,'#12855a');ring(b.x+b.w*.28,b.y+b.h*.23,17,.9,'#12855a');return;}
   if(s.phase==='press'){finger(p.start.x,p.start.y,1);ring(p.start.x,p.start.y,17+4*t,.8,'#b8531a');}
   else if(s.phase==='move'){const e=t*t*(3-2*t),x=bezier(p.start.x,p.c1.x,p.c2.x,p.end.x,e),y=bezier(p.start.y,p.c1.y,p.c2.y,p.end.y,e);finger(x,y,1);ring(x,y,19,.8,'#b8531a');}
   else if(s.phase==='release'){finger(p.end.x,p.end.y,1-t);ring(p.end.x,p.end.y,19+24*t,1-t,'#12855a');}
  }
  function tick(now){
   frame=0;if(!s||!s.running)return;
-  if(!s.paused&&!s.reduced){s.elapsed+=Math.min(80,Math.max(0,now-lastTime));while(s.elapsed>=durations[s.phase]){s.elapsed-=durations[s.phase];if(s.phase==='press')s.phase='move';else if(s.phase==='move')s.phase='release';else if(s.phase==='release'){s.cycles++;s.phase='wait';if(s.cycles>=2)ready();}else{s.phase='press';freshPath();}}draw();}
+  if(!s.paused){s.elapsed+=Math.min(80,Math.max(0,now-lastTime));while(s.elapsed>=durations[s.phase]){s.elapsed-=durations[s.phase];if(s.phase==='press')s.phase='move';else if(s.phase==='move')s.phase='release';else if(s.phase==='release'){s.cycles++;s.phase='wait';if(s.cycles>=2)ready();}else{s.phase='press';freshPath();}}draw();}
   lastTime=now;frame=requestAnimationFrame(tick);
  }
  function stop(){if(frame)cancelAnimationFrame(frame);frame=0;if(s)s.running=false;s=null;clear();canvas.hidden=true;start.classList.remove('armed');start.textContent='スタート';target.classList.remove('arrived');}
  function begin(options){
   stop();size();extraReady=options.onReady;changed=options.onChange;
-  s={key:options.key,kind:options.kind,cycles:0,captionVisible:!!options.captionInitially||seen.has(options.key),paused:false,running:true,reduced:matchMedia('(prefers-reduced-motion: reduce)').matches,phase:'press',elapsed:0,firstSign:options.capture?-1:Math.random()<.5?-1:1,pathType:null,path:null};
+  s={key:options.key,kind:options.kind,cycles:0,captionVisible:!!options.captionInitially||seen.has(options.key),paused:false,running:true,phase:'press',elapsed:0,firstSign:options.capture?-1:Math.random()<.5?-1:1,pathType:null,path:null};
   canvas.hidden=false;freshPath();extraReady?.(s.captionVisible);onReady?.(s.captionVisible);
   if(options.capture){sample(options.phase||'after');return;}
-  if(s.reduced){s.paused=true;ready();draw();changed?.(s);onChange?.(s);return;}
   lastTime=performance.now();draw();frame=requestAnimationFrame(tick);changed?.(s);onChange?.(s);
  }
  function pause(){if(!s)return;s.paused=!s.paused;lastTime=performance.now();changed?.(s);onChange?.(s);}
- function replay(){if(!s)return;const keep=s.captionVisible;s.cycles=0;s.elapsed=0;s.phase='press';s.paused=s.reduced;s.captionVisible=keep;freshPath();lastTime=performance.now();draw();changed?.(s);onChange?.(s);}
+ function replay(){if(!s)return;const keep=s.captionVisible;s.cycles=0;s.elapsed=0;s.phase='press';s.paused=false;s.captionVisible=keep;freshPath();lastTime=performance.now();draw();changed?.(s);onChange?.(s);}
  function sample(phase,cycles){if(!s)return;if(frame)cancelAnimationFrame(frame);frame=0;s.paused=true;s.cycles=Number.isInteger(cycles)?Math.max(0,cycles):phase==='before'?0:2;s.phase=['press','release'].includes(phase)?phase:'move';s.elapsed=durations[s.phase]*.6;freshPath();if(s.captionVisible)seen.add(s.key);extraReady?.(s.captionVisible);onReady?.(s.captionVisible);draw();changed?.(s);}
  return{begin,stop,pause,replay,sample,state:()=>s?JSON.parse(JSON.stringify(s)):null};
 };
@@ -92,15 +91,14 @@ window.PILOT_GUIDED_TUTORIAL.createTimeDemo=function({container}){
   }else if(s.phase==='exit'||s.phase==='reset'){
    p={...to};if(s.phase==='reset')alpha=1-t;
   }
-  if(s.reduced)p={...to};
-  const contacted=s.phase!=='idle'||s.reduced,exited=contacted&&p.y<bounds.y;
+  const contacted=s.phase!=='idle',exited=contacted&&p.y<bounds.y;
   s.finger=p;s.exited=exited;s.contacted=contacted;
-  setHand(finger,p,alpha);setHand(ghost,from,s.reduced ? .42 : 0);
+  setHand(finger,p,alpha);setHand(ghost,from,0);
   button.classList.toggle('armed',contacted);
   buttonText.classList.toggle('armed',contacted);
   buttonText.textContent='スタート';
   ring.setAttribute('cx',String(p.x));ring.setAttribute('cy',String(p.y));
-  ring.setAttribute('r',String(exited?14+(!s.reduced&&s.phase==='exit'?2*Math.sin(t*Math.PI):0):12));
+  ring.setAttribute('r',String(exited?14+(s.phase==='exit'?2*Math.sin(t*Math.PI):0):12));
   ring.setAttribute('opacity',String(!contacted?0:exited?alpha:.45));
   ring.classList.toggle('outside',exited);
   borderGlow.style.opacity=String(exited ? .45*alpha : 0);
@@ -131,10 +129,9 @@ window.PILOT_GUIDED_TUTORIAL.createTimeDemo=function({container}){
  }
  function begin(options={}){
   stop();mount();
-  s={phase:'idle',elapsed:0,cycles:0,running:true,reduced:matchMedia('(prefers-reduced-motion: reduce)').matches,captured:false,finger:{...from},exited:false,startBounds:{...bounds}};
+  s={phase:'idle',elapsed:0,cycles:0,running:true,captured:false,finger:{...from},exited:false,startBounds:{...bounds}};
   const captured=options.capture??(new URLSearchParams(location.search).get('capture')==='1');
   if(captured){sample(options.phase||'exit');return;}
-  if(s.reduced){s.phase='exit';draw();return;}
   lastTime=performance.now();draw();frame=requestAnimationFrame(tick);
  }
  return{begin,stop,sample,state:()=>s?JSON.parse(JSON.stringify(s)):null};
