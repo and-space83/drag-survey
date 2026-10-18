@@ -1,0 +1,1950 @@
+{
+  "at": "2026-10-18T10:51:58.918Z",
+  "base": "https://and-space83.github.io/drag-survey/pilot-anchor/",
+  "expectedVersion": "2026-10-18-ui27",
+  "scope": "Public ui27 in Chrome mobile emulation and optional Playwright WebKit; not physical iPhone Safari",
+  "source": {
+    "index.html": "aa4e072c4e2d4db99732d3ed7b38b41b0c51bacf32fbcc6ee514a430c6e61df4",
+    "css/runtime-guards.css": "da2a02010ec7825568dafae2fb95b6cdc7cf36321f335375ad26ba5281492683",
+    "app.css": "0f2cc4b553ae4bafdca8fb6711fb8e058d5dde76cdadf0e8576c04813babb0fe",
+    "guided-tutorial.css": "044853cf630d434c58190c4cd3072aa7e700619cb16e70a2920f8e89fc7a880d",
+    "consent.css": "edb1108d3d1554804ded22fc703c788e702ea439af068e1a04fdecd8a2f56c58",
+    "js/runtime-guards.js": "f7648083aab79c08bdb07e25d041e32b53e8626880f18b4bac8fb9bfca14a26b",
+    "bank.js": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
+    "guided-tutorial.js": "f2ece5f2457364f8072796585ac8e42b49c84aa2070f5bc25e35c497b2209841",
+    "js/tutorial-visuals.js": "ed55c03f813365920f0d4e0fe2fe5dc6052e7369137bb46ad17e72d8a02dac8d",
+    "js/tutorial-view.js": "cbc3bf2aad09f51465df407b20e6295d8ab8289eadfc175c421514debacceda7",
+    "js/tutorial-controller.js": "2c456143767793e9fd4d961893836939a8ea548b381bd5f2910d2460745ef577",
+    "vendor/pako.min.js": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+    "data-codec.js": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+    "consent.js": "6dae132f66dc20526ae6e79c59c6ff12049a75a1b11161b6815bfa1339a14bd9",
+    "session-store.js": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+    "durable-storage.js": "84d006f048e2cc16c4a7a7087ec5815485c0b3a7d2ffa4ce6b7b62905dde967b",
+    "staged-delivery.js": "7f37d628ce04dc47233b16387d43add674608d278030dd17355621745ab9f7ad",
+    "js/trial-recorder.js": "301d83a0128f3be3f21fb306504d570c2c65148e5820c6dd6c0cf2d721446946",
+    "js/reading-policy.js": "20a99e9b828608fb5202fb10ee894c093f6606ec066548f98ca3e9bc411b7731",
+    "js/choice-controls.js": "8512245653df94475a9d121dac340cd13dd1460ee96af3b85b9e95ad26e5f70e",
+    "js/instruction-notice-view.js": "8996b24a2b97aa2a58607006e63d561bdfd0faa23ae8f310ab5740c4919b8a67",
+    "js/rating-content.js": "ade45e7eca8cb6734cc3397962fdb9f14c93c102b1215a638ebf9810b0b019f8",
+    "js/rating-controller.js": "4cb1aaac6fe565d4ebed237a3dfc579ea30bfedf23fb9749a182ad6afd868017",
+    "js/rating-view.js": "867b21bb67403f3cd4f7e4ba1a00d1564f88d6c7a10f5d323ca5d6761630a487",
+    "js/app.js": "1d7bd49548bbaf2b7d752e72467f95f71e1928f3958d43d71082ca7346dbf78e",
+    "storage-worker.js": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
+    "vendor/pako-LICENSE": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539"
+  },
+  "publicAssets": {
+    "index.html": {
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/index.html",
+      "status": 200,
+      "hash": "aa4e072c4e2d4db99732d3ed7b38b41b0c51bacf32fbcc6ee514a430c6e61df4"
+    },
+    "css/runtime-guards.css": {
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/css/runtime-guards.css",
+      "status": 200,
+      "hash": "da2a02010ec7825568dafae2fb95b6cdc7cf36321f335375ad26ba5281492683"
+    },
+    "app.css": {
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/app.css",
+      "status": 200,
+      "hash": "0f2cc4b553ae4bafdca8fb6711fb8e058d5dde76cdadf0e8576c04813babb0fe"
+    },
+    "guided-tutorial.css": {
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/guided-tutorial.css",
+      "status": 200,
+      "hash": "044853cf630d434c58190c4cd3072aa7e700619cb16e70a2920f8e89fc7a880d"
+    },
+    "consent.css": {
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/consent.css",
+      "status": 200,
+      "hash": "edb1108d3d1554804ded22fc703c788e702ea439af068e1a04fdecd8a2f56c58"
+    },
+    "js/runtime-guards.js": {
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/js/runtime-guards.js",
+      "status": 200,
+      "hash": "f7648083aab79c08bdb07e25d041e32b53e8626880f18b4bac8fb9bfca14a26b"
+    },
+    "bank.js": {
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/bank.js",
+      "status": 200,
+      "hash": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e"
+    },
+    "guided-tutorial.js": {
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/guided-tutorial.js",
+      "status": 200,
+      "hash": "f2ece5f2457364f8072796585ac8e42b49c84aa2070f5bc25e35c497b2209841"
+    },
+    "js/tutorial-visuals.js": {
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/js/tutorial-visuals.js",
+      "status": 200,
+      "hash": "ed55c03f813365920f0d4e0fe2fe5dc6052e7369137bb46ad17e72d8a02dac8d"
+    },
+    "js/tutorial-view.js": {
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/js/tutorial-view.js",
+      "status": 200,
+      "hash": "cbc3bf2aad09f51465df407b20e6295d8ab8289eadfc175c421514debacceda7"
+    },
+    "js/tutorial-controller.js": {
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/js/tutorial-controller.js",
+      "status": 200,
+      "hash": "2c456143767793e9fd4d961893836939a8ea548b381bd5f2910d2460745ef577"
+    },
+    "vendor/pako.min.js": {
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/vendor/pako.min.js",
+      "status": 200,
+      "hash": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c"
+    },
+    "data-codec.js": {
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/data-codec.js",
+      "status": 200,
+      "hash": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97"
+    },
+    "consent.js": {
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/consent.js",
+      "status": 200,
+      "hash": "6dae132f66dc20526ae6e79c59c6ff12049a75a1b11161b6815bfa1339a14bd9"
+    },
+    "session-store.js": {
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/session-store.js",
+      "status": 200,
+      "hash": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd"
+    },
+    "durable-storage.js": {
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/durable-storage.js",
+      "status": 200,
+      "hash": "84d006f048e2cc16c4a7a7087ec5815485c0b3a7d2ffa4ce6b7b62905dde967b"
+    },
+    "staged-delivery.js": {
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/staged-delivery.js",
+      "status": 200,
+      "hash": "7f37d628ce04dc47233b16387d43add674608d278030dd17355621745ab9f7ad"
+    },
+    "js/trial-recorder.js": {
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/js/trial-recorder.js",
+      "status": 200,
+      "hash": "301d83a0128f3be3f21fb306504d570c2c65148e5820c6dd6c0cf2d721446946"
+    },
+    "js/reading-policy.js": {
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/js/reading-policy.js",
+      "status": 200,
+      "hash": "20a99e9b828608fb5202fb10ee894c093f6606ec066548f98ca3e9bc411b7731"
+    },
+    "js/choice-controls.js": {
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/js/choice-controls.js",
+      "status": 200,
+      "hash": "8512245653df94475a9d121dac340cd13dd1460ee96af3b85b9e95ad26e5f70e"
+    },
+    "js/instruction-notice-view.js": {
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/js/instruction-notice-view.js",
+      "status": 200,
+      "hash": "8996b24a2b97aa2a58607006e63d561bdfd0faa23ae8f310ab5740c4919b8a67"
+    },
+    "js/rating-content.js": {
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/js/rating-content.js",
+      "status": 200,
+      "hash": "ade45e7eca8cb6734cc3397962fdb9f14c93c102b1215a638ebf9810b0b019f8"
+    },
+    "js/rating-controller.js": {
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/js/rating-controller.js",
+      "status": 200,
+      "hash": "4cb1aaac6fe565d4ebed237a3dfc579ea30bfedf23fb9749a182ad6afd868017"
+    },
+    "js/rating-view.js": {
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/js/rating-view.js",
+      "status": 200,
+      "hash": "867b21bb67403f3cd4f7e4ba1a00d1564f88d6c7a10f5d323ca5d6761630a487"
+    },
+    "js/app.js": {
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/js/app.js",
+      "status": 200,
+      "hash": "1d7bd49548bbaf2b7d752e72467f95f71e1928f3958d43d71082ca7346dbf78e"
+    },
+    "storage-worker.js": {
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/storage-worker.js",
+      "status": 200,
+      "hash": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416"
+    },
+    "vendor/pako-LICENSE": {
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/vendor/pako-LICENSE",
+      "status": 200,
+      "hash": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539"
+    }
+  },
+  "browsers": [
+    {
+      "name": "chrome",
+      "version": "155.0.8059.84",
+      "status": "tested"
+    },
+    {
+      "name": "webkit",
+      "status": "skipped",
+      "reason": "Playwright WebKit executable is unavailable",
+      "executablePath": "C:\\Users\\watal\\AppData\\Local\\ms-playwright\\webkit-2336\\Playwright.exe"
+    }
+  ],
+  "checks": [
+    {
+      "name": "public asset matches ui27 local source: index.html",
+      "pass": true,
+      "detail": {
+        "url": "https://and-space83.github.io/drag-survey/pilot-anchor/index.html",
+        "status": 200,
+        "hash": "aa4e072c4e2d4db99732d3ed7b38b41b0c51bacf32fbcc6ee514a430c6e61df4"
+      }
+    },
+    {
+      "name": "public asset matches ui27 local source: css/runtime-guards.css",
+      "pass": true,
+      "detail": {
+        "url": "https://and-space83.github.io/drag-survey/pilot-anchor/css/runtime-guards.css",
+        "status": 200,
+        "hash": "da2a02010ec7825568dafae2fb95b6cdc7cf36321f335375ad26ba5281492683"
+      }
+    },
+    {
+      "name": "public asset matches ui27 local source: app.css",
+      "pass": true,
+      "detail": {
+        "url": "https://and-space83.github.io/drag-survey/pilot-anchor/app.css",
+        "status": 200,
+        "hash": "0f2cc4b553ae4bafdca8fb6711fb8e058d5dde76cdadf0e8576c04813babb0fe"
+      }
+    },
+    {
+      "name": "public asset matches ui27 local source: guided-tutorial.css",
+      "pass": true,
+      "detail": {
+        "url": "https://and-space83.github.io/drag-survey/pilot-anchor/guided-tutorial.css",
+        "status": 200,
+        "hash": "044853cf630d434c58190c4cd3072aa7e700619cb16e70a2920f8e89fc7a880d"
+      }
+    },
+    {
+      "name": "public asset matches ui27 local source: consent.css",
+      "pass": true,
+      "detail": {
+        "url": "https://and-space83.github.io/drag-survey/pilot-anchor/consent.css",
+        "status": 200,
+        "hash": "edb1108d3d1554804ded22fc703c788e702ea439af068e1a04fdecd8a2f56c58"
+      }
+    },
+    {
+      "name": "public asset matches ui27 local source: js/runtime-guards.js",
+      "pass": true,
+      "detail": {
+        "url": "https://and-space83.github.io/drag-survey/pilot-anchor/js/runtime-guards.js",
+        "status": 200,
+        "hash": "f7648083aab79c08bdb07e25d041e32b53e8626880f18b4bac8fb9bfca14a26b"
+      }
+    },
+    {
+      "name": "public asset matches ui27 local source: bank.js",
+      "pass": true,
+      "detail": {
+        "url": "https://and-space83.github.io/drag-survey/pilot-anchor/bank.js",
+        "status": 200,
+        "hash": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e"
+      }
+    },
+    {
+      "name": "public asset matches ui27 local source: guided-tutorial.js",
+      "pass": true,
+      "detail": {
+        "url": "https://and-space83.github.io/drag-survey/pilot-anchor/guided-tutorial.js",
+        "status": 200,
+        "hash": "f2ece5f2457364f8072796585ac8e42b49c84aa2070f5bc25e35c497b2209841"
+      }
+    },
+    {
+      "name": "public asset matches ui27 local source: js/tutorial-visuals.js",
+      "pass": true,
+      "detail": {
+        "url": "https://and-space83.github.io/drag-survey/pilot-anchor/js/tutorial-visuals.js",
+        "status": 200,
+        "hash": "ed55c03f813365920f0d4e0fe2fe5dc6052e7369137bb46ad17e72d8a02dac8d"
+      }
+    },
+    {
+      "name": "public asset matches ui27 local source: js/tutorial-view.js",
+      "pass": true,
+      "detail": {
+        "url": "https://and-space83.github.io/drag-survey/pilot-anchor/js/tutorial-view.js",
+        "status": 200,
+        "hash": "cbc3bf2aad09f51465df407b20e6295d8ab8289eadfc175c421514debacceda7"
+      }
+    },
+    {
+      "name": "public asset matches ui27 local source: js/tutorial-controller.js",
+      "pass": true,
+      "detail": {
+        "url": "https://and-space83.github.io/drag-survey/pilot-anchor/js/tutorial-controller.js",
+        "status": 200,
+        "hash": "2c456143767793e9fd4d961893836939a8ea548b381bd5f2910d2460745ef577"
+      }
+    },
+    {
+      "name": "public asset matches ui27 local source: vendor/pako.min.js",
+      "pass": true,
+      "detail": {
+        "url": "https://and-space83.github.io/drag-survey/pilot-anchor/vendor/pako.min.js",
+        "status": 200,
+        "hash": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c"
+      }
+    },
+    {
+      "name": "public asset matches ui27 local source: data-codec.js",
+      "pass": true,
+      "detail": {
+        "url": "https://and-space83.github.io/drag-survey/pilot-anchor/data-codec.js",
+        "status": 200,
+        "hash": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97"
+      }
+    },
+    {
+      "name": "public asset matches ui27 local source: consent.js",
+      "pass": true,
+      "detail": {
+        "url": "https://and-space83.github.io/drag-survey/pilot-anchor/consent.js",
+        "status": 200,
+        "hash": "6dae132f66dc20526ae6e79c59c6ff12049a75a1b11161b6815bfa1339a14bd9"
+      }
+    },
+    {
+      "name": "public asset matches ui27 local source: session-store.js",
+      "pass": true,
+      "detail": {
+        "url": "https://and-space83.github.io/drag-survey/pilot-anchor/session-store.js",
+        "status": 200,
+        "hash": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd"
+      }
+    },
+    {
+      "name": "public asset matches ui27 local source: durable-storage.js",
+      "pass": true,
+      "detail": {
+        "url": "https://and-space83.github.io/drag-survey/pilot-anchor/durable-storage.js",
+        "status": 200,
+        "hash": "84d006f048e2cc16c4a7a7087ec5815485c0b3a7d2ffa4ce6b7b62905dde967b"
+      }
+    },
+    {
+      "name": "public asset matches ui27 local source: staged-delivery.js",
+      "pass": true,
+      "detail": {
+        "url": "https://and-space83.github.io/drag-survey/pilot-anchor/staged-delivery.js",
+        "status": 200,
+        "hash": "7f37d628ce04dc47233b16387d43add674608d278030dd17355621745ab9f7ad"
+      }
+    },
+    {
+      "name": "public asset matches ui27 local source: js/trial-recorder.js",
+      "pass": true,
+      "detail": {
+        "url": "https://and-space83.github.io/drag-survey/pilot-anchor/js/trial-recorder.js",
+        "status": 200,
+        "hash": "301d83a0128f3be3f21fb306504d570c2c65148e5820c6dd6c0cf2d721446946"
+      }
+    },
+    {
+      "name": "public asset matches ui27 local source: js/reading-policy.js",
+      "pass": true,
+      "detail": {
+        "url": "https://and-space83.github.io/drag-survey/pilot-anchor/js/reading-policy.js",
+        "status": 200,
+        "hash": "20a99e9b828608fb5202fb10ee894c093f6606ec066548f98ca3e9bc411b7731"
+      }
+    },
+    {
+      "name": "public asset matches ui27 local source: js/choice-controls.js",
+      "pass": true,
+      "detail": {
+        "url": "https://and-space83.github.io/drag-survey/pilot-anchor/js/choice-controls.js",
+        "status": 200,
+        "hash": "8512245653df94475a9d121dac340cd13dd1460ee96af3b85b9e95ad26e5f70e"
+      }
+    },
+    {
+      "name": "public asset matches ui27 local source: js/instruction-notice-view.js",
+      "pass": true,
+      "detail": {
+        "url": "https://and-space83.github.io/drag-survey/pilot-anchor/js/instruction-notice-view.js",
+        "status": 200,
+        "hash": "8996b24a2b97aa2a58607006e63d561bdfd0faa23ae8f310ab5740c4919b8a67"
+      }
+    },
+    {
+      "name": "public asset matches ui27 local source: js/rating-content.js",
+      "pass": true,
+      "detail": {
+        "url": "https://and-space83.github.io/drag-survey/pilot-anchor/js/rating-content.js",
+        "status": 200,
+        "hash": "ade45e7eca8cb6734cc3397962fdb9f14c93c102b1215a638ebf9810b0b019f8"
+      }
+    },
+    {
+      "name": "public asset matches ui27 local source: js/rating-controller.js",
+      "pass": true,
+      "detail": {
+        "url": "https://and-space83.github.io/drag-survey/pilot-anchor/js/rating-controller.js",
+        "status": 200,
+        "hash": "4cb1aaac6fe565d4ebed237a3dfc579ea30bfedf23fb9749a182ad6afd868017"
+      }
+    },
+    {
+      "name": "public asset matches ui27 local source: js/rating-view.js",
+      "pass": true,
+      "detail": {
+        "url": "https://and-space83.github.io/drag-survey/pilot-anchor/js/rating-view.js",
+        "status": 200,
+        "hash": "867b21bb67403f3cd4f7e4ba1a00d1564f88d6c7a10f5d323ca5d6761630a487"
+      }
+    },
+    {
+      "name": "public asset matches ui27 local source: js/app.js",
+      "pass": true,
+      "detail": {
+        "url": "https://and-space83.github.io/drag-survey/pilot-anchor/js/app.js",
+        "status": 200,
+        "hash": "1d7bd49548bbaf2b7d752e72467f95f71e1928f3958d43d71082ca7346dbf78e"
+      }
+    },
+    {
+      "name": "public asset matches ui27 local source: storage-worker.js",
+      "pass": true,
+      "detail": {
+        "url": "https://and-space83.github.io/drag-survey/pilot-anchor/storage-worker.js",
+        "status": 200,
+        "hash": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416"
+      }
+    },
+    {
+      "name": "public asset matches ui27 local source: vendor/pako-LICENSE",
+      "pass": true,
+      "detail": {
+        "url": "https://and-space83.github.io/drag-survey/pilot-anchor/vendor/pako-LICENSE",
+        "status": 200,
+        "hash": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539"
+      }
+    },
+    {
+      "name": "chrome/reduce/published runtime is ui27",
+      "pass": true,
+      "detail": {
+        "app": "2026-10-18-ui27",
+        "instructions": [
+          "2026-10-18-ui27"
+        ]
+      }
+    },
+    {
+      "name": "chrome/reduce/requested media preference is active",
+      "pass": true
+    },
+    {
+      "name": "chrome/reduce/motor-route remains visible",
+      "pass": true
+    },
+    {
+      "name": "chrome/reduce/motor-route renders moving canvas frames",
+      "pass": true,
+      "detail": [
+        {
+          "visible": true,
+          "hash": "388f45f580dc5d3603d95eda9f2377d9c1806ec2f212791c7765dd20765245a3",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "075006f43e809529eaffd5330c8ba787996cd23e4f8116a1faa9ff8afcce5157",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "26c272539996276eefc006adca9d9cad4face8e1275af91ffc2eadd87ddeecf2",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "2b79fcddd384558beabf383b84fc55d0460887e90ca7e74f54252ae1b22b196c",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "4a08f2055d3d51ed270fca923fe0128f27d329f540cdd70ee2acd366a62fec4f",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "276d0c6e3615bbced70eb7b80be97ccf52336c261d4644808303475716e08533",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "f3aacf01f2069e1b970ae3e98b46a30085c9c99451acb2d1f29d70d9d90a92a5",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "aa0f165120b271440f2ff9defe87f2c4fdd505853a3a7c9cffb30a61d80c2883",
+          "painted": false
+        },
+        {
+          "visible": true,
+          "hash": "eb8be9cc59865a03d2d0a1aa6f676f5b286d6a360325ff453df90fafb09a943f",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "cd90b0c8b53ab4d2be6784bb57c3520917b45a2fc89b1e5b669ae53d3e977a07",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "bf36bbb4b118a743025146e42ff9d7a3add856c31a6e2902e12454d3031ad84d",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "81308e22a4796a033f5aa36649da8c946be5d1bf54789cd13a45a68a23e6438f",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "44f03e399985f62f022189b0024cb63023a355b9ac1ef809d85656d3b0b6e7ce",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "3f9554e582a9cf4a30bafdeeb1c0f09fb426883212657b76b353e2e8e5a4b41e",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "1a6b298fa6e8103e19d04ead7bda5d6904d4b5500ef7135db97e882fd6a16be4",
+          "painted": true
+        }
+      ]
+    },
+    {
+      "name": "chrome/reduce/motor-range remains visible",
+      "pass": true
+    },
+    {
+      "name": "chrome/reduce/motor-range renders moving canvas frames",
+      "pass": true,
+      "detail": [
+        {
+          "visible": true,
+          "hash": "eb5cf899cc052d75a448f21a954c731bd5c3c7401c450b6a203c20abe12d4675",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "1cbe0cf7a084746b617897f2f818039d6f49a70d6f6009402250d9b386a01021",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "2f65ffaebbbf706366d1597bc4e991c53bee68fa84f01ca84716b4a4037ef41f",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "5da811355a3a438d75ca5ad07e05bb35310b0364e592399fc40bc6fffe56cffe",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "95b5e565185adc7becc88fe04757a2c11659393fa56691e3e4572152efd8c02b",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "0ea8c073c1b3d4b7f176e0d73a3b07623bb773072f39110545f32372502570d7",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "e9a9b5759efb9748d1a755e02421315c52b4cc6b114ecc34e638cfe414b5771c",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "f21171cd35e36a470e383ad796f9456a8e55ad35a1930f327ee843a9d016b3c3",
+          "painted": false
+        },
+        {
+          "visible": true,
+          "hash": "f21171cd35e36a470e383ad796f9456a8e55ad35a1930f327ee843a9d016b3c3",
+          "painted": false
+        },
+        {
+          "visible": true,
+          "hash": "fd3fc72cbbf1d93d51f0c8d9e559e2c9031d4a83f04cbff8e9bfe0c9dc7285c5",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "30c57c2af691a2161b5607a78a0815555948825983b76e9af153abd48052d444",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "4f884fe7447638adf3e637e8c27f9c1123ce011a51a53e33ed01adeb0ee80fb9",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "b1494a7869b327975c39949f4d0cbf6ee89480e15e7b460418213590e60e5679",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "a56bf52082def4db1c7ecb0152e3d35f6c8a00b82b8e9d9a054df0ff47806ff7",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "2c1160d42943530aa69ff03fc902ee914103ace735c5f71252f3849066b241b9",
+          "painted": true
+        }
+      ]
+    },
+    {
+      "name": "chrome/reduce/time-rule remains visible",
+      "pass": true
+    },
+    {
+      "name": "chrome/reduce/time-rule hand moves through multiple positions",
+      "pass": true,
+      "detail": [
+        {
+          "visible": true,
+          "transform": "translate(160 109) scale(.52) translate(-22 -2)",
+          "opacity": "0",
+          "touch": "0",
+          "exit": "0"
+        },
+        {
+          "visible": true,
+          "transform": "translate(160 109) scale(.52) translate(-22 -2)",
+          "opacity": "0",
+          "touch": "0",
+          "exit": "0"
+        },
+        {
+          "visible": true,
+          "transform": "translate(160 109) scale(.52) translate(-22 -2)",
+          "opacity": "0",
+          "touch": "0",
+          "exit": "0"
+        },
+        {
+          "visible": true,
+          "transform": "translate(160 109) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "0"
+        },
+        {
+          "visible": true,
+          "transform": "translate(160 109) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "0"
+        },
+        {
+          "visible": true,
+          "transform": "translate(160.06535845925595 108.99176590889263) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "0"
+        },
+        {
+          "visible": true,
+          "transform": "translate(173.02540096904747 104.72546929767338) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "0"
+        },
+        {
+          "visible": true,
+          "transform": "translate(192.6731695944604 86.74350699344734) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "1"
+        },
+        {
+          "visible": true,
+          "transform": "translate(203.31130534982844 68.26264917273349) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "1"
+        },
+        {
+          "visible": true,
+          "transform": "translate(205 64) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "1"
+        },
+        {
+          "visible": true,
+          "transform": "translate(205 64) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "1"
+        },
+        {
+          "visible": true,
+          "transform": "translate(205 64) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "1"
+        },
+        {
+          "visible": true,
+          "transform": "translate(205 64) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "1"
+        },
+        {
+          "visible": true,
+          "transform": "translate(205 64) scale(.52) translate(-22 -2)",
+          "opacity": "0.6236923076923078",
+          "touch": "1",
+          "exit": "1"
+        },
+        {
+          "visible": true,
+          "transform": "translate(205 64) scale(.52) translate(-22 -2)",
+          "opacity": "0.1361538461538454",
+          "touch": "1",
+          "exit": "1"
+        }
+      ]
+    },
+    {
+      "name": "chrome/reduce/time-rule demonstrates contact and exit",
+      "pass": true
+    },
+    {
+      "name": "chrome/reduce/#sendBox .spin spin animation is running",
+      "pass": true,
+      "detail": [
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(0.993171, 0.116664, -0.116664, 0.993171, 0, 0)"
+        },
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(0.169872, 0.985466, -0.985466, 0.169872, 0, 0)"
+        },
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(-0.690372, 0.723454, -0.723454, -0.690372, 0, 0)"
+        },
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(-0.992246, -0.124287, 0.124287, -0.992246, 0, 0)"
+        },
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(-0.490606, -0.871382, 0.871382, -0.490606, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "chrome/reduce/#sendBox .spin visibly rotates",
+      "pass": true,
+      "detail": [
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(0.993171, 0.116664, -0.116664, 0.993171, 0, 0)"
+        },
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(0.169872, 0.985466, -0.985466, 0.169872, 0, 0)"
+        },
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(-0.690372, 0.723454, -0.723454, -0.690372, 0, 0)"
+        },
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(-0.992246, -0.124287, 0.124287, -0.992246, 0, 0)"
+        },
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(-0.490606, -0.871382, 0.871382, -0.490606, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "chrome/reduce/#consent-save .spin spin animation is running",
+      "pass": true,
+      "detail": [
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(-0.89163, -0.452765, 0.452765, -0.89163, 0, 0)"
+        },
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(-0.166748, -0.986, 0.986, -0.166748, 0, 0)"
+        },
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(0.692662, -0.721262, 0.721262, 0.692662, 0, 0)"
+        },
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(0.991847, 0.127432, -0.127432, 0.991847, 0, 0)"
+        },
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(0.487841, 0.872932, -0.872932, 0.487841, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "chrome/reduce/#consent-save .spin visibly rotates",
+      "pass": true,
+      "detail": [
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(-0.89163, -0.452765, 0.452765, -0.89163, 0, 0)"
+        },
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(-0.166748, -0.986, 0.986, -0.166748, 0, 0)"
+        },
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(0.692662, -0.721262, 0.721262, 0.692662, 0, 0)"
+        },
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(0.991847, 0.127432, -0.127432, 0.991847, 0, 0)"
+        },
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(0.487841, 0.872932, -0.872932, 0.487841, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "chrome/reduce/decorative cues respect motion preference",
+      "pass": true,
+      "detail": {
+        "names": {
+          "generic": "none",
+          "tutorialNext": "none",
+          "focus": "none"
+        },
+        "cardAnimations": 0,
+        "stepId": "layout-start"
+      }
+    },
+    {
+      "name": "chrome/reduce/card transition respects motion preference",
+      "pass": true,
+      "detail": {
+        "names": {
+          "generic": "none",
+          "tutorialNext": "none",
+          "focus": "none"
+        },
+        "cardAnimations": 0,
+        "stepId": "layout-start"
+      }
+    },
+    {
+      "name": "chrome/reduce/previews leave no session or backup",
+      "pass": true
+    },
+    {
+      "name": "chrome/no-preference/published runtime is ui27",
+      "pass": true,
+      "detail": {
+        "app": "2026-10-18-ui27",
+        "instructions": [
+          "2026-10-18-ui27"
+        ]
+      }
+    },
+    {
+      "name": "chrome/no-preference/requested media preference is active",
+      "pass": true
+    },
+    {
+      "name": "chrome/no-preference/motor-route remains visible",
+      "pass": true
+    },
+    {
+      "name": "chrome/no-preference/motor-route renders moving canvas frames",
+      "pass": true,
+      "detail": [
+        {
+          "visible": true,
+          "hash": "b44de0ade997323e6a7f074c8123f8e7561fbbd199187d740a4806593764dedd",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "cf8d745261c59a8551cf521d940c54ab9310dbec8a6e42fc18147d6527cae435",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "ef5563c706b3510a73a5932cfea4c68255883994a929336a22fa222a4c823959",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "fd1661173354890c3248f29c22be5e5901aa4aee51203dd9b659e2bb8e128b28",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "3d0f017229ba168b50dc5488762d0773b12ff68992fae25b3c65e331a63774eb",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "03f18265a44cab65687a9422e86dbd7d00e6fddffebe88dffe745ac359242ab3",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "1250d63107f25c40ab2b53513da77e6e5a7bd2c8d6476acc9cf426680dfd7d13",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "aa0f165120b271440f2ff9defe87f2c4fdd505853a3a7c9cffb30a61d80c2883",
+          "painted": false
+        },
+        {
+          "visible": true,
+          "hash": "aa0f165120b271440f2ff9defe87f2c4fdd505853a3a7c9cffb30a61d80c2883",
+          "painted": false
+        },
+        {
+          "visible": true,
+          "hash": "1c6250a641124d73990b96ec47b61329f42884ac2104dd89578be2bc2146e81c",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "4d179dcfd1f883014fb07fd8bd958313c8a39218e3e702fee7ca6bfab3018428",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "d2e8ce704da26f942d2ec6385d85876d2194a82398fcdcb8cdcbc91a0587cf8e",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "d7cfbce79eec46c4556f0128d66ffaa17c05302fb303cce74c5560ac4abe1412",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "b61f05aa7406d01d144406d93529dad95ef1c6f4609748cc9b7e2c89f73b425a",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "e71d6f10512ff0827c073bbccff625d85076cb874550cd1c41e82b6907f0431e",
+          "painted": true
+        }
+      ]
+    },
+    {
+      "name": "chrome/no-preference/motor-range remains visible",
+      "pass": true
+    },
+    {
+      "name": "chrome/no-preference/motor-range renders moving canvas frames",
+      "pass": true,
+      "detail": [
+        {
+          "visible": true,
+          "hash": "c18764e2e6a988ea7ad35fe4bfc372fea74902d3e9f522d8cb236143c7d23921",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "a700a84a87f446f12d814997389ca4ff9ad5d3ee5dbce5446c5ca70813ee41a0",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "eb95f7d51a2d8e6e8307ed43b9092ddaf8a6290a563bcb19b60fc4b7d9f464cb",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "9cb32f844a4c9bba8f9d04360a5f6cf4f1f0cf4c262917280c27a0fa22331b5d",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "bdc9ddc7fa12d79005d66450ad1bd501177d02ded114c55fb01f8d2cd2819931",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "284866eba90d3f2a1a3c610424e42ae76594f4ae924e9c7f797972b352eec48a",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "2c13820322908eae2d885bd69736b75534da7f4d1eb35522761474249a2fbf7b",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "f21171cd35e36a470e383ad796f9456a8e55ad35a1930f327ee843a9d016b3c3",
+          "painted": false
+        },
+        {
+          "visible": true,
+          "hash": "f21171cd35e36a470e383ad796f9456a8e55ad35a1930f327ee843a9d016b3c3",
+          "painted": false
+        },
+        {
+          "visible": true,
+          "hash": "e730f5f3b9493392c95f349258f151190eab57bffcafe60ca4263d0676a4af07",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "b45792bfdbcc8a885cb33d6caa20bb8605f684446aaf2f2d742d1d380fe6361f",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "be5aeb5b403b9707eec6a8045ca11694667e044cfff7269e5271318b3a150cf5",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "42b8785e5b7650ae15d9fd34262c8c8dd428d88669cf58189eda1a2f6a7b9950",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "d0411ce3dae9112de1770faef535a3f4d9ec79fb1805d3acf74a9e250958ea43",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "832e9f5ec25607f189f1f6c0aa9ff4874055295c9b5d9f2ddb5e18da2fc15df5",
+          "painted": true
+        }
+      ]
+    },
+    {
+      "name": "chrome/no-preference/time-rule remains visible",
+      "pass": true
+    },
+    {
+      "name": "chrome/no-preference/time-rule hand moves through multiple positions",
+      "pass": true,
+      "detail": [
+        {
+          "visible": true,
+          "transform": "translate(160 109) scale(.52) translate(-22 -2)",
+          "opacity": "0",
+          "touch": "0",
+          "exit": "0"
+        },
+        {
+          "visible": true,
+          "transform": "translate(160 109) scale(.52) translate(-22 -2)",
+          "opacity": "0",
+          "touch": "0",
+          "exit": "0"
+        },
+        {
+          "visible": true,
+          "transform": "translate(160 109) scale(.52) translate(-22 -2)",
+          "opacity": "0",
+          "touch": "0",
+          "exit": "0"
+        },
+        {
+          "visible": true,
+          "transform": "translate(160 109) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "0"
+        },
+        {
+          "visible": true,
+          "transform": "translate(160 109) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "0"
+        },
+        {
+          "visible": true,
+          "transform": "translate(160.04599988412656 108.99421817319181) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "0"
+        },
+        {
+          "visible": true,
+          "transform": "translate(172.81109413717704 104.84038247986673) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "0"
+        },
+        {
+          "visible": true,
+          "transform": "translate(192.50193339224526 86.97444445961833) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "1"
+        },
+        {
+          "visible": true,
+          "transform": "translate(203.2558444660888 68.39074769807426) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "1"
+        },
+        {
+          "visible": true,
+          "transform": "translate(205 64) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "1"
+        },
+        {
+          "visible": true,
+          "transform": "translate(205 64) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "1"
+        },
+        {
+          "visible": true,
+          "transform": "translate(205 64) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "1"
+        },
+        {
+          "visible": true,
+          "transform": "translate(205 64) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "1"
+        },
+        {
+          "visible": true,
+          "transform": "translate(205 64) scale(.52) translate(-22 -2)",
+          "opacity": "0.6040000000005729",
+          "touch": "1",
+          "exit": "1"
+        },
+        {
+          "visible": true,
+          "transform": "translate(205 64) scale(.52) translate(-22 -2)",
+          "opacity": "0.11584615384672636",
+          "touch": "1",
+          "exit": "1"
+        }
+      ]
+    },
+    {
+      "name": "chrome/no-preference/time-rule demonstrates contact and exit",
+      "pass": true
+    },
+    {
+      "name": "chrome/no-preference/#sendBox .spin spin animation is running",
+      "pass": true,
+      "detail": [
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(0.939339, 0.342991, -0.342991, 0.939339, 0, 0)"
+        },
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(0.284029, 0.958816, -0.958816, 0.284029, 0, 0)"
+        },
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(-0.602083, 0.798434, -0.798434, -0.602083, 0, 0)"
+        },
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(-0.999956, -0.00941068, 0.00941068, -0.999956, 0, 0)"
+        },
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(-0.588643, -0.808393, 0.808393, -0.588643, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "chrome/no-preference/#sendBox .spin visibly rotates",
+      "pass": true,
+      "detail": [
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(0.939339, 0.342991, -0.342991, 0.939339, 0, 0)"
+        },
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(0.284029, 0.958816, -0.958816, 0.284029, 0, 0)"
+        },
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(-0.602083, 0.798434, -0.798434, -0.602083, 0, 0)"
+        },
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(-0.999956, -0.00941068, 0.00941068, -0.999956, 0, 0)"
+        },
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(-0.588643, -0.808393, 0.808393, -0.588643, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "chrome/no-preference/#consent-save .spin spin animation is running",
+      "pass": true,
+      "detail": [
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(-0.830102, -0.557612, 0.557612, -0.830102, 0, 0)"
+        },
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(-0.0458721, -0.998947, 0.998947, -0.0458721, 0, 0)"
+        },
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(0.775064, -0.631883, 0.631883, 0.775064, 0, 0)"
+        },
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(0.969055, 0.246843, -0.246843, 0.969055, 0, 0)"
+        },
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(0.378313, 0.925678, -0.925678, 0.378313, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "chrome/no-preference/#consent-save .spin visibly rotates",
+      "pass": true,
+      "detail": [
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(-0.830102, -0.557612, 0.557612, -0.830102, 0, 0)"
+        },
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(-0.0458721, -0.998947, 0.998947, -0.0458721, 0, 0)"
+        },
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(0.775064, -0.631883, 0.631883, 0.775064, 0, 0)"
+        },
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(0.969055, 0.246843, -0.246843, 0.969055, 0, 0)"
+        },
+        {
+          "name": "spin",
+          "duration": "0.9s",
+          "playState": "running",
+          "transform": "matrix(0.378313, 0.925678, -0.925678, 0.378313, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "chrome/no-preference/decorative cues respect motion preference",
+      "pass": true,
+      "detail": {
+        "names": {
+          "generic": "btnCue",
+          "tutorialNext": "tutBtnCue",
+          "focus": "guidedRoleGlow"
+        },
+        "cardAnimations": 1,
+        "stepId": "layout-start"
+      }
+    },
+    {
+      "name": "chrome/no-preference/card transition respects motion preference",
+      "pass": true,
+      "detail": {
+        "names": {
+          "generic": "btnCue",
+          "tutorialNext": "tutBtnCue",
+          "focus": "guidedRoleGlow"
+        },
+        "cardAnimations": 1,
+        "stepId": "layout-start"
+      }
+    },
+    {
+      "name": "chrome/no-preference/previews leave no session or backup",
+      "pass": true
+    },
+    {
+      "name": "local deployment baseline stayed fixed",
+      "pass": true
+    },
+    {
+      "name": "no JavaScript error",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "no disallowed host, path or non-GET request attempted",
+      "pass": true,
+      "detail": []
+    }
+  ],
+  "scenes": [
+    {
+      "browser": "chrome/reduce",
+      "step": "motor-route",
+      "rows": [
+        {
+          "visible": true,
+          "hash": "388f45f580dc5d3603d95eda9f2377d9c1806ec2f212791c7765dd20765245a3",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "075006f43e809529eaffd5330c8ba787996cd23e4f8116a1faa9ff8afcce5157",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "26c272539996276eefc006adca9d9cad4face8e1275af91ffc2eadd87ddeecf2",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "2b79fcddd384558beabf383b84fc55d0460887e90ca7e74f54252ae1b22b196c",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "4a08f2055d3d51ed270fca923fe0128f27d329f540cdd70ee2acd366a62fec4f",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "276d0c6e3615bbced70eb7b80be97ccf52336c261d4644808303475716e08533",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "f3aacf01f2069e1b970ae3e98b46a30085c9c99451acb2d1f29d70d9d90a92a5",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "aa0f165120b271440f2ff9defe87f2c4fdd505853a3a7c9cffb30a61d80c2883",
+          "painted": false
+        },
+        {
+          "visible": true,
+          "hash": "eb8be9cc59865a03d2d0a1aa6f676f5b286d6a360325ff453df90fafb09a943f",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "cd90b0c8b53ab4d2be6784bb57c3520917b45a2fc89b1e5b669ae53d3e977a07",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "bf36bbb4b118a743025146e42ff9d7a3add856c31a6e2902e12454d3031ad84d",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "81308e22a4796a033f5aa36649da8c946be5d1bf54789cd13a45a68a23e6438f",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "44f03e399985f62f022189b0024cb63023a355b9ac1ef809d85656d3b0b6e7ce",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "3f9554e582a9cf4a30bafdeeb1c0f09fb426883212657b76b353e2e8e5a4b41e",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "1a6b298fa6e8103e19d04ead7bda5d6904d4b5500ef7135db97e882fd6a16be4",
+          "painted": true
+        }
+      ]
+    },
+    {
+      "browser": "chrome/reduce",
+      "step": "motor-range",
+      "rows": [
+        {
+          "visible": true,
+          "hash": "eb5cf899cc052d75a448f21a954c731bd5c3c7401c450b6a203c20abe12d4675",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "1cbe0cf7a084746b617897f2f818039d6f49a70d6f6009402250d9b386a01021",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "2f65ffaebbbf706366d1597bc4e991c53bee68fa84f01ca84716b4a4037ef41f",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "5da811355a3a438d75ca5ad07e05bb35310b0364e592399fc40bc6fffe56cffe",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "95b5e565185adc7becc88fe04757a2c11659393fa56691e3e4572152efd8c02b",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "0ea8c073c1b3d4b7f176e0d73a3b07623bb773072f39110545f32372502570d7",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "e9a9b5759efb9748d1a755e02421315c52b4cc6b114ecc34e638cfe414b5771c",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "f21171cd35e36a470e383ad796f9456a8e55ad35a1930f327ee843a9d016b3c3",
+          "painted": false
+        },
+        {
+          "visible": true,
+          "hash": "f21171cd35e36a470e383ad796f9456a8e55ad35a1930f327ee843a9d016b3c3",
+          "painted": false
+        },
+        {
+          "visible": true,
+          "hash": "fd3fc72cbbf1d93d51f0c8d9e559e2c9031d4a83f04cbff8e9bfe0c9dc7285c5",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "30c57c2af691a2161b5607a78a0815555948825983b76e9af153abd48052d444",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "4f884fe7447638adf3e637e8c27f9c1123ce011a51a53e33ed01adeb0ee80fb9",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "b1494a7869b327975c39949f4d0cbf6ee89480e15e7b460418213590e60e5679",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "a56bf52082def4db1c7ecb0152e3d35f6c8a00b82b8e9d9a054df0ff47806ff7",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "2c1160d42943530aa69ff03fc902ee914103ace735c5f71252f3849066b241b9",
+          "painted": true
+        }
+      ]
+    },
+    {
+      "browser": "chrome/reduce",
+      "step": "time-rule",
+      "rows": [
+        {
+          "visible": true,
+          "transform": "translate(160 109) scale(.52) translate(-22 -2)",
+          "opacity": "0",
+          "touch": "0",
+          "exit": "0"
+        },
+        {
+          "visible": true,
+          "transform": "translate(160 109) scale(.52) translate(-22 -2)",
+          "opacity": "0",
+          "touch": "0",
+          "exit": "0"
+        },
+        {
+          "visible": true,
+          "transform": "translate(160 109) scale(.52) translate(-22 -2)",
+          "opacity": "0",
+          "touch": "0",
+          "exit": "0"
+        },
+        {
+          "visible": true,
+          "transform": "translate(160 109) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "0"
+        },
+        {
+          "visible": true,
+          "transform": "translate(160 109) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "0"
+        },
+        {
+          "visible": true,
+          "transform": "translate(160.06535845925595 108.99176590889263) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "0"
+        },
+        {
+          "visible": true,
+          "transform": "translate(173.02540096904747 104.72546929767338) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "0"
+        },
+        {
+          "visible": true,
+          "transform": "translate(192.6731695944604 86.74350699344734) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "1"
+        },
+        {
+          "visible": true,
+          "transform": "translate(203.31130534982844 68.26264917273349) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "1"
+        },
+        {
+          "visible": true,
+          "transform": "translate(205 64) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "1"
+        },
+        {
+          "visible": true,
+          "transform": "translate(205 64) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "1"
+        },
+        {
+          "visible": true,
+          "transform": "translate(205 64) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "1"
+        },
+        {
+          "visible": true,
+          "transform": "translate(205 64) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "1"
+        },
+        {
+          "visible": true,
+          "transform": "translate(205 64) scale(.52) translate(-22 -2)",
+          "opacity": "0.6236923076923078",
+          "touch": "1",
+          "exit": "1"
+        },
+        {
+          "visible": true,
+          "transform": "translate(205 64) scale(.52) translate(-22 -2)",
+          "opacity": "0.1361538461538454",
+          "touch": "1",
+          "exit": "1"
+        }
+      ]
+    },
+    {
+      "browser": "chrome/no-preference",
+      "step": "motor-route",
+      "rows": [
+        {
+          "visible": true,
+          "hash": "b44de0ade997323e6a7f074c8123f8e7561fbbd199187d740a4806593764dedd",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "cf8d745261c59a8551cf521d940c54ab9310dbec8a6e42fc18147d6527cae435",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "ef5563c706b3510a73a5932cfea4c68255883994a929336a22fa222a4c823959",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "fd1661173354890c3248f29c22be5e5901aa4aee51203dd9b659e2bb8e128b28",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "3d0f017229ba168b50dc5488762d0773b12ff68992fae25b3c65e331a63774eb",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "03f18265a44cab65687a9422e86dbd7d00e6fddffebe88dffe745ac359242ab3",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "1250d63107f25c40ab2b53513da77e6e5a7bd2c8d6476acc9cf426680dfd7d13",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "aa0f165120b271440f2ff9defe87f2c4fdd505853a3a7c9cffb30a61d80c2883",
+          "painted": false
+        },
+        {
+          "visible": true,
+          "hash": "aa0f165120b271440f2ff9defe87f2c4fdd505853a3a7c9cffb30a61d80c2883",
+          "painted": false
+        },
+        {
+          "visible": true,
+          "hash": "1c6250a641124d73990b96ec47b61329f42884ac2104dd89578be2bc2146e81c",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "4d179dcfd1f883014fb07fd8bd958313c8a39218e3e702fee7ca6bfab3018428",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "d2e8ce704da26f942d2ec6385d85876d2194a82398fcdcb8cdcbc91a0587cf8e",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "d7cfbce79eec46c4556f0128d66ffaa17c05302fb303cce74c5560ac4abe1412",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "b61f05aa7406d01d144406d93529dad95ef1c6f4609748cc9b7e2c89f73b425a",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "e71d6f10512ff0827c073bbccff625d85076cb874550cd1c41e82b6907f0431e",
+          "painted": true
+        }
+      ]
+    },
+    {
+      "browser": "chrome/no-preference",
+      "step": "motor-range",
+      "rows": [
+        {
+          "visible": true,
+          "hash": "c18764e2e6a988ea7ad35fe4bfc372fea74902d3e9f522d8cb236143c7d23921",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "a700a84a87f446f12d814997389ca4ff9ad5d3ee5dbce5446c5ca70813ee41a0",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "eb95f7d51a2d8e6e8307ed43b9092ddaf8a6290a563bcb19b60fc4b7d9f464cb",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "9cb32f844a4c9bba8f9d04360a5f6cf4f1f0cf4c262917280c27a0fa22331b5d",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "bdc9ddc7fa12d79005d66450ad1bd501177d02ded114c55fb01f8d2cd2819931",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "284866eba90d3f2a1a3c610424e42ae76594f4ae924e9c7f797972b352eec48a",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "2c13820322908eae2d885bd69736b75534da7f4d1eb35522761474249a2fbf7b",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "f21171cd35e36a470e383ad796f9456a8e55ad35a1930f327ee843a9d016b3c3",
+          "painted": false
+        },
+        {
+          "visible": true,
+          "hash": "f21171cd35e36a470e383ad796f9456a8e55ad35a1930f327ee843a9d016b3c3",
+          "painted": false
+        },
+        {
+          "visible": true,
+          "hash": "e730f5f3b9493392c95f349258f151190eab57bffcafe60ca4263d0676a4af07",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "b45792bfdbcc8a885cb33d6caa20bb8605f684446aaf2f2d742d1d380fe6361f",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "be5aeb5b403b9707eec6a8045ca11694667e044cfff7269e5271318b3a150cf5",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "42b8785e5b7650ae15d9fd34262c8c8dd428d88669cf58189eda1a2f6a7b9950",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "d0411ce3dae9112de1770faef535a3f4d9ec79fb1805d3acf74a9e250958ea43",
+          "painted": true
+        },
+        {
+          "visible": true,
+          "hash": "832e9f5ec25607f189f1f6c0aa9ff4874055295c9b5d9f2ddb5e18da2fc15df5",
+          "painted": true
+        }
+      ]
+    },
+    {
+      "browser": "chrome/no-preference",
+      "step": "time-rule",
+      "rows": [
+        {
+          "visible": true,
+          "transform": "translate(160 109) scale(.52) translate(-22 -2)",
+          "opacity": "0",
+          "touch": "0",
+          "exit": "0"
+        },
+        {
+          "visible": true,
+          "transform": "translate(160 109) scale(.52) translate(-22 -2)",
+          "opacity": "0",
+          "touch": "0",
+          "exit": "0"
+        },
+        {
+          "visible": true,
+          "transform": "translate(160 109) scale(.52) translate(-22 -2)",
+          "opacity": "0",
+          "touch": "0",
+          "exit": "0"
+        },
+        {
+          "visible": true,
+          "transform": "translate(160 109) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "0"
+        },
+        {
+          "visible": true,
+          "transform": "translate(160 109) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "0"
+        },
+        {
+          "visible": true,
+          "transform": "translate(160.04599988412656 108.99421817319181) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "0"
+        },
+        {
+          "visible": true,
+          "transform": "translate(172.81109413717704 104.84038247986673) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "0"
+        },
+        {
+          "visible": true,
+          "transform": "translate(192.50193339224526 86.97444445961833) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "1"
+        },
+        {
+          "visible": true,
+          "transform": "translate(203.2558444660888 68.39074769807426) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "1"
+        },
+        {
+          "visible": true,
+          "transform": "translate(205 64) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "1"
+        },
+        {
+          "visible": true,
+          "transform": "translate(205 64) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "1"
+        },
+        {
+          "visible": true,
+          "transform": "translate(205 64) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "1"
+        },
+        {
+          "visible": true,
+          "transform": "translate(205 64) scale(.52) translate(-22 -2)",
+          "opacity": "1",
+          "touch": "1",
+          "exit": "1"
+        },
+        {
+          "visible": true,
+          "transform": "translate(205 64) scale(.52) translate(-22 -2)",
+          "opacity": "0.6040000000005729",
+          "touch": "1",
+          "exit": "1"
+        },
+        {
+          "visible": true,
+          "transform": "translate(205 64) scale(.52) translate(-22 -2)",
+          "opacity": "0.11584615384672636",
+          "touch": "1",
+          "exit": "1"
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "blockedRequests": [],
+  "passed": 62,
+  "failed": 0
+}

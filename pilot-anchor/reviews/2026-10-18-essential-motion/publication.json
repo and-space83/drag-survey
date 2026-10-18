@@ -1,0 +1,243 @@
+{
+  "checkedAt": "2026-10-18T10:53:03.916Z",
+  "version": "2026-10-18-ui27",
+  "sourceCommit": "50279c34c9068faadea8ec7e9f92667bab40a1e5",
+  "publicCommit": "97344da8ab48d6caf8f00990e12bdf8438cb2794",
+  "baseUrl": "https://and-space83.github.io/drag-survey/pilot-anchor/",
+  "normalUrls": true,
+  "main": {
+    "url": "https://and-space83.github.io/drag-survey/pilot-anchor/?block=moral&study=main",
+    "status": 200,
+    "title": "さまざまな場面での選択と判断に関する調査",
+    "ogTitle": "さまざまな場面での選択と判断に関する調査",
+    "scriptVersion": "2026-10-18-ui27",
+    "sha256LF": "aa4e072c4e2d4db99732d3ed7b38b41b0c51bacf32fbcc6ee514a430c6e61df4",
+    "match": true
+  },
+  "checks": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/index.html",
+      "expectedSha256LF": "aa4e072c4e2d4db99732d3ed7b38b41b0c51bacf32fbcc6ee514a430c6e61df4",
+      "actualSha256LF": "aa4e072c4e2d4db99732d3ed7b38b41b0c51bacf32fbcc6ee514a430c6e61df4",
+      "match": true
+    },
+    {
+      "file": "css/runtime-guards.css",
+      "status": 200,
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/css/runtime-guards.css",
+      "expectedSha256LF": "da2a02010ec7825568dafae2fb95b6cdc7cf36321f335375ad26ba5281492683",
+      "actualSha256LF": "da2a02010ec7825568dafae2fb95b6cdc7cf36321f335375ad26ba5281492683",
+      "match": true
+    },
+    {
+      "file": "app.css",
+      "status": 200,
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/app.css",
+      "expectedSha256LF": "0f2cc4b553ae4bafdca8fb6711fb8e058d5dde76cdadf0e8576c04813babb0fe",
+      "actualSha256LF": "0f2cc4b553ae4bafdca8fb6711fb8e058d5dde76cdadf0e8576c04813babb0fe",
+      "match": true
+    },
+    {
+      "file": "guided-tutorial.css",
+      "status": 200,
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/guided-tutorial.css",
+      "expectedSha256LF": "044853cf630d434c58190c4cd3072aa7e700619cb16e70a2920f8e89fc7a880d",
+      "actualSha256LF": "044853cf630d434c58190c4cd3072aa7e700619cb16e70a2920f8e89fc7a880d",
+      "match": true
+    },
+    {
+      "file": "consent.css",
+      "status": 200,
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/consent.css",
+      "expectedSha256LF": "edb1108d3d1554804ded22fc703c788e702ea439af068e1a04fdecd8a2f56c58",
+      "actualSha256LF": "edb1108d3d1554804ded22fc703c788e702ea439af068e1a04fdecd8a2f56c58",
+      "match": true
+    },
+    {
+      "file": "js/runtime-guards.js",
+      "status": 200,
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/js/runtime-guards.js",
+      "expectedSha256LF": "f7648083aab79c08bdb07e25d041e32b53e8626880f18b4bac8fb9bfca14a26b",
+      "actualSha256LF": "f7648083aab79c08bdb07e25d041e32b53e8626880f18b4bac8fb9bfca14a26b",
+      "match": true
+    },
+    {
+      "file": "bank.js",
+      "status": 200,
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/bank.js",
+      "expectedSha256LF": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
+      "actualSha256LF": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
+      "match": true
+    },
+    {
+      "file": "guided-tutorial.js",
+      "status": 200,
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/guided-tutorial.js",
+      "expectedSha256LF": "f2ece5f2457364f8072796585ac8e42b49c84aa2070f5bc25e35c497b2209841",
+      "actualSha256LF": "f2ece5f2457364f8072796585ac8e42b49c84aa2070f5bc25e35c497b2209841",
+      "match": true
+    },
+    {
+      "file": "js/tutorial-visuals.js",
+      "status": 200,
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/js/tutorial-visuals.js",
+      "expectedSha256LF": "ed55c03f813365920f0d4e0fe2fe5dc6052e7369137bb46ad17e72d8a02dac8d",
+      "actualSha256LF": "ed55c03f813365920f0d4e0fe2fe5dc6052e7369137bb46ad17e72d8a02dac8d",
+      "match": true
+    },
+    {
+      "file": "js/tutorial-view.js",
+      "status": 200,
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/js/tutorial-view.js",
+      "expectedSha256LF": "cbc3bf2aad09f51465df407b20e6295d8ab8289eadfc175c421514debacceda7",
+      "actualSha256LF": "cbc3bf2aad09f51465df407b20e6295d8ab8289eadfc175c421514debacceda7",
+      "match": true
+    },
+    {
+      "file": "js/tutorial-controller.js",
+      "status": 200,
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/js/tutorial-controller.js",
+      "expectedSha256LF": "2c456143767793e9fd4d961893836939a8ea548b381bd5f2910d2460745ef577",
+      "actualSha256LF": "2c456143767793e9fd4d961893836939a8ea548b381bd5f2910d2460745ef577",
+      "match": true
+    },
+    {
+      "file": "vendor/pako.min.js",
+      "status": 200,
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/vendor/pako.min.js",
+      "expectedSha256LF": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+      "actualSha256LF": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+      "match": true
+    },
+    {
+      "file": "data-codec.js",
+      "status": 200,
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/data-codec.js",
+      "expectedSha256LF": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+      "actualSha256LF": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+      "match": true
+    },
+    {
+      "file": "consent.js",
+      "status": 200,
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/consent.js",
+      "expectedSha256LF": "6dae132f66dc20526ae6e79c59c6ff12049a75a1b11161b6815bfa1339a14bd9",
+      "actualSha256LF": "6dae132f66dc20526ae6e79c59c6ff12049a75a1b11161b6815bfa1339a14bd9",
+      "match": true
+    },
+    {
+      "file": "session-store.js",
+      "status": 200,
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/session-store.js",
+      "expectedSha256LF": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+      "actualSha256LF": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+      "match": true
+    },
+    {
+      "file": "durable-storage.js",
+      "status": 200,
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/durable-storage.js",
+      "expectedSha256LF": "84d006f048e2cc16c4a7a7087ec5815485c0b3a7d2ffa4ce6b7b62905dde967b",
+      "actualSha256LF": "84d006f048e2cc16c4a7a7087ec5815485c0b3a7d2ffa4ce6b7b62905dde967b",
+      "match": true
+    },
+    {
+      "file": "staged-delivery.js",
+      "status": 200,
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/staged-delivery.js",
+      "expectedSha256LF": "7f37d628ce04dc47233b16387d43add674608d278030dd17355621745ab9f7ad",
+      "actualSha256LF": "7f37d628ce04dc47233b16387d43add674608d278030dd17355621745ab9f7ad",
+      "match": true
+    },
+    {
+      "file": "js/trial-recorder.js",
+      "status": 200,
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/js/trial-recorder.js",
+      "expectedSha256LF": "301d83a0128f3be3f21fb306504d570c2c65148e5820c6dd6c0cf2d721446946",
+      "actualSha256LF": "301d83a0128f3be3f21fb306504d570c2c65148e5820c6dd6c0cf2d721446946",
+      "match": true
+    },
+    {
+      "file": "js/reading-policy.js",
+      "status": 200,
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/js/reading-policy.js",
+      "expectedSha256LF": "20a99e9b828608fb5202fb10ee894c093f6606ec066548f98ca3e9bc411b7731",
+      "actualSha256LF": "20a99e9b828608fb5202fb10ee894c093f6606ec066548f98ca3e9bc411b7731",
+      "match": true
+    },
+    {
+      "file": "js/choice-controls.js",
+      "status": 200,
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/js/choice-controls.js",
+      "expectedSha256LF": "8512245653df94475a9d121dac340cd13dd1460ee96af3b85b9e95ad26e5f70e",
+      "actualSha256LF": "8512245653df94475a9d121dac340cd13dd1460ee96af3b85b9e95ad26e5f70e",
+      "match": true
+    },
+    {
+      "file": "js/instruction-notice-view.js",
+      "status": 200,
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/js/instruction-notice-view.js",
+      "expectedSha256LF": "8996b24a2b97aa2a58607006e63d561bdfd0faa23ae8f310ab5740c4919b8a67",
+      "actualSha256LF": "8996b24a2b97aa2a58607006e63d561bdfd0faa23ae8f310ab5740c4919b8a67",
+      "match": true
+    },
+    {
+      "file": "js/rating-content.js",
+      "status": 200,
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/js/rating-content.js",
+      "expectedSha256LF": "ade45e7eca8cb6734cc3397962fdb9f14c93c102b1215a638ebf9810b0b019f8",
+      "actualSha256LF": "ade45e7eca8cb6734cc3397962fdb9f14c93c102b1215a638ebf9810b0b019f8",
+      "match": true
+    },
+    {
+      "file": "js/rating-controller.js",
+      "status": 200,
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/js/rating-controller.js",
+      "expectedSha256LF": "4cb1aaac6fe565d4ebed237a3dfc579ea30bfedf23fb9749a182ad6afd868017",
+      "actualSha256LF": "4cb1aaac6fe565d4ebed237a3dfc579ea30bfedf23fb9749a182ad6afd868017",
+      "match": true
+    },
+    {
+      "file": "js/rating-view.js",
+      "status": 200,
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/js/rating-view.js",
+      "expectedSha256LF": "867b21bb67403f3cd4f7e4ba1a00d1564f88d6c7a10f5d323ca5d6761630a487",
+      "actualSha256LF": "867b21bb67403f3cd4f7e4ba1a00d1564f88d6c7a10f5d323ca5d6761630a487",
+      "match": true
+    },
+    {
+      "file": "js/app.js",
+      "status": 200,
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/js/app.js",
+      "expectedSha256LF": "1d7bd49548bbaf2b7d752e72467f95f71e1928f3958d43d71082ca7346dbf78e",
+      "actualSha256LF": "1d7bd49548bbaf2b7d752e72467f95f71e1928f3958d43d71082ca7346dbf78e",
+      "match": true
+    },
+    {
+      "file": "storage-worker.js",
+      "status": 200,
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/storage-worker.js",
+      "expectedSha256LF": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
+      "actualSha256LF": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
+      "match": true
+    },
+    {
+      "file": "vendor/pako-LICENSE",
+      "status": 200,
+      "url": "https://and-space83.github.io/drag-survey/pilot-anchor/vendor/pako-LICENSE",
+      "expectedSha256LF": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539",
+      "actualSha256LF": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539",
+      "match": true
+    }
+  ],
+  "allMatch": true,
+  "browser": {
+    "report": "public-browser-results.json",
+    "passed": 62,
+    "failed": 0,
+    "scope": "Public ui27 in Chrome mobile emulation and optional Playwright WebKit; not physical iPhone Safari"
+  },
+  "physicalSafari": "not verified; reported family device settings and improvement remain unchecked"
+}
