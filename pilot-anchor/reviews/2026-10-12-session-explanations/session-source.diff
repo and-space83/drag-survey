@@ -623,7 +623,7 @@ index 0000000..16e75f6
 +  ]
 +};
 diff --git a/tools/pilot-anchor/index.html b/tools/pilot-anchor/index.html
-index b02688a..b10db12 100644
+index b02688a..4a77131 100644
 --- a/tools/pilot-anchor/index.html
 +++ b/tools/pilot-anchor/index.html
 @@ -6 +6,2 @@
@@ -648,26 +648,27 @@ index b02688a..b10db12 100644
 +             surveyProblemDefinition: {version, title, choices:[{value,label,part}]} | null, // ui15以降の困りごとの固定定義。旧postq途中は旧文言・所属を保持。閲覧完了の指標ではない
 @@ -56,0 +65 @@
 +             instructionExposure: [{version, at, screen, page|step|kind, phase, block, afterTrial}], // ui8以降の教示表示履歴。読了・理解の証明ではない。旧データの欠如は未測定
-@@ -120,2 +129,4 @@
+@@ -120,2 +129,5 @@
 -<link rel="stylesheet" href="app.css">
 -<link rel="stylesheet" href="consent.css">
 +<link rel="stylesheet" href="css/runtime-guards.css?v=2026-10-16-refactor1" onerror="window.pilotAssetLoadFailed = true">
 +  <link rel="stylesheet" href="app.css?v=2026-10-18-ui27">
 +  <link rel="stylesheet" href="guided-tutorial.css?v=2026-10-16-ui22">
 +<link rel="stylesheet" href="consent.css?v=2026-10-18-ui27">
-@@ -190,2 +201 @@
++<link rel="stylesheet" href="conference-demo.css?v=2026-10-30-demo1" onerror="window.conferenceDemoAssetLoadFailed = true">
+@@ -190,2 +202 @@
 -    <p class="opt-note" id="wcStep"></p>
 -    <div id="wcBody"></div>
 +    <div id="wcCardArea"><div id="wcBody" class="session-explanation-card"></div></div>
-@@ -267 +277 @@
+@@ -267 +278 @@
 -    <h1>研究への参加について</h1>
 +    <h1>研究への参加の同意</h1>
-@@ -286 +296 @@
+@@ -286 +297 @@
 -      <p id="consentSaveNote">通信環境によっては時間がかかる場合があります。ブラウザの更新（再読み込み）や「戻る」は使わず、画面を閉じずにそのままお待ちください。</p>
 +      <p id="consentSaveNote">通信環境によっては時間がかかる場合があります。<br><strong>ブラウザの更新（再読み込み）や「戻る」は使わず、画面を閉じずにそのままお待ちください。</strong></p>
-@@ -298,0 +309 @@
+@@ -298,0 +310 @@
 +    <div id="dragPosition" aria-hidden="true" hidden></div>
-@@ -308 +319,10 @@
+@@ -308 +320,10 @@
 -<!-- ===== RATING (3項目1画面) ===== -->
 +<!-- ===== RATING (迷い・自信を1項目ずつ) ===== -->
 +<section id="guidedintro" class="screen" aria-labelledby="guidedIntroTitle">
@@ -679,22 +680,22 @@ index b02688a..b10db12 100644
 +  <button type="button" class="btn primary" id="guidedIntroGo">次へ</button>
 +</section>
 +
-@@ -309,0 +330 @@
+@@ -309,0 +331 @@
 +  <div id="ratingTopbar" role="group" aria-label="問題の進み具合"><span id="ratingPhaseLabel"></span><span id="ratingCounter"></span></div>
-@@ -311,0 +333 @@
+@@ -311,0 +334 @@
 +  <div id="ratingProgress" aria-hidden="true"><div id="ratingProgressFill"></div></div>
-@@ -315,0 +338 @@
+@@ -315,0 +339 @@
 +    <p id="ratingBackNote" hidden>「戻る」で迷いの回答を直せます。</p>
-@@ -331,3 +354,2 @@
+@@ -331,3 +355,2 @@
 -    <h1>お願い</h1>
 -    <p id="noticeText"></p>
 -    <button type="button" class="btn ghost" id="noticeTut" style="margin:6px auto 14px;display:block">操作方法を見る</button>
 +    <h1>操作のポイントの確認</h1>
 +    <div id="noticeText"></div>
-@@ -335 +357 @@
+@@ -335 +358 @@
 -    <button class="btn primary advance" id="noticeGo">問題に戻る</button>
 +    <button type="button" class="btn primary advance" id="noticeGo">確認して次の問題へ</button>
-@@ -339,0 +362,10 @@
+@@ -339,0 +363,10 @@
 +<section id="practicecheck" class="screen">
 +  <div class="pad">
 +    <h1>操作のポイントの確認</h1>
@@ -705,7 +706,7 @@ index b02688a..b10db12 100644
 +  </div>
 +</section>
 +
-@@ -342,3 +374,6 @@
+@@ -342,3 +375,6 @@
 -    <h1>休憩</h1>
 -    <p id="breakInfo"></p>
 -    <p>準備ができたら続けてください。</p>
@@ -715,7 +716,7 @@ index b02688a..b10db12 100644
 +      <p id="breakInfo"></p>
 +      <p class="session-card-action">準備ができたら「続ける」へ</p>
 +    </div>
-@@ -382,4 +417,5 @@
+@@ -382,4 +418,5 @@
 -    <h1>文章を読む速さの計測</h1>
 -    <p id="readIntro">まず、文章を読む速さを計測します（短い文章を4本）。<br>表示された文章を<b>普段通りの速さ</b>で読み、読み終えたら<b>すぐ</b>下のボタンを押してください。<br>本番の問題文と同じような文です。内容を覚える必要はありません。</p>
 -    <p class="opt-note" id="readCounter"></p>
@@ -725,46 +726,46 @@ index b02688a..b10db12 100644
 +      <p id="readIntro">まず、あなたの普段の読む速さを知るため、短い文章を4本読んでもらいます。<br><b>速く読む必要はないので普段通りの速さで読み</b>、読み終えたらすぐ下のボタンを押してください。</p>
 +      <div class="rtext" id="readText" style="display:none"></div>
 +    </div>
-@@ -404 +440 @@
+@@ -404 +441 @@
 -    <!-- 1 項目 1 画面 (2026-09-26): 課題と同じくスクロールせず「戻る / 次へ」で進む。ページ = 持ち方 → 拡充分 19 項目 → 使いにくかった点 → 操作のしやすさ -->
 +    <!-- 課題と同じくスクロールせず「戻る / 次へ」で進む。持ち方 → 拡充分 → 使いにくかった点 → 操作のしやすさ → 自由記述 -->
-@@ -409 +445 @@
+@@ -409 +446 @@
 -    <p>最後に、<b>2分ほど</b>で終わるアンケートにお答えください。</p>
 +    <p>最後に、アンケートにお答えください（<b>目安：約8分</b>）。</p>
-@@ -422 +458 @@
+@@ -422 +459 @@
 -    <!-- 事後アンケート 拡充分 (2026-09-06 §6-6 項8): 状態・課題の感じ方・環境・習熟・ふりかえり+自己報告の 22 項目 (2026-09-26 に data_use、2026-09-30 に課題の感じ方 3 問を追加)。POST_ITEMS から描画。
 +    <!-- 事後アンケート拡充分: POST_ITEMSから通常27項目を描画（追加10問OFFでは対応質問を除いて26項目）。
-@@ -424 +460 @@
+@@ -424 +461 @@
 -    <p class="opt-note" id="postLead" style="display:none;margin-top:14px">続けて、いくつか質問にお答えください（約2分）。</p>
 +    <p class="opt-note" id="postLead" style="display:none;margin-top:14px">続けて、いくつか質問にお答えください（目安：約8分）。</p>
-@@ -429,3 +465,3 @@
+@@ -429,3 +466,3 @@
 -      <div class="postpage" data-page="problems" id="surveyProblemsPage">
 -      <!-- 既存10項目の5+5を保ち、案内・待機に関する追加2項目を3ページ目に分ける。各ページに該当なしを設ける -->
 -      <h2 id="surveyProblemsLabel">使いにくかった点・改善してほしい点</h2>
 +      <div class="postpage" data-page="problems" data-other-part="3" id="surveyProblemsPage">
 +      <!-- 5+4+3項目の3ページ。その他は最後に置き、各ページに該当なしを設ける -->
 +      <h2 id="surveyProblemsLabel">使いにくかった点・改善した方がいい点</h2>
-@@ -435,3 +471,3 @@
+@@ -435,3 +472,3 @@
 -        <button type="button" class="chk" data-part="1" data-val="rating_burden">振り返りの回答が多くて負担だった</button>
 -        <button type="button" class="chk" data-part="1" data-val="trial_fatigue">試行数が多くて疲れた・長く感じた</button>
 -        <button type="button" class="chk" data-part="1" data-val="drag_hard">ドラッグして選ぶ操作がやりにくかった</button>
 +        <button type="button" class="chk" data-part="1" data-val="rating_burden">1問ごとの回答の振り返りが負担だった</button>
 +        <button type="button" class="chk" data-part="1" data-val="trial_fatigue">問題数が多くて疲れた・長く感じた</button>
 +        <button type="button" class="chk" data-part="1" data-val="drag_hard">指を離さずに運んで選ぶ操作がやりにくかった</button>
-@@ -445 +480,0 @@
+@@ -445 +481,0 @@
 -        <button type="button" class="chk" data-part="2" data-val="other">その他</button>
-@@ -448,0 +484 @@
+@@ -448,0 +485 @@
 +        <button type="button" class="chk" data-part="3" data-val="other">その他</button>
-@@ -457 +493 @@
+@@ -457 +494 @@
 -      <h2 id="surveyEaseLabel">ドラッグで選ぶ操作はしやすかったですか</h2>
 +      <h2 id="surveyEaseLabel">指を離さずに運んで選ぶ操作はしやすかったですか</h2>
-@@ -481 +517 @@
+@@ -481 +518 @@
 -    <p class="opt-note" id="postMissing" style="text-align:center;margin-top:6px;color:var(--err);font-weight:700"></p>
 +    <p class="opt-note" id="postMissing" data-tap-action style="text-align:center;margin-top:6px;color:var(--err);font-weight:700"></p>
-@@ -493 +529 @@
+@@ -493 +530 @@
 -      <p class="opt-note" id="sendWaitNote">通信環境によっては時間がかかる場合があります。ブラウザの更新（再読み込み）や「戻る」は使わず、画面を閉じずにそのままお待ちください。</p>
 +      <p class="opt-note" id="sendWaitNote">通信環境によっては時間がかかる場合があります。<br><strong>ブラウザの更新（再読み込み）や「戻る」は使わず、画面を閉じずにそのままお待ちください。</strong></p>
-@@ -541 +577,6 @@
+@@ -541 +578,6 @@
 -<script src="bank.js"></script>
 +<script src="js/runtime-guards.js?v=2026-10-16-refactor1"></script>
 +<script src="bank.js?v=2026-10-15-ui18"></script>
@@ -772,7 +773,7 @@ index b02688a..b10db12 100644
 +<script src="js/tutorial-visuals.js?v=2026-10-18-ui27"></script>
 +<script src="js/tutorial-view.js?v=2026-10-16-ui25"></script>
 +<script src="js/tutorial-controller.js?v=2026-10-16-ui25"></script>
-@@ -548,4324 +589,8 @@
+@@ -548,4324 +590,9 @@
 -<script>
 -(function () {
 -  "use strict";
@@ -5104,15 +5105,26 @@ index b02688a..b10db12 100644
 +<script src="js/rating-content.js?v=2026-10-16-refactor2"></script>
 +<script src="js/rating-controller.js?v=2026-10-16-refactor2"></script>
 +<script src="js/rating-view.js?v=2026-10-16-ui26"></script>
-+<script src="js/app.js?v=2026-10-18-ui27" onerror="document.getElementById('wcBody').innerHTML='&lt;h1&gt;読み込みが完了していません&lt;/h1&gt;&lt;p&gt;通信を確認して、もう一度読み込んでください。&lt;/p&gt;'; const next=document.getElementById('wcNext'); next.textContent='再読み込み'; next.disabled=false; next.onclick=function(){location.reload()}"></script>
++<script src="conference-demo.js?v=2026-10-30-demo1"></script>
++<script src="js/app.js?v=2026-10-30-demo1" onerror="document.getElementById('wcBody').innerHTML='&lt;h1&gt;読み込みが完了していません&lt;/h1&gt;&lt;p&gt;通信を確認して、もう一度読み込んでください。&lt;/p&gt;'; const next=document.getElementById('wcNext'); next.textContent='再読み込み'; next.disabled=false; next.onclick=function(){location.reload()}"></script>
 diff --git a/tools/pilot-anchor/js/app.js b/tools/pilot-anchor/js/app.js
 new file mode 100644
-index 0000000..a9ef393
+index 0000000..2fe0492
 --- /dev/null
 +++ b/tools/pilot-anchor/js/app.js
-@@ -0,0 +1,4294 @@
+@@ -0,0 +1,4304 @@
 +(function () {
 +  "use strict";
++  // The conference experience never initializes the research session or storage.
++  if (new URLSearchParams(location.search).get("demo") === "conference") {
++    if (typeof window.PilotConferenceDemo?.start === "function") window.PilotConferenceDemo.start();
++    else {
++      document.getElementById("wcBody").innerHTML = '<h1>読み込みが完了していません</h1><p>通信を確認して、もう一度読み込んでください。</p>';
++      const next = document.getElementById("wcNext");
++      next.textContent = "再読み込み"; next.disabled = false; next.onclick = () => location.reload();
++    }
++    return;
++  }
 +  if (window.pilotAssetLoadFailed || !window.PILOT_BANK || !window.createSessionStore || !window.PilotConsent || !window.PilotCodec || !window.pako || !window.PilotDurable || !window.createStagedDelivery ||
 +      typeof window.PilotTrialRecorder?.create !== "function" || typeof window.PilotRuntimeGuards?.create !== "function" || typeof window.PilotRuntimeGuards?.installTouchGuards !== "function" ||
 +      typeof window.PilotReadingPolicy?.create !== "function" || typeof window.PilotChoiceControls?.create !== "function" || typeof window.PilotInstructionNoticeView?.create !== "function" ||
@@ -10974,3 +10986,285 @@ index 0000000..df1e1d1
 + }
 + return{snapshot,run,finish,state:()=>JSON.parse(JSON.stringify(current))};
 +};
+diff --git a/tools/pilot-anchor/conference-demo.css b/tools/pilot-anchor/conference-demo.css
+new file mode 100644
+--- /dev/null
++++ b/tools/pilot-anchor/conference-demo.css
+@@ -0,0 +1,67 @@
++/* All overrides are scoped to the memory-only conference experience. */
++body.conference-demo { --ui-scale: 1; }
++.conference-demo #task, .conference-demo #rating {
++  left: max(0px, calc((100% - 620px) / 2));
++  right: max(0px, calc((100% - 620px) / 2));
++}
++.conference-demo #task {
++  --choice-w: 40%; --choice-h: clamp(88px, 26vmin, 150px);
++  --choice-top: 29%; --choice-side: 4%; --start-bottom: 10%;
++}
++.conference-demo #topbar, .conference-demo #ratingTopbar {
++  height: 48px; font-size: 14px; justify-content: flex-start; padding: 0 20px;
++}
++.conference-demo #progress, .conference-demo #ratingProgress {
++  top: 44px; left: 20px; right: 20px; height: 4px; margin: 0;
++}
++body.conference-demo #stem {
++  top: 9%; height: 18%; font-size: clamp(15px, 4vmin, 23px);
++  line-height: 1.5; word-break: normal; text-wrap: pretty;
++}
++.conference-demo #stem .nb { display: inline-block; }
++.conference-demo .choice .txt { font-size: clamp(15px, 3.7vmin, 23px); padding: 0 8px; }
++.conference-demo #start { width: clamp(125px, 34vmin, 210px); height: clamp(56px, 16vmin, 92px); font-size: clamp(17px, 4.8vmin, 25px); }
++.conference-demo #taskMsg { bottom: 28%; font-size: 15px; padding: 0 12px; }
++.conference-demo #rating .qwrap { padding: 65px 20px 24px; }
++.conference-demo #ratingHead { margin-bottom: 10px; }
++.conference-demo .rating-answer { margin-bottom: 12px; }
++.conference-demo .rat-btnrow { max-width: none; }
++.conference-demo .conference-reset {
++  position: absolute; right: max(16px, calc((100% - 580px) / 2)); top: 8px; z-index: 20;
++  border: 1px solid var(--line); border-radius: 8px; background: white; color: var(--ink-2);
++  padding: 7px 10px; font: inherit; font-size: 13px; touch-action: manipulation;
++}
++.conference-demo .conference-reset[hidden] { display: none; }
++.conference-demo #conferenceResults { overflow-y: auto; overscroll-behavior: contain; touch-action: pan-y; }
++.conference-demo .conference-results-wrap { width: min(960px, 100%); margin: 0 auto; padding: 28px 20px max(32px, env(safe-area-inset-bottom)); }
++.conference-demo .conference-results-wrap h1 { margin: 0 0 8px; font-size: 25px; line-height: 1.4; }
++.conference-demo .conference-results-note { font-size: 14px; line-height: 1.7; color: var(--ink-2); margin: 0 0 20px; }
++.conference-demo .conference-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-bottom: 24px; }
++.conference-demo .conference-card { border: 1px solid var(--line); border-radius: 16px; background: white; padding: 16px; }
++.conference-demo .conference-card h2 { font-size: 16px; line-height: 1.4; margin: 0 0 9px; }
++.conference-demo .conference-stem { min-height: 7em; font-size: 14px; line-height: 1.65; margin: 0 0 12px; }
++.conference-demo .conference-plot { display: block; width: 100%; height: 250px; border-radius: 12px; background: #f3f7f5; margin: 0 0 14px; }
++.conference-demo .conference-answer { font-size: 14px; line-height: 1.5; margin: 0 0 12px; }
++.conference-demo .conference-answer b { display: block; font-size: 17px; color: var(--go); margin-top: 3px; }
++.conference-demo .conference-metrics { display: grid; grid-template-columns: 1fr auto; gap: 6px 10px; font-size: 13px; line-height: 1.5; margin: 0 0 12px; }
++.conference-demo .conference-metrics dt { color: var(--ink-2); }
++.conference-demo .conference-metrics dd { font-weight: 700; text-align: right; }
++.conference-demo .conference-ratings { border-top: 1px solid var(--line); padding-top: 10px; font-size: 13px; line-height: 1.65; }
++.conference-demo .conference-ratings p + p { margin-top: 5px; }
++.conference-demo #conferenceRestart { display: block; width: min(100%, 360px); margin: 0 auto; }
++.conference-demo .conference-data-note { text-align: center; margin-top: 14px; font-size: 12px; line-height: 1.7; color: var(--ink-3); }
++@media (max-width: 760px) {
++  .conference-demo .conference-cards { grid-template-columns: 1fr; }
++  .conference-demo .conference-card { padding: 18px; }
++  .conference-demo .conference-stem { min-height: 0; }
++  .conference-demo .conference-plot { height: 260px; }
++}
++@media (max-height: 600px) {
++  .conference-demo #task { --choice-top: 33%; --choice-h: 23%; --start-bottom: 5%; }
++  body.conference-demo #stem { top: 11%; height: 20%; font-size: 15px; line-height: 1.35; }
++  .conference-demo #start { height: 48px; }
++  .conference-demo #taskMsg { bottom: 22%; font-size: 13px; }
++  .conference-demo #rating { --ui-scale: .9; }
++  .conference-demo #rating .qwrap { padding-top: 60px; }
++  .conference-demo #ratingHead { margin-top: 0; }
++}
+diff --git a/tools/pilot-anchor/conference-demo.js b/tools/pilot-anchor/conference-demo.js
+new file mode 100644
+--- /dev/null
++++ b/tools/pilot-anchor/conference-demo.js
+@@ -0,0 +1,205 @@
++/* Conference experience: no session store, network, persistence, or research recovery. */
++(function (root) {
++  "use strict";
++  const ITEM_IDS = ["honesty-clear", "honesty-mid", "care-conflict-2"];
++  const plain = value => String(value || "").replace(/\|/g, "");
++  function start() {
++    const $ = id => document.getElementById(id);
++    const items = ITEM_IDS.map(id => root.PILOT_BANK?.moral?.bank.find(item => (item.id || item.mtype + "-" + item.level) === id));
++    if (root.pilotAssetLoadFailed || root.conferenceDemoAssetLoadFailed || items.some(item => !item) || typeof root.PilotTrialRecorder?.create !== "function" ||
++        !Array.isArray(root.PilotRatingContent?.items) || typeof root.PilotChoiceControls?.create !== "function") {
++      $("wcBody").innerHTML = "<h1>読み込みが完了していません</h1><p>通信を確認して、もう一度読み込んでください。</p>";
++      $("wcNext").textContent = "再読み込み"; $("wcNext").onclick = () => location.reload();
++      return;
++    }
++    document.title = "指の動きと選択を体験する";
++    document.body.classList.add("conference-demo", "block-moral");
++    const recorder = root.PilotTrialRecorder.create({ STOP_MIN_MS: 500, STOP_NOTICE_MS: 3000, STOP_EPS_PX: 6, LATE_START_MS: 3000, EARLY_CPS: 25 });
++    const controls = root.PilotChoiceControls.create({ $ });
++    const surface = $("surface"), startButton = $("start"), choiceA = $("choiceA"), choiceB = $("choiceB");
++    let records = [], index = 0, currentTrial = null, activePointerId = null, screen = "task", stemShownT = 0, aborts = 0, ratingPage = 0, ratingShownT = 0;
++    const inside = (r, e) => e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
++    const node = (tag, className, text) => { const n = document.createElement(tag); if (className) n.className = className; if (text != null) n.textContent = text; return n; };
++    const reset = node("button", "conference-reset", "はじめから"); reset.id = "conferenceReset"; reset.type = "button";
++    document.body.append(reset); reset.addEventListener("click", restart);
++    const results = node("section", "screen"); results.id = "conferenceResults"; results.setAttribute("aria-labelledby", "conferenceResultsTitle"); document.body.append(results);
++    $("phaseLabel").textContent = "体験"; $("ratingPhaseLabel").textContent = "体験";
++    $("progress").classList.add("on"); $("ratingProgress").classList.add("on"); $("ratingTopbar").classList.add("on");
++    $("rating").classList.add("with-progress");
++    $("taskMsg").setAttribute("role", "status"); $("taskMsg").setAttribute("aria-live", "polite");
++    $("numA").className = "txt"; $("numB").className = "txt";
++    function show(name) {
++      screen = name;
++      for (const element of document.querySelectorAll(".screen")) element.classList.toggle("active", element.id === name);
++      reset.hidden = name === "conferenceResults";
++    }
++    function releaseCapture() {
++      const pointer = activePointerId; activePointerId = null;
++      if (pointer != null) { try { surface.releasePointerCapture(pointer); } catch (_) {} }
++      $("dragPosition").hidden = true;
++      choiceA.classList.remove("drag-inside"); choiceB.classList.remove("drag-inside");
++    }
++    function present() {
++      releaseCapture(); currentTrial = null; aborts = 0;
++      const item = items[index];
++      $("stem").replaceChildren(); const text = node("div");
++      item.stem.split("|").forEach(part => text.append(node("span", "nb", part)));
++      $("stem").append(text); $("stem").style.visibility = "visible";
++      $("numA").textContent = item.a.label; $("numB").textContent = item.b.label;
++      $("numA").style.visibility = "hidden"; $("numB").style.visibility = "hidden";
++      startButton.classList.remove("armed"); $("taskMsg").textContent = "";
++      for (const id of ["counter", "ratingCounter"]) $(id).textContent = (index + 1) + " / " + items.length;
++      for (const id of ["progressFill", "ratingProgressFill"]) $(id).style.width = (index / items.length * 100) + "%";
++      show("task"); stemShownT = performance.now();
++    }
++    function restart() {
++      releaseCapture(); records = []; index = 0; currentTrial = null; results.replaceChildren(); present();
++    }
++    function retry(message) {
++      releaseCapture(); currentTrial = null; aborts++;
++      $("numA").style.visibility = "hidden"; $("numB").style.visibility = "hidden";
++      startButton.classList.remove("armed"); $("taskMsg").textContent = message + "。スタートからもう一度";
++    }
++    function feedback(e) {
++      const rect = surface.getBoundingClientRect(), marker = $("dragPosition");
++      marker.hidden = false; marker.style.left = (e.clientX - rect.left) + "px"; marker.style.top = (e.clientY - rect.top) + "px";
++      choiceA.classList.toggle("drag-inside", inside(choiceA.getBoundingClientRect(), e));
++      choiceB.classList.toggle("drag-inside", inside(choiceB.getBoundingClientRect(), e));
++    }
++    surface.addEventListener("pointerdown", e => {
++      if (screen !== "task" || activePointerId != null || (e.pointerType === "mouse" && e.button !== 0)) return;
++      if (!inside(startButton.getBoundingClientRect(), e)) { $("taskMsg").textContent = "スタートから選択肢まで運んでください"; return; }
++      e.preventDefault(); activePointerId = e.pointerId;
++      try { surface.setPointerCapture(e.pointerId); } catch (_) {}
++      const item = items[index];
++      currentTrial = recorder.begin({ e, phase: "main", trialIndex: index, instrIndex: 0, recordsLength: records.length, aborts,
++        cell: item, block: "moral", stimulusType: "text-choice", meta: { itemId: ITEM_IDS[index], stem: plain(item.stem), leftLabel: item.a.label, rightLabel: item.b.label },
++        resumePending: false, stemShownT, stopNoticeShown: false, sRect: surface.getBoundingClientRect(), stRect: startButton.getBoundingClientRect(),
++        aRect: choiceA.getBoundingClientRect(), bRect: choiceB.getBoundingClientRect(), timeOrigin: performance.timeOrigin, dpr: devicePixelRatio || 1 });
++      recorder.pushEvent(currentTrial, e, "down");
++      currentTrial.events.push({ seq: currentTrial.events.length, t: e.timeStamp, ...currentTrial.revealXY, type: "reveal" });
++      $("numA").style.visibility = "visible"; $("numB").style.visibility = "visible";
++      startButton.classList.add("armed"); $("taskMsg").textContent = ""; feedback(e);
++    }, { passive: false });
++    surface.addEventListener("pointermove", e => {
++      if (screen !== "task" || e.pointerId !== activePointerId || !currentTrial) return;
++      e.preventDefault();
++      if (typeof e.getCoalescedEvents === "function") for (const point of e.getCoalescedEvents()) recorder.pushEvent(currentTrial, point, "coalesced");
++      recorder.pushEvent(currentTrial, e, "dispatched");
++      if (currentTrial.initiationT == null && recorder.hasLeftStart(currentTrial._stRect, e)) currentTrial.initiationT = e.timeStamp;
++      feedback(e);
++    }, { passive: false });
++    surface.addEventListener("pointerup", e => {
++      if (screen !== "task" || e.pointerId !== activePointerId || !currentTrial) return;
++      e.preventDefault(); recorder.pushEvent(currentTrial, e, "up");
++      const side = inside(choiceA.getBoundingClientRect(), e) ? "left" : inside(choiceB.getBoundingClientRect(), e) ? "right" : null;
++      const disp = currentTrial.events.filter(point => point.type === "dispatched");
++      if (!side) { retry("選択肢の中で離してください"); return; }
++      if (disp.length < 3) { retry("選択肢までゆっくり運んでください"); return; }
++      recorder.complete(currentTrial, { disp, aborts, stemChars: plain(items[index].stem).length }); currentTrial.choiceSide = side;
++      releaseCapture(); prepareRating();
++    }, { passive: false });
++    for (const type of ["pointercancel", "lostpointercapture"]) surface.addEventListener(type, e => {
++      if (activePointerId === e.pointerId) retry("操作が中断されました");
++    });
++    document.addEventListener("visibilitychange", () => { if (document.hidden && activePointerId != null) retry("操作が中断されました"); });
++    window.addEventListener("resize", () => {
++      if (activePointerId == null || !currentTrial) return;
++      const old = currentTrial._sRect, fresh = surface.getBoundingClientRect();
++      if (Math.abs(fresh.width - old.width) > 2 || Math.abs(fresh.height - old.height) > 2) retry("画面の大きさが変わりました");
++    });
++    function prepareRating() {
++      $("ratingHead").textContent = "回答について教えてください";
++      $("ratingAnswer").hidden = false; $("ratingAnswer").replaceChildren(node("span", "", "あなたの回答: "), node("b", "", currentTrial.choiceSide === "left" ? currentTrial.leftLabel : currentTrial.rightLabel));
++      const host = $("ratingItems"); host.replaceChildren();
++      for (const item of root.PilotRatingContent.items) {
++        const wrap = node("div", "qitem"); wrap.id = "qitem-" + item.key;
++        const question = node("div", "qi-text", item.q); question.id = "rating-label-" + item.key;
++        const group = node("div", "likert"); group.setAttribute("aria-labelledby", question.id);
++        for (let value = 1; value <= 5; value++) {
++          const button = node("button"); button.type = "button"; button.dataset.val = String(value);
++          button.append(node("b", "", value), node("span", "", item.labels[value - 1]));
++          button.addEventListener("click", () => {
++            currentTrial.ratings[item.key] = { value, rt_ms: +(performance.now() - ratingShownT).toFixed(1) };
++            for (const peer of group.children) peer.classList.toggle("sel", peer === button);
++            controls.syncChoiceState(group); updateRatingButtons();
++          }); group.append(button);
++        }
++        controls.initChoiceGroup(group, false); wrap.append(question, group); host.append(wrap);
++      }
++      show("rating"); showRatingPage(0);
++    }
++    function updateRatingButtons() {
++      $("ratingNext").disabled = !currentTrial?.ratings.hesitation;
++      $("ratingSubmit").disabled = !currentTrial?.ratings.hesitation || !currentTrial?.ratings.confidence;
++    }
++    function showRatingPage(page) {
++      ratingPage = page; ratingShownT = performance.now();
++      root.PilotRatingContent.items.forEach((item, at) => { $("qitem-" + item.key).hidden = at !== page; });
++      $("ratingBack").style.display = page ? "" : "none";
++      $("ratingBackNote").hidden = !page;
++      $("ratingNext").style.display = page ? "none" : ""; $("ratingSubmit").style.display = page ? "" : "none";
++      $("ratingSubmit").textContent = index === items.length - 1 ? "結果を見る" : "決定して次へ";
++      $("ratBtnRow").classList.toggle("with-back", page === 1); updateRatingButtons();
++      $("rating").querySelector(".qwrap").scrollTop = 0;
++    }
++    $("ratingNext").addEventListener("click", () => { if (screen === "rating" && ratingPage === 0 && currentTrial.ratings.hesitation) showRatingPage(1); });
++    $("ratingBack").addEventListener("click", () => { if (screen === "rating" && ratingPage === 1) showRatingPage(0); });
++    $("ratingSubmit").addEventListener("click", () => {
++      if (screen !== "rating" || ratingPage !== 1 || !currentTrial.ratings.hesitation || !currentTrial.ratings.confidence) return;
++      const { _sRect, _stRect, ...completed } = currentTrial; records.push(completed); index++;
++      if (index < items.length) present(); else showResults();
++    });
++    function trajectory(record, at) {
++      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg"), geom = record.geom;
++      const labelSize = Math.max(20, geom.surface.h * 12 / 250);
++      svg.classList.add("conference-plot"); svg.setAttribute("viewBox", `0 0 ${geom.surface.w} ${geom.surface.h}`);
++      svg.setAttribute("role", "img"); svg.setAttribute("aria-label", `第${at + 1}問でスタートから${record.choiceSide === "left" ? "左" : "右"}の選択肢まで動かした経路`);
++      function add(tag, attrs, text) {
++        const element = document.createElementNS(svg.namespaceURI, tag);
++        for (const [key, value] of Object.entries(attrs)) element.setAttribute(key, String(value));
++        if (text != null) element.textContent = text; svg.append(element); return element;
++      }
++      for (const [key, side, label] of [["A", "left", "左"], ["B", "right", "右"]]) {
++        const box = geom[key];
++        add("rect", { x: box.cx - box.w / 2, y: box.cy - box.h / 2, width: box.w, height: box.h, rx: 12, fill: side === record.choiceSide ? "#dcefe4" : "#ffffff", stroke: "#12855a", "stroke-width": 2 });
++        add("text", { x: box.cx, y: box.cy, "dominant-baseline": "central", "text-anchor": "middle", fill: "#256647", "font-size": labelSize }, label);
++      }
++      const points = record.events.filter(point => ["down", "dispatched", "up"].includes(point.type));
++      if (points.length) {
++        add("polyline", { points: points.map(p => `${p.x},${p.y}`).join(" "), fill: "none", stroke: "#1668c4", "stroke-width": 3, "vector-effect": "non-scaling-stroke", "stroke-linejoin": "round", "stroke-linecap": "round" });
++        for (const p of [points[0], points[points.length - 1]]) add("circle", { cx: p.x, cy: p.y, r: 6, fill: "#1668c4" });
++      }
++      add("text", { x: geom.start.cx, y: Math.min(geom.surface.h - labelSize / 2, geom.start.cy + labelSize * 1.4), "text-anchor": "middle", fill: "#685044", "font-size": labelSize }, "スタート");
++      return svg;
++    }
++    function showResults() {
++      const wrap = node("div", "conference-results-wrap"), title = node("h1", "", "あなたの回答の軌跡"); title.id = "conferenceResultsTitle"; title.tabIndex = -1;
++      wrap.append(title, node("p", "conference-results-note", "3問で動かした経路と、あなたが選んだ迷い・自信を見比べられます。"));
++      const cards = node("div", "conference-cards");
++      records.forEach((record, at) => {
++        const card = node("article", "conference-card"); card.dataset.itemId = record.itemId;
++        card.append(node("h2", "", `第${at + 1}問`), node("p", "conference-stem", record.stem), trajectory(record, at));
++        const answer = node("p", "conference-answer", "あなたの回答"); answer.append(node("b", "", record.choiceSide === "left" ? record.leftLabel : record.rightLabel)); card.append(answer);
++        const metrics = node("dl", "conference-metrics");
++        for (const [label, ms] of [["問題表示から押すまで", record.preStartMs], ["押してから動き出すまで", record.rt_ms], ["動き出してから離すまで", record.mt_proxy_ms], ["押してから離すまで（合計）", record.total_ms]]) {
++          metrics.append(node("dt", "", label), node("dd", "", (ms / 1000).toFixed(2) + " 秒"));
++        }
++        card.append(metrics); const ratings = node("div", "conference-ratings");
++        for (const item of root.PilotRatingContent.items) {
++          const value = record.ratings[item.key].value;
++          ratings.append(node("p", "", (item.key === "hesitation" ? "迷い" : "自信") + ` ${value} / 5 — ` + item.labels[value - 1]));
++        }
++        card.append(ratings); cards.append(card);
++      });
++      const again = node("button", "btn primary", "もう一度試す"); again.id = "conferenceRestart"; again.type = "button"; again.addEventListener("click", restart);
++      wrap.append(cards, again, node("p", "conference-data-note", "回答はこの画面だけに表示されます。もう一度試すか、ページを開き直すと消えます。"));
++      results.replaceChildren(wrap); show("conferenceResults"); results.scrollTop = 0; title.focus({ preventScroll: true });
++    }
++    if (new URLSearchParams(location.search).get("debug") === "1") root.__conferenceDemo = Object.freeze({
++      snapshot: () => JSON.parse(JSON.stringify({ screen, index, itemIds: ITEM_IDS, records, currentTrial, activePointerId })),
++    });
++    restart();
++  }
++  root.PilotConferenceDemo = Object.freeze({ start });
++})(window);

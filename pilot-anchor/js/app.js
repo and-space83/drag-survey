@@ -1,5 +1,15 @@
 (function () {
   "use strict";
+  // The conference experience never initializes the research session or storage.
+  if (new URLSearchParams(location.search).get("demo") === "conference") {
+    if (typeof window.PilotConferenceDemo?.start === "function") window.PilotConferenceDemo.start();
+    else {
+      document.getElementById("wcBody").innerHTML = '<h1>読み込みが完了していません</h1><p>通信を確認して、もう一度読み込んでください。</p>';
+      const next = document.getElementById("wcNext");
+      next.textContent = "再読み込み"; next.disabled = false; next.onclick = () => location.reload();
+    }
+    return;
+  }
   if (window.pilotAssetLoadFailed || !window.PILOT_BANK || !window.createSessionStore || !window.PilotConsent || !window.PilotCodec || !window.pako || !window.PilotDurable || !window.createStagedDelivery ||
       typeof window.PilotTrialRecorder?.create !== "function" || typeof window.PilotRuntimeGuards?.create !== "function" || typeof window.PilotRuntimeGuards?.installTouchGuards !== "function" ||
       typeof window.PilotReadingPolicy?.create !== "function" || typeof window.PilotChoiceControls?.create !== "function" || typeof window.PilotInstructionNoticeView?.create !== "function" ||

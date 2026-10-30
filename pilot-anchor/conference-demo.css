@@ -1,0 +1,67 @@
+/* All overrides are scoped to the memory-only conference experience. */
+body.conference-demo { --ui-scale: 1; }
+.conference-demo #task, .conference-demo #rating {
+  left: max(0px, calc((100% - 620px) / 2));
+  right: max(0px, calc((100% - 620px) / 2));
+}
+.conference-demo #task {
+  --choice-w: 40%; --choice-h: clamp(88px, 26vmin, 150px);
+  --choice-top: 29%; --choice-side: 4%; --start-bottom: 10%;
+}
+.conference-demo #topbar, .conference-demo #ratingTopbar {
+  height: 48px; font-size: 14px; justify-content: flex-start; padding: 0 20px;
+}
+.conference-demo #progress, .conference-demo #ratingProgress {
+  top: 44px; left: 20px; right: 20px; height: 4px; margin: 0;
+}
+body.conference-demo #stem {
+  top: 9%; height: 18%; font-size: clamp(15px, 4vmin, 23px);
+  line-height: 1.5; word-break: normal; text-wrap: pretty;
+}
+.conference-demo #stem .nb { display: inline-block; }
+.conference-demo .choice .txt { font-size: clamp(15px, 3.7vmin, 23px); padding: 0 8px; }
+.conference-demo #start { width: clamp(125px, 34vmin, 210px); height: clamp(56px, 16vmin, 92px); font-size: clamp(17px, 4.8vmin, 25px); }
+.conference-demo #taskMsg { bottom: 28%; font-size: 15px; padding: 0 12px; }
+.conference-demo #rating .qwrap { padding: 65px 20px 24px; }
+.conference-demo #ratingHead { margin-bottom: 10px; }
+.conference-demo .rating-answer { margin-bottom: 12px; }
+.conference-demo .rat-btnrow { max-width: none; }
+.conference-demo .conference-reset {
+  position: absolute; right: max(16px, calc((100% - 580px) / 2)); top: 8px; z-index: 20;
+  border: 1px solid var(--line); border-radius: 8px; background: white; color: var(--ink-2);
+  padding: 7px 10px; font: inherit; font-size: 13px; touch-action: manipulation;
+}
+.conference-demo .conference-reset[hidden] { display: none; }
+.conference-demo #conferenceResults { overflow-y: auto; overscroll-behavior: contain; touch-action: pan-y; }
+.conference-demo .conference-results-wrap { width: min(960px, 100%); margin: 0 auto; padding: 28px 20px max(32px, env(safe-area-inset-bottom)); }
+.conference-demo .conference-results-wrap h1 { margin: 0 0 8px; font-size: 25px; line-height: 1.4; }
+.conference-demo .conference-results-note { font-size: 14px; line-height: 1.7; color: var(--ink-2); margin: 0 0 20px; }
+.conference-demo .conference-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-bottom: 24px; }
+.conference-demo .conference-card { border: 1px solid var(--line); border-radius: 16px; background: white; padding: 16px; }
+.conference-demo .conference-card h2 { font-size: 16px; line-height: 1.4; margin: 0 0 9px; }
+.conference-demo .conference-stem { min-height: 7em; font-size: 14px; line-height: 1.65; margin: 0 0 12px; }
+.conference-demo .conference-plot { display: block; width: 100%; height: 250px; border-radius: 12px; background: #f3f7f5; margin: 0 0 14px; }
+.conference-demo .conference-answer { font-size: 14px; line-height: 1.5; margin: 0 0 12px; }
+.conference-demo .conference-answer b { display: block; font-size: 17px; color: var(--go); margin-top: 3px; }
+.conference-demo .conference-metrics { display: grid; grid-template-columns: 1fr auto; gap: 6px 10px; font-size: 13px; line-height: 1.5; margin: 0 0 12px; }
+.conference-demo .conference-metrics dt { color: var(--ink-2); }
+.conference-demo .conference-metrics dd { font-weight: 700; text-align: right; }
+.conference-demo .conference-ratings { border-top: 1px solid var(--line); padding-top: 10px; font-size: 13px; line-height: 1.65; }
+.conference-demo .conference-ratings p + p { margin-top: 5px; }
+.conference-demo #conferenceRestart { display: block; width: min(100%, 360px); margin: 0 auto; }
+.conference-demo .conference-data-note { text-align: center; margin-top: 14px; font-size: 12px; line-height: 1.7; color: var(--ink-3); }
+@media (max-width: 760px) {
+  .conference-demo .conference-cards { grid-template-columns: 1fr; }
+  .conference-demo .conference-card { padding: 18px; }
+  .conference-demo .conference-stem { min-height: 0; }
+  .conference-demo .conference-plot { height: 260px; }
+}
+@media (max-height: 600px) {
+  .conference-demo #task { --choice-top: 33%; --choice-h: 23%; --start-bottom: 5%; }
+  body.conference-demo #stem { top: 11%; height: 20%; font-size: 15px; line-height: 1.35; }
+  .conference-demo #start { height: 48px; }
+  .conference-demo #taskMsg { bottom: 22%; font-size: 13px; }
+  .conference-demo #rating { --ui-scale: .9; }
+  .conference-demo #rating .qwrap { padding-top: 60px; }
+  .conference-demo #ratingHead { margin-top: 0; }
+}

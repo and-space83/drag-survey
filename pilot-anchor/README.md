@@ -150,12 +150,14 @@
 | 短縮スモークテスト (①) | `…/pilot-anchor/?reps=1&practice=0` | 本番12試行のみ (練習スキップ=**開発専用・配布URL禁止**)。**送信は ON なので Drive に届く**点に注意 |
 | 短縮スモークテスト (②) | `…/pilot-anchor/?block=value&reps=1&practice=1` | 練習(ゲート制)+本番24問・注意チェック6問。**送信 ON** |
 | デモ (Drive に送らない) | `…/pilot-anchor/?block=value&upload=0` | 自動送信を止め、保存/共有ボタンを常時表示 |
+| **学会用の体験デモ** | `https://and-space83.github.io/drag-survey/pilot-anchor/?demo=conference` | 3問のドラッグ回答・迷い/自信の評定・自分の軌跡と時間。保存・送信なし。「もう一度試す」やリロードで何度でも最初から |
 | 開発・自動テスト | `…/pilot-anchor/?block=value&debug=1&upload=0` | `window.__pilot` 露出 + CSV ボタン表示 |
 
 ## 設定 (URL クエリで上書き可)
 
 | パラメータ | 既定 | 内容 |
 |---|---|---|
+| `?demo=conference` | OFF | 学会会場で口頭説明しながら使う専用デモ。氏名・説明・同意を求めず第1問へ直行し、既存研究記録の読取・保存・送信・復元を起動しない。他の研究用パラメータを併用する必要はない。[QRコード](distribution-assets/conference-demo-qr.png)・[確認画面](reviews/2026-10-30-conference-demo/index.html) |
 | `?block=` | anchor | 実行ブロック (`anchor`=①数値サイズ / `value`=②価値・選好 / `moral`=③道徳ジレンマ / `combo`=②③統合)。既定値は各ブロックで変わる |
 | `?order=` | ランダム | `combo` のブロック順 (`vm`=②→③ / `mv`=③→②)。未指定は端末ごとランダム=被験者間CB |
 | `?attn=0` | ON (value / moral / combo、kioskはOFF) | ⑤注意チェックの無効化 |
