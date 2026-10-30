@@ -19,6 +19,8 @@
 
 既存の全体回帰 `validate.js` は最後まで実行し、旧文言を期待するO14/確認画面の4チェックが不一致となった。現行文言は変更前HEADと同一であることを確認し、`validate-o14-feedback.js`・`validate-review-ui.js` の期待値各1箇所だけを修正した。修正後は `validate.js --o14-feedback` と `validate.js --review-ui` が全件通過した。全体を一括した再実行は行っていない。
 
-## 残る確認
+## 公開確認と残る確認
 
-公開配信とのファイル一致を確認中。iPhone Safari・Android Chromeの実機で、画面の収まり・指の操作・結果の縦スクロールを確認する。個人Notionへの同期は未実施。
+2026-10-30、公開commit `043920b` の配布アプリ29ファイルとQR2ファイルが通常URLで一致した（[publication.json](publication.json)）。公開URLを新しいChromeコンテキストで操作し、3問を2周・評定途中と完了後のリロード・保存送信なしを28チェックで確認した（[public-smoke.json](public-smoke.json)）。
+
+残るのはiPhone Safari・Android Chromeの実機での画面の収まり・指の操作・結果の縦スクロールの確認。個人Notionへの同期は未実施。
