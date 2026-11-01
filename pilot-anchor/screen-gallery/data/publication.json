@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-10-30T09:47:02.238Z",
-  "version": "2026-10-18-ui27",
+  "checkedAt": "2026-11-01T11:48:11.909Z",
+  "version": "2026-11-01-ui28",
   "baseUrl": "https://and-space83.github.io/drag-survey/pilot-anchor/",
   "normalUrls": true,
   "checks": [
     {
       "file": "index.html",
       "status": 200,
-      "expectedSha256LF": "5ee6a2bbb09a12cb8ebb86b343e4483c92916bc93d01bcdd3d1edcfa839c5ca2",
-      "actualSha256LF": "5ee6a2bbb09a12cb8ebb86b343e4483c92916bc93d01bcdd3d1edcfa839c5ca2",
+      "expectedSha256LF": "1b911e08f991fde0ab85e246e97ccc08cda8448802472d3aa5a0d1ab9754af2b",
+      "actualSha256LF": "1b911e08f991fde0ab85e246e97ccc08cda8448802472d3aa5a0d1ab9754af2b",
       "match": true
     },
     {
@@ -21,8 +21,8 @@
     {
       "file": "app.css",
       "status": 200,
-      "expectedSha256LF": "0f2cc4b553ae4bafdca8fb6711fb8e058d5dde76cdadf0e8576c04813babb0fe",
-      "actualSha256LF": "0f2cc4b553ae4bafdca8fb6711fb8e058d5dde76cdadf0e8576c04813babb0fe",
+      "expectedSha256LF": "73c372e20e188460b9eb91121374043c346ccfef21d165026916713993ab8069",
+      "actualSha256LF": "73c372e20e188460b9eb91121374043c346ccfef21d165026916713993ab8069",
       "match": true
     },
     {
@@ -77,15 +77,15 @@
     {
       "file": "js/tutorial-view.js",
       "status": 200,
-      "expectedSha256LF": "cbc3bf2aad09f51465df407b20e6295d8ab8289eadfc175c421514debacceda7",
-      "actualSha256LF": "cbc3bf2aad09f51465df407b20e6295d8ab8289eadfc175c421514debacceda7",
+      "expectedSha256LF": "b096c17033759fa576daeee72d56648d6483e8589be8788682480c393f20918e",
+      "actualSha256LF": "b096c17033759fa576daeee72d56648d6483e8589be8788682480c393f20918e",
       "match": true
     },
     {
       "file": "js/tutorial-controller.js",
       "status": 200,
-      "expectedSha256LF": "2c456143767793e9fd4d961893836939a8ea548b381bd5f2910d2460745ef577",
-      "actualSha256LF": "2c456143767793e9fd4d961893836939a8ea548b381bd5f2910d2460745ef577",
+      "expectedSha256LF": "65f00889f7175b542a246483e1dcaa8b1416a8e887325fb5c519cca7a2b258f8",
+      "actualSha256LF": "65f00889f7175b542a246483e1dcaa8b1416a8e887325fb5c519cca7a2b258f8",
       "match": true
     },
     {
@@ -133,8 +133,8 @@
     {
       "file": "js/trial-recorder.js",
       "status": 200,
-      "expectedSha256LF": "301d83a0128f3be3f21fb306504d570c2c65148e5820c6dd6c0cf2d721446946",
-      "actualSha256LF": "301d83a0128f3be3f21fb306504d570c2c65148e5820c6dd6c0cf2d721446946",
+      "expectedSha256LF": "7c2685e11846e047be141e0640478405bcd08f05e3225a45ec013c8187fc2337",
+      "actualSha256LF": "7c2685e11846e047be141e0640478405bcd08f05e3225a45ec013c8187fc2337",
       "match": true
     },
     {
@@ -142,6 +142,13 @@
       "status": 200,
       "expectedSha256LF": "20a99e9b828608fb5202fb10ee894c093f6606ec066548f98ca3e9bc411b7731",
       "actualSha256LF": "20a99e9b828608fb5202fb10ee894c093f6606ec066548f98ca3e9bc411b7731",
+      "match": true
+    },
+    {
+      "file": "js/explanation-telemetry.js",
+      "status": 200,
+      "expectedSha256LF": "ae5b8ca6b208b86166d62fd58b014f69d360ce4fa533383d2406cab206231b53",
+      "actualSha256LF": "ae5b8ca6b208b86166d62fd58b014f69d360ce4fa533383d2406cab206231b53",
       "match": true
     },
     {
@@ -161,8 +168,8 @@
     {
       "file": "js/rating-content.js",
       "status": 200,
-      "expectedSha256LF": "ade45e7eca8cb6734cc3397962fdb9f14c93c102b1215a638ebf9810b0b019f8",
-      "actualSha256LF": "ade45e7eca8cb6734cc3397962fdb9f14c93c102b1215a638ebf9810b0b019f8",
+      "expectedSha256LF": "25a015acb87fb7f990725c68a669e84d521a5bacff0d288c1ab4d65783e87f2c",
+      "actualSha256LF": "25a015acb87fb7f990725c68a669e84d521a5bacff0d288c1ab4d65783e87f2c",
       "match": true
     },
     {
@@ -175,22 +182,22 @@
     {
       "file": "js/rating-view.js",
       "status": 200,
-      "expectedSha256LF": "867b21bb67403f3cd4f7e4ba1a00d1564f88d6c7a10f5d323ca5d6761630a487",
-      "actualSha256LF": "867b21bb67403f3cd4f7e4ba1a00d1564f88d6c7a10f5d323ca5d6761630a487",
+      "expectedSha256LF": "9fec9ae4ae1f70a5ee0a7cd06f14c9a15b244eb551800e30f4bfc7911536111f",
+      "actualSha256LF": "9fec9ae4ae1f70a5ee0a7cd06f14c9a15b244eb551800e30f4bfc7911536111f",
       "match": true
     },
     {
       "file": "conference-demo.js",
       "status": 200,
-      "expectedSha256LF": "85331dc22c6148ad05f5e7560dbf88ae822d26bdfa019dbeada865738ce058b3",
-      "actualSha256LF": "85331dc22c6148ad05f5e7560dbf88ae822d26bdfa019dbeada865738ce058b3",
+      "expectedSha256LF": "c958189fe84e8a81dbf3d8d29e6bfd795ac32c15c7451ca80a19c7634638a947",
+      "actualSha256LF": "c958189fe84e8a81dbf3d8d29e6bfd795ac32c15c7451ca80a19c7634638a947",
       "match": true
     },
     {
       "file": "js/app.js",
       "status": 200,
-      "expectedSha256LF": "cd30c5948c80442713f761db342ec6d0c4763d1c22db23098dee634e4e9eaa07",
-      "actualSha256LF": "cd30c5948c80442713f761db342ec6d0c4763d1c22db23098dee634e4e9eaa07",
+      "expectedSha256LF": "d2c5ee3565ad2c82eeed52993c55bd49762669e27abc9e6e5f479992527b4b67",
+      "actualSha256LF": "d2c5ee3565ad2c82eeed52993c55bd49762669e27abc9e6e5f479992527b4b67",
       "match": true
     },
     {
