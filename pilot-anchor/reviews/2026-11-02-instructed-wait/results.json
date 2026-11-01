@@ -1,7 +1,7 @@
 {
-  "at": "2026-11-01T16:14:51.100Z",
+  "at": "2026-11-01T16:21:37.653Z",
   "source": {
-    "index.html": "875c0adcf2b6e8e58977bb3d6f64c785ee9cf893f867679707f744c67534a178",
+    "index.html": "9777643605d9ab035845edb42b3d6a265cb7ceb77a0d5e7db8dab612b8f93362",
     "css/runtime-guards.css": "da2a02010ec7825568dafae2fb95b6cdc7cf36321f335375ad26ba5281492683",
     "app.css": "2b24a0e3054a00c814af283c2414877395aa34acbaa37931895a33a5522bdbf3",
     "guided-tutorial.css": "044853cf630d434c58190c4cd3072aa7e700619cb16e70a2920f8e89fc7a880d",
@@ -11,7 +11,7 @@
     "bank.js": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
     "guided-tutorial.js": "f2ece5f2457364f8072796585ac8e42b49c84aa2070f5bc25e35c497b2209841",
     "js/tutorial-visuals.js": "ed55c03f813365920f0d4e0fe2fe5dc6052e7369137bb46ad17e72d8a02dac8d",
-    "js/tutorial-view.js": "b096c17033759fa576daeee72d56648d6483e8589be8788682480c393f20918e",
+    "js/tutorial-view.js": "83b4d53745c0d39eab8d0bbdc6af934d366118486065de020301142368aa5365",
     "js/tutorial-controller.js": "f8e45d35c9483e142f17802ca2400ee4d8709bb669c218912bcaeded90ba221f",
     "vendor/pako.min.js": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
     "data-codec.js": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
@@ -28,7 +28,7 @@
     "js/rating-controller.js": "4cb1aaac6fe565d4ebed237a3dfc579ea30bfedf23fb9749a182ad6afd868017",
     "js/rating-view.js": "9fec9ae4ae1f70a5ee0a7cd06f14c9a15b244eb551800e30f4bfc7911536111f",
     "conference-demo.js": "c958189fe84e8a81dbf3d8d29e6bfd795ac32c15c7451ca80a19c7634638a947",
-    "js/app.js": "920af43e0bab580cd806f83be247c13409d231be894535b6da9d1e79fe88c868",
+    "js/app.js": "e91f2f3ad8df03cc3ca7de4a14c950edb02f7b6b0897f6237c60133b2bbca565",
     "storage-worker.js": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
     "vendor/pako-LICENSE": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539"
   },
@@ -96,6 +96,11 @@
       "detail": []
     },
     {
+      "name": "miniSmall-help-1 no overlap during transition",
+      "pass": true,
+      "detail": 27.609375
+    },
+    {
       "name": "miniSmall help has no wait 0",
       "pass": true
     },
@@ -107,6 +112,11 @@
       "name": "miniSmall-help-2 fits viewport",
       "pass": true,
       "detail": []
+    },
+    {
+      "name": "miniSmall-help-2 no overlap during transition",
+      "pass": true,
+      "detail": 16
     },
     {
       "name": "miniSmall help has no wait 1",
@@ -122,11 +132,11 @@
       "detail": [
         {
           "page": "blockintro:instructed:0",
-          "initialWaitMs": 4591
+          "initialWaitMs": 4580
         },
         {
           "page": "blockintro:instructed:1",
-          "initialWaitMs": 5587
+          "initialWaitMs": 5584
         }
       ]
     },
@@ -192,6 +202,11 @@
       "detail": []
     },
     {
+      "name": "mini-help-1 no overlap during transition",
+      "pass": true,
+      "detail": 63.703125
+    },
+    {
       "name": "mini help has no wait 0",
       "pass": true
     },
@@ -203,6 +218,11 @@
       "name": "mini-help-2 fits viewport",
       "pass": true,
       "detail": []
+    },
+    {
+      "name": "mini-help-2 no overlap during transition",
+      "pass": true,
+      "detail": 16
     },
     {
       "name": "mini help has no wait 1",
@@ -302,6 +322,11 @@
       "detail": []
     },
     {
+      "name": "phone-help-1 no overlap during transition",
+      "pass": true,
+      "detail": 83.96875
+    },
+    {
       "name": "phone help has no wait 0",
       "pass": true
     },
@@ -313,6 +338,11 @@
       "name": "phone-help-2 fits viewport",
       "pass": true,
       "detail": []
+    },
+    {
+      "name": "phone-help-2 no overlap during transition",
+      "pass": true,
+      "detail": 32.78125
     },
     {
       "name": "phone help has no wait 1",
@@ -328,11 +358,11 @@
       "detail": [
         {
           "page": "blockintro:instructed:0",
-          "initialWaitMs": 4585
+          "initialWaitMs": 4591
         },
         {
           "page": "blockintro:instructed:1",
-          "initialWaitMs": 5580
+          "initialWaitMs": 5590
         }
       ]
     },
@@ -398,6 +428,11 @@
       "detail": []
     },
     {
+      "name": "tablet-help-1 no overlap during transition",
+      "pass": true,
+      "detail": 180.984375
+    },
+    {
       "name": "tablet help has no wait 0",
       "pass": true
     },
@@ -409,6 +444,11 @@
       "name": "tablet-help-2 fits viewport",
       "pass": true,
       "detail": []
+    },
+    {
+      "name": "tablet-help-2 no overlap during transition",
+      "pass": true,
+      "detail": 142.59375
     },
     {
       "name": "tablet help has no wait 1",
@@ -424,11 +464,11 @@
       "detail": [
         {
           "page": "blockintro:instructed:0",
-          "initialWaitMs": 4587
+          "initialWaitMs": 4584
         },
         {
           "page": "blockintro:instructed:1",
-          "initialWaitMs": 5584
+          "initialWaitMs": 5580
         }
       ]
     },

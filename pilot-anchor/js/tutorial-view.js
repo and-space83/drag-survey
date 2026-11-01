@@ -304,7 +304,9 @@ window.PILOT_GUIDED_TUTORIAL.createView = function (env, model, events) {
     build, prepareRender, showStep, showStage, playGraphics, place, renderQuiz, focusQuizAnswer,
     prepareTeardown, hide, enter, resetFlash, flash, clearHint,
     isHeld: () => !!held,
-    motionSnapshot: () => motion.snapshot(), animate: before => motion.run(before),
+    // Additional-task pages have different heights: fading at the final position
+    // avoids moving the taller page through the fixed navigation buttons.
+    motionSnapshot: () => motion.snapshot(), animate: before => motion.run(model.isStandard() ? before : null),
     removeCue: () => $('tutPopNext').classList.remove('cue'), addCue: () => $('tutPopNext').classList.add('cue'),
     setWaiting: waiting => $('tutPopNext').classList.toggle('wait', waiting), clearWaiting: () => $('tutPopNext').classList.remove('wait'),
   };
