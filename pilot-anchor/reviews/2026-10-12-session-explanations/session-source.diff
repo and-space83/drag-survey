@@ -1,5 +1,5 @@
 diff --git a/tools/pilot-anchor/app.css b/tools/pilot-anchor/app.css
-index ec3b990..debdf60 100644
+index ec3b990..d9a6716 100644
 --- a/tools/pilot-anchor/app.css
 +++ b/tools/pilot-anchor/app.css
 @@ -20 +20,2 @@
@@ -149,16 +149,24 @@ index ec3b990..debdf60 100644
 +    #rating.tut-front .likert.tut-cue button, #rating.tut-front #ratingNext.cue, #rating.tut-front #ratingSubmit.cue { animation: none; }
 +    #rating.tut-front #ratBtnRow .btn.warn { animation: none; outline: 3px solid var(--go); outline-offset: 3px; }
 +  }
-@@ -535 +639 @@
+@@ -531,0 +636,7 @@
++  /* 全ページの見出し・番号・本文領域を同じ位置から始める。
++     通常の2ページ目に近い余白を共通化し、内容量による上下移動をなくす。 */
++  #postq .pad { padding-top: clamp(24px,
++    min(calc((100dvh - 480px) / 3), calc(24px + (100dvh - 700px) * 69 / 59)), 160px); }
++  #postq .pad::before, #postq .pad::after { flex: 0 0 0; }
++  #postq .pad > * { flex-shrink: 0; }
++  #postq .postpage.on { display: flow-root; }
+@@ -535 +646 @@
 -  /* 使いにくかった点は既存5+5と追加2項目の3画面。各画面に「このページでは該当なし」 */
 +  /* 使いにくかった点は3画面。旧保存のその他2ページ目と新版3ページ目を区別する */
-@@ -541 +645,2 @@
+@@ -541 +652,2 @@
 -  #surveyProblemsPage:not([data-part="2"]) #surveyFreeField,
 +  #surveyProblemsPage[data-other-part="2"]:not([data-part="2"]) #surveyFreeField,
 +  #surveyProblemsPage[data-other-part="3"]:not([data-part="3"]) #surveyFreeField,
-@@ -549 +653,0 @@
+@@ -549 +660,0 @@
 -  @media (prefers-reduced-motion: reduce) { #sendBox .spin { animation: none; border-top-color: var(--go); } }
-@@ -559,2 +663,41 @@
+@@ -559,2 +670,41 @@
 -  #welcome .checks .chk { padding: 10px 10px 10px 38px; font-size: calc(14.5px * var(--ui-scale)); line-height: 1.5; }
 -  #welcome .checks { gap: 6px; }
 +  #welcome .checks .chk { padding: 9px 10px 9px 38px; font-size: calc(14.5px * var(--ui-scale)); line-height: 1.5; }
@@ -202,20 +210,15 @@ index ec3b990..debdf60 100644
 +  .session-transition-card > p + p, #blockintroBody.practice-complete-card > p + p, #blockintroBody.instructed-intro-card > p + p { margin-top: 12px; }
 +  #blockintroBody.practice-complete-card ul { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; margin-bottom: 0; }
 +  .pad .session-card-action { color: var(--go); font-weight: 700; font-size: calc(15px * var(--ui-scale)); }
-@@ -562,0 +706,5 @@
+@@ -562,0 +713,5 @@
 +  /* 長い区間ラベルを含む利用年数のページも、小さいiPhoneで下部ナビに重ねない。文字サイズは維持。 */
 +  @media (max-width: 440px) {
 +    #postq #pp-usage_years .field { margin: 6px 0; }
 +    #postq #pp-usage_years .seg button { padding-top: 8px; padding-bottom: 8px; min-height: 44px; }
 +  }
-@@ -567,0 +716,29 @@
+@@ -567,0 +723,25 @@
 +
 +  /* ui28: 初回提示した8択にだけ2列を適用。旧5択の再開は元の配置を保持する。 */
-+  #postq .pad:has(.postpage.grip-grid.on) { padding: 14px 16px; }
-+  #postq .pad:has(.postpage.grip-grid.on)::before,
-+  #postq .pad:has(.postpage.grip-grid.on)::after { flex: 0 0 0; }
-+  #postq .pad:has(.postpage.grip-grid.on) > h1 { line-height: 1.25; margin: 0 60px 8px 0; }
-+  #postq .pad:has(.postpage.grip-grid.on) #postStep { position: absolute; top: 16px; right: 16px; margin: 0; }
 +  #postq .grip-grid > p { line-height: 1.35; }
 +  #postq .grip-grid .field { margin: 8px 0; }
 +  #postq .grip-grid #gripSeg { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 6px; }
@@ -224,13 +227,14 @@ index ec3b990..debdf60 100644
 +  #postq #gripOther[hidden] { display: none; }
 +  #postq #gripOther label { display: block; font-size: calc(15px * var(--ui-scale)); line-height: 1.35; margin-bottom: 4px; }
 +  #postq #gripOther textarea { height: calc(48px * var(--ui-scale)); min-height: calc(48px * var(--ui-scale)); padding: 10px; line-height: 1.35; }
-+  @media (max-height: 600px) {
-+    #postq .pad:has(.postpage.grip-grid.on) { padding-top: 10px; padding-bottom: 10px; }
-+    #postq .pad:has(.postpage.grip-grid.on) #postStep { top: 12px; }
-+    #postq .pad:has(.postpage.grip-grid.on) > h1 { margin-bottom: 6px; }
++  @media (max-height: 640px) {
++    #postq .pad { padding: 10px 16px; }
++    #postq .pad > h1 { line-height: 1.3; margin-bottom: 4px; }
++    #postq #postStep { font-size: calc(13px * var(--ui-scale)); line-height: 1.3; margin-bottom: 4px; }
 +    #postq .grip-grid .field { margin: 6px 0; }
 +    #postq .pad:has(.postpage.grip-grid.on) #postNav { margin-top: 6px; }
 +    #postq .grip-grid #gripSeg { gap: 4px; }
++    #postq .grip-grid #gripSeg button { padding-top: 4px; padding-bottom: 4px; }
 +  }
 +  /* 既存の振り返り導入カードで、過程の迷いと回答への自信を対比する。 */
 +  #rating.tut-front #ratTutText.ui28-rating-contrast { display: grid; gap: 14px; }
@@ -944,7 +948,7 @@ index 0000000..16e75f6
 +  ]
 +};
 diff --git a/tools/pilot-anchor/index.html b/tools/pilot-anchor/index.html
-index b02688a..7cb0579 100644
+index b02688a..f210f51 100644
 --- a/tools/pilot-anchor/index.html
 +++ b/tools/pilot-anchor/index.html
 @@ -6 +6,2 @@
@@ -983,9 +987,9 @@ index b02688a..7cb0579 100644
 -<link rel="stylesheet" href="app.css">
 -<link rel="stylesheet" href="consent.css">
 +<link rel="stylesheet" href="css/runtime-guards.css?v=2026-10-16-refactor1" onerror="window.pilotAssetLoadFailed = true">
-+  <link rel="stylesheet" href="app.css?v=2026-11-01-ui28">
++  <link rel="stylesheet" href="app.css?v=2026-11-01-ui28a">
 +  <link rel="stylesheet" href="guided-tutorial.css?v=2026-10-16-ui22">
-+<link rel="stylesheet" href="consent.css?v=2026-11-01-ui28">
++<link rel="stylesheet" href="consent.css?v=2026-11-01-ui28a">
 +<link rel="stylesheet" href="conference-demo.css?v=2026-10-30-demo1" onerror="window.conferenceDemoAssetLoadFailed = true">
 @@ -190,2 +205 @@
 -    <p class="opt-note" id="wcStep"></p>
@@ -1108,12 +1112,12 @@ index b02688a..7cb0579 100644
 +      <p class="opt-note" id="sendWaitNote">通信環境によっては時間がかかる場合があります。<br><strong>ブラウザの更新（再読み込み）や「戻る」は使わず、画面を閉じずにそのままお待ちください。</strong></p>
 @@ -541 +588,6 @@
 -<script src="bank.js"></script>
-+<script src="js/runtime-guards.js?v=2026-11-01-ui28"></script>
++<script src="js/runtime-guards.js?v=2026-11-01-ui28a"></script>
 +<script src="bank.js?v=2026-10-15-ui18"></script>
 +<script src="guided-tutorial.js?v=2026-10-16-ui22"></script>
-+<script src="js/tutorial-visuals.js?v=2026-11-01-ui28"></script>
-+<script src="js/tutorial-view.js?v=2026-11-01-ui28"></script>
-+<script src="js/tutorial-controller.js?v=2026-11-01-ui28"></script>
++<script src="js/tutorial-visuals.js?v=2026-11-01-ui28a"></script>
++<script src="js/tutorial-view.js?v=2026-11-01-ui28a"></script>
++<script src="js/tutorial-controller.js?v=2026-11-01-ui28a"></script>
 @@ -548,4324 +600,10 @@
 -<script>
 -(function () {
@@ -5439,19 +5443,19 @@ index b02688a..7cb0579 100644
 -      if (e.cancelable) e.preventDefault(); }, { passive: false });
 -})();
 -</script>
-+<script src="js/trial-recorder.js?v=2026-11-01-ui28"></script>
-+<script src="js/reading-policy.js?v=2026-11-01-ui28"></script>
-+<script src="js/explanation-telemetry.js?v=2026-11-01-ui28"></script>
-+<script src="js/choice-controls.js?v=2026-11-01-ui28"></script>
-+<script src="js/instruction-notice-view.js?v=2026-11-01-ui28"></script>
-+<script src="js/rating-content.js?v=2026-11-01-ui28"></script>
-+<script src="js/rating-controller.js?v=2026-11-01-ui28"></script>
-+<script src="js/rating-view.js?v=2026-11-01-ui28"></script>
++<script src="js/trial-recorder.js?v=2026-11-01-ui28a"></script>
++<script src="js/reading-policy.js?v=2026-11-01-ui28a"></script>
++<script src="js/explanation-telemetry.js?v=2026-11-01-ui28a"></script>
++<script src="js/choice-controls.js?v=2026-11-01-ui28a"></script>
++<script src="js/instruction-notice-view.js?v=2026-11-01-ui28a"></script>
++<script src="js/rating-content.js?v=2026-11-01-ui28a"></script>
++<script src="js/rating-controller.js?v=2026-11-01-ui28a"></script>
++<script src="js/rating-view.js?v=2026-11-01-ui28a"></script>
 +<script src="conference-demo.js?v=2026-11-01-demo2"></script>
-+<script src="js/app.js?v=2026-11-01-ui28" onerror="document.getElementById('wcBody').innerHTML='&lt;h1&gt;読み込みが完了していません&lt;/h1&gt;&lt;p&gt;通信を確認して、もう一度読み込んでください。&lt;/p&gt;'; const next=document.getElementById('wcNext'); next.textContent='再読み込み'; next.disabled=false; next.onclick=function(){location.reload()}"></script>
++<script src="js/app.js?v=2026-11-01-ui28a" onerror="document.getElementById('wcBody').innerHTML='&lt;h1&gt;読み込みが完了していません&lt;/h1&gt;&lt;p&gt;通信を確認して、もう一度読み込んでください。&lt;/p&gt;'; const next=document.getElementById('wcNext'); next.textContent='再読み込み'; next.disabled=false; next.onclick=function(){location.reload()}"></script>
 diff --git a/tools/pilot-anchor/js/app.js b/tools/pilot-anchor/js/app.js
 new file mode 100644
-index 0000000..7ef1e07
+index 0000000..f555e0c
 --- /dev/null
 +++ b/tools/pilot-anchor/js/app.js
 @@ -0,0 +1,4421 @@
@@ -6104,7 +6108,7 @@ index 0000000..7ef1e07
 +    stopNoticesSuppressed: 0, // 上限（種類ごと5回）で非表示にした理由数。両方の抑止なら2
 +    pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
 +    practiceChecks: [], noticeReviews: [], noticeAcknowledgements: [], // 旧別画面見直しと新注意内確認を分ける。読了・理解や除外の判定には用いない
-+    appVersion: "2026-11-01-ui28",  // 開始時の版は再開でも保持する
++    appVersion: "2026-11-01-ui28a",  // 開始時の版は再開でも保持する
 +    instructedPlan: { version: "2026-11-01-ui28", n: INSTR_N, selection: "all-main-moral" },
 +    moralPracticeDefinition: null, // 最初の操作説明・練習開始時に固定する刺激の版と全文。表示・理解の証跡ではない
 +    welcomeAgree: null,       // はじめに 6/7・7/7 の同意チェック {items, pages, ms}

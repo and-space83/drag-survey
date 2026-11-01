@@ -1,10 +1,10 @@
 {
-  "checkedAt": "2026-11-01T11:48:41.512Z",
-  "toVersion": "2026-11-01-ui28",
+  "checkedAt": "2026-11-01T14:16:11.577Z",
+  "toVersion": "2026-11-01-ui28a",
   "sourceSha256LF": {
-    "index.html": "1b911e08f991fde0ab85e246e97ccc08cda8448802472d3aa5a0d1ab9754af2b",
+    "index.html": "66462a5ed643b05b2acac9fcf53e5ba065c7c04445758cba3347857c71543ea4",
     "css/runtime-guards.css": "da2a02010ec7825568dafae2fb95b6cdc7cf36321f335375ad26ba5281492683",
-    "app.css": "73c372e20e188460b9eb91121374043c346ccfef21d165026916713993ab8069",
+    "app.css": "797f17b20db16257043375e4c63cffef877f049eb70a0710c18db9de98047ebe",
     "guided-tutorial.css": "044853cf630d434c58190c4cd3072aa7e700619cb16e70a2920f8e89fc7a880d",
     "consent.css": "edb1108d3d1554804ded22fc703c788e702ea439af068e1a04fdecd8a2f56c58",
     "conference-demo.css": "faa1c02bffb034000b95860e9f0b319ddb4d4a14178f9e180efb7abce2cbe1b3",
@@ -29,7 +29,7 @@
     "js/rating-controller.js": "4cb1aaac6fe565d4ebed237a3dfc579ea30bfedf23fb9749a182ad6afd868017",
     "js/rating-view.js": "9fec9ae4ae1f70a5ee0a7cd06f14c9a15b244eb551800e30f4bfc7911536111f",
     "conference-demo.js": "c958189fe84e8a81dbf3d8d29e6bfd795ac32c15c7451ca80a19c7634638a947",
-    "js/app.js": "d2c5ee3565ad2c82eeed52993c55bd49762669e27abc9e6e5f479992527b4b67",
+    "js/app.js": "fe1fb3f4e67d68bd16a0a2dc21ba42fecc359b4254d597312906e8c6edf55194",
     "storage-worker.js": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
     "vendor/pako-LICENSE": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539"
   },

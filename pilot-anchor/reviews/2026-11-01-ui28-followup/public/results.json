@@ -1,0 +1,192 @@
+{
+  "at": "2026-11-01T14:14:41.875Z",
+  "scope": "Public Chrome touch emulation; GET only; not physical Safari or Drive record verification",
+  "checks": [
+    {
+      "name": "iphone17 published UI28a without upload",
+      "pass": true
+    },
+    {
+      "name": "iphone17 eight choices in two columns",
+      "pass": true
+    },
+    {
+      "name": "iphone17 grip fits",
+      "pass": true,
+      "detail": {
+        "title": 93,
+        "step": 138.59375,
+        "body": 170.59375,
+        "overflow": 0,
+        "nextBottom": 590.84375,
+        "height": 759
+      }
+    },
+    {
+      "name": "iphone17 optional field accepts empty answer",
+      "pass": true
+    },
+    {
+      "name": "iphone17 other fits after input",
+      "pass": true,
+      "detail": {
+        "title": 93,
+        "step": 138.59375,
+        "body": 170.59375,
+        "overflow": 0,
+        "nextBottom": 669.6875,
+        "height": 759
+      }
+    },
+    {
+      "name": "iphone17 title counter and body match second page",
+      "pass": true,
+      "detail": {
+        "grip": {
+          "title": 93,
+          "step": 138.59375,
+          "body": 170.59375,
+          "overflow": 0,
+          "nextBottom": 590.84375,
+          "height": 759
+        },
+        "second": {
+          "title": 93,
+          "step": 138.59375,
+          "body": 170.59375,
+          "overflow": 0,
+          "nextBottom": 587.9375,
+          "height": 759
+        }
+      }
+    },
+    {
+      "name": "mini published UI28a without upload",
+      "pass": true
+    },
+    {
+      "name": "mini eight choices in two columns",
+      "pass": true
+    },
+    {
+      "name": "mini grip fits",
+      "pass": true,
+      "detail": {
+        "title": 24,
+        "step": 69.59375,
+        "body": 101.59375,
+        "overflow": 0,
+        "nextBottom": 521.84375,
+        "height": 700
+      }
+    },
+    {
+      "name": "mini optional field accepts empty answer",
+      "pass": true
+    },
+    {
+      "name": "mini other fits after input",
+      "pass": true,
+      "detail": {
+        "title": 24,
+        "step": 69.59375,
+        "body": 101.59375,
+        "overflow": 0,
+        "nextBottom": 600.6875,
+        "height": 700
+      }
+    },
+    {
+      "name": "mini title counter and body match second page",
+      "pass": true,
+      "detail": {
+        "grip": {
+          "title": 24,
+          "step": 69.59375,
+          "body": 101.59375,
+          "overflow": 0,
+          "nextBottom": 521.84375,
+          "height": 700
+        },
+        "second": {
+          "title": 24,
+          "step": 69.59375,
+          "body": 101.59375,
+          "overflow": 0,
+          "nextBottom": 518.9375,
+          "height": 700
+        }
+      }
+    },
+    {
+      "name": "ipad published UI28a without upload",
+      "pass": true
+    },
+    {
+      "name": "ipad eight choices in two columns",
+      "pass": true
+    },
+    {
+      "name": "ipad grip fits",
+      "pass": true,
+      "detail": {
+        "title": 160,
+        "step": 225.75,
+        "body": 272.140625,
+        "overflow": 0,
+        "nextBottom": 787.640625,
+        "height": 1024
+      }
+    },
+    {
+      "name": "ipad optional field accepts empty answer",
+      "pass": true
+    },
+    {
+      "name": "ipad other fits after input",
+      "pass": true,
+      "detail": {
+        "title": 160,
+        "step": 225.75,
+        "body": 272.140625,
+        "overflow": 0,
+        "nextBottom": 907.421875,
+        "height": 1024
+      }
+    },
+    {
+      "name": "ipad title counter and body match second page",
+      "pass": true,
+      "detail": {
+        "grip": {
+          "title": 160,
+          "step": 225.75,
+          "body": 272.140625,
+          "overflow": 0,
+          "nextBottom": 787.640625,
+          "height": 1024
+        },
+        "second": {
+          "title": 160,
+          "step": 225.75,
+          "body": 272.140625,
+          "overflow": 0,
+          "nextBottom": 834.171875,
+          "height": 1024
+        }
+      }
+    },
+    {
+      "name": "no JavaScript errors",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "no upload or external request",
+      "pass": true,
+      "detail": []
+    }
+  ],
+  "errors": [],
+  "blocked": []
+}
