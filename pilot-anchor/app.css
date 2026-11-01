@@ -171,7 +171,7 @@
   .guided-intro-card p { font-size: 16px; line-height: 1.6; margin: 0 0 14px; }
   .guided-intro-card .guided-intro-op { color: var(--go); font-weight: 700; margin-bottom: 0; }
   #guidedIntroGo { position: absolute; left: 16px; right: 16px; top: calc(88% - 8vmin - 28px); }
-  #guidedIntroGo.flash { animation: btnNudge .5s ease-in-out; }
+  #guidedIntroGo.flash, #blockintroGo.flash { animation: btnNudge .5s ease-in-out; }
   /* 設問ステム (文字2択ブロックで上部中央に固定。数値ブロックでは空=非表示)。
      topbar(5%) と選択肢(--choice-top=27%) の間に収める。 */
   #stem { position: absolute; top: 6%; left: 5%; right: 5%; height: 19%;

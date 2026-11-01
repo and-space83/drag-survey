@@ -1,0 +1,2119 @@
+{
+  "at": "2026-11-01T16:13:12.784Z",
+  "scope": "Synthetic, in-memory route, no remote writes; Chrome emulation",
+  "source": {
+    "index.html": "875c0adcf2b6e8e58977bb3d6f64c785ee9cf893f867679707f744c67534a178",
+    "css/runtime-guards.css": "da2a02010ec7825568dafae2fb95b6cdc7cf36321f335375ad26ba5281492683",
+    "app.css": "2b24a0e3054a00c814af283c2414877395aa34acbaa37931895a33a5522bdbf3",
+    "guided-tutorial.css": "044853cf630d434c58190c4cd3072aa7e700619cb16e70a2920f8e89fc7a880d",
+    "consent.css": "edb1108d3d1554804ded22fc703c788e702ea439af068e1a04fdecd8a2f56c58",
+    "conference-demo.css": "faa1c02bffb034000b95860e9f0b319ddb4d4a14178f9e180efb7abce2cbe1b3",
+    "js/runtime-guards.js": "f7648083aab79c08bdb07e25d041e32b53e8626880f18b4bac8fb9bfca14a26b",
+    "bank.js": "f491e1508a4c9b1338b3ffb568ac21a0837deeec8c13fc2658b2eedf5c1ca01e",
+    "guided-tutorial.js": "f2ece5f2457364f8072796585ac8e42b49c84aa2070f5bc25e35c497b2209841",
+    "js/tutorial-visuals.js": "ed55c03f813365920f0d4e0fe2fe5dc6052e7369137bb46ad17e72d8a02dac8d",
+    "js/tutorial-view.js": "b096c17033759fa576daeee72d56648d6483e8589be8788682480c393f20918e",
+    "js/tutorial-controller.js": "f8e45d35c9483e142f17802ca2400ee4d8709bb669c218912bcaeded90ba221f",
+    "vendor/pako.min.js": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
+    "data-codec.js": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
+    "consent.js": "6dae132f66dc20526ae6e79c59c6ff12049a75a1b11161b6815bfa1339a14bd9",
+    "session-store.js": "ced8a7c7ea0bd00efcafaff0ae9588bbb1d372a77e93863d4d5b61bc8a726dcd",
+    "durable-storage.js": "84d006f048e2cc16c4a7a7087ec5815485c0b3a7d2ffa4ce6b7b62905dde967b",
+    "staged-delivery.js": "7f37d628ce04dc47233b16387d43add674608d278030dd17355621745ab9f7ad",
+    "js/trial-recorder.js": "7c2685e11846e047be141e0640478405bcd08f05e3225a45ec013c8187fc2337",
+    "js/reading-policy.js": "20a99e9b828608fb5202fb10ee894c093f6606ec066548f98ca3e9bc411b7731",
+    "js/explanation-telemetry.js": "ae5b8ca6b208b86166d62fd58b014f69d360ce4fa533383d2406cab206231b53",
+    "js/choice-controls.js": "8512245653df94475a9d121dac340cd13dd1460ee96af3b85b9e95ad26e5f70e",
+    "js/instruction-notice-view.js": "8996b24a2b97aa2a58607006e63d561bdfd0faa23ae8f310ab5740c4919b8a67",
+    "js/rating-content.js": "25a015acb87fb7f990725c68a669e84d521a5bacff0d288c1ab4d65783e87f2c",
+    "js/rating-controller.js": "4cb1aaac6fe565d4ebed237a3dfc579ea30bfedf23fb9749a182ad6afd868017",
+    "js/rating-view.js": "9fec9ae4ae1f70a5ee0a7cd06f14c9a15b244eb551800e30f4bfc7911536111f",
+    "conference-demo.js": "c958189fe84e8a81dbf3d8d29e6bfd795ac32c15c7451ca80a19c7634638a947",
+    "js/app.js": "920af43e0bab580cd806f83be247c13409d231be894535b6da9d1e79fe88c868",
+    "storage-worker.js": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
+    "vendor/pako-LICENSE": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539"
+  },
+  "checks": [
+    {
+      "name": "additional intro says 49",
+      "pass": true
+    },
+    {
+      "name": "counter 1",
+      "pass": true
+    },
+    {
+      "name": "counter 2",
+      "pass": true
+    },
+    {
+      "name": "counter 3",
+      "pass": true
+    },
+    {
+      "name": "counter 4",
+      "pass": true
+    },
+    {
+      "name": "counter 5",
+      "pass": true
+    },
+    {
+      "name": "counter 6",
+      "pass": true
+    },
+    {
+      "name": "counter 7",
+      "pass": true
+    },
+    {
+      "name": "counter 8",
+      "pass": true
+    },
+    {
+      "name": "counter 9",
+      "pass": true
+    },
+    {
+      "name": "counter 10",
+      "pass": true
+    },
+    {
+      "name": "counter 11",
+      "pass": true
+    },
+    {
+      "name": "counter 12",
+      "pass": true
+    },
+    {
+      "name": "counter 13",
+      "pass": true
+    },
+    {
+      "name": "counter 14",
+      "pass": true
+    },
+    {
+      "name": "counter 15",
+      "pass": true
+    },
+    {
+      "name": "counter 16",
+      "pass": true
+    },
+    {
+      "name": "counter 17",
+      "pass": true
+    },
+    {
+      "name": "counter 18",
+      "pass": true
+    },
+    {
+      "name": "counter 19",
+      "pass": true
+    },
+    {
+      "name": "counter 20",
+      "pass": true
+    },
+    {
+      "name": "counter 21",
+      "pass": true
+    },
+    {
+      "name": "counter 22",
+      "pass": true
+    },
+    {
+      "name": "counter 23",
+      "pass": true
+    },
+    {
+      "name": "counter 24",
+      "pass": true
+    },
+    {
+      "name": "counter 25",
+      "pass": true
+    },
+    {
+      "name": "counter 26",
+      "pass": true
+    },
+    {
+      "name": "counter 27",
+      "pass": true
+    },
+    {
+      "name": "counter 28",
+      "pass": true
+    },
+    {
+      "name": "counter 29",
+      "pass": true
+    },
+    {
+      "name": "counter 30",
+      "pass": true
+    },
+    {
+      "name": "counter 31",
+      "pass": true
+    },
+    {
+      "name": "counter 32",
+      "pass": true
+    },
+    {
+      "name": "counter 33",
+      "pass": true
+    },
+    {
+      "name": "counter 34",
+      "pass": true
+    },
+    {
+      "name": "counter 35",
+      "pass": true
+    },
+    {
+      "name": "counter 36",
+      "pass": true
+    },
+    {
+      "name": "counter 37",
+      "pass": true
+    },
+    {
+      "name": "counter 38",
+      "pass": true
+    },
+    {
+      "name": "counter 39",
+      "pass": true
+    },
+    {
+      "name": "counter 40",
+      "pass": true
+    },
+    {
+      "name": "counter 41",
+      "pass": true
+    },
+    {
+      "name": "counter 42",
+      "pass": true
+    },
+    {
+      "name": "counter 43",
+      "pass": true
+    },
+    {
+      "name": "counter 44",
+      "pass": true
+    },
+    {
+      "name": "counter 45",
+      "pass": true
+    },
+    {
+      "name": "counter 46",
+      "pass": true
+    },
+    {
+      "name": "counter 47",
+      "pass": true
+    },
+    {
+      "name": "counter 48",
+      "pass": true
+    },
+    {
+      "name": "counter 49",
+      "pass": true
+    },
+    {
+      "name": "49 unique matched items, no ratings or checks",
+      "pass": true
+    },
+    {
+      "name": "saved additional count/plan",
+      "pass": true
+    },
+    {
+      "name": "normal early flag + no late notice",
+      "pass": true,
+      "detail": {
+        "trial": {
+          "index": 1,
+          "trialOrdinal": 1,
+          "attemptNumber": 1,
+          "timeOrigin": 1793549562173,
+          "phase": "main",
+          "block": "moral",
+          "stimulusType": "text-choice",
+          "pointerType": "touch",
+          "moralType": "loyalty",
+          "conflictLevel": "conflict",
+          "itemId": "loyalty-conflict-3",
+          "leftLabel": "息子に継がせる",
+          "rightLabel": "弟子に継がせる",
+          "leftItemId": "a",
+          "rightItemId": "b",
+          "betterSide": null,
+          "tags": {
+            "weight": "重",
+            "escape": "封鎖",
+            "split": "割れる"
+          },
+          "stem": "あなたは体を壊し、工房を譲ると決めた。継げるのは1人。10年支え続けた弟子は腕も立つ。そこへ息子が家族を連れ「継ぎたい」と帰ってきた。",
+          "post_check": false,
+          "post_resume": false,
+          "choiceSide": "left",
+          "correct": null,
+          "stimulusOnsetT": 310.89999997615814,
+          "startPressT": 325.39999997615814,
+          "preStartMs": 14.5,
+          "revealT": 325.39999997615814,
+          "revealXY": {
+            "x": 201,
+            "y": 635.77
+          },
+          "stopsAfterInit": {
+            "n": 0,
+            "ms": 0,
+            "maxMs": 0
+          },
+          "stopFlag": false,
+          "lateStart": false,
+          "stopNotice": false,
+          "initiationT": 337.19999998807907,
+          "responseT": 468,
+          "rt_ms": 11.8,
+          "rt_proxy_ms": 11.8,
+          "mt_proxy_ms": 130.8,
+          "total_ms": 142.6,
+          "dispHz": 30.8,
+          "nDispatched": 4,
+          "nCoalesced": 4,
+          "aborts": 0,
+          "ratings": {
+            "confidence": null,
+            "hesitation": null
+          },
+          "geom": {
+            "surface": {
+              "w": 402,
+              "h": 759
+            },
+            "start": {
+              "cx": 201,
+              "cy": 635.765625
+            },
+            "A": {
+              "cx": 96.4765625,
+              "cy": 257.1796875,
+              "w": 160.796875,
+              "h": 104.515625
+            },
+            "B": {
+              "cx": 305.5234375,
+              "cy": 257.1796875,
+              "w": 160.796875,
+              "h": 104.515625
+            },
+            "dpr": 1
+          },
+          "events": [
+            {
+              "seq": 0,
+              "t": 325.39999997615814,
+              "x": 201,
+              "y": 635.77,
+              "type": "down"
+            },
+            {
+              "seq": 1,
+              "t": 325.39999997615814,
+              "x": 201,
+              "y": 635.77,
+              "type": "reveal"
+            },
+            {
+              "seq": 2,
+              "t": 337.19999998807907,
+              "x": 174.87,
+              "y": 541.12,
+              "type": "coalesced"
+            },
+            {
+              "seq": 3,
+              "t": 337.19999998807907,
+              "x": 174.87,
+              "y": 541.12,
+              "type": "dispatched"
+            },
+            {
+              "seq": 4,
+              "t": 368,
+              "x": 148.74,
+              "y": 446.47,
+              "type": "coalesced"
+            },
+            {
+              "seq": 5,
+              "t": 368,
+              "x": 148.74,
+              "y": 446.47,
+              "type": "dispatched"
+            },
+            {
+              "seq": 6,
+              "t": 401.30000001192093,
+              "x": 122.61,
+              "y": 351.83,
+              "type": "coalesced"
+            },
+            {
+              "seq": 7,
+              "t": 401.30000001192093,
+              "x": 122.61,
+              "y": 351.83,
+              "type": "dispatched"
+            },
+            {
+              "seq": 8,
+              "t": 434.5999999642372,
+              "x": 96.48,
+              "y": 257.18,
+              "type": "coalesced"
+            },
+            {
+              "seq": 9,
+              "t": 434.5999999642372,
+              "x": 96.48,
+              "y": 257.18,
+              "type": "dispatched"
+            },
+            {
+              "seq": 10,
+              "t": 468,
+              "x": 96.48,
+              "y": 257.18,
+              "type": "up"
+            }
+          ],
+          "stemChars": 67,
+          "earlyCps": 30,
+          "earlyThresholdMs": 2233.3333333333335,
+          "earlyStart": true,
+          "noise": null,
+          "vis": {
+            "count": 0,
+            "totalMs": 0
+          },
+          "readingNoticeEligible": true,
+          "ratingBacks": 0
+        },
+        "notice": "early"
+      }
+    },
+    {
+      "name": "normal early flag + late notice",
+      "pass": true,
+      "detail": {
+        "trial": {
+          "index": 1,
+          "trialOrdinal": 1,
+          "attemptNumber": 1,
+          "timeOrigin": 1793549562942.6,
+          "phase": "main",
+          "block": "moral",
+          "stimulusType": "text-choice",
+          "pointerType": "touch",
+          "moralType": "honesty",
+          "conflictLevel": "conflict",
+          "itemId": "honesty-conflict-4",
+          "leftLabel": "変えて読む",
+          "rightLabel": "そのまま読む",
+          "leftItemId": "b",
+          "rightItemId": "a",
+          "betterSide": null,
+          "tags": {
+            "weight": "重",
+            "escape": "封鎖",
+            "split": "割れる"
+          },
+          "stem": "目の悪い祖母に、絶縁した叔父から手紙が届いた。祖母を責める言葉ばかりだが、隠し事の嫌いな本人は「全部そのまま読んでおくれ」と言う。",
+          "post_check": false,
+          "post_resume": false,
+          "choiceSide": "left",
+          "correct": null,
+          "stimulusOnsetT": 269.10000002384186,
+          "startPressT": 279,
+          "preStartMs": 9.9,
+          "revealT": 279,
+          "revealXY": {
+            "x": 201,
+            "y": 635.77
+          },
+          "stopsAfterInit": {
+            "n": 0,
+            "ms": 0,
+            "maxMs": 0
+          },
+          "stopFlag": false,
+          "lateStart": true,
+          "stopNotice": false,
+          "initiationT": 3445.400000035763,
+          "responseT": 3558.400000035763,
+          "rt_ms": 3166.4,
+          "rt_proxy_ms": 3166.4,
+          "mt_proxy_ms": 113,
+          "total_ms": 3279.4,
+          "dispHz": 37.7,
+          "nDispatched": 4,
+          "nCoalesced": 4,
+          "aborts": 0,
+          "ratings": {
+            "confidence": null,
+            "hesitation": null
+          },
+          "geom": {
+            "surface": {
+              "w": 402,
+              "h": 759
+            },
+            "start": {
+              "cx": 201,
+              "cy": 635.765625
+            },
+            "A": {
+              "cx": 96.4765625,
+              "cy": 257.1796875,
+              "w": 160.796875,
+              "h": 104.515625
+            },
+            "B": {
+              "cx": 305.5234375,
+              "cy": 257.1796875,
+              "w": 160.796875,
+              "h": 104.515625
+            },
+            "dpr": 1
+          },
+          "events": [
+            {
+              "seq": 0,
+              "t": 279,
+              "x": 201,
+              "y": 635.77,
+              "type": "down"
+            },
+            {
+              "seq": 1,
+              "t": 279,
+              "x": 201,
+              "y": 635.77,
+              "type": "reveal"
+            },
+            {
+              "seq": 2,
+              "t": 3445.400000035763,
+              "x": 174.87,
+              "y": 541.12,
+              "type": "coalesced"
+            },
+            {
+              "seq": 3,
+              "t": 3445.400000035763,
+              "x": 174.87,
+              "y": 541.12,
+              "type": "dispatched"
+            },
+            {
+              "seq": 4,
+              "t": 3458.100000023842,
+              "x": 148.74,
+              "y": 446.47,
+              "type": "coalesced"
+            },
+            {
+              "seq": 5,
+              "t": 3458.100000023842,
+              "x": 148.74,
+              "y": 446.47,
+              "type": "dispatched"
+            },
+            {
+              "seq": 6,
+              "t": 3491,
+              "x": 122.61,
+              "y": 351.83,
+              "type": "coalesced"
+            },
+            {
+              "seq": 7,
+              "t": 3491,
+              "x": 122.61,
+              "y": 351.83,
+              "type": "dispatched"
+            },
+            {
+              "seq": 8,
+              "t": 3524.900000035763,
+              "x": 96.48,
+              "y": 257.18,
+              "type": "coalesced"
+            },
+            {
+              "seq": 9,
+              "t": 3524.900000035763,
+              "x": 96.48,
+              "y": 257.18,
+              "type": "dispatched"
+            },
+            {
+              "seq": 10,
+              "t": 3558.400000035763,
+              "x": 96.48,
+              "y": 257.18,
+              "type": "up"
+            }
+          ],
+          "stemChars": 65,
+          "earlyCps": 30,
+          "earlyThresholdMs": 2166.6666666666665,
+          "earlyStart": true,
+          "noise": null,
+          "vis": {
+            "count": 0,
+            "totalMs": 0
+          },
+          "readingNoticeEligible": true,
+          "ratingBacks": 0
+        },
+        "notice": "early_late"
+      }
+    },
+    {
+      "name": "dqs early flag + no late notice",
+      "pass": true,
+      "detail": {
+        "trial": {
+          "index": 1,
+          "trialOrdinal": 1,
+          "attemptNumber": 1,
+          "timeOrigin": 1793549566805.1,
+          "phase": "main",
+          "block": "moral",
+          "stimulusType": "text-choice",
+          "pointerType": "touch",
+          "isCheck": "dqs",
+          "checkAnswerSide": "left",
+          "leftLabel": "りんご",
+          "rightLabel": "みかん",
+          "stem": "確認のため、ここでは【左】の選択肢を選んでください",
+          "post_check": false,
+          "post_resume": false,
+          "choiceSide": "left",
+          "correct": true,
+          "stimulusOnsetT": 302.19999998807907,
+          "startPressT": 316.0999999642372,
+          "preStartMs": 13.9,
+          "revealT": 316.0999999642372,
+          "revealXY": {
+            "x": 201,
+            "y": 635.77
+          },
+          "stopsAfterInit": {
+            "n": 0,
+            "ms": 0,
+            "maxMs": 0
+          },
+          "stopFlag": false,
+          "lateStart": false,
+          "stopNotice": false,
+          "initiationT": 334.0999999642372,
+          "responseT": 465.2999999523163,
+          "rt_ms": 18,
+          "rt_proxy_ms": 18,
+          "mt_proxy_ms": 131.2,
+          "total_ms": 149.2,
+          "dispHz": 31.1,
+          "nDispatched": 4,
+          "nCoalesced": 4,
+          "aborts": 0,
+          "ratings": {
+            "confidence": null,
+            "hesitation": null
+          },
+          "geom": {
+            "surface": {
+              "w": 402,
+              "h": 759
+            },
+            "start": {
+              "cx": 201,
+              "cy": 635.765625
+            },
+            "A": {
+              "cx": 96.4765625,
+              "cy": 257.1796875,
+              "w": 160.796875,
+              "h": 104.515625
+            },
+            "B": {
+              "cx": 305.5234375,
+              "cy": 257.1796875,
+              "w": 160.796875,
+              "h": 104.515625
+            },
+            "dpr": 1
+          },
+          "events": [
+            {
+              "seq": 0,
+              "t": 316.0999999642372,
+              "x": 201,
+              "y": 635.77,
+              "type": "down"
+            },
+            {
+              "seq": 1,
+              "t": 316.0999999642372,
+              "x": 201,
+              "y": 635.77,
+              "type": "reveal"
+            },
+            {
+              "seq": 2,
+              "t": 334.0999999642372,
+              "x": 174.87,
+              "y": 541.12,
+              "type": "coalesced"
+            },
+            {
+              "seq": 3,
+              "t": 334.0999999642372,
+              "x": 174.87,
+              "y": 541.12,
+              "type": "dispatched"
+            },
+            {
+              "seq": 4,
+              "t": 364.2999999523163,
+              "x": 148.74,
+              "y": 446.47,
+              "type": "coalesced"
+            },
+            {
+              "seq": 5,
+              "t": 364.2999999523163,
+              "x": 148.74,
+              "y": 446.47,
+              "type": "dispatched"
+            },
+            {
+              "seq": 6,
+              "t": 397.69999998807907,
+              "x": 122.61,
+              "y": 351.83,
+              "type": "coalesced"
+            },
+            {
+              "seq": 7,
+              "t": 397.69999998807907,
+              "x": 122.61,
+              "y": 351.83,
+              "type": "dispatched"
+            },
+            {
+              "seq": 8,
+              "t": 430.5,
+              "x": 96.48,
+              "y": 257.18,
+              "type": "coalesced"
+            },
+            {
+              "seq": 9,
+              "t": 430.5,
+              "x": 96.48,
+              "y": 257.18,
+              "type": "dispatched"
+            },
+            {
+              "seq": 10,
+              "t": 465.2999999523163,
+              "x": 96.48,
+              "y": 257.18,
+              "type": "up"
+            }
+          ],
+          "stemChars": 25,
+          "earlyCps": 30,
+          "earlyThresholdMs": 833.3333333333334,
+          "earlyStart": true,
+          "noise": null,
+          "vis": {
+            "count": 0,
+            "totalMs": 0
+          },
+          "readingNoticeEligible": false,
+          "ratingBacks": 0
+        },
+        "notice": null
+      }
+    },
+    {
+      "name": "dqs early flag + late notice",
+      "pass": true,
+      "detail": {
+        "trial": {
+          "index": 1,
+          "trialOrdinal": 1,
+          "attemptNumber": 1,
+          "timeOrigin": 1793549567625.2,
+          "phase": "main",
+          "block": "moral",
+          "stimulusType": "text-choice",
+          "pointerType": "touch",
+          "isCheck": "dqs",
+          "checkAnswerSide": "left",
+          "leftLabel": "りんご",
+          "rightLabel": "みかん",
+          "stem": "確認のため、ここでは【左】の選択肢を選んでください",
+          "post_check": false,
+          "post_resume": false,
+          "choiceSide": "left",
+          "correct": true,
+          "stimulusOnsetT": 340.5,
+          "startPressT": 353.69999998807907,
+          "preStartMs": 13.2,
+          "revealT": 353.69999998807907,
+          "revealXY": {
+            "x": 201,
+            "y": 635.77
+          },
+          "stopsAfterInit": {
+            "n": 0,
+            "ms": 0,
+            "maxMs": 0
+          },
+          "stopFlag": false,
+          "lateStart": true,
+          "stopNotice": false,
+          "initiationT": 3527.199999988079,
+          "responseT": 3637.5,
+          "rt_ms": 3173.5,
+          "rt_proxy_ms": 3173.5,
+          "mt_proxy_ms": 110.3,
+          "total_ms": 3283.8,
+          "dispHz": 38.9,
+          "nDispatched": 4,
+          "nCoalesced": 4,
+          "aborts": 0,
+          "ratings": {
+            "confidence": null,
+            "hesitation": null
+          },
+          "geom": {
+            "surface": {
+              "w": 402,
+              "h": 759
+            },
+            "start": {
+              "cx": 201,
+              "cy": 635.765625
+            },
+            "A": {
+              "cx": 96.4765625,
+              "cy": 257.1796875,
+              "w": 160.796875,
+              "h": 104.515625
+            },
+            "B": {
+              "cx": 305.5234375,
+              "cy": 257.1796875,
+              "w": 160.796875,
+              "h": 104.515625
+            },
+            "dpr": 1
+          },
+          "events": [
+            {
+              "seq": 0,
+              "t": 353.69999998807907,
+              "x": 201,
+              "y": 635.77,
+              "type": "down"
+            },
+            {
+              "seq": 1,
+              "t": 353.69999998807907,
+              "x": 201,
+              "y": 635.77,
+              "type": "reveal"
+            },
+            {
+              "seq": 2,
+              "t": 3527.199999988079,
+              "x": 174.87,
+              "y": 541.12,
+              "type": "coalesced"
+            },
+            {
+              "seq": 3,
+              "t": 3527.199999988079,
+              "x": 174.87,
+              "y": 541.12,
+              "type": "dispatched"
+            },
+            {
+              "seq": 4,
+              "t": 3537.400000035763,
+              "x": 148.74,
+              "y": 446.47,
+              "type": "coalesced"
+            },
+            {
+              "seq": 5,
+              "t": 3537.400000035763,
+              "x": 148.74,
+              "y": 446.47,
+              "type": "dispatched"
+            },
+            {
+              "seq": 6,
+              "t": 3572,
+              "x": 122.61,
+              "y": 351.83,
+              "type": "coalesced"
+            },
+            {
+              "seq": 7,
+              "t": 3572,
+              "x": 122.61,
+              "y": 351.83,
+              "type": "dispatched"
+            },
+            {
+              "seq": 8,
+              "t": 3604.300000011921,
+              "x": 96.48,
+              "y": 257.18,
+              "type": "coalesced"
+            },
+            {
+              "seq": 9,
+              "t": 3604.300000011921,
+              "x": 96.48,
+              "y": 257.18,
+              "type": "dispatched"
+            },
+            {
+              "seq": 10,
+              "t": 3637.5,
+              "x": 96.48,
+              "y": 257.18,
+              "type": "up"
+            }
+          ],
+          "stemChars": 25,
+          "earlyCps": 30,
+          "earlyThresholdMs": 833.3333333333334,
+          "earlyStart": true,
+          "noise": null,
+          "vis": {
+            "count": 0,
+            "totalMs": 0
+          },
+          "readingNoticeEligible": false,
+          "ratingBacks": 0
+        },
+        "notice": "late"
+      }
+    },
+    {
+      "name": "infreq early flag + no late notice",
+      "pass": true,
+      "detail": {
+        "trial": {
+          "index": 1,
+          "trialOrdinal": 1,
+          "attemptNumber": 1,
+          "timeOrigin": 1793549571705.3,
+          "phase": "main",
+          "block": "moral",
+          "stimulusType": "text-choice",
+          "pointerType": "touch",
+          "isCheck": "infreq",
+          "checkAnswerSide": "left",
+          "leftLabel": "いいえ",
+          "rightLabel": "はい",
+          "stem": "私はこれまで一度もスマートフォンを使ったことがない",
+          "post_check": false,
+          "post_resume": false,
+          "choiceSide": "left",
+          "correct": true,
+          "stimulusOnsetT": 347.10000002384186,
+          "startPressT": 364.4000000357628,
+          "preStartMs": 17.3,
+          "revealT": 364.4000000357628,
+          "revealXY": {
+            "x": 201,
+            "y": 635.77
+          },
+          "stopsAfterInit": {
+            "n": 0,
+            "ms": 0,
+            "maxMs": 0
+          },
+          "stopFlag": false,
+          "lateStart": false,
+          "stopNotice": false,
+          "initiationT": 379.7000000476837,
+          "responseT": 511.2000000476837,
+          "rt_ms": 15.3,
+          "rt_proxy_ms": 15.3,
+          "mt_proxy_ms": 131.5,
+          "total_ms": 146.8,
+          "dispHz": 31,
+          "nDispatched": 4,
+          "nCoalesced": 4,
+          "aborts": 0,
+          "ratings": {
+            "confidence": null,
+            "hesitation": null
+          },
+          "geom": {
+            "surface": {
+              "w": 402,
+              "h": 759
+            },
+            "start": {
+              "cx": 201,
+              "cy": 635.765625
+            },
+            "A": {
+              "cx": 96.4765625,
+              "cy": 257.1796875,
+              "w": 160.796875,
+              "h": 104.515625
+            },
+            "B": {
+              "cx": 305.5234375,
+              "cy": 257.1796875,
+              "w": 160.796875,
+              "h": 104.515625
+            },
+            "dpr": 1
+          },
+          "events": [
+            {
+              "seq": 0,
+              "t": 364.4000000357628,
+              "x": 201,
+              "y": 635.77,
+              "type": "down"
+            },
+            {
+              "seq": 1,
+              "t": 364.4000000357628,
+              "x": 201,
+              "y": 635.77,
+              "type": "reveal"
+            },
+            {
+              "seq": 2,
+              "t": 379.7000000476837,
+              "x": 174.87,
+              "y": 541.12,
+              "type": "coalesced"
+            },
+            {
+              "seq": 3,
+              "t": 379.7000000476837,
+              "x": 174.87,
+              "y": 541.12,
+              "type": "dispatched"
+            },
+            {
+              "seq": 4,
+              "t": 410.80000001192093,
+              "x": 148.74,
+              "y": 446.47,
+              "type": "coalesced"
+            },
+            {
+              "seq": 5,
+              "t": 410.80000001192093,
+              "x": 148.74,
+              "y": 446.47,
+              "type": "dispatched"
+            },
+            {
+              "seq": 6,
+              "t": 443.4000000357628,
+              "x": 122.61,
+              "y": 351.83,
+              "type": "coalesced"
+            },
+            {
+              "seq": 7,
+              "t": 443.4000000357628,
+              "x": 122.61,
+              "y": 351.83,
+              "type": "dispatched"
+            },
+            {
+              "seq": 8,
+              "t": 476.60000002384186,
+              "x": 96.48,
+              "y": 257.18,
+              "type": "coalesced"
+            },
+            {
+              "seq": 9,
+              "t": 476.60000002384186,
+              "x": 96.48,
+              "y": 257.18,
+              "type": "dispatched"
+            },
+            {
+              "seq": 10,
+              "t": 511.2000000476837,
+              "x": 96.48,
+              "y": 257.18,
+              "type": "up"
+            }
+          ],
+          "stemChars": 25,
+          "earlyCps": 30,
+          "earlyThresholdMs": 833.3333333333334,
+          "earlyStart": true,
+          "noise": null,
+          "vis": {
+            "count": 0,
+            "totalMs": 0
+          },
+          "readingNoticeEligible": false,
+          "ratingBacks": 0
+        },
+        "notice": null
+      }
+    },
+    {
+      "name": "infreq early flag + late notice",
+      "pass": true,
+      "detail": {
+        "trial": {
+          "index": 1,
+          "trialOrdinal": 1,
+          "attemptNumber": 1,
+          "timeOrigin": 1793549572624.9,
+          "phase": "main",
+          "block": "moral",
+          "stimulusType": "text-choice",
+          "pointerType": "touch",
+          "isCheck": "infreq",
+          "checkAnswerSide": "right",
+          "leftLabel": "はい",
+          "rightLabel": "いいえ",
+          "stem": "私はこれまで一度もスマートフォンを使ったことがない",
+          "post_check": false,
+          "post_resume": false,
+          "choiceSide": "left",
+          "correct": false,
+          "stimulusOnsetT": 305.5,
+          "startPressT": 316,
+          "preStartMs": 10.5,
+          "revealT": 316,
+          "revealXY": {
+            "x": 201,
+            "y": 635.77
+          },
+          "stopsAfterInit": {
+            "n": 0,
+            "ms": 0,
+            "maxMs": 0
+          },
+          "stopFlag": false,
+          "lateStart": true,
+          "stopNotice": false,
+          "initiationT": 3484.300000011921,
+          "responseT": 3600.5,
+          "rt_ms": 3168.3,
+          "rt_proxy_ms": 3168.3,
+          "mt_proxy_ms": 116.2,
+          "total_ms": 3284.5,
+          "dispHz": 36.4,
+          "nDispatched": 4,
+          "nCoalesced": 4,
+          "aborts": 0,
+          "ratings": {
+            "confidence": null,
+            "hesitation": null
+          },
+          "geom": {
+            "surface": {
+              "w": 402,
+              "h": 759
+            },
+            "start": {
+              "cx": 201,
+              "cy": 635.765625
+            },
+            "A": {
+              "cx": 96.4765625,
+              "cy": 257.1796875,
+              "w": 160.796875,
+              "h": 104.515625
+            },
+            "B": {
+              "cx": 305.5234375,
+              "cy": 257.1796875,
+              "w": 160.796875,
+              "h": 104.515625
+            },
+            "dpr": 1
+          },
+          "events": [
+            {
+              "seq": 0,
+              "t": 316,
+              "x": 201,
+              "y": 635.77,
+              "type": "down"
+            },
+            {
+              "seq": 1,
+              "t": 316,
+              "x": 201,
+              "y": 635.77,
+              "type": "reveal"
+            },
+            {
+              "seq": 2,
+              "t": 3484.300000011921,
+              "x": 174.87,
+              "y": 541.12,
+              "type": "coalesced"
+            },
+            {
+              "seq": 3,
+              "t": 3484.300000011921,
+              "x": 174.87,
+              "y": 541.12,
+              "type": "dispatched"
+            },
+            {
+              "seq": 4,
+              "t": 3502.199999988079,
+              "x": 148.74,
+              "y": 446.47,
+              "type": "coalesced"
+            },
+            {
+              "seq": 5,
+              "t": 3502.199999988079,
+              "x": 148.74,
+              "y": 446.47,
+              "type": "dispatched"
+            },
+            {
+              "seq": 6,
+              "t": 3541.899999976158,
+              "x": 122.61,
+              "y": 351.83,
+              "type": "coalesced"
+            },
+            {
+              "seq": 7,
+              "t": 3541.899999976158,
+              "x": 122.61,
+              "y": 351.83,
+              "type": "dispatched"
+            },
+            {
+              "seq": 8,
+              "t": 3566.800000011921,
+              "x": 96.48,
+              "y": 257.18,
+              "type": "coalesced"
+            },
+            {
+              "seq": 9,
+              "t": 3566.800000011921,
+              "x": 96.48,
+              "y": 257.18,
+              "type": "dispatched"
+            },
+            {
+              "seq": 10,
+              "t": 3600.5,
+              "x": 96.48,
+              "y": 257.18,
+              "type": "up"
+            }
+          ],
+          "stemChars": 25,
+          "earlyCps": 30,
+          "earlyThresholdMs": 833.3333333333334,
+          "earlyStart": true,
+          "noise": null,
+          "vis": {
+            "count": 0,
+            "totalMs": 0
+          },
+          "readingNoticeEligible": false,
+          "ratingBacks": 0
+        },
+        "notice": "late"
+      }
+    },
+    {
+      "name": "imc early flag + no late notice",
+      "pass": true,
+      "detail": {
+        "trial": {
+          "index": 1,
+          "trialOrdinal": 1,
+          "attemptNumber": 1,
+          "timeOrigin": 1793549576530.9,
+          "phase": "main",
+          "block": "moral",
+          "stimulusType": "text-choice",
+          "pointerType": "touch",
+          "isCheck": "imc",
+          "checkAnswerSide": "right",
+          "leftLabel": "はい",
+          "rightLabel": "いいえ",
+          "stem": "（よく読んでお答えください）ここまで読んだ方は、質問の内容にかかわらず「いいえ」を選んでください。あなたは今、集中して回答していますか？",
+          "post_check": false,
+          "post_resume": false,
+          "choiceSide": "left",
+          "correct": false,
+          "stimulusOnsetT": 291.2999999523163,
+          "startPressT": 308.89999997615814,
+          "preStartMs": 17.6,
+          "revealT": 308.89999997615814,
+          "revealXY": {
+            "x": 201,
+            "y": 635.77
+          },
+          "stopsAfterInit": {
+            "n": 0,
+            "ms": 0,
+            "maxMs": 0
+          },
+          "stopFlag": false,
+          "lateStart": false,
+          "stopNotice": false,
+          "initiationT": 316.0999999642372,
+          "responseT": 446.0999999642372,
+          "rt_ms": 7.2,
+          "rt_proxy_ms": 7.2,
+          "mt_proxy_ms": 130,
+          "total_ms": 137.2,
+          "dispHz": 31,
+          "nDispatched": 4,
+          "nCoalesced": 4,
+          "aborts": 0,
+          "ratings": {
+            "confidence": null,
+            "hesitation": null
+          },
+          "geom": {
+            "surface": {
+              "w": 402,
+              "h": 759
+            },
+            "start": {
+              "cx": 201,
+              "cy": 635.765625
+            },
+            "A": {
+              "cx": 96.4765625,
+              "cy": 257.1796875,
+              "w": 160.796875,
+              "h": 104.515625
+            },
+            "B": {
+              "cx": 305.5234375,
+              "cy": 257.1796875,
+              "w": 160.796875,
+              "h": 104.515625
+            },
+            "dpr": 1
+          },
+          "events": [
+            {
+              "seq": 0,
+              "t": 308.89999997615814,
+              "x": 201,
+              "y": 635.77,
+              "type": "down"
+            },
+            {
+              "seq": 1,
+              "t": 308.89999997615814,
+              "x": 201,
+              "y": 635.77,
+              "type": "reveal"
+            },
+            {
+              "seq": 2,
+              "t": 316.0999999642372,
+              "x": 174.87,
+              "y": 541.12,
+              "type": "coalesced"
+            },
+            {
+              "seq": 3,
+              "t": 316.0999999642372,
+              "x": 174.87,
+              "y": 541.12,
+              "type": "dispatched"
+            },
+            {
+              "seq": 4,
+              "t": 346.7999999523163,
+              "x": 148.74,
+              "y": 446.47,
+              "type": "coalesced"
+            },
+            {
+              "seq": 5,
+              "t": 346.7999999523163,
+              "x": 148.74,
+              "y": 446.47,
+              "type": "dispatched"
+            },
+            {
+              "seq": 6,
+              "t": 380,
+              "x": 122.61,
+              "y": 351.83,
+              "type": "coalesced"
+            },
+            {
+              "seq": 7,
+              "t": 380,
+              "x": 122.61,
+              "y": 351.83,
+              "type": "dispatched"
+            },
+            {
+              "seq": 8,
+              "t": 413,
+              "x": 96.48,
+              "y": 257.18,
+              "type": "coalesced"
+            },
+            {
+              "seq": 9,
+              "t": 413,
+              "x": 96.48,
+              "y": 257.18,
+              "type": "dispatched"
+            },
+            {
+              "seq": 10,
+              "t": 446.0999999642372,
+              "x": 96.48,
+              "y": 257.18,
+              "type": "up"
+            }
+          ],
+          "stemChars": 68,
+          "earlyCps": 30,
+          "earlyThresholdMs": 2266.6666666666665,
+          "earlyStart": true,
+          "noise": null,
+          "vis": {
+            "count": 0,
+            "totalMs": 0
+          },
+          "readingNoticeEligible": false,
+          "ratingBacks": 0
+        },
+        "notice": null
+      }
+    },
+    {
+      "name": "imc early flag + late notice",
+      "pass": true,
+      "detail": {
+        "trial": {
+          "index": 1,
+          "trialOrdinal": 1,
+          "attemptNumber": 1,
+          "timeOrigin": 1793549577359.3,
+          "phase": "main",
+          "block": "moral",
+          "stimulusType": "text-choice",
+          "pointerType": "touch",
+          "isCheck": "imc",
+          "checkAnswerSide": "right",
+          "leftLabel": "はい",
+          "rightLabel": "いいえ",
+          "stem": "（よく読んでお答えください）ここまで読んだ方は、質問の内容にかかわらず「いいえ」を選んでください。あなたは今、集中して回答していますか？",
+          "post_check": false,
+          "post_resume": false,
+          "choiceSide": "left",
+          "correct": false,
+          "stimulusOnsetT": 310.19999998807907,
+          "startPressT": 326.60000002384186,
+          "preStartMs": 16.4,
+          "revealT": 326.60000002384186,
+          "revealXY": {
+            "x": 201,
+            "y": 635.77
+          },
+          "stopsAfterInit": {
+            "n": 0,
+            "ms": 0,
+            "maxMs": 0
+          },
+          "stopFlag": false,
+          "lateStart": true,
+          "stopNotice": false,
+          "initiationT": 3499,
+          "responseT": 3613.800000011921,
+          "rt_ms": 3172.4,
+          "rt_proxy_ms": 3172.4,
+          "mt_proxy_ms": 114.8,
+          "total_ms": 3287.2,
+          "dispHz": 37.6,
+          "nDispatched": 4,
+          "nCoalesced": 4,
+          "aborts": 0,
+          "ratings": {
+            "confidence": null,
+            "hesitation": null
+          },
+          "geom": {
+            "surface": {
+              "w": 402,
+              "h": 759
+            },
+            "start": {
+              "cx": 201,
+              "cy": 635.765625
+            },
+            "A": {
+              "cx": 96.4765625,
+              "cy": 257.1796875,
+              "w": 160.796875,
+              "h": 104.515625
+            },
+            "B": {
+              "cx": 305.5234375,
+              "cy": 257.1796875,
+              "w": 160.796875,
+              "h": 104.515625
+            },
+            "dpr": 1
+          },
+          "events": [
+            {
+              "seq": 0,
+              "t": 326.60000002384186,
+              "x": 201,
+              "y": 635.77,
+              "type": "down"
+            },
+            {
+              "seq": 1,
+              "t": 326.60000002384186,
+              "x": 201,
+              "y": 635.77,
+              "type": "reveal"
+            },
+            {
+              "seq": 2,
+              "t": 3499,
+              "x": 174.87,
+              "y": 541.12,
+              "type": "coalesced"
+            },
+            {
+              "seq": 3,
+              "t": 3499,
+              "x": 174.87,
+              "y": 541.12,
+              "type": "dispatched"
+            },
+            {
+              "seq": 4,
+              "t": 3511,
+              "x": 148.74,
+              "y": 446.47,
+              "type": "coalesced"
+            },
+            {
+              "seq": 5,
+              "t": 3511,
+              "x": 148.74,
+              "y": 446.47,
+              "type": "dispatched"
+            },
+            {
+              "seq": 6,
+              "t": 3546.199999988079,
+              "x": 122.61,
+              "y": 351.83,
+              "type": "coalesced"
+            },
+            {
+              "seq": 7,
+              "t": 3546.199999988079,
+              "x": 122.61,
+              "y": 351.83,
+              "type": "dispatched"
+            },
+            {
+              "seq": 8,
+              "t": 3578.699999988079,
+              "x": 96.48,
+              "y": 257.18,
+              "type": "coalesced"
+            },
+            {
+              "seq": 9,
+              "t": 3578.699999988079,
+              "x": 96.48,
+              "y": 257.18,
+              "type": "dispatched"
+            },
+            {
+              "seq": 10,
+              "t": 3613.800000011921,
+              "x": 96.48,
+              "y": 257.18,
+              "type": "up"
+            }
+          ],
+          "stemChars": 68,
+          "earlyCps": 30,
+          "earlyThresholdMs": 2266.6666666666665,
+          "earlyStart": true,
+          "noise": null,
+          "vis": {
+            "count": 0,
+            "totalMs": 0
+          },
+          "readingNoticeEligible": false,
+          "ratingBacks": 0
+        },
+        "notice": "late"
+      }
+    },
+    {
+      "name": "real UI27 starts at 10",
+      "pass": true
+    },
+    {
+      "name": "legacy intro remains 10 after upgrade",
+      "pass": true
+    },
+    {
+      "name": "legacy version and selected 10 preserved",
+      "pass": true,
+      "detail": {
+        "n": 10,
+        "itemIds": [
+          "honesty-clear",
+          "loyalty-mid-2",
+          "promise-mid",
+          "privacy-conflict-2",
+          "promise-conflict-2",
+          "loyalty-mid",
+          "loyalty-conflict-2",
+          "promise-conflict",
+          "promise-conflict-4",
+          "sacrifice-conflict-3"
+        ],
+        "text": "さきほど答えた問題が10問もう一度出ます。今度は、問題文も選択肢も読まずに、適当に指を運んでください。どちらの選択肢でも構いません。前の答えを思い出す必要もありません。\n操作はこれまでと同じです。スタートボタンに指を置き、指を離さずにどちらかの選択肢のボックスまで運び、枠の中で離してください。問題文も選択肢も読まずに、適当に指を運んでください。振り返りの質問はありません。この追加課題の回答は謝礼に影響しません。終わると、最後のアンケートに進みます。",
+        "version": "2026-11-02-ui30",
+        "selection": "legacy-stratified-1-3-6"
+      }
+    },
+    {
+      "name": "legacy help says 10 and not 49",
+      "pass": true
+    },
+    {
+      "name": "UI28 resumes remaining 48 of 49",
+      "pass": true,
+      "detail": {
+        "n": 49,
+        "index": 1,
+        "queue": 47
+      }
+    },
+    {
+      "name": "legacy check pending notice filters only early false",
+      "pass": true,
+      "detail": {
+        "trial": {
+          "index": 1,
+          "trialOrdinal": 1,
+          "attemptNumber": 1,
+          "timeOrigin": 1793549585105.7,
+          "phase": "main",
+          "block": "moral",
+          "stimulusType": "text-choice",
+          "pointerType": "touch",
+          "isCheck": "dqs",
+          "checkAnswerSide": "left",
+          "leftLabel": "りんご",
+          "rightLabel": "みかん",
+          "stem": "確認のため、ここでは【左】の選択肢を選んでください",
+          "post_check": false,
+          "post_resume": false,
+          "choiceSide": "left",
+          "correct": true,
+          "stimulusOnsetT": 301.69999998807907,
+          "startPressT": 320.5,
+          "preStartMs": 18.8,
+          "revealT": 320.5,
+          "revealXY": {
+            "x": 201,
+            "y": 635.77
+          },
+          "stopsAfterInit": {
+            "n": 0,
+            "ms": 0,
+            "maxMs": 0
+          },
+          "stopFlag": false,
+          "lateStart": false,
+          "stopNotice": false,
+          "initiationT": 329.7999999523163,
+          "responseT": 459.19999998807907,
+          "rt_ms": 9.3,
+          "rt_proxy_ms": 9.3,
+          "mt_proxy_ms": 129.4,
+          "total_ms": 138.7,
+          "dispHz": 31.3,
+          "nDispatched": 4,
+          "nCoalesced": 4,
+          "aborts": 0,
+          "ratings": {
+            "confidence": null,
+            "hesitation": null
+          },
+          "geom": {
+            "surface": {
+              "w": 402,
+              "h": 759
+            },
+            "start": {
+              "cx": 201,
+              "cy": 635.765625
+            },
+            "A": {
+              "cx": 96.4765625,
+              "cy": 257.1796875,
+              "w": 160.796875,
+              "h": 104.515625
+            },
+            "B": {
+              "cx": 305.5234375,
+              "cy": 257.1796875,
+              "w": 160.796875,
+              "h": 104.515625
+            },
+            "dpr": 1
+          },
+          "events": [
+            {
+              "seq": 0,
+              "t": 320.5,
+              "x": 201,
+              "y": 635.77,
+              "type": "down"
+            },
+            {
+              "seq": 1,
+              "t": 320.5,
+              "x": 201,
+              "y": 635.77,
+              "type": "reveal"
+            },
+            {
+              "seq": 2,
+              "t": 329.7999999523163,
+              "x": 174.87,
+              "y": 541.12,
+              "type": "coalesced"
+            },
+            {
+              "seq": 3,
+              "t": 329.7999999523163,
+              "x": 174.87,
+              "y": 541.12,
+              "type": "dispatched"
+            },
+            {
+              "seq": 4,
+              "t": 359.0999999642372,
+              "x": 148.74,
+              "y": 446.47,
+              "type": "coalesced"
+            },
+            {
+              "seq": 5,
+              "t": 359.0999999642372,
+              "x": 148.74,
+              "y": 446.47,
+              "type": "dispatched"
+            },
+            {
+              "seq": 6,
+              "t": 393.5999999642372,
+              "x": 122.61,
+              "y": 351.83,
+              "type": "coalesced"
+            },
+            {
+              "seq": 7,
+              "t": 393.5999999642372,
+              "x": 122.61,
+              "y": 351.83,
+              "type": "dispatched"
+            },
+            {
+              "seq": 8,
+              "t": 425.69999998807907,
+              "x": 96.48,
+              "y": 257.18,
+              "type": "coalesced"
+            },
+            {
+              "seq": 9,
+              "t": 425.69999998807907,
+              "x": 96.48,
+              "y": 257.18,
+              "type": "dispatched"
+            },
+            {
+              "seq": 10,
+              "t": 459.19999998807907,
+              "x": 96.48,
+              "y": 257.18,
+              "type": "up"
+            }
+          ],
+          "stemChars": 25,
+          "earlyStart": true,
+          "noise": null,
+          "vis": {
+            "count": 0,
+            "totalMs": 0
+          },
+          "ratingBacks": 0,
+          "ratingResumes": 1
+        },
+        "notice": null
+      }
+    },
+    {
+      "name": "legacy check pending notice filters only early true",
+      "pass": true,
+      "detail": {
+        "trial": {
+          "index": 1,
+          "trialOrdinal": 1,
+          "attemptNumber": 1,
+          "timeOrigin": 1793549586899.4,
+          "phase": "main",
+          "block": "moral",
+          "stimulusType": "text-choice",
+          "pointerType": "touch",
+          "isCheck": "dqs",
+          "checkAnswerSide": "left",
+          "leftLabel": "りんご",
+          "rightLabel": "みかん",
+          "stem": "確認のため、ここでは【左】の選択肢を選んでください",
+          "post_check": false,
+          "post_resume": false,
+          "choiceSide": "left",
+          "correct": true,
+          "stimulusOnsetT": 310.5,
+          "startPressT": 329.19999998807907,
+          "preStartMs": 18.7,
+          "revealT": 329.19999998807907,
+          "revealXY": {
+            "x": 201,
+            "y": 635.77
+          },
+          "stopsAfterInit": {
+            "n": 0,
+            "ms": 0,
+            "maxMs": 0
+          },
+          "stopFlag": false,
+          "lateStart": true,
+          "stopNotice": false,
+          "initiationT": 3490.199999988079,
+          "responseT": 3611.5,
+          "rt_ms": 3161,
+          "rt_proxy_ms": 3161,
+          "mt_proxy_ms": 121.3,
+          "total_ms": 3282.3,
+          "dispHz": 33.7,
+          "nDispatched": 4,
+          "nCoalesced": 4,
+          "aborts": 0,
+          "ratings": {
+            "confidence": null,
+            "hesitation": null
+          },
+          "geom": {
+            "surface": {
+              "w": 402,
+              "h": 759
+            },
+            "start": {
+              "cx": 201,
+              "cy": 635.765625
+            },
+            "A": {
+              "cx": 96.4765625,
+              "cy": 257.1796875,
+              "w": 160.796875,
+              "h": 104.515625
+            },
+            "B": {
+              "cx": 305.5234375,
+              "cy": 257.1796875,
+              "w": 160.796875,
+              "h": 104.515625
+            },
+            "dpr": 1
+          },
+          "events": [
+            {
+              "seq": 0,
+              "t": 329.19999998807907,
+              "x": 201,
+              "y": 635.77,
+              "type": "down"
+            },
+            {
+              "seq": 1,
+              "t": 329.19999998807907,
+              "x": 201,
+              "y": 635.77,
+              "type": "reveal"
+            },
+            {
+              "seq": 2,
+              "t": 3490.199999988079,
+              "x": 174.87,
+              "y": 541.12,
+              "type": "coalesced"
+            },
+            {
+              "seq": 3,
+              "t": 3490.199999988079,
+              "x": 174.87,
+              "y": 541.12,
+              "type": "dispatched"
+            },
+            {
+              "seq": 4,
+              "t": 3509.899999976158,
+              "x": 148.74,
+              "y": 446.47,
+              "type": "coalesced"
+            },
+            {
+              "seq": 5,
+              "t": 3509.899999976158,
+              "x": 148.74,
+              "y": 446.47,
+              "type": "dispatched"
+            },
+            {
+              "seq": 6,
+              "t": 3544.899999976158,
+              "x": 122.61,
+              "y": 351.83,
+              "type": "coalesced"
+            },
+            {
+              "seq": 7,
+              "t": 3544.899999976158,
+              "x": 122.61,
+              "y": 351.83,
+              "type": "dispatched"
+            },
+            {
+              "seq": 8,
+              "t": 3579.099999964237,
+              "x": 96.48,
+              "y": 257.18,
+              "type": "coalesced"
+            },
+            {
+              "seq": 9,
+              "t": 3579.099999964237,
+              "x": 96.48,
+              "y": 257.18,
+              "type": "dispatched"
+            },
+            {
+              "seq": 10,
+              "t": 3611.5,
+              "x": 96.48,
+              "y": 257.18,
+              "type": "up"
+            }
+          ],
+          "stemChars": 25,
+          "earlyStart": true,
+          "noise": null,
+          "vis": {
+            "count": 0,
+            "totalMs": 0
+          },
+          "ratingBacks": 0,
+          "ratingResumes": 1
+        },
+        "notice": "late"
+      }
+    },
+    {
+      "name": "30 CPS boundary 999",
+      "pass": true,
+      "detail": {
+        "preStartMs": 999,
+        "events": [
+          {
+            "t": 2000,
+            "type": "up",
+            "x": 0,
+            "y": 0
+          }
+        ],
+        "initiationT": 2000,
+        "revealT": 2000,
+        "startPressT": 2000,
+        "responseT": 2000,
+        "rt_ms": 0,
+        "rt_proxy_ms": 0,
+        "mt_proxy_ms": 0,
+        "total_ms": 0,
+        "stopsAfterInit": {
+          "n": 0,
+          "ms": 0,
+          "maxMs": 0
+        },
+        "stopFlag": false,
+        "lateStart": false,
+        "stemChars": 30,
+        "earlyCps": 30,
+        "earlyThresholdMs": 1000,
+        "earlyStart": true,
+        "dispHz": null,
+        "nDispatched": 0,
+        "nCoalesced": 0,
+        "aborts": 0
+      }
+    },
+    {
+      "name": "30 CPS boundary 1000",
+      "pass": true,
+      "detail": {
+        "preStartMs": 1000,
+        "events": [
+          {
+            "t": 2000,
+            "type": "up",
+            "x": 0,
+            "y": 0
+          }
+        ],
+        "initiationT": 2000,
+        "revealT": 2000,
+        "startPressT": 2000,
+        "responseT": 2000,
+        "rt_ms": 0,
+        "rt_proxy_ms": 0,
+        "mt_proxy_ms": 0,
+        "total_ms": 0,
+        "stopsAfterInit": {
+          "n": 0,
+          "ms": 0,
+          "maxMs": 0
+        },
+        "stopFlag": false,
+        "lateStart": false,
+        "stemChars": 30,
+        "earlyCps": 30,
+        "earlyThresholdMs": 1000,
+        "earlyStart": false,
+        "dispHz": null,
+        "nDispatched": 0,
+        "nCoalesced": 0,
+        "aborts": 0
+      }
+    },
+    {
+      "name": "30 CPS boundary 1001",
+      "pass": true,
+      "detail": {
+        "preStartMs": 1001,
+        "events": [
+          {
+            "t": 2000,
+            "type": "up",
+            "x": 0,
+            "y": 0
+          }
+        ],
+        "initiationT": 2000,
+        "revealT": 2000,
+        "startPressT": 2000,
+        "responseT": 2000,
+        "rt_ms": 0,
+        "rt_proxy_ms": 0,
+        "mt_proxy_ms": 0,
+        "total_ms": 0,
+        "stopsAfterInit": {
+          "n": 0,
+          "ms": 0,
+          "maxMs": 0
+        },
+        "stopFlag": false,
+        "lateStart": false,
+        "stemChars": 30,
+        "earlyCps": 30,
+        "earlyThresholdMs": 1000,
+        "earlyStart": false,
+        "dispHz": null,
+        "nDispatched": 0,
+        "nCoalesced": 0,
+        "aborts": 0
+      }
+    },
+    {
+      "name": "no JS errors",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "no external requests",
+      "pass": true,
+      "detail": []
+    }
+  ],
+  "errors": [],
+  "blocked": []
+}

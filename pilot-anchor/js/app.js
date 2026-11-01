@@ -479,6 +479,7 @@
   const INSTR_N = 49;
   const instructedCount = (dev = device) => dev.instructed?.n ?? dev.instructedPlan?.n ?? INSTR_N;
   let instructedDone = false, pendingInstructedStart = false, instrIndex = 0, instructedIntroPage = 0;
+  let instructedIntroLock = 0, instructedIntroFlash = null;
   // 開始手続き (§6-6 項19。2026-09-26 改訂 = 押下で出現): 場面文を読む → スタートに指を置いた瞬間に選択肢が出る →
   // 出現後 LATE_START_MS 以内に動き出す (超えた試行は評定送信後に案内)。動き出した後の停止は記録するだけで案内しない
   // (止まる人は止まり、迷いながら動かす人は動かす = 自然なデータを取る。旧 2026-09-09〜25 の「枠から出た瞬間に出現・3 秒停止で案内」は廃止)
@@ -647,7 +648,7 @@
     stopNoticesSuppressed: 0, // 上限（種類ごと5回）で非表示にした理由数。両方の抑止なら2
     pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
     practiceChecks: [], noticeReviews: [], noticeAcknowledgements: [], // 旧別画面見直しと新注意内確認を分ける。読了・理解や除外の判定には用いない
-    appVersion: "2026-11-02-ui29",  // 開始時の版は再開でも保持する
+    appVersion: "2026-11-02-ui30",  // 開始時の版は再開でも保持する
     instructedPlan: { version: "2026-11-01-ui28", n: INSTR_N, selection: "all-main-moral" },
     moralPracticeDefinition: null, // 最初の操作説明・練習開始時に固定する刺激の版と全文。表示・理解の証跡ではない
     welcomeAgree: null,       // はじめに 6/7・7/7 の同意チェック {items, pages, ms}
@@ -658,7 +659,7 @@
 
   // appVersionは開始時の版を維持するため、教示の表示版は実行中のコードから記録する。
   // 未記録の旧画面を推測で埋めず、表示イベントを読了・理解とみなさない。
-  const INSTRUCTION_VERSION = "2026-11-02-ui29";
+  const INSTRUCTION_VERSION = "2026-11-02-ui30";
   function moralPracticeDefinition(legacy = false) {
     if (!device.moralPracticeDefinition) {
       const source = PILOT_BANK.moral;
@@ -1341,16 +1342,31 @@
   // ===== 教示誘導ブロック (2026-09-09 決定。decisions-log / experiment-design §6-6 項19) =====
   // 通常本番の全49項目を再提示（注意チェック除外）。旧版再開だけは水準1:3:6の10問を保持。評定なし。
   function instructedExplanation(n) {
-    const version = "instructed-explanation-v2";
+    const version = "instructed-explanation-v3";
     if (device.instructedExplanation?.version === version && device.instructedExplanation.n === n) return device.instructedExplanation;
     if (device.instructedExplanation) (device.instructedExplanationHistory ||= []).push(device.instructedExplanation);
     return device.instructedExplanation = { version, n, pages: [
       '<p>さきほど答えた問題が' + n + '問もう一度出ます。</p>' +
       '<p class="instruction-key">今度は、<b>問題文も選択肢も読まずに、適当に指を運んでください。</b><br>どちらの選択肢でも構いません。前の答えを思い出す必要もありません。</p>',
       '<p>操作はこれまでと同じです。<br><b>スタートボタンに指を置き、指を離さずに</b>どちらかの選択肢のボックスまで運び、<b>枠の中で離してください。</b></p>' +
+      '<p><b>問題文も選択肢も読まずに、適当に指を運んでください。</b></p>' +
       '<p>振り返りの質問はありません。この追加課題の回答は<b>謝礼に影響しません。</b></p>' +
       '<p>終わると、最後のアンケートに進みます。</p>'
     ] };
+  }
+  function resetInstructedIntroHint() {
+    clearTimeout(instructedIntroFlash); instructedIntroFlash = null;
+    const button = $("blockintroGo");
+    button.textContent = instructedIntroPage === 0 ? "次へ" : "追加の" + instructedCount() + "問を始める";
+    button.classList.remove("flash"); button.style.height = "";
+  }
+  function flashInstructedIntroHint() {
+    if (instructedIntroFlash) return;
+    const button = $("blockintroGo"); button.style.height = button.getBoundingClientRect().height + "px";
+    button.textContent = "読んでから次へ"; button.classList.add("flash");
+    instructedIntroFlash = setTimeout(() => {
+      if (pendingInstructedStart && screens.blockintro.classList.contains("active")) resetInstructedIntroHint();
+    }, Math.max(0, Math.min(1200, instructedIntroLock - performance.now())));
   }
   function showInstructedIntro(page = 0) {
     const available = new Set(records.filter(r => r.phase === "main" && r.block === "moral" && !r.isCheck && r.itemId).map(r => r.itemId)).size;
@@ -1364,10 +1380,16 @@
     $("blockintroBody").innerHTML = '<p class="session-card-step">追加課題の説明　' + (instructedIntroPage + 1) + ' / 2</p>' +
       '<h1>追加の ' + n + ' 問<br><span class="instructed-subtitle">（やり方が変わります）</span></h1>' + definition.pages[instructedIntroPage];
     $("blockintroBack").hidden = instructedIntroPage === 0;
-    $("blockintroGo").textContent = instructedIntroPage === 0 ? "次へ" : "追加の" + n + "問を始める";
+    resetInstructedIntroHint();
+    if (device.instructedIntroVisits?.definitionVersion !== definition.version || device.instructedIntroVisits.n !== n) {
+      device.instructedIntroVisits = { definitionVersion: definition.version, n, pages: [] };
+    }
+    const seen = device.instructedIntroVisits.pages.includes(instructedIntroPage);
+    instructedIntroLock = seen ? 0 : performance.now() + minReadMs($("blockintroBody").textContent);
+    if (!seen) device.instructedIntroVisits.pages.push(instructedIntroPage);
     show("blockintro");
     $("blockintro").querySelector(".pad").scrollTop = 0;
-    logInstructionExposure("instructedIntro", { n, page: instructedIntroPage + 1, definitionVersion: definition.version, selection: device.instructedPlan.selection });
+    logInstructionExposure("instructedIntro", { n, page: instructedIntroPage + 1, definitionVersion: definition.version, selection: device.instructedPlan.selection, revisit: seen, minimumDisplayMs: Math.max(0, Math.round(instructedIntroLock - performance.now())) });
     resumeStage = "instructedIntro"; saveBackup();
   }
   function startInstructed() {
@@ -4194,7 +4216,12 @@
   }, { passive: true });
   $("blockintroBack").addEventListener("click", () => { if (pendingInstructedStart) showInstructedIntro(0); }, { passive: true });
   $("blockintroGo").addEventListener("click", () => {
-    if (pendingInstructedStart) { if (instructedIntroPage === 0) { showInstructedIntro(1); return; } pendingInstructedStart = false; $("blockintroBack").hidden = true; $("blockintroGo").textContent = "続ける"; startInstructed(); return; }   // 教示誘導ブロックへ
+    if (pendingInstructedStart) {
+      if (performance.now() < instructedIntroLock) { flashInstructedIntroHint(); return; }
+      resetInstructedIntroHint();
+      if (instructedIntroPage === 0) { showInstructedIntro(1); return; }
+      pendingInstructedStart = false; $("blockintroBack").hidden = true; $("blockintroGo").textContent = "続ける"; startInstructed(); return;
+    }   // 教示誘導ブロックへ
     if (pendingMainStart) { pendingMainStart = false; startMain(); return; }  // 練習クリア→本番 (自己ペース)
     UNIFIED ? startMain() : startPractice();   // 統合: 練習は冒頭に統合済み→次パートは本番へ直行 (2026-07-15)
   }, { passive: true });
@@ -4297,6 +4324,7 @@
       // 中断からの再開 (§6-6 項17) の検証用
       resumeOffered: () => resumeOffered,
       recoveryState: () => JSON.parse(JSON.stringify(resumeState())),
+      instructedIntroState: () => ({ page: instructedIntroPage, remainingWaitMs: Math.max(0, instructedIntroLock - performance.now()), seen: device.instructedIntroVisits?.pages.slice() || [] }),
       recoveryCheckpoint: () => saveBackup(),
       recoveryReady: () => storeReady,
       recoveryStartMain: () => { dragTutState.done = true; ratingController.setTutorialDone(true); device.participantId = "synthetic-recovery"; startMain(); },
@@ -4419,6 +4447,10 @@
       const nextId = { consent: "consentGo", notice: "noticeGo", practicecheck: "practiceCheckGo", blockintro: "blockintroGo", break: "breakContinue" }[screen];
       Object.assign(context, { explanation: true, page: screen === "notice" ? "notice:" + noticeKind : screen === "blockintro" ? "blockintro:" + (pendingInstructedStart ? "instructed:" + instructedIntroPage : pendingMainStart ? "practice_complete" : CONFIG.block) : screen,
         nextIds: [nextId], blockedReason: $(nextId)?.disabled ? "required_action" : null });
+      if (screen === "blockintro" && pendingInstructedStart) {
+        context.waitRemainingMs = Math.max(0, instructedIntroLock - performance.now());
+        if (context.waitRemainingMs > 0) context.blockedReason = "minimum_display";
+      }
     } else if (screen === "rating") context.page = "rating_answer:" + ratingController.state().page;
     else if (screen === "postq") context.page = "post:" + (postPages[postPageIdx]?.id || "unknown");
     return context;

@@ -14,7 +14,9 @@
 **公開URL**: ① <https://and-space83.github.io/drag-survey/pilot-anchor/> / ② <https://and-space83.github.io/drag-survey/pilot-anchor/?block=value> / ②③統合 <https://and-space83.github.io/drag-survey/pilot-anchor/?block=combo>
 リポ全体のアプリ一覧は [../README.md](../README.md) を参照。
 
-## 現行版の教示・保存・再開 (`2026-11-02-ui29`)
+## 現行版の教示・保存・再開 (`2026-11-02-ui30`)
+
+- UI30では初回の説明だけ待機を入れ、2枚目にも読まずに指を運ぶ指示を再掲した。画面・検証・公開状態は[UI30確認記録](reviews/2026-11-02-instructed-wait/)を参照。
 
 - UI29では追加課題の開始時と課題中の説明を同じ2枚に統一した。画面と検証・公開状態は[UI29確認記録](reviews/2026-11-02-instructed-explanation/)を参照。
 
