@@ -477,9 +477,8 @@
   // クラウド配布 (評定ブロックあり・kiosk/stop でない) のみ。?instr=0 で無効 (開発用)
   const INSTR_ON = (function () { const v = QS.get("instr"); if (v != null) return v !== "0"; return HAS_RATING_BLOCK && !KIOSK && !STOP_ON; })();
   const INSTR_N = 49;
-  const instructedText = n => `ここからの ${n} 問は、これまでとは逆に、問題文も選択肢も読まずに、適当に指を運んでください。どちらの選択肢でも構いません。`;
   const instructedCount = (dev = device) => dev.instructed?.n ?? dev.instructedPlan?.n ?? INSTR_N;
-  let instructedDone = false, pendingInstructedStart = false, instrIndex = 0;
+  let instructedDone = false, pendingInstructedStart = false, instrIndex = 0, instructedIntroPage = 0;
   // 開始手続き (§6-6 項19。2026-09-26 改訂 = 押下で出現): 場面文を読む → スタートに指を置いた瞬間に選択肢が出る →
   // 出現後 LATE_START_MS 以内に動き出す (超えた試行は評定送信後に案内)。動き出した後の停止は記録するだけで案内しない
   // (止まる人は止まり、迷いながら動かす人は動かす = 自然なデータを取る。旧 2026-09-09〜25 の「枠から出た瞬間に出現・3 秒停止で案内」は廃止)
@@ -570,6 +569,7 @@
   }
   let explanationTelemetry = null; // UI28 observations; no changes to reading gates or progression.
   function show(name) {
+    if (name === "blockintro" && !pendingInstructedStart) { $("blockintroBack").hidden = true; $("blockintroGo").textContent = "続ける"; }
     if (name !== "task") clearDragFeedback();
     if (name !== "task") { hideBanner(); clearIdleCoach(); if (coachDismissTimer || coachEl.classList.contains("ok")) coachHide(); }
     if (consentTiming && !sessionFinished) consentTiming.change(document.hidden ? "background" : name);
@@ -647,7 +647,7 @@
     stopNoticesSuppressed: 0, // 上限（種類ごと5回）で非表示にした理由数。両方の抑止なら2
     pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
     practiceChecks: [], noticeReviews: [], noticeAcknowledgements: [], // 旧別画面見直しと新注意内確認を分ける。読了・理解や除外の判定には用いない
-    appVersion: "2026-11-01-ui28a",  // 開始時の版は再開でも保持する
+    appVersion: "2026-11-02-ui29",  // 開始時の版は再開でも保持する
     instructedPlan: { version: "2026-11-01-ui28", n: INSTR_N, selection: "all-main-moral" },
     moralPracticeDefinition: null, // 最初の操作説明・練習開始時に固定する刺激の版と全文。表示・理解の証跡ではない
     welcomeAgree: null,       // はじめに 6/7・7/7 の同意チェック {items, pages, ms}
@@ -658,7 +658,7 @@
 
   // appVersionは開始時の版を維持するため、教示の表示版は実行中のコードから記録する。
   // 未記録の旧画面を推測で埋めず、表示イベントを読了・理解とみなさない。
-  const INSTRUCTION_VERSION = "2026-11-01-ui28";
+  const INSTRUCTION_VERSION = "2026-11-02-ui29";
   function moralPracticeDefinition(legacy = false) {
     if (!device.moralPracticeDefinition) {
       const source = PILOT_BANK.moral;
@@ -1340,21 +1340,34 @@
   }
   // ===== 教示誘導ブロック (2026-09-09 決定。decisions-log / experiment-design §6-6 項19) =====
   // 通常本番の全49項目を再提示（注意チェック除外）。旧版再開だけは水準1:3:6の10問を保持。評定なし。
-  function showInstructedIntro() {
+  function instructedExplanation(n) {
+    const version = "instructed-explanation-v2";
+    if (device.instructedExplanation?.version === version && device.instructedExplanation.n === n) return device.instructedExplanation;
+    if (device.instructedExplanation) (device.instructedExplanationHistory ||= []).push(device.instructedExplanation);
+    return device.instructedExplanation = { version, n, pages: [
+      '<p>さきほど答えた問題が' + n + '問もう一度出ます。</p>' +
+      '<p class="instruction-key">今度は、<b>問題文も選択肢も読まずに、適当に指を運んでください。</b><br>どちらの選択肢でも構いません。前の答えを思い出す必要もありません。</p>',
+      '<p>操作はこれまでと同じです。<br><b>スタートボタンに指を置き、指を離さずに</b>どちらかの選択肢のボックスまで運び、<b>枠の中で離してください。</b></p>' +
+      '<p>振り返りの質問はありません。この追加課題の回答は<b>謝礼に影響しません。</b></p>' +
+      '<p>終わると、最後のアンケートに進みます。</p>'
+    ] };
+  }
+  function showInstructedIntro(page = 0) {
     const available = new Set(records.filter(r => r.phase === "main" && r.block === "moral" && !r.isCheck && r.itemId).map(r => r.itemId)).size;
     const n = Math.min(instructedCount(), available);
     device.instructedPlan = { ...device.instructedPlan, n };
+    const definition = instructedExplanation(n);
+    instructedIntroPage = page === 1 ? 1 : 0;
     pendingInstructedStart = true;
     $("blockintroBody").classList.remove("practice-complete-card");
     $("blockintroBody").classList.add("instructed-intro-card");
-    $("blockintroBody").innerHTML =
-      `<h1>追加の ${n} 問<br><span class="instructed-subtitle">（やり方が変わります）</span></h1>` +
-      '<p class="instruction-key"><b>問題文も選択肢も、読まずに進めてください。</b><br>内容を考えて答えを選ばず、<b>適当に指を運んでください。</b>どちらの選択肢でも構いません。</p>' +
-      `<p>この${n}問は、指示どおり読まずに答える問題なので、<b>謝礼には影響しません。</b></p>` +
-      '<p>操作はこれまでと同じです。振り返りはありません。このあと最後に実施後のアンケートがあります。</p>';   // ui13: 読まずに運ぶ指示と、操作・振り返り・最後の質問の順を短く示す
+    $("blockintroBody").innerHTML = '<p class="session-card-step">追加課題の説明　' + (instructedIntroPage + 1) + ' / 2</p>' +
+      '<h1>追加の ' + n + ' 問<br><span class="instructed-subtitle">（やり方が変わります）</span></h1>' + definition.pages[instructedIntroPage];
+    $("blockintroBack").hidden = instructedIntroPage === 0;
+    $("blockintroGo").textContent = instructedIntroPage === 0 ? "次へ" : "追加の" + n + "問を始める";
     show("blockintro");
     $("blockintro").querySelector(".pad").scrollTop = 0;
-    logInstructionExposure("instructedIntro", { n, selection: device.instructedPlan.selection });
+    logInstructionExposure("instructedIntro", { n, page: instructedIntroPage + 1, definitionVersion: definition.version, selection: device.instructedPlan.selection });
     resumeStage = "instructedIntro"; saveBackup();
   }
   function startInstructed() {
@@ -1373,7 +1386,7 @@
     const byId = {};
     for (const item of BLOCK.bank) byId[item.id || (item.level ? `${item.mtype}-${item.level}` : item.mtype)] = item;
     queue = shuffle(ids.filter((id) => byId[id]).map((id) => BLOCK.makeCell(byId[id], Math.random() < 0.5 ? "left" : "right")));
-    device.instructed = { n: queue.length, itemIds: queue.map((c) => c.itemId), text: instructedText(queue.length), version: INSTRUCTION_VERSION, selection: device.instructedPlan.selection };
+    device.instructed = { n: queue.length, itemIds: queue.map((c) => c.itemId), text: instructedExplanation(queue.length).pages.join("\n").replace(/<[^>]*>/g, ""), version: INSTRUCTION_VERSION, selection: device.instructedPlan.selection };
     phase = "instructed"; instrIndex = 0;
     setCoach(null); coachHide();
     sizeCanvas();
@@ -1874,10 +1887,7 @@
   // 端点顕著/中間減光・両 destination 均等。実演は pointer-events:none の装飾で実要素の geom に不干渉。
   const dragTutState = { done: false, active: false };
   const DragTut = (() => {
-    const INSTRUCTED_STEPS = [
-      { part: "extra", focus: "orient", act: "next", sample: true, reveal: 0, op: "確認したら「次へ」", txt: "追加の問題では、<b>問題文も選択肢も読まずに</b>、<b>適当に指を運んでください</b>。<br>どちらの選択肢でも構いません。前の答えを思い出す必要もありません。<br>この追加問題は、指示どおり読まずに答える問題なので、<b>謝礼には影響しません。</b>" },
-      { part: "extra", focus: "orient", act: "next", sample: true, reveal: 0, op: "確認したら「問題に戻る」", txt: "操作はこれまでと同じです。<br><b>スタートボタンに指を置き、指を離さずに</b>どちらかの選択肢のボックスまで運び、<b>選択肢のボックスの中で離します</b>。<br>問題文や選択肢は読まずに進めてください。<b>振り返りの質問はありません。</b>" },
-    ];
+    const INSTRUCTED_STEPS = () => instructedExplanation(instructedCount()).pages.map((txt, i) => ({ part: "extra", focus: "orient", act: "next", sample: true, reveal: 0, op: i ? "確認したら「問題に戻る」" : "確認したら「次へ」", txt }));
     return window.PILOT_GUIDED_TUTORIAL.createEngine({
       $, surface, startBtn, stemEl, choiceA, choiceB, numA, numB, dragTutState, screens,
       getDevice: () => device, setResumeStage: value => { resumeStage = value; },
@@ -3307,7 +3317,7 @@
       } : null,
       post: resumeStage === "postq" ? { answers: { ...post }, survey: { ...survey, problems: survey.problems.slice() }, gripOtherDraft, page: postPageIdx, pageId: postPages[postPageIdx] ? postPages[postPageIdx].id : null, elapsedMs: now - postShownAt } : null,
       activeAttempt: recording && trial ? publicTrial(trial) : null,
-      pendingInstructedStart, pendingMainStart, pendingNotice, stopNoticeShown, noticeKind,
+      pendingInstructedStart, instructedIntroPage, pendingMainStart, pendingNotice, stopNoticeShown, noticeKind,
       practiceRuleFlags: practiceRuleFlags.slice(),
       practiceCheck: practiceCheckState ? { ...practiceCheckState, checked: practiceCheckState.checked.slice(), elapsedMs: performance.now() - practiceCheckShownAt } : null,
       noticeElapsedMs: noticeShownAt == null ? 0 : now - noticeShownAt,
@@ -3487,7 +3497,7 @@
       } else if (r.stage === "task") presentStimulus(r);
       else if (r.stage === "break") { showBreak(); breakShownAt -= r.breakElapsedMs || 0; breakAtTrial = r.breakAtTrial; saveBackup(); }
       else if (r.stage === "notice") { showStopNotice(r.noticeKind); noticeShownAt -= r.noticeElapsedMs || 0; saveBackup(); }
-      else if (r.stage === "instructedIntro") showInstructedIntro();
+      else if (r.stage === "instructedIntro") showInstructedIntro(r.instructedIntroPage);
       else if (r.stage === "blockintro") showBlockIntro();
       else nextTrial();
     };
@@ -4182,8 +4192,9 @@
     }
     presentStimulus();
   }, { passive: true });
+  $("blockintroBack").addEventListener("click", () => { if (pendingInstructedStart) showInstructedIntro(0); }, { passive: true });
   $("blockintroGo").addEventListener("click", () => {
-    if (pendingInstructedStart) { pendingInstructedStart = false; startInstructed(); return; }   // 教示誘導ブロックへ
+    if (pendingInstructedStart) { if (instructedIntroPage === 0) { showInstructedIntro(1); return; } pendingInstructedStart = false; $("blockintroBack").hidden = true; $("blockintroGo").textContent = "続ける"; startInstructed(); return; }   // 教示誘導ブロックへ
     if (pendingMainStart) { pendingMainStart = false; startMain(); return; }  // 練習クリア→本番 (自己ペース)
     UNIFIED ? startMain() : startPractice();   // 統合: 練習は冒頭に統合済み→次パートは本番へ直行 (2026-07-15)
   }, { passive: true });
@@ -4406,7 +4417,7 @@
       Object.assign(context, { explanation: true, nextIds: ["guidedIntroGo"], waitRemainingMs: remaining, blockedReason: remaining > 0 ? "minimum_display" : null });
     } else if (["consent", "notice", "practicecheck", "blockintro", "break"].includes(screen)) {
       const nextId = { consent: "consentGo", notice: "noticeGo", practicecheck: "practiceCheckGo", blockintro: "blockintroGo", break: "breakContinue" }[screen];
-      Object.assign(context, { explanation: true, page: screen === "notice" ? "notice:" + noticeKind : screen === "blockintro" ? "blockintro:" + (pendingInstructedStart ? "instructed" : pendingMainStart ? "practice_complete" : CONFIG.block) : screen,
+      Object.assign(context, { explanation: true, page: screen === "notice" ? "notice:" + noticeKind : screen === "blockintro" ? "blockintro:" + (pendingInstructedStart ? "instructed:" + instructedIntroPage : pendingMainStart ? "practice_complete" : CONFIG.block) : screen,
         nextIds: [nextId], blockedReason: $(nextId)?.disabled ? "required_action" : null });
     } else if (screen === "rating") context.page = "rating_answer:" + ratingController.state().page;
     else if (screen === "postq") context.page = "post:" + (postPages[postPageIdx]?.id || "unknown");

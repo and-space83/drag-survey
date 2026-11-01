@@ -216,9 +216,16 @@
     },
     "instructed": {
       "status": "approved",
-      "reason": "タイトルを2行にし、問題文も選択肢も読まずに適当に指を運ぶ指示と、振り返りなし・最後に実施後アンケートという案内への変更を承認済み。",
-      "approvedCopySha256": "41ceb04b01ab04630d4ff572cf3a4f0827e691c5dcda75cd8193f19c072aae62",
-      "approvedVersion": "2026-10-12-ui14"
+      "reason": "2026-11-02：ユーザーが承認した2枚の本文を開始時と追加課題中で共用し、開始時の枠・太字を維持する。3秒判定は現状維持。実機確認済みという意味ではない。",
+      "approvedVersion": "2026-11-02-ui29",
+      "approvedCopySha256": "4ce8df149a65be3b049a9786798b05ec1676c4112febc336ae392c293dabb985",
+      "approvalHistory": [
+        {
+          "version": "2026-10-12-ui14",
+          "copySha256": "41ceb04b01ab04630d4ff572cf3a4f0827e691c5dcda75cd8193f19c072aae62",
+          "reason": "タイトルを2行にし、問題文も選択肢も読まずに適当に指を運ぶ指示と、振り返りなし・最後に実施後アンケートという案内への変更を承認済み。"
+        }
+      ]
     },
     "post-time_pressure": {
       "status": "approved",
@@ -807,6 +814,27 @@
           "reason": "ユーザーが仮画面の構成を本番へ採用。迷い・自信を分けた5段階、1問ずつの振り返り、練習導入と今回指定した説明箱・ナビ配置をui20で採用。実機確認・公開一致の記録とは分離する。"
         }
       ]
+    },
+    "instructed-2": {
+      "status": "approved",
+      "reason": "2026-11-02：ユーザーが承認した2枚の本文を開始時と追加課題中で共用し、開始時の枠・太字を維持する。3秒判定は現状維持。実機確認済みという意味ではない。",
+      "approvedVersion": "2026-11-02-ui29",
+      "approvedCopySha256": "f4fe31719f37054e2edb98d0c40c878614e6269e38de6b48f34d2c2642766dbd",
+      "approvalHistory": []
+    },
+    "instructed-help-1": {
+      "status": "approved",
+      "reason": "2026-11-02：ユーザーが承認した2枚の本文を開始時と追加課題中で共用し、開始時の枠・太字を維持する。3秒判定は現状維持。実機確認済みという意味ではない。",
+      "approvedVersion": "2026-11-02-ui29",
+      "approvedCopySha256": "4f07b1bc423b357d5d6b672c189b19bf72f6389184bd44598c8b798c435028d0",
+      "approvalHistory": []
+    },
+    "instructed-help-2": {
+      "status": "approved",
+      "reason": "2026-11-02：ユーザーが承認した2枚の本文を開始時と追加課題中で共用し、開始時の枠・太字を維持する。3秒判定は現状維持。実機確認済みという意味ではない。",
+      "approvedVersion": "2026-11-02-ui29",
+      "approvedCopySha256": "a0573c70515d9edf1afb3b23781d411e1df1768678ba7b6225fa938339a8945f",
+      "approvalHistory": []
     }
   }
 }

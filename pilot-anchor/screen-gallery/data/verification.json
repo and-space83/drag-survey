@@ -1,5 +1,5 @@
 {
-  "at": "2026-11-01T14:19:17.276Z",
+  "at": "2026-11-01T15:37:32.925Z",
   "checks": [
     {
       "name": "all 30 distribution assets have provenance",
@@ -108,7 +108,7 @@
       "name": "1440 mini all images switch",
       "pass": true,
       "detail": {
-        "count": 253,
+        "count": 254,
         "bad": 0
       }
     },
@@ -124,7 +124,7 @@
       "name": "1440 iphone17 all images switch",
       "pass": true,
       "detail": {
-        "count": 253,
+        "count": 254,
         "bad": 0
       }
     },
@@ -140,7 +140,7 @@
       "name": "1440 max all images switch",
       "pass": true,
       "detail": {
-        "count": 253,
+        "count": 254,
         "bad": 0
       }
     },
@@ -260,7 +260,7 @@
       "name": "390 mini all images switch",
       "pass": true,
       "detail": {
-        "count": 253,
+        "count": 254,
         "bad": 0
       }
     },
@@ -276,7 +276,7 @@
       "name": "390 iphone17 all images switch",
       "pass": true,
       "detail": {
-        "count": 253,
+        "count": 254,
         "bad": 0
       }
     },
@@ -292,7 +292,7 @@
       "name": "390 max all images switch",
       "pass": true,
       "detail": {
-        "count": 253,
+        "count": 254,
         "bad": 0
       }
     },

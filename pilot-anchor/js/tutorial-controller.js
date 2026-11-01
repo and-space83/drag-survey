@@ -6,7 +6,8 @@ window.PILOT_GUIDED_TUTORIAL.createEngine = function (env) {
   const config = window.PILOT_GUIDED_TUTORIAL, SCHEMA = config.schema;
   const { dragTutState } = env;
   const STEPS = config.steps;
-  const INSTRUCTED_STEPS = env.instructedSteps.map((s, i) => ({ ...s, id: 'instructed-' + i, kind: 'instruction', chapter: '追加問題の操作', title: '追加問題の操作', copy: s.txt, button: i ? '問題に戻る' : '次へ', action: s.op, html: true }));
+  const buildInstructedSteps = () => (typeof env.instructedSteps === "function" ? env.instructedSteps() : env.instructedSteps).map((s, i) => ({ ...s, id: 'instructed-' + i, kind: 'instruction', chapter: '追加問題の操作', title: '追加問題の操作', copy: s.txt, button: i ? '問題に戻る' : '次へ', action: s.op, html: true }));
+  let INSTRUCTED_STEPS = [];
   const seen = new Set(), completed = new Set();
   let steps = STEPS, idx = -1, replay = false, required = null, returnLabel = '問題に戻る', onDone = null;
   let lockUntil = 0, lockTimer = null, cueTimer = null, nextDisabled = false, pending = false;
@@ -144,6 +145,7 @@ window.PILOT_GUIDED_TUTORIAL.createEngine = function (env) {
     if (env.realBlocks.includes('moral')) env.moralPracticeDefinition(); view.build();
     if (idx >= 0) teardown();
     const enteringReplay = !!opts.replay; priorInitial = enteringReplay ? snapshot() : null;
+    if (opts.instructed) INSTRUCTED_STEPS = buildInstructedSteps();
     replay = enteringReplay; steps = opts.instructed ? INSTRUCTED_STEPS : STEPS; returnLabel = opts.returnLabel || '問題に戻る'; onDone = cb;
     restoreState(opts.restored, true);
     required = Array.isArray(opts.requiredSteps) && opts.requiredSteps.length ? [...new Set(opts.requiredSteps.map(n => typeof n === 'string' ? steps.findIndex(s => s.id === n) : opts.instructed ? n : steps.findIndex(s => s.id === config.legacyStepIds[n])).filter(n => n >= 0 && n < steps.length))] : null;

@@ -1,10 +1,10 @@
 {
-  "checkedAt": "2026-11-01T14:16:11.577Z",
-  "toVersion": "2026-11-01-ui28a",
+  "checkedAt": "2026-11-01T15:37:32.259Z",
+  "toVersion": "2026-11-02-ui29",
   "sourceSha256LF": {
-    "index.html": "66462a5ed643b05b2acac9fcf53e5ba065c7c04445758cba3347857c71543ea4",
+    "index.html": "af439a5b4ea620d09c88c9880bde3322c4d4ee0efc24efaf52583648f27e25c7",
     "css/runtime-guards.css": "da2a02010ec7825568dafae2fb95b6cdc7cf36321f335375ad26ba5281492683",
-    "app.css": "797f17b20db16257043375e4c63cffef877f049eb70a0710c18db9de98047ebe",
+    "app.css": "e9149c53616e324f80435c102e7b3a7304405ce95eb7f332236f13789bceb45b",
     "guided-tutorial.css": "044853cf630d434c58190c4cd3072aa7e700619cb16e70a2920f8e89fc7a880d",
     "consent.css": "edb1108d3d1554804ded22fc703c788e702ea439af068e1a04fdecd8a2f56c58",
     "conference-demo.css": "faa1c02bffb034000b95860e9f0b319ddb4d4a14178f9e180efb7abce2cbe1b3",
@@ -13,7 +13,7 @@
     "guided-tutorial.js": "f2ece5f2457364f8072796585ac8e42b49c84aa2070f5bc25e35c497b2209841",
     "js/tutorial-visuals.js": "ed55c03f813365920f0d4e0fe2fe5dc6052e7369137bb46ad17e72d8a02dac8d",
     "js/tutorial-view.js": "b096c17033759fa576daeee72d56648d6483e8589be8788682480c393f20918e",
-    "js/tutorial-controller.js": "65f00889f7175b542a246483e1dcaa8b1416a8e887325fb5c519cca7a2b258f8",
+    "js/tutorial-controller.js": "f8e45d35c9483e142f17802ca2400ee4d8709bb669c218912bcaeded90ba221f",
     "vendor/pako.min.js": "29cfa0542b9864b6640cfdcc8f15b184db6431b532db2702a3ce97e5f2a7fc1c",
     "data-codec.js": "631dff102b3251d8b5e01fef6a58cd54ce9244a536e6b8454574a91ad0266d97",
     "consent.js": "6dae132f66dc20526ae6e79c59c6ff12049a75a1b11161b6815bfa1339a14bd9",
@@ -29,13 +29,13 @@
     "js/rating-controller.js": "4cb1aaac6fe565d4ebed237a3dfc579ea30bfedf23fb9749a182ad6afd868017",
     "js/rating-view.js": "9fec9ae4ae1f70a5ee0a7cd06f14c9a15b244eb551800e30f4bfc7911536111f",
     "conference-demo.js": "c958189fe84e8a81dbf3d8d29e6bfd795ac32c15c7451ca80a19c7634638a947",
-    "js/app.js": "fe1fb3f4e67d68bd16a0a2dc21ba42fecc359b4254d597312906e8c6edf55194",
+    "js/app.js": "db1fbb4b55e2f35583f11f4e7e3112d78bc85ced8674f322d8fdf384cb889892",
     "storage-worker.js": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
     "vendor/pako-LICENSE": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539"
   },
   "allScreensRecaptured": true,
-  "screens": 253,
-  "images": 759,
+  "screens": 254,
+  "images": 762,
   "devices": {
     "mini": {
       "short": "mini",
@@ -63,7 +63,7 @@
     }
   },
   "verification": "data/verification.json",
-  "publicationStatus": "matched",
+  "publicationStatus": "not verified",
   "publication": "data/publication.json",
   "flowCoverage": {
     "tutorialStepIds": [

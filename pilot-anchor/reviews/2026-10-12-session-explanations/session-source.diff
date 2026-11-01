@@ -1,5 +1,5 @@
 diff --git a/tools/pilot-anchor/app.css b/tools/pilot-anchor/app.css
-index ec3b990..d9a6716 100644
+index ec3b990..0bea7e5 100644
 --- a/tools/pilot-anchor/app.css
 +++ b/tools/pilot-anchor/app.css
 @@ -20 +20,2 @@
@@ -31,23 +31,29 @@ index ec3b990..d9a6716 100644
 @@ -80,0 +92,2 @@
 +  #postq .post-multiple { gap: 7px; }
 +  #postq .post-multiple .chk { padding-top: 12px; padding-bottom: 12px; }
-@@ -130 +143 @@
+@@ -112,0 +126,5 @@
++  #blockintroBack[hidden] { display: none; }
++  #blockintroNav { display: contents; }
++  #blockintroBody.instructed-intro-card ~ #blockintroNav { display: flex; gap: 8px; justify-content: center; margin-top: 22px; }
++  #blockintroBody.instructed-intro-card ~ #blockintroNav .btn { margin: 0; padding-left: 12px; padding-right: 12px; }
++  #blockintroBody.instructed-intro-card ~ #blockintroNav #blockintroBack { flex: 0 0 24%; }
+@@ -130 +148 @@
 -  #topbar { position: absolute; top: 0; left: 0; right: 0; height: 5%;
 +  #topbar, #ratingTopbar { position: absolute; top: 0; left: 0; right: 0; height: 5%;
-@@ -132,0 +146,2 @@
+@@ -132,0 +151,2 @@
 +  #ratingTopbar { display: none; }
 +  #ratingTopbar.on { display: flex; }
-@@ -135 +150 @@
+@@ -135 +155 @@
 -  #progress { position: absolute; top: 5%; left: 22%; right: 22%; height: clamp(4px, 1.1vmin, 8px); margin-top: 2px;
 +  #progress, #ratingProgress { position: absolute; top: 5%; left: 22%; right: 22%; height: clamp(4px, 1.1vmin, 8px); margin-top: 2px;
-@@ -137,2 +152,4 @@
+@@ -137,2 +157,4 @@
 -  #progress.on { display: block; }
 -  #progressFill { height: 100%; width: 0; background: var(--go); border-radius: 999px; transition: width .3s ease; }
 +  #progress.on, #ratingProgress.on { display: block; }
 +  #progressFill, #ratingProgressFill { height: 100%; width: 0; background: var(--go); border-radius: 999px; transition: width .3s ease; }
 +  /* 同じ位置を基本とし、低い画面では上部の振り返りヘルプに重ならない高さを確保する。 */
 +  #ratingProgress { top: max(5%, calc(max(9px, env(safe-area-inset-top)) + max(24px, calc(24px * var(--ui-scale))))); }
-@@ -140,0 +158,12 @@
+@@ -140,0 +163,12 @@
 +  #dragPosition { position: absolute; width: var(--contact-diameter); height: var(--contact-diameter); border: 3px solid #1668c4;
 +    border-radius: 50%; background: rgba(22,104,196,.12); transform: translate(-50%,-50%);
 +    pointer-events: none; z-index: 5; }
@@ -60,9 +66,9 @@ index ec3b990..d9a6716 100644
 +  .guided-intro-card .guided-intro-op { color: var(--go); font-weight: 700; margin-bottom: 0; }
 +  #guidedIntroGo { position: absolute; left: 16px; right: 16px; top: calc(88% - 8vmin - 28px); }
 +  #guidedIntroGo.flash { animation: btnNudge .5s ease-in-out; }
-@@ -144,0 +174 @@
+@@ -144,0 +179 @@
 +    border-radius: 14px;
-@@ -235,4 +265,8 @@
+@@ -235,4 +270,8 @@
 -  /* 停止・早出しの案内画面 (2026-09-09): 大きめの文字、伝えたい行動は太字 */
 -  #noticeText { font-size: calc(20px * var(--ui-scale)); line-height: 1.7; }
 -  #noticeText b { color: var(--warn); }
@@ -75,11 +81,11 @@ index ec3b990..d9a6716 100644
 +  #noticeText .notice-rule-body { font-size: calc(15px * var(--ui-scale)); line-height: 1.5; margin: 0; }
 +  #noticeText b { color: var(--ink); }
 +  .instructed-subtitle { font-size: calc(20px * var(--ui-scale)); }
-@@ -255,0 +290,3 @@
+@@ -255,0 +295,3 @@
 +  #rating:not(.tut-front) .btn:disabled { pointer-events: none; }
 +  #rating:not(.tut-front) .likert.rating-choice-cue button { border-color: var(--go); box-shadow: 0 0 0 2px rgba(63, 139, 99, .22); }
 +  @media (prefers-reduced-motion: reduce) { #rating:not(.tut-front) .btn.warn { animation: none; outline: 3px solid var(--go); outline-offset: 3px; } }
-@@ -343,0 +381,8 @@
+@@ -343,0 +386,8 @@
 +  #reading .pad { padding-top: 48px; padding-bottom: 0; }
 +  #readContent { display: flex; flex-direction: column; flex: none; }
 +  #readContent.reading-intro-card { padding: 20px; border: 1px solid #c9dbd1; border-radius: 16px; background: var(--panel); box-shadow: 0 5px 22px #183d2810; }
@@ -88,9 +94,9 @@ index ec3b990..d9a6716 100644
 +  #readCounter:empty { display: none; }
 +  /* 元の別行カウンターが占めていた高さを間隔に残し、見出しと本文の距離を維持する。 */
 +  #reading #readText { flex: none; margin-top: calc(18px + 24px * var(--ui-scale)); }
-@@ -479,0 +525 @@
+@@ -479,0 +530 @@
 +  #rating.with-progress #ratingHelp { left: auto; right: max(12px, env(safe-area-inset-right)); transform: none; }
-@@ -488,0 +535,58 @@
+@@ -488,0 +540,58 @@
 +  /* 回答の振り返りの説明だけをカード化。通常の本番・練習評定の倍率や配置は変更しない。 */
 +  #rating.tut-front { --ui-scale: 1; }
 +  #rating.tut-front .qwrap { padding: 20px 18px 20px; }
@@ -149,7 +155,7 @@ index ec3b990..d9a6716 100644
 +    #rating.tut-front .likert.tut-cue button, #rating.tut-front #ratingNext.cue, #rating.tut-front #ratingSubmit.cue { animation: none; }
 +    #rating.tut-front #ratBtnRow .btn.warn { animation: none; outline: 3px solid var(--go); outline-offset: 3px; }
 +  }
-@@ -531,0 +636,7 @@
+@@ -531,0 +641,7 @@
 +  /* 全ページの見出し・番号・本文領域を同じ位置から始める。
 +     通常の2ページ目に近い余白を共通化し、内容量による上下移動をなくす。 */
 +  #postq .pad { padding-top: clamp(24px,
@@ -157,16 +163,16 @@ index ec3b990..d9a6716 100644
 +  #postq .pad::before, #postq .pad::after { flex: 0 0 0; }
 +  #postq .pad > * { flex-shrink: 0; }
 +  #postq .postpage.on { display: flow-root; }
-@@ -535 +646 @@
+@@ -535 +651 @@
 -  /* 使いにくかった点は既存5+5と追加2項目の3画面。各画面に「このページでは該当なし」 */
 +  /* 使いにくかった点は3画面。旧保存のその他2ページ目と新版3ページ目を区別する */
-@@ -541 +652,2 @@
+@@ -541 +657,2 @@
 -  #surveyProblemsPage:not([data-part="2"]) #surveyFreeField,
 +  #surveyProblemsPage[data-other-part="2"]:not([data-part="2"]) #surveyFreeField,
 +  #surveyProblemsPage[data-other-part="3"]:not([data-part="3"]) #surveyFreeField,
-@@ -549 +660,0 @@
+@@ -549 +665,0 @@
 -  @media (prefers-reduced-motion: reduce) { #sendBox .spin { animation: none; border-top-color: var(--go); } }
-@@ -559,2 +670,41 @@
+@@ -559,2 +675,41 @@
 -  #welcome .checks .chk { padding: 10px 10px 10px 38px; font-size: calc(14.5px * var(--ui-scale)); line-height: 1.5; }
 -  #welcome .checks { gap: 6px; }
 +  #welcome .checks .chk { padding: 9px 10px 9px 38px; font-size: calc(14.5px * var(--ui-scale)); line-height: 1.5; }
@@ -210,13 +216,13 @@ index ec3b990..d9a6716 100644
 +  .session-transition-card > p + p, #blockintroBody.practice-complete-card > p + p, #blockintroBody.instructed-intro-card > p + p { margin-top: 12px; }
 +  #blockintroBody.practice-complete-card ul { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; margin-bottom: 0; }
 +  .pad .session-card-action { color: var(--go); font-weight: 700; font-size: calc(15px * var(--ui-scale)); }
-@@ -562,0 +713,5 @@
+@@ -562,0 +718,5 @@
 +  /* 長い区間ラベルを含む利用年数のページも、小さいiPhoneで下部ナビに重ねない。文字サイズは維持。 */
 +  @media (max-width: 440px) {
 +    #postq #pp-usage_years .field { margin: 6px 0; }
 +    #postq #pp-usage_years .seg button { padding-top: 8px; padding-bottom: 8px; min-height: 44px; }
 +  }
-@@ -567,0 +723,25 @@
+@@ -567,0 +728,25 @@
 +
 +  /* ui28: 初回提示した8択にだけ2列を適用。旧5択の再開は元の配置を保持する。 */
 +  #postq .grip-grid > p { line-height: 1.35; }
@@ -948,7 +954,7 @@ index 0000000..16e75f6
 +  ]
 +};
 diff --git a/tools/pilot-anchor/index.html b/tools/pilot-anchor/index.html
-index b02688a..f210f51 100644
+index b02688a..a4f8d0e 100644
 --- a/tools/pilot-anchor/index.html
 +++ b/tools/pilot-anchor/index.html
 @@ -6 +6,2 @@
@@ -987,9 +993,9 @@ index b02688a..f210f51 100644
 -<link rel="stylesheet" href="app.css">
 -<link rel="stylesheet" href="consent.css">
 +<link rel="stylesheet" href="css/runtime-guards.css?v=2026-10-16-refactor1" onerror="window.pilotAssetLoadFailed = true">
-+  <link rel="stylesheet" href="app.css?v=2026-11-01-ui28a">
++  <link rel="stylesheet" href="app.css?v=2026-11-02-ui29">
 +  <link rel="stylesheet" href="guided-tutorial.css?v=2026-10-16-ui22">
-+<link rel="stylesheet" href="consent.css?v=2026-11-01-ui28a">
++<link rel="stylesheet" href="consent.css?v=2026-11-02-ui29">
 +<link rel="stylesheet" href="conference-demo.css?v=2026-10-30-demo1" onerror="window.conferenceDemoAssetLoadFailed = true">
 @@ -190,2 +205 @@
 -    <p class="opt-note" id="wcStep"></p>
@@ -1061,64 +1067,70 @@ index b02688a..f210f51 100644
 +      <p id="readIntro">まず、あなたの普段の読む速さを知るため、短い文章を4本読んでもらいます。<br><b>速く読む必要はないので普段通りの速さで読み</b>、読み終えたらすぐ下のボタンを押してください。</p>
 +      <div class="rtext" id="readText" style="display:none"></div>
 +    </div>
-@@ -404 +444 @@
+@@ -396 +436,4 @@
+-    <button class="btn primary advance" id="blockintroGo">続ける</button>
++    <div id="blockintroNav">
++      <button class="btn ghost" id="blockintroBack" hidden>前へ</button>
++      <button class="btn primary advance" id="blockintroGo">続ける</button>
++    </div>
+@@ -404 +447 @@
 -    <!-- 1 項目 1 画面 (2026-09-26): 課題と同じくスクロールせず「戻る / 次へ」で進む。ページ = 持ち方 → 拡充分 19 項目 → 使いにくかった点 → 操作のしやすさ -->
 +    <!-- 課題と同じくスクロールせず「戻る / 次へ」で進む。持ち方 → 拡充分 → 使いにくかった点 → 操作のしやすさ → 自由記述 -->
-@@ -409 +449 @@
+@@ -409 +452 @@
 -    <p>最後に、<b>2分ほど</b>で終わるアンケートにお答えください。</p>
 +    <p>最後に、アンケートにお答えください（<b>目安：約8分</b>）。</p>
-@@ -414,0 +455,2 @@
+@@ -414,0 +458,2 @@
 +        <button type="button" data-val="both_right_finger">両手で持ち、右手の指で操作</button>
 +        <button type="button" data-val="both_left_finger">両手で持ち、左手の指で操作</button>
-@@ -417,0 +460 @@
+@@ -417,0 +463 @@
 +        <button type="button" data-val="other">その他</button>
-@@ -419,0 +463,4 @@
+@@ -419,0 +466,4 @@
 +    <div id="gripOther" hidden>
 +      <label id="gripOtherLabel" for="gripOtherText">持ち方・操作した手や指（任意）</label>
 +      <textarea id="gripOtherText" rows="1" maxlength="300" placeholder="短くお書きください"></textarea>
 +    </div>
-@@ -422 +469 @@
+@@ -422 +472 @@
 -    <!-- 事後アンケート 拡充分 (2026-09-06 §6-6 項8): 状態・課題の感じ方・環境・習熟・ふりかえり+自己報告の 22 項目 (2026-09-26 に data_use、2026-09-30 に課題の感じ方 3 問を追加)。POST_ITEMS から描画。
 +    <!-- 事後アンケート拡充分: POST_ITEMSから通常27項目を描画（追加課題OFFでは対応質問を除いて26項目）。
-@@ -424 +471 @@
+@@ -424 +474 @@
 -    <p class="opt-note" id="postLead" style="display:none;margin-top:14px">続けて、いくつか質問にお答えください（約2分）。</p>
 +    <p class="opt-note" id="postLead" style="display:none;margin-top:14px">続けて、いくつか質問にお答えください（目安：約8分）。</p>
-@@ -429,3 +476,3 @@
+@@ -429,3 +479,3 @@
 -      <div class="postpage" data-page="problems" id="surveyProblemsPage">
 -      <!-- 既存10項目の5+5を保ち、案内・待機に関する追加2項目を3ページ目に分ける。各ページに該当なしを設ける -->
 -      <h2 id="surveyProblemsLabel">使いにくかった点・改善してほしい点</h2>
 +      <div class="postpage" data-page="problems" data-other-part="3" id="surveyProblemsPage">
 +      <!-- 5+4+3項目の3ページ。その他は最後に置き、各ページに該当なしを設ける -->
 +      <h2 id="surveyProblemsLabel">使いにくかった点・改善した方がいい点</h2>
-@@ -435,3 +482,3 @@
+@@ -435,3 +485,3 @@
 -        <button type="button" class="chk" data-part="1" data-val="rating_burden">振り返りの回答が多くて負担だった</button>
 -        <button type="button" class="chk" data-part="1" data-val="trial_fatigue">試行数が多くて疲れた・長く感じた</button>
 -        <button type="button" class="chk" data-part="1" data-val="drag_hard">ドラッグして選ぶ操作がやりにくかった</button>
 +        <button type="button" class="chk" data-part="1" data-val="rating_burden">1問ごとの回答の振り返りが負担だった</button>
 +        <button type="button" class="chk" data-part="1" data-val="trial_fatigue">問題数が多くて疲れた・長く感じた</button>
 +        <button type="button" class="chk" data-part="1" data-val="drag_hard">指を離さずに運んで選ぶ操作がやりにくかった</button>
-@@ -445 +491,0 @@
+@@ -445 +494,0 @@
 -        <button type="button" class="chk" data-part="2" data-val="other">その他</button>
-@@ -448,0 +495 @@
+@@ -448,0 +498 @@
 +        <button type="button" class="chk" data-part="3" data-val="other">その他</button>
-@@ -457 +504 @@
+@@ -457 +507 @@
 -      <h2 id="surveyEaseLabel">ドラッグで選ぶ操作はしやすかったですか</h2>
 +      <h2 id="surveyEaseLabel">指を離さずに運んで選ぶ操作はしやすかったですか</h2>
-@@ -481 +528 @@
+@@ -481 +531 @@
 -    <p class="opt-note" id="postMissing" style="text-align:center;margin-top:6px;color:var(--err);font-weight:700"></p>
 +    <p class="opt-note" id="postMissing" data-tap-action style="text-align:center;margin-top:6px;color:var(--err);font-weight:700"></p>
-@@ -493 +540 @@
+@@ -493 +543 @@
 -      <p class="opt-note" id="sendWaitNote">通信環境によっては時間がかかる場合があります。ブラウザの更新（再読み込み）や「戻る」は使わず、画面を閉じずにそのままお待ちください。</p>
 +      <p class="opt-note" id="sendWaitNote">通信環境によっては時間がかかる場合があります。<br><strong>ブラウザの更新（再読み込み）や「戻る」は使わず、画面を閉じずにそのままお待ちください。</strong></p>
-@@ -541 +588,6 @@
+@@ -541 +591,6 @@
 -<script src="bank.js"></script>
-+<script src="js/runtime-guards.js?v=2026-11-01-ui28a"></script>
++<script src="js/runtime-guards.js?v=2026-11-02-ui29"></script>
 +<script src="bank.js?v=2026-10-15-ui18"></script>
 +<script src="guided-tutorial.js?v=2026-10-16-ui22"></script>
-+<script src="js/tutorial-visuals.js?v=2026-11-01-ui28a"></script>
-+<script src="js/tutorial-view.js?v=2026-11-01-ui28a"></script>
-+<script src="js/tutorial-controller.js?v=2026-11-01-ui28a"></script>
-@@ -548,4324 +600,10 @@
++<script src="js/tutorial-visuals.js?v=2026-11-02-ui29"></script>
++<script src="js/tutorial-view.js?v=2026-11-02-ui29"></script>
++<script src="js/tutorial-controller.js?v=2026-11-02-ui29"></script>
+@@ -548,4324 +603,10 @@
 -<script>
 -(function () {
 -  "use strict";
@@ -5443,22 +5455,22 @@ index b02688a..f210f51 100644
 -      if (e.cancelable) e.preventDefault(); }, { passive: false });
 -})();
 -</script>
-+<script src="js/trial-recorder.js?v=2026-11-01-ui28a"></script>
-+<script src="js/reading-policy.js?v=2026-11-01-ui28a"></script>
-+<script src="js/explanation-telemetry.js?v=2026-11-01-ui28a"></script>
-+<script src="js/choice-controls.js?v=2026-11-01-ui28a"></script>
-+<script src="js/instruction-notice-view.js?v=2026-11-01-ui28a"></script>
-+<script src="js/rating-content.js?v=2026-11-01-ui28a"></script>
-+<script src="js/rating-controller.js?v=2026-11-01-ui28a"></script>
-+<script src="js/rating-view.js?v=2026-11-01-ui28a"></script>
++<script src="js/trial-recorder.js?v=2026-11-02-ui29"></script>
++<script src="js/reading-policy.js?v=2026-11-02-ui29"></script>
++<script src="js/explanation-telemetry.js?v=2026-11-02-ui29"></script>
++<script src="js/choice-controls.js?v=2026-11-02-ui29"></script>
++<script src="js/instruction-notice-view.js?v=2026-11-02-ui29"></script>
++<script src="js/rating-content.js?v=2026-11-02-ui29"></script>
++<script src="js/rating-controller.js?v=2026-11-02-ui29"></script>
++<script src="js/rating-view.js?v=2026-11-02-ui29"></script>
 +<script src="conference-demo.js?v=2026-11-01-demo2"></script>
-+<script src="js/app.js?v=2026-11-01-ui28a" onerror="document.getElementById('wcBody').innerHTML='&lt;h1&gt;読み込みが完了していません&lt;/h1&gt;&lt;p&gt;通信を確認して、もう一度読み込んでください。&lt;/p&gt;'; const next=document.getElementById('wcNext'); next.textContent='再読み込み'; next.disabled=false; next.onclick=function(){location.reload()}"></script>
++<script src="js/app.js?v=2026-11-02-ui29" onerror="document.getElementById('wcBody').innerHTML='&lt;h1&gt;読み込みが完了していません&lt;/h1&gt;&lt;p&gt;通信を確認して、もう一度読み込んでください。&lt;/p&gt;'; const next=document.getElementById('wcNext'); next.textContent='再読み込み'; next.disabled=false; next.onclick=function(){location.reload()}"></script>
 diff --git a/tools/pilot-anchor/js/app.js b/tools/pilot-anchor/js/app.js
 new file mode 100644
-index 0000000..f555e0c
+index 0000000..8abe068
 --- /dev/null
 +++ b/tools/pilot-anchor/js/app.js
-@@ -0,0 +1,4421 @@
+@@ -0,0 +1,4432 @@
 +(function () {
 +  "use strict";
 +  // The conference experience never initializes the research session or storage.
@@ -5938,9 +5950,8 @@ index 0000000..f555e0c
 +  // クラウド配布 (評定ブロックあり・kiosk/stop でない) のみ。?instr=0 で無効 (開発用)
 +  const INSTR_ON = (function () { const v = QS.get("instr"); if (v != null) return v !== "0"; return HAS_RATING_BLOCK && !KIOSK && !STOP_ON; })();
 +  const INSTR_N = 49;
-+  const instructedText = n => `ここからの ${n} 問は、これまでとは逆に、問題文も選択肢も読まずに、適当に指を運んでください。どちらの選択肢でも構いません。`;
 +  const instructedCount = (dev = device) => dev.instructed?.n ?? dev.instructedPlan?.n ?? INSTR_N;
-+  let instructedDone = false, pendingInstructedStart = false, instrIndex = 0;
++  let instructedDone = false, pendingInstructedStart = false, instrIndex = 0, instructedIntroPage = 0;
 +  // 開始手続き (§6-6 項19。2026-09-26 改訂 = 押下で出現): 場面文を読む → スタートに指を置いた瞬間に選択肢が出る →
 +  // 出現後 LATE_START_MS 以内に動き出す (超えた試行は評定送信後に案内)。動き出した後の停止は記録するだけで案内しない
 +  // (止まる人は止まり、迷いながら動かす人は動かす = 自然なデータを取る。旧 2026-09-09〜25 の「枠から出た瞬間に出現・3 秒停止で案内」は廃止)
@@ -6031,6 +6042,7 @@ index 0000000..f555e0c
 +  }
 +  let explanationTelemetry = null; // UI28 observations; no changes to reading gates or progression.
 +  function show(name) {
++    if (name === "blockintro" && !pendingInstructedStart) { $("blockintroBack").hidden = true; $("blockintroGo").textContent = "続ける"; }
 +    if (name !== "task") clearDragFeedback();
 +    if (name !== "task") { hideBanner(); clearIdleCoach(); if (coachDismissTimer || coachEl.classList.contains("ok")) coachHide(); }
 +    if (consentTiming && !sessionFinished) consentTiming.change(document.hidden ? "background" : name);
@@ -6108,7 +6120,7 @@ index 0000000..f555e0c
 +    stopNoticesSuppressed: 0, // 上限（種類ごと5回）で非表示にした理由数。両方の抑止なら2
 +    pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
 +    practiceChecks: [], noticeReviews: [], noticeAcknowledgements: [], // 旧別画面見直しと新注意内確認を分ける。読了・理解や除外の判定には用いない
-+    appVersion: "2026-11-01-ui28a",  // 開始時の版は再開でも保持する
++    appVersion: "2026-11-02-ui29",  // 開始時の版は再開でも保持する
 +    instructedPlan: { version: "2026-11-01-ui28", n: INSTR_N, selection: "all-main-moral" },
 +    moralPracticeDefinition: null, // 最初の操作説明・練習開始時に固定する刺激の版と全文。表示・理解の証跡ではない
 +    welcomeAgree: null,       // はじめに 6/7・7/7 の同意チェック {items, pages, ms}
@@ -6119,7 +6131,7 @@ index 0000000..f555e0c
 +
 +  // appVersionは開始時の版を維持するため、教示の表示版は実行中のコードから記録する。
 +  // 未記録の旧画面を推測で埋めず、表示イベントを読了・理解とみなさない。
-+  const INSTRUCTION_VERSION = "2026-11-01-ui28";
++  const INSTRUCTION_VERSION = "2026-11-02-ui29";
 +  function moralPracticeDefinition(legacy = false) {
 +    if (!device.moralPracticeDefinition) {
 +      const source = PILOT_BANK.moral;
@@ -6801,21 +6813,34 @@ index 0000000..f555e0c
 +  }
 +  // ===== 教示誘導ブロック (2026-09-09 決定。decisions-log / experiment-design §6-6 項19) =====
 +  // 通常本番の全49項目を再提示（注意チェック除外）。旧版再開だけは水準1:3:6の10問を保持。評定なし。
-+  function showInstructedIntro() {
++  function instructedExplanation(n) {
++    const version = "instructed-explanation-v2";
++    if (device.instructedExplanation?.version === version && device.instructedExplanation.n === n) return device.instructedExplanation;
++    if (device.instructedExplanation) (device.instructedExplanationHistory ||= []).push(device.instructedExplanation);
++    return device.instructedExplanation = { version, n, pages: [
++      '<p>さきほど答えた問題が' + n + '問もう一度出ます。</p>' +
++      '<p class="instruction-key">今度は、<b>問題文も選択肢も読まずに、適当に指を運んでください。</b><br>どちらの選択肢でも構いません。前の答えを思い出す必要もありません。</p>',
++      '<p>操作はこれまでと同じです。<br><b>スタートボタンに指を置き、指を離さずに</b>どちらかの選択肢のボックスまで運び、<b>枠の中で離してください。</b></p>' +
++      '<p>振り返りの質問はありません。この追加課題の回答は<b>謝礼に影響しません。</b></p>' +
++      '<p>終わると、最後のアンケートに進みます。</p>'
++    ] };
++  }
++  function showInstructedIntro(page = 0) {
 +    const available = new Set(records.filter(r => r.phase === "main" && r.block === "moral" && !r.isCheck && r.itemId).map(r => r.itemId)).size;
 +    const n = Math.min(instructedCount(), available);
 +    device.instructedPlan = { ...device.instructedPlan, n };
++    const definition = instructedExplanation(n);
++    instructedIntroPage = page === 1 ? 1 : 0;
 +    pendingInstructedStart = true;
 +    $("blockintroBody").classList.remove("practice-complete-card");
 +    $("blockintroBody").classList.add("instructed-intro-card");
-+    $("blockintroBody").innerHTML =
-+      `<h1>追加の ${n} 問<br><span class="instructed-subtitle">（やり方が変わります）</span></h1>` +
-+      '<p class="instruction-key"><b>問題文も選択肢も、読まずに進めてください。</b><br>内容を考えて答えを選ばず、<b>適当に指を運んでください。</b>どちらの選択肢でも構いません。</p>' +
-+      `<p>この${n}問は、指示どおり読まずに答える問題なので、<b>謝礼には影響しません。</b></p>` +
-+      '<p>操作はこれまでと同じです。振り返りはありません。このあと最後に実施後のアンケートがあります。</p>';   // ui13: 読まずに運ぶ指示と、操作・振り返り・最後の質問の順を短く示す
++    $("blockintroBody").innerHTML = '<p class="session-card-step">追加課題の説明　' + (instructedIntroPage + 1) + ' / 2</p>' +
++      '<h1>追加の ' + n + ' 問<br><span class="instructed-subtitle">（やり方が変わります）</span></h1>' + definition.pages[instructedIntroPage];
++    $("blockintroBack").hidden = instructedIntroPage === 0;
++    $("blockintroGo").textContent = instructedIntroPage === 0 ? "次へ" : "追加の" + n + "問を始める";
 +    show("blockintro");
 +    $("blockintro").querySelector(".pad").scrollTop = 0;
-+    logInstructionExposure("instructedIntro", { n, selection: device.instructedPlan.selection });
++    logInstructionExposure("instructedIntro", { n, page: instructedIntroPage + 1, definitionVersion: definition.version, selection: device.instructedPlan.selection });
 +    resumeStage = "instructedIntro"; saveBackup();
 +  }
 +  function startInstructed() {
@@ -6834,7 +6859,7 @@ index 0000000..f555e0c
 +    const byId = {};
 +    for (const item of BLOCK.bank) byId[item.id || (item.level ? `${item.mtype}-${item.level}` : item.mtype)] = item;
 +    queue = shuffle(ids.filter((id) => byId[id]).map((id) => BLOCK.makeCell(byId[id], Math.random() < 0.5 ? "left" : "right")));
-+    device.instructed = { n: queue.length, itemIds: queue.map((c) => c.itemId), text: instructedText(queue.length), version: INSTRUCTION_VERSION, selection: device.instructedPlan.selection };
++    device.instructed = { n: queue.length, itemIds: queue.map((c) => c.itemId), text: instructedExplanation(queue.length).pages.join("\n").replace(/<[^>]*>/g, ""), version: INSTRUCTION_VERSION, selection: device.instructedPlan.selection };
 +    phase = "instructed"; instrIndex = 0;
 +    setCoach(null); coachHide();
 +    sizeCanvas();
@@ -7335,10 +7360,7 @@ index 0000000..f555e0c
 +  // 端点顕著/中間減光・両 destination 均等。実演は pointer-events:none の装飾で実要素の geom に不干渉。
 +  const dragTutState = { done: false, active: false };
 +  const DragTut = (() => {
-+    const INSTRUCTED_STEPS = [
-+      { part: "extra", focus: "orient", act: "next", sample: true, reveal: 0, op: "確認したら「次へ」", txt: "追加の問題では、<b>問題文も選択肢も読まずに</b>、<b>適当に指を運んでください</b>。<br>どちらの選択肢でも構いません。前の答えを思い出す必要もありません。<br>この追加問題は、指示どおり読まずに答える問題なので、<b>謝礼には影響しません。</b>" },
-+      { part: "extra", focus: "orient", act: "next", sample: true, reveal: 0, op: "確認したら「問題に戻る」", txt: "操作はこれまでと同じです。<br><b>スタートボタンに指を置き、指を離さずに</b>どちらかの選択肢のボックスまで運び、<b>選択肢のボックスの中で離します</b>。<br>問題文や選択肢は読まずに進めてください。<b>振り返りの質問はありません。</b>" },
-+    ];
++    const INSTRUCTED_STEPS = () => instructedExplanation(instructedCount()).pages.map((txt, i) => ({ part: "extra", focus: "orient", act: "next", sample: true, reveal: 0, op: i ? "確認したら「問題に戻る」" : "確認したら「次へ」", txt }));
 +    return window.PILOT_GUIDED_TUTORIAL.createEngine({
 +      $, surface, startBtn, stemEl, choiceA, choiceB, numA, numB, dragTutState, screens,
 +      getDevice: () => device, setResumeStage: value => { resumeStage = value; },
@@ -8768,7 +8790,7 @@ index 0000000..f555e0c
 +      } : null,
 +      post: resumeStage === "postq" ? { answers: { ...post }, survey: { ...survey, problems: survey.problems.slice() }, gripOtherDraft, page: postPageIdx, pageId: postPages[postPageIdx] ? postPages[postPageIdx].id : null, elapsedMs: now - postShownAt } : null,
 +      activeAttempt: recording && trial ? publicTrial(trial) : null,
-+      pendingInstructedStart, pendingMainStart, pendingNotice, stopNoticeShown, noticeKind,
++      pendingInstructedStart, instructedIntroPage, pendingMainStart, pendingNotice, stopNoticeShown, noticeKind,
 +      practiceRuleFlags: practiceRuleFlags.slice(),
 +      practiceCheck: practiceCheckState ? { ...practiceCheckState, checked: practiceCheckState.checked.slice(), elapsedMs: performance.now() - practiceCheckShownAt } : null,
 +      noticeElapsedMs: noticeShownAt == null ? 0 : now - noticeShownAt,
@@ -8948,7 +8970,7 @@ index 0000000..f555e0c
 +      } else if (r.stage === "task") presentStimulus(r);
 +      else if (r.stage === "break") { showBreak(); breakShownAt -= r.breakElapsedMs || 0; breakAtTrial = r.breakAtTrial; saveBackup(); }
 +      else if (r.stage === "notice") { showStopNotice(r.noticeKind); noticeShownAt -= r.noticeElapsedMs || 0; saveBackup(); }
-+      else if (r.stage === "instructedIntro") showInstructedIntro();
++      else if (r.stage === "instructedIntro") showInstructedIntro(r.instructedIntroPage);
 +      else if (r.stage === "blockintro") showBlockIntro();
 +      else nextTrial();
 +    };
@@ -9643,8 +9665,9 @@ index 0000000..f555e0c
 +    }
 +    presentStimulus();
 +  }, { passive: true });
++  $("blockintroBack").addEventListener("click", () => { if (pendingInstructedStart) showInstructedIntro(0); }, { passive: true });
 +  $("blockintroGo").addEventListener("click", () => {
-+    if (pendingInstructedStart) { pendingInstructedStart = false; startInstructed(); return; }   // 教示誘導ブロックへ
++    if (pendingInstructedStart) { if (instructedIntroPage === 0) { showInstructedIntro(1); return; } pendingInstructedStart = false; $("blockintroBack").hidden = true; $("blockintroGo").textContent = "続ける"; startInstructed(); return; }   // 教示誘導ブロックへ
 +    if (pendingMainStart) { pendingMainStart = false; startMain(); return; }  // 練習クリア→本番 (自己ペース)
 +    UNIFIED ? startMain() : startPractice();   // 統合: 練習は冒頭に統合済み→次パートは本番へ直行 (2026-07-15)
 +  }, { passive: true });
@@ -9867,7 +9890,7 @@ index 0000000..f555e0c
 +      Object.assign(context, { explanation: true, nextIds: ["guidedIntroGo"], waitRemainingMs: remaining, blockedReason: remaining > 0 ? "minimum_display" : null });
 +    } else if (["consent", "notice", "practicecheck", "blockintro", "break"].includes(screen)) {
 +      const nextId = { consent: "consentGo", notice: "noticeGo", practicecheck: "practiceCheckGo", blockintro: "blockintroGo", break: "breakContinue" }[screen];
-+      Object.assign(context, { explanation: true, page: screen === "notice" ? "notice:" + noticeKind : screen === "blockintro" ? "blockintro:" + (pendingInstructedStart ? "instructed" : pendingMainStart ? "practice_complete" : CONFIG.block) : screen,
++      Object.assign(context, { explanation: true, page: screen === "notice" ? "notice:" + noticeKind : screen === "blockintro" ? "blockintro:" + (pendingInstructedStart ? "instructed:" + instructedIntroPage : pendingMainStart ? "practice_complete" : CONFIG.block) : screen,
 +        nextIds: [nextId], blockedReason: $(nextId)?.disabled ? "required_action" : null });
 +    } else if (screen === "rating") context.page = "rating_answer:" + ratingController.state().page;
 +    else if (screen === "postq") context.page = "post:" + (postPages[postPageIdx]?.id || "unknown");
@@ -10994,10 +11017,10 @@ index 0000000..ff996b2
 +});
 diff --git a/tools/pilot-anchor/js/tutorial-controller.js b/tools/pilot-anchor/js/tutorial-controller.js
 new file mode 100644
-index 0000000..41a73e0
+index 0000000..d5792c0
 --- /dev/null
 +++ b/tools/pilot-anchor/js/tutorial-controller.js
-@@ -0,0 +1,165 @@
+@@ -0,0 +1,167 @@
 +'use strict';
 +
 +// 進行・読了待機・復習合格・教示ログ・保存/再開を所有する。
@@ -11006,7 +11029,8 @@ index 0000000..41a73e0
 +  const config = window.PILOT_GUIDED_TUTORIAL, SCHEMA = config.schema;
 +  const { dragTutState } = env;
 +  const STEPS = config.steps;
-+  const INSTRUCTED_STEPS = env.instructedSteps.map((s, i) => ({ ...s, id: 'instructed-' + i, kind: 'instruction', chapter: '追加問題の操作', title: '追加問題の操作', copy: s.txt, button: i ? '問題に戻る' : '次へ', action: s.op, html: true }));
++  const buildInstructedSteps = () => (typeof env.instructedSteps === "function" ? env.instructedSteps() : env.instructedSteps).map((s, i) => ({ ...s, id: 'instructed-' + i, kind: 'instruction', chapter: '追加問題の操作', title: '追加問題の操作', copy: s.txt, button: i ? '問題に戻る' : '次へ', action: s.op, html: true }));
++  let INSTRUCTED_STEPS = [];
 +  const seen = new Set(), completed = new Set();
 +  let steps = STEPS, idx = -1, replay = false, required = null, returnLabel = '問題に戻る', onDone = null;
 +  let lockUntil = 0, lockTimer = null, cueTimer = null, nextDisabled = false, pending = false;
@@ -11144,6 +11168,7 @@ index 0000000..41a73e0
 +    if (env.realBlocks.includes('moral')) env.moralPracticeDefinition(); view.build();
 +    if (idx >= 0) teardown();
 +    const enteringReplay = !!opts.replay; priorInitial = enteringReplay ? snapshot() : null;
++    if (opts.instructed) INSTRUCTED_STEPS = buildInstructedSteps();
 +    replay = enteringReplay; steps = opts.instructed ? INSTRUCTED_STEPS : STEPS; returnLabel = opts.returnLabel || '問題に戻る'; onDone = cb;
 +    restoreState(opts.restored, true);
 +    required = Array.isArray(opts.requiredSteps) && opts.requiredSteps.length ? [...new Set(opts.requiredSteps.map(n => typeof n === 'string' ? steps.findIndex(s => s.id === n) : opts.instructed ? n : steps.findIndex(s => s.id === config.legacyStepIds[n])).filter(n => n >= 0 && n < steps.length))] : null;

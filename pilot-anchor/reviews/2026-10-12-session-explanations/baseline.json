@@ -780,6 +780,42 @@
         "sourceNote": "旧2枚目から分割したため、この独立画面の変更前画像はありません。",
         "createdInVersion": "2026-10-16-ui25"
       }
+    },
+    {
+      "id": "instructed-2",
+      "title": "追加問題：始める前 2 / 2",
+      "kind": "新設・共通化",
+      "purpose": "UI29で開始時と課題中の本文を同じ2枚に統一しました。",
+      "before": {
+        "image": null,
+        "text": "",
+        "sourceNote": "この比較IDの変更前画像はありません。",
+        "createdInVersion": "2026-11-02-ui29"
+      }
+    },
+    {
+      "id": "instructed-help-1",
+      "title": "追加問題：課題中の説明 1 / 2",
+      "kind": "新設・共通化",
+      "purpose": "UI29で開始時と課題中の本文を同じ2枚に統一しました。",
+      "before": {
+        "image": null,
+        "text": "",
+        "sourceNote": "この比較IDの変更前画像はありません。",
+        "createdInVersion": "2026-11-02-ui29"
+      }
+    },
+    {
+      "id": "instructed-help-2",
+      "title": "追加問題：課題中の説明 2 / 2",
+      "kind": "新設・共通化",
+      "purpose": "UI29で開始時と課題中の本文を同じ2枚に統一しました。",
+      "before": {
+        "image": null,
+        "text": "",
+        "sourceNote": "この比較IDの変更前画像はありません。",
+        "createdInVersion": "2026-11-02-ui29"
+      }
     }
   ]
 }
