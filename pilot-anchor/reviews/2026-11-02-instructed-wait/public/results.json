@@ -1,0 +1,58 @@
+{
+  "checkedAt": "2026-11-01T16:24:25.720Z",
+  "version": "2026-11-02-ui30a",
+  "scope": "Live public preview; GET/HEAD only; no answers submitted; Chrome emulation",
+  "checks": [
+    {
+      "name": "UI30 publicly loaded",
+      "pass": true
+    },
+    {
+      "name": "upload disabled",
+      "pass": true
+    },
+    {
+      "name": "intro page 1",
+      "pass": true
+    },
+    {
+      "name": "first-visit wait blocks page 1",
+      "pass": true
+    },
+    {
+      "name": "intro page 2",
+      "pass": true
+    },
+    {
+      "name": "first-visit wait blocks page 2",
+      "pass": true
+    },
+    {
+      "name": "starts at 1 of 49",
+      "pass": true
+    },
+    {
+      "name": "help matches intro 1",
+      "pass": true
+    },
+    {
+      "name": "help matches intro 2",
+      "pass": true
+    },
+    {
+      "name": "returns to same question",
+      "pass": true
+    },
+    {
+      "name": "no JavaScript errors",
+      "pass": true
+    },
+    {
+      "name": "no writes attempted",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "writes": [],
+  "passed": true
+}
