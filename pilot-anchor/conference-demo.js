@@ -182,8 +182,15 @@
         card.append(node("h2", "", `第${at + 1}問`), node("p", "conference-stem", record.stem), trajectory(record, at));
         const answer = node("p", "conference-answer", "あなたの回答"); answer.append(node("b", "", record.choiceSide === "left" ? record.leftLabel : record.rightLabel)); card.append(answer);
         const metrics = node("dl", "conference-metrics");
-        for (const [label, ms] of [["問題表示から押すまで", record.preStartMs], ["押してから動き出すまで", record.rt_ms], ["動き出してから離すまで", record.mt_proxy_ms], ["押してから離すまで（合計）", record.total_ms]]) {
-          metrics.append(node("dt", "", label), node("dd", "", (ms / 1000).toFixed(2) + " 秒"));
+        // Same three intervals as mainstudy_analysis._timing; total_ms starts at contact.
+        const pressToMoveMs = Number.isFinite(record.rt_ms) ? record.rt_ms
+          : Number.isFinite(record.initiationT) && Number.isFinite(record.startPressT) ? record.initiationT - record.startPressT : null;
+        const moveToResponseMs = Number.isFinite(record.responseT) && Number.isFinite(record.initiationT)
+          ? record.responseT - record.initiationT : record.mt_proxy_ms;
+        const intervals = [record.preStartMs, pressToMoveMs, moveToResponseMs];
+        const totalWithReadMs = intervals.every(Number.isFinite) ? intervals.reduce((sum, ms) => sum + ms, 0) : null;
+        for (const [label, ms] of [["問題表示から押すまで", record.preStartMs], ["押してから動き出すまで", pressToMoveMs], ["動き出してから離すまで", moveToResponseMs], ["問題表示から回答確定まで（合計）", totalWithReadMs]]) {
+          metrics.append(node("dt", "", label), node("dd", "", Number.isFinite(ms) ? (ms / 1000).toFixed(2) + " 秒" : "—"));
         }
         card.append(metrics); const ratings = node("div", "conference-ratings");
         for (const item of root.PilotRatingContent.items) {
