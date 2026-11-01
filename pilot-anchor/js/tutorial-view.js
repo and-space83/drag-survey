@@ -119,7 +119,7 @@ window.PILOT_GUIDED_TUTORIAL.createView = function (env, model, events) {
     clearParts(); setContent(step); pop.classList.remove('hidden'); pop.classList.add('on'); row.classList.remove('hidden'); row.classList.remove('pending');
     $('tutPopNext').textContent = model.nextLabel(); $('tutPopNext').disabled = false; $('tutPopNext').classList.remove('cue');
     $('tutPrev').classList.toggle('hidden', model.isFirstStep());
-    $('phaseLabel').textContent = model.isStandard() ? step.chapter.replace(/^\d\s/, '') : '追加10問の操作';
+    $('phaseLabel').textContent = model.isStandard() ? step.chapter.replace(/^\d\s/, '') : '追加問題の操作';
   }
   function showStage(step) {
     const key = step.id;

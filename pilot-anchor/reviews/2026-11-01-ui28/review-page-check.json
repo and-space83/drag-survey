@@ -1,0 +1,35 @@
+{
+  "at": "2026-11-01T11:37:18.353Z",
+  "checks": [
+    {
+      "width": 375,
+      "size": "safari-17",
+      "pass": true
+    },
+    {
+      "width": 375,
+      "size": "safari-se",
+      "pass": true
+    },
+    {
+      "width": 375,
+      "size": "ipad-layout",
+      "pass": true
+    },
+    {
+      "width": 1100,
+      "size": "safari-17",
+      "pass": true
+    },
+    {
+      "width": 1100,
+      "size": "safari-se",
+      "pass": true
+    },
+    {
+      "width": 1100,
+      "size": "ipad-layout",
+      "pass": true
+    }
+  ]
+}

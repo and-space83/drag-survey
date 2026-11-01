@@ -76,7 +76,9 @@
     trial.lateStart = trial.rt_ms > LATE_START_MS;   // 遅い初動: 選択肢が出てから 3 秒を超えて動かなかった (評定送信後に案内。品質共変量)
     // 早出し: 問題文表示〜スタート押下が固定読了時間より短い（問題文のないブロックは判定しない）
     trial.stemChars = stemChars;
-    trial.earlyStart = trial.stemChars > 0 && trial.preStartMs < (trial.stemChars / EARLY_CPS) * 1000;   // 問題文表示〜スタート押下 < 文字数÷25字/秒。読了の有無ではなく時間に基づくフラグ
+    trial.earlyCps = EARLY_CPS;
+    trial.earlyThresholdMs = (trial.stemChars / EARLY_CPS) * 1000;
+    trial.earlyStart = trial.stemChars > 0 && trial.preStartMs < trial.earlyThresholdMs; // 読了の有無ではなく時間に基づくフラグ。猶予は加えない。
 
     // 実効 dispatch レート (dt>0 ガード)
     let span = 0, n = 0;

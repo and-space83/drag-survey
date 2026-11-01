@@ -1,0 +1,13 @@
+{
+  "at": "2026-11-01T11:30:16.899Z",
+  "passed": true,
+  "scope": "Synthetic; unchanged collector with mock Drive; no remote submission",
+  "checks": [
+    "55 main + 49 instructed retained",
+    "task and final telemetry retained independently",
+    "grip definition and optional text retained",
+    "two protocol-3 files",
+    "compressed local-storage roundtrip"
+  ],
+  "collectorSha256": "3c645594c0bbf0254aeb22e9085c4502e18db64f0404fd7570a499dff024bb8b"
+}

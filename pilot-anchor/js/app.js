@@ -12,7 +12,7 @@
   }
   if (window.pilotAssetLoadFailed || !window.PILOT_BANK || !window.createSessionStore || !window.PilotConsent || !window.PilotCodec || !window.pako || !window.PilotDurable || !window.createStagedDelivery ||
       typeof window.PilotTrialRecorder?.create !== "function" || typeof window.PilotRuntimeGuards?.create !== "function" || typeof window.PilotRuntimeGuards?.installTouchGuards !== "function" ||
-      typeof window.PilotReadingPolicy?.create !== "function" || typeof window.PilotChoiceControls?.create !== "function" || typeof window.PilotInstructionNoticeView?.create !== "function" ||
+      typeof window.PilotReadingPolicy?.create !== "function" || typeof window.PilotExplanationTelemetry?.create !== "function" || typeof window.PilotChoiceControls?.create !== "function" || typeof window.PilotInstructionNoticeView?.create !== "function" ||
       !Array.isArray(window.PilotRatingContent?.items) || !Array.isArray(window.PilotRatingContent?.tutorialPages) || !window.PilotRatingContent?.practiceIntro || typeof window.PilotRatingContent.practiceIntro !== "object" ||
       typeof window.PilotRating?.createController !== "function" || typeof window.PilotRatingView?.create !== "function" ||
       ["createEngine", "createView", "createDemo", "createTimeDemo", "createCardMotion"].some(name => typeof window.PILOT_GUIDED_TUTORIAL?.[name] !== "function")) {
@@ -473,11 +473,12 @@
   // 事後アンケート拡充分 (§6-6 項8、2026-09-06): 評定ブロックを含む**クラウド配布**のみ。対面 (kiosk / 中断ボタンあり) は
   // 時間枠が短く実施者も不在なので、操作の質問 (grip + UI/負担) だけに留める (ユーザー方針 2026-09-06)
   const POST_ON = HAS_RATING_BLOCK && !KIOSK && !STOP_ON;
-  // 教示誘導ブロック (careless GT 候補 A。decisions-log 2026-09-09・§6-6 項19): ⑤末尾ブロックの後・事後アンケートの前に 10 問 (2026-09-26。旧 8。水準比 1:3:6)。
+  // UI28: 通常本番の道徳49項目すべてを再提示。旧10問セッションの計画は再開時にも保持する。
   // クラウド配布 (評定ブロックあり・kiosk/stop でない) のみ。?instr=0 で無効 (開発用)
   const INSTR_ON = (function () { const v = QS.get("instr"); if (v != null) return v !== "0"; return HAS_RATING_BLOCK && !KIOSK && !STOP_ON; })();
-  const INSTR_N = 10;
-  const INSTR_TEXT = "ここからの 10 問は、これまでとは逆に、問題文も選択肢も読まずに、適当に指を運んでください。どちらの選択肢でも構いません。";   // 2026-09-30 夜 ユーザー文言: 「読まなくてよい」を明確に。「思いついたほう」は見て理解する含みがあるので使わない。「ランダムに」は判断を要するので使わない   // 2026-09-30 文言改訂 (「ランダムに」は言わない = 意図的なランダム化は別の行動)
+  const INSTR_N = 49;
+  const instructedText = n => `ここからの ${n} 問は、これまでとは逆に、問題文も選択肢も読まずに、適当に指を運んでください。どちらの選択肢でも構いません。`;
+  const instructedCount = (dev = device) => dev.instructed?.n ?? dev.instructedPlan?.n ?? INSTR_N;
   let instructedDone = false, pendingInstructedStart = false, instrIndex = 0;
   // 開始手続き (§6-6 項19。2026-09-26 改訂 = 押下で出現): 場面文を読む → スタートに指を置いた瞬間に選択肢が出る →
   // 出現後 LATE_START_MS 以内に動き出す (超えた試行は評定送信後に案内)。動き出した後の停止は記録するだけで案内しない
@@ -487,7 +488,7 @@
   const STOP_NOTICE_MAX = 5;   // 案内は種類ごとに1セッション5回まで。6回目以降も試行の記録は残す
   // 早出し: 問題文表示〜スタート押下が「文字数 ÷ EARLY_CPS」より短い試行。読了の有無は断定しない (品質共変量。除外基準ではない)。
   // 両方の時間条件を満たした場合は1画面にまとめる。種類ごとの上限は独立に適用する。
-  const EARLY_CPS = 25;
+  const EARLY_CPS = 30;
   const READGATE_ON = QS.get("readgate") !== "0";   // 練習の読了ゲート (2026-09-13)。validate/開発用に無効化可
   const START_CRITERION_HTML = "問題文を読み、状況が分かったら、<b>答えを決める前に</b>スタートに指を置いてください。";
   const HELP_INTRO_HTML = "<b>問題文を読み状況が分かったら、答えを決める前に</b>スタートボタンに指を置きます。すると選択肢が出るので、指を離さずに選ぶほうの選択肢のボックスまで運びます。この操作をくり返します。";
@@ -567,6 +568,7 @@
     target.tabIndex = -1;
     target.focus({ preventScroll: true });
   }
+  let explanationTelemetry = null; // UI28 observations; no changes to reading gates or progression.
   function show(name) {
     if (name !== "task") clearDragFeedback();
     if (name !== "task") { hideBanner(); clearIdleCoach(); if (coachDismissTimer || coachEl.classList.contains("ok")) coachHide(); }
@@ -601,9 +603,10 @@
     // 事前アンケート (特性=安定属性。聞いても今回の操作は変わらないので事前で可。必須)
     age: null, sex: null, handedness: null,
     // 事後アンケート (状態=今回の操作。事前に聞くと意識して自然な使い方が崩れるため課題後に回顧で取得)
-    //   grip = 持ち方+操作した指を1問に統合 (right_thumb/left_thumb/both_thumbs/cradle/on_table)。
-    //   操作手の左右は解析側で grip から導出 (right_thumb→右, left_thumb→左, both_thumbs→両, cradle/on_table→不明)
+    //   grip = 持ち方+操作した指を1問に統合。ui28から両手保持+片方の指とその他を追加。
+    //   操作手はright_thumb/both_right_finger→右、left_thumb/both_left_finger→左、both_thumbs→両、残りは不明。
     grip: null,
+    gripQuestionDefinition: null, gripPresented: false, gripOther: null, // 初回の質問定義と実表示。その他の記入は任意。
     // 事後アンケート UI/負担 (②③=評定ブロックのみ)。使いにくかった点[複数選択]/操作しやすさ/自由記述(その他選択時のみ表示・必須)。
     //   時間ゲートを廃し離脱率で判定する G4 の「負担の主観版」裏付け + UI/チュートリアル改善材料 (pilot2-design-notes)。
     survey: null,
@@ -644,7 +647,8 @@
     stopNoticesSuppressed: 0, // 上限（種類ごと5回）で非表示にした理由数。両方の抑止なら2
     pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
     practiceChecks: [], noticeReviews: [], noticeAcknowledgements: [], // 旧別画面見直しと新注意内確認を分ける。読了・理解や除外の判定には用いない
-    appVersion: "2026-10-18-ui27",  // 開始時の版は再開でも保持する
+    appVersion: "2026-11-01-ui28",  // 開始時の版は再開でも保持する
+    instructedPlan: { version: "2026-11-01-ui28", n: INSTR_N, selection: "all-main-moral" },
     moralPracticeDefinition: null, // 最初の操作説明・練習開始時に固定する刺激の版と全文。表示・理解の証跡ではない
     welcomeAgree: null,       // はじめに 6/7・7/7 の同意チェック {items, pages, ms}
     devGuard: null,           // 機種ガード {on,minH,w,h,shown,isIPhone,isIPad,ipadLink,platformOk,sizeOk}
@@ -654,7 +658,7 @@
 
   // appVersionは開始時の版を維持するため、教示の表示版は実行中のコードから記録する。
   // 未記録の旧画面を推測で埋めず、表示イベントを読了・理解とみなさない。
-  const INSTRUCTION_VERSION = "2026-10-18-ui27";
+  const INSTRUCTION_VERSION = "2026-11-01-ui28";
   function moralPracticeDefinition(legacy = false) {
     if (!device.moralPracticeDefinition) {
       const source = PILOT_BANK.moral;
@@ -1335,19 +1339,22 @@
     }
   }
   // ===== 教示誘導ブロック (2026-09-09 決定。decisions-log / experiment-design §6-6 項19) =====
-  // 本番で答えた③の項目から水準 1:3:6 (≈1:2:4) で 10 問を再提示し、「読まずに速く」の教示で不注意回答を模す。評定なし。
+  // 通常本番の全49項目を再提示（注意チェック除外）。旧版再開だけは水準1:3:6の10問を保持。評定なし。
   function showInstructedIntro() {
+    const available = new Set(records.filter(r => r.phase === "main" && r.block === "moral" && !r.isCheck && r.itemId).map(r => r.itemId)).size;
+    const n = Math.min(instructedCount(), available);
+    device.instructedPlan = { ...device.instructedPlan, n };
     pendingInstructedStart = true;
     $("blockintroBody").classList.remove("practice-complete-card");
     $("blockintroBody").classList.add("instructed-intro-card");
     $("blockintroBody").innerHTML =
-      '<h1>追加の 10 問<br><span class="instructed-subtitle">（やり方が変わります）</span></h1>' +
+      `<h1>追加の ${n} 問<br><span class="instructed-subtitle">（やり方が変わります）</span></h1>` +
       '<p class="instruction-key"><b>問題文も選択肢も、読まずに進めてください。</b><br>内容を考えて答えを選ばず、<b>適当に指を運んでください。</b>どちらの選択肢でも構いません。</p>' +
-      '<p>この10問は、指示どおり読まずに答える問題なので、<b>謝礼には影響しません。</b></p>' +
+      `<p>この${n}問は、指示どおり読まずに答える問題なので、<b>謝礼には影響しません。</b></p>` +
       '<p>操作はこれまでと同じです。振り返りはありません。このあと最後に実施後のアンケートがあります。</p>';   // ui13: 読まずに運ぶ指示と、操作・振り返り・最後の質問の順を短く示す
     show("blockintro");
     $("blockintro").querySelector(".pad").scrollTop = 0;
-    logInstructionExposure("instructedIntro");
+    logInstructionExposure("instructedIntro", { n, selection: device.instructedPlan.selection });
     resumeStage = "instructedIntro"; saveBackup();
   }
   function startInstructed() {
@@ -1356,16 +1363,17 @@
     const byLevel = { clear: [], mid: [], conflict: [] };
     for (const r of done) if (byLevel[r.conflictLevel]) byLevel[r.conflictLevel].push(r.itemId);
     const want = { clear: 1, mid: 3, conflict: 6 };
-    let ids = [];
-    for (const lv of Object.keys(want)) ids = ids.concat(shuffle(byLevel[lv].slice()).slice(0, want[lv]));
-    if (ids.length < INSTR_N) {   // 不足は残りから補充 (途中終了・短縮構成)
+    const target = instructedCount();
+    let ids = device.instructedPlan.selection === "all-main-moral" ? [...new Set(done.map(r => r.itemId))] : [];
+    if (device.instructedPlan.selection !== "all-main-moral") for (const lv of Object.keys(want)) ids = ids.concat(shuffle(byLevel[lv].slice()).slice(0, want[lv]));
+    if (ids.length < target) {   // 旧版の水準別10問を再開する場合の不足分
       const rest = shuffle(done.map((r) => r.itemId).filter((id) => !ids.includes(id)));
-      ids = ids.concat(rest.slice(0, INSTR_N - ids.length));
+      ids = ids.concat(rest.slice(0, target - ids.length));
     }
     const byId = {};
     for (const item of BLOCK.bank) byId[item.id || (item.level ? `${item.mtype}-${item.level}` : item.mtype)] = item;
     queue = shuffle(ids.filter((id) => byId[id]).map((id) => BLOCK.makeCell(byId[id], Math.random() < 0.5 ? "left" : "right")));
-    device.instructed = { n: queue.length, itemIds: queue.map((c) => c.itemId), text: INSTR_TEXT };
+    device.instructed = { n: queue.length, itemIds: queue.map((c) => c.itemId), text: instructedText(queue.length), version: INSTRUCTION_VERSION, selection: device.instructedPlan.selection };
     phase = "instructed"; instrIndex = 0;
     setCoach(null); coachHide();
     sizeCanvas();
@@ -1649,7 +1657,10 @@
                                  : BLOCK.decideOutcome(cell, choiceSide); // anchor: 正誤 / value/moral: 規範整合 (拮抗は null)
 
     stampMonitors(trial);   // 環境音要約 (評定ONの試行は submitRating で評定込み窓に上書き)
-    pendingNotice = trial.earlyStart && trial.lateStart ? "early_late" : trial.earlyStart ? "early" : trial.lateStart ? "late" : null;   // 案内 (評定の後・次の場面文の前の独立画面。§6-6 項19)。動き出した後の停止は案内しない (2026-09-26)
+    // 注意チェックは時間フラグを残し、読解を理由にした案内だけを抑止する。
+    const earlyNotice = trial.earlyStart && !trial.isCheck;
+    trial.readingNoticeEligible = !trial.isCheck;
+    pendingNotice = earlyNotice && trial.lateStart ? "early_late" : earlyNotice ? "early" : trial.lateStart ? "late" : null;
     if (phase === "practice") {
       records.push(trial);
       showPracticeFeedback();
@@ -1691,13 +1702,13 @@
     $("rating").classList.toggle("with-progress", ratingOn);
     $("ratingPhaseLabel").textContent = ratingOn ? (phase === "instructed" ? "追加" : "本番") : "";
     $("ratingCounter").textContent = ratingOn ? counterText() : "";
-    if (on) { const done = phase === "main" ? trialIndex : instrIndex, total = phase === "main" ? totalMain : INSTR_N;
+    if (on) { const done = phase === "main" ? trialIndex : instrIndex, total = phase === "main" ? totalMain : instructedCount();
       const width = (total > 0 ? Math.max(0, Math.min(100, done / total * 100)) : 0) + "%";
       $("progressFill").style.width = width; $("ratingProgressFill").style.width = width; }
   }
   function counterText() {   // チュートリアル試行は番号なし / 練習=n / 5 / 本番=n / N
     if (cell && cell.isTutorial) return "";
-    if (phase === "instructed") return `${instrIndex + 1} / ${INSTR_N}`;
+    if (phase === "instructed") return `${instrIndex + 1} / ${instructedCount()}`;
     return phase === "practice" ? practiceCounter() : `${trialIndex + 1} / ${totalMain}`;
   }
   function showPracticeFeedback() {
@@ -1864,7 +1875,7 @@
   const dragTutState = { done: false, active: false };
   const DragTut = (() => {
     const INSTRUCTED_STEPS = [
-      { part: "extra", focus: "orient", act: "next", sample: true, reveal: 0, op: "確認したら「次へ」", txt: "追加の10問では、<b>問題文も選択肢も読まずに</b>、<b>適当に指を運んでください</b>。<br>どちらの選択肢でも構いません。前の答えを思い出す必要もありません。<br>この10問は、指示どおり読まずに答える問題なので、<b>謝礼には影響しません。</b>" },
+      { part: "extra", focus: "orient", act: "next", sample: true, reveal: 0, op: "確認したら「次へ」", txt: "追加の問題では、<b>問題文も選択肢も読まずに</b>、<b>適当に指を運んでください</b>。<br>どちらの選択肢でも構いません。前の答えを思い出す必要もありません。<br>この追加問題は、指示どおり読まずに答える問題なので、<b>謝礼には影響しません。</b>" },
       { part: "extra", focus: "orient", act: "next", sample: true, reveal: 0, op: "確認したら「問題に戻る」", txt: "操作はこれまでと同じです。<br><b>スタートボタンに指を置き、指を離さずに</b>どちらかの選択肢のボックスまで運び、<b>選択肢のボックスの中で離します</b>。<br>問題文や選択肢は読まずに進めてください。<b>振り返りの質問はありません。</b>" },
     ];
     return window.PILOT_GUIDED_TUTORIAL.createEngine({
@@ -1995,6 +2006,57 @@
   }
 
   // ===== 事後アンケート (持ち方 grip は両ブロック / 使いにくさ survey は②③=評定ブロックのみ) =====
+  const GRIP_QUESTION = "さきほどの課題では、スマートフォンをどのように持って操作していましたか？\n最も近いものを 1 つお選びください。";
+  const CURRENT_GRIP_DEFINITION = {
+    version: "grip-v2", key: "grip", scope: "whole_task", q: GRIP_QUESTION, layout: "grid2",
+    choices: [...$("gripSeg").querySelectorAll("button[data-val]")].map(b => ({ value: b.dataset.val, label: b.textContent })),
+    other: { value: "other", label: $("gripOtherLabel").textContent, placeholder: $("gripOtherText").placeholder, optional: true, maxLength: $("gripOtherText").maxLength }
+  };
+  const LEGACY_GRIP_DEFINITION = {
+    version: "grip-v1", key: "grip", scope: "whole_task", q: GRIP_QUESTION, layout: "list5",
+    choices: CURRENT_GRIP_DEFINITION.choices.filter(c => ["right_thumb", "left_thumb", "both_thumbs", "cradle", "on_table"].includes(c.value)),
+    other: null
+  };
+  let gripOtherDraft = "";
+  function bindGripDefinition(restored) {
+    // postqは必ず持ち方から始まる。旧版で既にpostqへ到達した再開では5択を維持する。
+    // 本番途中など、未提示の旧セッションが初めて到達した場合は8択を提示する。
+    if (!device.gripQuestionDefinition) {
+      const legacy = !!restored || !!device.grip;
+      device.gripQuestionDefinition = JSON.parse(JSON.stringify(legacy ? LEGACY_GRIP_DEFINITION : CURRENT_GRIP_DEFINITION));
+      if (legacy) device.gripQuestionDefinition.reconstructedFromLegacyResume = true;
+    }
+    const definition = device.gripQuestionDefinition;
+    const page = document.querySelector('#postq .postpage[data-page="grip"]');
+    page.classList.toggle("grip-grid", definition.layout === "grid2");
+    $("gripQuestion").replaceChildren();
+    for (const [i, line] of definition.q.split("\n").entries()) {
+      if (i) $("gripQuestion").append(document.createElement("br"));
+      $("gripQuestion").append(document.createTextNode(line));
+    }
+    const buttons = new Map([...$("gripSeg").querySelectorAll("button[data-val]")].map(b => [b.dataset.val, b]));
+    for (const b of buttons.values()) { b.hidden = true; b.classList.remove("sel"); }
+    for (const choice of definition.choices) {
+      const b = buttons.get(choice.value); if (!b) continue;
+      b.hidden = false; b.textContent = choice.label; b.classList.toggle("sel", choice.value === device.grip); $("gripSeg").append(b);
+    }
+    for (const b of buttons.values()) if (b.hidden) $("gripSeg").append(b);
+    if (definition.other) {
+      $("gripOtherLabel").textContent = definition.other.label;
+      $("gripOtherText").placeholder = definition.other.placeholder;
+      $("gripOtherText").maxLength = definition.other.maxLength;
+    }
+    gripOtherDraft = restored?.gripOtherDraft ?? device.gripOther ?? "";
+    $("gripOtherText").value = gripOtherDraft;
+    showGripOther(); syncChoiceState($("gripSeg"));
+  }
+  function showGripOther() {
+    const enabled = !!device.gripQuestionDefinition?.other;
+    const selected = enabled && device.grip === device.gripQuestionDefinition.other.value;
+    $("gripOther").hidden = !selected;
+    // 記入した下書きは画面を戻っても残すが、選択していない自由記述を回答本文へ含めない。
+    device.gripOther = selected ? gripOtherDraft.trim() : null;
+  }
   const CURRENT_SURVEY_PROBLEM_DEFINITION = {
     version: "usability-v3", title: $("surveyProblemsLabel").textContent, easeQuestion: $("surveyEaseLabel").textContent,
     choices: [...$("surveyProblems").querySelectorAll("button[data-val]")].map(b => ({ value: b.dataset.val, label: b.textContent, part: +b.dataset.part }))
@@ -2779,11 +2841,11 @@
     ]
   },
   {
-    "sec": "最後の追加10問について"
+    "sec": "最後の追加の問題について"
   },
   {
     "key": "additional_reading",
-    "q": "最後の追加10問では、問題文や選択肢の内容を読んでから答えを選んでいましたか。",
+    "q": "最後の追加の問題では、問題文や選択肢の内容を読んでから答えを選んでいましたか。",
     "v": true,
     "opts": [
       [
@@ -2815,7 +2877,7 @@
     time_pressure: ["task-v2", "whole_task"], irritation: ["task-v2", "whole_task"], main_start_basis: ["main-v3", "main"],
     seriousness: ["whole-task-v2", "whole_task"], attention_lapse: ["whole-task-v2", "whole_task"], data_use: ["whole-task-v2", "whole_task"],
     main_three_second_meaning: ["perception-v4", "main"], main_release_area: ["procedure-v1", "main"],
-    main_decision_at_move: ["procedure-v1", "main"], additional_reading: ["additional-v1", "instructed"],
+    main_decision_at_move: ["procedure-v1", "main"], additional_reading: ["additional-v2", "instructed"],
     native_ja: ["mother-country-v2", "attributes"]
   };
   const postDefinitions = {};
@@ -2951,6 +3013,7 @@
   function postGoto(i) {
     postPageIdx = Math.max(0, Math.min(i, postPages.length - 1));
     postPages.forEach((p, k) => { if (k === postPageIdx) { p.el.classList.add("on"); if (p.part) p.el.dataset.part = String(p.part); } else if (p.el !== postPages[postPageIdx].el) p.el.classList.remove("on"); });
+    if (postPages[postPageIdx].id === "grip") device.gripPresented = true;
     for (const key of (postPages[postPageIdx].el.dataset.keys || "").split(",").filter(Boolean)) {
       if (!device.postPresentedKeys.includes(key)) device.postPresentedKeys.push(key);
       if (!device.postQuestionMeta[key]) {
@@ -2992,6 +3055,7 @@
   $("postPrev").addEventListener("click", () => { if (postPageIdx > 0) postGoto(postPageIdx - 1); }, { passive: true });
   $("postNext").addEventListener("click", () => { if (!$("postNext").disabled && postPageIdx < postPages.length - 1) postGoto(postPageIdx + 1); }, { passive: true });
   function showPostQuestions(restored) {
+    bindGripDefinition(restored);
     const hasSurvey = HAS_RATING_BLOCK;
     $("surveyBlock").style.display = hasSurvey ? "" : "none";
     if (hasSurvey) bindSurveyProblemDefinition(restored);
@@ -3051,6 +3115,7 @@
 
   function finishSession() {
     if (sessionFinished) return;
+    explanationTelemetry?.finish();
     device.exportedAt = new Date().toISOString();
     if (device.consent) {
       device.endedAt = device.exportedAt;
@@ -3158,6 +3223,8 @@
 
   // ===== エクスポート =====
   function buildPayload() {
+    if (!sessionFinished) explanationTelemetry?.sync();
+    explanationTelemetry?.checkpoint();
     if (consentTiming && !sessionFinished) device.consentTiming = consentTiming.snapshot();
     // 内部用フィールド (_sRect 等) を除去
     const trials = records.map(publicTrial);
@@ -3238,7 +3305,7 @@
         reading: resumeStage === "reading" ? { index: readIdx, elapsedMs: readIdx < 0 ? 0 : Math.max(0, now - readShownAt) } : null,
         drag: resumeStage === "dragTutorial" ? DragTut.snapshot() : null,
       } : null,
-      post: resumeStage === "postq" ? { answers: { ...post }, survey: { ...survey, problems: survey.problems.slice() }, page: postPageIdx, pageId: postPages[postPageIdx] ? postPages[postPageIdx].id : null, elapsedMs: now - postShownAt } : null,
+      post: resumeStage === "postq" ? { answers: { ...post }, survey: { ...survey, problems: survey.problems.slice() }, gripOtherDraft, page: postPageIdx, pageId: postPages[postPageIdx] ? postPages[postPageIdx].id : null, elapsedMs: now - postShownAt } : null,
       activeAttempt: recording && trial ? publicTrial(trial) : null,
       pendingInstructedStart, pendingMainStart, pendingNotice, stopNoticeShown, noticeKind,
       practiceRuleFlags: practiceRuleFlags.slice(),
@@ -3299,7 +3366,7 @@
     const where = !r.mainStarted ? ({ entry: "開始前の準備", consent: "説明・同意の確認", reading: "文章を読む練習", dragTutorial: "操作方法", practiceComplete: "練習を終えたところ", rating: "練習の振り返り" }[r.stage] || "練習")
       : r.stage === "postq" ? "最後のアンケート" : (r.stage === "rating" ? "回答のふりかえり" : (r.phase === "instructed" || r.stage === "instructedIntro" ? "追加の問題" : "本番"));
     const progress = !r.mainStarted || r.stage === "postq" ? "" : r.phase === "instructed" || r.stage === "instructedIntro"
-      ? `（${r.instrIndex || 0} / ${INSTR_N} 問まで）` : `（${r.trialIndex} / ${r.totalMain} 問まで）`;
+      ? `（${r.instrIndex || 0} / ${b.device.instructed?.n ?? b.device.instructedPlan?.n ?? 10} 問まで）` : `（${r.trialIndex} / ${r.totalMain} 問まで）`;
     $("resume").querySelector("h1").textContent = "前回の続きから再開できます";
     $("resumeGo").hidden = false; $("resumeGo").style.removeProperty("display");
     $("resumeInfo").textContent = `前回は${where}の途中でした${progress}。保存された回答を引き継ぎます。`;
@@ -3336,6 +3403,10 @@
     const r = normalizedResume(b);
     const gapMs = Math.max(0, Date.now() - Date.parse(b.interruptedAt));
     Object.assign(device, b.device);
+    explanationTelemetry?.restore(b.device.explanationTelemetry);
+    // 開始済みの旧10問セッションを、新版の49問計画へ暗黙に拡張しない。
+    device.instructedPlan = b.device.instructedPlan ? { ...b.device.instructedPlan } :
+      { version: b.device.appVersion || "legacy", n: b.device.instructed?.n ?? 10, selection: "legacy-stratified-1-3-6" };
     // 再開案内の裏で初期化された新規画面を引き継がず、保存済みの表示履歴だけを復元する。
     device.instructionExposure = Array.isArray(b.device.instructionExposure) ? b.device.instructionExposure.slice() : [];
     device.practiceChecks = Array.isArray(b.device.practiceChecks) ? b.device.practiceChecks.slice() : [];
@@ -3344,6 +3415,9 @@
     device.postPresentedKeys = Array.isArray(b.device.postPresentedKeys) ? b.device.postPresentedKeys.slice() : [];
     device.postQuestionMeta = b.device.postQuestionMeta && typeof b.device.postQuestionMeta === "object" ? { ...b.device.postQuestionMeta } : {};
     device.surveyProblemDefinition = b.device.surveyProblemDefinition ? JSON.parse(JSON.stringify(b.device.surveyProblemDefinition)) : null;
+    device.gripQuestionDefinition = b.device.gripQuestionDefinition ? JSON.parse(JSON.stringify(b.device.gripQuestionDefinition)) : null;
+    device.gripPresented = b.device.gripPresented === true;
+    device.gripOther = typeof b.device.gripOther === "string" ? b.device.gripOther : null;
     restoreMoralPracticeDefinition(b, r);
     const previousPostKeys = b.device.collectionPlan?.postKeys;
     device.collectionPlan = { ...device.collectionPlan, postKeys: POST_ON ? POST_KEYS.slice() : [] };
@@ -3370,6 +3444,10 @@
     pendingNotice = r.pendingNotice || null; stopNoticeShown = r.stopNoticeShown || false;
     // 旧版は両条件でもearlyだけを保存していた。未表示の注意のみ、保持済みの観測フラグから候補を復元する。
     if (pendingNotice === "early" && ["rating", "next"].includes(r.stage) && records.at(-1)?.earlyStart && records.at(-1)?.lateStart) pendingNotice = "early_late";
+    if (["rating", "next"].includes(r.stage) && records.at(-1)?.isCheck) {
+      if (pendingNotice === "early") pendingNotice = null;
+      else if (pendingNotice === "early_late") pendingNotice = "late";
+    }
     noticeKind = r.noticeKind || null; aborts = r.aborts || 0; resumeStage = r.stage;
     practiceRuleFlags = Array.isArray(r.practiceRuleFlags) ? r.practiceRuleFlags.filter(k => PRACTICE_RULES[k]) : [];
     practiceCheckState = r.practiceCheck || null;
@@ -3714,6 +3792,7 @@
         if (!await lockRecoveryEntry()) return await initRecovery();
         if (device.sessionId !== entry.id) await sessionStore.unlock(device.sessionId, tabOwner);
         Object.assign(device, backup ? backup.device : entry.receipt);
+        explanationTelemetry?.restore(backup?.device.explanationTelemetry);
         records.length = 0; if (backup) { records.push(...backup.trials); restoreInvalidAttempts(backup); }
         sessionFinished = true; finishedPayload = backup || null;
         if (entry.state === "blocked") {
@@ -3936,7 +4015,11 @@
   wireSeg("sexSeg", (v) => { device.sex = v; refreshIntro(); });
   wireSeg("handSeg", (v) => { device.handedness = v; refreshIntro(); });
   // 事後アンケート (状態): 持ち方+操作を1問で
-  wireSeg("gripSeg", (v) => { device.grip = v; postReady(); });
+  wireSeg("gripSeg", (v) => {
+    if (!device.gripQuestionDefinition?.choices.some(c => c.value === v)) return;
+    device.grip = v; showGripOther(); postReady();
+  });
+  $("gripOtherText").addEventListener("input", () => { gripOtherDraft = $("gripOtherText").value; showGripOther(); postReady(); });
   // 事後アンケート (UI/負担。②③=評定ブロックのみ): 使いにくさ複数選択 / その他自由記述 / 操作しやすさ / 自由記述
   wireChecks("surveyProblems", (vals) => {
     survey.problemPages = problemParts.map((values, i) => {
@@ -4298,6 +4381,40 @@
     }
     catch (err) { storageProblem(err); }
   });
+  // Numeric/page identifiers only: no text, entered values, answer values or tap coordinates.
+  function interactionContext() {
+    const screen = Object.keys(screens).find(key => screens[key].classList.contains("active")) || "other";
+    const context = { screen, page: screen, phase, block: CONFIG.block, recording, finished: sessionFinished,
+      trial: phase === "main" ? trialIndex + 1 : phase === "instructed" ? instrIndex + 1 : records.length + 1,
+      explanation: false, nextIds: [], canStart: screen === "task" && !uiLocked && !recording };
+    if (screen === "task" && dragTutState.active) {
+      const state = DragTut.state();
+      Object.assign(context, { explanation: true, page: state.stepId + (state.stepId === "rule-check" ? ":" + state.quiz.index : ""),
+        review: state.review, nextIds: ["tutPopNext"], waitRemainingMs: state.lockRemainingMs,
+        blockedReason: state.pending ? "required_action" : state.lockRemainingMs > 0 ? "minimum_display" : null });
+    } else if (screen === "rating" && ratingController.isActive()) {
+      const state = ratingController.state();
+      Object.assign(context, { explanation: true, page: "rating:" + state.index, review: state.review,
+        nextIds: [state.page === 0 ? "ratingNext" : "ratingSubmit"], waitRemainingMs: state.lockRemainingMs,
+        blockedReason: (state.page === 0 ? state.nextDisabled : state.submitDisabled) ? "selection_required" : state.lockRemainingMs > 0 ? "minimum_display" : null });
+    } else if (screen === "welcome") {
+      Object.assign(context, { explanation: true, page: "welcome:" + wcIdx, nextIds: ["wcNext"], blockedReason: $("wcNext").disabled ? "confirmation_required" : null });
+    } else if (screen === "reading") {
+      Object.assign(context, { explanation: readIdx < 0, page: "reading:" + readIdx, nextIds: readIdx < 0 ? ["readDone"] : [] });
+    } else if (screen === "guidedintro") {
+      const remaining = Math.max(0, exampleIntroLock - performance.now());
+      Object.assign(context, { explanation: true, nextIds: ["guidedIntroGo"], waitRemainingMs: remaining, blockedReason: remaining > 0 ? "minimum_display" : null });
+    } else if (["consent", "notice", "practicecheck", "blockintro", "break"].includes(screen)) {
+      const nextId = { consent: "consentGo", notice: "noticeGo", practicecheck: "practiceCheckGo", blockintro: "blockintroGo", break: "breakContinue" }[screen];
+      Object.assign(context, { explanation: true, page: screen === "notice" ? "notice:" + noticeKind : screen === "blockintro" ? "blockintro:" + (pendingInstructedStart ? "instructed" : pendingMainStart ? "practice_complete" : CONFIG.block) : screen,
+        nextIds: [nextId], blockedReason: $(nextId)?.disabled ? "required_action" : null });
+    } else if (screen === "rating") context.page = "rating_answer:" + ratingController.state().page;
+    else if (screen === "postq") context.page = "post:" + (postPages[postPageIdx]?.id || "unknown");
+    return context;
+  }
+  explanationTelemetry = window.PilotExplanationTelemetry.create({ getDevice: () => device, getContext: interactionContext,
+    now: () => performance.now(), version: INSTRUCTION_VERSION, changed: () => { if (!sessionFinished) scheduleCheckpoint(); } });
+  explanationTelemetry.install(document, window);
   initRecovery();
 
   window.PilotRuntimeGuards.installTouchGuards({ surface });

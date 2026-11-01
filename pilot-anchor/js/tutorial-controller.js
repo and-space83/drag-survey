@@ -6,7 +6,7 @@ window.PILOT_GUIDED_TUTORIAL.createEngine = function (env) {
   const config = window.PILOT_GUIDED_TUTORIAL, SCHEMA = config.schema;
   const { dragTutState } = env;
   const STEPS = config.steps;
-  const INSTRUCTED_STEPS = env.instructedSteps.map((s, i) => ({ ...s, id: 'instructed-' + i, kind: 'instruction', chapter: '追加10問の操作', title: '追加10問の操作', copy: s.txt, button: i ? '問題に戻る' : '次へ', action: s.op, html: true }));
+  const INSTRUCTED_STEPS = env.instructedSteps.map((s, i) => ({ ...s, id: 'instructed-' + i, kind: 'instruction', chapter: '追加問題の操作', title: '追加問題の操作', copy: s.txt, button: i ? '問題に戻る' : '次へ', action: s.op, html: true }));
   const seen = new Set(), completed = new Set();
   let steps = STEPS, idx = -1, replay = false, required = null, returnLabel = '問題に戻る', onDone = null;
   let lockUntil = 0, lockTimer = null, cueTimer = null, nextDisabled = false, pending = false;

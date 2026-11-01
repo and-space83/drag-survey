@@ -39,6 +39,8 @@
              surveyProblemDefinition: {version, title, choices:[{value,label,part}]} | null, // ui15以降の困りごとの固定定義。旧postq途中は旧文言・所属を保持。閲覧完了の指標ではない
              age, sex, handedness,            // 事前アンケート (特性。必須。性別は na=回答しない可)
              grip,                             // 事後アンケート (持ち方+操作を1問に。課題後に回顧で取得)
+             gripQuestionDefinition, gripPresented, // ui28: 初回提示時の質問・選択肢・レイアウトの版と実表示。旧postq再開では旧5択を保持
+             gripOther,                        // ui28: grip=otherのときだけ任意の短い自由記述。その他以外はnull。匿名化時は本文を除く
              survey:                           // 事後アンケート UI/負担 (②③=評定ブロックのみ。anchor は null)
                {problems:[slug…], problemPages:[null|[slug…],…], ease('easy'|'ok'|'hard'), free, comment},  // problemPages: 未回答nullと明示noneを区別。2026-10-09eから3ページ、旧版にない3ページ目は未測定。freeはその他選択時のみ送信
              post:                             // 事後アンケート 拡充分 (2026-09-06 §6-6 項8。評定ブロックを含むクラウド配布のみ = 対面 kiosk/stop では null。
@@ -63,6 +65,7 @@
              resumes: [{at, afterTrial, phase, stage, gapMs}], // 中断→再開の記録 (旧形式ではphase/stage省略あり。同じURLで保存状態から再開。空=再開なし)
              tutorialLog: [{kind('drag'|'rating'), step|page, ms} | {kind, event('replay'|'again'|'back'|'close')}],
              instructionExposure: [{version, at, screen, page|step|kind, phase, block, afterTrial}], // ui8以降の教示表示履歴。読了・理解の証明ではない。旧データの欠如は未測定
+             explanationTelemetry: {schema, version, startedAt, visits, interactions}, // ui28:説明の表示・滞在(elapsedMs/visibleMs)、進む操作と待機拒否、非操作領域tap。本文/入力値/座標なし。旧版の欠如は未測定、読了判定ではない
              uiScale,                          // 説明・評定・アンケート画面の文字倍率 (2026-09-08 §6-6 項18。短辺≥700px で 1.6、?fs= で上書き。課題画面は対象外)
              ratingTutorial: {changed, completed, pages},   // 振り返りの説明 (2026-09-12 後刻から 3 ページ = 導入・迷い・自信。2026-09-08〜 は 2)
              startMode('press'|'dynamic'),   // 開始手続き: 'press' = 場面文先出し・押下で選択肢・初動締切 3 秒 (2026-09-26〜) / 'dynamic' = 枠から出たら選択肢 (2026-09-09〜25) / 無し = 静的 (それ以前)
@@ -75,7 +78,7 @@
     trials: [ {
       trialOrdinal, attemptNumber, timeOrigin, // セッション内の回答通番・同じ問題での操作回数・イベント時計の原点
       index, phase('main'|'practice'|'instructed'), stimulusType('numeric-size'|'text-choice'),
-      isInstructed(true=末尾の教示誘導ブロック 10 問 (2026-09-26。旧 8)。careless GT 候補 A。評定なし。迷い予測の解析から除外。2026-09-09 §6-6 項19),
+      isInstructed(true=末尾の教示誘導ブロック49問 (UI28。旧版10問を保持)。careless GT 候補 A。評定なし。迷い予測の解析から除外。2026-09-09 §6-6 項19),
       // --- ① anchor (numeric-size) のメタ ---
       pair[s,l], pairLabel, numDistance,
       congruent, congruency, leftVal, rightVal, leftBig, rightBig, largerSide, correctSide,
@@ -100,7 +103,7 @@
       initiationT(枠から出た時刻 = 動き出し), rt_ms(出現〜動き出し = 反応時間。rt_proxy_ms は同値の旧名), lateStart(true = rt_ms > 3000。評定送信後に案内。品質共変量),
       stopsAfterInit:{n, ms, maxMs}(動き出した後の停止 = 6px 以内に 500ms 以上とどまった区間), stopFlag(maxMs>=3000。記録のみ・案内はしない = 感度分析用),
       stopNotice('early'|'late'|'early_late'|false = この試行の直前に見た案内の種類。案内は評定送信後・次の場面文を出す前の独立画面 = 次問の読解時間に混ぜない),
-      stemChars, earlyStart(true=問題文表示〜スタート押下が文字数÷25字/秒より短い。読了の有無を直接測らない品質共変量),
+      stemChars, earlyStart(true=問題文表示〜スタート押下が文字数÷30字/秒より短い。読了の有無を直接測らない品質共変量),
       responseT, mt_proxy_ms(動き出し〜離す), total_ms(押下〜離す),
       dispHz, nDispatched, nCoalesced, aborts,
       ratings: {confidence:{value,rt_ms}, hesitation:{...}} (2026-07-15 2項目化。第二パイロット以前のデータは difficulty あり。
@@ -127,9 +130,9 @@
   受け口の実装とデプロイ手順は gas-collector.gs / DEPLOY.md を参照。
 -->
 <link rel="stylesheet" href="css/runtime-guards.css?v=2026-10-16-refactor1" onerror="window.pilotAssetLoadFailed = true">
-  <link rel="stylesheet" href="app.css?v=2026-10-18-ui27">
+  <link rel="stylesheet" href="app.css?v=2026-11-01-ui28">
   <link rel="stylesheet" href="guided-tutorial.css?v=2026-10-16-ui22">
-<link rel="stylesheet" href="consent.css?v=2026-10-18-ui27">
+<link rel="stylesheet" href="consent.css?v=2026-11-01-ui28">
 <link rel="stylesheet" href="conference-demo.css?v=2026-10-30-demo1" onerror="window.conferenceDemoAssetLoadFailed = true">
 </head>
 <body>
@@ -449,14 +452,21 @@
       <div class="seg seg-v" id="gripSeg" aria-labelledby="gripQuestion">
         <button type="button" data-val="right_thumb">右手で持ち、右手の親指で操作</button>
         <button type="button" data-val="left_thumb">左手で持ち、左手の親指で操作</button>
+        <button type="button" data-val="both_right_finger">両手で持ち、右手の指で操作</button>
+        <button type="button" data-val="both_left_finger">両手で持ち、左手の指で操作</button>
         <button type="button" data-val="both_thumbs">両手で持ち、両手の親指で操作</button>
         <button type="button" data-val="cradle">片手で持ち、反対の手の指で操作</button>
         <button type="button" data-val="on_table">机などに置いて、指で操作</button>
+        <button type="button" data-val="other">その他</button>
       </div>
+    </div>
+    <div id="gripOther" hidden>
+      <label id="gripOtherLabel" for="gripOtherText">持ち方・操作した手や指（任意）</label>
+      <textarea id="gripOtherText" rows="1" maxlength="300" placeholder="短くお書きください"></textarea>
     </div>
     </div>
 
-    <!-- 事後アンケート拡充分: POST_ITEMSから通常27項目を描画（追加10問OFFでは対応質問を除いて26項目）。
+    <!-- 事後アンケート拡充分: POST_ITEMSから通常27項目を描画（追加課題OFFでは対応質問を除いて26項目）。
          評定ブロックを含むクラウド配布のみ (対面 kiosk/stop では出さない = 時間枠・実施者不在。操作の質問だけに留める) -->
     <p class="opt-note" id="postLead" style="display:none;margin-top:14px">続けて、いくつか質問にお答えください（目安：約8分）。</p>
     <div id="postBlock" style="display:none"></div>
@@ -575,26 +585,27 @@
   </div>
 </section>
 
-<script src="js/runtime-guards.js?v=2026-10-16-refactor1"></script>
+<script src="js/runtime-guards.js?v=2026-11-01-ui28"></script>
 <script src="bank.js?v=2026-10-15-ui18"></script>
 <script src="guided-tutorial.js?v=2026-10-16-ui22"></script>
-<script src="js/tutorial-visuals.js?v=2026-10-18-ui27"></script>
-<script src="js/tutorial-view.js?v=2026-10-16-ui25"></script>
-<script src="js/tutorial-controller.js?v=2026-10-16-ui25"></script>
+<script src="js/tutorial-visuals.js?v=2026-11-01-ui28"></script>
+<script src="js/tutorial-view.js?v=2026-11-01-ui28"></script>
+<script src="js/tutorial-controller.js?v=2026-11-01-ui28"></script>
 <script src="vendor/pako.min.js"></script>
 <script src="data-codec.js"></script>
 <script src="consent.js"></script>
 <script src="session-store.js"></script>
 <script src="durable-storage.js"></script>
 <script src="staged-delivery.js"></script>
-<script src="js/trial-recorder.js?v=2026-10-16-refactor1"></script>
-<script src="js/reading-policy.js?v=2026-10-16-refactor2"></script>
-<script src="js/choice-controls.js?v=2026-10-16-refactor2"></script>
-<script src="js/instruction-notice-view.js?v=2026-10-16-refactor2"></script>
-<script src="js/rating-content.js?v=2026-10-16-refactor2"></script>
-<script src="js/rating-controller.js?v=2026-10-16-refactor2"></script>
-<script src="js/rating-view.js?v=2026-10-16-ui26"></script>
-<script src="conference-demo.js?v=2026-10-30-demo1"></script>
-<script src="js/app.js?v=2026-10-30-demo1" onerror="document.getElementById('wcBody').innerHTML='&lt;h1&gt;読み込みが完了していません&lt;/h1&gt;&lt;p&gt;通信を確認して、もう一度読み込んでください。&lt;/p&gt;'; const next=document.getElementById('wcNext'); next.textContent='再読み込み'; next.disabled=false; next.onclick=function(){location.reload()}"></script>
+<script src="js/trial-recorder.js?v=2026-11-01-ui28"></script>
+<script src="js/reading-policy.js?v=2026-11-01-ui28"></script>
+<script src="js/explanation-telemetry.js?v=2026-11-01-ui28"></script>
+<script src="js/choice-controls.js?v=2026-11-01-ui28"></script>
+<script src="js/instruction-notice-view.js?v=2026-11-01-ui28"></script>
+<script src="js/rating-content.js?v=2026-11-01-ui28"></script>
+<script src="js/rating-controller.js?v=2026-11-01-ui28"></script>
+<script src="js/rating-view.js?v=2026-11-01-ui28"></script>
+<script src="conference-demo.js?v=2026-11-01-demo2"></script>
+<script src="js/app.js?v=2026-11-01-ui28" onerror="document.getElementById('wcBody').innerHTML='&lt;h1&gt;読み込みが完了していません&lt;/h1&gt;&lt;p&gt;通信を確認して、もう一度読み込んでください。&lt;/p&gt;'; const next=document.getElementById('wcNext'); next.textContent='再読み込み'; next.disabled=false; next.onclick=function(){location.reload()}"></script>
 </body>
 </html>

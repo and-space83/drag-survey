@@ -173,6 +173,21 @@ window.PilotRatingView = { create(env, model, events) {
     const rdots = $("ratPopDots"); rdots.innerHTML = "";
     if (idx < pages.length) for (let i = 0; i < pages.length; i++) { const d = document.createElement("i"); if (i === idx) d.className = "a"; rdots.appendChild(d); }
     $("ratTutText").textContent = p.text;
+    $("ratTutText").classList.toggle("ui28-rating-contrast", p.act === "intro");
+    if (p.act === "intro") {
+      $("ratTutText").replaceChildren();
+      for (const line of p.text.split("\n")) {
+        const split = line.indexOf("：");
+        if (split > 0 && ["迷い", "自信"].includes(line.slice(0, split))) {
+          const row = document.createElement("div"); row.className = "ui28-meaning";
+          const label = document.createElement("b"), body = document.createElement("span");
+          label.textContent = line.slice(0, split); body.textContent = line.slice(split + 1);
+          row.append(label, body); $("ratTutText").append(row);
+        } else {
+          const paragraph = document.createElement("p"); paragraph.textContent = line; $("ratTutText").append(paragraph);
+        }
+      }
+    }
     $("ratReplay").classList.add("hidden");
     const operation = review ? (idx === pages.length - 1 ? "確認したら「回答に戻る」" : "確認したら「次へ」") : p.op;
     $("ratPopOp").textContent = operation || ""; $("ratPopOp").classList.toggle("hidden", !operation);
