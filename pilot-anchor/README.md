@@ -14,7 +14,9 @@
 **公開URL**: ① <https://and-space83.github.io/drag-survey/pilot-anchor/> / ② <https://and-space83.github.io/drag-survey/pilot-anchor/?block=value> / ②③統合 <https://and-space83.github.io/drag-survey/pilot-anchor/?block=combo>
 リポ全体のアプリ一覧は [../README.md](../README.md) を参照。
 
-## 現行版の教示・保存・再開 (`2026-11-01-ui28`)
+## 現行版の教示・保存・再開 (`2026-11-01-ui28a`)
+
+- UI28aでは持ち方と後続ページの見出し・番号・本文領域の開始位置をそろえた。実機報告と3秒判定の再点検は[補修記録](reviews/2026-11-01-ui28-followup/)を参照。
 
 - UI28では追加課題を49問にし、課題の読解目安を30字/秒へ変更した。全注意チェックで読解案内を出さず、通常問題の案内と記録は保持する。持ち方を8択・2列へ拡充し、迷いと自信の違いを最初の説明に示す。説明の滞在・Next押下・開始前の無効タップの計測を追加。[実画面・検証記録](reviews/2026-11-01-ui28/)を参照。旧版からの再開は追加10問と実表示した旧質問定義を保持する。
 

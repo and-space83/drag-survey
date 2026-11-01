@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UI28a 持ち方と事後アンケートの位置合わせ</title>
+<style>
+body{margin:0;background:#f7f8fa;color:#18202b;font-family:system-ui,sans-serif;line-height:1.75}main{max-width:1120px;margin:auto;padding:28px 20px}h1{font-size:27px}a{color:#1769bd}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}figure{margin:0;background:white;border:1px solid #dbe0e7;border-radius:12px;padding:12px}img{width:100%;height:auto;display:block}figcaption{font-weight:650;margin-bottom:10px}.links{display:flex;gap:18px;flex-wrap:wrap}table{border-collapse:collapse;width:100%;max-width:620px}td,th{padding:8px 12px;border:1px solid #ccd2da;text-align:left}small{color:#52606e}@media(max-width:650px){.grid{grid-template-columns:1fr}figure{max-width:390px;margin:auto;width:calc(100% - 26px)}}</style>
+<main><p>2026-11-01 · UI28a</p><h1>持ち方と後続ページの見出し・番号・本文の開始位置を統一</h1>
+<p>持ち方だけを上端へ寄せる配置をやめました。画面の高さに応じた共通の余白を使い、事後アンケート内でページが変わっても見出し・ページ番号・本文領域の開始位置をそろえています。</p>
+<p class="links"><a href="../../?block=moral&amp;upload=0&amp;go=post">持ち方を操作する（送信なし）</a><a href="README.md">実装・検証・公開状態</a><a href="../../screen-gallery/">全体の画面一覧</a></p>
+<div class="grid">
+<figure><figcaption>修正前・UI28</figcaption><img src="before/safari-17/initial.png" alt="修正前は持ち方だけが上部に寄り、番号が右上にあった"></figure>
+<figure><figcaption>修正後・持ち方</figcaption><img src="safari-17/initial.png" alt="持ち方の見出しとページ番号を後続ページと同じ位置へそろえた"></figure>
+<figure><figcaption>修正後・2ページ目</figcaption><img src="safari-17/page-2.png" alt="2ページ目も見出し、ページ番号、本文領域が同じ位置から始まる"></figure>
+</div>
+<p><a href="safari-17/other-filled.png">「その他」の記入後の画面</a> ／ <a href="safari-se/other-filled.png">375×548の小さい画面</a>。キーボード表示中の一時スクロールと、閉じた状態の画面全体の収まりを区別します。</p>
+<p><small>画像はChromeのタッチエミュレーションで402×759 CSS pxを撮影したものです。確認専用のバッジだけを画像から非表示にしています。Safari実機の再確認は別に扱います。</small></p>
+<h2>3秒の判定と、注意が出る時点</h2>
+<table><tr><th>押下から枠外へ出るまで</th><th>遅い初動の記録</th></tr><tr><td>2,999ms／3,000ms</td><td>対象外</td></tr><tr><td>3,001ms／4,000ms</td><td>対象</td></tr></table>
+<p>本番では、回答を終え、迷い・自信の振り返りを確定した後に注意画面を表示します。3秒経過した瞬間に割り込む仕組みではありません。3秒に1秒の猶予を加える処理はありません。</p>
+<p><a href="late-start-audit/README.md">実ハンドラの境界検証と4秒保持の記録</a>。追加課題の開始説明を2枚にする案は相談中で、今回の配布には含めていません。</p></main></html>

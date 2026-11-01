@@ -1,0 +1,18 @@
+{
+  "at": "2026-11-01T14:07:45.709Z",
+  "checks": [
+    {
+      "width": 375,
+      "images": 3,
+      "overflow": 0,
+      "pass": true
+    },
+    {
+      "width": 1280,
+      "images": 3,
+      "overflow": 0,
+      "pass": true
+    }
+  ],
+  "passed": true
+}
