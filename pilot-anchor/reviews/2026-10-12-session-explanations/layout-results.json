@@ -1,8 +1,8 @@
 {
-  "at": "2026-11-01T16:20:43.510Z",
+  "at": "2026-11-14T18:21:00.401Z",
   "scope": "Local synthetic responses; Chrome touch emulation, not physical Safari",
   "source": {
-    "index.html": "9777643605d9ab035845edb42b3d6a265cb7ceb77a0d5e7db8dab612b8f93362",
+    "index.html": "5ef80b28bf7ff0b81f5d493b35401daa906a22447d5f3b119edbb171afcc39d2",
     "css/runtime-guards.css": "da2a02010ec7825568dafae2fb95b6cdc7cf36321f335375ad26ba5281492683",
     "app.css": "2b24a0e3054a00c814af283c2414877395aa34acbaa37931895a33a5522bdbf3",
     "guided-tutorial.css": "044853cf630d434c58190c4cd3072aa7e700619cb16e70a2920f8e89fc7a880d",
@@ -29,7 +29,7 @@
     "js/rating-controller.js": "4cb1aaac6fe565d4ebed237a3dfc579ea30bfedf23fb9749a182ad6afd868017",
     "js/rating-view.js": "9fec9ae4ae1f70a5ee0a7cd06f14c9a15b244eb551800e30f4bfc7911536111f",
     "conference-demo.js": "c958189fe84e8a81dbf3d8d29e6bfd795ac32c15c7451ca80a19c7634638a947",
-    "js/app.js": "e91f2f3ad8df03cc3ca7de4a14c950edb02f7b6b0897f6237c60133b2bbca565",
+    "js/app.js": "fa9b877a0b4ab6ec2739d30bda750c1fecdb771338c3dba212123c79d44ce043",
     "storage-worker.js": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
     "vendor/pako-LICENSE": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539"
   },
@@ -18899,7 +18899,7 @@
       "pass": true,
       "detail": {
         "x": 199.8693181818182,
-        "y": 333.87985974409446,
+        "y": 334.88075172244095,
         "right": 341.97017045454544,
         "bottom": 539.0627153051181
       }
@@ -34309,7 +34309,7 @@
     {
       "name": "mini/welcome-1",
       "file": "mini/welcome-1.png",
-      "capturedAt": "2026-11-01T16:20:46.167Z",
+      "capturedAt": "2026-11-14T18:21:01.697Z",
       "sha256": "cb9b74982fab591e13e855e4bf770a61ce848563da68fe8593e06c64249d616b",
       "geometry": {
         "w": 375,
@@ -34361,7 +34361,7 @@
     {
       "name": "mini/welcome-2",
       "file": "mini/welcome-2.png",
-      "capturedAt": "2026-11-01T16:20:46.384Z",
+      "capturedAt": "2026-11-14T18:21:01.849Z",
       "sha256": "e729440eeba77c2776d046d5ef45a66482ffe8ad207c24dbc4ef2b238b29c862",
       "geometry": {
         "w": 375,
@@ -34413,7 +34413,7 @@
     {
       "name": "mini/welcome-3",
       "file": "mini/welcome-3.png",
-      "capturedAt": "2026-11-01T16:20:46.584Z",
+      "capturedAt": "2026-11-14T18:21:02.010Z",
       "sha256": "53375054bbe5c9aadd32ec2b5f10b8ee0df798b08532cbf20ebc8f982e6c2950",
       "geometry": {
         "w": 375,
@@ -34465,7 +34465,7 @@
     {
       "name": "mini/welcome-4",
       "file": "mini/welcome-4.png",
-      "capturedAt": "2026-11-01T16:20:46.714Z",
+      "capturedAt": "2026-11-14T18:21:02.132Z",
       "sha256": "f1697b022b9267086d4f6063c7f94916a7a531e443e5db8b65c9743a52f28481",
       "geometry": {
         "w": 375,
@@ -34517,7 +34517,7 @@
     {
       "name": "mini/welcome-5",
       "file": "mini/welcome-5.png",
-      "capturedAt": "2026-11-01T16:20:46.863Z",
+      "capturedAt": "2026-11-14T18:21:02.246Z",
       "sha256": "6ffb37067a784f11382eaf39c0529775221f3f591a0f73c6492fdf5a3894a648",
       "geometry": {
         "w": 375,
@@ -34569,7 +34569,7 @@
     {
       "name": "mini/welcome-6",
       "file": "mini/welcome-6.png",
-      "capturedAt": "2026-11-01T16:20:47.023Z",
+      "capturedAt": "2026-11-14T18:21:02.376Z",
       "sha256": "67beee84c793db8dc9e3a62d46c54a89a1daeb176ad4df0f1e1d24bf521b852e",
       "geometry": {
         "w": 375,
@@ -34621,7 +34621,7 @@
     {
       "name": "mini/welcome-7",
       "file": "mini/welcome-7.png",
-      "capturedAt": "2026-11-01T16:20:47.390Z",
+      "capturedAt": "2026-11-14T18:21:02.643Z",
       "sha256": "ef2577c7cb891cf0bac3133eb9ee46b4847c2bf20041e712dee5134c4f3edfae",
       "geometry": {
         "w": 375,
@@ -34673,7 +34673,7 @@
     {
       "name": "mini/consent-top",
       "file": "mini/consent-top.png",
-      "capturedAt": "2026-11-01T16:20:49.106Z",
+      "capturedAt": "2026-11-14T18:21:03.659Z",
       "sha256": "15d71bd775a0692c628aed6c196d277929af0cffa3f0c53d6f9e1c39674d07cb",
       "geometry": {
         "w": 375,
@@ -34791,7 +34791,7 @@
     {
       "name": "mini/consent-end",
       "file": "mini/consent-end.png",
-      "capturedAt": "2026-11-01T16:20:49.235Z",
+      "capturedAt": "2026-11-14T18:21:03.724Z",
       "sha256": "5760e536478a65b3f34b50a029532639ba8edba58cc9726d9af3941435de1a14",
       "geometry": {
         "w": 375,
@@ -34909,7 +34909,7 @@
     {
       "name": "mini/practicecheck",
       "file": "mini/practicecheck.png",
-      "capturedAt": "2026-11-01T16:20:50.132Z",
+      "capturedAt": "2026-11-14T18:21:04.309Z",
       "sha256": "caa2696f94220f2771921a42c3b0a9271898a347c3a67d3c14cca41ef5fc58f5",
       "geometry": {
         "w": 375,
@@ -34961,7 +34961,7 @@
     {
       "name": "mini/practicecheck-end",
       "file": "mini/practicecheck-end.png",
-      "capturedAt": "2026-11-01T16:20:50.241Z",
+      "capturedAt": "2026-11-14T18:21:04.392Z",
       "sha256": "caa2696f94220f2771921a42c3b0a9271898a347c3a67d3c14cca41ef5fc58f5",
       "geometry": {
         "w": 375,
@@ -35013,7 +35013,7 @@
     {
       "name": "mini/tutorial-layout-intro",
       "file": "mini/tutorial-layout-intro.png",
-      "capturedAt": "2026-11-01T16:20:51.570Z",
+      "capturedAt": "2026-11-14T18:21:05.375Z",
       "sha256": "c2031dfd268c3ace5a97fdc8c530fb3b3be55ed8776e1539369a201d138e9b87",
       "geometry": {
         "w": 375,
@@ -35108,7 +35108,7 @@
     {
       "name": "mini/tutorial-0",
       "file": "mini/tutorial-0.png",
-      "capturedAt": "2026-11-01T16:20:51.570Z",
+      "capturedAt": "2026-11-14T18:21:05.375Z",
       "sha256": "c2031dfd268c3ace5a97fdc8c530fb3b3be55ed8776e1539369a201d138e9b87",
       "geometry": {
         "w": 375,
@@ -35204,8 +35204,8 @@
     {
       "name": "mini/tutorial-layout-stem",
       "file": "mini/tutorial-layout-stem.png",
-      "capturedAt": "2026-11-01T16:20:52.349Z",
-      "sha256": "af9a8f7bc098e935a45067c0df551a1f40644bd77edf4b49a2587ef1b7d6e009",
+      "capturedAt": "2026-11-14T18:21:06.109Z",
+      "sha256": "596c168d674c3b583252911eac3587244fcb24fdc17a2432a1c38a840fc7175e",
       "geometry": {
         "w": 375,
         "h": 700,
@@ -35312,8 +35312,8 @@
     {
       "name": "mini/tutorial-2",
       "file": "mini/tutorial-2.png",
-      "capturedAt": "2026-11-01T16:20:52.349Z",
-      "sha256": "af9a8f7bc098e935a45067c0df551a1f40644bd77edf4b49a2587ef1b7d6e009",
+      "capturedAt": "2026-11-14T18:21:06.109Z",
+      "sha256": "596c168d674c3b583252911eac3587244fcb24fdc17a2432a1c38a840fc7175e",
       "geometry": {
         "w": 375,
         "h": 700,
@@ -35421,8 +35421,8 @@
     {
       "name": "mini/tutorial-layout-start",
       "file": "mini/tutorial-layout-start.png",
-      "capturedAt": "2026-11-01T16:20:53.099Z",
-      "sha256": "701af77358767f0a7a245229960b85b501f4ee30f0ffaa3a1ffddaac712b6e7e",
+      "capturedAt": "2026-11-14T18:21:06.810Z",
+      "sha256": "7186fd2abdd1da8683498be557f06270aec55352ade471c877e697f93cd48f16",
       "geometry": {
         "w": 375,
         "h": 700,
@@ -35542,8 +35542,8 @@
     {
       "name": "mini/tutorial-3",
       "file": "mini/tutorial-3.png",
-      "capturedAt": "2026-11-01T16:20:53.099Z",
-      "sha256": "701af77358767f0a7a245229960b85b501f4ee30f0ffaa3a1ffddaac712b6e7e",
+      "capturedAt": "2026-11-14T18:21:06.810Z",
+      "sha256": "7186fd2abdd1da8683498be557f06270aec55352ade471c877e697f93cd48f16",
       "geometry": {
         "w": 375,
         "h": 700,
@@ -35664,8 +35664,8 @@
     {
       "name": "mini/tutorial-layout-choice",
       "file": "mini/tutorial-layout-choice.png",
-      "capturedAt": "2026-11-01T16:20:53.868Z",
-      "sha256": "0cc85f8efaf34315c8592b6082795df2eff678245b1b9c0521af52efd44aade4",
+      "capturedAt": "2026-11-14T18:21:07.524Z",
+      "sha256": "ac8a3d1cf103e761ad5c21ef19676a49ff460f725efac6bc4a0c495a66d7fd98",
       "geometry": {
         "w": 375,
         "h": 700,
@@ -35811,8 +35811,8 @@
     {
       "name": "mini/tutorial-4",
       "file": "mini/tutorial-4.png",
-      "capturedAt": "2026-11-01T16:20:53.868Z",
-      "sha256": "0cc85f8efaf34315c8592b6082795df2eff678245b1b9c0521af52efd44aade4",
+      "capturedAt": "2026-11-14T18:21:07.524Z",
+      "sha256": "ac8a3d1cf103e761ad5c21ef19676a49ff460f725efac6bc4a0c495a66d7fd98",
       "geometry": {
         "w": 375,
         "h": 700,
@@ -35959,8 +35959,8 @@
     {
       "name": "mini/tutorial-motor-route",
       "file": "mini/tutorial-motor-route.png",
-      "capturedAt": "2026-11-01T16:20:55.176Z",
-      "sha256": "206239146e544ee1b354f305a1f37049b61e8aa875bcbfc801f8822a29edefa0",
+      "capturedAt": "2026-11-14T18:21:08.824Z",
+      "sha256": "093735d7fa315c77900b58123a8b56b316323a5ffecec13efb2c7a89156054fb",
       "geometry": {
         "w": 375,
         "h": 700,
@@ -36080,8 +36080,8 @@
     {
       "name": "mini/tutorial-motor-range",
       "file": "mini/tutorial-motor-range.png",
-      "capturedAt": "2026-11-01T16:20:57.032Z",
-      "sha256": "fb38dfcbfd0b794d56bce6b47e825ffab6eacbe4e4314e76781f84cd74d5c8ca",
+      "capturedAt": "2026-11-14T18:21:10.657Z",
+      "sha256": "64d5616263140b6abc135b26fa7de1a69284d3bd427a5df096496a9b9f03c99c",
       "geometry": {
         "w": 375,
         "h": 700,
@@ -36238,7 +36238,7 @@
     {
       "name": "mini/tutorial-motor",
       "file": "mini/tutorial-motor.png",
-      "capturedAt": "2026-11-01T16:20:57.727Z",
+      "capturedAt": "2026-11-14T18:21:11.356Z",
       "sha256": "df7be39ead9cf7be18be9e72a95ff8947457d0dbe82ced26ceceb0635c9af0ad",
       "geometry": {
         "w": 375,
@@ -36359,8 +36359,8 @@
     {
       "name": "mini/tutorial-motor-success",
       "file": "mini/tutorial-motor-success.png",
-      "capturedAt": "2026-11-01T16:20:59.036Z",
-      "sha256": "8730e55837fa8863d7e29f605c5ffc9cad32df594ca8be96c146afdabe3e160a",
+      "capturedAt": "2026-11-14T18:21:12.590Z",
+      "sha256": "a295c15484afea06ef2dfd18949039a1b0032aef9864840f4c5b29e4875c9d6b",
       "geometry": {
         "w": 375,
         "h": 700,
@@ -36466,7 +36466,7 @@
     {
       "name": "mini/tutorial-start-rule",
       "file": "mini/tutorial-start-rule.png",
-      "capturedAt": "2026-11-01T16:20:59.792Z",
+      "capturedAt": "2026-11-14T18:21:13.288Z",
       "sha256": "bcc8fe3ef5caf3e663768e622c7c3e37db739c547c0bb4225a90302272a76a2b",
       "geometry": {
         "w": 375,
@@ -36561,7 +36561,7 @@
     {
       "name": "mini/tutorial-movement-reason",
       "file": "mini/tutorial-movement-reason.png",
-      "capturedAt": "2026-11-01T16:21:00.514Z",
+      "capturedAt": "2026-11-14T18:21:13.956Z",
       "sha256": "7bfcb3f36a42fbd8778c38f9b00ac837acb9f21f5fcd5f4548794b5a1503378d",
       "geometry": {
         "w": 375,
@@ -36656,7 +36656,7 @@
     {
       "name": "mini/tutorial-uncertain",
       "file": "mini/tutorial-uncertain.png",
-      "capturedAt": "2026-11-01T16:21:01.261Z",
+      "capturedAt": "2026-11-14T18:21:14.640Z",
       "sha256": "a4f2698174eaa2bade9e77f85d94d2156c7237ac8b08e7b65732ee44ec2ebb8f",
       "geometry": {
         "w": 375,
@@ -36751,8 +36751,8 @@
     {
       "name": "mini/tutorial-time-rule",
       "file": "mini/tutorial-time-rule.png",
-      "capturedAt": "2026-11-01T16:21:03.700Z",
-      "sha256": "cd4d2a0d9405c257aecd276ca0d0deb9ec81fc18e5ec30f80f7a829b60fba77c",
+      "capturedAt": "2026-11-14T18:21:17.027Z",
+      "sha256": "b350854339b20d69161f084f90f5c7a9ce3f475905b322286f21f88ecaf3c7a8",
       "geometry": {
         "w": 375,
         "h": 700,
@@ -36859,8 +36859,8 @@
     {
       "name": "mini/tutorial-7",
       "file": "mini/tutorial-7.png",
-      "capturedAt": "2026-11-01T16:21:03.700Z",
-      "sha256": "cd4d2a0d9405c257aecd276ca0d0deb9ec81fc18e5ec30f80f7a829b60fba77c",
+      "capturedAt": "2026-11-14T18:21:17.027Z",
+      "sha256": "b350854339b20d69161f084f90f5c7a9ce3f475905b322286f21f88ecaf3c7a8",
       "geometry": {
         "w": 375,
         "h": 700,
@@ -36968,7 +36968,7 @@
     {
       "name": "mini/tutorial-answer-pace",
       "file": "mini/tutorial-answer-pace.png",
-      "capturedAt": "2026-11-01T16:21:04.431Z",
+      "capturedAt": "2026-11-14T18:21:17.723Z",
       "sha256": "c867082e02e14233ef77aba9ee10938f3887716588f116d9621143e78d3a021e",
       "geometry": {
         "w": 375,
@@ -37063,7 +37063,7 @@
     {
       "name": "mini/tutorial-rule-check-intro",
       "file": "mini/tutorial-rule-check-intro.png",
-      "capturedAt": "2026-11-01T16:21:05.146Z",
+      "capturedAt": "2026-11-14T18:21:18.391Z",
       "sha256": "d811da3991f2cfeb11ab712e3108246812a794e56c025ea3643b3b04b8a3c1eb",
       "geometry": {
         "w": 375,
@@ -37158,7 +37158,7 @@
     {
       "name": "mini/tutorial-rule-check-01",
       "file": "mini/tutorial-rule-check-01.png",
-      "capturedAt": "2026-11-01T16:21:05.914Z",
+      "capturedAt": "2026-11-14T18:21:19.125Z",
       "sha256": "2590af3e23a42b02ebd1db11c39d37e34745a57509d1ecbf390443b82571437c",
       "geometry": {
         "w": 375,
@@ -37267,7 +37267,7 @@
     {
       "name": "mini/tutorial-rule-check-01-wrong",
       "file": "mini/tutorial-rule-check-01-wrong.png",
-      "capturedAt": "2026-11-01T16:21:06.062Z",
+      "capturedAt": "2026-11-14T18:21:19.241Z",
       "sha256": "d33d5dcde8eb629d3a5dfe348e2af054a5cbb3323a357ac7f581269222fa6b9c",
       "geometry": {
         "w": 375,
@@ -37388,7 +37388,7 @@
     {
       "name": "mini/tutorial-rule-check-02",
       "file": "mini/tutorial-rule-check-02.png",
-      "capturedAt": "2026-11-01T16:21:06.841Z",
+      "capturedAt": "2026-11-14T18:21:20.069Z",
       "sha256": "15e800d905d71adab406b303348782a11254797ce56d2ea70ab46e3492c0539f",
       "geometry": {
         "w": 375,
@@ -37497,7 +37497,7 @@
     {
       "name": "mini/tutorial-rule-check-02-wrong",
       "file": "mini/tutorial-rule-check-02-wrong.png",
-      "capturedAt": "2026-11-01T16:21:06.984Z",
+      "capturedAt": "2026-11-14T18:21:20.247Z",
       "sha256": "7b60b51029e7fc9d7450c50649486b21f6a94a59429710ed74361fc9f76bf074",
       "geometry": {
         "w": 375,
@@ -37618,7 +37618,7 @@
     {
       "name": "mini/tutorial-rule-check-03",
       "file": "mini/tutorial-rule-check-03.png",
-      "capturedAt": "2026-11-01T16:21:07.780Z",
+      "capturedAt": "2026-11-14T18:21:21.047Z",
       "sha256": "be8f33459eb650860dec7a3c0677eac0e9f0642369c9f1878a0237c7a22fbd01",
       "geometry": {
         "w": 375,
@@ -37727,7 +37727,7 @@
     {
       "name": "mini/tutorial-rule-check-03-wrong",
       "file": "mini/tutorial-rule-check-03-wrong.png",
-      "capturedAt": "2026-11-01T16:21:07.969Z",
+      "capturedAt": "2026-11-14T18:21:21.156Z",
       "sha256": "20257f8228efee6797d1bd334d8401bfdfeb59eb0a43e0451e30a9c4b3fe2164",
       "geometry": {
         "w": 375,
@@ -37848,7 +37848,7 @@
     {
       "name": "mini/tutorial-rule-check-04",
       "file": "mini/tutorial-rule-check-04.png",
-      "capturedAt": "2026-11-01T16:21:08.765Z",
+      "capturedAt": "2026-11-14T18:21:21.925Z",
       "sha256": "bc17f106d1804696d6d902b95f8064188beda3fdd781eed7da8717654ead614f",
       "geometry": {
         "w": 375,
@@ -37957,7 +37957,7 @@
     {
       "name": "mini/tutorial-rule-check-04-wrong",
       "file": "mini/tutorial-rule-check-04-wrong.png",
-      "capturedAt": "2026-11-01T16:21:08.911Z",
+      "capturedAt": "2026-11-14T18:21:22.069Z",
       "sha256": "ff4a90dc78b6405cb60d355691956e4f50fec022c43242fe4b39226134a26a14",
       "geometry": {
         "w": 375,
@@ -38078,7 +38078,7 @@
     {
       "name": "mini/tutorial-rule-check-05",
       "file": "mini/tutorial-rule-check-05.png",
-      "capturedAt": "2026-11-01T16:21:09.697Z",
+      "capturedAt": "2026-11-14T18:21:22.871Z",
       "sha256": "aa6f168a918c479924d6069fdd437badd5935fc9b41ff388404b73abf078deef",
       "geometry": {
         "w": 375,
@@ -38187,7 +38187,7 @@
     {
       "name": "mini/tutorial-rule-check-05-wrong",
       "file": "mini/tutorial-rule-check-05-wrong.png",
-      "capturedAt": "2026-11-01T16:21:09.829Z",
+      "capturedAt": "2026-11-14T18:21:23.017Z",
       "sha256": "6efc591d78463a0d37c62298e98ff8366cb98669b066f337d6a212306d6bf2f7",
       "geometry": {
         "w": 375,
@@ -38308,7 +38308,7 @@
     {
       "name": "mini/tutorial-rule-check-06",
       "file": "mini/tutorial-rule-check-06.png",
-      "capturedAt": "2026-11-01T16:21:10.594Z",
+      "capturedAt": "2026-11-14T18:21:23.823Z",
       "sha256": "a5c40f6b188bf093e307131e0717b827c2413948b2c6d2e66cfd3b7405efca26",
       "geometry": {
         "w": 375,
@@ -38417,7 +38417,7 @@
     {
       "name": "mini/tutorial-rule-check-06-wrong",
       "file": "mini/tutorial-rule-check-06-wrong.png",
-      "capturedAt": "2026-11-01T16:21:10.731Z",
+      "capturedAt": "2026-11-14T18:21:23.971Z",
       "sha256": "08c27a27a67b017127c7f8c6526a052aaee36f79968bf4ffe4026d2a97538a18",
       "geometry": {
         "w": 375,
@@ -38538,7 +38538,7 @@
     {
       "name": "mini/tutorial-rule-check-07",
       "file": "mini/tutorial-rule-check-07.png",
-      "capturedAt": "2026-11-01T16:21:11.512Z",
+      "capturedAt": "2026-11-14T18:21:24.764Z",
       "sha256": "6510eadd1b6c5eb559d9dce5e762d67a1b7d17cc51d5587e7ebd0ed4734c7428",
       "geometry": {
         "w": 375,
@@ -38647,7 +38647,7 @@
     {
       "name": "mini/tutorial-rule-check-07-wrong",
       "file": "mini/tutorial-rule-check-07-wrong.png",
-      "capturedAt": "2026-11-01T16:21:11.649Z",
+      "capturedAt": "2026-11-14T18:21:24.880Z",
       "sha256": "34316fb29ffe25b51cab746f485b4014d16326948d3f52473b61ded38fed9eee",
       "geometry": {
         "w": 375,
@@ -38768,7 +38768,7 @@
     {
       "name": "mini/guided-example-intro",
       "file": "mini/guided-example-intro.png",
-      "capturedAt": "2026-11-01T16:21:12.043Z",
+      "capturedAt": "2026-11-14T18:21:25.259Z",
       "sha256": "5980001ee515eeb345bf9dc6c7b10288ececfe859775b476c58f6d0948944065",
       "geometry": {
         "w": 375,
@@ -38822,7 +38822,7 @@
     {
       "name": "mini/example-coach",
       "file": "mini/example-coach.png",
-      "capturedAt": "2026-11-01T16:21:14.931Z",
+      "capturedAt": "2026-11-14T18:21:28.094Z",
       "sha256": "a6537c35affc64b0ef52fa11e4fed355416f5e3057a2679d58004e45745bf5cc",
       "geometry": {
         "w": 375,
@@ -38875,7 +38875,7 @@
     {
       "name": "mini/example-choice",
       "file": "mini/example-choice.png",
-      "capturedAt": "2026-11-01T16:21:15.008Z",
+      "capturedAt": "2026-11-14T18:21:28.175Z",
       "sha256": "a86aadec8a05d6d07708b46ad64017eb66617bd8c1b55cb9de14d78b7c96abc6",
       "geometry": {
         "w": 375,
@@ -38954,7 +38954,7 @@
     {
       "name": "mini/rating-tutorial-0",
       "file": "mini/rating-tutorial-0.png",
-      "capturedAt": "2026-11-01T16:21:16.780Z",
+      "capturedAt": "2026-11-14T18:21:29.895Z",
       "sha256": "a5249ed7cb631413cbbfb8ad0291fd0902e978fb7b46ed90d9d3794fe204188b",
       "geometry": {
         "w": 375,
@@ -39034,8 +39034,8 @@
     {
       "name": "mini/rating-tutorial-1",
       "file": "mini/rating-tutorial-1.png",
-      "capturedAt": "2026-11-01T16:21:17.420Z",
-      "sha256": "6c0d37ed6cae34a1b8771debec3892b940c6f10846c98bca9a2a0f2ba7f41e4d",
+      "capturedAt": "2026-11-14T18:21:30.500Z",
+      "sha256": "c7023e775f7ac498d1b5b0a789805bc7fcc5cb3e95de47d5cfb61579562d35d8",
       "geometry": {
         "w": 375,
         "h": 700,
@@ -39140,8 +39140,8 @@
     {
       "name": "mini/rating-tutorial-2",
       "file": "mini/rating-tutorial-2.png",
-      "capturedAt": "2026-11-01T16:21:18.094Z",
-      "sha256": "911ae098c6cd724cd81d47fcbc51860d8ff5d067e82e1748245ce7dc8acebf49",
+      "capturedAt": "2026-11-14T18:21:31.147Z",
+      "sha256": "4163aef1be7acadb1bf1a424b6b453ef720b2be020899c416ab07d69922ee12b",
       "geometry": {
         "w": 375,
         "h": 700,
@@ -39259,7 +39259,7 @@
     {
       "name": "mini/rating-tutorial-3",
       "file": "mini/rating-tutorial-3.png",
-      "capturedAt": "2026-11-01T16:21:18.711Z",
+      "capturedAt": "2026-11-14T18:21:31.767Z",
       "sha256": "28b2c4811a23886b38e275333ab5546593684e1fd826864e091554a60d8d73c0",
       "geometry": {
         "w": 375,
@@ -39339,7 +39339,7 @@
     {
       "name": "mini/rating-tutorial-4",
       "file": "mini/rating-tutorial-4.png",
-      "capturedAt": "2026-11-01T16:21:19.241Z",
+      "capturedAt": "2026-11-14T18:21:32.292Z",
       "sha256": "7f30855879027280a9b5c9cac0c28eee83c17504392ba93fbbcfc62fff0066a6",
       "geometry": {
         "w": 375,
@@ -39419,7 +39419,7 @@
     {
       "name": "mini/notice-early",
       "file": "mini/notice-early.png",
-      "capturedAt": "2026-11-01T16:21:20.456Z",
+      "capturedAt": "2026-11-14T18:21:33.362Z",
       "sha256": "6b8c920a21e2abbf8d305dd30a4e09b8297ac05238bc2a6c47c74d53dbb8a807",
       "geometry": {
         "w": 375,
@@ -39484,7 +39484,7 @@
     {
       "name": "mini/notice-late",
       "file": "mini/notice-late.png",
-      "capturedAt": "2026-11-01T16:21:21.411Z",
+      "capturedAt": "2026-11-14T18:21:34.230Z",
       "sha256": "62946333408622a4306419942c2f2d39c65faaa7b3ce2f4a01797d2dd3a2f565",
       "geometry": {
         "w": 375,
@@ -39549,7 +39549,7 @@
     {
       "name": "mini/notice-late-end",
       "file": "mini/notice-late-end.png",
-      "capturedAt": "2026-11-01T16:21:21.496Z",
+      "capturedAt": "2026-11-14T18:21:34.299Z",
       "sha256": "62946333408622a4306419942c2f2d39c65faaa7b3ce2f4a01797d2dd3a2f565",
       "geometry": {
         "w": 375,
@@ -39601,7 +39601,7 @@
     {
       "name": "mini/notice-early_late",
       "file": "mini/notice-early_late.png",
-      "capturedAt": "2026-11-01T16:21:22.396Z",
+      "capturedAt": "2026-11-14T18:21:35.114Z",
       "sha256": "4f961260a8893063a323b242a377c9d349af4855354778443f4f2178e788b651",
       "geometry": {
         "w": 375,
@@ -39666,7 +39666,7 @@
     {
       "name": "mini/notice-early_late-end",
       "file": "mini/notice-early_late-end.png",
-      "capturedAt": "2026-11-01T16:21:22.481Z",
+      "capturedAt": "2026-11-14T18:21:35.178Z",
       "sha256": "4f961260a8893063a323b242a377c9d349af4855354778443f4f2178e788b651",
       "geometry": {
         "w": 375,
@@ -39718,7 +39718,7 @@
     {
       "name": "mini/main",
       "file": "mini/main.png",
-      "capturedAt": "2026-11-01T16:21:23.407Z",
+      "capturedAt": "2026-11-14T18:21:36.026Z",
       "sha256": "7ba798063ef2a0fa341ff2881c5d3cbafb66f1a530f94d3945a8b0228a771564",
       "geometry": {
         "w": 375,
@@ -39814,7 +39814,7 @@
     {
       "name": "mini/main-help",
       "file": "mini/main-help.png",
-      "capturedAt": "2026-11-01T16:21:23.557Z",
+      "capturedAt": "2026-11-14T18:21:36.181Z",
       "sha256": "c0bfa290b48de4f95b68dd8769e701d6a507f69798263245021fc52eb17f473e",
       "geometry": {
         "w": 375,
@@ -39867,7 +39867,7 @@
     {
       "name": "mini/rating-hesitation",
       "file": "mini/rating-hesitation.png",
-      "capturedAt": "2026-11-01T16:21:24.398Z",
+      "capturedAt": "2026-11-14T18:21:36.989Z",
       "sha256": "055d6559fab669559f80691a93d0bea6207a131044ff9721632f3fba01c7c6fd",
       "geometry": {
         "w": 375,
@@ -39919,7 +39919,7 @@
     {
       "name": "mini/rating-confidence",
       "file": "mini/rating-confidence.png",
-      "capturedAt": "2026-11-01T16:21:24.915Z",
+      "capturedAt": "2026-11-14T18:21:37.457Z",
       "sha256": "8a726bbc6ce6f3baf84d7edcb9e9b27173a0827fdca6510c142253559af6d705",
       "geometry": {
         "w": 375,
@@ -39971,7 +39971,7 @@
     {
       "name": "mini/main-rating-hesitation",
       "file": "mini/main-rating-hesitation.png",
-      "capturedAt": "2026-11-01T16:21:26.858Z",
+      "capturedAt": "2026-11-14T18:21:39.141Z",
       "sha256": "79beb5786c792bd63b4a43534d352daa33c49048c545150f5581aff353c79135",
       "geometry": {
         "w": 375,
@@ -40080,7 +40080,7 @@
     {
       "name": "mini/main-rating-confidence",
       "file": "mini/main-rating-confidence.png",
-      "capturedAt": "2026-11-01T16:21:27.353Z",
+      "capturedAt": "2026-11-14T18:21:39.627Z",
       "sha256": "7c9007bae8bdd6b70f89e70e488cfb605f4f0c9fee33f547c4f02d67027be71f",
       "geometry": {
         "w": 375,
@@ -40189,7 +40189,7 @@
     {
       "name": "mini/post-grip",
       "file": "mini/post-grip.png",
-      "capturedAt": "2026-11-01T16:21:28.258Z",
+      "capturedAt": "2026-11-14T18:21:40.491Z",
       "sha256": "c3732055d01802364d486e6df6143b3f8eccff398c060cad78c359b303e1ccb4",
       "geometry": {
         "w": 375,
@@ -40254,7 +40254,7 @@
     {
       "name": "mini/post-grip-end",
       "file": "mini/post-grip-end.png",
-      "capturedAt": "2026-11-01T16:21:28.323Z",
+      "capturedAt": "2026-11-14T18:21:40.559Z",
       "sha256": "c3732055d01802364d486e6df6143b3f8eccff398c060cad78c359b303e1ccb4",
       "geometry": {
         "w": 375,
@@ -40319,7 +40319,7 @@
     {
       "name": "mini/post-fatigue_pre",
       "file": "mini/post-fatigue_pre.png",
-      "capturedAt": "2026-11-01T16:21:28.637Z",
+      "capturedAt": "2026-11-14T18:21:40.891Z",
       "sha256": "b70617f449b12b95cc07d05aca684d8f64e8fb30e6c418194e60dea39387f0ee",
       "geometry": {
         "w": 375,
@@ -40384,7 +40384,7 @@
     {
       "name": "mini/post-fatigue_pre-end",
       "file": "mini/post-fatigue_pre-end.png",
-      "capturedAt": "2026-11-01T16:21:28.704Z",
+      "capturedAt": "2026-11-14T18:21:40.959Z",
       "sha256": "b70617f449b12b95cc07d05aca684d8f64e8fb30e6c418194e60dea39387f0ee",
       "geometry": {
         "w": 375,
@@ -40449,7 +40449,7 @@
     {
       "name": "mini/post-sleep_hours",
       "file": "mini/post-sleep_hours.png",
-      "capturedAt": "2026-11-01T16:21:29.088Z",
+      "capturedAt": "2026-11-14T18:21:41.345Z",
       "sha256": "6326289e9854185df27bf0f0fd300b3bdd0a02adcfdc172c6730d619d3c5b33b",
       "geometry": {
         "w": 375,
@@ -40514,7 +40514,7 @@
     {
       "name": "mini/post-sleep_hours-end",
       "file": "mini/post-sleep_hours-end.png",
-      "capturedAt": "2026-11-01T16:21:29.154Z",
+      "capturedAt": "2026-11-14T18:21:41.412Z",
       "sha256": "6326289e9854185df27bf0f0fd300b3bdd0a02adcfdc172c6730d619d3c5b33b",
       "geometry": {
         "w": 375,
@@ -40579,7 +40579,7 @@
     {
       "name": "mini/post-time_pressure",
       "file": "mini/post-time_pressure.png",
-      "capturedAt": "2026-11-01T16:21:29.489Z",
+      "capturedAt": "2026-11-14T18:21:41.741Z",
       "sha256": "a647d9184cf16e0112622d2182391cd189d9464f8d1476000bc7243eea9c7815",
       "geometry": {
         "w": 375,
@@ -40644,7 +40644,7 @@
     {
       "name": "mini/post-time_pressure-end",
       "file": "mini/post-time_pressure-end.png",
-      "capturedAt": "2026-11-01T16:21:29.557Z",
+      "capturedAt": "2026-11-14T18:21:41.813Z",
       "sha256": "a647d9184cf16e0112622d2182391cd189d9464f8d1476000bc7243eea9c7815",
       "geometry": {
         "w": 375,
@@ -40709,7 +40709,7 @@
     {
       "name": "mini/post-location",
       "file": "mini/post-location.png",
-      "capturedAt": "2026-11-01T16:21:30.013Z",
+      "capturedAt": "2026-11-14T18:21:42.216Z",
       "sha256": "9fb4234ee44efa8e9b92fd8b077f6808c5c1c1b9efc85035f56a54bdc7fdce9d",
       "geometry": {
         "w": 375,
@@ -40774,7 +40774,7 @@
     {
       "name": "mini/post-location-end",
       "file": "mini/post-location-end.png",
-      "capturedAt": "2026-11-01T16:21:30.096Z",
+      "capturedAt": "2026-11-14T18:21:42.280Z",
       "sha256": "9fb4234ee44efa8e9b92fd8b077f6808c5c1c1b9efc85035f56a54bdc7fdce9d",
       "geometry": {
         "w": 375,
@@ -40839,7 +40839,7 @@
     {
       "name": "mini/post-others_present",
       "file": "mini/post-others_present.png",
-      "capturedAt": "2026-11-01T16:21:30.460Z",
+      "capturedAt": "2026-11-14T18:21:42.597Z",
       "sha256": "effbf9d50e31f3d929c571d3bfab35784dce5a7f9bda75a8f23467f33593bd93",
       "geometry": {
         "w": 375,
@@ -40904,7 +40904,7 @@
     {
       "name": "mini/post-others_present-end",
       "file": "mini/post-others_present-end.png",
-      "capturedAt": "2026-11-01T16:21:30.529Z",
+      "capturedAt": "2026-11-14T18:21:42.680Z",
       "sha256": "effbf9d50e31f3d929c571d3bfab35784dce5a7f9bda75a8f23467f33593bd93",
       "geometry": {
         "w": 375,
@@ -40969,7 +40969,7 @@
     {
       "name": "mini/post-usage_years",
       "file": "mini/post-usage_years.png",
-      "capturedAt": "2026-11-01T16:21:30.949Z",
+      "capturedAt": "2026-11-14T18:21:43.093Z",
       "sha256": "0dfeb805be544bf85d7bbafe65c890e2086e7dd6f9059b356383390b861d8125",
       "geometry": {
         "w": 375,
@@ -41034,7 +41034,7 @@
     {
       "name": "mini/post-usage_years-end",
       "file": "mini/post-usage_years-end.png",
-      "capturedAt": "2026-11-01T16:21:31.026Z",
+      "capturedAt": "2026-11-14T18:21:43.160Z",
       "sha256": "0dfeb805be544bf85d7bbafe65c890e2086e7dd6f9059b356383390b861d8125",
       "geometry": {
         "w": 375,
@@ -41099,7 +41099,7 @@
     {
       "name": "mini/post-moral_familiar",
       "file": "mini/post-moral_familiar.png",
-      "capturedAt": "2026-11-01T16:21:31.389Z",
+      "capturedAt": "2026-11-14T18:21:43.562Z",
       "sha256": "2b06a8e085d02dccfafeab03c34a9f4ffbcfa2fe5f3a02a44c98a7e048628dfa",
       "geometry": {
         "w": 375,
@@ -41164,7 +41164,7 @@
     {
       "name": "mini/post-moral_familiar-end",
       "file": "mini/post-moral_familiar-end.png",
-      "capturedAt": "2026-11-01T16:21:31.458Z",
+      "capturedAt": "2026-11-14T18:21:43.629Z",
       "sha256": "2b06a8e085d02dccfafeab03c34a9f4ffbcfa2fe5f3a02a44c98a7e048628dfa",
       "geometry": {
         "w": 375,
@@ -41229,7 +41229,7 @@
     {
       "name": "mini/post-rating_meaning",
       "file": "mini/post-rating_meaning.png",
-      "capturedAt": "2026-11-01T16:21:32.037Z",
+      "capturedAt": "2026-11-14T18:21:44.014Z",
       "sha256": "1d1922114c074355090bfe1e95c9c951de36bc8f4471c633957b999e432f03c2",
       "geometry": {
         "w": 375,
@@ -41294,7 +41294,7 @@
     {
       "name": "mini/post-rating_meaning-end",
       "file": "mini/post-rating_meaning-end.png",
-      "capturedAt": "2026-11-01T16:21:32.449Z",
+      "capturedAt": "2026-11-14T18:21:44.082Z",
       "sha256": "1d1922114c074355090bfe1e95c9c951de36bc8f4471c633957b999e432f03c2",
       "geometry": {
         "w": 375,
@@ -41359,7 +41359,7 @@
     {
       "name": "mini/post-main_start_basis",
       "file": "mini/post-main_start_basis.png",
-      "capturedAt": "2026-11-01T16:21:33.138Z",
+      "capturedAt": "2026-11-14T18:21:44.460Z",
       "sha256": "3c075fc4f634c00444bd7ad04373d478415c1f1149c4993fa40972e82e5188e6",
       "geometry": {
         "w": 375,
@@ -41424,7 +41424,7 @@
     {
       "name": "mini/post-main_start_basis-end",
       "file": "mini/post-main_start_basis-end.png",
-      "capturedAt": "2026-11-01T16:21:33.233Z",
+      "capturedAt": "2026-11-14T18:21:44.526Z",
       "sha256": "3c075fc4f634c00444bd7ad04373d478415c1f1149c4993fa40972e82e5188e6",
       "geometry": {
         "w": 375,
@@ -41489,7 +41489,7 @@
     {
       "name": "mini/post-main_three_second_meaning",
       "file": "mini/post-main_three_second_meaning.png",
-      "capturedAt": "2026-11-01T16:21:33.598Z",
+      "capturedAt": "2026-11-14T18:21:44.858Z",
       "sha256": "8913a68e9a5395f8e2ec40eec8622a2b6df9a32009fc28e56d9cc9be59289f2b",
       "geometry": {
         "w": 375,
@@ -41554,7 +41554,7 @@
     {
       "name": "mini/post-main_three_second_meaning-end",
       "file": "mini/post-main_three_second_meaning-end.png",
-      "capturedAt": "2026-11-01T16:21:33.662Z",
+      "capturedAt": "2026-11-14T18:21:44.927Z",
       "sha256": "8913a68e9a5395f8e2ec40eec8622a2b6df9a32009fc28e56d9cc9be59289f2b",
       "geometry": {
         "w": 375,
@@ -41619,7 +41619,7 @@
     {
       "name": "mini/post-main_release_area",
       "file": "mini/post-main_release_area.png",
-      "capturedAt": "2026-11-01T16:21:33.994Z",
+      "capturedAt": "2026-11-14T18:21:45.246Z",
       "sha256": "c136f45ac7d69509ee5cc64004149e759d080eb92e728d0723e83f6a975479dc",
       "geometry": {
         "w": 375,
@@ -41684,7 +41684,7 @@
     {
       "name": "mini/post-main_release_area-end",
       "file": "mini/post-main_release_area-end.png",
-      "capturedAt": "2026-11-01T16:21:34.062Z",
+      "capturedAt": "2026-11-14T18:21:45.314Z",
       "sha256": "c136f45ac7d69509ee5cc64004149e759d080eb92e728d0723e83f6a975479dc",
       "geometry": {
         "w": 375,
@@ -41749,7 +41749,7 @@
     {
       "name": "mini/post-main_decision_at_move",
       "file": "mini/post-main_decision_at_move.png",
-      "capturedAt": "2026-11-01T16:21:34.379Z",
+      "capturedAt": "2026-11-14T18:21:45.610Z",
       "sha256": "8c70905e3b4adcae34a02eadaf90f71cbb352440f24c17aea8403a5222956ad3",
       "geometry": {
         "w": 375,
@@ -41814,7 +41814,7 @@
     {
       "name": "mini/post-main_decision_at_move-end",
       "file": "mini/post-main_decision_at_move-end.png",
-      "capturedAt": "2026-11-01T16:21:34.443Z",
+      "capturedAt": "2026-11-14T18:21:45.677Z",
       "sha256": "8c70905e3b4adcae34a02eadaf90f71cbb352440f24c17aea8403a5222956ad3",
       "geometry": {
         "w": 375,
@@ -41879,7 +41879,7 @@
     {
       "name": "mini/post-additional_reading",
       "file": "mini/post-additional_reading.png",
-      "capturedAt": "2026-11-01T16:21:34.725Z",
+      "capturedAt": "2026-11-14T18:21:45.947Z",
       "sha256": "971a87871a46a8cf4e0b4d4c91027630c86821e6905130b9e3a2ed3639f228bf",
       "geometry": {
         "w": 375,
@@ -41944,7 +41944,7 @@
     {
       "name": "mini/post-additional_reading-end",
       "file": "mini/post-additional_reading-end.png",
-      "capturedAt": "2026-11-01T16:21:34.790Z",
+      "capturedAt": "2026-11-14T18:21:46.035Z",
       "sha256": "971a87871a46a8cf4e0b4d4c91027630c86821e6905130b9e3a2ed3639f228bf",
       "geometry": {
         "w": 375,
@@ -42009,7 +42009,7 @@
     {
       "name": "mini/post-problems-1",
       "file": "mini/post-problems-1.png",
-      "capturedAt": "2026-11-01T16:21:35.098Z",
+      "capturedAt": "2026-11-14T18:21:46.351Z",
       "sha256": "66d48600f0864422527be22f51af29da4d71be73568e21be42f293bab536aec4",
       "geometry": {
         "w": 375,
@@ -42074,7 +42074,7 @@
     {
       "name": "mini/post-problems-1-end",
       "file": "mini/post-problems-1-end.png",
-      "capturedAt": "2026-11-01T16:21:35.187Z",
+      "capturedAt": "2026-11-14T18:21:46.436Z",
       "sha256": "66d48600f0864422527be22f51af29da4d71be73568e21be42f293bab536aec4",
       "geometry": {
         "w": 375,
@@ -42139,7 +42139,7 @@
     {
       "name": "mini/post-problems-2",
       "file": "mini/post-problems-2.png",
-      "capturedAt": "2026-11-01T16:21:35.495Z",
+      "capturedAt": "2026-11-14T18:21:46.749Z",
       "sha256": "a8c7d859d068d0985a14cb5bd65cb063af001baf3b9eab23eef9dc3788f4a690",
       "geometry": {
         "w": 375,
@@ -42204,7 +42204,7 @@
     {
       "name": "mini/post-problems-2-end",
       "file": "mini/post-problems-2-end.png",
-      "capturedAt": "2026-11-01T16:21:35.562Z",
+      "capturedAt": "2026-11-14T18:21:46.812Z",
       "sha256": "a8c7d859d068d0985a14cb5bd65cb063af001baf3b9eab23eef9dc3788f4a690",
       "geometry": {
         "w": 375,
@@ -42269,7 +42269,7 @@
     {
       "name": "mini/post-problems-3",
       "file": "mini/post-problems-3.png",
-      "capturedAt": "2026-11-01T16:21:35.862Z",
+      "capturedAt": "2026-11-14T18:21:47.097Z",
       "sha256": "bfee763ca55e76f4dce0337dfbaacabce813733bfc065cd27480920f38f49293",
       "geometry": {
         "w": 375,
@@ -42334,7 +42334,7 @@
     {
       "name": "mini/post-problems-3-end",
       "file": "mini/post-problems-3-end.png",
-      "capturedAt": "2026-11-01T16:21:35.950Z",
+      "capturedAt": "2026-11-14T18:21:47.161Z",
       "sha256": "bfee763ca55e76f4dce0337dfbaacabce813733bfc065cd27480920f38f49293",
       "geometry": {
         "w": 375,
@@ -42399,7 +42399,7 @@
     {
       "name": "mini/post-ease",
       "file": "mini/post-ease.png",
-      "capturedAt": "2026-11-01T16:21:36.243Z",
+      "capturedAt": "2026-11-14T18:21:47.463Z",
       "sha256": "d9e00ecfa553c69b01acad0ec686695c535e0940b18ea29f7f1725cc899c7f66",
       "geometry": {
         "w": 375,
@@ -42464,7 +42464,7 @@
     {
       "name": "mini/post-ease-end",
       "file": "mini/post-ease-end.png",
-      "capturedAt": "2026-11-01T16:21:36.312Z",
+      "capturedAt": "2026-11-14T18:21:47.531Z",
       "sha256": "d9e00ecfa553c69b01acad0ec686695c535e0940b18ea29f7f1725cc899c7f66",
       "geometry": {
         "w": 375,
@@ -42529,7 +42529,7 @@
     {
       "name": "mini/post-comment",
       "file": "mini/post-comment.png",
-      "capturedAt": "2026-11-01T16:21:36.592Z",
+      "capturedAt": "2026-11-14T18:21:47.849Z",
       "sha256": "602be75daaa62bff52218697f310bad80c0532800e0e519c28d9185abe29556a",
       "geometry": {
         "w": 375,
@@ -42594,7 +42594,7 @@
     {
       "name": "mini/post-comment-end",
       "file": "mini/post-comment-end.png",
-      "capturedAt": "2026-11-01T16:21:36.656Z",
+      "capturedAt": "2026-11-14T18:21:47.915Z",
       "sha256": "602be75daaa62bff52218697f310bad80c0532800e0e519c28d9185abe29556a",
       "geometry": {
         "w": 375,
@@ -42659,7 +42659,7 @@
     {
       "name": "mini/break",
       "file": "mini/break.png",
-      "capturedAt": "2026-11-01T16:21:37.589Z",
+      "capturedAt": "2026-11-14T18:21:48.729Z",
       "sha256": "19453dc895fec764bda08bf22c2a1de4d71a90ce4f3908ea8f1b91455f08fb8e",
       "geometry": {
         "w": 375,
@@ -42698,7 +42698,7 @@
     {
       "name": "mini/instructed",
       "file": "mini/instructed.png",
-      "capturedAt": "2026-11-01T16:21:38.603Z",
+      "capturedAt": "2026-11-14T18:21:49.565Z",
       "sha256": "ca257c6c43d2f6346d2e02af7df72fa075539557d0c52acb9989aa6ffc09dbd7",
       "geometry": {
         "w": 375,
@@ -42764,7 +42764,7 @@
     {
       "name": "mini/instructed-2",
       "file": "mini/instructed-2.png",
-      "capturedAt": "2026-11-01T16:21:38.857Z",
+      "capturedAt": "2026-11-14T18:21:49.731Z",
       "sha256": "40c9d347a6c6e15ee766317b7f68105bbe6f343a6f892534103ef62c1f8d6ffa",
       "geometry": {
         "w": 375,
@@ -42817,8 +42817,8 @@
     {
       "name": "mini/instructed-help-1",
       "file": "mini/instructed-help-1.png",
-      "capturedAt": "2026-11-01T16:21:39.185Z",
-      "sha256": "fbd6ec38605d59ee71dc63de943edbc88c6415441db473341ab4f0b8c813a01b",
+      "capturedAt": "2026-11-14T18:21:49.960Z",
+      "sha256": "26a0d3804dc1f4ce0070312abfadce81bbb4a31ddfd5c8f483d3ef185570d073",
       "geometry": {
         "w": 375,
         "h": 700,
@@ -42857,8 +42857,8 @@
     {
       "name": "mini/instructed-help-2",
       "file": "mini/instructed-help-2.png",
-      "capturedAt": "2026-11-01T16:21:39.373Z",
-      "sha256": "1164abdf5cb734a0b615225b87c6c7c69a268ac97a38dad74e8936bfaba0113a",
+      "capturedAt": "2026-11-14T18:21:50.082Z",
+      "sha256": "d738425b6e1e28301811844748e78de11f5bd6ba2a88ffcb89054b0189b4aa70",
       "geometry": {
         "w": 375,
         "h": 700,
@@ -42897,8 +42897,8 @@
     {
       "name": "mini/done",
       "file": "mini/done.png",
-      "capturedAt": "2026-11-01T16:21:40.487Z",
-      "sha256": "7154a77edcfacd859f4ecdc92ad3dd97cb7106ca9e21cb229e172645d24e220e",
+      "capturedAt": "2026-11-14T18:21:51.031Z",
+      "sha256": "fd5b69f23b4e1e29f21809660c716575ab21e9c1d18e2b7fb94a5c2ff22c65e9",
       "geometry": {
         "w": 375,
         "h": 700,
@@ -42913,7 +42913,7 @@
             "right": 375,
             "bottom": 700,
             "overflowX": 0,
-            "overflowY": 193,
+            "overflowY": 75,
             "scrollable": false
           },
           "#done h1": {
@@ -42928,29 +42928,16 @@
             "overflowX": 0,
             "overflowY": 0,
             "scrollable": false
-          },
-          "#done .btnrow": {
-            "textBounds": null,
-            "paintBounds": null,
-            "paintTouchesEdge": false,
-            "invisibleAnchorOverflow": false,
-            "x": 39,
-            "y": 230.59375,
-            "right": 336,
-            "bottom": 288.1875,
-            "overflowX": 0,
-            "overflowY": 0,
-            "scrollable": false
           }
         }
       },
-      "text": "あいうえお0123456789あいうえお0123456789\n完了しました\n\nご協力ありがとうございました。下のボタンでデータを保存・共有してください。\n\nあなたの完了コード:\n\nP95A-3VQB\nメールで送信する\n\n「メールで送信する」を押すか、コードをコピーして c237702@ed.nagoya-cu.ac.jp へ送ってください（謝礼の手続きに使います）。\n\n確認の質問について\nこの調査には、集中して回答できているかを確かめる質問（「左を選んでください」など）が含まれていました。回答の質を確かめる一般的な方法で、あなた個人を評価するものではありません。\n\n画面の切り替え・離脱: 0 回（合計 0 秒）／ 中断からの再開: 0 回\n参加者: check (moral) / 本番試行: 0 / 評定完了: 0 / 0 / 実効 – Hz / リトライ 0 / 端末 375×700@1x\nデータを送る (共有)\nデータを保存 (JSON)\n軌道CSVを保存\n確認モード（送信しません）: done"
+      "text": "あいうえお0123456789あいうえお0123456789\n完了しました\n\nご協力ありがとうございました。下のボタンでデータを保存・共有してください。\n\nあなたの完了コード:\n\nXCYD-2JNQ\n\n完了コードをコピーし、参加依頼で指定された方法で提出してください。\n\n確認の質問について\nこの調査には、集中して回答できているかを確かめる質問（「左を選んでください」など）が含まれていました。回答の質を確かめる一般的な方法で、あなた個人を評価するものではありません。\n\n画面の切り替え・離脱: 0 回（合計 0 秒）／ 中断からの再開: 0 回\n参加者: check (moral) / 本番試行: 0 / 評定完了: 0 / 0 / 実効 – Hz / リトライ 0 / 端末 375×700@1x\nデータを送る (共有)\nデータを保存 (JSON)\n軌道CSVを保存\n確認モード（送信しません）: done"
     },
     {
       "name": "mini/sending",
       "file": "mini/sending.png",
-      "capturedAt": "2026-11-01T16:21:41.483Z",
-      "sha256": "4be041328c76623dc53a1b91b1cda248d128c476eaf2a991c718a5fcbd0a065b",
+      "capturedAt": "2026-11-14T18:21:51.828Z",
+      "sha256": "37057df9ad9a26f357cc6125bac0109d689a07300b5daba7f35d11e16e8210cb",
       "geometry": {
         "w": 375,
         "h": 700,
@@ -42988,7 +42975,7 @@
     {
       "name": "mini/entry",
       "file": "mini/entry.png",
-      "capturedAt": "2026-11-01T16:21:42.625Z",
+      "capturedAt": "2026-11-14T18:21:52.874Z",
       "sha256": "b133daa561a2e3b4ef6bfff1505110e95b610de2433ad7a196f687f3dccbc49d",
       "geometry": {
         "w": 375,
@@ -43027,7 +43014,7 @@
     {
       "name": "mini/entry-end",
       "file": "mini/entry-end.png",
-      "capturedAt": "2026-11-01T16:21:42.693Z",
+      "capturedAt": "2026-11-14T18:21:52.945Z",
       "sha256": "b133daa561a2e3b4ef6bfff1505110e95b610de2433ad7a196f687f3dccbc49d",
       "geometry": {
         "w": 375,
@@ -43066,7 +43053,7 @@
     {
       "name": "mini/reading-intro",
       "file": "mini/reading-intro.png",
-      "capturedAt": "2026-11-01T16:21:42.843Z",
+      "capturedAt": "2026-11-14T18:21:53.091Z",
       "sha256": "7ba059893e0e1239bb49f90cd21254af14e5212ce1015adca89eb9886bf474b3",
       "geometry": {
         "w": 375,
@@ -43118,7 +43105,7 @@
     {
       "name": "mini/reading-text",
       "file": "mini/reading-text.png",
-      "capturedAt": "2026-11-01T16:21:42.958Z",
+      "capturedAt": "2026-11-14T18:21:53.203Z",
       "sha256": "acbb28ec82363b7e563e5b9424b8c318def0066bd2a31bc220e500ee300c53f4",
       "geometry": {
         "w": 375,
@@ -43170,8 +43157,8 @@
     {
       "name": "mini/practice-1-question",
       "file": "mini/practice-1-question.png",
-      "capturedAt": "2026-11-01T16:21:45.543Z",
-      "sha256": "ff028584ed35a4c7d731a19b4a091fa5f2506b08587b724668155509d1407dee",
+      "capturedAt": "2026-11-14T18:21:55.639Z",
+      "sha256": "f4045b58c9785b8b7abad020e295a1ba5ed63927a1d7dfd227bbaac079190829",
       "geometry": {
         "w": 375,
         "h": 700,
@@ -43222,8 +43209,8 @@
     {
       "name": "mini/practice-1-choice",
       "file": "mini/practice-1-choice.png",
-      "capturedAt": "2026-11-01T16:21:45.718Z",
-      "sha256": "e5a6607aaa6d3bbc184575bc894516e913a5732c1a67cb6281e3f1fcb62f71e4",
+      "capturedAt": "2026-11-14T18:21:55.756Z",
+      "sha256": "d2edbcbf34a0484c4ea4f12c49a01a9fe4487e8a496f10977571cc3bacdfee8e",
       "geometry": {
         "w": 375,
         "h": 700,
@@ -43301,8 +43288,8 @@
     {
       "name": "mini/practice-2-question",
       "file": "mini/practice-2-question.png",
-      "capturedAt": "2026-11-01T16:21:52.674Z",
-      "sha256": "6b5eeea0d3d729ff6868eb36350903ea533531030c7beb1a7aac9c97d8690a56",
+      "capturedAt": "2026-11-14T18:22:02.125Z",
+      "sha256": "3099e437710180bb4fadd47fc3f2ab97e2e46550d3cf5dfab44f684907887c21",
       "geometry": {
         "w": 375,
         "h": 700,
@@ -43353,7 +43340,7 @@
     {
       "name": "mini/practice-2-choice",
       "file": "mini/practice-2-choice.png",
-      "capturedAt": "2026-11-01T16:21:52.759Z",
+      "capturedAt": "2026-11-14T18:22:02.209Z",
       "sha256": "b29ecf2a62729ddaf6f67f4a014d72b2b2cee26be88544e5ed31e9bc9e0f75eb",
       "geometry": {
         "w": 375,
@@ -43432,8 +43419,8 @@
     {
       "name": "mini/practice-3-question",
       "file": "mini/practice-3-question.png",
-      "capturedAt": "2026-11-01T16:21:58.821Z",
-      "sha256": "e33129655239e4ad6edd97ded6197b03dc39cdb342ba79debefac367f9f3eb04",
+      "capturedAt": "2026-11-14T18:22:08.306Z",
+      "sha256": "f4e624c0bcb1b491fb46ea09f6a37274860b54a8c7d7619a0c49d56ce7e02a51",
       "geometry": {
         "w": 375,
         "h": 700,
@@ -43484,7 +43471,7 @@
     {
       "name": "mini/practice-3-choice",
       "file": "mini/practice-3-choice.png",
-      "capturedAt": "2026-11-01T16:21:58.913Z",
+      "capturedAt": "2026-11-14T18:22:08.375Z",
       "sha256": "dcd199dd5efe816f01fa8be29e52fb731e7b25ae58b77e4ae849fb19bf3caf09",
       "geometry": {
         "w": 375,
@@ -43563,7 +43550,7 @@
     {
       "name": "mini/practice-4-question",
       "file": "mini/practice-4-question.png",
-      "capturedAt": "2026-11-01T16:22:04.940Z",
+      "capturedAt": "2026-11-14T18:22:14.422Z",
       "sha256": "a674b35d538357e788744143fe2161616d87d1047b812c6af3028efdf4c345b5",
       "geometry": {
         "w": 375,
@@ -43615,7 +43602,7 @@
     {
       "name": "mini/practice-4-choice",
       "file": "mini/practice-4-choice.png",
-      "capturedAt": "2026-11-01T16:22:05.032Z",
+      "capturedAt": "2026-11-14T18:22:14.491Z",
       "sha256": "ba7a9eb9ce284e3498721661cbff738b1015379b52a0db33c5793118d07a941d",
       "geometry": {
         "w": 375,
@@ -43694,8 +43681,8 @@
     {
       "name": "mini/practice-5-question",
       "file": "mini/practice-5-question.png",
-      "capturedAt": "2026-11-01T16:22:11.160Z",
-      "sha256": "2c2ce1c8dffb606f8862170806bc90f25c5a5d72ef1de2cb65057d332da2de46",
+      "capturedAt": "2026-11-14T18:22:20.510Z",
+      "sha256": "b5cfccf30022dba1407019990a6f64e698747e525c4432784724da6317fd7d5f",
       "geometry": {
         "w": 375,
         "h": 700,
@@ -43746,7 +43733,7 @@
     {
       "name": "mini/practice-5-choice",
       "file": "mini/practice-5-choice.png",
-      "capturedAt": "2026-11-01T16:22:11.249Z",
+      "capturedAt": "2026-11-14T18:22:20.598Z",
       "sha256": "42b98da00afe7e215cff07187d8f5ac9f81887a03e10608dcbe569930ca96370",
       "geometry": {
         "w": 375,
@@ -43825,7 +43812,7 @@
     {
       "name": "mini/practice-complete",
       "file": "mini/practice-complete.png",
-      "capturedAt": "2026-11-01T16:22:15.864Z",
+      "capturedAt": "2026-11-14T18:22:25.191Z",
       "sha256": "cb8758e8e87caee4efcb1e3754d75060a8f441c07a059140ae54bfeefec5dc27",
       "geometry": {
         "w": 375,
@@ -43877,8 +43864,8 @@
     {
       "name": "mini/practice-early-coach",
       "file": "mini/practice-early-coach.png",
-      "capturedAt": "2026-11-01T16:22:17.174Z",
-      "sha256": "aa8bbdc59be24b11ebaca83999d8a2e6ac3d0619fbed8f2c6e364e1eb137030a",
+      "capturedAt": "2026-11-14T18:22:26.445Z",
+      "sha256": "38c65bc96e53c2bd54743a9e1d65b1d9dae60c728e287d79259d845498e278da",
       "geometry": {
         "w": 375,
         "h": 700,
@@ -43904,7 +43891,7 @@
     {
       "name": "mini/legacy-blockintro",
       "file": "mini/legacy-blockintro.png",
-      "capturedAt": "2026-11-01T16:22:18.076Z",
+      "capturedAt": "2026-11-14T18:22:27.165Z",
       "sha256": "4aa3772cbe8ab83b8758985d399c28f431e9c03b20c1e1cb4ea65c2aef0cd41b",
       "geometry": {
         "w": 375,
@@ -43958,7 +43945,7 @@
     {
       "name": "mini/legacy-blockintro-end",
       "file": "mini/legacy-blockintro-end.png",
-      "capturedAt": "2026-11-01T16:22:18.161Z",
+      "capturedAt": "2026-11-14T18:22:27.241Z",
       "sha256": "7fb291c989f2d49615cac3adf224110ee7bcabcbdb4c39526997644bfb088ae8",
       "geometry": {
         "w": 375,
@@ -44011,7 +43998,7 @@
     {
       "name": "iphone17/welcome-1",
       "file": "iphone17/welcome-1.png",
-      "capturedAt": "2026-11-01T16:22:18.998Z",
+      "capturedAt": "2026-11-14T18:22:27.968Z",
       "sha256": "d21a52ad7e483c2be6067c9c60d84b8e869b448407b687ea68bf47794b7cf86d",
       "geometry": {
         "w": 402,
@@ -44063,7 +44050,7 @@
     {
       "name": "iphone17/welcome-2",
       "file": "iphone17/welcome-2.png",
-      "capturedAt": "2026-11-01T16:22:19.165Z",
+      "capturedAt": "2026-11-14T18:22:28.115Z",
       "sha256": "54144f7b6b75a1c553939b06f313d39f004918085d69ad123846ecae0617ecfd",
       "geometry": {
         "w": 402,
@@ -44115,7 +44102,7 @@
     {
       "name": "iphone17/welcome-3",
       "file": "iphone17/welcome-3.png",
-      "capturedAt": "2026-11-01T16:22:19.378Z",
+      "capturedAt": "2026-11-14T18:22:28.279Z",
       "sha256": "c6d8573d2f7b8824eb61881581a384b4d1c67848d3dc85fb41fe628343a3dd4f",
       "geometry": {
         "w": 402,
@@ -44167,7 +44154,7 @@
     {
       "name": "iphone17/welcome-4",
       "file": "iphone17/welcome-4.png",
-      "capturedAt": "2026-11-01T16:22:19.508Z",
+      "capturedAt": "2026-11-14T18:22:28.427Z",
       "sha256": "4811f4ec29fa6fcbf19f11b08ec645dae6d652cba58c5c3715e6b6d394582f78",
       "geometry": {
         "w": 402,
@@ -44219,7 +44206,7 @@
     {
       "name": "iphone17/welcome-5",
       "file": "iphone17/welcome-5.png",
-      "capturedAt": "2026-11-01T16:22:19.639Z",
+      "capturedAt": "2026-11-14T18:22:28.544Z",
       "sha256": "a9b9ba857ba118d146a192cf184ecadcadb636e0cda3877502272277325e2c94",
       "geometry": {
         "w": 402,
@@ -44271,7 +44258,7 @@
     {
       "name": "iphone17/welcome-6",
       "file": "iphone17/welcome-6.png",
-      "capturedAt": "2026-11-01T16:22:19.772Z",
+      "capturedAt": "2026-11-14T18:22:28.680Z",
       "sha256": "606c00c786a8c178c4e86c183ad4b15fa8c1e4404dcd8bafc026d2d6feb16216",
       "geometry": {
         "w": 402,
@@ -44323,7 +44310,7 @@
     {
       "name": "iphone17/welcome-7",
       "file": "iphone17/welcome-7.png",
-      "capturedAt": "2026-11-01T16:22:20.047Z",
+      "capturedAt": "2026-11-14T18:22:28.978Z",
       "sha256": "a676a55edbd601921ee77104f4ede2c2006c42498e2ad2218e7a8784c5348a18",
       "geometry": {
         "w": 402,
@@ -44375,7 +44362,7 @@
     {
       "name": "iphone17/consent-top",
       "file": "iphone17/consent-top.png",
-      "capturedAt": "2026-11-01T16:22:21.292Z",
+      "capturedAt": "2026-11-14T18:22:30.329Z",
       "sha256": "9b2626f6313cf8a93ef83dd12457ac6f2280cc08a242846052d52989e6afd4dc",
       "geometry": {
         "w": 402,
@@ -44493,7 +44480,7 @@
     {
       "name": "iphone17/consent-end",
       "file": "iphone17/consent-end.png",
-      "capturedAt": "2026-11-01T16:22:21.372Z",
+      "capturedAt": "2026-11-14T18:22:30.397Z",
       "sha256": "2e0c84362eb738d16dc4aabe21734a181ed9485a77bb8f93fc62797b06d47ef8",
       "geometry": {
         "w": 402,
@@ -44611,7 +44598,7 @@
     {
       "name": "iphone17/practicecheck",
       "file": "iphone17/practicecheck.png",
-      "capturedAt": "2026-11-01T16:22:22.071Z",
+      "capturedAt": "2026-11-14T18:22:31.158Z",
       "sha256": "8e6b5a95459e5ca3087a1ad48e53825eb14239119ca331103b0a8cd50f9299eb",
       "geometry": {
         "w": 402,
@@ -44663,7 +44650,7 @@
     {
       "name": "iphone17/practicecheck-end",
       "file": "iphone17/practicecheck-end.png",
-      "capturedAt": "2026-11-01T16:22:22.151Z",
+      "capturedAt": "2026-11-14T18:22:31.241Z",
       "sha256": "8e6b5a95459e5ca3087a1ad48e53825eb14239119ca331103b0a8cd50f9299eb",
       "geometry": {
         "w": 402,
@@ -44715,7 +44702,7 @@
     {
       "name": "iphone17/tutorial-layout-intro",
       "file": "iphone17/tutorial-layout-intro.png",
-      "capturedAt": "2026-11-01T16:22:23.184Z",
+      "capturedAt": "2026-11-14T18:22:32.524Z",
       "sha256": "1b4bd226ed9b60183f4a3bc6f0d61c277157228e3434b8cb3dced766ff490536",
       "geometry": {
         "w": 402,
@@ -44810,7 +44797,7 @@
     {
       "name": "iphone17/tutorial-0",
       "file": "iphone17/tutorial-0.png",
-      "capturedAt": "2026-11-01T16:22:23.184Z",
+      "capturedAt": "2026-11-14T18:22:32.524Z",
       "sha256": "1b4bd226ed9b60183f4a3bc6f0d61c277157228e3434b8cb3dced766ff490536",
       "geometry": {
         "w": 402,
@@ -44906,7 +44893,7 @@
     {
       "name": "iphone17/tutorial-layout-stem",
       "file": "iphone17/tutorial-layout-stem.png",
-      "capturedAt": "2026-11-01T16:22:23.919Z",
+      "capturedAt": "2026-11-14T18:22:33.270Z",
       "sha256": "c6cec7372c40dd5c11e01dcaf451f51b056954e2a5a871d95558f68a3eea47cf",
       "geometry": {
         "w": 402,
@@ -45014,7 +45001,7 @@
     {
       "name": "iphone17/tutorial-2",
       "file": "iphone17/tutorial-2.png",
-      "capturedAt": "2026-11-01T16:22:23.919Z",
+      "capturedAt": "2026-11-14T18:22:33.270Z",
       "sha256": "c6cec7372c40dd5c11e01dcaf451f51b056954e2a5a871d95558f68a3eea47cf",
       "geometry": {
         "w": 402,
@@ -45123,8 +45110,8 @@
     {
       "name": "iphone17/tutorial-layout-start",
       "file": "iphone17/tutorial-layout-start.png",
-      "capturedAt": "2026-11-01T16:22:24.616Z",
-      "sha256": "3fbe1d0ea0274e69b4507724995d27e8ba265376a88272fdb03513d9d80f8e48",
+      "capturedAt": "2026-11-14T18:22:33.999Z",
+      "sha256": "4dbd68f529cecd6bff06638696247c6e534abc83d006f23e4f91574c3d79a52b",
       "geometry": {
         "w": 402,
         "h": 759,
@@ -45244,8 +45231,8 @@
     {
       "name": "iphone17/tutorial-3",
       "file": "iphone17/tutorial-3.png",
-      "capturedAt": "2026-11-01T16:22:24.616Z",
-      "sha256": "3fbe1d0ea0274e69b4507724995d27e8ba265376a88272fdb03513d9d80f8e48",
+      "capturedAt": "2026-11-14T18:22:33.999Z",
+      "sha256": "4dbd68f529cecd6bff06638696247c6e534abc83d006f23e4f91574c3d79a52b",
       "geometry": {
         "w": 402,
         "h": 759,
@@ -45366,8 +45353,8 @@
     {
       "name": "iphone17/tutorial-layout-choice",
       "file": "iphone17/tutorial-layout-choice.png",
-      "capturedAt": "2026-11-01T16:22:25.337Z",
-      "sha256": "ae15a7a7825f12df124591848f958a82c1d5d4327601d36b227ffde6a5115866",
+      "capturedAt": "2026-11-14T18:22:34.753Z",
+      "sha256": "bbfbe52cd67c63b70c1d85ed8c0fc6e0e4e664d4d75526a4ce3f0419abffd023",
       "geometry": {
         "w": 402,
         "h": 759,
@@ -45513,8 +45500,8 @@
     {
       "name": "iphone17/tutorial-4",
       "file": "iphone17/tutorial-4.png",
-      "capturedAt": "2026-11-01T16:22:25.337Z",
-      "sha256": "ae15a7a7825f12df124591848f958a82c1d5d4327601d36b227ffde6a5115866",
+      "capturedAt": "2026-11-14T18:22:34.753Z",
+      "sha256": "bbfbe52cd67c63b70c1d85ed8c0fc6e0e4e664d4d75526a4ce3f0419abffd023",
       "geometry": {
         "w": 402,
         "h": 759,
@@ -45661,8 +45648,8 @@
     {
       "name": "iphone17/tutorial-motor-route",
       "file": "iphone17/tutorial-motor-route.png",
-      "capturedAt": "2026-11-01T16:22:26.633Z",
-      "sha256": "62600131e4534d47cf9da338bb46a44fd54cb4e5d453e94e4b156fac31253c70",
+      "capturedAt": "2026-11-14T18:22:36.088Z",
+      "sha256": "7a81be90cd11e7c9b923d4adfc153bad543b353be36f3e8a139f0aca296d7e77",
       "geometry": {
         "w": 402,
         "h": 759,
@@ -45782,8 +45769,8 @@
     {
       "name": "iphone17/tutorial-motor-range",
       "file": "iphone17/tutorial-motor-range.png",
-      "capturedAt": "2026-11-01T16:22:28.494Z",
-      "sha256": "42721770cc6039fedd020983fd800cb6d32ee8c764af78798cb6dd8151c9176c",
+      "capturedAt": "2026-11-14T18:22:37.964Z",
+      "sha256": "d23c1909d6d0b2e6317d71bbe50f49649d8e537482f7322d58aeca2d355ef5c2",
       "geometry": {
         "w": 402,
         "h": 759,
@@ -45940,7 +45927,7 @@
     {
       "name": "iphone17/tutorial-motor",
       "file": "iphone17/tutorial-motor.png",
-      "capturedAt": "2026-11-01T16:22:29.193Z",
+      "capturedAt": "2026-11-14T18:22:38.698Z",
       "sha256": "aa81c9232547aeca45e665925a2aaa84cd21f8bef2f2a032f2530d2acc8c125c",
       "geometry": {
         "w": 402,
@@ -46061,8 +46048,8 @@
     {
       "name": "iphone17/tutorial-motor-success",
       "file": "iphone17/tutorial-motor-success.png",
-      "capturedAt": "2026-11-01T16:22:30.375Z",
-      "sha256": "9e6089ceca774ae5ee8d45646691557493979337322f10965150dc760522d68d",
+      "capturedAt": "2026-11-14T18:22:39.849Z",
+      "sha256": "0f4131b26905bbb2d8746c34679218cc77076d0ea7a1002bfbf7bc46c72ae363",
       "geometry": {
         "w": 402,
         "h": 759,
@@ -46168,7 +46155,7 @@
     {
       "name": "iphone17/tutorial-start-rule",
       "file": "iphone17/tutorial-start-rule.png",
-      "capturedAt": "2026-11-01T16:22:31.090Z",
+      "capturedAt": "2026-11-14T18:22:40.579Z",
       "sha256": "378ba75945e7c282a40746109b5a0371105bbd12f108410682f22cd594c9e580",
       "geometry": {
         "w": 402,
@@ -46263,7 +46250,7 @@
     {
       "name": "iphone17/tutorial-movement-reason",
       "file": "iphone17/tutorial-movement-reason.png",
-      "capturedAt": "2026-11-01T16:22:31.788Z",
+      "capturedAt": "2026-11-14T18:22:41.273Z",
       "sha256": "276c6543db3f9f79c87f0ca64a4e1b835ef7bde55bb4b863b8290c84dc6d65e9",
       "geometry": {
         "w": 402,
@@ -46358,7 +46345,7 @@
     {
       "name": "iphone17/tutorial-uncertain",
       "file": "iphone17/tutorial-uncertain.png",
-      "capturedAt": "2026-11-01T16:22:32.488Z",
+      "capturedAt": "2026-11-14T18:22:42.003Z",
       "sha256": "0fc34a1c8d621061aca3a872c4d217d7f5bbaa3389863c84e010d16217f83bae",
       "geometry": {
         "w": 402,
@@ -46453,8 +46440,8 @@
     {
       "name": "iphone17/tutorial-time-rule",
       "file": "iphone17/tutorial-time-rule.png",
-      "capturedAt": "2026-11-01T16:22:34.943Z",
-      "sha256": "44b165e71e806a1a5ccae0f93fda1ae7e1e7999a5dad227fdecfa0be2c320b37",
+      "capturedAt": "2026-11-14T18:22:44.448Z",
+      "sha256": "1d760a7e5f2b22c550ef3f21656682a265a39737164c8c7a80d5c2c2662945ac",
       "geometry": {
         "w": 402,
         "h": 759,
@@ -46561,8 +46548,8 @@
     {
       "name": "iphone17/tutorial-7",
       "file": "iphone17/tutorial-7.png",
-      "capturedAt": "2026-11-01T16:22:34.943Z",
-      "sha256": "44b165e71e806a1a5ccae0f93fda1ae7e1e7999a5dad227fdecfa0be2c320b37",
+      "capturedAt": "2026-11-14T18:22:44.448Z",
+      "sha256": "1d760a7e5f2b22c550ef3f21656682a265a39737164c8c7a80d5c2c2662945ac",
       "geometry": {
         "w": 402,
         "h": 759,
@@ -46670,7 +46657,7 @@
     {
       "name": "iphone17/tutorial-answer-pace",
       "file": "iphone17/tutorial-answer-pace.png",
-      "capturedAt": "2026-11-01T16:22:35.669Z",
+      "capturedAt": "2026-11-14T18:22:45.179Z",
       "sha256": "d5e184a58c72f0256b36d5e07823fdbc0c09e6aec9b6c9ccf146bc8f53a00b5c",
       "geometry": {
         "w": 402,
@@ -46765,7 +46752,7 @@
     {
       "name": "iphone17/tutorial-rule-check-intro",
       "file": "iphone17/tutorial-rule-check-intro.png",
-      "capturedAt": "2026-11-01T16:22:36.361Z",
+      "capturedAt": "2026-11-14T18:22:45.870Z",
       "sha256": "5303f9a8250bc0fd4e0c8223d48ba61109617e15c040ef2330bcabfc0b4bb85f",
       "geometry": {
         "w": 402,
@@ -46860,7 +46847,7 @@
     {
       "name": "iphone17/tutorial-rule-check-01",
       "file": "iphone17/tutorial-rule-check-01.png",
-      "capturedAt": "2026-11-01T16:22:37.114Z",
+      "capturedAt": "2026-11-14T18:22:46.590Z",
       "sha256": "d16e418e6007cb8487f355dc6002f457487b3533c7077da0e64c4e235f89d00d",
       "geometry": {
         "w": 402,
@@ -46969,7 +46956,7 @@
     {
       "name": "iphone17/tutorial-rule-check-01-wrong",
       "file": "iphone17/tutorial-rule-check-01-wrong.png",
-      "capturedAt": "2026-11-01T16:22:37.260Z",
+      "capturedAt": "2026-11-14T18:22:46.705Z",
       "sha256": "d899ccc3c33b51554ecb0124abcbd414b1db6486a78a0f3e01776607d5c31ef2",
       "geometry": {
         "w": 402,
@@ -47090,7 +47077,7 @@
     {
       "name": "iphone17/tutorial-rule-check-02",
       "file": "iphone17/tutorial-rule-check-02.png",
-      "capturedAt": "2026-11-01T16:22:38.021Z",
+      "capturedAt": "2026-11-14T18:22:47.476Z",
       "sha256": "ca7720a7626f410d7f269b650ed69f2ec02755892409f723d4f7f87c2621f147",
       "geometry": {
         "w": 402,
@@ -47199,7 +47186,7 @@
     {
       "name": "iphone17/tutorial-rule-check-02-wrong",
       "file": "iphone17/tutorial-rule-check-02-wrong.png",
-      "capturedAt": "2026-11-01T16:22:38.138Z",
+      "capturedAt": "2026-11-14T18:22:47.592Z",
       "sha256": "5054cea0ddb00cb5086f36ba04c502b76ff3b97cbe0bba3d74cbd257079e5c61",
       "geometry": {
         "w": 402,
@@ -47320,7 +47307,7 @@
     {
       "name": "iphone17/tutorial-rule-check-03",
       "file": "iphone17/tutorial-rule-check-03.png",
-      "capturedAt": "2026-11-01T16:22:38.924Z",
+      "capturedAt": "2026-11-14T18:22:48.376Z",
       "sha256": "68d2806198bd879b9733b7d3d1f6d63bc4ce516269d674d80c0568a248238c75",
       "geometry": {
         "w": 402,
@@ -47429,7 +47416,7 @@
     {
       "name": "iphone17/tutorial-rule-check-03-wrong",
       "file": "iphone17/tutorial-rule-check-03-wrong.png",
-      "capturedAt": "2026-11-01T16:22:39.062Z",
+      "capturedAt": "2026-11-14T18:22:48.492Z",
       "sha256": "4472d98dc5fb3f982229f4d6ac6c40619bab3f2e2de4b265d8eb8dd2b3cb523c",
       "geometry": {
         "w": 402,
@@ -47550,7 +47537,7 @@
     {
       "name": "iphone17/tutorial-rule-check-04",
       "file": "iphone17/tutorial-rule-check-04.png",
-      "capturedAt": "2026-11-01T16:22:39.862Z",
+      "capturedAt": "2026-11-14T18:22:49.258Z",
       "sha256": "5d6dcd382c8ba004339a088eaefa6bb80ef147a28bbc0b458a292e937279a8d4",
       "geometry": {
         "w": 402,
@@ -47659,7 +47646,7 @@
     {
       "name": "iphone17/tutorial-rule-check-04-wrong",
       "file": "iphone17/tutorial-rule-check-04-wrong.png",
-      "capturedAt": "2026-11-01T16:22:40.007Z",
+      "capturedAt": "2026-11-14T18:22:49.376Z",
       "sha256": "ff37ccb4019b840334b376efb3fc629f456d7a6a82ad1a0dbdba4bf291890e67",
       "geometry": {
         "w": 402,
@@ -47780,7 +47767,7 @@
     {
       "name": "iphone17/tutorial-rule-check-05",
       "file": "iphone17/tutorial-rule-check-05.png",
-      "capturedAt": "2026-11-01T16:22:40.778Z",
+      "capturedAt": "2026-11-14T18:22:50.143Z",
       "sha256": "8b6263bc530410fd580b846a8a5126da847e723af84dcc46752f18e96bd9c2ee",
       "geometry": {
         "w": 402,
@@ -47889,7 +47876,7 @@
     {
       "name": "iphone17/tutorial-rule-check-05-wrong",
       "file": "iphone17/tutorial-rule-check-05-wrong.png",
-      "capturedAt": "2026-11-01T16:22:40.922Z",
+      "capturedAt": "2026-11-14T18:22:50.281Z",
       "sha256": "48970b1f90bf097fb5ecf6660bba9bdb3d5db636d093d6228e5f411d443224b7",
       "geometry": {
         "w": 402,
@@ -48010,7 +47997,7 @@
     {
       "name": "iphone17/tutorial-rule-check-06",
       "file": "iphone17/tutorial-rule-check-06.png",
-      "capturedAt": "2026-11-01T16:22:41.692Z",
+      "capturedAt": "2026-11-14T18:22:51.078Z",
       "sha256": "ce76018375e822f1174268070bf9c3ccb1f7e4a62c9f504792e0d13fb65511ec",
       "geometry": {
         "w": 402,
@@ -48119,7 +48106,7 @@
     {
       "name": "iphone17/tutorial-rule-check-06-wrong",
       "file": "iphone17/tutorial-rule-check-06-wrong.png",
-      "capturedAt": "2026-11-01T16:22:41.825Z",
+      "capturedAt": "2026-11-14T18:22:51.208Z",
       "sha256": "9109194f555c31f6536140dfa7b0cb0fa8514ffd3048454f4bcb6bc52498b6ec",
       "geometry": {
         "w": 402,
@@ -48240,7 +48227,7 @@
     {
       "name": "iphone17/tutorial-rule-check-07",
       "file": "iphone17/tutorial-rule-check-07.png",
-      "capturedAt": "2026-11-01T16:22:42.647Z",
+      "capturedAt": "2026-11-14T18:22:51.998Z",
       "sha256": "a654482ec001e7df44298e947440e3eb463182d040ba04c6d2e2cb9d5e4e89c0",
       "geometry": {
         "w": 402,
@@ -48349,7 +48336,7 @@
     {
       "name": "iphone17/tutorial-rule-check-07-wrong",
       "file": "iphone17/tutorial-rule-check-07-wrong.png",
-      "capturedAt": "2026-11-01T16:22:42.794Z",
+      "capturedAt": "2026-11-14T18:22:52.148Z",
       "sha256": "dc3c9758e0c997debf4e9ae65945bec049f3509991491d86f69b6b9e6f858e2f",
       "geometry": {
         "w": 402,
@@ -48470,7 +48457,7 @@
     {
       "name": "iphone17/guided-example-intro",
       "file": "iphone17/guided-example-intro.png",
-      "capturedAt": "2026-11-01T16:22:43.169Z",
+      "capturedAt": "2026-11-14T18:22:52.583Z",
       "sha256": "0f6dd0194560ef8024f6a24aa1078139c98c7bbff928d22446c1255cc56f9130",
       "geometry": {
         "w": 402,
@@ -48524,7 +48511,7 @@
     {
       "name": "iphone17/example-coach",
       "file": "iphone17/example-coach.png",
-      "capturedAt": "2026-11-01T16:22:46.026Z",
+      "capturedAt": "2026-11-14T18:22:55.447Z",
       "sha256": "5a53464fb0119f5806e31308bac646889dff86f984f64a5f328f490561611b4d",
       "geometry": {
         "w": 402,
@@ -48577,7 +48564,7 @@
     {
       "name": "iphone17/example-choice",
       "file": "iphone17/example-choice.png",
-      "capturedAt": "2026-11-01T16:22:46.122Z",
+      "capturedAt": "2026-11-14T18:22:55.542Z",
       "sha256": "0feded3ef5d198202c3a61c9e2545a8b8551892976770a9ab6a1251efdaedb6a",
       "geometry": {
         "w": 402,
@@ -48656,7 +48643,7 @@
     {
       "name": "iphone17/rating-tutorial-0",
       "file": "iphone17/rating-tutorial-0.png",
-      "capturedAt": "2026-11-01T16:22:47.911Z",
+      "capturedAt": "2026-11-14T18:22:57.140Z",
       "sha256": "b923c76eb8091413f5d5077b439e867e14ab3a290cb4c30e7ba2871bd55a2857",
       "geometry": {
         "w": 402,
@@ -48736,8 +48723,8 @@
     {
       "name": "iphone17/rating-tutorial-1",
       "file": "iphone17/rating-tutorial-1.png",
-      "capturedAt": "2026-11-01T16:22:48.565Z",
-      "sha256": "6d7f59aeff7ec5bcec81241be13067b01cbf9306fad381e282c3e1aee307fca6",
+      "capturedAt": "2026-11-14T18:22:57.765Z",
+      "sha256": "a085a005066659ac039be438d44a70603da03491bd3ed41a1b691c7e291e3381",
       "geometry": {
         "w": 402,
         "h": 759,
@@ -48842,8 +48829,8 @@
     {
       "name": "iphone17/rating-tutorial-2",
       "file": "iphone17/rating-tutorial-2.png",
-      "capturedAt": "2026-11-01T16:22:49.257Z",
-      "sha256": "fecc9541b90e15561f34d23fd677c42239ac4cf56b14cf2232b49e778602499f",
+      "capturedAt": "2026-11-14T18:22:58.412Z",
+      "sha256": "6fc77c799985d625ea26e0e0e35fa389d991c62419dbc550baf89c04772f6a9c",
       "geometry": {
         "w": 402,
         "h": 759,
@@ -48961,7 +48948,7 @@
     {
       "name": "iphone17/rating-tutorial-3",
       "file": "iphone17/rating-tutorial-3.png",
-      "capturedAt": "2026-11-01T16:22:49.890Z",
+      "capturedAt": "2026-11-14T18:22:59.026Z",
       "sha256": "a53aec65dedec6f311a7a1496af0465a39956dd0c1334ed826a93d4f56abc908",
       "geometry": {
         "w": 402,
@@ -49041,7 +49028,7 @@
     {
       "name": "iphone17/rating-tutorial-4",
       "file": "iphone17/rating-tutorial-4.png",
-      "capturedAt": "2026-11-01T16:22:50.415Z",
+      "capturedAt": "2026-11-14T18:22:59.553Z",
       "sha256": "95d740dd60c7a79c8a70de73c5eb24ee75ac1c512442c43f8074857a61d36856",
       "geometry": {
         "w": 402,
@@ -49121,7 +49108,7 @@
     {
       "name": "iphone17/notice-early",
       "file": "iphone17/notice-early.png",
-      "capturedAt": "2026-11-01T16:22:51.557Z",
+      "capturedAt": "2026-11-14T18:23:00.546Z",
       "sha256": "db00c113b93b03d9520e0d3a2efeb62df462760e9479789c726c2e2359e115ed",
       "geometry": {
         "w": 402,
@@ -49186,7 +49173,7 @@
     {
       "name": "iphone17/notice-late",
       "file": "iphone17/notice-late.png",
-      "capturedAt": "2026-11-01T16:22:52.456Z",
+      "capturedAt": "2026-11-14T18:23:01.334Z",
       "sha256": "076175f0998cb5c942154b3dcfa11049dfcbf3a6863595149d2a6ce4d3e1f52f",
       "geometry": {
         "w": 402,
@@ -49251,7 +49238,7 @@
     {
       "name": "iphone17/notice-late-end",
       "file": "iphone17/notice-late-end.png",
-      "capturedAt": "2026-11-01T16:22:52.538Z",
+      "capturedAt": "2026-11-14T18:23:01.412Z",
       "sha256": "076175f0998cb5c942154b3dcfa11049dfcbf3a6863595149d2a6ce4d3e1f52f",
       "geometry": {
         "w": 402,
@@ -49303,7 +49290,7 @@
     {
       "name": "iphone17/notice-early_late",
       "file": "iphone17/notice-early_late.png",
-      "capturedAt": "2026-11-01T16:22:53.375Z",
+      "capturedAt": "2026-11-14T18:23:02.219Z",
       "sha256": "f5948987e069eae6ac5f3ff4264ca306d373010610ed87dbac64f240a4f0d1f2",
       "geometry": {
         "w": 402,
@@ -49368,7 +49355,7 @@
     {
       "name": "iphone17/notice-early_late-end",
       "file": "iphone17/notice-early_late-end.png",
-      "capturedAt": "2026-11-01T16:22:53.457Z",
+      "capturedAt": "2026-11-14T18:23:02.300Z",
       "sha256": "f5948987e069eae6ac5f3ff4264ca306d373010610ed87dbac64f240a4f0d1f2",
       "geometry": {
         "w": 402,
@@ -49420,7 +49407,7 @@
     {
       "name": "iphone17/main",
       "file": "iphone17/main.png",
-      "capturedAt": "2026-11-01T16:22:54.196Z",
+      "capturedAt": "2026-11-14T18:23:03.254Z",
       "sha256": "ad82011882fb520217681a962feb1479ec0a70c1f3661def13b0fd5760fbf5de",
       "geometry": {
         "w": 402,
@@ -49516,8 +49503,8 @@
     {
       "name": "iphone17/main-help",
       "file": "iphone17/main-help.png",
-      "capturedAt": "2026-11-01T16:22:54.353Z",
-      "sha256": "5b004d80dd0a26c9279dd028c37326fc47b01f9c4cc737d5fe9016b684b574d8",
+      "capturedAt": "2026-11-14T18:23:03.464Z",
+      "sha256": "8d2f5bf81c8b51fb8eb0fe145d39434629d27c89739977dc303a14b8ce2c21b2",
       "geometry": {
         "w": 402,
         "h": 759,
@@ -49569,7 +49556,7 @@
     {
       "name": "iphone17/rating-hesitation",
       "file": "iphone17/rating-hesitation.png",
-      "capturedAt": "2026-11-01T16:22:55.123Z",
+      "capturedAt": "2026-11-14T18:23:04.414Z",
       "sha256": "a2b0699275a4cd18ca685f0ea85e12472935f150affe26c14ef2764b5510ed57",
       "geometry": {
         "w": 402,
@@ -49621,7 +49608,7 @@
     {
       "name": "iphone17/rating-confidence",
       "file": "iphone17/rating-confidence.png",
-      "capturedAt": "2026-11-01T16:22:55.635Z",
+      "capturedAt": "2026-11-14T18:23:04.965Z",
       "sha256": "92cbece1cb798e8e6ec13ead1b65557a1111d67ff1c54eea4abc033d20950841",
       "geometry": {
         "w": 402,
@@ -49673,7 +49660,7 @@
     {
       "name": "iphone17/main-rating-hesitation",
       "file": "iphone17/main-rating-hesitation.png",
-      "capturedAt": "2026-11-01T16:22:57.516Z",
+      "capturedAt": "2026-11-14T18:23:06.909Z",
       "sha256": "e822c37fe1c7c5e5429fd3713a17be0f31f664fe259b858a7a8b62db0b3447b8",
       "geometry": {
         "w": 402,
@@ -49782,7 +49769,7 @@
     {
       "name": "iphone17/main-rating-confidence",
       "file": "iphone17/main-rating-confidence.png",
-      "capturedAt": "2026-11-01T16:22:57.966Z",
+      "capturedAt": "2026-11-14T18:23:07.380Z",
       "sha256": "076a8be25d1d0b23d1fcee7b272e6c419f892462360c551e2218c69e6ce64947",
       "geometry": {
         "w": 402,
@@ -49891,7 +49878,7 @@
     {
       "name": "iphone17/post-grip",
       "file": "iphone17/post-grip.png",
-      "capturedAt": "2026-11-01T16:22:58.869Z",
+      "capturedAt": "2026-11-14T18:23:08.141Z",
       "sha256": "04cfd1b888b513c06b0443d1f8435cf548ca4c4ccc64b084e3b3a00099045113",
       "geometry": {
         "w": 402,
@@ -49956,7 +49943,7 @@
     {
       "name": "iphone17/post-grip-end",
       "file": "iphone17/post-grip-end.png",
-      "capturedAt": "2026-11-01T16:22:58.933Z",
+      "capturedAt": "2026-11-14T18:23:08.213Z",
       "sha256": "04cfd1b888b513c06b0443d1f8435cf548ca4c4ccc64b084e3b3a00099045113",
       "geometry": {
         "w": 402,
@@ -50021,7 +50008,7 @@
     {
       "name": "iphone17/post-fatigue_pre",
       "file": "iphone17/post-fatigue_pre.png",
-      "capturedAt": "2026-11-01T16:22:59.270Z",
+      "capturedAt": "2026-11-14T18:23:08.545Z",
       "sha256": "0ec79f11ac7ba5bfbafc06fb6855b6c1849034b46e1e8e8284e8fec5acce1032",
       "geometry": {
         "w": 402,
@@ -50086,7 +50073,7 @@
     {
       "name": "iphone17/post-fatigue_pre-end",
       "file": "iphone17/post-fatigue_pre-end.png",
-      "capturedAt": "2026-11-01T16:22:59.336Z",
+      "capturedAt": "2026-11-14T18:23:08.631Z",
       "sha256": "0ec79f11ac7ba5bfbafc06fb6855b6c1849034b46e1e8e8284e8fec5acce1032",
       "geometry": {
         "w": 402,
@@ -50151,7 +50138,7 @@
     {
       "name": "iphone17/post-sleep_hours",
       "file": "iphone17/post-sleep_hours.png",
-      "capturedAt": "2026-11-01T16:22:59.720Z",
+      "capturedAt": "2026-11-14T18:23:09.067Z",
       "sha256": "e20f4d4f6ae4633c71985c0dcddb52f0cb98904a8cda0d85a54d879ed8e8679f",
       "geometry": {
         "w": 402,
@@ -50216,7 +50203,7 @@
     {
       "name": "iphone17/post-sleep_hours-end",
       "file": "iphone17/post-sleep_hours-end.png",
-      "capturedAt": "2026-11-01T16:22:59.786Z",
+      "capturedAt": "2026-11-14T18:23:09.123Z",
       "sha256": "e20f4d4f6ae4633c71985c0dcddb52f0cb98904a8cda0d85a54d879ed8e8679f",
       "geometry": {
         "w": 402,
@@ -50281,7 +50268,7 @@
     {
       "name": "iphone17/post-time_pressure",
       "file": "iphone17/post-time_pressure.png",
-      "capturedAt": "2026-11-01T16:23:00.114Z",
+      "capturedAt": "2026-11-14T18:23:09.463Z",
       "sha256": "348a6283ce5e1785b69429905a1e3c3e90f6a6defdadbbc8d2e77336d389d03e",
       "geometry": {
         "w": 402,
@@ -50346,7 +50333,7 @@
     {
       "name": "iphone17/post-time_pressure-end",
       "file": "iphone17/post-time_pressure-end.png",
-      "capturedAt": "2026-11-01T16:23:00.163Z",
+      "capturedAt": "2026-11-14T18:23:09.529Z",
       "sha256": "348a6283ce5e1785b69429905a1e3c3e90f6a6defdadbbc8d2e77336d389d03e",
       "geometry": {
         "w": 402,
@@ -50411,7 +50398,7 @@
     {
       "name": "iphone17/post-location",
       "file": "iphone17/post-location.png",
-      "capturedAt": "2026-11-01T16:23:00.548Z",
+      "capturedAt": "2026-11-14T18:23:09.923Z",
       "sha256": "f825b6133df5855acc659089dea7d51306149b3f7bcf811ea235ae4f249686ab",
       "geometry": {
         "w": 402,
@@ -50476,7 +50463,7 @@
     {
       "name": "iphone17/post-location-end",
       "file": "iphone17/post-location-end.png",
-      "capturedAt": "2026-11-01T16:23:00.620Z",
+      "capturedAt": "2026-11-14T18:23:09.989Z",
       "sha256": "f825b6133df5855acc659089dea7d51306149b3f7bcf811ea235ae4f249686ab",
       "geometry": {
         "w": 402,
@@ -50541,7 +50528,7 @@
     {
       "name": "iphone17/post-others_present",
       "file": "iphone17/post-others_present.png",
-      "capturedAt": "2026-11-01T16:23:00.937Z",
+      "capturedAt": "2026-11-14T18:23:10.304Z",
       "sha256": "76b0c807d13812007d7543d46bdc4eeb7cf2878b18d6a1ec63d599673f38740f",
       "geometry": {
         "w": 402,
@@ -50606,7 +50593,7 @@
     {
       "name": "iphone17/post-others_present-end",
       "file": "iphone17/post-others_present-end.png",
-      "capturedAt": "2026-11-01T16:23:01.004Z",
+      "capturedAt": "2026-11-14T18:23:10.370Z",
       "sha256": "76b0c807d13812007d7543d46bdc4eeb7cf2878b18d6a1ec63d599673f38740f",
       "geometry": {
         "w": 402,
@@ -50671,7 +50658,7 @@
     {
       "name": "iphone17/post-usage_years",
       "file": "iphone17/post-usage_years.png",
-      "capturedAt": "2026-11-01T16:23:01.370Z",
+      "capturedAt": "2026-11-14T18:23:10.740Z",
       "sha256": "1cb235da3f15195b36d6025b6c4ed5ab0d6c4a59bdbd51c3e81c793785aca880",
       "geometry": {
         "w": 402,
@@ -50736,7 +50723,7 @@
     {
       "name": "iphone17/post-usage_years-end",
       "file": "iphone17/post-usage_years-end.png",
-      "capturedAt": "2026-11-01T16:23:01.438Z",
+      "capturedAt": "2026-11-14T18:23:10.805Z",
       "sha256": "1cb235da3f15195b36d6025b6c4ed5ab0d6c4a59bdbd51c3e81c793785aca880",
       "geometry": {
         "w": 402,
@@ -50801,7 +50788,7 @@
     {
       "name": "iphone17/post-moral_familiar",
       "file": "iphone17/post-moral_familiar.png",
-      "capturedAt": "2026-11-01T16:23:01.819Z",
+      "capturedAt": "2026-11-14T18:23:11.177Z",
       "sha256": "62934262f510c471cf60a3eb2a219259d165f215ab14a4de4d952a671bfb454a",
       "geometry": {
         "w": 402,
@@ -50866,7 +50853,7 @@
     {
       "name": "iphone17/post-moral_familiar-end",
       "file": "iphone17/post-moral_familiar-end.png",
-      "capturedAt": "2026-11-01T16:23:01.886Z",
+      "capturedAt": "2026-11-14T18:23:11.241Z",
       "sha256": "62934262f510c471cf60a3eb2a219259d165f215ab14a4de4d952a671bfb454a",
       "geometry": {
         "w": 402,
@@ -50931,7 +50918,7 @@
     {
       "name": "iphone17/post-rating_meaning",
       "file": "iphone17/post-rating_meaning.png",
-      "capturedAt": "2026-11-01T16:23:02.275Z",
+      "capturedAt": "2026-11-14T18:23:11.622Z",
       "sha256": "d099f2abfd88a4d92b0353d63ef3ea0dc7e4e181a3aa6721771e41eef4f1bc26",
       "geometry": {
         "w": 402,
@@ -50996,7 +50983,7 @@
     {
       "name": "iphone17/post-rating_meaning-end",
       "file": "iphone17/post-rating_meaning-end.png",
-      "capturedAt": "2026-11-01T16:23:02.340Z",
+      "capturedAt": "2026-11-14T18:23:11.690Z",
       "sha256": "d099f2abfd88a4d92b0353d63ef3ea0dc7e4e181a3aa6721771e41eef4f1bc26",
       "geometry": {
         "w": 402,
@@ -51061,7 +51048,7 @@
     {
       "name": "iphone17/post-main_start_basis",
       "file": "iphone17/post-main_start_basis.png",
-      "capturedAt": "2026-11-01T16:23:02.719Z",
+      "capturedAt": "2026-11-14T18:23:12.082Z",
       "sha256": "adf067e6beec9952515cfb8acc039be1acdea6115c76e7ba56c914dcee5cfd3c",
       "geometry": {
         "w": 402,
@@ -51126,7 +51113,7 @@
     {
       "name": "iphone17/post-main_start_basis-end",
       "file": "iphone17/post-main_start_basis-end.png",
-      "capturedAt": "2026-11-01T16:23:02.787Z",
+      "capturedAt": "2026-11-14T18:23:12.144Z",
       "sha256": "adf067e6beec9952515cfb8acc039be1acdea6115c76e7ba56c914dcee5cfd3c",
       "geometry": {
         "w": 402,
@@ -51191,7 +51178,7 @@
     {
       "name": "iphone17/post-main_three_second_meaning",
       "file": "iphone17/post-main_three_second_meaning.png",
-      "capturedAt": "2026-11-01T16:23:03.121Z",
+      "capturedAt": "2026-11-14T18:23:12.473Z",
       "sha256": "cf6c5fa710034d5d285b59055733f1bf1e2eb8a77bfd8ac516b9851ac41a4c32",
       "geometry": {
         "w": 402,
@@ -51256,7 +51243,7 @@
     {
       "name": "iphone17/post-main_three_second_meaning-end",
       "file": "iphone17/post-main_three_second_meaning-end.png",
-      "capturedAt": "2026-11-01T16:23:03.186Z",
+      "capturedAt": "2026-11-14T18:23:12.538Z",
       "sha256": "cf6c5fa710034d5d285b59055733f1bf1e2eb8a77bfd8ac516b9851ac41a4c32",
       "geometry": {
         "w": 402,
@@ -51321,7 +51308,7 @@
     {
       "name": "iphone17/post-main_release_area",
       "file": "iphone17/post-main_release_area.png",
-      "capturedAt": "2026-11-01T16:23:03.517Z",
+      "capturedAt": "2026-11-14T18:23:12.873Z",
       "sha256": "1fb24d890d09298c9289fa918ab7abac28f93a8bf13732e97b346732c67e01c2",
       "geometry": {
         "w": 402,
@@ -51386,7 +51373,7 @@
     {
       "name": "iphone17/post-main_release_area-end",
       "file": "iphone17/post-main_release_area-end.png",
-      "capturedAt": "2026-11-01T16:23:03.584Z",
+      "capturedAt": "2026-11-14T18:23:12.942Z",
       "sha256": "1fb24d890d09298c9289fa918ab7abac28f93a8bf13732e97b346732c67e01c2",
       "geometry": {
         "w": 402,
@@ -51451,7 +51438,7 @@
     {
       "name": "iphone17/post-main_decision_at_move",
       "file": "iphone17/post-main_decision_at_move.png",
-      "capturedAt": "2026-11-01T16:23:03.850Z",
+      "capturedAt": "2026-11-14T18:23:13.214Z",
       "sha256": "a464659e2f2ac507398ca2b906f6480ef5d14c63574e9b28b7d5f4eee64eb5a2",
       "geometry": {
         "w": 402,
@@ -51516,7 +51503,7 @@
     {
       "name": "iphone17/post-main_decision_at_move-end",
       "file": "iphone17/post-main_decision_at_move-end.png",
-      "capturedAt": "2026-11-01T16:23:03.920Z",
+      "capturedAt": "2026-11-14T18:23:13.282Z",
       "sha256": "a464659e2f2ac507398ca2b906f6480ef5d14c63574e9b28b7d5f4eee64eb5a2",
       "geometry": {
         "w": 402,
@@ -51581,7 +51568,7 @@
     {
       "name": "iphone17/post-additional_reading",
       "file": "iphone17/post-additional_reading.png",
-      "capturedAt": "2026-11-01T16:23:04.187Z",
+      "capturedAt": "2026-11-14T18:23:13.600Z",
       "sha256": "226639a45ad45352ad56d561d2cc1578dd338f76440c6fecaa030112888e08e3",
       "geometry": {
         "w": 402,
@@ -51646,7 +51633,7 @@
     {
       "name": "iphone17/post-additional_reading-end",
       "file": "iphone17/post-additional_reading-end.png",
-      "capturedAt": "2026-11-01T16:23:04.249Z",
+      "capturedAt": "2026-11-14T18:23:13.678Z",
       "sha256": "226639a45ad45352ad56d561d2cc1578dd338f76440c6fecaa030112888e08e3",
       "geometry": {
         "w": 402,
@@ -51711,7 +51698,7 @@
     {
       "name": "iphone17/post-problems-1",
       "file": "iphone17/post-problems-1.png",
-      "capturedAt": "2026-11-01T16:23:04.517Z",
+      "capturedAt": "2026-11-14T18:23:13.958Z",
       "sha256": "543b50780456f646d0cc53e0deb0814b34de9840fa3770fdeb33b2495f41bd38",
       "geometry": {
         "w": 402,
@@ -51776,7 +51763,7 @@
     {
       "name": "iphone17/post-problems-1-end",
       "file": "iphone17/post-problems-1-end.png",
-      "capturedAt": "2026-11-01T16:23:04.583Z",
+      "capturedAt": "2026-11-14T18:23:14.027Z",
       "sha256": "543b50780456f646d0cc53e0deb0814b34de9840fa3770fdeb33b2495f41bd38",
       "geometry": {
         "w": 402,
@@ -51841,7 +51828,7 @@
     {
       "name": "iphone17/post-problems-2",
       "file": "iphone17/post-problems-2.png",
-      "capturedAt": "2026-11-01T16:23:04.867Z",
+      "capturedAt": "2026-11-14T18:23:14.326Z",
       "sha256": "bdc4d4412d4098ef62422a6488ee969e63292a7b4b32704aa3c7bd6e27ee3ca7",
       "geometry": {
         "w": 402,
@@ -51906,7 +51893,7 @@
     {
       "name": "iphone17/post-problems-2-end",
       "file": "iphone17/post-problems-2-end.png",
-      "capturedAt": "2026-11-01T16:23:04.934Z",
+      "capturedAt": "2026-11-14T18:23:14.393Z",
       "sha256": "bdc4d4412d4098ef62422a6488ee969e63292a7b4b32704aa3c7bd6e27ee3ca7",
       "geometry": {
         "w": 402,
@@ -51971,7 +51958,7 @@
     {
       "name": "iphone17/post-problems-3",
       "file": "iphone17/post-problems-3.png",
-      "capturedAt": "2026-11-01T16:23:05.180Z",
+      "capturedAt": "2026-11-14T18:23:14.656Z",
       "sha256": "aafc8956a090d8f0bee37ebf6bcc168db2eaf912a86f7695e0bfa6874a2db68f",
       "geometry": {
         "w": 402,
@@ -52036,7 +52023,7 @@
     {
       "name": "iphone17/post-problems-3-end",
       "file": "iphone17/post-problems-3-end.png",
-      "capturedAt": "2026-11-01T16:23:05.231Z",
+      "capturedAt": "2026-11-14T18:23:14.722Z",
       "sha256": "aafc8956a090d8f0bee37ebf6bcc168db2eaf912a86f7695e0bfa6874a2db68f",
       "geometry": {
         "w": 402,
@@ -52101,7 +52088,7 @@
     {
       "name": "iphone17/post-ease",
       "file": "iphone17/post-ease.png",
-      "capturedAt": "2026-11-01T16:23:05.497Z",
+      "capturedAt": "2026-11-14T18:23:14.990Z",
       "sha256": "91a6c4800fa2a666731734c899bef54fd4a1f45ab054918914f3a6761791868c",
       "geometry": {
         "w": 402,
@@ -52166,7 +52153,7 @@
     {
       "name": "iphone17/post-ease-end",
       "file": "iphone17/post-ease-end.png",
-      "capturedAt": "2026-11-01T16:23:05.567Z",
+      "capturedAt": "2026-11-14T18:23:15.056Z",
       "sha256": "91a6c4800fa2a666731734c899bef54fd4a1f45ab054918914f3a6761791868c",
       "geometry": {
         "w": 402,
@@ -52231,7 +52218,7 @@
     {
       "name": "iphone17/post-comment",
       "file": "iphone17/post-comment.png",
-      "capturedAt": "2026-11-01T16:23:05.853Z",
+      "capturedAt": "2026-11-14T18:23:15.324Z",
       "sha256": "4a0528ff06fdf3ceb60c057e8b2a6861e9c5b185e68e05ae4197d64ccc9cc1a0",
       "geometry": {
         "w": 402,
@@ -52296,7 +52283,7 @@
     {
       "name": "iphone17/post-comment-end",
       "file": "iphone17/post-comment-end.png",
-      "capturedAt": "2026-11-01T16:23:05.919Z",
+      "capturedAt": "2026-11-14T18:23:15.390Z",
       "sha256": "4a0528ff06fdf3ceb60c057e8b2a6861e9c5b185e68e05ae4197d64ccc9cc1a0",
       "geometry": {
         "w": 402,
@@ -52361,7 +52348,7 @@
     {
       "name": "iphone17/break",
       "file": "iphone17/break.png",
-      "capturedAt": "2026-11-01T16:23:06.668Z",
+      "capturedAt": "2026-11-14T18:23:16.196Z",
       "sha256": "914af487bd0d5254baf94ef6099c898dfaf47661a4646d3d7a0e971e2e0030b4",
       "geometry": {
         "w": 402,
@@ -52400,7 +52387,7 @@
     {
       "name": "iphone17/instructed",
       "file": "iphone17/instructed.png",
-      "capturedAt": "2026-11-01T16:23:07.404Z",
+      "capturedAt": "2026-11-14T18:23:17.012Z",
       "sha256": "6ed4048ef3f4e23ffa62fa08be166f3c82c869c88ddd19e43211a7dd1e7b9bf4",
       "geometry": {
         "w": 402,
@@ -52466,7 +52453,7 @@
     {
       "name": "iphone17/instructed-2",
       "file": "iphone17/instructed-2.png",
-      "capturedAt": "2026-11-01T16:23:07.575Z",
+      "capturedAt": "2026-11-14T18:23:17.180Z",
       "sha256": "f0ccfc7d15316c7000b0b9b6297d89ffecc64b367f049ff81c7fc159d27d4ec2",
       "geometry": {
         "w": 402,
@@ -52519,8 +52506,8 @@
     {
       "name": "iphone17/instructed-help-1",
       "file": "iphone17/instructed-help-1.png",
-      "capturedAt": "2026-11-01T16:23:07.853Z",
-      "sha256": "3757caa550b1456ba227ac7592a44921f995d2d457d225ae8361d6ceec96e9e3",
+      "capturedAt": "2026-11-14T18:23:17.439Z",
+      "sha256": "8b618375340b05636dc9fb53acde4cebab2fd6b22f7fab622606e0529669caa0",
       "geometry": {
         "w": 402,
         "h": 759,
@@ -52559,8 +52546,8 @@
     {
       "name": "iphone17/instructed-help-2",
       "file": "iphone17/instructed-help-2.png",
-      "capturedAt": "2026-11-01T16:23:08.002Z",
-      "sha256": "d48a961cc2d8df450e0722cb16f6bedb0b9d3d0796e9b76475fa8411b07f3f17",
+      "capturedAt": "2026-11-14T18:23:17.609Z",
+      "sha256": "36880c2dd4a71bb7b303d9e7680fe3fc4dea15f1391bc3139b5a51b4f12324a5",
       "geometry": {
         "w": 402,
         "h": 759,
@@ -52599,8 +52586,8 @@
     {
       "name": "iphone17/done",
       "file": "iphone17/done.png",
-      "capturedAt": "2026-11-01T16:23:08.905Z",
-      "sha256": "12ac2cb6016f4bae0ee77a7ee94d6cf49cdd9a91326d1d732230cf0d8064e4bd",
+      "capturedAt": "2026-11-14T18:23:18.471Z",
+      "sha256": "fd107fa5a72a742576d7e8dc4a8051baad7c2b9862acd3c70dc7610c1702b39a",
       "geometry": {
         "w": 402,
         "h": 759,
@@ -52615,7 +52602,7 @@
             "right": 402,
             "bottom": 759,
             "overflowX": 0,
-            "overflowY": 110,
+            "overflowY": 16,
             "scrollable": false
           },
           "#done h1": {
@@ -52630,29 +52617,16 @@
             "overflowX": 0,
             "overflowY": 0,
             "scrollable": false
-          },
-          "#done .btnrow": {
-            "textBounds": null,
-            "paintBounds": null,
-            "paintTouchesEdge": false,
-            "invisibleAnchorOverflow": false,
-            "x": 39,
-            "y": 230.59375,
-            "right": 363,
-            "bottom": 288.1875,
-            "overflowX": 0,
-            "overflowY": 0,
-            "scrollable": false
           }
         }
       },
-      "text": "あいうえお0123456789あいうえお0123456789\n完了しました\n\nご協力ありがとうございました。下のボタンでデータを保存・共有してください。\n\nあなたの完了コード:\n\nHQV5-YHDH\nメールで送信する\n\n「メールで送信する」を押すか、コードをコピーして c237702@ed.nagoya-cu.ac.jp へ送ってください（謝礼の手続きに使います）。\n\n確認の質問について\nこの調査には、集中して回答できているかを確かめる質問（「左を選んでください」など）が含まれていました。回答の質を確かめる一般的な方法で、あなた個人を評価するものではありません。\n\n画面の切り替え・離脱: 0 回（合計 0 秒）／ 中断からの再開: 0 回\n参加者: check (moral) / 本番試行: 0 / 評定完了: 0 / 0 / 実効 – Hz / リトライ 0 / 端末 402×759@1x\nデータを送る (共有)\nデータを保存 (JSON)\n軌道CSVを保存\n確認モード（送信しません）: done"
+      "text": "あいうえお0123456789あいうえお0123456789\n完了しました\n\nご協力ありがとうございました。下のボタンでデータを保存・共有してください。\n\nあなたの完了コード:\n\n6RBN-PZJQ\n\n完了コードをコピーし、参加依頼で指定された方法で提出してください。\n\n確認の質問について\nこの調査には、集中して回答できているかを確かめる質問（「左を選んでください」など）が含まれていました。回答の質を確かめる一般的な方法で、あなた個人を評価するものではありません。\n\n画面の切り替え・離脱: 0 回（合計 0 秒）／ 中断からの再開: 0 回\n参加者: check (moral) / 本番試行: 0 / 評定完了: 0 / 0 / 実効 – Hz / リトライ 0 / 端末 402×759@1x\nデータを送る (共有)\nデータを保存 (JSON)\n軌道CSVを保存\n確認モード（送信しません）: done"
     },
     {
       "name": "iphone17/sending",
       "file": "iphone17/sending.png",
-      "capturedAt": "2026-11-01T16:23:09.774Z",
-      "sha256": "bbd34eeb16c417a9a720158f5be44f0719d2e6536889dc91367ec9c3c2bcd651",
+      "capturedAt": "2026-11-14T18:23:19.308Z",
+      "sha256": "b47f13e2d8309625e2846c0d3d2f5c18dd371c4c474b09113e491b2b74ccc616",
       "geometry": {
         "w": 402,
         "h": 759,
@@ -52690,7 +52664,7 @@
     {
       "name": "iphone17/entry",
       "file": "iphone17/entry.png",
-      "capturedAt": "2026-11-01T16:23:10.799Z",
+      "capturedAt": "2026-11-14T18:23:20.444Z",
       "sha256": "98c3ce447ef742bda0ccca1fdc78126240d8a3ba0f522248b5700fafca9ba6fc",
       "geometry": {
         "w": 402,
@@ -52729,7 +52703,7 @@
     {
       "name": "iphone17/entry-end",
       "file": "iphone17/entry-end.png",
-      "capturedAt": "2026-11-01T16:23:10.864Z",
+      "capturedAt": "2026-11-14T18:23:20.511Z",
       "sha256": "98c3ce447ef742bda0ccca1fdc78126240d8a3ba0f522248b5700fafca9ba6fc",
       "geometry": {
         "w": 402,
@@ -52768,7 +52742,7 @@
     {
       "name": "iphone17/reading-intro",
       "file": "iphone17/reading-intro.png",
-      "capturedAt": "2026-11-01T16:23:11.013Z",
+      "capturedAt": "2026-11-14T18:23:20.657Z",
       "sha256": "4b1f55a9d6e26f075a2869ed5c947f8feb16a662bbdbd0156017888163ff0e39",
       "geometry": {
         "w": 402,
@@ -52820,7 +52794,7 @@
     {
       "name": "iphone17/reading-text",
       "file": "iphone17/reading-text.png",
-      "capturedAt": "2026-11-01T16:23:11.128Z",
+      "capturedAt": "2026-11-14T18:23:20.793Z",
       "sha256": "642d3a80ad05a4a82790d198aa793fb8595e286ff2d2627000101e46e22eaead",
       "geometry": {
         "w": 402,
@@ -52872,7 +52846,7 @@
     {
       "name": "iphone17/practice-1-question",
       "file": "iphone17/practice-1-question.png",
-      "capturedAt": "2026-11-01T16:23:13.431Z",
+      "capturedAt": "2026-11-14T18:23:23.407Z",
       "sha256": "158bf382f497c731ec8f7ae35d0fe6fadeaf4ebf2bcc2405d69d4d81182844cd",
       "geometry": {
         "w": 402,
@@ -52924,7 +52898,7 @@
     {
       "name": "iphone17/practice-1-choice",
       "file": "iphone17/practice-1-choice.png",
-      "capturedAt": "2026-11-01T16:23:13.582Z",
+      "capturedAt": "2026-11-14T18:23:23.559Z",
       "sha256": "a1b67eb7396c43429303b54a01129321f3346c542c55378f0eeb1ff3fc7319e6",
       "geometry": {
         "w": 402,
@@ -53003,7 +52977,7 @@
     {
       "name": "iphone17/practice-2-question",
       "file": "iphone17/practice-2-question.png",
-      "capturedAt": "2026-11-01T16:23:20.266Z",
+      "capturedAt": "2026-11-14T18:23:30.287Z",
       "sha256": "1d64db17412489705bbaecb98d49ab6691fa2c594139b5053b8a04a45cea49e7",
       "geometry": {
         "w": 402,
@@ -53055,7 +53029,7 @@
     {
       "name": "iphone17/practice-2-choice",
       "file": "iphone17/practice-2-choice.png",
-      "capturedAt": "2026-11-01T16:23:20.356Z",
+      "capturedAt": "2026-11-14T18:23:30.377Z",
       "sha256": "2267b682ab29c597a71e0f304a1a18876070254c22834c54e5440246dd685f4e",
       "geometry": {
         "w": 402,
@@ -53134,8 +53108,8 @@
     {
       "name": "iphone17/practice-3-question",
       "file": "iphone17/practice-3-question.png",
-      "capturedAt": "2026-11-01T16:23:26.439Z",
-      "sha256": "7a8ca3949c17a35c3791986258689164f4d148740f2d41be4768bdc4da89bf33",
+      "capturedAt": "2026-11-14T18:23:36.427Z",
+      "sha256": "5f9eb6b4fc136ae666f88cab5f22765bc9dcec1d11cc7d6763fdc323f83dab24",
       "geometry": {
         "w": 402,
         "h": 759,
@@ -53186,7 +53160,7 @@
     {
       "name": "iphone17/practice-3-choice",
       "file": "iphone17/practice-3-choice.png",
-      "capturedAt": "2026-11-01T16:23:26.520Z",
+      "capturedAt": "2026-11-14T18:23:36.509Z",
       "sha256": "27535846d6421bcba07b7c26ffc10b25ef2d68cbba720a7ea50cd7dfa4c4254e",
       "geometry": {
         "w": 402,
@@ -53265,8 +53239,8 @@
     {
       "name": "iphone17/practice-4-question",
       "file": "iphone17/practice-4-question.png",
-      "capturedAt": "2026-11-01T16:23:32.528Z",
-      "sha256": "b5f358b361183d8acc58002b17d2d648399a2f504a3ebe89c733638454e9d7d1",
+      "capturedAt": "2026-11-14T18:23:42.519Z",
+      "sha256": "9e94655f72441ac3ad6be1fdeb84311903ea606dbd9b4f2a2869afdd572f5aed",
       "geometry": {
         "w": 402,
         "h": 759,
@@ -53317,7 +53291,7 @@
     {
       "name": "iphone17/practice-4-choice",
       "file": "iphone17/practice-4-choice.png",
-      "capturedAt": "2026-11-01T16:23:32.597Z",
+      "capturedAt": "2026-11-14T18:23:42.609Z",
       "sha256": "2a0fd5fa8a359b654886667201cc70afde995f5dcf60ac6d9ddabead6e1043d6",
       "geometry": {
         "w": 402,
@@ -53396,8 +53370,8 @@
     {
       "name": "iphone17/practice-5-question",
       "file": "iphone17/practice-5-question.png",
-      "capturedAt": "2026-11-01T16:23:38.629Z",
-      "sha256": "35d93f8fd12dc197d30a91602fc0ac8c297e2a7c1bb1935d1aff0af888ccc28f",
+      "capturedAt": "2026-11-14T18:23:48.661Z",
+      "sha256": "1df20cad3a91249d08a2c33c91ccce7dcf1fda09ec4a06d91fa0cb16c9d97c83",
       "geometry": {
         "w": 402,
         "h": 759,
@@ -53448,7 +53422,7 @@
     {
       "name": "iphone17/practice-5-choice",
       "file": "iphone17/practice-5-choice.png",
-      "capturedAt": "2026-11-01T16:23:38.698Z",
+      "capturedAt": "2026-11-14T18:23:48.747Z",
       "sha256": "1e4c90c565a699b73ecd8163f51459a3b2c83d657b7335c88d351252b2adc445",
       "geometry": {
         "w": 402,
@@ -53527,7 +53501,7 @@
     {
       "name": "iphone17/practice-complete",
       "file": "iphone17/practice-complete.png",
-      "capturedAt": "2026-11-01T16:23:43.249Z",
+      "capturedAt": "2026-11-14T18:23:53.304Z",
       "sha256": "d3abb625c7fade713ba333590079a999104f011817052ed175490381ff2d5c0f",
       "geometry": {
         "w": 402,
@@ -53579,8 +53553,8 @@
     {
       "name": "iphone17/practice-early-coach",
       "file": "iphone17/practice-early-coach.png",
-      "capturedAt": "2026-11-01T16:23:44.332Z",
-      "sha256": "92ed7c9ed5854dce0fb5a304fc9e7759223855a0e8a06edab47d0e1e8591e804",
+      "capturedAt": "2026-11-14T18:23:54.386Z",
+      "sha256": "f1a366528d3c23049fccd3646e6c45203e3d19e5892275e07a7760e1c637899f",
       "geometry": {
         "w": 402,
         "h": 759,
@@ -53606,7 +53580,7 @@
     {
       "name": "iphone17/legacy-blockintro",
       "file": "iphone17/legacy-blockintro.png",
-      "capturedAt": "2026-11-01T16:23:45.032Z",
+      "capturedAt": "2026-11-14T18:23:55.038Z",
       "sha256": "3e8b0e151a934cfd54660b21a5c0e3402a444ab8bffdfb0a224be5f2374a5d0c",
       "geometry": {
         "w": 402,
@@ -53660,7 +53634,7 @@
     {
       "name": "iphone17/legacy-blockintro-end",
       "file": "iphone17/legacy-blockintro-end.png",
-      "capturedAt": "2026-11-01T16:23:45.119Z",
+      "capturedAt": "2026-11-14T18:23:55.122Z",
       "sha256": "3e8b0e151a934cfd54660b21a5c0e3402a444ab8bffdfb0a224be5f2374a5d0c",
       "geometry": {
         "w": 402,
@@ -53713,7 +53687,7 @@
     {
       "name": "ipad/welcome-1",
       "file": "ipad/welcome-1.png",
-      "capturedAt": "2026-11-01T16:23:45.880Z",
+      "capturedAt": "2026-11-14T18:23:55.794Z",
       "sha256": "02a94a8d7ebd246317297f2d2dae3736ba619cde2bf921a2fc7a4abc5688eff1",
       "geometry": {
         "w": 768,
@@ -53765,7 +53739,7 @@
     {
       "name": "ipad/welcome-2",
       "file": "ipad/welcome-2.png",
-      "capturedAt": "2026-11-01T16:23:46.011Z",
+      "capturedAt": "2026-11-14T18:23:55.935Z",
       "sha256": "d33afcc621991e9a5866d7d1416e25d58d1c6a51aa4e02dc696de5ea8ea3cd3e",
       "geometry": {
         "w": 768,
@@ -53817,7 +53791,7 @@
     {
       "name": "ipad/welcome-3",
       "file": "ipad/welcome-3.png",
-      "capturedAt": "2026-11-01T16:23:46.162Z",
+      "capturedAt": "2026-11-14T18:23:56.081Z",
       "sha256": "cad200d7f839aeba8ff161bbfa27260fc85774033d3b60c06a042ef57d5e2657",
       "geometry": {
         "w": 768,
@@ -53869,8 +53843,8 @@
     {
       "name": "ipad/welcome-4",
       "file": "ipad/welcome-4.png",
-      "capturedAt": "2026-11-01T16:23:46.293Z",
-      "sha256": "0e0db285db9311becaa2217b021868611bacf27d0d62013ab7209f05cd06e376",
+      "capturedAt": "2026-11-14T18:23:56.215Z",
+      "sha256": "a7bc938380d54f4bdbad4726f28327454eb0ec09e6b538a6e64f5591a2cbe442",
       "geometry": {
         "w": 768,
         "h": 1024,
@@ -53921,8 +53895,8 @@
     {
       "name": "ipad/welcome-5",
       "file": "ipad/welcome-5.png",
-      "capturedAt": "2026-11-01T16:23:46.429Z",
-      "sha256": "c4b5d4711a6c55deae14deb098616b9196808683100a951345be25b8a3b38611",
+      "capturedAt": "2026-11-14T18:23:56.351Z",
+      "sha256": "30342611ade26261abe2fa60feaff5c98d64cf6c4e4ef4a94e0a125f8ba3e7e8",
       "geometry": {
         "w": 768,
         "h": 1024,
@@ -53973,7 +53947,7 @@
     {
       "name": "ipad/welcome-6",
       "file": "ipad/welcome-6.png",
-      "capturedAt": "2026-11-01T16:23:46.579Z",
+      "capturedAt": "2026-11-14T18:23:56.506Z",
       "sha256": "745ac57306c7cdb8acb99c4a6a1fe869f27f8001dbed005f88a569c5991f4389",
       "geometry": {
         "w": 768,
@@ -54025,7 +53999,7 @@
     {
       "name": "ipad/welcome-7",
       "file": "ipad/welcome-7.png",
-      "capturedAt": "2026-11-01T16:23:46.857Z",
+      "capturedAt": "2026-11-14T18:23:56.782Z",
       "sha256": "c00809aeb259c2673b458b6e239b5711da99d0ded95beae70024a55204e553aa",
       "geometry": {
         "w": 768,
@@ -54077,7 +54051,7 @@
     {
       "name": "ipad/consent-top",
       "file": "ipad/consent-top.png",
-      "capturedAt": "2026-11-01T16:23:47.988Z",
+      "capturedAt": "2026-11-14T18:23:57.898Z",
       "sha256": "fe66dfe850a731dd690237826d633841cac7fec06480c73242129775ec1fdb5e",
       "geometry": {
         "w": 768,
@@ -54195,7 +54169,7 @@
     {
       "name": "ipad/consent-end",
       "file": "ipad/consent-end.png",
-      "capturedAt": "2026-11-01T16:23:48.084Z",
+      "capturedAt": "2026-11-14T18:23:57.994Z",
       "sha256": "0d5c704ce23005730c0a873434ce65d3390dcc5d158cb5ef73a75860500b11c7",
       "geometry": {
         "w": 768,
@@ -54313,7 +54287,7 @@
     {
       "name": "ipad/practicecheck",
       "file": "ipad/practicecheck.png",
-      "capturedAt": "2026-11-01T16:23:48.800Z",
+      "capturedAt": "2026-11-14T18:23:58.727Z",
       "sha256": "351719200654e7cc5c1c4ada7495d4a88c79ac20f458ad170d4584cc1ca3da61",
       "geometry": {
         "w": 768,
@@ -54365,7 +54339,7 @@
     {
       "name": "ipad/practicecheck-end",
       "file": "ipad/practicecheck-end.png",
-      "capturedAt": "2026-11-01T16:23:48.901Z",
+      "capturedAt": "2026-11-14T18:23:58.827Z",
       "sha256": "351719200654e7cc5c1c4ada7495d4a88c79ac20f458ad170d4584cc1ca3da61",
       "geometry": {
         "w": 768,
@@ -54417,7 +54391,7 @@
     {
       "name": "ipad/tutorial-layout-intro",
       "file": "ipad/tutorial-layout-intro.png",
-      "capturedAt": "2026-11-01T16:23:50.069Z",
+      "capturedAt": "2026-11-14T18:23:59.983Z",
       "sha256": "39dde85939061f3f74cebcd9da2eebe18f3c678d071546540e77706aef53ff44",
       "geometry": {
         "w": 768,
@@ -54512,7 +54486,7 @@
     {
       "name": "ipad/tutorial-0",
       "file": "ipad/tutorial-0.png",
-      "capturedAt": "2026-11-01T16:23:50.069Z",
+      "capturedAt": "2026-11-14T18:23:59.983Z",
       "sha256": "39dde85939061f3f74cebcd9da2eebe18f3c678d071546540e77706aef53ff44",
       "geometry": {
         "w": 768,
@@ -54608,8 +54582,8 @@
     {
       "name": "ipad/tutorial-layout-stem",
       "file": "ipad/tutorial-layout-stem.png",
-      "capturedAt": "2026-11-01T16:23:50.804Z",
-      "sha256": "8d9649a56242bb7cc0aeb72c335cf8f3c443b54c7b21eec562795799bf187825",
+      "capturedAt": "2026-11-14T18:24:00.730Z",
+      "sha256": "4bf0d3a8112eafc6063010e120d96928b2a3baab51aaccdd5b5a03d46fe5d41c",
       "geometry": {
         "w": 768,
         "h": 1024,
@@ -54716,8 +54690,8 @@
     {
       "name": "ipad/tutorial-2",
       "file": "ipad/tutorial-2.png",
-      "capturedAt": "2026-11-01T16:23:50.804Z",
-      "sha256": "8d9649a56242bb7cc0aeb72c335cf8f3c443b54c7b21eec562795799bf187825",
+      "capturedAt": "2026-11-14T18:24:00.730Z",
+      "sha256": "4bf0d3a8112eafc6063010e120d96928b2a3baab51aaccdd5b5a03d46fe5d41c",
       "geometry": {
         "w": 768,
         "h": 1024,
@@ -54825,8 +54799,8 @@
     {
       "name": "ipad/tutorial-layout-start",
       "file": "ipad/tutorial-layout-start.png",
-      "capturedAt": "2026-11-01T16:23:51.527Z",
-      "sha256": "32b7935a30cf28424509a4b80bfc7eb45f79491498ee47fd9e07031b4f8b532e",
+      "capturedAt": "2026-11-14T18:24:01.463Z",
+      "sha256": "79ed8cf7fdcf7bb3442bb1ee8c73b56d57cf5a483c5a954be2fdcde17ee6559f",
       "geometry": {
         "w": 768,
         "h": 1024,
@@ -54946,8 +54920,8 @@
     {
       "name": "ipad/tutorial-3",
       "file": "ipad/tutorial-3.png",
-      "capturedAt": "2026-11-01T16:23:51.527Z",
-      "sha256": "32b7935a30cf28424509a4b80bfc7eb45f79491498ee47fd9e07031b4f8b532e",
+      "capturedAt": "2026-11-14T18:24:01.463Z",
+      "sha256": "79ed8cf7fdcf7bb3442bb1ee8c73b56d57cf5a483c5a954be2fdcde17ee6559f",
       "geometry": {
         "w": 768,
         "h": 1024,
@@ -55068,8 +55042,8 @@
     {
       "name": "ipad/tutorial-layout-choice",
       "file": "ipad/tutorial-layout-choice.png",
-      "capturedAt": "2026-11-01T16:23:52.259Z",
-      "sha256": "9f6a3e273308ecc50f0f5a62649dc4ca3eefd50297cebd3423557f9d9dedbecf",
+      "capturedAt": "2026-11-14T18:24:02.183Z",
+      "sha256": "6a83de7fb8ff08a9a1ceb2792bc8fa589d7c9b6ec1ea8ec23f84d49498d93f55",
       "geometry": {
         "w": 768,
         "h": 1024,
@@ -55215,8 +55189,8 @@
     {
       "name": "ipad/tutorial-4",
       "file": "ipad/tutorial-4.png",
-      "capturedAt": "2026-11-01T16:23:52.259Z",
-      "sha256": "9f6a3e273308ecc50f0f5a62649dc4ca3eefd50297cebd3423557f9d9dedbecf",
+      "capturedAt": "2026-11-14T18:24:02.183Z",
+      "sha256": "6a83de7fb8ff08a9a1ceb2792bc8fa589d7c9b6ec1ea8ec23f84d49498d93f55",
       "geometry": {
         "w": 768,
         "h": 1024,
@@ -55363,8 +55337,8 @@
     {
       "name": "ipad/tutorial-motor-route",
       "file": "ipad/tutorial-motor-route.png",
-      "capturedAt": "2026-11-01T16:23:53.580Z",
-      "sha256": "9ceffabc459ed73647adbe51f9c407508062384858c0805fb18d37e1949828f0",
+      "capturedAt": "2026-11-14T18:24:03.503Z",
+      "sha256": "f5289827fd6a49db77f7ee66a6b377576ebb646261d588efdb1dd369792e36bc",
       "geometry": {
         "w": 768,
         "h": 1024,
@@ -55484,8 +55458,8 @@
     {
       "name": "ipad/tutorial-motor-range",
       "file": "ipad/tutorial-motor-range.png",
-      "capturedAt": "2026-11-01T16:23:55.463Z",
-      "sha256": "e6c07a9b7f7e0ca5036cc64865c4a66de9b1dcfacb55ab52ce656a9f216ad9d6",
+      "capturedAt": "2026-11-14T18:24:05.366Z",
+      "sha256": "c6ee873bc6be676395222648dca452bed03a5419b4719580e87ffe7fb9fa4d86",
       "geometry": {
         "w": 768,
         "h": 1024,
@@ -55617,7 +55591,7 @@
             "textBounds": null,
             "paintBounds": {
               "x": 199.8693181818182,
-              "y": 333.87985974409446,
+              "y": 334.88075172244095,
               "right": 341.97017045454544,
               "bottom": 539.0627153051181
             },
@@ -55642,7 +55616,7 @@
     {
       "name": "ipad/tutorial-motor",
       "file": "ipad/tutorial-motor.png",
-      "capturedAt": "2026-11-01T16:23:56.180Z",
+      "capturedAt": "2026-11-14T18:24:06.079Z",
       "sha256": "2c6654cfdcb54eba783fefca61058c4fdd84d82833089103d7cb5080e204cc12",
       "geometry": {
         "w": 768,
@@ -55763,8 +55737,8 @@
     {
       "name": "ipad/tutorial-motor-success",
       "file": "ipad/tutorial-motor-success.png",
-      "capturedAt": "2026-11-01T16:23:57.328Z",
-      "sha256": "493eb86f6ed26f0c7b82870cd0cec981b201e07e298885c0e372d58589a4d1be",
+      "capturedAt": "2026-11-14T18:24:07.176Z",
+      "sha256": "1b00e19b7588ef3f53c284a931e0dc4f7c050b5449100abf8e9a555d8157c8df",
       "geometry": {
         "w": 768,
         "h": 1024,
@@ -55870,7 +55844,7 @@
     {
       "name": "ipad/tutorial-start-rule",
       "file": "ipad/tutorial-start-rule.png",
-      "capturedAt": "2026-11-01T16:23:58.061Z",
+      "capturedAt": "2026-11-14T18:24:07.879Z",
       "sha256": "ca30ec95e86b2dc87946a2e4e23bb1ec291657627e06b352ffb753f43a29cb53",
       "geometry": {
         "w": 768,
@@ -55965,7 +55939,7 @@
     {
       "name": "ipad/tutorial-movement-reason",
       "file": "ipad/tutorial-movement-reason.png",
-      "capturedAt": "2026-11-01T16:23:58.776Z",
+      "capturedAt": "2026-11-14T18:24:08.577Z",
       "sha256": "dcd4e93141f8878767030a93b099cb3777bbd145a2594dbf902273f5ba656816",
       "geometry": {
         "w": 768,
@@ -56060,7 +56034,7 @@
     {
       "name": "ipad/tutorial-uncertain",
       "file": "ipad/tutorial-uncertain.png",
-      "capturedAt": "2026-11-01T16:23:59.492Z",
+      "capturedAt": "2026-11-14T18:24:09.266Z",
       "sha256": "6a0b892caf36d8a5d17957e2c75682159beffe13258cfd4440a86fbede9a4682",
       "geometry": {
         "w": 768,
@@ -56155,8 +56129,8 @@
     {
       "name": "ipad/tutorial-time-rule",
       "file": "ipad/tutorial-time-rule.png",
-      "capturedAt": "2026-11-01T16:24:01.947Z",
-      "sha256": "37a408650b1f2f6da28166bd29e35a3a75309761bae52a16ec006a1626897dfc",
+      "capturedAt": "2026-11-14T18:24:11.688Z",
+      "sha256": "f49bd3d6ae36aa212eb00c45d899d8e417ba0418548e05df9bc2305c38f2bbaf",
       "geometry": {
         "w": 768,
         "h": 1024,
@@ -56263,8 +56237,8 @@
     {
       "name": "ipad/tutorial-7",
       "file": "ipad/tutorial-7.png",
-      "capturedAt": "2026-11-01T16:24:01.947Z",
-      "sha256": "37a408650b1f2f6da28166bd29e35a3a75309761bae52a16ec006a1626897dfc",
+      "capturedAt": "2026-11-14T18:24:11.688Z",
+      "sha256": "f49bd3d6ae36aa212eb00c45d899d8e417ba0418548e05df9bc2305c38f2bbaf",
       "geometry": {
         "w": 768,
         "h": 1024,
@@ -56372,7 +56346,7 @@
     {
       "name": "ipad/tutorial-answer-pace",
       "file": "ipad/tutorial-answer-pace.png",
-      "capturedAt": "2026-11-01T16:24:02.703Z",
+      "capturedAt": "2026-11-14T18:24:12.400Z",
       "sha256": "f873da99ab9d28e2bbc3d44864cf22876649aef0789c0ed9c86e37037ed055cc",
       "geometry": {
         "w": 768,
@@ -56467,7 +56441,7 @@
     {
       "name": "ipad/tutorial-rule-check-intro",
       "file": "ipad/tutorial-rule-check-intro.png",
-      "capturedAt": "2026-11-01T16:24:03.416Z",
+      "capturedAt": "2026-11-14T18:24:13.102Z",
       "sha256": "b8af549c3af30058064d7835e76e7cdb18c622d812312654ee1009efe8ecbd19",
       "geometry": {
         "w": 768,
@@ -56562,7 +56536,7 @@
     {
       "name": "ipad/tutorial-rule-check-01",
       "file": "ipad/tutorial-rule-check-01.png",
-      "capturedAt": "2026-11-01T16:24:04.192Z",
+      "capturedAt": "2026-11-14T18:24:13.845Z",
       "sha256": "d30c08461fa49da40e5d22dca2378357a33313f3e01e9d3086da69643d571b5d",
       "geometry": {
         "w": 768,
@@ -56671,7 +56645,7 @@
     {
       "name": "ipad/tutorial-rule-check-01-wrong",
       "file": "ipad/tutorial-rule-check-01-wrong.png",
-      "capturedAt": "2026-11-01T16:24:04.348Z",
+      "capturedAt": "2026-11-14T18:24:13.962Z",
       "sha256": "7ceee816be06d33260c669beba9f683b7a2bd80dcbc4a8f5580042f5e025f9f8",
       "geometry": {
         "w": 768,
@@ -56792,7 +56766,7 @@
     {
       "name": "ipad/tutorial-rule-check-02",
       "file": "ipad/tutorial-rule-check-02.png",
-      "capturedAt": "2026-11-01T16:24:05.147Z",
+      "capturedAt": "2026-11-14T18:24:14.712Z",
       "sha256": "2f14742c83039d9b257c82e96fbb8c130420a183cd3e148fa182b15045bf176e",
       "geometry": {
         "w": 768,
@@ -56901,7 +56875,7 @@
     {
       "name": "ipad/tutorial-rule-check-02-wrong",
       "file": "ipad/tutorial-rule-check-02-wrong.png",
-      "capturedAt": "2026-11-01T16:24:05.277Z",
+      "capturedAt": "2026-11-14T18:24:14.832Z",
       "sha256": "133a084314781ec734a92a08f155ad0e510d32fe36e307922c017bfe094e7225",
       "geometry": {
         "w": 768,
@@ -57022,7 +56996,7 @@
     {
       "name": "ipad/tutorial-rule-check-03",
       "file": "ipad/tutorial-rule-check-03.png",
-      "capturedAt": "2026-11-01T16:24:06.065Z",
+      "capturedAt": "2026-11-14T18:24:15.583Z",
       "sha256": "1b2c64c958233355f0359d16ad07b2252bbe2ae08f3939b3997e7b6ab2673733",
       "geometry": {
         "w": 768,
@@ -57131,7 +57105,7 @@
     {
       "name": "ipad/tutorial-rule-check-03-wrong",
       "file": "ipad/tutorial-rule-check-03-wrong.png",
-      "capturedAt": "2026-11-01T16:24:06.222Z",
+      "capturedAt": "2026-11-14T18:24:15.734Z",
       "sha256": "020aa805cd05c0623f17564b99bdb942d5869cbe20ccdb09d78550ed3ea34ae4",
       "geometry": {
         "w": 768,
@@ -57252,7 +57226,7 @@
     {
       "name": "ipad/tutorial-rule-check-04",
       "file": "ipad/tutorial-rule-check-04.png",
-      "capturedAt": "2026-11-01T16:24:07.011Z",
+      "capturedAt": "2026-11-14T18:24:16.497Z",
       "sha256": "27485a29a6b8d8b680ae85a93ba3a730ad7ede220f3965fdafdaee0f9c2bc839",
       "geometry": {
         "w": 768,
@@ -57361,7 +57335,7 @@
     {
       "name": "ipad/tutorial-rule-check-04-wrong",
       "file": "ipad/tutorial-rule-check-04-wrong.png",
-      "capturedAt": "2026-11-01T16:24:07.168Z",
+      "capturedAt": "2026-11-14T18:24:16.613Z",
       "sha256": "3309a83c3c0ffe510fbf2bef29add9539d93768ee5c685fa9c35710de28a1d1e",
       "geometry": {
         "w": 768,
@@ -57482,7 +57456,7 @@
     {
       "name": "ipad/tutorial-rule-check-05",
       "file": "ipad/tutorial-rule-check-05.png",
-      "capturedAt": "2026-11-01T16:24:07.956Z",
+      "capturedAt": "2026-11-14T18:24:17.391Z",
       "sha256": "15bd7c76114a65ab7cfe02cb4f169528bfaa0073f53059d517a38faf96237028",
       "geometry": {
         "w": 768,
@@ -57591,7 +57565,7 @@
     {
       "name": "ipad/tutorial-rule-check-05-wrong",
       "file": "ipad/tutorial-rule-check-05-wrong.png",
-      "capturedAt": "2026-11-01T16:24:08.109Z",
+      "capturedAt": "2026-11-14T18:24:17.535Z",
       "sha256": "f0dcd3f694f2fe02badf4fe6132cbc6198230c22dffd2ecda8926ed992610d6d",
       "geometry": {
         "w": 768,
@@ -57712,7 +57686,7 @@
     {
       "name": "ipad/tutorial-rule-check-06",
       "file": "ipad/tutorial-rule-check-06.png",
-      "capturedAt": "2026-11-01T16:24:08.901Z",
+      "capturedAt": "2026-11-14T18:24:18.313Z",
       "sha256": "e721c77b6f828f8d0b34dc4813b595785e787e16f6ccc86be7e83f1146fa29fd",
       "geometry": {
         "w": 768,
@@ -57821,7 +57795,7 @@
     {
       "name": "ipad/tutorial-rule-check-06-wrong",
       "file": "ipad/tutorial-rule-check-06-wrong.png",
-      "capturedAt": "2026-11-01T16:24:09.052Z",
+      "capturedAt": "2026-11-14T18:24:18.430Z",
       "sha256": "3cc41512538df1b11e86347ef28173d27cd8bfee9941eb66e85b8dfafc710ffd",
       "geometry": {
         "w": 768,
@@ -57942,7 +57916,7 @@
     {
       "name": "ipad/tutorial-rule-check-07",
       "file": "ipad/tutorial-rule-check-07.png",
-      "capturedAt": "2026-11-01T16:24:09.844Z",
+      "capturedAt": "2026-11-14T18:24:19.184Z",
       "sha256": "5b89466eb2989ea73eb3f0cfc9d97bf4b561256e7fa73dab4a05181af492e241",
       "geometry": {
         "w": 768,
@@ -58051,7 +58025,7 @@
     {
       "name": "ipad/tutorial-rule-check-07-wrong",
       "file": "ipad/tutorial-rule-check-07-wrong.png",
-      "capturedAt": "2026-11-01T16:24:09.998Z",
+      "capturedAt": "2026-11-14T18:24:19.343Z",
       "sha256": "ced0d3eaaed003187b9a3cbed1ee890802943d39af75c331e4777051a2c3e362",
       "geometry": {
         "w": 768,
@@ -58172,7 +58146,7 @@
     {
       "name": "ipad/guided-example-intro",
       "file": "ipad/guided-example-intro.png",
-      "capturedAt": "2026-11-01T16:24:10.394Z",
+      "capturedAt": "2026-11-14T18:24:19.732Z",
       "sha256": "6a7bd294ea06d543aa6c97efdd7f296691eacc392a50656d1a43cd22c9921ced",
       "geometry": {
         "w": 768,
@@ -58226,7 +58200,7 @@
     {
       "name": "ipad/example-coach",
       "file": "ipad/example-coach.png",
-      "capturedAt": "2026-11-01T16:24:13.252Z",
+      "capturedAt": "2026-11-14T18:24:22.598Z",
       "sha256": "5c09f20ff2056ff6b1fc06cf70d11e333b6f37779c00aa43c093b3011a0e51f0",
       "geometry": {
         "w": 768,
@@ -58279,7 +58253,7 @@
     {
       "name": "ipad/example-choice",
       "file": "ipad/example-choice.png",
-      "capturedAt": "2026-11-01T16:24:13.344Z",
+      "capturedAt": "2026-11-14T18:24:22.693Z",
       "sha256": "5512fa2a883de1d11892661a11c165ba45a994728c9c79314bdf61e151591bbd",
       "geometry": {
         "w": 768,
@@ -58358,7 +58332,7 @@
     {
       "name": "ipad/rating-tutorial-0",
       "file": "ipad/rating-tutorial-0.png",
-      "capturedAt": "2026-11-01T16:24:15.189Z",
+      "capturedAt": "2026-11-14T18:24:24.246Z",
       "sha256": "cd319a10849315739bf6524f7e7b108ec8f567671e3ff1ded8e0b7c8901f17d0",
       "geometry": {
         "w": 768,
@@ -58438,7 +58412,7 @@
     {
       "name": "ipad/rating-tutorial-1",
       "file": "ipad/rating-tutorial-1.png",
-      "capturedAt": "2026-11-01T16:24:15.806Z",
+      "capturedAt": "2026-11-14T18:24:24.849Z",
       "sha256": "c68ce4fb999b3da0e55f5ce834411dfe44d857bce56f4482de7d657db6ad3417",
       "geometry": {
         "w": 768,
@@ -58544,8 +58518,8 @@
     {
       "name": "ipad/rating-tutorial-2",
       "file": "ipad/rating-tutorial-2.png",
-      "capturedAt": "2026-11-01T16:24:16.486Z",
-      "sha256": "6f75d00e4045a3f3743d04bbc4d60e072fb4cf787e91217b021dcb955fed2cbc",
+      "capturedAt": "2026-11-14T18:24:25.496Z",
+      "sha256": "15535e01c8ac5bf545154f91d773609cb7e10ea446c6064e973d0fac6f6e3795",
       "geometry": {
         "w": 768,
         "h": 1024,
@@ -58663,7 +58637,7 @@
     {
       "name": "ipad/rating-tutorial-3",
       "file": "ipad/rating-tutorial-3.png",
-      "capturedAt": "2026-11-01T16:24:17.122Z",
+      "capturedAt": "2026-11-14T18:24:26.098Z",
       "sha256": "60a71afb991236b1ec5b0b362d0bb0d534f7f1bdcc23389428234803b38546e3",
       "geometry": {
         "w": 768,
@@ -58743,7 +58717,7 @@
     {
       "name": "ipad/rating-tutorial-4",
       "file": "ipad/rating-tutorial-4.png",
-      "capturedAt": "2026-11-01T16:24:17.658Z",
+      "capturedAt": "2026-11-14T18:24:26.635Z",
       "sha256": "2716c9172b046f0c7269cee34a815c0852ecab587ac63f6609c22e5c1245c526",
       "geometry": {
         "w": 768,
@@ -58823,7 +58797,7 @@
     {
       "name": "ipad/notice-early",
       "file": "ipad/notice-early.png",
-      "capturedAt": "2026-11-01T16:24:18.910Z",
+      "capturedAt": "2026-11-14T18:24:27.718Z",
       "sha256": "7e13941fbb69eadce2606c258a97fb9682100004becc29bc65bd51b5572ffb7a",
       "geometry": {
         "w": 768,
@@ -58888,7 +58862,7 @@
     {
       "name": "ipad/notice-late",
       "file": "ipad/notice-late.png",
-      "capturedAt": "2026-11-01T16:24:19.720Z",
+      "capturedAt": "2026-11-14T18:24:28.510Z",
       "sha256": "bee8d57253c5c32ada93b69066660f657e6b6081659b0fbd93c4d4e7b08cd167",
       "geometry": {
         "w": 768,
@@ -58953,7 +58927,7 @@
     {
       "name": "ipad/notice-late-end",
       "file": "ipad/notice-late-end.png",
-      "capturedAt": "2026-11-01T16:24:19.824Z",
+      "capturedAt": "2026-11-14T18:24:28.606Z",
       "sha256": "bee8d57253c5c32ada93b69066660f657e6b6081659b0fbd93c4d4e7b08cd167",
       "geometry": {
         "w": 768,
@@ -59005,7 +58979,7 @@
     {
       "name": "ipad/notice-early_late",
       "file": "ipad/notice-early_late.png",
-      "capturedAt": "2026-11-01T16:24:20.772Z",
+      "capturedAt": "2026-11-14T18:24:29.355Z",
       "sha256": "180ccbe189a045e1e8ce5db97cbcba18790bd38ec39b95eddc253a9c37aaa8ca",
       "geometry": {
         "w": 768,
@@ -59070,7 +59044,7 @@
     {
       "name": "ipad/notice-early_late-end",
       "file": "ipad/notice-early_late-end.png",
-      "capturedAt": "2026-11-01T16:24:20.873Z",
+      "capturedAt": "2026-11-14T18:24:29.438Z",
       "sha256": "180ccbe189a045e1e8ce5db97cbcba18790bd38ec39b95eddc253a9c37aaa8ca",
       "geometry": {
         "w": 768,
@@ -59122,7 +59096,7 @@
     {
       "name": "ipad/main",
       "file": "ipad/main.png",
-      "capturedAt": "2026-11-01T16:24:21.580Z",
+      "capturedAt": "2026-11-14T18:24:30.320Z",
       "sha256": "37c272540e9a0500ccbfe95c8be16291c9503693f2f44a8ab2fb1f6c56abd502",
       "geometry": {
         "w": 768,
@@ -59218,7 +59192,7 @@
     {
       "name": "ipad/main-help",
       "file": "ipad/main-help.png",
-      "capturedAt": "2026-11-01T16:24:21.746Z",
+      "capturedAt": "2026-11-14T18:24:30.485Z",
       "sha256": "2b0016ce83f28ca73eddfd718fa2e7278bd82d7628c1fc770d901a665f640e7e",
       "geometry": {
         "w": 768,
@@ -59271,7 +59245,7 @@
     {
       "name": "ipad/rating-hesitation",
       "file": "ipad/rating-hesitation.png",
-      "capturedAt": "2026-11-01T16:24:22.505Z",
+      "capturedAt": "2026-11-14T18:24:31.354Z",
       "sha256": "ad52a5f1fd5581083ad0daaf4c71767147f57e670a09ed19c836ae3396e6b5f4",
       "geometry": {
         "w": 768,
@@ -59323,7 +59297,7 @@
     {
       "name": "ipad/rating-confidence",
       "file": "ipad/rating-confidence.png",
-      "capturedAt": "2026-11-01T16:24:23.012Z",
+      "capturedAt": "2026-11-14T18:24:31.897Z",
       "sha256": "fb3cc799a903be344ffaf3c0f043654e5f0b01184c0b351fb3a8dd49746be885",
       "geometry": {
         "w": 768,
@@ -59375,7 +59349,7 @@
     {
       "name": "ipad/main-rating-hesitation",
       "file": "ipad/main-rating-hesitation.png",
-      "capturedAt": "2026-11-01T16:24:24.707Z",
+      "capturedAt": "2026-11-14T18:24:33.868Z",
       "sha256": "078c8b9380bc7d5da8ff7d7674a87c0ea7a3f150fc76cd971f46207b654450b9",
       "geometry": {
         "w": 768,
@@ -59484,7 +59458,7 @@
     {
       "name": "ipad/main-rating-confidence",
       "file": "ipad/main-rating-confidence.png",
-      "capturedAt": "2026-11-01T16:24:25.189Z",
+      "capturedAt": "2026-11-14T18:24:34.349Z",
       "sha256": "035f866a2b9669ebc3a107aef9b3a4935dcdffb7613810c429b800b054cfa40a",
       "geometry": {
         "w": 768,
@@ -59593,7 +59567,7 @@
     {
       "name": "ipad/post-grip",
       "file": "ipad/post-grip.png",
-      "capturedAt": "2026-11-01T16:24:26.033Z",
+      "capturedAt": "2026-11-14T18:24:35.202Z",
       "sha256": "749972e45f6c1e1ebbb5d67c729a152a009ebfe32664b04bf7d013ff7d82b543",
       "geometry": {
         "w": 768,
@@ -59658,7 +59632,7 @@
     {
       "name": "ipad/post-grip-end",
       "file": "ipad/post-grip-end.png",
-      "capturedAt": "2026-11-01T16:24:26.113Z",
+      "capturedAt": "2026-11-14T18:24:35.280Z",
       "sha256": "749972e45f6c1e1ebbb5d67c729a152a009ebfe32664b04bf7d013ff7d82b543",
       "geometry": {
         "w": 768,
@@ -59723,7 +59697,7 @@
     {
       "name": "ipad/post-fatigue_pre",
       "file": "ipad/post-fatigue_pre.png",
-      "capturedAt": "2026-11-01T16:24:26.480Z",
+      "capturedAt": "2026-11-14T18:24:35.638Z",
       "sha256": "2a8e487b01534b4354bf41a53b276c948f7267ae82dd2eca65e18073a5ea10c7",
       "geometry": {
         "w": 768,
@@ -59788,7 +59762,7 @@
     {
       "name": "ipad/post-fatigue_pre-end",
       "file": "ipad/post-fatigue_pre-end.png",
-      "capturedAt": "2026-11-01T16:24:26.553Z",
+      "capturedAt": "2026-11-14T18:24:35.719Z",
       "sha256": "2a8e487b01534b4354bf41a53b276c948f7267ae82dd2eca65e18073a5ea10c7",
       "geometry": {
         "w": 768,
@@ -59853,7 +59827,7 @@
     {
       "name": "ipad/post-sleep_hours",
       "file": "ipad/post-sleep_hours.png",
-      "capturedAt": "2026-11-01T16:24:26.935Z",
+      "capturedAt": "2026-11-14T18:24:36.127Z",
       "sha256": "6f3d3e4f1af0a740a60ff042c869d2fd12e47471afb88b17f3cc49d707a0da16",
       "geometry": {
         "w": 768,
@@ -59918,7 +59892,7 @@
     {
       "name": "ipad/post-sleep_hours-end",
       "file": "ipad/post-sleep_hours-end.png",
-      "capturedAt": "2026-11-01T16:24:27.001Z",
+      "capturedAt": "2026-11-14T18:24:36.196Z",
       "sha256": "6f3d3e4f1af0a740a60ff042c869d2fd12e47471afb88b17f3cc49d707a0da16",
       "geometry": {
         "w": 768,
@@ -59983,7 +59957,7 @@
     {
       "name": "ipad/post-time_pressure",
       "file": "ipad/post-time_pressure.png",
-      "capturedAt": "2026-11-01T16:24:27.341Z",
+      "capturedAt": "2026-11-14T18:24:36.568Z",
       "sha256": "9618785ef89869624c3bf1ea91a6e0f926fc34be56673c1c5991affd1d23b9b6",
       "geometry": {
         "w": 768,
@@ -60048,7 +60022,7 @@
     {
       "name": "ipad/post-time_pressure-end",
       "file": "ipad/post-time_pressure-end.png",
-      "capturedAt": "2026-11-01T16:24:27.422Z",
+      "capturedAt": "2026-11-14T18:24:36.648Z",
       "sha256": "9618785ef89869624c3bf1ea91a6e0f926fc34be56673c1c5991affd1d23b9b6",
       "geometry": {
         "w": 768,
@@ -60113,7 +60087,7 @@
     {
       "name": "ipad/post-location",
       "file": "ipad/post-location.png",
-      "capturedAt": "2026-11-01T16:24:27.782Z",
+      "capturedAt": "2026-11-14T18:24:37.050Z",
       "sha256": "f7136bc49c293f0ce3d0381306bbb37a4da886b5b55ce6bc98ea311e7610dbba",
       "geometry": {
         "w": 768,
@@ -60178,7 +60152,7 @@
     {
       "name": "ipad/post-location-end",
       "file": "ipad/post-location-end.png",
-      "capturedAt": "2026-11-01T16:24:27.853Z",
+      "capturedAt": "2026-11-14T18:24:37.145Z",
       "sha256": "f7136bc49c293f0ce3d0381306bbb37a4da886b5b55ce6bc98ea311e7610dbba",
       "geometry": {
         "w": 768,
@@ -60243,7 +60217,7 @@
     {
       "name": "ipad/post-others_present",
       "file": "ipad/post-others_present.png",
-      "capturedAt": "2026-11-01T16:24:28.172Z",
+      "capturedAt": "2026-11-14T18:24:37.490Z",
       "sha256": "122174ab30a69a3fd8cfc98aeb0ec2d792307caafe10aed9ca34ca54aa798ab3",
       "geometry": {
         "w": 768,
@@ -60308,7 +60282,7 @@
     {
       "name": "ipad/post-others_present-end",
       "file": "ipad/post-others_present-end.png",
-      "capturedAt": "2026-11-01T16:24:28.236Z",
+      "capturedAt": "2026-11-14T18:24:37.572Z",
       "sha256": "122174ab30a69a3fd8cfc98aeb0ec2d792307caafe10aed9ca34ca54aa798ab3",
       "geometry": {
         "w": 768,
@@ -60373,7 +60347,7 @@
     {
       "name": "ipad/post-usage_years",
       "file": "ipad/post-usage_years.png",
-      "capturedAt": "2026-11-01T16:24:28.602Z",
+      "capturedAt": "2026-11-14T18:24:37.965Z",
       "sha256": "cf99ca0e1fb91f9822d9aec8fdd36d5074ed9caa773631cd0ac697bdd5285406",
       "geometry": {
         "w": 768,
@@ -60438,7 +60412,7 @@
     {
       "name": "ipad/post-usage_years-end",
       "file": "ipad/post-usage_years-end.png",
-      "capturedAt": "2026-11-01T16:24:28.670Z",
+      "capturedAt": "2026-11-14T18:24:38.034Z",
       "sha256": "cf99ca0e1fb91f9822d9aec8fdd36d5074ed9caa773631cd0ac697bdd5285406",
       "geometry": {
         "w": 768,
@@ -60503,7 +60477,7 @@
     {
       "name": "ipad/post-moral_familiar",
       "file": "ipad/post-moral_familiar.png",
-      "capturedAt": "2026-11-01T16:24:29.037Z",
+      "capturedAt": "2026-11-14T18:24:38.453Z",
       "sha256": "7307fad5831d0c6589b555a1adc643afed47377f73e17652fe3f32a21afe6bb9",
       "geometry": {
         "w": 768,
@@ -60568,7 +60542,7 @@
     {
       "name": "ipad/post-moral_familiar-end",
       "file": "ipad/post-moral_familiar-end.png",
-      "capturedAt": "2026-11-01T16:24:29.106Z",
+      "capturedAt": "2026-11-14T18:24:38.523Z",
       "sha256": "7307fad5831d0c6589b555a1adc643afed47377f73e17652fe3f32a21afe6bb9",
       "geometry": {
         "w": 768,
@@ -60633,7 +60607,7 @@
     {
       "name": "ipad/post-rating_meaning",
       "file": "ipad/post-rating_meaning.png",
-      "capturedAt": "2026-11-01T16:24:29.492Z",
+      "capturedAt": "2026-11-14T18:24:38.989Z",
       "sha256": "3fb840208011730b03ef9841e5dc507baa02bf4f94a3069df9acfadd2ba94960",
       "geometry": {
         "w": 768,
@@ -60698,7 +60672,7 @@
     {
       "name": "ipad/post-rating_meaning-end",
       "file": "ipad/post-rating_meaning-end.png",
-      "capturedAt": "2026-11-01T16:24:29.579Z",
+      "capturedAt": "2026-11-14T18:24:39.075Z",
       "sha256": "3fb840208011730b03ef9841e5dc507baa02bf4f94a3069df9acfadd2ba94960",
       "geometry": {
         "w": 768,
@@ -60763,7 +60737,7 @@
     {
       "name": "ipad/post-main_start_basis",
       "file": "ipad/post-main_start_basis.png",
-      "capturedAt": "2026-11-01T16:24:29.957Z",
+      "capturedAt": "2026-11-14T18:24:39.509Z",
       "sha256": "4a63368cb206c50635b271e724a879dd2574a31cf9cfd761994812c62e8fbfd1",
       "geometry": {
         "w": 768,
@@ -60828,7 +60802,7 @@
     {
       "name": "ipad/post-main_start_basis-end",
       "file": "ipad/post-main_start_basis-end.png",
-      "capturedAt": "2026-11-01T16:24:30.025Z",
+      "capturedAt": "2026-11-14T18:24:39.584Z",
       "sha256": "4a63368cb206c50635b271e724a879dd2574a31cf9cfd761994812c62e8fbfd1",
       "geometry": {
         "w": 768,
@@ -60893,7 +60867,7 @@
     {
       "name": "ipad/post-main_three_second_meaning",
       "file": "ipad/post-main_three_second_meaning.png",
-      "capturedAt": "2026-11-01T16:24:30.360Z",
+      "capturedAt": "2026-11-14T18:24:39.932Z",
       "sha256": "b62a891728e1557a74928124b07d5c53ad5465c23b55d4ebfade927ac157a225",
       "geometry": {
         "w": 768,
@@ -60958,7 +60932,7 @@
     {
       "name": "ipad/post-main_three_second_meaning-end",
       "file": "ipad/post-main_three_second_meaning-end.png",
-      "capturedAt": "2026-11-01T16:24:30.445Z",
+      "capturedAt": "2026-11-14T18:24:40.002Z",
       "sha256": "b62a891728e1557a74928124b07d5c53ad5465c23b55d4ebfade927ac157a225",
       "geometry": {
         "w": 768,
@@ -61023,7 +60997,7 @@
     {
       "name": "ipad/post-main_release_area",
       "file": "ipad/post-main_release_area.png",
-      "capturedAt": "2026-11-01T16:24:30.773Z",
+      "capturedAt": "2026-11-14T18:24:40.346Z",
       "sha256": "9690b168a2b79211577d0fc75bd27b990e2b6ca7b73deac917200625379db443",
       "geometry": {
         "w": 768,
@@ -61088,7 +61062,7 @@
     {
       "name": "ipad/post-main_release_area-end",
       "file": "ipad/post-main_release_area-end.png",
-      "capturedAt": "2026-11-01T16:24:30.839Z",
+      "capturedAt": "2026-11-14T18:24:40.431Z",
       "sha256": "9690b168a2b79211577d0fc75bd27b990e2b6ca7b73deac917200625379db443",
       "geometry": {
         "w": 768,
@@ -61153,7 +61127,7 @@
     {
       "name": "ipad/post-main_decision_at_move",
       "file": "ipad/post-main_decision_at_move.png",
-      "capturedAt": "2026-11-01T16:24:31.108Z",
+      "capturedAt": "2026-11-14T18:24:40.757Z",
       "sha256": "9707c80cbafd1cbde7d08b63f1293f50b46dc3628c78f9eeed94104265d85e47",
       "geometry": {
         "w": 768,
@@ -61218,7 +61192,7 @@
     {
       "name": "ipad/post-main_decision_at_move-end",
       "file": "ipad/post-main_decision_at_move-end.png",
-      "capturedAt": "2026-11-01T16:24:31.175Z",
+      "capturedAt": "2026-11-14T18:24:40.849Z",
       "sha256": "9707c80cbafd1cbde7d08b63f1293f50b46dc3628c78f9eeed94104265d85e47",
       "geometry": {
         "w": 768,
@@ -61283,7 +61257,7 @@
     {
       "name": "ipad/post-additional_reading",
       "file": "ipad/post-additional_reading.png",
-      "capturedAt": "2026-11-01T16:24:31.462Z",
+      "capturedAt": "2026-11-14T18:24:41.118Z",
       "sha256": "11ba2c4388ecd18057306e18236045d1952df7fb8f48241abb890a58c0e9807a",
       "geometry": {
         "w": 768,
@@ -61348,7 +61322,7 @@
     {
       "name": "ipad/post-additional_reading-end",
       "file": "ipad/post-additional_reading-end.png",
-      "capturedAt": "2026-11-01T16:24:31.541Z",
+      "capturedAt": "2026-11-14T18:24:41.202Z",
       "sha256": "11ba2c4388ecd18057306e18236045d1952df7fb8f48241abb890a58c0e9807a",
       "geometry": {
         "w": 768,
@@ -61413,7 +61387,7 @@
     {
       "name": "ipad/post-problems-1",
       "file": "ipad/post-problems-1.png",
-      "capturedAt": "2026-11-01T16:24:31.824Z",
+      "capturedAt": "2026-11-14T18:24:41.512Z",
       "sha256": "e355f89b65ae562718830cd18dcfadd531ec19deb24084e192e20f55f096c3ab",
       "geometry": {
         "w": 768,
@@ -61478,7 +61452,7 @@
     {
       "name": "ipad/post-problems-1-end",
       "file": "ipad/post-problems-1-end.png",
-      "capturedAt": "2026-11-01T16:24:31.891Z",
+      "capturedAt": "2026-11-14T18:24:41.598Z",
       "sha256": "e355f89b65ae562718830cd18dcfadd531ec19deb24084e192e20f55f096c3ab",
       "geometry": {
         "w": 768,
@@ -61543,7 +61517,7 @@
     {
       "name": "ipad/post-problems-2",
       "file": "ipad/post-problems-2.png",
-      "capturedAt": "2026-11-01T16:24:32.173Z",
+      "capturedAt": "2026-11-14T18:24:41.898Z",
       "sha256": "803e605fb240bbc70204b1ac4c54be98c50b363aae1a6413513bdd7a3e33f90a",
       "geometry": {
         "w": 768,
@@ -61608,7 +61582,7 @@
     {
       "name": "ipad/post-problems-2-end",
       "file": "ipad/post-problems-2-end.png",
-      "capturedAt": "2026-11-01T16:24:32.240Z",
+      "capturedAt": "2026-11-14T18:24:41.983Z",
       "sha256": "803e605fb240bbc70204b1ac4c54be98c50b363aae1a6413513bdd7a3e33f90a",
       "geometry": {
         "w": 768,
@@ -61673,7 +61647,7 @@
     {
       "name": "ipad/post-problems-3",
       "file": "ipad/post-problems-3.png",
-      "capturedAt": "2026-11-01T16:24:32.519Z",
+      "capturedAt": "2026-11-14T18:24:42.310Z",
       "sha256": "5703164b8a2ac6e6629dfc18daafd7d0f710d0c7393c4440ca8eb71ab392a1c3",
       "geometry": {
         "w": 768,
@@ -61738,7 +61712,7 @@
     {
       "name": "ipad/post-problems-3-end",
       "file": "ipad/post-problems-3-end.png",
-      "capturedAt": "2026-11-01T16:24:32.586Z",
+      "capturedAt": "2026-11-14T18:24:42.390Z",
       "sha256": "5703164b8a2ac6e6629dfc18daafd7d0f710d0c7393c4440ca8eb71ab392a1c3",
       "geometry": {
         "w": 768,
@@ -61803,7 +61777,7 @@
     {
       "name": "ipad/post-ease",
       "file": "ipad/post-ease.png",
-      "capturedAt": "2026-11-01T16:24:32.848Z",
+      "capturedAt": "2026-11-14T18:24:42.685Z",
       "sha256": "bbe39e42cc8bf3bab08e434171105b8baa3fe0b6ab84f0ae2ff369e111d1972a",
       "geometry": {
         "w": 768,
@@ -61868,7 +61842,7 @@
     {
       "name": "ipad/post-ease-end",
       "file": "ipad/post-ease-end.png",
-      "capturedAt": "2026-11-01T16:24:32.915Z",
+      "capturedAt": "2026-11-14T18:24:42.764Z",
       "sha256": "bbe39e42cc8bf3bab08e434171105b8baa3fe0b6ab84f0ae2ff369e111d1972a",
       "geometry": {
         "w": 768,
@@ -61933,7 +61907,7 @@
     {
       "name": "ipad/post-comment",
       "file": "ipad/post-comment.png",
-      "capturedAt": "2026-11-01T16:24:33.185Z",
+      "capturedAt": "2026-11-14T18:24:43.109Z",
       "sha256": "9c7bb230abf5409ef6bc9595c9db9d6124a7250a4ff4fbc0bf235b813b4e3aa6",
       "geometry": {
         "w": 768,
@@ -61998,7 +61972,7 @@
     {
       "name": "ipad/post-comment-end",
       "file": "ipad/post-comment-end.png",
-      "capturedAt": "2026-11-01T16:24:33.251Z",
+      "capturedAt": "2026-11-14T18:24:43.194Z",
       "sha256": "9c7bb230abf5409ef6bc9595c9db9d6124a7250a4ff4fbc0bf235b813b4e3aa6",
       "geometry": {
         "w": 768,
@@ -62063,7 +62037,7 @@
     {
       "name": "ipad/break",
       "file": "ipad/break.png",
-      "capturedAt": "2026-11-01T16:24:33.868Z",
+      "capturedAt": "2026-11-14T18:24:44.089Z",
       "sha256": "89f63102cf99be54c1f9f2a44baacf0dacc76e731e967a4e13332f840e1db424",
       "geometry": {
         "w": 768,
@@ -62102,7 +62076,7 @@
     {
       "name": "ipad/instructed",
       "file": "ipad/instructed.png",
-      "capturedAt": "2026-11-01T16:24:34.538Z",
+      "capturedAt": "2026-11-14T18:24:44.932Z",
       "sha256": "ffa5f4acbd48775875eec032b35b4cb2b4feeeaecce228a395087c5a6f8756a6",
       "geometry": {
         "w": 768,
@@ -62168,7 +62142,7 @@
     {
       "name": "ipad/instructed-2",
       "file": "ipad/instructed-2.png",
-      "capturedAt": "2026-11-01T16:24:34.673Z",
+      "capturedAt": "2026-11-14T18:24:45.112Z",
       "sha256": "cf11489b93860f8db0554463ce7b40fd77861855b95689180b3c2ac0809e2c8c",
       "geometry": {
         "w": 768,
@@ -62221,8 +62195,8 @@
     {
       "name": "ipad/instructed-help-1",
       "file": "ipad/instructed-help-1.png",
-      "capturedAt": "2026-11-01T16:24:34.885Z",
-      "sha256": "2bfa3c30c39e1a9bc3b96fa33931a7b6c9c240c31abf333076af8bb90dfa6d20",
+      "capturedAt": "2026-11-14T18:24:45.407Z",
+      "sha256": "a118cf8f875dc2a5e0e65ec11f899bf491c0a3744296170796b20fd0ea164930",
       "geometry": {
         "w": 768,
         "h": 1024,
@@ -62261,8 +62235,8 @@
     {
       "name": "ipad/instructed-help-2",
       "file": "ipad/instructed-help-2.png",
-      "capturedAt": "2026-11-01T16:24:35.003Z",
-      "sha256": "cc2957cc56790ceaaf3e20cc7e6c751ec74192fb0816de42d325ad5978fda215",
+      "capturedAt": "2026-11-14T18:24:45.612Z",
+      "sha256": "74e6b3000dc8ecd05bcdd9fef788b390e2327af4866a5008b2aa14a838210a68",
       "geometry": {
         "w": 768,
         "h": 1024,
@@ -62301,8 +62275,8 @@
     {
       "name": "ipad/done",
       "file": "ipad/done.png",
-      "capturedAt": "2026-11-01T16:24:35.758Z",
-      "sha256": "ef319215f8b111c9394d493380536e81c9631625eba0d4573bea32d9d8beb8c1",
+      "capturedAt": "2026-11-14T18:24:46.663Z",
+      "sha256": "647ced30fed898ab9f0e79e6d048caeb7c442adbc3f9afbe1e5236a67e2cc370",
       "geometry": {
         "w": 768,
         "h": 1024,
@@ -62326,35 +62300,22 @@
             "paintTouchesEdge": false,
             "invisibleAnchorOverflow": false,
             "x": 24,
-            "y": 29.140625,
+            "y": 70.25,
             "right": 744,
-            "bottom": 82.890625,
-            "overflowX": 0,
-            "overflowY": 0,
-            "scrollable": false
-          },
-          "#done .btnrow": {
-            "textBounds": null,
-            "paintBounds": null,
-            "paintTouchesEdge": false,
-            "invisibleAnchorOverflow": false,
-            "x": 39,
-            "y": 327.859375,
-            "right": 729,
-            "bottom": 400.796875,
+            "bottom": 124,
             "overflowX": 0,
             "overflowY": 0,
             "scrollable": false
           }
         }
       },
-      "text": "あいうえお0123456789あいうえお0123456789\n完了しました\n\nご協力ありがとうございました。下のボタンでデータを保存・共有してください。\n\nあなたの完了コード:\n\n8ARM-5RX4\nメールで送信する\n\n「メールで送信する」を押すか、コードをコピーして c237702@ed.nagoya-cu.ac.jp へ送ってください（謝礼の手続きに使います）。\n\n確認の質問について\nこの調査には、集中して回答できているかを確かめる質問（「左を選んでください」など）が含まれていました。回答の質を確かめる一般的な方法で、あなた個人を評価するものではありません。\n\n画面の切り替え・離脱: 0 回（合計 0 秒）／ 中断からの再開: 0 回\n参加者: check (moral) / 本番試行: 0 / 評定完了: 0 / 0 / 実効 – Hz / リトライ 0 / 端末 768×1024@1x\nデータを送る (共有)\nデータを保存 (JSON)\n軌道CSVを保存\n確認モード（送信しません）: done"
+      "text": "あいうえお0123456789あいうえお0123456789\n完了しました\n\nご協力ありがとうございました。下のボタンでデータを保存・共有してください。\n\nあなたの完了コード:\n\nF7XS-RN5T\n\n完了コードをコピーし、参加依頼で指定された方法で提出してください。\n\n確認の質問について\nこの調査には、集中して回答できているかを確かめる質問（「左を選んでください」など）が含まれていました。回答の質を確かめる一般的な方法で、あなた個人を評価するものではありません。\n\n画面の切り替え・離脱: 0 回（合計 0 秒）／ 中断からの再開: 0 回\n参加者: check (moral) / 本番試行: 0 / 評定完了: 0 / 0 / 実効 – Hz / リトライ 0 / 端末 768×1024@1x\nデータを送る (共有)\nデータを保存 (JSON)\n軌道CSVを保存\n確認モード（送信しません）: done"
     },
     {
       "name": "ipad/sending",
       "file": "ipad/sending.png",
-      "capturedAt": "2026-11-01T16:24:36.401Z",
-      "sha256": "e564c5b7e7f89db4b723776bfe451a4a5ad3c9d3a3a70aedd7681ff15ac1dea1",
+      "capturedAt": "2026-11-14T18:24:47.544Z",
+      "sha256": "2371bcd63fea7098ad147e61a3f40a56d23298f0f77b4e407fdd814c632c1a6f",
       "geometry": {
         "w": 768,
         "h": 1024,
@@ -62392,7 +62353,7 @@
     {
       "name": "ipad/entry",
       "file": "ipad/entry.png",
-      "capturedAt": "2026-11-01T16:24:37.185Z",
+      "capturedAt": "2026-11-14T18:24:48.334Z",
       "sha256": "995ed37df89149de7b6bc0f2c23bc3f917e1acb1094a04338893cb3926333894",
       "geometry": {
         "w": 768,
@@ -62431,7 +62392,7 @@
     {
       "name": "ipad/entry-end",
       "file": "ipad/entry-end.png",
-      "capturedAt": "2026-11-01T16:24:37.253Z",
+      "capturedAt": "2026-11-14T18:24:48.414Z",
       "sha256": "8a3bd0d4ed46b6c6d4205adec29bb4bea63717841d3fe8a1137437b9d5e7a612",
       "geometry": {
         "w": 768,
@@ -62470,7 +62431,7 @@
     {
       "name": "ipad/reading-intro",
       "file": "ipad/reading-intro.png",
-      "capturedAt": "2026-11-01T16:24:37.405Z",
+      "capturedAt": "2026-11-14T18:24:48.582Z",
       "sha256": "05c0fd590fe52d22a8773012650a9367bbe66c17136470038a0f114c023f80a1",
       "geometry": {
         "w": 768,
@@ -62522,8 +62483,8 @@
     {
       "name": "ipad/reading-text",
       "file": "ipad/reading-text.png",
-      "capturedAt": "2026-11-01T16:24:37.520Z",
-      "sha256": "694397104e282b4bf8b3a48812c8cab05a1bfaae6f2493fdb3e8b5ee354d1380",
+      "capturedAt": "2026-11-14T18:24:48.711Z",
+      "sha256": "0f5184805be796460d92edff553011b0c8f2a8f99f5ff29cc93921cfcc686868",
       "geometry": {
         "w": 768,
         "h": 1024,
@@ -62574,7 +62535,7 @@
     {
       "name": "ipad/practice-1-question",
       "file": "ipad/practice-1-question.png",
-      "capturedAt": "2026-11-01T16:24:39.820Z",
+      "capturedAt": "2026-11-14T18:24:50.999Z",
       "sha256": "b7b86d7dad70a3525523a482b5d7ff07b9a3a321a2e032fc7bc5cd7f11c40ca4",
       "geometry": {
         "w": 768,
@@ -62626,7 +62587,7 @@
     {
       "name": "ipad/practice-1-choice",
       "file": "ipad/practice-1-choice.png",
-      "capturedAt": "2026-11-01T16:24:39.940Z",
+      "capturedAt": "2026-11-14T18:24:51.140Z",
       "sha256": "938ef634322ab26b1e071e785d61bffffbcb10f16a9ec731e4b6baa3aa40e0e0",
       "geometry": {
         "w": 768,
@@ -62705,8 +62666,8 @@
     {
       "name": "ipad/practice-2-question",
       "file": "ipad/practice-2-question.png",
-      "capturedAt": "2026-11-01T16:24:46.301Z",
-      "sha256": "e74104d983de6185ecd05ed8399e2d8e684f472594c1e4ddf64c8b62d1c28afb",
+      "capturedAt": "2026-11-14T18:24:57.497Z",
+      "sha256": "3447150baae936e1f245fe33d9efebdd7a31679c00dc70d2d23958a4580ecc61",
       "geometry": {
         "w": 768,
         "h": 1024,
@@ -62757,7 +62718,7 @@
     {
       "name": "ipad/practice-2-choice",
       "file": "ipad/practice-2-choice.png",
-      "capturedAt": "2026-11-01T16:24:46.392Z",
+      "capturedAt": "2026-11-14T18:24:57.584Z",
       "sha256": "704b875c3ec6f1770ed2a65d9c5307f90fbf959f48bfd42eaab9c2e84c7bf5bf",
       "geometry": {
         "w": 768,
@@ -62836,7 +62797,7 @@
     {
       "name": "ipad/practice-3-question",
       "file": "ipad/practice-3-question.png",
-      "capturedAt": "2026-11-01T16:24:52.418Z",
+      "capturedAt": "2026-11-14T18:25:03.654Z",
       "sha256": "47ef0c9d0eb0082391aace53a317622ab6c7c7e782838b37f5a53fd36e99fe7f",
       "geometry": {
         "w": 768,
@@ -62888,7 +62849,7 @@
     {
       "name": "ipad/practice-3-choice",
       "file": "ipad/practice-3-choice.png",
-      "capturedAt": "2026-11-01T16:24:52.509Z",
+      "capturedAt": "2026-11-14T18:25:03.766Z",
       "sha256": "fbe5fb4b220969ca56ab4a09d678f52b22656ce61b7e85bc09c4770bfbe5850a",
       "geometry": {
         "w": 768,
@@ -62967,7 +62928,7 @@
     {
       "name": "ipad/practice-4-question",
       "file": "ipad/practice-4-question.png",
-      "capturedAt": "2026-11-01T16:24:58.557Z",
+      "capturedAt": "2026-11-14T18:25:09.797Z",
       "sha256": "1272f173fe60644d3ec3ec4f83d67c6629c6e58b4cf97cd44ae008e11b3f9fe4",
       "geometry": {
         "w": 768,
@@ -63019,7 +62980,7 @@
     {
       "name": "ipad/practice-4-choice",
       "file": "ipad/practice-4-choice.png",
-      "capturedAt": "2026-11-01T16:24:58.670Z",
+      "capturedAt": "2026-11-14T18:25:09.907Z",
       "sha256": "9e40794f2aa0d70adaf1e1dea3a970db3bbcef82dadda93532385cd6cf519f96",
       "geometry": {
         "w": 768,
@@ -63098,7 +63059,7 @@
     {
       "name": "ipad/practice-5-question",
       "file": "ipad/practice-5-question.png",
-      "capturedAt": "2026-11-01T16:25:04.701Z",
+      "capturedAt": "2026-11-14T18:25:15.967Z",
       "sha256": "a46778791322d8cacc8dc136bdaa00399b07731dacd293088352e8deb4d9193f",
       "geometry": {
         "w": 768,
@@ -63150,7 +63111,7 @@
     {
       "name": "ipad/practice-5-choice",
       "file": "ipad/practice-5-choice.png",
-      "capturedAt": "2026-11-01T16:25:04.791Z",
+      "capturedAt": "2026-11-14T18:25:16.072Z",
       "sha256": "4c5e8fc830f0974d91ed60dd9e7a2ab97dd2c76f09b84bf2167f2c1f1903c764",
       "geometry": {
         "w": 768,
@@ -63229,7 +63190,7 @@
     {
       "name": "ipad/practice-complete",
       "file": "ipad/practice-complete.png",
-      "capturedAt": "2026-11-01T16:25:09.391Z",
+      "capturedAt": "2026-11-14T18:25:20.645Z",
       "sha256": "816f2101655812f48f07b4abef96be7ad891926cbd951ef34a8889c44b43ac39",
       "geometry": {
         "w": 768,
@@ -63281,8 +63242,8 @@
     {
       "name": "ipad/practice-early-coach",
       "file": "ipad/practice-early-coach.png",
-      "capturedAt": "2026-11-01T16:25:10.422Z",
-      "sha256": "6d0f25df9c551cb5ed1ca78f41fc9a74d02ad92d5e9c31ef58c90ff3f9d756de",
+      "capturedAt": "2026-11-14T18:25:21.596Z",
+      "sha256": "18a38efc8861182243f07152593a62a20378d63ece52339c14ac5b6ea5b058a7",
       "geometry": {
         "w": 768,
         "h": 1024,
@@ -63308,7 +63269,7 @@
     {
       "name": "ipad/legacy-blockintro",
       "file": "ipad/legacy-blockintro.png",
-      "capturedAt": "2026-11-01T16:25:11.094Z",
+      "capturedAt": "2026-11-14T18:25:22.262Z",
       "sha256": "cc044c89ca637e55e21c3780d569fdaf04c558f4cc744db364ed59ead99601e9",
       "geometry": {
         "w": 768,
@@ -63362,7 +63323,7 @@
     {
       "name": "ipad/legacy-blockintro-end",
       "file": "ipad/legacy-blockintro-end.png",
-      "capturedAt": "2026-11-01T16:25:11.191Z",
+      "capturedAt": "2026-11-14T18:25:22.355Z",
       "sha256": "cc044c89ca637e55e21c3780d569fdaf04c558f4cc744db364ed59ead99601e9",
       "geometry": {
         "w": 768,
@@ -63415,7 +63376,7 @@
     {
       "name": "miniSmall/welcome-1",
       "file": "miniSmall/welcome-1.png",
-      "capturedAt": "2026-11-01T16:25:11.822Z",
+      "capturedAt": "2026-11-14T18:25:23.030Z",
       "sha256": "2dd434c5aa83f294fd5a3be0fac2a618e01982230aa189f5b1a3798b7ce8e870",
       "geometry": {
         "w": 375,
@@ -63467,7 +63428,7 @@
     {
       "name": "miniSmall/welcome-2",
       "file": "miniSmall/welcome-2.png",
-      "capturedAt": "2026-11-01T16:25:11.936Z",
+      "capturedAt": "2026-11-14T18:25:23.146Z",
       "sha256": "dbc2df43f8acb48aeb404f224e9fb40270351d78df93bb31a9a21765427fdd2d",
       "geometry": {
         "w": 375,
@@ -63519,7 +63480,7 @@
     {
       "name": "miniSmall/welcome-3",
       "file": "miniSmall/welcome-3.png",
-      "capturedAt": "2026-11-01T16:25:12.056Z",
+      "capturedAt": "2026-11-14T18:25:23.282Z",
       "sha256": "7f4396715fd24833ac483efd74b777c3e0780967acb5219ce764bc6a9cfe4518",
       "geometry": {
         "w": 375,
@@ -63571,7 +63532,7 @@
     {
       "name": "miniSmall/welcome-4",
       "file": "miniSmall/welcome-4.png",
-      "capturedAt": "2026-11-01T16:25:12.170Z",
+      "capturedAt": "2026-11-14T18:25:23.398Z",
       "sha256": "2b2b42be5756566f8c70fa9df04311e99cbdcd505c5ec9b3fedd1025a361d767",
       "geometry": {
         "w": 375,
@@ -63623,7 +63584,7 @@
     {
       "name": "miniSmall/welcome-5",
       "file": "miniSmall/welcome-5.png",
-      "capturedAt": "2026-11-01T16:25:12.269Z",
+      "capturedAt": "2026-11-14T18:25:23.515Z",
       "sha256": "eb2ca64eca6726c92cbf1c564c77482861a44ba60f518a09c78b2e9bcf5042f4",
       "geometry": {
         "w": 375,
@@ -63675,7 +63636,7 @@
     {
       "name": "miniSmall/welcome-6",
       "file": "miniSmall/welcome-6.png",
-      "capturedAt": "2026-11-01T16:25:12.373Z",
+      "capturedAt": "2026-11-14T18:25:23.631Z",
       "sha256": "840c4db9d2bd3ed1db8956007a18d9f5630857afc5e16adc942c5a6c6c68d8fb",
       "geometry": {
         "w": 375,
@@ -63727,7 +63688,7 @@
     {
       "name": "miniSmall/welcome-7",
       "file": "miniSmall/welcome-7.png",
-      "capturedAt": "2026-11-01T16:25:12.638Z",
+      "capturedAt": "2026-11-14T18:25:23.898Z",
       "sha256": "60dc67361bcb5dcbc5d55492d5cc462e75a9c0955924db491cc9885a2d96e0b0",
       "geometry": {
         "w": 375,
@@ -63779,7 +63740,7 @@
     {
       "name": "miniSmall/consent-top",
       "file": "miniSmall/consent-top.png",
-      "capturedAt": "2026-11-01T16:25:13.722Z",
+      "capturedAt": "2026-11-14T18:25:24.982Z",
       "sha256": "a6b659595dff28a96a469cd3d3eb6d48049e42a0ce8b6f31f79d93ccfe223735",
       "geometry": {
         "w": 375,
@@ -63897,7 +63858,7 @@
     {
       "name": "miniSmall/consent-end",
       "file": "miniSmall/consent-end.png",
-      "capturedAt": "2026-11-01T16:25:13.788Z",
+      "capturedAt": "2026-11-14T18:25:25.049Z",
       "sha256": "9441b66cc4f4cc25bfe8edee359f693d5a3c2a2c53e3baf7b2dc42e09a88cc29",
       "geometry": {
         "w": 375,
@@ -64015,7 +63976,7 @@
     {
       "name": "miniSmall/practicecheck",
       "file": "miniSmall/practicecheck.png",
-      "capturedAt": "2026-11-01T16:25:14.422Z",
+      "capturedAt": "2026-11-14T18:25:25.764Z",
       "sha256": "2a93300cab08106872e1abd44478ff72af32b9365949991df2d1c9d73c0d383b",
       "geometry": {
         "w": 375,
@@ -64067,7 +64028,7 @@
     {
       "name": "miniSmall/practicecheck-end",
       "file": "miniSmall/practicecheck-end.png",
-      "capturedAt": "2026-11-01T16:25:14.508Z",
+      "capturedAt": "2026-11-14T18:25:25.831Z",
       "sha256": "4b5f5b77b33756d2d8c9cb151b006a719f2428c40d9891fca90a39b26f557c4d",
       "geometry": {
         "w": 375,
@@ -64119,7 +64080,7 @@
     {
       "name": "miniSmall/tutorial-layout-intro",
       "file": "miniSmall/tutorial-layout-intro.png",
-      "capturedAt": "2026-11-01T16:25:15.519Z",
+      "capturedAt": "2026-11-14T18:25:26.813Z",
       "sha256": "8678856c730948d98aae25ae3a0b3e6a847bbab4c1e0c3c0dfec52c5af34037f",
       "geometry": {
         "w": 375,
@@ -64214,7 +64175,7 @@
     {
       "name": "miniSmall/tutorial-0",
       "file": "miniSmall/tutorial-0.png",
-      "capturedAt": "2026-11-01T16:25:15.519Z",
+      "capturedAt": "2026-11-14T18:25:26.813Z",
       "sha256": "8678856c730948d98aae25ae3a0b3e6a847bbab4c1e0c3c0dfec52c5af34037f",
       "geometry": {
         "w": 375,
@@ -64310,8 +64271,8 @@
     {
       "name": "miniSmall/tutorial-layout-stem",
       "file": "miniSmall/tutorial-layout-stem.png",
-      "capturedAt": "2026-11-01T16:25:16.237Z",
-      "sha256": "175c9aafe1431b37083cac53a00d62fb974cada3952edabda223d41bdce08efc",
+      "capturedAt": "2026-11-14T18:25:27.547Z",
+      "sha256": "55afd47fdd14e2fa8718311cf00c178c20e2b46bb477b0080abfac5a6717d164",
       "geometry": {
         "w": 375,
         "h": 548,
@@ -64418,8 +64379,8 @@
     {
       "name": "miniSmall/tutorial-2",
       "file": "miniSmall/tutorial-2.png",
-      "capturedAt": "2026-11-01T16:25:16.237Z",
-      "sha256": "175c9aafe1431b37083cac53a00d62fb974cada3952edabda223d41bdce08efc",
+      "capturedAt": "2026-11-14T18:25:27.547Z",
+      "sha256": "55afd47fdd14e2fa8718311cf00c178c20e2b46bb477b0080abfac5a6717d164",
       "geometry": {
         "w": 375,
         "h": 548,
@@ -64527,8 +64488,8 @@
     {
       "name": "miniSmall/tutorial-layout-start",
       "file": "miniSmall/tutorial-layout-start.png",
-      "capturedAt": "2026-11-01T16:25:16.937Z",
-      "sha256": "d686a7ed75f8b01433928ccaf9f6ad62698c4c8c9a42bae39248fc38e65f64c3",
+      "capturedAt": "2026-11-14T18:25:28.245Z",
+      "sha256": "627a6e3c506c5c76b3b8bdd46e4245313aacf6138400aad9d6778d3dd69d836e",
       "geometry": {
         "w": 375,
         "h": 548,
@@ -64648,8 +64609,8 @@
     {
       "name": "miniSmall/tutorial-3",
       "file": "miniSmall/tutorial-3.png",
-      "capturedAt": "2026-11-01T16:25:16.937Z",
-      "sha256": "d686a7ed75f8b01433928ccaf9f6ad62698c4c8c9a42bae39248fc38e65f64c3",
+      "capturedAt": "2026-11-14T18:25:28.245Z",
+      "sha256": "627a6e3c506c5c76b3b8bdd46e4245313aacf6138400aad9d6778d3dd69d836e",
       "geometry": {
         "w": 375,
         "h": 548,
@@ -64770,8 +64731,8 @@
     {
       "name": "miniSmall/tutorial-layout-choice",
       "file": "miniSmall/tutorial-layout-choice.png",
-      "capturedAt": "2026-11-01T16:25:17.637Z",
-      "sha256": "f482f8db3def4042aeb119c56b6cdfd477e3b882c64d3fbf3b15acf44a4b9606",
+      "capturedAt": "2026-11-14T18:25:28.965Z",
+      "sha256": "a049ea25753557bfb4ed10035f4c1a64cf955e3bdcfd38c5251eee1af1d79c11",
       "geometry": {
         "w": 375,
         "h": 548,
@@ -64917,8 +64878,8 @@
     {
       "name": "miniSmall/tutorial-4",
       "file": "miniSmall/tutorial-4.png",
-      "capturedAt": "2026-11-01T16:25:17.637Z",
-      "sha256": "f482f8db3def4042aeb119c56b6cdfd477e3b882c64d3fbf3b15acf44a4b9606",
+      "capturedAt": "2026-11-14T18:25:28.965Z",
+      "sha256": "a049ea25753557bfb4ed10035f4c1a64cf955e3bdcfd38c5251eee1af1d79c11",
       "geometry": {
         "w": 375,
         "h": 548,
@@ -65065,8 +65026,8 @@
     {
       "name": "miniSmall/tutorial-motor-route",
       "file": "miniSmall/tutorial-motor-route.png",
-      "capturedAt": "2026-11-01T16:25:18.922Z",
-      "sha256": "be6cf5bc239c6eb34e4bd4d288d7d79adef2315ce9b8551e0a9d99a365877a20",
+      "capturedAt": "2026-11-14T18:25:30.264Z",
+      "sha256": "2b4a4207e3213680bc060e0b213ba4f8282e4ec0d59ab343a5d8d6b44e8e74ca",
       "geometry": {
         "w": 375,
         "h": 548,
@@ -65186,8 +65147,8 @@
     {
       "name": "miniSmall/tutorial-motor-range",
       "file": "miniSmall/tutorial-motor-range.png",
-      "capturedAt": "2026-11-01T16:25:20.756Z",
-      "sha256": "dcc88bdf5b00cfc5aa86ff33cb659936b5c05bbc6e60880f666cf9fb57a13de2",
+      "capturedAt": "2026-11-14T18:25:32.096Z",
+      "sha256": "c98a75627867f8457524a43c3294dbe13cd94ba8e6b499f11939884fc035b273",
       "geometry": {
         "w": 375,
         "h": 548,
@@ -65344,7 +65305,7 @@
     {
       "name": "miniSmall/tutorial-motor",
       "file": "miniSmall/tutorial-motor.png",
-      "capturedAt": "2026-11-01T16:25:21.455Z",
+      "capturedAt": "2026-11-14T18:25:32.796Z",
       "sha256": "6473282544f603463e2f0763ccccefd6cd7338f87eb7bd6c1386a2ed1736f62d",
       "geometry": {
         "w": 375,
@@ -65465,8 +65426,8 @@
     {
       "name": "miniSmall/tutorial-motor-success",
       "file": "miniSmall/tutorial-motor-success.png",
-      "capturedAt": "2026-11-01T16:25:22.619Z",
-      "sha256": "7d1d3739f35523618ba87911bdfd5b7993196416dddbee9603307bb35b22e080",
+      "capturedAt": "2026-11-14T18:25:33.897Z",
+      "sha256": "588e4990b37db92b1a47efb4d5fcec5a6e63984d9a67435ab28256743472d928",
       "geometry": {
         "w": 375,
         "h": 548,
@@ -65572,7 +65533,7 @@
     {
       "name": "miniSmall/tutorial-start-rule",
       "file": "miniSmall/tutorial-start-rule.png",
-      "capturedAt": "2026-11-01T16:25:23.303Z",
+      "capturedAt": "2026-11-14T18:25:34.594Z",
       "sha256": "1e17844d672e933f584e2b9258e5a7e55a978d34d1dc5af07820ef9ab65ed115",
       "geometry": {
         "w": 375,
@@ -65667,7 +65628,7 @@
     {
       "name": "miniSmall/tutorial-movement-reason",
       "file": "miniSmall/tutorial-movement-reason.png",
-      "capturedAt": "2026-11-01T16:25:24.005Z",
+      "capturedAt": "2026-11-14T18:25:35.269Z",
       "sha256": "af3b9720407d62dadfc2847e9de79f54214bbbaf91c66cf956dbca1153391f35",
       "geometry": {
         "w": 375,
@@ -65762,7 +65723,7 @@
     {
       "name": "miniSmall/tutorial-uncertain",
       "file": "miniSmall/tutorial-uncertain.png",
-      "capturedAt": "2026-11-01T16:25:24.705Z",
+      "capturedAt": "2026-11-14T18:25:35.953Z",
       "sha256": "b0cea4a81e988b239da6de506cd537c61fb06b601ca308ab668d625ade472633",
       "geometry": {
         "w": 375,
@@ -65857,8 +65818,8 @@
     {
       "name": "miniSmall/tutorial-time-rule",
       "file": "miniSmall/tutorial-time-rule.png",
-      "capturedAt": "2026-11-01T16:25:27.107Z",
-      "sha256": "57e3e8935ff8216506ba5c5d2ee6750f290c842032dd369471c7bac6f5bea05d",
+      "capturedAt": "2026-11-14T18:25:38.361Z",
+      "sha256": "5aff8541229f96e489c81a1acca33eda7e2739cd6ee5d6b9b64518278c4b0b86",
       "geometry": {
         "w": 375,
         "h": 548,
@@ -65965,8 +65926,8 @@
     {
       "name": "miniSmall/tutorial-7",
       "file": "miniSmall/tutorial-7.png",
-      "capturedAt": "2026-11-01T16:25:27.107Z",
-      "sha256": "57e3e8935ff8216506ba5c5d2ee6750f290c842032dd369471c7bac6f5bea05d",
+      "capturedAt": "2026-11-14T18:25:38.361Z",
+      "sha256": "5aff8541229f96e489c81a1acca33eda7e2739cd6ee5d6b9b64518278c4b0b86",
       "geometry": {
         "w": 375,
         "h": 548,
@@ -66074,7 +66035,7 @@
     {
       "name": "miniSmall/tutorial-answer-pace",
       "file": "miniSmall/tutorial-answer-pace.png",
-      "capturedAt": "2026-11-01T16:25:27.785Z",
+      "capturedAt": "2026-11-14T18:25:39.063Z",
       "sha256": "5ad57c3fbb4498f7e1f3be927953a8cd1979b3a24604dcd95ba8aec1e2f083d3",
       "geometry": {
         "w": 375,
@@ -66169,7 +66130,7 @@
     {
       "name": "miniSmall/tutorial-rule-check-intro",
       "file": "miniSmall/tutorial-rule-check-intro.png",
-      "capturedAt": "2026-11-01T16:25:28.470Z",
+      "capturedAt": "2026-11-14T18:25:39.763Z",
       "sha256": "4fde3cb02aa3d16d6d404204ffe089d1a8d65ad9f4161a70fd89f0846df65aa7",
       "geometry": {
         "w": 375,
@@ -66264,7 +66225,7 @@
     {
       "name": "miniSmall/tutorial-rule-check-01",
       "file": "miniSmall/tutorial-rule-check-01.png",
-      "capturedAt": "2026-11-01T16:25:29.205Z",
+      "capturedAt": "2026-11-14T18:25:40.463Z",
       "sha256": "8e02353eb2b78491d40fde9234a40b8c35208f446303319cc7c65acb941d393f",
       "geometry": {
         "w": 375,
@@ -66373,7 +66334,7 @@
     {
       "name": "miniSmall/tutorial-rule-check-01-wrong",
       "file": "miniSmall/tutorial-rule-check-01-wrong.png",
-      "capturedAt": "2026-11-01T16:25:29.321Z",
+      "capturedAt": "2026-11-14T18:25:40.581Z",
       "sha256": "5983055e87f11bf46d0c0efc5bb914c74a57a168e2408754a9c4df94d96f662d",
       "geometry": {
         "w": 375,
@@ -66494,7 +66455,7 @@
     {
       "name": "miniSmall/tutorial-rule-check-02",
       "file": "miniSmall/tutorial-rule-check-02.png",
-      "capturedAt": "2026-11-01T16:25:30.087Z",
+      "capturedAt": "2026-11-14T18:25:41.363Z",
       "sha256": "086b52b29581d5dc5a664753d3ed5639fa85b6cc66da81ee4090fc25bc355be9",
       "geometry": {
         "w": 375,
@@ -66603,7 +66564,7 @@
     {
       "name": "miniSmall/tutorial-rule-check-02-wrong",
       "file": "miniSmall/tutorial-rule-check-02-wrong.png",
-      "capturedAt": "2026-11-01T16:25:30.209Z",
+      "capturedAt": "2026-11-14T18:25:41.479Z",
       "sha256": "cafc47d5eeeae69feae280c056adffe7a72ace752d61401304093177979b7f3b",
       "geometry": {
         "w": 375,
@@ -66724,7 +66685,7 @@
     {
       "name": "miniSmall/tutorial-rule-check-03",
       "file": "miniSmall/tutorial-rule-check-03.png",
-      "capturedAt": "2026-11-01T16:25:30.970Z",
+      "capturedAt": "2026-11-14T18:25:42.233Z",
       "sha256": "bd003ec206e4882b6d58d458b2562af561450ca465c8bb6253c4488ae9953b3d",
       "geometry": {
         "w": 375,
@@ -66833,7 +66794,7 @@
     {
       "name": "miniSmall/tutorial-rule-check-03-wrong",
       "file": "miniSmall/tutorial-rule-check-03-wrong.png",
-      "capturedAt": "2026-11-01T16:25:31.087Z",
+      "capturedAt": "2026-11-14T18:25:42.349Z",
       "sha256": "6d92a3c33749a3b234d976a2ee994b90c3381e6043a495e35067f0ca68681205",
       "geometry": {
         "w": 375,
@@ -66954,7 +66915,7 @@
     {
       "name": "miniSmall/tutorial-rule-check-04",
       "file": "miniSmall/tutorial-rule-check-04.png",
-      "capturedAt": "2026-11-01T16:25:31.818Z",
+      "capturedAt": "2026-11-14T18:25:43.117Z",
       "sha256": "e2ab57d16341823ee0050f4ed69457292114681fde062a83b9bff94ee8a45a23",
       "geometry": {
         "w": 375,
@@ -67063,7 +67024,7 @@
     {
       "name": "miniSmall/tutorial-rule-check-04-wrong",
       "file": "miniSmall/tutorial-rule-check-04-wrong.png",
-      "capturedAt": "2026-11-01T16:25:31.922Z",
+      "capturedAt": "2026-11-14T18:25:43.269Z",
       "sha256": "0b8bf4015adf3536b68b89c31cb484b364aecdb05116c61ac1a5c83bcf2cdfbd",
       "geometry": {
         "w": 375,
@@ -67184,7 +67145,7 @@
     {
       "name": "miniSmall/tutorial-rule-check-05",
       "file": "miniSmall/tutorial-rule-check-05.png",
-      "capturedAt": "2026-11-01T16:25:32.690Z",
+      "capturedAt": "2026-11-14T18:25:44.030Z",
       "sha256": "8dd78a6d10a51d552c2ac65a9c92c0f461974bb7cb5b494b04e8f6eba7feffdd",
       "geometry": {
         "w": 375,
@@ -67293,7 +67254,7 @@
     {
       "name": "miniSmall/tutorial-rule-check-05-wrong",
       "file": "miniSmall/tutorial-rule-check-05-wrong.png",
-      "capturedAt": "2026-11-01T16:25:32.805Z",
+      "capturedAt": "2026-11-14T18:25:44.148Z",
       "sha256": "6751d41c0d89d65318043b8be6684405548f092b3478687eb498d9aec4f2645a",
       "geometry": {
         "w": 375,
@@ -67414,7 +67375,7 @@
     {
       "name": "miniSmall/tutorial-rule-check-06",
       "file": "miniSmall/tutorial-rule-check-06.png",
-      "capturedAt": "2026-11-01T16:25:33.553Z",
+      "capturedAt": "2026-11-14T18:25:44.915Z",
       "sha256": "b54e4d2e62914f5b42b81d985371c16768ebfdbe56ca3f058fdc1111a7997782",
       "geometry": {
         "w": 375,
@@ -67523,7 +67484,7 @@
     {
       "name": "miniSmall/tutorial-rule-check-06-wrong",
       "file": "miniSmall/tutorial-rule-check-06-wrong.png",
-      "capturedAt": "2026-11-01T16:25:33.669Z",
+      "capturedAt": "2026-11-14T18:25:45.047Z",
       "sha256": "3e56a3e6f156717049fbccb01c05652c2684e27db3e61332808502e9067bdd73",
       "geometry": {
         "w": 375,
@@ -67644,7 +67605,7 @@
     {
       "name": "miniSmall/tutorial-rule-check-07",
       "file": "miniSmall/tutorial-rule-check-07.png",
-      "capturedAt": "2026-11-01T16:25:34.420Z",
+      "capturedAt": "2026-11-14T18:25:45.818Z",
       "sha256": "ac557c8ca407b1417151ccf5fadbf109f76be1d4ea68e8efcd359e93ccd934ba",
       "geometry": {
         "w": 375,
@@ -67753,7 +67714,7 @@
     {
       "name": "miniSmall/tutorial-rule-check-07-wrong",
       "file": "miniSmall/tutorial-rule-check-07-wrong.png",
-      "capturedAt": "2026-11-01T16:25:34.520Z",
+      "capturedAt": "2026-11-14T18:25:45.954Z",
       "sha256": "22c7e4cb7dcc59095522d02686a52c8b9382f90821a4b7ca8846ba3b738d1b80",
       "geometry": {
         "w": 375,
@@ -67874,7 +67835,7 @@
     {
       "name": "miniSmall/guided-example-intro",
       "file": "miniSmall/guided-example-intro.png",
-      "capturedAt": "2026-11-01T16:25:34.869Z",
+      "capturedAt": "2026-11-14T18:25:46.329Z",
       "sha256": "34b236ce4eca84430cb96bfd24326688320d42851ba9d6233c43e4bdb982347b",
       "geometry": {
         "w": 375,
@@ -67928,7 +67889,7 @@
     {
       "name": "miniSmall/example-coach",
       "file": "miniSmall/example-coach.png",
-      "capturedAt": "2026-11-01T16:25:37.703Z",
+      "capturedAt": "2026-11-14T18:25:49.179Z",
       "sha256": "365e3265241fc68574fad9cab61b0333d817f1654fbfcad02c227f28bd376ce0",
       "geometry": {
         "w": 375,
@@ -67981,7 +67942,7 @@
     {
       "name": "miniSmall/example-choice",
       "file": "miniSmall/example-choice.png",
-      "capturedAt": "2026-11-01T16:25:37.785Z",
+      "capturedAt": "2026-11-14T18:25:49.261Z",
       "sha256": "c273df3bfb48ff736fef02816a7ca403ed60a6792b43752fc75e85728d3777fd",
       "geometry": {
         "w": 375,
@@ -68060,7 +68021,7 @@
     {
       "name": "miniSmall/rating-tutorial-0",
       "file": "miniSmall/rating-tutorial-0.png",
-      "capturedAt": "2026-11-01T16:25:39.336Z",
+      "capturedAt": "2026-11-14T18:25:50.963Z",
       "sha256": "54e169183ed7c1c75cda07ae6fdcd0c9cf282eca3027266c217883426cef45d6",
       "geometry": {
         "w": 375,
@@ -68140,7 +68101,7 @@
     {
       "name": "miniSmall/rating-tutorial-1",
       "file": "miniSmall/rating-tutorial-1.png",
-      "capturedAt": "2026-11-01T16:25:39.904Z",
+      "capturedAt": "2026-11-14T18:25:51.562Z",
       "sha256": "ebc8748fa37b79c311b5c2a666b58d90807aaf0b8d9d86acb429cdcf157c7ccc",
       "geometry": {
         "w": 375,
@@ -68246,7 +68207,7 @@
     {
       "name": "miniSmall/rating-tutorial-2",
       "file": "miniSmall/rating-tutorial-2.png",
-      "capturedAt": "2026-11-01T16:25:40.491Z",
+      "capturedAt": "2026-11-14T18:25:52.198Z",
       "sha256": "36add9b4f0072b55c2f0897e93b0ed72b0013930895e57a87113a8b1c05d1d3c",
       "geometry": {
         "w": 375,
@@ -68365,7 +68326,7 @@
     {
       "name": "miniSmall/rating-tutorial-3",
       "file": "miniSmall/rating-tutorial-3.png",
-      "capturedAt": "2026-11-01T16:25:41.085Z",
+      "capturedAt": "2026-11-14T18:25:52.796Z",
       "sha256": "f8ab3552b6aceb05bd6e9b71630ae739926667a8f37096b7705f9a1c3b402d9e",
       "geometry": {
         "w": 375,
@@ -68445,7 +68406,7 @@
     {
       "name": "miniSmall/rating-tutorial-4",
       "file": "miniSmall/rating-tutorial-4.png",
-      "capturedAt": "2026-11-01T16:25:41.586Z",
+      "capturedAt": "2026-11-14T18:25:53.309Z",
       "sha256": "431fdd3454aad2b43d0b094278baa2a357227bb6fcba9c6f0a352e965eb6389a",
       "geometry": {
         "w": 375,
@@ -68525,7 +68486,7 @@
     {
       "name": "miniSmall/notice-early",
       "file": "miniSmall/notice-early.png",
-      "capturedAt": "2026-11-01T16:25:42.518Z",
+      "capturedAt": "2026-11-14T18:25:54.213Z",
       "sha256": "3e860cb314c8f6b202e4ac78c3323bcd529e53afc6c340f4f0ad50e8bfaee553",
       "geometry": {
         "w": 375,
@@ -68590,7 +68551,7 @@
     {
       "name": "miniSmall/notice-late",
       "file": "miniSmall/notice-late.png",
-      "capturedAt": "2026-11-01T16:25:43.118Z",
+      "capturedAt": "2026-11-14T18:25:54.945Z",
       "sha256": "c974144ad80262f322a8658446695b932e3f38aee6109651c21e678bfa50cc17",
       "geometry": {
         "w": 375,
@@ -68655,7 +68616,7 @@
     {
       "name": "miniSmall/notice-late-end",
       "file": "miniSmall/notice-late-end.png",
-      "capturedAt": "2026-11-01T16:25:43.186Z",
+      "capturedAt": "2026-11-14T18:25:55.012Z",
       "sha256": "c974144ad80262f322a8658446695b932e3f38aee6109651c21e678bfa50cc17",
       "geometry": {
         "w": 375,
@@ -68707,7 +68668,7 @@
     {
       "name": "miniSmall/notice-early_late",
       "file": "miniSmall/notice-early_late.png",
-      "capturedAt": "2026-11-01T16:25:43.787Z",
+      "capturedAt": "2026-11-14T18:25:55.646Z",
       "sha256": "37a82418ae8f0dcdccac24e1dddf4ebcfb78fb63caa6c5550ae99a9d617619e7",
       "geometry": {
         "w": 375,
@@ -68772,7 +68733,7 @@
     {
       "name": "miniSmall/notice-early_late-end",
       "file": "miniSmall/notice-early_late-end.png",
-      "capturedAt": "2026-11-01T16:25:43.852Z",
+      "capturedAt": "2026-11-14T18:25:55.717Z",
       "sha256": "37a82418ae8f0dcdccac24e1dddf4ebcfb78fb63caa6c5550ae99a9d617619e7",
       "geometry": {
         "w": 375,
@@ -68824,7 +68785,7 @@
     {
       "name": "miniSmall/main",
       "file": "miniSmall/main.png",
-      "capturedAt": "2026-11-01T16:25:44.455Z",
+      "capturedAt": "2026-11-14T18:25:56.343Z",
       "sha256": "bf6f6301e80d9f2b6263bdb581377d9d0be434c7417bbd18f39341102e9a748c",
       "geometry": {
         "w": 375,
@@ -68920,7 +68881,7 @@
     {
       "name": "miniSmall/main-help",
       "file": "miniSmall/main-help.png",
-      "capturedAt": "2026-11-01T16:25:44.603Z",
+      "capturedAt": "2026-11-14T18:25:56.477Z",
       "sha256": "b07f3f9f1553a3592203ef479d7c33a320822be5231e36d9f0e450db44487594",
       "geometry": {
         "w": 375,
@@ -68973,7 +68934,7 @@
     {
       "name": "miniSmall/rating-hesitation",
       "file": "miniSmall/rating-hesitation.png",
-      "capturedAt": "2026-11-01T16:25:45.254Z",
+      "capturedAt": "2026-11-14T18:25:57.127Z",
       "sha256": "e85ad8e39495bb3ada775f42e356f7202485d5c89b464c348589af0d10c7bf35",
       "geometry": {
         "w": 375,
@@ -69025,7 +68986,7 @@
     {
       "name": "miniSmall/rating-confidence",
       "file": "miniSmall/rating-confidence.png",
-      "capturedAt": "2026-11-01T16:25:45.753Z",
+      "capturedAt": "2026-11-14T18:25:57.611Z",
       "sha256": "fcb5db48379617ddc9e9bff8fb32ac4be75c47d86ea18e73da420f3488d01d6b",
       "geometry": {
         "w": 375,
@@ -69077,7 +69038,7 @@
     {
       "name": "miniSmall/main-rating-hesitation",
       "file": "miniSmall/main-rating-hesitation.png",
-      "capturedAt": "2026-11-01T16:25:47.385Z",
+      "capturedAt": "2026-11-14T18:25:59.195Z",
       "sha256": "b145e7bc4a1f44fc21bcc7b340978de8d94897cc72ec63ae4e4de55ca4dc0f26",
       "geometry": {
         "w": 375,
@@ -69186,7 +69147,7 @@
     {
       "name": "miniSmall/main-rating-confidence",
       "file": "miniSmall/main-rating-confidence.png",
-      "capturedAt": "2026-11-01T16:25:47.850Z",
+      "capturedAt": "2026-11-14T18:25:59.677Z",
       "sha256": "53edd25e56747cd3508c1bc217d85815b599e15f02f86ada10ad46e451f57205",
       "geometry": {
         "w": 375,
@@ -69295,7 +69256,7 @@
     {
       "name": "miniSmall/post-grip",
       "file": "miniSmall/post-grip.png",
-      "capturedAt": "2026-11-01T16:25:48.568Z",
+      "capturedAt": "2026-11-14T18:26:00.460Z",
       "sha256": "f11a7d5d3e50f78a60a37f1939dff39c91e17fb0befc5753851df4ea2c05ec17",
       "geometry": {
         "w": 375,
@@ -69360,7 +69321,7 @@
     {
       "name": "miniSmall/post-grip-end",
       "file": "miniSmall/post-grip-end.png",
-      "capturedAt": "2026-11-01T16:25:48.619Z",
+      "capturedAt": "2026-11-14T18:26:00.511Z",
       "sha256": "f11a7d5d3e50f78a60a37f1939dff39c91e17fb0befc5753851df4ea2c05ec17",
       "geometry": {
         "w": 375,
@@ -69425,7 +69386,7 @@
     {
       "name": "miniSmall/post-fatigue_pre",
       "file": "miniSmall/post-fatigue_pre.png",
-      "capturedAt": "2026-11-01T16:25:48.920Z",
+      "capturedAt": "2026-11-14T18:26:00.813Z",
       "sha256": "565a29b054fef77ca213bb99a146130d43d5e7189f4a973ef2a07eeb1c08f439",
       "geometry": {
         "w": 375,
@@ -69490,7 +69451,7 @@
     {
       "name": "miniSmall/post-fatigue_pre-end",
       "file": "miniSmall/post-fatigue_pre-end.png",
-      "capturedAt": "2026-11-01T16:25:48.968Z",
+      "capturedAt": "2026-11-14T18:26:00.876Z",
       "sha256": "565a29b054fef77ca213bb99a146130d43d5e7189f4a973ef2a07eeb1c08f439",
       "geometry": {
         "w": 375,
@@ -69555,7 +69516,7 @@
     {
       "name": "miniSmall/post-sleep_hours",
       "file": "miniSmall/post-sleep_hours.png",
-      "capturedAt": "2026-11-01T16:25:49.351Z",
+      "capturedAt": "2026-11-14T18:26:01.243Z",
       "sha256": "850390dc30922679580301076077791b53af58f28d5fa92c8ec0cd798e22ab14",
       "geometry": {
         "w": 375,
@@ -69620,7 +69581,7 @@
     {
       "name": "miniSmall/post-sleep_hours-end",
       "file": "miniSmall/post-sleep_hours-end.png",
-      "capturedAt": "2026-11-01T16:25:49.403Z",
+      "capturedAt": "2026-11-14T18:26:01.296Z",
       "sha256": "850390dc30922679580301076077791b53af58f28d5fa92c8ec0cd798e22ab14",
       "geometry": {
         "w": 375,
@@ -69685,7 +69646,7 @@
     {
       "name": "miniSmall/post-time_pressure",
       "file": "miniSmall/post-time_pressure.png",
-      "capturedAt": "2026-11-01T16:25:49.735Z",
+      "capturedAt": "2026-11-14T18:26:01.627Z",
       "sha256": "0385e8edaa27cece53b894ed0d63cbc0beff41f22f2de413ff51ce830ab9acbc",
       "geometry": {
         "w": 375,
@@ -69750,7 +69711,7 @@
     {
       "name": "miniSmall/post-time_pressure-end",
       "file": "miniSmall/post-time_pressure-end.png",
-      "capturedAt": "2026-11-01T16:25:49.784Z",
+      "capturedAt": "2026-11-14T18:26:01.676Z",
       "sha256": "0385e8edaa27cece53b894ed0d63cbc0beff41f22f2de413ff51ce830ab9acbc",
       "geometry": {
         "w": 375,
@@ -69815,7 +69776,7 @@
     {
       "name": "miniSmall/post-location",
       "file": "miniSmall/post-location.png",
-      "capturedAt": "2026-11-01T16:25:50.149Z",
+      "capturedAt": "2026-11-14T18:26:02.025Z",
       "sha256": "3e8ef032680155695939a163be07f7a95ca6a9459c6dbb05d94d111c2b474462",
       "geometry": {
         "w": 375,
@@ -69880,7 +69841,7 @@
     {
       "name": "miniSmall/post-location-end",
       "file": "miniSmall/post-location-end.png",
-      "capturedAt": "2026-11-01T16:25:50.200Z",
+      "capturedAt": "2026-11-14T18:26:02.076Z",
       "sha256": "cfc32892ac84fd668033b371d47ca3b39162a3d62c6a5b8aee41b2a4fac0bbea",
       "geometry": {
         "w": 375,
@@ -69945,7 +69906,7 @@
     {
       "name": "miniSmall/post-others_present",
       "file": "miniSmall/post-others_present.png",
-      "capturedAt": "2026-11-01T16:25:50.500Z",
+      "capturedAt": "2026-11-14T18:26:02.377Z",
       "sha256": "0689f222c0bd208538ad79e598b70600d2a6f84bf7b1d0dbfb084f34f3d120d7",
       "geometry": {
         "w": 375,
@@ -70010,7 +69971,7 @@
     {
       "name": "miniSmall/post-others_present-end",
       "file": "miniSmall/post-others_present-end.png",
-      "capturedAt": "2026-11-01T16:25:50.550Z",
+      "capturedAt": "2026-11-14T18:26:02.426Z",
       "sha256": "e352ff1abf408572249c81ed21054a84d4bbbde87707da42d36f4d5872cf315d",
       "geometry": {
         "w": 375,
@@ -70075,7 +70036,7 @@
     {
       "name": "miniSmall/post-usage_years",
       "file": "miniSmall/post-usage_years.png",
-      "capturedAt": "2026-11-01T16:25:50.903Z",
+      "capturedAt": "2026-11-14T18:26:02.777Z",
       "sha256": "ad934749c53dd254fb89bd1a5ad61a88581222282bf61b6d17bc006e9fd7d896",
       "geometry": {
         "w": 375,
@@ -70140,7 +70101,7 @@
     {
       "name": "miniSmall/post-usage_years-end",
       "file": "miniSmall/post-usage_years-end.png",
-      "capturedAt": "2026-11-01T16:25:50.952Z",
+      "capturedAt": "2026-11-14T18:26:02.830Z",
       "sha256": "d4e7bedded017037ed742dfcb6f30b24c18ef0920cf5c795ab0326c3b0360a14",
       "geometry": {
         "w": 375,
@@ -70205,7 +70166,7 @@
     {
       "name": "miniSmall/post-moral_familiar",
       "file": "miniSmall/post-moral_familiar.png",
-      "capturedAt": "2026-11-01T16:25:51.319Z",
+      "capturedAt": "2026-11-14T18:26:03.211Z",
       "sha256": "003d0a1ca471683884c37f40e3d6622fcf1e0aba5ca55c6e51a48f3c8df258d0",
       "geometry": {
         "w": 375,
@@ -70270,7 +70231,7 @@
     {
       "name": "miniSmall/post-moral_familiar-end",
       "file": "miniSmall/post-moral_familiar-end.png",
-      "capturedAt": "2026-11-01T16:25:51.370Z",
+      "capturedAt": "2026-11-14T18:26:03.264Z",
       "sha256": "fe823252453409d19e4a8ada5a2065189db5b9606126ba2a67021dd84b6d8967",
       "geometry": {
         "w": 375,
@@ -70335,7 +70296,7 @@
     {
       "name": "miniSmall/post-rating_meaning",
       "file": "miniSmall/post-rating_meaning.png",
-      "capturedAt": "2026-11-01T16:25:51.753Z",
+      "capturedAt": "2026-11-14T18:26:03.629Z",
       "sha256": "75befbb1aaf2fce1df0a47dcd92370a5713e98d912a3b30e9bcfd42618c4fe8f",
       "geometry": {
         "w": 375,
@@ -70400,7 +70361,7 @@
     {
       "name": "miniSmall/post-rating_meaning-end",
       "file": "miniSmall/post-rating_meaning-end.png",
-      "capturedAt": "2026-11-01T16:25:51.818Z",
+      "capturedAt": "2026-11-14T18:26:03.699Z",
       "sha256": "a2b0429c82838d789d627a2e599ba468f1fe6313d1e03c99cf9eadeaac805d87",
       "geometry": {
         "w": 375,
@@ -70465,7 +70426,7 @@
     {
       "name": "miniSmall/post-main_start_basis",
       "file": "miniSmall/post-main_start_basis.png",
-      "capturedAt": "2026-11-01T16:25:52.186Z",
+      "capturedAt": "2026-11-14T18:26:04.062Z",
       "sha256": "56e82c83a8c3f3d7a99e5bba51aa628f565c346ec0a7540aeb93d945639e3669",
       "geometry": {
         "w": 375,
@@ -70530,7 +70491,7 @@
     {
       "name": "miniSmall/post-main_start_basis-end",
       "file": "miniSmall/post-main_start_basis-end.png",
-      "capturedAt": "2026-11-01T16:25:52.234Z",
+      "capturedAt": "2026-11-14T18:26:04.113Z",
       "sha256": "1483885dac23f3e173480b8893daf48d86bff8c3cd392d91bd617251f5a573e7",
       "geometry": {
         "w": 375,
@@ -70595,7 +70556,7 @@
     {
       "name": "miniSmall/post-main_three_second_meaning",
       "file": "miniSmall/post-main_three_second_meaning.png",
-      "capturedAt": "2026-11-01T16:25:52.551Z",
+      "capturedAt": "2026-11-14T18:26:04.434Z",
       "sha256": "89a8c273a9da34db15c4f29108624ecebe4a58488617f14f61643abadbac91d5",
       "geometry": {
         "w": 375,
@@ -70660,7 +70621,7 @@
     {
       "name": "miniSmall/post-main_three_second_meaning-end",
       "file": "miniSmall/post-main_three_second_meaning-end.png",
-      "capturedAt": "2026-11-01T16:25:52.602Z",
+      "capturedAt": "2026-11-14T18:26:04.494Z",
       "sha256": "9ba13ac1758c1798f9ee0ec187334769f89c1545b77ddb392e052fe3b0bbe131",
       "geometry": {
         "w": 375,
@@ -70725,7 +70686,7 @@
     {
       "name": "miniSmall/post-main_release_area",
       "file": "miniSmall/post-main_release_area.png",
-      "capturedAt": "2026-11-01T16:25:52.918Z",
+      "capturedAt": "2026-11-14T18:26:04.810Z",
       "sha256": "d1c1bab72e71547d3cd1b7a7730545dd945f87879130c76cd04cb07504d8c1bd",
       "geometry": {
         "w": 375,
@@ -70790,7 +70751,7 @@
     {
       "name": "miniSmall/post-main_release_area-end",
       "file": "miniSmall/post-main_release_area-end.png",
-      "capturedAt": "2026-11-01T16:25:52.969Z",
+      "capturedAt": "2026-11-14T18:26:04.862Z",
       "sha256": "0a6afcce65e9d1b2853cd3212a421ff530eef64f7ba086e61fb221fabef44153",
       "geometry": {
         "w": 375,
@@ -70855,7 +70816,7 @@
     {
       "name": "miniSmall/post-main_decision_at_move",
       "file": "miniSmall/post-main_decision_at_move.png",
-      "capturedAt": "2026-11-01T16:25:53.234Z",
+      "capturedAt": "2026-11-14T18:26:05.110Z",
       "sha256": "683ba2e864e3d924258443bc93693a8d3421693f391eb219b32ad7c47195f140",
       "geometry": {
         "w": 375,
@@ -70920,7 +70881,7 @@
     {
       "name": "miniSmall/post-main_decision_at_move-end",
       "file": "miniSmall/post-main_decision_at_move-end.png",
-      "capturedAt": "2026-11-01T16:25:53.284Z",
+      "capturedAt": "2026-11-14T18:26:05.162Z",
       "sha256": "683ba2e864e3d924258443bc93693a8d3421693f391eb219b32ad7c47195f140",
       "geometry": {
         "w": 375,
@@ -70985,7 +70946,7 @@
     {
       "name": "miniSmall/post-additional_reading",
       "file": "miniSmall/post-additional_reading.png",
-      "capturedAt": "2026-11-01T16:25:53.551Z",
+      "capturedAt": "2026-11-14T18:26:05.427Z",
       "sha256": "59e6936fe2790361b8eac33ea687b13e485184d7e7c26925f822ddb196675835",
       "geometry": {
         "w": 375,
@@ -71050,7 +71011,7 @@
     {
       "name": "miniSmall/post-additional_reading-end",
       "file": "miniSmall/post-additional_reading-end.png",
-      "capturedAt": "2026-11-01T16:25:53.602Z",
+      "capturedAt": "2026-11-14T18:26:05.478Z",
       "sha256": "59e6936fe2790361b8eac33ea687b13e485184d7e7c26925f822ddb196675835",
       "geometry": {
         "w": 375,
@@ -71115,7 +71076,7 @@
     {
       "name": "miniSmall/post-problems-1",
       "file": "miniSmall/post-problems-1.png",
-      "capturedAt": "2026-11-01T16:25:53.868Z",
+      "capturedAt": "2026-11-14T18:26:05.747Z",
       "sha256": "33abb31836123e7fac7b48f7fb04cfcf5570cd60552643da8e756fe6bc7a5154",
       "geometry": {
         "w": 375,
@@ -71180,7 +71141,7 @@
     {
       "name": "miniSmall/post-problems-1-end",
       "file": "miniSmall/post-problems-1-end.png",
-      "capturedAt": "2026-11-01T16:25:53.919Z",
+      "capturedAt": "2026-11-14T18:26:05.813Z",
       "sha256": "82bb2368325d08d75fd85cbd41f7017b2d16d68bf64aed462c2e0ff649a23398",
       "geometry": {
         "w": 375,
@@ -71245,7 +71206,7 @@
     {
       "name": "miniSmall/post-problems-2",
       "file": "miniSmall/post-problems-2.png",
-      "capturedAt": "2026-11-01T16:25:54.188Z",
+      "capturedAt": "2026-11-14T18:26:06.080Z",
       "sha256": "373f03ab139fdd002940f376adc831e7289ec8be8cb1d294421dab04c64e7ffd",
       "geometry": {
         "w": 375,
@@ -71310,7 +71271,7 @@
     {
       "name": "miniSmall/post-problems-2-end",
       "file": "miniSmall/post-problems-2-end.png",
-      "capturedAt": "2026-11-01T16:25:54.252Z",
+      "capturedAt": "2026-11-14T18:26:06.146Z",
       "sha256": "373f03ab139fdd002940f376adc831e7289ec8be8cb1d294421dab04c64e7ffd",
       "geometry": {
         "w": 375,
@@ -71375,7 +71336,7 @@
     {
       "name": "miniSmall/post-problems-3",
       "file": "miniSmall/post-problems-3.png",
-      "capturedAt": "2026-11-01T16:25:54.519Z",
+      "capturedAt": "2026-11-14T18:26:06.394Z",
       "sha256": "cdd00e25f2a47cb3f56f1bc23e3de059801fcf7ba01fcabbb088937c5a5c2aec",
       "geometry": {
         "w": 375,
@@ -71440,7 +71401,7 @@
     {
       "name": "miniSmall/post-problems-3-end",
       "file": "miniSmall/post-problems-3-end.png",
-      "capturedAt": "2026-11-01T16:25:54.569Z",
+      "capturedAt": "2026-11-14T18:26:06.444Z",
       "sha256": "cdd00e25f2a47cb3f56f1bc23e3de059801fcf7ba01fcabbb088937c5a5c2aec",
       "geometry": {
         "w": 375,
@@ -71505,7 +71466,7 @@
     {
       "name": "miniSmall/post-ease",
       "file": "miniSmall/post-ease.png",
-      "capturedAt": "2026-11-01T16:25:54.836Z",
+      "capturedAt": "2026-11-14T18:26:06.709Z",
       "sha256": "1bab117607cd670cd0a80a3c432ea11d2d043f6ce904c3701b5bd734e89809d9",
       "geometry": {
         "w": 375,
@@ -71570,7 +71531,7 @@
     {
       "name": "miniSmall/post-ease-end",
       "file": "miniSmall/post-ease-end.png",
-      "capturedAt": "2026-11-01T16:25:54.900Z",
+      "capturedAt": "2026-11-14T18:26:06.759Z",
       "sha256": "1bab117607cd670cd0a80a3c432ea11d2d043f6ce904c3701b5bd734e89809d9",
       "geometry": {
         "w": 375,
@@ -71635,7 +71596,7 @@
     {
       "name": "miniSmall/post-comment",
       "file": "miniSmall/post-comment.png",
-      "capturedAt": "2026-11-01T16:25:55.152Z",
+      "capturedAt": "2026-11-14T18:26:07.013Z",
       "sha256": "84a51f48ddb6192d0939bc965f8eb1bdb53bbe6d15c309ec78bca23a4cbd409e",
       "geometry": {
         "w": 375,
@@ -71700,7 +71661,7 @@
     {
       "name": "miniSmall/post-comment-end",
       "file": "miniSmall/post-comment-end.png",
-      "capturedAt": "2026-11-01T16:25:55.202Z",
+      "capturedAt": "2026-11-14T18:26:07.077Z",
       "sha256": "84a51f48ddb6192d0939bc965f8eb1bdb53bbe6d15c309ec78bca23a4cbd409e",
       "geometry": {
         "w": 375,
@@ -71765,7 +71726,7 @@
     {
       "name": "miniSmall/break",
       "file": "miniSmall/break.png",
-      "capturedAt": "2026-11-01T16:25:55.884Z",
+      "capturedAt": "2026-11-14T18:26:07.711Z",
       "sha256": "ad0adf8b05a3caa42d21e33036b0748570024a48113a0111525044ba769fa928",
       "geometry": {
         "w": 375,
@@ -71804,7 +71765,7 @@
     {
       "name": "miniSmall/instructed",
       "file": "miniSmall/instructed.png",
-      "capturedAt": "2026-11-01T16:25:56.501Z",
+      "capturedAt": "2026-11-14T18:26:08.394Z",
       "sha256": "bb431266de98f3c10d18cb5e497d57e833f72b886e39c46e9a7b471b20c03cbd",
       "geometry": {
         "w": 375,
@@ -71870,7 +71831,7 @@
     {
       "name": "miniSmall/instructed-2",
       "file": "miniSmall/instructed-2.png",
-      "capturedAt": "2026-11-01T16:25:56.620Z",
+      "capturedAt": "2026-11-14T18:26:08.513Z",
       "sha256": "89fa72aebde99fbef82eba8740f1d74984393c345ea9778a198c95c9963ef1ae",
       "geometry": {
         "w": 375,
@@ -71923,8 +71884,8 @@
     {
       "name": "miniSmall/instructed-help-1",
       "file": "miniSmall/instructed-help-1.png",
-      "capturedAt": "2026-11-01T16:25:56.801Z",
-      "sha256": "3a1b120b9b70af26003919def646cce639f065b2d58dd3b1e3ab2c8e561f0c5c",
+      "capturedAt": "2026-11-14T18:26:08.730Z",
+      "sha256": "4515b1105802f16658b6483cb7159ff10b5680ffe44b6cd7c5a9ef52a055038b",
       "geometry": {
         "w": 375,
         "h": 548,
@@ -71963,7 +71924,7 @@
     {
       "name": "miniSmall/instructed-help-2",
       "file": "miniSmall/instructed-help-2.png",
-      "capturedAt": "2026-11-01T16:25:56.905Z",
+      "capturedAt": "2026-11-14T18:26:08.847Z",
       "sha256": "e35a68b56480d2f141f38fd44c195cd1177dcc1bdae6e3c41394e42f55eaa614",
       "geometry": {
         "w": 375,
@@ -72003,8 +71964,8 @@
     {
       "name": "miniSmall/done",
       "file": "miniSmall/done.png",
-      "capturedAt": "2026-11-01T16:25:57.718Z",
-      "sha256": "47bb255e6dee9c7a85ebc885c4af4f6a7eb9a8f77731ca0b48c82ce6e667c599",
+      "capturedAt": "2026-11-14T18:26:09.544Z",
+      "sha256": "f86266403b15be03b194e6a011b354b5bf988aa39d96c799f3504dace07c5f13",
       "geometry": {
         "w": 375,
         "h": 548,
@@ -72019,7 +71980,7 @@
             "right": 375,
             "bottom": 548,
             "overflowX": 0,
-            "overflowY": 345,
+            "overflowY": 227,
             "scrollable": false
           },
           "#done h1": {
@@ -72034,29 +71995,16 @@
             "overflowX": 0,
             "overflowY": 0,
             "scrollable": false
-          },
-          "#done .btnrow": {
-            "textBounds": null,
-            "paintBounds": null,
-            "paintTouchesEdge": false,
-            "invisibleAnchorOverflow": false,
-            "x": 39,
-            "y": 230.59375,
-            "right": 336,
-            "bottom": 288.1875,
-            "overflowX": 0,
-            "overflowY": 0,
-            "scrollable": false
           }
         }
       },
-      "text": "あいうえお0123456789あいうえお0123456789\n完了しました\n\nご協力ありがとうございました。下のボタンでデータを保存・共有してください。\n\nあなたの完了コード:\n\nJ4E4-VE7H\nメールで送信する\n\n「メールで送信する」を押すか、コードをコピーして c237702@ed.nagoya-cu.ac.jp へ送ってください（謝礼の手続きに使います）。\n\n確認の質問について\nこの調査には、集中して回答できているかを確かめる質問（「左を選んでください」など）が含まれていました。回答の質を確かめる一般的な方法で、あなた個人を評価するものではありません。\n\n画面の切り替え・離脱: 0 回（合計 0 秒）／ 中断からの再開: 0 回\n参加者: check (moral) / 本番試行: 0 / 評定完了: 0 / 0 / 実効 – Hz / リトライ 0 / 端末 375×548@1x\nデータを送る (共有)\nデータを保存 (JSON)\n軌道CSVを保存\n確認モード（送信しません）: done"
+      "text": "あいうえお0123456789あいうえお0123456789\n完了しました\n\nご協力ありがとうございました。下のボタンでデータを保存・共有してください。\n\nあなたの完了コード:\n\n7NCK-P378\n\n完了コードをコピーし、参加依頼で指定された方法で提出してください。\n\n確認の質問について\nこの調査には、集中して回答できているかを確かめる質問（「左を選んでください」など）が含まれていました。回答の質を確かめる一般的な方法で、あなた個人を評価するものではありません。\n\n画面の切り替え・離脱: 0 回（合計 0 秒）／ 中断からの再開: 0 回\n参加者: check (moral) / 本番試行: 0 / 評定完了: 0 / 0 / 実効 – Hz / リトライ 0 / 端末 375×548@1x\nデータを送る (共有)\nデータを保存 (JSON)\n軌道CSVを保存\n確認モード（送信しません）: done"
     },
     {
       "name": "miniSmall/sending",
       "file": "miniSmall/sending.png",
-      "capturedAt": "2026-11-01T16:25:58.419Z",
-      "sha256": "8a5216ada24c1c89991d2f6a5a4ff33a57d840027f9dc02654b0da56b4f5caa4",
+      "capturedAt": "2026-11-14T18:26:10.246Z",
+      "sha256": "af11bfcc08a30e587a219398e0fcf13d244ece1d984ecdb24819475676158a06",
       "geometry": {
         "w": 375,
         "h": 548,
@@ -72094,7 +72042,7 @@
     {
       "name": "miniSmall/entry",
       "file": "miniSmall/entry.png",
-      "capturedAt": "2026-11-01T16:25:59.204Z",
+      "capturedAt": "2026-11-14T18:26:11.200Z",
       "sha256": "8cacfc0ccb16a10f082e1be2c4d48ef09b51f9fce461cdb76c189430db30e2a6",
       "geometry": {
         "w": 375,
@@ -72133,7 +72081,7 @@
     {
       "name": "miniSmall/entry-end",
       "file": "miniSmall/entry-end.png",
-      "capturedAt": "2026-11-01T16:25:59.267Z",
+      "capturedAt": "2026-11-14T18:26:11.266Z",
       "sha256": "18c19c386d1b661d36d79840f9514f8ddcda2a650b56964d6280df1f61f00b81",
       "geometry": {
         "w": 375,
@@ -72172,7 +72120,7 @@
     {
       "name": "miniSmall/reading-intro",
       "file": "miniSmall/reading-intro.png",
-      "capturedAt": "2026-11-01T16:25:59.417Z",
+      "capturedAt": "2026-11-14T18:26:11.412Z",
       "sha256": "7072033225e352cc689d961fe5f1b72992f1f5ec09e72742eb49e1727190cb58",
       "geometry": {
         "w": 375,
@@ -72224,7 +72172,7 @@
     {
       "name": "miniSmall/reading-text",
       "file": "miniSmall/reading-text.png",
-      "capturedAt": "2026-11-01T16:25:59.517Z",
+      "capturedAt": "2026-11-14T18:26:11.528Z",
       "sha256": "e9f3138eee1ec8b3796e8843c8a22a46c2748c7fa66f83794746d2cc9b1fa02f",
       "geometry": {
         "w": 375,
@@ -72276,8 +72224,8 @@
     {
       "name": "miniSmall/practice-1-question",
       "file": "miniSmall/practice-1-question.png",
-      "capturedAt": "2026-11-01T16:26:01.785Z",
-      "sha256": "33b1fc490cae3204469db4c2469bad2c9f75f5a479fe06f8a34ef26d2c231f48",
+      "capturedAt": "2026-11-14T18:26:13.876Z",
+      "sha256": "194e49554a706eec9c7ce42a758d9e31daf05f0427090abf0c48eaa96d1a5863",
       "geometry": {
         "w": 375,
         "h": 548,
@@ -72328,7 +72276,7 @@
     {
       "name": "miniSmall/practice-1-choice",
       "file": "miniSmall/practice-1-choice.png",
-      "capturedAt": "2026-11-01T16:26:01.924Z",
+      "capturedAt": "2026-11-14T18:26:13.999Z",
       "sha256": "1a4f8bfdcf0a144c688e95724bddc5e3cbac0cbcd8ac666027bc22e9877aaf0b",
       "geometry": {
         "w": 375,
@@ -72407,7 +72355,7 @@
     {
       "name": "miniSmall/practice-2-question",
       "file": "miniSmall/practice-2-question.png",
-      "capturedAt": "2026-11-01T16:26:08.588Z",
+      "capturedAt": "2026-11-14T18:26:20.326Z",
       "sha256": "f95e6353ea5f84f924828b1fa1f8129e84867a334784902bcf2ec842d5a46241",
       "geometry": {
         "w": 375,
@@ -72459,7 +72407,7 @@
     {
       "name": "miniSmall/practice-2-choice",
       "file": "miniSmall/practice-2-choice.png",
-      "capturedAt": "2026-11-01T16:26:08.671Z",
+      "capturedAt": "2026-11-14T18:26:20.400Z",
       "sha256": "6e9bdbf83ed9573331c25cf09dd5c439f7ea2a4fac91a290dad67fe8be790f74",
       "geometry": {
         "w": 375,
@@ -72538,8 +72486,8 @@
     {
       "name": "miniSmall/practice-3-question",
       "file": "miniSmall/practice-3-question.png",
-      "capturedAt": "2026-11-01T16:26:14.700Z",
-      "sha256": "eb9c46d70911b132f5de119fcd3ac572ec8dcee4ec0912c56da3beb03b2efc7d",
+      "capturedAt": "2026-11-14T18:26:26.410Z",
+      "sha256": "a4e8a63478365656fa20dd030c3d64d7923c4172a60e0c0fd29937c9a713f18c",
       "geometry": {
         "w": 375,
         "h": 548,
@@ -72590,7 +72538,7 @@
     {
       "name": "miniSmall/practice-3-choice",
       "file": "miniSmall/practice-3-choice.png",
-      "capturedAt": "2026-11-01T16:26:14.771Z",
+      "capturedAt": "2026-11-14T18:26:26.478Z",
       "sha256": "9195fa73bc9d589eb412fc2c788337157a0dfb1b3c76f2305a9d4e27b4c3339d",
       "geometry": {
         "w": 375,
@@ -72669,8 +72617,8 @@
     {
       "name": "miniSmall/practice-4-question",
       "file": "miniSmall/practice-4-question.png",
-      "capturedAt": "2026-11-01T16:26:20.783Z",
-      "sha256": "92a81b955ab64d5ab28e1a5cc2e1be21fc310ad576d72381b7b85aa4ee24b0e5",
+      "capturedAt": "2026-11-14T18:26:32.493Z",
+      "sha256": "c7ff5f2af767953bfcaf8be39bbbd1f1d7e855bd9e27c1000fd8275d53f5df22",
       "geometry": {
         "w": 375,
         "h": 548,
@@ -72721,7 +72669,7 @@
     {
       "name": "miniSmall/practice-4-choice",
       "file": "miniSmall/practice-4-choice.png",
-      "capturedAt": "2026-11-01T16:26:20.853Z",
+      "capturedAt": "2026-11-14T18:26:32.561Z",
       "sha256": "f30086dcfc1bc291a6fa545b5ab76332780daa6d2052315b52220f72bba2b6b1",
       "geometry": {
         "w": 375,
@@ -72800,7 +72748,7 @@
     {
       "name": "miniSmall/practice-5-question",
       "file": "miniSmall/practice-5-question.png",
-      "capturedAt": "2026-11-01T16:26:26.868Z",
+      "capturedAt": "2026-11-14T18:26:38.592Z",
       "sha256": "20b6d10ca00548098f7df6a9ab5fd74fa6ed9b9d1f75baa20c57972eec348a01",
       "geometry": {
         "w": 375,
@@ -72852,7 +72800,7 @@
     {
       "name": "miniSmall/practice-5-choice",
       "file": "miniSmall/practice-5-choice.png",
-      "capturedAt": "2026-11-01T16:26:26.939Z",
+      "capturedAt": "2026-11-14T18:26:38.662Z",
       "sha256": "e845b5f76eeeb90259ac8e4d83235e6cdad73a051a688916b1a9e518cfeff958",
       "geometry": {
         "w": 375,
@@ -72931,7 +72879,7 @@
     {
       "name": "miniSmall/practice-complete",
       "file": "miniSmall/practice-complete.png",
-      "capturedAt": "2026-11-01T16:26:31.520Z",
+      "capturedAt": "2026-11-14T18:26:43.247Z",
       "sha256": "a5e681b34c91dc29b8920b5a1895f534afdfaa9a9df5a67501b24affc6b329f8",
       "geometry": {
         "w": 375,
@@ -72983,8 +72931,8 @@
     {
       "name": "miniSmall/practice-early-coach",
       "file": "miniSmall/practice-early-coach.png",
-      "capturedAt": "2026-11-01T16:26:32.501Z",
-      "sha256": "00f1c7d440b1271809385a8acae2a736840025b742eaaccd147140b81e48eed6",
+      "capturedAt": "2026-11-14T18:26:44.191Z",
+      "sha256": "ae825ef5e2fa6906f6b2cdad3c40185417dbdc33c13d0783a77bbb9d354dfec5",
       "geometry": {
         "w": 375,
         "h": 548,
@@ -73010,7 +72958,7 @@
     {
       "name": "miniSmall/legacy-blockintro",
       "file": "miniSmall/legacy-blockintro.png",
-      "capturedAt": "2026-11-01T16:26:33.169Z",
+      "capturedAt": "2026-11-14T18:26:44.812Z",
       "sha256": "079bbc17c84d462cbcf58e89acd54bd906a4d2b876f5cf88068dc329f7780c5b",
       "geometry": {
         "w": 375,
@@ -73064,7 +73012,7 @@
     {
       "name": "miniSmall/legacy-blockintro-end",
       "file": "miniSmall/legacy-blockintro-end.png",
-      "capturedAt": "2026-11-01T16:26:33.252Z",
+      "capturedAt": "2026-11-14T18:26:44.894Z",
       "sha256": "6e1beb3fc034ad2699c9135ba3fac7867ab01d0c8a38a6b1bda515de23ff2ac5",
       "geometry": {
         "w": 375,
@@ -73314,8 +73262,8 @@
       }
     ]
   },
-  "appVersion": "2026-11-02-ui30a",
-  "instructionVersion": "2026-11-02-ui30a",
+  "appVersion": "2026-11-15-ui31",
+  "instructionVersion": "2026-11-15-ui31",
   "viewports": {
     "mini": [
       375,

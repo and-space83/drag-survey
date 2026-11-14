@@ -1,0 +1,465 @@
+{
+  "scope": "Local Chrome touch/viewport emulation, not physical iPhone/iPad; no external upload; mocked clipboard",
+  "appRoot": "C:\\Users\\watal\\Documents\\projects\\paper-translations\\tools\\pilot-anchor",
+  "createdAt": "2026-11-14T18:25:10.864Z",
+  "hashes": {
+    "index.html": "2d2a4f97bdbd7ff0f046124ba2cc8fd805c0ed980f58a171de6786a7773b506e",
+    "app.css": "2b24a0e3054a00c814af283c2414877395aa34acbaa37931895a33a5522bdbf3",
+    "js/app.js": "a82d53d9b639caec46f2bb5593c52f738aba6a32dd66ebac93d4224e3e0e2d86"
+  },
+  "checks": [
+    {
+      "name": "mini: auto-upload disabled",
+      "pass": true
+    },
+    {
+      "name": "mini: completion uses the recruitment submission method without mail action",
+      "pass": true
+    },
+    {
+      "name": "mini: copy writes correct code and toast is above icon without moving submission note",
+      "pass": true,
+      "details": {
+        "width": 375,
+        "height": 700,
+        "scale": 1,
+        "elements": {
+          "#ccodeCopy": {
+            "x": 261.71875,
+            "y": 172.59375,
+            "right": 305.71875,
+            "bottom": 216.59375,
+            "width": 44,
+            "height": 44,
+            "overflowX": 0,
+            "overflowY": 0
+          },
+          "#ccodeNote": {
+            "x": 39,
+            "y": 226.59375,
+            "right": 336,
+            "bottom": 274.59375,
+            "width": 297,
+            "height": 48,
+            "overflowX": 0,
+            "overflowY": 0
+          },
+          "#ccodeCopyStatus": {
+            "x": 201.71875,
+            "y": 134.59375,
+            "right": 305.71875,
+            "bottom": 164.59375,
+            "width": 104,
+            "height": 30,
+            "overflowX": 0,
+            "overflowY": 0,
+            "scrollOverflowY": 6
+          }
+        }
+      }
+    },
+    {
+      "name": "mini: failed copy explanation fits above icon without moving submission note",
+      "pass": true,
+      "details": {
+        "width": 375,
+        "height": 700,
+        "scale": 1,
+        "elements": {
+          "#ccodeCopy": {
+            "x": 261.71875,
+            "y": 172.59375,
+            "right": 305.71875,
+            "bottom": 216.59375,
+            "width": 44,
+            "height": 44,
+            "overflowX": 0,
+            "overflowY": 0
+          },
+          "#ccodeNote": {
+            "x": 39,
+            "y": 226.59375,
+            "right": 336,
+            "bottom": 274.59375,
+            "width": 297,
+            "height": 48,
+            "overflowX": 0,
+            "overflowY": 0
+          },
+          "#ccodeCopyStatus": {
+            "x": 69.71875,
+            "y": 134.59375,
+            "right": 305.71875,
+            "bottom": 164.59375,
+            "width": 236,
+            "height": 30,
+            "overflowX": 0,
+            "overflowY": 0,
+            "scrollOverflowY": 6
+          }
+        }
+      }
+    },
+    {
+      "name": "iphone17: auto-upload disabled",
+      "pass": true
+    },
+    {
+      "name": "iphone17: completion uses the recruitment submission method without mail action",
+      "pass": true
+    },
+    {
+      "name": "iphone17: copy writes correct code and toast is above icon without moving submission note",
+      "pass": true,
+      "details": {
+        "width": 402,
+        "height": 759,
+        "scale": 1,
+        "elements": {
+          "#ccodeCopy": {
+            "x": 275.21875,
+            "y": 172.59375,
+            "right": 319.21875,
+            "bottom": 216.59375,
+            "width": 44,
+            "height": 44,
+            "overflowX": 0,
+            "overflowY": 0
+          },
+          "#ccodeNote": {
+            "x": 39,
+            "y": 226.59375,
+            "right": 363,
+            "bottom": 274.59375,
+            "width": 324,
+            "height": 48,
+            "overflowX": 0,
+            "overflowY": 0
+          },
+          "#ccodeCopyStatus": {
+            "x": 215.21875,
+            "y": 134.59375,
+            "right": 319.21875,
+            "bottom": 164.59375,
+            "width": 104,
+            "height": 30,
+            "overflowX": 0,
+            "overflowY": 0,
+            "scrollOverflowY": 6
+          }
+        }
+      }
+    },
+    {
+      "name": "iphone17: failed copy explanation fits above icon without moving submission note",
+      "pass": true,
+      "details": {
+        "width": 402,
+        "height": 759,
+        "scale": 1,
+        "elements": {
+          "#ccodeCopy": {
+            "x": 275.21875,
+            "y": 172.59375,
+            "right": 319.21875,
+            "bottom": 216.59375,
+            "width": 44,
+            "height": 44,
+            "overflowX": 0,
+            "overflowY": 0
+          },
+          "#ccodeNote": {
+            "x": 39,
+            "y": 226.59375,
+            "right": 363,
+            "bottom": 274.59375,
+            "width": 324,
+            "height": 48,
+            "overflowX": 0,
+            "overflowY": 0
+          },
+          "#ccodeCopyStatus": {
+            "x": 83.21875,
+            "y": 134.59375,
+            "right": 319.21875,
+            "bottom": 164.59375,
+            "width": 236,
+            "height": 30,
+            "overflowX": 0,
+            "overflowY": 0,
+            "scrollOverflowY": 6
+          }
+        }
+      }
+    },
+    {
+      "name": "ipad: auto-upload disabled",
+      "pass": true
+    },
+    {
+      "name": "ipad: completion uses the recruitment submission method without mail action",
+      "pass": true
+    },
+    {
+      "name": "ipad: copy writes correct code and toast is above icon without moving submission note",
+      "pass": true,
+      "details": {
+        "width": 820,
+        "height": 1180,
+        "scale": 1.6,
+        "elements": {
+          "#ccodeCopy": {
+            "x": 528.75,
+            "y": 348.5625,
+            "right": 572.75,
+            "bottom": 392.5625,
+            "width": 44,
+            "height": 44,
+            "overflowX": 0,
+            "overflowY": 0
+          },
+          "#ccodeNote": {
+            "x": 39,
+            "y": 416.96875,
+            "right": 781,
+            "bottom": 493.75,
+            "width": 742,
+            "height": 76.78125,
+            "overflowX": 0,
+            "overflowY": 0
+          },
+          "#ccodeCopyStatus": {
+            "x": 418.34375,
+            "y": 299.765625,
+            "right": 572.75,
+            "bottom": 340.5625,
+            "width": 154.40625,
+            "height": 40.796875,
+            "overflowX": 0,
+            "overflowY": 0,
+            "scrollOverflowY": 6
+          }
+        }
+      }
+    },
+    {
+      "name": "ipad: failed copy explanation fits above icon without moving submission note",
+      "pass": true,
+      "details": {
+        "width": 820,
+        "height": 1180,
+        "scale": 1.6,
+        "elements": {
+          "#ccodeCopy": {
+            "x": 528.75,
+            "y": 348.5625,
+            "right": 572.75,
+            "bottom": 392.5625,
+            "width": 44,
+            "height": 44,
+            "overflowX": 0,
+            "overflowY": 0
+          },
+          "#ccodeNote": {
+            "x": 39,
+            "y": 416.96875,
+            "right": 781,
+            "bottom": 493.75,
+            "width": 742,
+            "height": 76.78125,
+            "overflowX": 0,
+            "overflowY": 0
+          },
+          "#ccodeCopyStatus": {
+            "x": 322.75,
+            "y": 270.96875,
+            "right": 572.75,
+            "bottom": 340.5625,
+            "width": 250,
+            "height": 69.59375,
+            "overflowX": 0,
+            "overflowY": 0,
+            "scrollOverflowY": 6
+          }
+        }
+      }
+    },
+    {
+      "name": "max: auto-upload disabled",
+      "pass": true
+    },
+    {
+      "name": "max: completion uses the recruitment submission method without mail action",
+      "pass": true
+    },
+    {
+      "name": "max: copy writes correct code and toast is above icon without moving submission note",
+      "pass": true,
+      "details": {
+        "width": 440,
+        "height": 841,
+        "scale": 1,
+        "elements": {
+          "#ccodeCopy": {
+            "x": 294.21875,
+            "y": 221.890625,
+            "right": 338.21875,
+            "bottom": 265.890625,
+            "width": 44,
+            "height": 44,
+            "overflowX": 0,
+            "overflowY": 0
+          },
+          "#ccodeNote": {
+            "x": 39,
+            "y": 275.890625,
+            "right": 401,
+            "bottom": 323.890625,
+            "width": 362,
+            "height": 48,
+            "overflowX": 0,
+            "overflowY": 0
+          },
+          "#ccodeCopyStatus": {
+            "x": 234.21875,
+            "y": 183.890625,
+            "right": 338.21875,
+            "bottom": 213.890625,
+            "width": 104,
+            "height": 30,
+            "overflowX": 0,
+            "overflowY": 0,
+            "scrollOverflowY": 6
+          }
+        }
+      }
+    },
+    {
+      "name": "max: failed copy explanation fits above icon without moving submission note",
+      "pass": true,
+      "details": {
+        "width": 440,
+        "height": 841,
+        "scale": 1,
+        "elements": {
+          "#ccodeCopy": {
+            "x": 294.21875,
+            "y": 221.890625,
+            "right": 338.21875,
+            "bottom": 265.890625,
+            "width": 44,
+            "height": 44,
+            "overflowX": 0,
+            "overflowY": 0
+          },
+          "#ccodeNote": {
+            "x": 39,
+            "y": 275.890625,
+            "right": 401,
+            "bottom": 323.890625,
+            "width": 362,
+            "height": 48,
+            "overflowX": 0,
+            "overflowY": 0
+          },
+          "#ccodeCopyStatus": {
+            "x": 102.21875,
+            "y": 183.890625,
+            "right": 338.21875,
+            "bottom": 213.890625,
+            "width": 236,
+            "height": 30,
+            "overflowX": 0,
+            "overflowY": 0,
+            "scrollOverflowY": 6
+          }
+        }
+      }
+    },
+    {
+      "name": "no JavaScript page errors",
+      "pass": true,
+      "details": []
+    },
+    {
+      "name": "no external requests or upload attempts",
+      "pass": true,
+      "details": {
+        "blocked": [],
+        "posts": []
+      }
+    }
+  ],
+  "screenshots": [
+    {
+      "viewport": "mini",
+      "name": "copy-before",
+      "file": "mini/copy-before.png"
+    },
+    {
+      "viewport": "mini",
+      "name": "copy-success",
+      "file": "mini/copy-success.png"
+    },
+    {
+      "viewport": "mini",
+      "name": "copy-failure",
+      "file": "mini/copy-failure.png"
+    },
+    {
+      "viewport": "iphone17",
+      "name": "copy-before",
+      "file": "iphone17/copy-before.png"
+    },
+    {
+      "viewport": "iphone17",
+      "name": "copy-success",
+      "file": "iphone17/copy-success.png"
+    },
+    {
+      "viewport": "iphone17",
+      "name": "copy-failure",
+      "file": "iphone17/copy-failure.png"
+    },
+    {
+      "viewport": "ipad",
+      "name": "copy-before",
+      "file": "ipad/copy-before.png"
+    },
+    {
+      "viewport": "ipad",
+      "name": "copy-success",
+      "file": "ipad/copy-success.png"
+    },
+    {
+      "viewport": "ipad",
+      "name": "copy-failure",
+      "file": "ipad/copy-failure.png"
+    },
+    {
+      "viewport": "max",
+      "name": "copy-before",
+      "file": "max/copy-before.png"
+    },
+    {
+      "viewport": "max",
+      "name": "copy-success",
+      "file": "max/copy-success.png"
+    },
+    {
+      "viewport": "max",
+      "name": "copy-failure",
+      "file": "max/copy-failure.png"
+    }
+  ],
+  "errors": [],
+  "blockedRequests": [],
+  "posts": [],
+  "baselineRoot": null,
+  "originalNavigation": {},
+  "selectedCases": [
+    "copy"
+  ],
+  "passed": 18,
+  "failed": 0
+}

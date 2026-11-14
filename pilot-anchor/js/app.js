@@ -29,7 +29,7 @@
   const CONFIG = {
     block: "anchor",         // 実行ブロック ("anchor" | "value")。?block= で上書き
     minPoints: 3,            // dispatched 点数の下限。下回ったら無効試行として再呈示
-    contactEmail: "c237702@ed.nagoya-cu.ac.jp",   // 完了コードの送り先 (大学のメール。空なら「メールで送る」を出さない。2026-09-30)
+    contactEmail: "c237702@ed.nagoya-cu.ac.jp",   // 旧完了画面の設定値を保存形式の互換性のため保持。提出先は参加依頼で案内する。
     uploadUrl: "https://script.google.com/macros/s/AKfycbxbnJbVZJQXkB4_Sn0amRW2kHXydOMWVzf-jT8IH2TlPafZR43rfRVrROguE0r8O1oY/exec",
                               // GAS Web アプリ (gas-collector.gs / DEPLOY.md)。完了時に text/plain で JSON を
                               //   自動 POST (GAS は preflight 非対応のため application/json は不可)。
@@ -648,7 +648,7 @@
     stopNoticesSuppressed: 0, // 上限（種類ごと5回）で非表示にした理由数。両方の抑止なら2
     pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
     practiceChecks: [], noticeReviews: [], noticeAcknowledgements: [], // 旧別画面見直しと新注意内確認を分ける。読了・理解や除外の判定には用いない
-    appVersion: "2026-11-02-ui30a",  // 開始時の版は再開でも保持する
+    appVersion: "2026-11-15-ui31",  // 開始時の版は再開でも保持する
     instructedPlan: { version: "2026-11-01-ui28", n: INSTR_N, selection: "all-main-moral" },
     moralPracticeDefinition: null, // 最初の操作説明・練習開始時に固定する刺激の版と全文。表示・理解の証跡ではない
     welcomeAgree: null,       // はじめに 6/7・7/7 の同意チェック {items, pages, ms}
@@ -659,7 +659,7 @@
 
   // appVersionは開始時の版を維持するため、教示の表示版は実行中のコードから記録する。
   // 未記録の旧画面を推測で埋めず、表示イベントを読了・理解とみなさない。
-  const INSTRUCTION_VERSION = "2026-11-02-ui30a";
+  const INSTRUCTION_VERSION = "2026-11-15-ui31";
   function moralPracticeDefinition(legacy = false) {
     if (!device.moralPracticeDefinition) {
       const source = PILOT_BANK.moral;
@@ -3176,11 +3176,6 @@
     if (new URLSearchParams(location.search).get("ccode") !== "0" && !KIOSK) {   // 対面では申請コード不要
       $("ccode").textContent = device.completionCode;
       $("ccodeBox").style.display = "";
-      if (CONFIG.contactEmail) {   // タップでメールアプリを開き、本文にコードを入れて送れる (2026-09-29)
-        const m = $("ccodeMail"); m.style.display = "";
-        m.href = "mailto:" + CONFIG.contactEmail + "?subject=" + encodeURIComponent("調査の完了コード") + "&body=" + encodeURIComponent("完了コード: " + device.completionCode + "\n名前: " + (device.participantId || ""));
-        $("ccodeNote").textContent = "「メールで送信する」を押すか、コードをコピーして " + CONFIG.contactEmail + " へ送ってください（謝礼の手続きに使います）。";
-      }
     }
     if (ATTN_ON) {   // 強IMC (欺瞞) のデブリーフィング (§6-5・IRB 申請に記載)
       $("debrief").innerHTML =

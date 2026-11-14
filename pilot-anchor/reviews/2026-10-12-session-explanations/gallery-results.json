@@ -1,8 +1,8 @@
 {
-  "checkedAt": "2026-11-01T16:27:17.109Z",
-  "appVersion": "2026-11-02-ui30a",
+  "checkedAt": "2026-11-14T18:27:00.854Z",
+  "appVersion": "2026-11-15-ui31",
   "source": {
-    "index.html": "9777643605d9ab035845edb42b3d6a265cb7ceb77a0d5e7db8dab612b8f93362",
+    "index.html": "5ef80b28bf7ff0b81f5d493b35401daa906a22447d5f3b119edbb171afcc39d2",
     "css/runtime-guards.css": "da2a02010ec7825568dafae2fb95b6cdc7cf36321f335375ad26ba5281492683",
     "app.css": "2b24a0e3054a00c814af283c2414877395aa34acbaa37931895a33a5522bdbf3",
     "guided-tutorial.css": "044853cf630d434c58190c4cd3072aa7e700619cb16e70a2920f8e89fc7a880d",
@@ -29,14 +29,14 @@
     "js/rating-controller.js": "4cb1aaac6fe565d4ebed237a3dfc579ea30bfedf23fb9749a182ad6afd868017",
     "js/rating-view.js": "9fec9ae4ae1f70a5ee0a7cd06f14c9a15b244eb551800e30f4bfc7911536111f",
     "conference-demo.js": "c958189fe84e8a81dbf3d8d29e6bfd795ac32c15c7451ca80a19c7634638a947",
-    "js/app.js": "e91f2f3ad8df03cc3ca7de4a14c950edb02f7b6b0897f6237c60133b2bbca565",
+    "js/app.js": "fa9b877a0b4ab6ec2739d30bda750c1fecdb771338c3dba212123c79d44ce043",
     "storage-worker.js": "af3e56f01b167470bbae6130546675fdfb4bd18cbc4ce8a2dff28c20cb938416",
     "vendor/pako-LICENSE": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539"
   },
   "screenshots": 504,
   "reviewCounts": {
-    "active": 11,
-    "completed": 62
+    "active": 73,
+    "completed": 0
   },
   "sharedCopy": [
     {

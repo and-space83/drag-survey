@@ -1,0 +1,35 @@
+{
+  "checks": [
+    {
+      "width": 1200,
+      "size": "mini",
+      "pass": true
+    },
+    {
+      "width": 1200,
+      "size": "iphone17",
+      "pass": true
+    },
+    {
+      "width": 1200,
+      "size": "max",
+      "pass": true
+    },
+    {
+      "width": 375,
+      "size": "mini",
+      "pass": true
+    },
+    {
+      "width": 375,
+      "size": "iphone17",
+      "pass": true
+    },
+    {
+      "width": 375,
+      "size": "max",
+      "pass": true
+    }
+  ],
+  "errors": []
+}
