@@ -573,20 +573,20 @@ index 544361d..d91cb0c 100644
 @@ -24 +23,0 @@
 -@media (prefers-reduced-motion:reduce) { #consent-save .spin { animation:none; } }
 diff --git a/tools/pilot-anchor/consent.js b/tools/pilot-anchor/consent.js
-index b835227..9f8f0ad 100644
+index b835227..53936a5 100644
 --- a/tools/pilot-anchor/consent.js
 +++ b/tools/pilot-anchor/consent.js
 @@ -7,2 +7,2 @@
 -  const documentVersion = "2026-10-10-v2";
 -  const title = "スマートフォンのドラッグ操作軌道と機械学習を用いたアンケート回答の確信度推定とデータ品質評価";
-+  const documentVersion = "2026-10-12-v4";
++  const documentVersion = "2026-11-18-v5";
 +  const title = "スマートフォンのドラッグ軌道を用いたアンケート回答時の迷いの推定と不注意回答の検出";
 @@ -11,3 +11,3 @@
 -    { heading: "研究の目的", text: "スマートフォンで2つの選択肢から1つをドラッグして回答する際の指の動きから、各設問での迷いや自信を推定できるかを検証し、アンケートの回答品質の評価に応用できるかを調べます。" },
 -    { heading: "実施することと所要時間", text: "事前の質問、短い文章の読速計測、操作の説明と練習の後に、仮想的な場面について2つの選択肢から回答していただきます。回答後には迷いと自信を5段階で振り返ります。注意して読めているかを確認する項目や、画面の指示に従って操作する項目もあります。最後に事後アンケートと説明を行います。全体で40分ほど（35〜50分）を見込んでいます。休憩もあります。マイクは使用せず、録音もしません。" },
 -    { heading: "記録する情報", text: "入力した氏名・年齢・性別・利き手・機種名、タッチ位置と時刻、選択結果、迷いと自信の評定、画面の切り替え、読了時間、説明・課題・休憩等の所要時間、事後アンケートの回答を記録します。性別は「回答しない」を選べます。タッチ時の圧力や接触面積、心拍などの生体情報は記録しません。" },
 +    { heading: "研究の目的", text: "スマートフォンで2つの選択肢から1つをドラッグして回答するときに指を動かした道すじや回答にかかった時間を用いて、回答時の迷いを推定できるか、また、十分に注意を払わずに行われた回答を検出できるかを調べます。各回答の後にご自身で振り返って答えていただく迷いと自信の程度は、推定結果を比較・検証するために用います。" },
-+    { heading: "実施することと所要時間", text: "事前の質問、短い文章を読む時間の計測、画面と操作の説明、練習の後に、道徳的な判断を含む仮想的な場面について2つの選択肢から回答していただきます。場面への回答の後には、迷いと自信を5段階で振り返ります。問題文や指示を確認しているかを確かめる項目もあります。その後、画面の指示に従って操作する追加の課題を行い、最後に事後アンケートと研究の説明を行います。全体で40分ほど（35〜50分）を見込んでいます。途中に休憩もあります。" },
++    { heading: "実施することと所要時間", text: "事前の質問、短い文章を読む時間の計測、画面と操作の説明、練習の後に、道徳的な判断を含む仮想的な場面について2つの選択肢から回答していただきます。場面への回答の後には、迷いと自信を5段階で振り返ります。問題文や指示を確認しているかを確かめる項目もあります。その後、画面の指示に従って操作する追加の課題を行い、最後に事後アンケートと研究の説明を行います。全体で30〜50分ほどを見込んでいます。途中に休憩もあります。" },
 +    { heading: "記録する情報", text: "入力した氏名・年齢・性別・利き手・機種名、画面に触れた指の位置と時刻、その道すじ、選択結果、迷いと自信への回答、回答をやり直したときの操作、画面の切り替えと中断・再開、文章を読む時間、説明・課題・振り返り・休憩等にかかった時間、端末・ブラウザと画面表示に関する情報、参加や実施を区別する識別番号、事後アンケートの回答を記録します。性別は「回答しない」を選べます。" },
 diff --git a/tools/pilot-anchor/css/runtime-guards.css b/tools/pilot-anchor/css/runtime-guards.css
 new file mode 100644
@@ -954,7 +954,7 @@ index 0000000..16e75f6
 +  ]
 +};
 diff --git a/tools/pilot-anchor/index.html b/tools/pilot-anchor/index.html
-index b02688a..503d00d 100644
+index b02688a..97994b9 100644
 --- a/tools/pilot-anchor/index.html
 +++ b/tools/pilot-anchor/index.html
 @@ -6 +6,2 @@
@@ -1136,6 +1136,9 @@ index b02688a..503d00d 100644
 +<script src="js/tutorial-visuals.js?v=2026-11-02-ui30a"></script>
 +<script src="js/tutorial-view.js?v=2026-11-02-ui30a"></script>
 +<script src="js/tutorial-controller.js?v=2026-11-02-ui30a"></script>
+@@ -544 +596 @@
+-<script src="consent.js"></script>
++<script src="consent.js?v=2026-11-18-ui32"></script>
 @@ -548,4324 +600,10 @@
 -<script>
 -(function () {
@@ -5470,10 +5473,10 @@ index b02688a..503d00d 100644
 +<script src="js/rating-controller.js?v=2026-11-02-ui30a"></script>
 +<script src="js/rating-view.js?v=2026-11-02-ui30a"></script>
 +<script src="conference-demo.js?v=2026-11-01-demo2"></script>
-+<script src="js/app.js?v=2026-11-15-ui31" onerror="document.getElementById('wcBody').innerHTML='&lt;h1&gt;読み込みが完了していません&lt;/h1&gt;&lt;p&gt;通信を確認して、もう一度読み込んでください。&lt;/p&gt;'; const next=document.getElementById('wcNext'); next.textContent='再読み込み'; next.disabled=false; next.onclick=function(){location.reload()}"></script>
++<script src="js/app.js?v=2026-11-18-ui32" onerror="document.getElementById('wcBody').innerHTML='&lt;h1&gt;読み込みが完了していません&lt;/h1&gt;&lt;p&gt;通信を確認して、もう一度読み込んでください。&lt;/p&gt;'; const next=document.getElementById('wcNext'); next.textContent='再読み込み'; next.disabled=false; next.onclick=function(){location.reload()}"></script>
 diff --git a/tools/pilot-anchor/js/app.js b/tools/pilot-anchor/js/app.js
 new file mode 100644
-index 0000000..49e0988
+index 0000000..a4c3e35
 --- /dev/null
 +++ b/tools/pilot-anchor/js/app.js
 @@ -0,0 +1,4459 @@
@@ -6127,7 +6130,7 @@ index 0000000..49e0988
 +    stopNoticesSuppressed: 0, // 上限（種類ごと5回）で非表示にした理由数。両方の抑止なら2
 +    pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
 +    practiceChecks: [], noticeReviews: [], noticeAcknowledgements: [], // 旧別画面見直しと新注意内確認を分ける。読了・理解や除外の判定には用いない
-+    appVersion: "2026-11-15-ui31",  // 開始時の版は再開でも保持する
++    appVersion: "2026-11-18-ui32",  // 開始時の版は再開でも保持する
 +    instructedPlan: { version: "2026-11-01-ui28", n: INSTR_N, selection: "all-main-moral" },
 +    moralPracticeDefinition: null, // 最初の操作説明・練習開始時に固定する刺激の版と全文。表示・理解の証跡ではない
 +    welcomeAgree: null,       // はじめに 6/7・7/7 の同意チェック {items, pages, ms}
@@ -6138,7 +6141,7 @@ index 0000000..49e0988
 +
 +  // appVersionは開始時の版を維持するため、教示の表示版は実行中のコードから記録する。
 +  // 未記録の旧画面を推測で埋めず、表示イベントを読了・理解とみなさない。
-+  const INSTRUCTION_VERSION = "2026-11-15-ui31";
++  const INSTRUCTION_VERSION = "2026-11-18-ui32";
 +  function moralPracticeDefinition(legacy = false) {
 +    if (!device.moralPracticeDefinition) {
 +      const source = PILOT_BANK.moral;
@@ -9359,7 +9362,7 @@ index 0000000..49e0988
 +    add("h2", "研究課題"); add("p", doc.title);
 +    for (const part of doc.description) { add("h2", part.heading); add("p", part.text); }
 +    add("h2", "研究協力承諾書"); add("p", doc.statement);
-+    add("p", "説明文の版：" + doc.documentVersion);
++    add("p", "同意文のバージョン：" + doc.documentVersion);
 +    $("consentIdentity").textContent = "氏名：" + (device.consent ? device.consent.name : device.participantId);
 +    $("consentCheck").checked = !!device.consent;
 +    $("consentCheck").disabled = !device.consent;
@@ -9433,7 +9436,7 @@ index 0000000..49e0988
 +         '<ul><li><b>正解・不正解はありません。</b>あなたの素直な判断で構いません。</li>' +
 +         '<li>選んだあとに「迷い」と「自信」を5段階でふりかえります。</li></ul>' },
 +    { h: "所要時間と回答のペース",
-+      b: '<p>全体で <b>40分ほど</b>（35〜50分）かかります。時間に余裕があるときに始めてください。</p>' +
++      b: '<p>全体で <b>30〜50分ほど</b>かかります。時間に余裕があるときに始めてください。</p>' +
 +         '<p><b>回答を急ぐ必要はありません。</b>読むことや考えることに十分な時間を使い、自分のペースで進めてください。</p>' },
 +    { h: "進む順番と休憩",
 +      b: '<div class="wc-flow"><p>進める順番</p><ol><li>読む速さの計測</li><li>画面・操作の説明</li><li>練習</li><li>本番</li><li>実施後のアンケート</li></ol></div>' +

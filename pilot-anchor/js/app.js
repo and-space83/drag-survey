@@ -648,7 +648,7 @@
     stopNoticesSuppressed: 0, // 上限（種類ごと5回）で非表示にした理由数。両方の抑止なら2
     pageZoom: 1, textZoom: 1, zoomGuardShown: 0,   // 文字サイズ・ページ拡大 (screen.width/innerWidth・文字だけの拡大比) とガードの表示回数 (2026-09-12 夜)
     practiceChecks: [], noticeReviews: [], noticeAcknowledgements: [], // 旧別画面見直しと新注意内確認を分ける。読了・理解や除外の判定には用いない
-    appVersion: "2026-11-15-ui31",  // 開始時の版は再開でも保持する
+    appVersion: "2026-11-18-ui32",  // 開始時の版は再開でも保持する
     instructedPlan: { version: "2026-11-01-ui28", n: INSTR_N, selection: "all-main-moral" },
     moralPracticeDefinition: null, // 最初の操作説明・練習開始時に固定する刺激の版と全文。表示・理解の証跡ではない
     welcomeAgree: null,       // はじめに 6/7・7/7 の同意チェック {items, pages, ms}
@@ -659,7 +659,7 @@
 
   // appVersionは開始時の版を維持するため、教示の表示版は実行中のコードから記録する。
   // 未記録の旧画面を推測で埋めず、表示イベントを読了・理解とみなさない。
-  const INSTRUCTION_VERSION = "2026-11-15-ui31";
+  const INSTRUCTION_VERSION = "2026-11-18-ui32";
   function moralPracticeDefinition(legacy = false) {
     if (!device.moralPracticeDefinition) {
       const source = PILOT_BANK.moral;
@@ -3880,7 +3880,7 @@
     add("h2", "研究課題"); add("p", doc.title);
     for (const part of doc.description) { add("h2", part.heading); add("p", part.text); }
     add("h2", "研究協力承諾書"); add("p", doc.statement);
-    add("p", "説明文の版：" + doc.documentVersion);
+    add("p", "同意文のバージョン：" + doc.documentVersion);
     $("consentIdentity").textContent = "氏名：" + (device.consent ? device.consent.name : device.participantId);
     $("consentCheck").checked = !!device.consent;
     $("consentCheck").disabled = !device.consent;
@@ -3954,7 +3954,7 @@
          '<ul><li><b>正解・不正解はありません。</b>あなたの素直な判断で構いません。</li>' +
          '<li>選んだあとに「迷い」と「自信」を5段階でふりかえります。</li></ul>' },
     { h: "所要時間と回答のペース",
-      b: '<p>全体で <b>40分ほど</b>（35〜50分）かかります。時間に余裕があるときに始めてください。</p>' +
+      b: '<p>全体で <b>30〜50分ほど</b>かかります。時間に余裕があるときに始めてください。</p>' +
          '<p><b>回答を急ぐ必要はありません。</b>読むことや考えることに十分な時間を使い、自分のペースで進めてください。</p>' },
     { h: "進む順番と休憩",
       b: '<div class="wc-flow"><p>進める順番</p><ol><li>読む速さの計測</li><li>画面・操作の説明</li><li>練習</li><li>本番</li><li>実施後のアンケート</li></ol></div>' +
