@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-11-14T18:55:25.365Z",
-  "version": "2026-11-15-ui31",
+  "checkedAt": "2026-11-17T17:29:14.640Z",
+  "version": "2026-11-18-ui32",
   "baseUrl": "https://and-space83.github.io/drag-survey/pilot-anchor/",
   "normalUrls": true,
   "checks": [
     {
       "file": "index.html",
       "status": 200,
-      "expectedSha256LF": "5ef80b28bf7ff0b81f5d493b35401daa906a22447d5f3b119edbb171afcc39d2",
-      "actualSha256LF": "5ef80b28bf7ff0b81f5d493b35401daa906a22447d5f3b119edbb171afcc39d2",
+      "expectedSha256LF": "9d5282af5bb4b56e5db80d34aaabac54979f94444eb0d805df68f3979166fd91",
+      "actualSha256LF": "9d5282af5bb4b56e5db80d34aaabac54979f94444eb0d805df68f3979166fd91",
       "match": true
     },
     {
@@ -105,8 +105,8 @@
     {
       "file": "consent.js",
       "status": 200,
-      "expectedSha256LF": "6dae132f66dc20526ae6e79c59c6ff12049a75a1b11161b6815bfa1339a14bd9",
-      "actualSha256LF": "6dae132f66dc20526ae6e79c59c6ff12049a75a1b11161b6815bfa1339a14bd9",
+      "expectedSha256LF": "367d1ef997656c9920a4bcf280d23d9c47036bb16e7cff0ee36aba045e4c1c90",
+      "actualSha256LF": "367d1ef997656c9920a4bcf280d23d9c47036bb16e7cff0ee36aba045e4c1c90",
       "match": true
     },
     {
@@ -196,8 +196,8 @@
     {
       "file": "js/app.js",
       "status": 200,
-      "expectedSha256LF": "fa9b877a0b4ab6ec2739d30bda750c1fecdb771338c3dba212123c79d44ce043",
-      "actualSha256LF": "fa9b877a0b4ab6ec2739d30bda750c1fecdb771338c3dba212123c79d44ce043",
+      "expectedSha256LF": "e81d1ccd746ccdd0de4c4366130cb97fc35deefd51fc1b969437d8d3cfdfca2b",
+      "actualSha256LF": "e81d1ccd746ccdd0de4c4366130cb97fc35deefd51fc1b969437d8d3cfdfca2b",
       "match": true
     },
     {
